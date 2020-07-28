@@ -191,13 +191,13 @@ public class AgregarEmpleadoEmpresaController {
 		map.put("getlistSucursal", icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente));
 		map.put("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
 
-		return "/agregar-empleado-empresa";
+		return "agregar-empleado-empresa";
 	}
 
 	@RequestMapping(value = "/subirlista", method = RequestMethod.POST)
 	public String ListaEmpleados(ModelMap map) {
 		map.put("empleados", comercialClienteEmpleadoRepository.findAll());
-		return "/agregar-empleado-empresa";
+		return "agregar-empleado-empresa";
 	}
 	 
 	@RequestMapping(value = "/cargarregistroempleado/{idPedido}/{idcliente}", method = RequestMethod.GET)
@@ -222,7 +222,7 @@ public class AgregarEmpleadoEmpresaController {
 
 		Listaempleado.clear();
 
-		return "/agregar-empleado-empresa";
+		return "agregar-empleado-empresa";
 	}
 
 	@GetMapping("/empleado/{idPedido}/{idcliente}")
@@ -231,7 +231,7 @@ public class AgregarEmpleadoEmpresaController {
 		mp.put("empleadosEmpresa", comercialClienteEmpleadoRepository.findAll());
 		mp.put("getlistSucursal", icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente));
 		mp.put("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
-		return "/agregar-empleado-empresa";
+		return "agregar-empleado-empresa";
 	}
 
 	@PostMapping("/guardar-empleado-empresa/{idPedido}/{idcliente}")
@@ -395,7 +395,7 @@ public class AgregarEmpleadoEmpresaController {
 		model.addAttribute("getlistSucursal", icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente));
 		model.addAttribute("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
 
-		return "/agregar-empleado-empresa";
+		return "agregar-empleado-empresa";
 	}
 
 }
