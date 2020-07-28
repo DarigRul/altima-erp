@@ -88,13 +88,11 @@ $(document).ready(function () {
 				for(var i = 0; i < data.length; i++){
 					//Se busca el id del modelo dentro del objeto que tenemos ya hecho.
 					var indexPrendaEmpleado = PrendasEmpleado.map(function (item) { return item.modelo; }).indexOf(String(data[i][0]));
-					console.log(indexPrendaEmpleado);
 					//Si ya esta en la tabla de abajo, no se pinta en el select.
 					if(indexPrendaEmpleado < 0){
 						$('#ListaModelos').append("<option value='" + data[i][0] + "'>" + data[i][1] + " - " + data[i][2] + "</option>");
 					}
 				}
-				console.log(PrendasEmpleado);
 				//Se esconde el cargando modelos y se habilita el select
 				$('#CargandoModelos').hide();
 				$("#ListaModelos").prop('disabled', false);
@@ -184,7 +182,6 @@ $(document).ready(function () {
 			
 			$('#CargandoTipoConcentrado').show();
 			$("#cargaTipopedido").prop('disabled', true);
-			console.log($('#ListaCoordinadosGeneral').val() + " y " + $('#idPedido').val());
 			$.ajax({
 				type: "GET",
 				url: "/get_cantidades_prendas_de_coordinado",
@@ -340,7 +337,6 @@ function QuitarPrendaEmpleado(identidad, modelo)
 }
 
 function EnviarEmpleadoPrendas(){
-	console.log(PrendasEmpleado);
 	$('#BotonCargandoGuardando').show();
 	$('#BotonGuardarModal').hide();
 	
@@ -451,7 +447,7 @@ function EditarRegistro(id, nombreEmpleado){
 			idCoordinado: $("#ListaCoordinados").val()
 		},
 		success: (data) => {
-			console.log(data);
+			
 			//Se llena el objeto de forma logica
 			for(var k = 0; k < data[0].length; k++){
 				var temp = {
@@ -491,8 +487,6 @@ function EditarRegistro(id, nombreEmpleado){
 				}
 			}
 			$('#ListaModelos').selectpicker('refresh');
-			
-			console.log(PrendasEmpleado);
 		},
 		error: (e) => {
 			console.log(e);
@@ -502,8 +496,7 @@ function EditarRegistro(id, nombreEmpleado){
 }
 
 
-function CrearNuevaTabla(data, ListaEmpleados){
-	
+function CrearNuevaTabla(data, ListaEmpleados){	
 	//Se crea el row
 	var coordinados = "";
 	var modelos = "";
@@ -516,7 +509,7 @@ function CrearNuevaTabla(data, ListaEmpleados){
 	//Array de Objetos para guardar los modelos
 	PrendasArray = [];
 	for(var j = 0; j < data.length; j++){
-		var PrendasObjeto = {posicion: j + 1, modelo: data[j][1], tela: data[j][2], color: data[j][5]};
+		var PrendasObjeto = {posicion: j + 1, identificador: data[j][0], modelo: data[j][1], tela: data[j][2], color: data[j][5]};
 		coordinados += "<td>" + data[j][3] + "</td>";
 		modelos += "<td>" + data[j][1] + "</td>";
 		telas += "<td>" + data[j][2] + "</td>";
@@ -625,16 +618,15 @@ function CrearNuevaTabla(data, ListaEmpleados){
 				//Variables declaradas
 				var EmpleadoPrenda = {};
 				var EmpleadoPrendaPosible = ArrayFinal.filter(p => p.id == ListaEmpleados[empleado][2]);
-				
 				//Se revisa si es que existe, si existe, se utiliza ese objeto previamente creado
 				if(EmpleadoPrendaPosible.length > 0){
 					EmpleadoPrenda = ArrayFinal.filter(p => p.id == ListaEmpleados[empleado][2]);
 					
 					//Se les agregan los modelos de prendas
 					for(var prenda = 0; prenda < PrendasArray.length; prenda++){
-						EmpleadoPrenda["modelo-" + prenda] = PrendasArray[prenda]["modelo"] + "-" + PrendasArray[prenda]["tela"];
+						EmpleadoPrenda["modelo-" + prenda] = PrendasArray[prenda]["identificador"];
 						//La cantidad
-						EmpleadoPrenda["cantidad del modelo-" + PrendasArray[prenda]["modelo"] + "-" + PrendasArray[prenda]["tela"]] = 0;
+						EmpleadoPrenda["cantidad del modelo-" + PrendasArray[prenda]["identificador"]] = 0;
 					}
 				}
 				else{
@@ -642,9 +634,9 @@ function CrearNuevaTabla(data, ListaEmpleados){
 					
 					//Se les agregan los modelos de prendas
 					for(var prenda = 0; prenda < PrendasArray.length; prenda++){
-						EmpleadoPrenda["modelo-" + prenda] = PrendasArray[prenda]["modelo"] + "-" + PrendasArray[prenda]["tela"];
+						EmpleadoPrenda["modelo-" + prenda] = PrendasArray[prenda]["identificador"];
 						//La cantidad
-						EmpleadoPrenda["cantidad del modelo-" + PrendasArray[prenda]["modelo"] + "-" + PrendasArray[prenda]["tela"]] = 0;
+						EmpleadoPrenda["cantidad del modelo-" + PrendasArray[prenda]["identificador"]] = 0;
 					}
 					
 					ArrayFinal.push(EmpleadoPrenda);
@@ -655,20 +647,24 @@ function CrearNuevaTabla(data, ListaEmpleados){
 			for(var count = 0; count < ArrayFinal.length; count++){
 				for(var count2 = 0; count2 < ListaEmpleados.length; count2++){
 					if(ArrayFinal[count].id == ListaEmpleados[count2][2]){
-						ArrayFinal[count]["cantidad del modelo-" + ListaEmpleados[count2][4]] = ListaEmpleados[count2][6]; 
+						ArrayFinal[count]["cantidad del modelo-" + ListaEmpleados[count2][5]] = ListaEmpleados[count2][6]; 
 					}
 				}
 			}
+
+			
 			
 			//Otro ciclon xd
 			for(var contador = 0; contador < ArrayFinal.length; contador++){
 				var ArrayIndividual = [];
 				var CantidadesASumar = [];
 				ArrayIndividual[0] = ArrayFinal[contador]["nombre"];
+				
 				for(var contador2 = 0; contador2 < PrendasArray.length; contador2++){
-					ArrayIndividual[PrendasArray[contador2]["posicion"]] = ArrayFinal[contador]["cantidad del modelo-" + PrendasArray[contador2]["modelo"] + "-" + PrendasArray[contador2]["tela"]];
-					CantidadesASumar[contador2] = ArrayFinal[contador]["cantidad del modelo-" + PrendasArray[contador2]["modelo"] + "-" + PrendasArray[contador2]["tela"]];;
+					ArrayIndividual[PrendasArray[contador2]["posicion"]] = ArrayFinal[contador]["cantidad del modelo-" + PrendasArray[contador2]["identificador"]];
+					CantidadesASumar[contador2] = ArrayFinal[contador]["cantidad del modelo-" + PrendasArray[contador2]["identificador"]];;
 				}
+				
 				ArrayIndividual[contador2 + 1] = CantidadesASumar.reduce(function(a, b){ return a + b;}, 0);
 				ArrayIndividual[contador2 + 2] = "<td class='text-center'>" +
 													"<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick=\"EditarRegistro(\'" + ArrayFinal[contador]["id"] + "'\, \'" + ArrayFinal[contador]["nombre"] + "\');\" data-container='body' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" +				
@@ -679,7 +675,6 @@ function CrearNuevaTabla(data, ListaEmpleados){
 
 
 function CrearNuevaTablaEspecial(data, ListaEmpleados){
-	
 	//Se crea el row
 	var coordinados = "";
 	var modelos = "";
@@ -692,7 +687,7 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 	//Array de Objetos para guardar los modelos
 	PrendasArray = [];
 	for(var j = 0; j < data.length; j++){
-		var PrendasObjeto = {posicion: j + 1, modelo: data[j][1], tela: data[j][2], color: data[j][5]};
+		var PrendasObjeto = {posicion: j + 1, identificador: data[j][0], modelo: data[j][1], tela: data[j][2], color: data[j][5]};
 		coordinados += "<td>" + data[j][3] + "</td>";
 		modelos += "<td>" + data[j][1] + "</td>";
 		telas += "<td>" + data[j][2] + "</td>";
@@ -801,16 +796,15 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 				//Variables declaradas
 				var EmpleadoPrenda = {};
 				var EmpleadoPrendaPosible = ArrayFinal.filter(p => p.id == ListaEmpleados[empleado][2]);
-				
 				//Se revisa si es que existe, si existe, se utiliza ese objeto previamente creado
 				if(EmpleadoPrendaPosible.length > 0){
 					EmpleadoPrenda = ArrayFinal.filter(p => p.id == ListaEmpleados[empleado][2]);
 					
 					//Se les agregan los modelos de prendas
 					for(var prenda = 0; prenda < PrendasArray.length; prenda++){
-						EmpleadoPrenda["modelo-" + prenda] = PrendasArray[prenda]["modelo"] + "-" + PrendasArray[prenda]["tela"];
+						EmpleadoPrenda["modelo-" + prenda] = PrendasArray[prenda]["identificador"];
 						//La cantidad
-						EmpleadoPrenda["cantidad del modelo-" + PrendasArray[prenda]["modelo"] + "-" + PrendasArray[prenda]["tela"]] = 0;
+						EmpleadoPrenda["cantidad del modelo-" + PrendasArray[prenda]["identificador"]] = 0;
 					}
 				}
 				else{
@@ -818,9 +812,9 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 					
 					//Se les agregan los modelos de prendas
 					for(var prenda = 0; prenda < PrendasArray.length; prenda++){
-						EmpleadoPrenda["modelo-" + prenda] = PrendasArray[prenda]["modelo"] + "-" + PrendasArray[prenda]["tela"];
+						EmpleadoPrenda["modelo-" + prenda] = PrendasArray[prenda]["identificador"];
 						//La cantidad
-						EmpleadoPrenda["cantidad del modelo-" + PrendasArray[prenda]["modelo"] + "-" + PrendasArray[prenda]["tela"]] = 0;
+						EmpleadoPrenda["cantidad del modelo-" + PrendasArray[prenda]["identificador"]] = 0;
 					}
 					
 					ArrayFinal.push(EmpleadoPrenda);
@@ -831,20 +825,24 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 			for(var count = 0; count < ArrayFinal.length; count++){
 				for(var count2 = 0; count2 < ListaEmpleados.length; count2++){
 					if(ArrayFinal[count].id == ListaEmpleados[count2][2]){
-						ArrayFinal[count]["cantidad del modelo-" + ListaEmpleados[count2][4]] = ListaEmpleados[count2][7]; 
+						ArrayFinal[count]["cantidad del modelo-" + ListaEmpleados[count2][5]] = ListaEmpleados[count2][7]; 
 					}
 				}
 			}
+
+			
 			
 			//Otro ciclon xd
 			for(var contador = 0; contador < ArrayFinal.length; contador++){
 				var ArrayIndividual = [];
 				var CantidadesASumar = [];
 				ArrayIndividual[0] = ArrayFinal[contador]["nombre"];
+				
 				for(var contador2 = 0; contador2 < PrendasArray.length; contador2++){
-					ArrayIndividual[PrendasArray[contador2]["posicion"]] = ArrayFinal[contador]["cantidad del modelo-" + PrendasArray[contador2]["modelo"] + "-" + PrendasArray[contador2]["tela"]];
-					CantidadesASumar[contador2] = ArrayFinal[contador]["cantidad del modelo-" + PrendasArray[contador2]["modelo"] + "-" + PrendasArray[contador2]["tela"]];;
+					ArrayIndividual[PrendasArray[contador2]["posicion"]] = ArrayFinal[contador]["cantidad del modelo-" + PrendasArray[contador2]["identificador"]];
+					CantidadesASumar[contador2] = ArrayFinal[contador]["cantidad del modelo-" + PrendasArray[contador2]["identificador"]];;
 				}
+				
 				ArrayIndividual[contador2 + 1] = CantidadesASumar.reduce(function(a, b){ return a + b;}, 0);
 				ArrayIndividual[contador2 + 2] = "<td class='text-center'>" +
 													"<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick=\"EditarRegistro(\'" + ArrayFinal[contador]["id"] + "'\, \'" + ArrayFinal[contador]["nombre"] + "\');\" data-container='body' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" +				
