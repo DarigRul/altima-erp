@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Materiales | Altima</title>
+</head>
+
+
+    <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+        <!-- Site wrapper -->
+        <div class="wrapper">
+            <!-- Navbar -->
+            <div th:insert="navegacion-nav"></div>
+            <!-- /.navbar -->
+            <!-- Modal -->
+            <div th:insert="navegacion-logout"></div>
+            <!-- Main Sidebar Container -->
+            <div th:insert="navegacion-aside"></div>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+			                    <h1>Materiales&nbsp;<a th:href="@{/agregar-material}" th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo material</a></h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item altima">Altima</li>
+                                    <li class="breadcrumb-item active">Dise&ntilde;o</li>
+                                    <li class="breadcrumb-item active">Materiales</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+                </section>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Default box -->
+                                <div class="card">
+                                    <div class="card-header bg-altima">
+                                        <h3 class="card-title">Listado de materiales</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table tablaMaterial table-striped table-bordered" id="table-materiales">
+                                            <thead>
+                                                <tr>
+                                                    <th>C&oacute;digo</th>
+                                                    <th>Nombre</th>
+                                              
+                                                    <th>Clasificaci&oacute;n</th>
+
+                                                    <th>Unidad de medida</th>
+                                                    <th>Acciones</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="mt:${listarMateriales}">
+                                                    <td th:text="${mt[1]}"></td>
+                                                    <td th:text="${mt[5]}"></td>
+                                                    <td th:text="${mt[3]}"></td>
+                                                    <td th:text="${mt[4]}"></td>
+
+                                                    <td class="tdcenter" th:switch="${mt[3]}">
+
+                                                        <a th:case="'Tela'" 
+                                                           th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" 
+                                                           th:href="@{/editar-tela/}+${mt[0]}" class="btn btn-warning btn-circle btn-sm popoverxd" 
+                                                           data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
+
+                                                        <a th:case="'Forro'" 
+                                                           th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                           th:href="@{/editar-forro/}+${mt[0]}" class="btn btn-warning btn-circle btn-sm popoverxd" 
+                                                           data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
+
+                                                        <a th:case="*" 
+                                                           th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                           th:href="@{/editar-material/}+${mt[0]}" class="btn btn-warning btn-circle btn-sm popoverxd" 
+                                                           data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
+                                                        
+                                                        
+                                                        
+                                                        
+
+                                                        <a class="btn btn-info btn-circle btn-sm text-white popoverxd" th:unless="${mt[3] == 'Forro' || mt[3] == 'Tela'}" th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/detalle-material/material/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></a>
+                                                        <a class="btn btn-info btn-circle btn-sm text-white popoverxd" th:if="${mt[3] == 'Tela' && (#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/detalle-material/tela/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></a>
+                                                        <a class="btn btn-info btn-circle btn-sm text-white popoverxd" th:if="${mt[3] == 'Forro' && (#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/detalle-material/forro/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></a>
+                                                        
+                                                        
+                                                        <!-- Estos 3 salen si el Material / Tela / Forro estan dados de alta, es para darlos de baja -->
+                                                        <a th:unless="${mt[3] == 'Forro' || mt[3] == 'Tela'}"
+                                                           th:if="${mt[7] == 1 && (#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                           th:href="@{/delete-material/}+${mt[0]}"  class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
+                                                       	   data-container="body" data-toggle="popover" data-placement="top"
+                                                       	   data-content="Dar de baja"><i class="fas fa-caret-down"></i></a>
+                                                          
+                                                        <a th:if="${mt[3] == 'Tela' && mt[7] == 1 &&(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                           th:href="@{/delete-tela/}+${mt[0]}"  class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
+                                                       	   data-container="body" data-toggle="popover" data-placement="top"
+                                                           data-content="Dar de baja"><i class="fas fa-caret-down"></i></a>
+                                                        
+                                                        
+                                                        <a th:if="${mt[3] == 'Forro' && mt[7] == 1 && (#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                           th:href="@{/delete-forro/}+${mt[0]}"  class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
+                                                      	   data-container="body" data-toggle="popover" data-placement="top"
+                                                           data-content="Dar de baja"><i class="fas fa-caret-down"></i></a>
+                                                           
+                                                        <!-- Estos 3 salen si el Material / Tela / Forro estan dados de baja, es para darlos de alta -->
+                                                        <a th:unless="${mt[3] == 'Forro' || mt[3] == 'Tela'}"
+                                                           th:if="${mt[7] == 0 && (#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                           th:href="@{/dar-alta-material/}+${mt[0]}"  class="btn btn-success btn-circle btn-sm btn-alta popoverxd"
+                                                       	   data-container="body" data-toggle="popover" data-placement="top"
+                                                       	   data-content="Dar de alta"><i class="fas fa-caret-up"></i></a>
+                                                          
+                                                        <a th:if="${mt[3] == 'Tela' && mt[7] == 0 &&(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                           th:href="@{/dar-alta-tela/}+${mt[0]}"  class="btn btn-success btn-circle btn-sm btn-alta popoverxd"
+                                                       	   data-container="body" data-toggle="popover" data-placement="top"
+                                                           data-content="Dar de alta"><i class="fas fa-caret-up"></i></a>
+                                                        
+                                                        
+                                                        <a th:if="${mt[3] == 'Forro' && mt[7] == 0 &&(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                           th:href="@{/dar-alta-forro/}+${mt[0]}"  class="btn btn-success btn-circle btn-sm btn-alta popoverxd"
+                                                      	   data-container="body" data-toggle="popover" data-placement="top"
+                                                           data-content="Dar de alta"><i class="fas fa-caret-up"></i></a>
+
+                                                       	
+                                                       	<!-- Botones para aceptar -->
+                                                       	<a class="btn btn-success btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '2' && mt[3] == 'Tela'}and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/aceptado-tela/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></a>
+                                                       	<a class="btn btn-success btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '2' && mt[3] == 'Forro'} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/aceptado-forro/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></a>
+                                                       	<a class="btn btn-success btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '2' && mt[3] != 'Tela' && mt[3] != 'Forro'} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/aceptado-material/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></a>
+                                                       	
+                                                       	<!-- Botones para negar -->
+                                                       	<a class="btn btn-danger btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '1' && mt[3] == 'Tela'} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/declinado-tela/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Declinar"><i class="fas fa-times"></i></a>
+                                                       	<a class="btn btn-danger btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '1' && mt[3] == 'Forro'} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/declinado-forro/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Declinar"><i class="fas fa-times"></i></a>
+                                                       	<a class="btn btn-danger btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '1' && mt[3] != 'Tela' && mt[3] != 'Forro'} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/declinado-material/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Declinar"><i class="fas fa-times"></i></a>
+                                                       	
+                                                       	<!-- Ambos para cuando el estatus es 0 de espera -->
+                                                       	<a class="btn btn-success btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '0' && mt[3] == 'Tela'}and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/aceptado-tela/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></a>
+                                                       	<a class="btn btn-success btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '0' && mt[3] == 'Forro'} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/aceptado-forro/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></a>
+                                                       	<a class="btn btn-success btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '0' && mt[3] != 'Tela' && mt[3] != 'Forro'} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/aceptado-material/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></a>
+                                                       	
+                                                       	<a class="btn btn-danger btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '0' && mt[3] == 'Tela'} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/declinado-tela/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Declinar"><i class="fas fa-times"></i></a>
+                                                       	<a class="btn btn-danger btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '0' && mt[3] == 'Forro'} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/declinado-forro/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Declinar"><i class="fas fa-times"></i></a>
+                                                       	<a class="btn btn-danger btn-circle btn-sm text-white popoverxd" th:if="${mt[6] == '0' && mt[3] != 'Tela' && mt[3] != 'Forro'} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" th:href="@{/declinado-material/}+${mt[0]}" data-container="body" data-toggle="popover" data-placement="top" data-content="Declinar"><i class="fas fa-times"></i></a>
+                                                       	
+                                                    </td>
+                                                    
+                                                  
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div th:insert="modal-baja-material"></div>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+
+            <div th:insert="navegacion-footer"></div>
+        </div>
+        <!-- ./wrapper -->
+
+        <div th:replace="navegacion-scripts"></div>
+        <script src="dist/js/tablaMateriales.js"></script>
+		<script>
+		$('.btn-delete').on('click', function (e) {
+		    e.preventDefault();
+		    var href =$(this).attr('href');
+		    $('#bajaMaterialModal #btnDelteYes').attr('href',href);
+		    $('#bajaMaterialModal').modal();
+		});
+		
+		$('.btn-alta').on('click', function (e) {
+		    e.preventDefault();
+		    var href =$(this).attr('href');
+		    $('#altaMaterialModal #btnAltaYes').attr('href',href);
+		    $('#altaMaterialModal').modal();
+		});
+		</script>
+        <script th:if="${icon != null}" th:inline="javascript">
+            Swal.fire({
+
+                position: 'center',
+                icon: /*[[${icon}]]*/ 'default',
+                title: /*[[${title}]]*/ 'default',
+                showConfirmButton: false,
+                timer: 2500
+            });
+        </script>
+
+        <script>
+            $('#iDiseno').removeClass('text-altima');
+            $('#menuDiseno').addClass('menu-open');
+            $('#navDiseno').addClass('active-altima');
+            $('#navDiseno2').addClass('active');
+        </script>
+
+    </body>
+
+</html>

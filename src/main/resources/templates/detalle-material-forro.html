@@ -1,0 +1,107 @@
+<div class="card-body">
+    <div class="row d-none d-print-block">
+        <table class="table table-borderless table-sm">
+            <thead class="thead-dark">
+                <tr style=" border: 5px solid #343A40;border-right-width:0px;border-left-width:0px;border-top-width:0px;">
+                    <td style="width: 30%"><img class="h-50" src="/dist/img/logo.png"></td>
+                    <td style="width: 40%; font-size: 44px;" class="text-center"><strong>Reporte de Material</strong></td>
+                    <td style="width: 30%" class="text-right"><a class="fechaReporteMaterial"></a></td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="form-group col-sm-12">
+        <table id="mytable" class="table table-hover"> 
+            <thead class="thead-dark">
+                <tr>
+                    <th width="100%" colspan="2">Forro imagen:</th>
+                </tr>
+            </thead>
+                 <tbody>
+                     <tr>
+                        <td colspan="2" ><img th:src="@{'/uploads/forros/' + ${forro.foto}}" th:onerror="this.src='/dist/img/preview.png'" id="serviceImageTela"  class="rounded float-left" alt="..." width="100" height="100" aria-describedby="imagePreviewHelp" /></td>
+                     </tr>
+                 </tbody>
+                </table>
+            </div>
+            <br>       
+
+    <div class="form-group col-sm-12">
+        <table id="mytable" class="table table-hover"> 
+            <thead class="thead-dark">
+                <tr>
+                    
+                    <th width="33%" colspan="2">Forro Composici&oacute;n</th>
+                    <th colspan="2" style="display:none;">Famila Composici&oacute;n</th>
+                    <th width="33%" colspan="2">Familia Composici&oacute;n</th>
+                </tr>
+            </thead>
+                <tbody>
+                    <tr th:each="listForroComposicon: ${listForroComposicon}">
+                        <td colspan="2" th:text="${listForroComposicon[0]}"></td>
+                        <td colspan="2"  style="display:none;"th:text="${listForroComposicon[1]}"></td>
+                        <td colspan="2" th:text="${listForroComposicon[2]}"></td>
+                    </tr>     
+                </tbody>
+            </table>
+            </div>
+            <br>
+                
+        <div class="form-group col-sm-12">
+            <table id="mytable" class="table table-hover"> 
+                <thead class="thead-dark">
+                        <tr>
+                            <th width="33%" colspan="2" >Nombre:</th>
+                            <th width="33%" colspan="2">Clave:</th>
+                            <th width="33%" colspan="2">Descripci&oacute;n:</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" th:text="${forro.nombreForro}"></td>
+                            <td colspan="2" th:text="${forro.idText}"></td>
+                            <td colspan="2" th:text="${forro.descripcionForro}"></td>
+                        </tr>
+                    </thead>
+                </table>
+        </div>
+        <br>
+        
+        <div class="form-group col-sm-12">
+            <table id="mytable" class="table table-hover"> 
+                <thead class="thead-dark">
+                        <tr>
+                            <th width="25%" colspan="2">Ancho:</th>
+                            <th width="25%" colspan="2">Color:</th>
+                            <th width="25%" colspan="2">C&oacute;digo color:</th>
+                            <th width="25%" colspan="2" th:if="${EstatusCalidadForro == '2'}" >Existencias:</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" th:text="${forro.anchoForro}"></td>
+                            <td colspan="2" th:text="${forro.color}"></td>
+                            <td colspan="2"><input type="color" th:value="${forro.codigo_coolor}" disabled></td>
+                            <td colspan="2" th:if="${EstatusCalidadForro == '2'}" th:text="${forro.existenciaForro}"></td>
+                        </tr>
+                    </thead>
+                </table>
+        </div>
+        <br> 
+        
+       
+        
+        <div class="form-group col-sm-12" th:if="${EstatusCalidadForro == '2'}">
+            <table id="mytable" class="table table-hover"> 
+                <thead class="thead-dark">
+                        <tr >
+                            <th width="25%" colspan="2">Unidad de medida:</th>
+                        </tr>
+                        <tr th:each="FMedida:  ${ForroUnidadMedida}">
+                           <td th:text="${FMedida[1]}"></td>
+                        </tr>
+                    </thead>
+                </table>
+        </div>
+        <br>  
+           
+          
+            </div>
+            <!-- /.card-body -->

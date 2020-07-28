@@ -1,0 +1,30 @@
+<!-- small box -->
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="small-box bg-altima div-rounded">
+    <div class="inner">
+        <h3>Tipo Material</h3>
+        <button data-toggle="modal" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or ${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_LISTAR'')')}" data-target="#detalleMaterial" class="btn btn-link" style="color: #ffffff!important; padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+    </div>
+    <div class="icon">
+        <i class="flaticon3-curling-hair-with-tissue-roll" style="top: -20px;"></i>
+    </div>
+    <a class="small-box-footer div-rounded-footer">
+        <button onclick="agregarMaterial()" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or ${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_AGREGAR'')')}" class="btn btn-link" style="color: #ffffff!important">Agregar <i class="fas fa-plus-circle"></i></button>
+    </a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="detalleMaterial" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMaterialMobile">
+        <div class="modal-content modal-rounded-body" id="contenedorTabla9">
+            <div class="modal-header modal-rounded-header bg-altima">
+                <h5 class="modal-title" id="exampleModalLongTitle">Tipo Material <button onclick="agregarMaterial()" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or ${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_AGREGAR'')')}" class="btn btn-light btn-circle btn-sm popoverxd"
+                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus text-altima"></i></button></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

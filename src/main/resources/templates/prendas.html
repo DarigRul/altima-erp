@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Prendas | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Prendas&nbsp;<a th:href="@{/agregar-prenda}" class="btn btn-sm icon-btn btn-altima text-white"
+								type="submit"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nueva prenda</a></h1>
+						</div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Dise&ntilde;o</li>
+                                <li class="breadcrumb-item active">Prendas</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de prendas</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaPrenda table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Modelo</th>
+                                                <th>Descripci&oacute;n</th>
+                                                <th>Tipo</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="prenda:${prendas}" th:unless="${prenda.prendaLocal == '0'}">
+                                                <td th:if="${prenda.estatusRecepcionMuestra == 'Prospecto'}" th:text="${prenda.idTextProspecto}"></td>
+                                                <td th:if="${prenda.estatusRecepcionMuestra == 'Definitivo'}" th:text="${prenda.idText}"></td>
+                                                <td th:text="${prenda.descripcionPrenda}"></td>
+                                                <td>
+                                                	<p th:each="tipo: ${tipos}" th:if="${tipo[0] == prenda.idFamiliaPrenda}" th:text="${ tipo[1] }"></p>
+                                                </td>
+                                                <td class="tdcenter">
+                                                    <a th:href="@{'/detalle-prenda/' + ${prenda.idPrenda}}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>
+                                                    <a th:href="@{'/copiar-prenda/' + ${prenda.idPrenda}}" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Copiar Prenda"><i class="fas fa-copy"></i></a>
+                                                    <a th:href="@{editar-prenda/} + ${prenda.IdPrenda}" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar" class="btn btn-warning btn-circle btn-sm popoverxd"><i class="fas fa-pen"></i></a>
+                                                    <button th:if="${prenda.estatusRecepcionMuestra == 'Prospecto'}" th:onclick="|ModalConfirmarPrenda('${prenda.idPrenda}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Confirmar prenda" class="btn btn-success btn-circle btn-sm popoverxd"><i class="fas fa-check"></i></button>
+                                                    <button th:if="${prenda.estatus == 1}" th:onclick="|ModalBajaPrenda('${prenda.idPrenda}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de Baja Prenda" class="btn btn-danger btn-circle btn-sm popoverxd"><i class="fas fa-caret-down"></i></button>
+													<button th:if="${prenda.estatus == 0}" th:onclick="|ModalAltaPrenda('${prenda.idPrenda}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de Alta Prenda" class="btn btn-success btn-circle btn-sm popoverxd"><i class="fas fa-caret-up"></i></button>
+                                                    <a th:href="@{/precio-prenda/} + ${prenda.IdPrenda}" data-container="body" data-toggle="popover" data-placement="top" data-content="Precio prenda" class="btn btn-success btn-circle btn-sm popoverxd"><i class="fas fa-dollar-sign"></i></a>
+                                                    <a th:href="@{'/costo-prenda/'} + ${prenda.IdPrenda}" data-container="body" data-toggle="popover" data-placement="top" data-content="Costo prenda" class="btn btn-altima btn-circle btn-sm popoverxd"><i style="margin-left:-3px" class="fas fa-tshirt"></i></a>
+													<a th:href="@{'/consumo-talla-prenda/'} + ${prenda.IdPrenda}" data-container="body" data-toggle="popover" data-placement="top" data-content="Consumo por prenda" class="btn btn-altima btn-circle btn-sm popoverxd"><i style="margin-left:-3px" class="fas fa-chart-line"></i></a>                                                
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    
+    <!-- Modal para confirmar prenda -->
+	<div class="modal fade" id="confirmarPrendaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	        ¿Deseas confirmar esta prenda?
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
+	        <div id="ContenedorBotonModalConfirmar"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- Modal para confirmar prenda -->
+	
+	<!-- Modal para Dar de Alta  -->
+	<div class="modal fade" id="AltaPrendaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	        ¿Deseas dar de alta esta prenda?
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
+	        <div id="ContenedorBotonModalAlta"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- Modal para Dar de Alta  -->
+	
+	
+	<!-- Modal para Dar de Alta  -->
+	<div class="modal fade" id="BajaPrendaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	        ¿Deseas dar de baja esta prenda?
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
+	        <div id="ContenedorBotonModalBaja"></div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- Modal para Dar de Alta  -->
+
+    <div th:replace="navegacion-scripts"></div>
+	<script src="dist/js/tablaPrenda.js"></script>
+	<script src="dist/js/sweetalert.js"></script>
+   	<script>
+		
+		$('#iDiseno').removeClass('text-altima');
+		$('#navDiseno').addClass('active-altima');
+		$('#menuDiseno').addClass('menu-open');
+		$('#navDiseno3').addClass('active');
+		/***
+		*
+		* FUNCION DE MODAL
+		*
+		***/
+
+		function ModalConfirmarPrenda(id)
+		{
+			console.log(id);
+			$('#confirmarPrendaModal').modal('show');
+			$('#RemoverBotonModalConfirmar').remove();
+			$('#ContenedorBotonModalConfirmar').append("<div id='RemoverBotonModalConfirmar'><button id='BloquearConfirmar' onclick='ConfirmarPrenda(" + id + ")' class='btn btn-success' style='color: white;'>Confirmar</button></div>");
+		}
+		
+		
+		function ConfirmarPrenda(id)
+		{
+			var token = $('#token').val();
+			$('#BloquearConfirmar').prop('disabled', true);
+			console.log(token);
+			$.ajax({
+				type: "GET",
+				url: "/confirmar_prenda",
+				data: {
+					"_csrf": token,
+					"id": id
+				},
+				success: (data) => {
+					console.log(data);
+					location.reload();
+				},
+				failure: function (errMsg) {
+					alert(errMsg);
+				}
+			});
+		}
+		
+		
+		function ModalAltaPrenda(id)
+		{
+			$('#AltaPrendaModal').modal('show');
+			$('#RemoverBotonModalAlta').remove();
+			$('#ContenedorBotonModalAlta').append("<div id='RemoverBotonModalAlta'><button id='BloquearAlta' onclick='AltaPrenda(" + id + ")' class='btn btn-success' style='color: white;'>Dar de Alta</button></div>");
+		}
+		
+		function AltaPrenda(id)
+		{
+			var token = $('#token').val();
+			$('#BloquearAlta').prop('disabled', true);
+			console.log(token);
+			$.ajax({
+				type: "GET",
+				url: "/alta_baja_prenda",
+				data: {
+					"_csrf": token,
+					"id": id
+				},
+				success: (data) => {
+					console.log(data);
+					location.reload();
+				},
+				failure: function (errMsg) {
+					alert(errMsg);
+				}
+			});
+		}
+		
+		function ModalBajaPrenda(id)
+		{
+			$('#BajaPrendaModal').modal('show');
+			$('#RemoverBotonModalBaja').remove();
+			$('#ContenedorBotonModalBaja').append("<div id='RemoverBotonModalBaja'><button id='BloquearBaja' onclick='BajaPrenda(" + id + ")' class='btn btn-success' style='color: white;'>Dar de Baja</button></div>");
+		}
+		
+		function BajaPrenda(id)
+		{
+			var token = $('#token').val();
+			$('#BloquearBaja').prop('disabled', true);
+			console.log(token);
+			$.ajax({
+				type: "GET",
+				url: "/alta_baja_prenda",
+				data: {
+					"_csrf": token,
+					"id": id
+				},
+				success: (data) => {
+					console.log(data);
+					location.reload();
+				},
+				failure: function (errMsg) {
+					alert(errMsg);
+				}
+			});
+		}
+	</script>
+	  <script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+
+			position: 'center',
+			icon: /*[[${icon}]]*/ 'default',
+			title: /*[[${title}]]*/ 'default',
+			showConfirmButton: false,
+			timer: 2500
+		});
+	</script>
+</body>
+</html>

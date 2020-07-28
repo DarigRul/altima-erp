@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head th:include="navegacion-head :: header">
+		<title id="pageTitle"> Consumo por talla | Altima</title>
+	</head>
+	<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse" >
+		<!-- Site wrapper -->
+		<div class="wrapper">
+			<!-- Navbar -->
+			<div th:insert="navegacion-nav"></div>
+			<!-- /.navbar -->
+			<!-- Modal -->
+			<div th:insert="navegacion-logout"></div>
+			<!-- Main Sidebar Container -->
+			<div th:insert="navegacion-aside"></div>
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+					<div class="container-fluid">
+						<div class="row mb-2">
+							<div class="col-sm-6">
+								<h1>Prendas&nbsp;
+									<a th:href="${'/prendas'}">
+										<button class="bt btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Regresar">
+											<i class="fas fa-arrow-left"></i>
+										</button>
+									</a>
+								</h1>
+							</div>
+							<div class="col-sm-6">
+								<ol class="breadcrumb float-sm-right">
+									<li class="breadcrumb-item altima">Altima</li>
+									<li class="breadcrumb-item active">Dise&ntilde;o</li>
+									<li class="breadcrumb-item active">Prendas</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+					<!-- /.container-fluid -->
+				</section>
+		 <!-- Main content -->
+		 <section class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+						<!-- Default box -->
+						<div class="card">
+							<div class="card-header bg-altima">
+								<h5 class="card-title">Consumo por talla</h5>
+							</div>
+							<div class="card-body">
+							<div class="tab-pane" role="tabpanel" id="consumo">
+								<div class="row">
+									<div class="form-group col-sm-12">
+										<label>Material</label>
+										<div class="input-group mb-3">
+											<select class="form-control selectpicker"  data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="tipo" name="tipo" >
+												<option value ="tela">Tela principal</option>
+												<option value ="tela-conbinacion">Tela combinaci&oacute;n (tabla por definir)</option>
+												<option value="forro">Forro</option>
+												<option value="entretela">Entretela (tabla por definir)</option>
+											</select>
+											<div style="margin-left:8px">
+												<a  id ="boton-agregar" name ="boton-agregar" onclick=" tallas ('Tela');" class="btn icon-btn btn-altima text-white float-right" type="submit">
+													<span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar
+												</a>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<table class="table tablaConsumo table-striped table-bordered" id="table-tela" name="table-tela">
+											<thead>
+												<tr>
+													<th rowspan='2' style="width:5%">Talla</th>
+													<th th:colspan="${headTam}"  class="text-center" style="width:70%">Largos</th>
+													<th colspan="2" class="text-center" style="width:20%">Aumento de telas</th>
+													<th rowspan='2' style="width:5%">Acciones</th>
+												</tr>
+												<tr>
+													 <th th:each="head, headit: ${head}" th:text="${head}"></th>
+													<th class="text-center" style="width:10%;">Estampada rayada</th>
+													<th class="text-center" style="width:10%;">Estampada cuadros</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr
+													  th:each="listConsumo, listConsumo_iterator: ${listConsumo}">
+													
+													<td th:each="listConsumo2, listConsumo_iterator2: ${listConsumo}" th:text="${listConsumo2}?: 'N/A'"></td>
+													<td>1.85</td>
+													<td>1.85</td>
+													
+													<td class="tdcenter">
+														<button class="btn btn-warning btn-circle btn-sm popoverxd" th:id_talla="${listConsumo_id[listConsumo_iterator.index]}" th:num_talla="${listConsumo[0]}"  onclick="editar_tallas (this, 'Tela');" data-toggle="modal" data-target="#modalConsumoPorPrendas" data-container="body" data-placement="top" data-content="Editar">
+															<i class="fas fa-pen"></i>
+														</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										
+										
+										<table class="table tablaConsumoPorPrendas table-striped table-bordered" id="table-forro" name="table-forro" style="display:none;">
+											<thead>
+												<tr>
+													<th rowspan='2' style="width:5%">Talla</th>
+													<th th:colspan="${headTam}"  class="text-center" style="width:70%">Largos -- FORRO</th>
+													<th colspan="2" class="text-center" style="width:20%">Aumento de telas</th>
+													<th rowspan='2' style="width:5%">Acciones</th>
+												</tr>
+												<tr>
+													 <th th:each="head, headit: ${head}" th:text="${head}"></th>
+													<th class="text-center" style="width:10%;">Estampada rayada</th>
+													<th class="text-center" style="width:10%;">Estampada cuadros</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr
+													  th:each="listConsumoForro, listConsumoForro_iterator: ${listConsumoForro}">
+													
+													<td th:each="listConsumoForro2, listConsumoForro_iterator2: ${listConsumoForro}" th:text="${listConsumoForro2}?: 'N/A'"></td>
+													<td>1.85</td>
+													<td>1.85</td>
+													
+													<td class="tdcenter">
+														<button class="btn btn-warning btn-circle btn-sm popoverxd" th:id_talla="${listConsumo_idForro[listConsumoForro_iterator.index]}" th:num_talla="${listConsumoForro[0]}"  onclick="editar_tallas (this, 'Forro');" data-toggle="modal" data-target="#modalConsumoPorPrendas" data-container="body" data-placement="top" data-content="Editar">
+															<i class="fas fa-pen"></i>
+														</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										<br>
+										<table class="table tablaConsumo table-striped table-bordered" id="table-tela" name="table-tela" style="width: 100%;">
+											<thead>
+												<tr>
+													<th rowspan='2' style="width:5%">Talla</th>
+													<th colspan="2" class="text-center" style="width:13%">XXC</th>
+													<th colspan="2" class="text-center" style="width:13%">XC</th>
+													<th colspan="2" class="text-center" style="width:13%">C</th>
+													<th colspan="2" class="text-center" style="width:13%">R</th>
+													<th colspan="2" class="text-center" style="width:13%">L</th>
+													<th colspan="2" class="text-center" style="width:13%">XL</th>
+													<th colspan="2" class="text-center" style="width:13%">XXL</th>
+													<th rowspan='2' style="width:4%">Acciones</th>
+												</tr>
+												<tr>
+													<th class="text-center" style="width:6.5%">Ancho</th>
+													<th class="text-center" style="width:6.5%">Largo</th>
+													<th class="text-center" style="width:6.5%">Ancho</th>
+													<th class="text-center" style="width:6.5%">Largo</th>
+													<th class="text-center" style="width:6.5%">Ancho</th>
+													<th class="text-center" style="width:6.5%">Largo</th>
+													<th class="text-center" style="width:6.5%">Ancho</th>
+													<th class="text-center" style="width:6.5%">Largo</th>
+													<th class="text-center" style="width:6.5%">Ancho</th>
+													<th class="text-center" style="width:6.5%">Largo</th>
+													<th class="text-center" style="width:6.5%">Ancho</th>
+													<th class="text-center" style="width:6.5%">Largo</th>
+													<th class="text-center" style="width:6.5%">Ancho</th>
+													<th class="text-center" style="width:6.5%">Largo</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													
+													<td>1</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td>0.21</td>
+													<td class="tdcenter">
+														<button class="btn btn-warning btn-circle btn-sm popoverxd" data-toggle="modal" data-target="#modalConsumoPorPrendas" data-container="body" data-placement="top" data-content="Editar">
+															<i class="fas fa-pen"></i>
+														</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+							 <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+						</div>
+						<div th:insert="modal-consumo-por-prendas"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- /.content-wrapper -->
+	<div th:insert="navegacion-footer"></div>
+</div>
+<!-- ./wrapper -->
+<div th:replace="navegacion-scripts"></div>
+<!-- Funcionalidad-->
+<script>
+	$('#iDiseno').removeClass('text-altima');
+		$('#navDiseno').addClass('active-altima');
+		$('#menuDiseno').addClass('menu-open');
+		$('#navDiseno3').addClass('active');
+</script>
+<script th:src="@{/dist/js/ConsumoTallaPrenda.js}"></script>
+<script th:src="@{/dist/js/tablaConsumoDePrendas.js}"></script>
+	
+	</body>
+</html>

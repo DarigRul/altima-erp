@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Catal&oacute;gos Producci&oacute;n | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Cat&aacute;logos</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Cat&oacute;logos</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Small boxes (Stat box) -->
+                    <div class="row">
+                      	<div th:insert="produccion-catalogos-largo" class="col-lg-4 col-6"></div>  
+                      	<div th:insert="produccion-catalogos-rutas" class="col-lg-4 col-6"></div> 
+                      	<div th:insert="produccion-catalogos-procesos" class="col-lg-4 col-6"></div>   
+                      	 <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- Main row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+        <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
+        <input type="hidden" id="rolListar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_LISTAR'')')}? 1:0">
+        <input type="hidden" id="rolAgregar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_AGREGAR'')')}? 1:0">
+        <input type="hidden" id="rolEditar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_EDITAR'')')}? 1:0">
+        <input type="hidden" id="rolEliminar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_ELIMINAR'')')}? 1:0">
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <!-- Funcionalidad-->
+    <script src="dist/js/tablaCatalogosProduccion.js"></script>
+    <script src="dist/js/produccionCRUD.js"></script>
+	<script>
+		$('#iProduccion').removeClass('text-primary');
+		$('#menuProduccion').addClass('menu-open');
+		$('#navProduccion').addClass('menu-open');
+		$('#navProduccion0').addClass('active');
+	</script>
+	<script>
+	$(document).on('click', '#modalRutas', function() {
+        $('#detalleRuta').modal('show');
+    });
+
+    $(document).on('click', '#modalDetalles', function() {
+        $('#infoProcesos').modal('show');
+    });
+	</script>
+</body>
+
+</html>

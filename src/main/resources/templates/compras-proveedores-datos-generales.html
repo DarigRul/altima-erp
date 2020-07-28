@@ -1,0 +1,64 @@
+<form>
+    <div class="row">
+        <div class="form-group col-md-10">
+            <label for="proveedorCalle">Calle</label>
+            <input type="text" class="form-control" id="proveedorCalle" placeholder="Calle Constitucion entre Avs. 2 y 4">
+        </div>
+        <div class="form-group col-md-1">
+            <label for="proveedorNumExt">N&uacute;m. Ext</label>
+            <input type="number" class="form-control" id="proveedorNumExt" placeholder="1">
+        </div>
+        <div class="form-group col-md-1">
+            <label for="proveedorNumInt">N&uacute;m. Int</label>
+            <input type="number" class="form-control" id="proveedorNumInt" placeholder="32">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="proveedorColonia">Colonia</label>
+            <input type="text" class="form-control" id="proveedorColonia" placeholder="Centro">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="poblacionColonia">Poblaci&oacute;n</label>
+            <input type="text" class="form-control" id="poblacionColonia" placeholder="Centro">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="cpColonia">C&oacute;digo postal</label>
+            <input type="text" class="form-control" id="cpColonia" placeholder="Centro">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="proveedorMunicipio">Municipio</label>
+            <input type="text" class="form-control" id="proveedorMunicipio" placeholder="Puebla">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="proveedorEstado">Estado</label>
+            <input type="text" class="form-control" id="proveedorEstado" placeholder="Puebla">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="proveedorPais">Pa&iacute;s</label>
+            <input type="text" class="form-control" id="proveedorPais" placeholder="M&eacute;xico">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="proveedorClasificacion">Clasificaci&oacute;n</label>
+            <input type="text" class="form-control" id="proveedorClasificacion" placeholder="M&eacute;xico">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="proveedorRFC">RFC</label>
+            <input type="text" class="form-control" id="proveedorRFC" placeholder="M&eacute;xico">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="proveedorCURP">CURP</label>
+            <input type="text" class="form-control" id="proveedorCURP" placeholder="M&eacute;xico">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="proveedorTelefono">Tel&eacute;fono</label>
+            <input type="text" class="form-control" id="proveedorTelefono" placeholder="M&eacute;xico">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="proveedorWeb">Pagina Web</label>
+            <input type="text" class="form-control" id="proveedorWeb" placeholder="M&eacute;xico">
+        </div>
+        <div class="form-group col-md-12">
+            <a th:href="@{'/compras-proveedores'}" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+            <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+        </div>
+    </div>
+</form>

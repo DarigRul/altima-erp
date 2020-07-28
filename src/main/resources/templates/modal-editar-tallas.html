@@ -1,0 +1,74 @@
+<script type="text/javascript">
+function configurarmodal(prenda,idprenda,talla,largo){
+	//console.log(document.getElementById("empleado").text);
+	var empleadonombre=document.getElementById("empleado");
+	 var i = empleadonombre.selectedIndex;
+	 empleadonombre.options[i].text;
+	var empleadonomb=empleadonombre.options[i].text;
+	 var nombreempleado = document.getElementById("nombreempleado");
+	nombreempleado.setAttribute("value",empleadonomb);
+	 var nombreprenda = document.getElementById("nombreprenda");
+		nombreprenda.setAttribute("value",prenda);
+		 var vtalla = document.getElementById("talla22");
+		
+			vtalla.setAttribute("title",talla);
+			$('#talla22').selectpicker('destroy').selectpicker();
+			 var vlargo = document.getElementById("largo22");
+				vlargo.setAttribute("title",largo);
+				$('#largo22').selectpicker('destroy').selectpicker();
+				 var idprendaedit = document.getElementById("idprendaedit");
+					idprendaedit.setAttribute("value",idprenda);
+}
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="modalEditarTalla" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-altima">
+				<h5 class="modal-title" id="exampleModalLongTitle">Editar informaci&oacute;n</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+			</div>
+			<form>
+			<div class="modal-body">
+			<input type="hidden" value="" id="idprendaedit">
+				<div class="row">
+                      <div class="form-group col-md-6">
+                        <label for="cargaEmpresa">Empleado</label>
+                        <input type="text" disabled value="" id="nombreempleado" class="form-control">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="cargaEmpresa">Prenda</label>
+                        <input type="text" disabled value="" id="nombreprenda" class="form-control">
+                      </div>
+					  <div class="form-group col-md-6">
+                        <label>Talla</label>
+                          <select required
+                          class="form-control selectpicker" data-live-search="true"
+                          title="" name="talla22" id="talla22">
+                          <option th:each="talla : ${talla}"
+                            th:value="${talla.IdLookup}"
+                            th:text="${talla.nombreLookup}" th:selected="false" />
+                        </select>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label>Largo</label>
+                        <select required
+                          class="form-control selectpicker" data-live-search="true"
+                          title="" name="cargaTipopedido" id="largo22">
+                          <option th:each="largo : ${largo}"
+                            th:value="${largo.IdLookup}"
+                            th:text="${largo.nombreLookup}" th:selected="false" />
+                        </select>
+                      </div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Cancelar</a>
+				<a class="btn icon-btn btn-altima text-white" onclick="editarprenda()" type="submit"><span class="btn-glyphicon spancircle fas fa-check  img-circle text-altima"></span>Actualizar</a>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+

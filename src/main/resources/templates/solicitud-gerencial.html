@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Solicitud Gerencial | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Solicitud de muestras <button data-toggle="modal" data-target="#nuevaSolicitudMuestra" class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></h1>
+                        </div>
+                        <div th:insert="modal-solicitud-gerencial"></div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">Solicitud de muestras</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Lista de pedidos</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Empresa</th>
+                                                <th>Fecha de Creacion</th>
+                                                <th>Fecha de entrega</th>
+												<th>Solicitante</th>
+												<th>Tipo</th>
+												<th>Estatus</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+	                                      <tr th:each="mt:${lispedidos}" >
+		                                      <td th:text="${mt[0]}"></td>
+		                                      <td th:text="${mt[1]}"></td>
+		                                      <td th:text="${mt[5]}"></td>
+											  <td th:text="${mt[2]}"></td>
+											  <td th:text="${mt[6]}"></td>
+		                                      <td th:text="${mt[4]}"></td>
+		                                      
+		                                      <td th:if="${mt[8] == 0}">En espera</td>
+		                                      <td th:if="${mt[8] == 1}">Aceptado</td>
+		                                      <td th:if="${mt[8] == 2}">Rechazado</td>
+		                               
+		          
+		                                      
+		                                      
+		                                      <td class="text-center">
+		                                      
+		                                      
+											  <button th:if="${mt[7] == '1'}" th:onclick="'detalles('+ ${mt[3]}+');'" data-toggle="modal" data-target="#modalTotalPrendas" type="button" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-html="true"><i class="fas fa-tshirt" style="margin-left:-2px"></i></button>
+											  <button th:if="${mt[7] == '2'}" th:onclick="'detallesColeccion('+ ${mt[3]}+');'" data-toggle="modal" data-target="#modalTotalPrendas" type="button" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-html="true"><i class="fas fa-tshirt" style="margin-left:-2px"></i></button>
+		                                       
+		                                       
+		                                       
+		                                       
+		                                        <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+		                                        
+		                                        <a th:if="${mt[7] == '1' and mt[8] == 0 }"  th:href="@{/solicitud-gerencial-muestras/}+${mt[3]}"><button type="button" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button></a>
+											    <a th:if="${mt[7] == '2' and mt[8] == 0 }"  th:href="@{/solicitud-muestras-coleccion/}+${mt[3]}"><button type="button" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button></a>
+											 	
+											 	
+											 	<a th:if="${mt[8] == 0}" class="btn-aceptar"   th:href="@{/solicitud-muestras-aceptar/}+${mt[3]}"><button type="button" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Aceptar"><i class="fas fa-check "></i></button></a>
+											 	
+											 	
+											 	<a th:if="${mt[8] == 0}" class="btn-rechazar"  th:href="@{/solicitud-muestras-rechazar/}+${mt[3]}"><button type="button" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button></a>
+		                                      </td>
+	                                      </tr>
+                                        </tbody>
+                                    </table>
+                                    <div th:insert="modal-listado-solicitud-gerencial"></div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+	<!-- SweetAlert -->
+    <script src="dist/js/sweetalert.js"></script>
+    <div th:replace="navegacion-scripts"></div>
+   <script src="dist/js/tablaGeneral.js"></script>
+   <script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+	    	  position: 'center',
+	          icon: /*[[${icon}]]*/,
+	          title: /*[[${title}]]*/,
+	          showConfirmButton: false,
+	          timer: 1250
+	    });
+	</script>
+	
+   	<script>
+   	$('#iComercial').removeClass('text-altima');
+	$('#menuComercial').addClass('menu-open');
+	$('#navComercial').addClass('active-altima');
+        $('#navSolicitudMuestras').addClass('active');
+    </script>
+    <script>
+    
+    
+    $('.btn-aceptar').on('click', function (e) {
+	    e.preventDefault();
+	    var href =$(this).attr('href');
+	
+	    Swal.fire({
+			title: 'Deseas aceptar este pedido',
+			icon: 'warning',
+			showCancelButton: true,
+			cancelButtonColor: '#6C757D',
+			cancelButtonText: 'Cancelar',
+			confirmButtonText: 'Aceptar',
+			confirmButtonColor: '#0275dB',
+		}).then((result) => {
+			if (result.value) {
+				window.location.href = href;
+			}
+			
+			  
+		})
+	    
+	});
+
+    $('.btn-rechazar').on('click', function (e) {
+	    e.preventDefault();
+	    var href =$(this).attr('href');
+	
+	    Swal.fire({
+			title: 'Deseas rechazar este pedido',
+			icon: 'warning',
+			showCancelButton: true,
+			cancelButtonColor: '#6C757D',
+			cancelButtonText: 'Cancelar',
+			confirmButtonText: 'Rechazar',
+			confirmButtonColor: '#dc3545',
+		}).then((result) => {
+			if (result.value) {
+				window.location.href = href;
+			}
+			
+			  
+		})
+	    
+	});
+    
+ $("#sucursal").change(function(){
+    $.ajax({
+		                data: { id : $('#sucursal').val()},
+		                url:   '/get_agente_ventas',
+		                type:  'GET',
+                        success:  function (r) 
+                        
+		                {
+                            $('#padre').empty();
+                            console.log("aqui checa "+r)
+                            $('#padre').append("<label>"+r+"</label>");
+		                },
+		                error: function()
+		                {
+		                    alert('Ocurrio un error en el servidor ..');
+		                    prenda.prop('disabled', false);
+		                }
+                    });
+                });
+ 
+ 
+ function detallesColeccion(id){
+	console.log("aqui esta el id con el que vas a probar Tabla"+id);
+		$.ajax({
+		    method: "GET",
+		    url: "/cantidad-prendas-coleccion",
+		    data: { 
+	        	'id': id,
+	        	 "_csrf": $('#token').val(),
+	        },
+		    success: (data) => {
+		    	$('#quitarDetallesPrenda').remove();
+		    	$('#contenedorTablaContadorPrenda').append(
+		    			
+		    			"<div class='modal-body' id='quitarDetallesPrenda'>" +
+		    			
+		    			"<table class='table table-striped table-bordered' id='idtableDetallesPrenda' style='width:100%' >" +
+	                                        "<thead>" +
+	                                            "<tr>" +
+	                                                "<th>Prenda</th>" +
+	                                                "<th>Cantidad</th>" +
+	                                                
+	                                            "</tr>" +
+	                                        "</thead>" +
+	                                    "</table>" + "</div>");
+		        var a;
+		        var b = [];
+				var r=0;
+		        for (i in data){
+						r=parseInt(data[i][1])+parseInt(r);
+		        		a = [
+							"<tr>" +
+							"<td>" + data[i][1] + "</td>",
+							"<td>" + data[i][2] + "</td>",
+							
+							"<tr>"
+							];
+		    
+						b.push(a);	
+		        }
+				$('#cantidad').empty();
+			              console.log("aqui checa la cantidad "+r);
+			              $('#cantidad').append("<label>TOTAL DE PRENDAS:  "  +r+ "</label>");	        
+			    var tabla = $('#idtableDetallesPrenda').DataTable({
+	            	"data":b,
+	                "ordering": true,
+	                "pageLength": 5,
+	                "lengthMenu": [
+	                    [5, 10, 25, 50, 10],
+	                    [5, 10, 25, 50, 10]
+	                ],
+	                "language": {
+	                    "sProcessing": "Procesando...",
+	                    "sLengthMenu": "Mostrar _MENU_ registros",
+	                    "sZeroRecords": "No se encontraron resultados",
+	                    "sEmptyTable": "Ning?n dato disponible en esta tabla =(",
+	                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+	                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+	                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+	                    "sInfoPostFix": "",
+	                    "sSearch": "Buscar:",
+	                    "sUrl": "",
+	                    "sInfoThousands": ",",
+	                    "sLoadingRecords": "Cargando...",
+	                    "oPaginate": {
+	                        "sFirst": "Primero",
+	                        "sLast": "?ltimo",
+	                        "sNext": "Siguiente",
+	                        "sPrevious": "Anterior"
+	                    },
+	                    "oAria": {
+	                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+	                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	                    },
+	                    "buttons": {
+	                        "copy": "Copiar",
+	                        "colvis": "Visibilidad"
+	                    }
+	                }
+	            });
+			    
+
+			    
+			
+			    
+			    
+			  
+			    
+			    $('#modalTotalPrendas').modal('show');
+		    },
+		    
+		    
+		    
+		    error: (e) => {
+		        // location.reload();nnn
+		    }
+	})  
+
+ }
+ 
+ function detalles(id) {
+	 
+	 console.log("aqui esta el id con el que vas a probar Tabla"+id);
+		$.ajax({
+		    method: "GET",
+		    url: "/cantidad-prendas",
+		    data: { 
+	        	'id': id,
+	        	 "_csrf": $('#token').val(),
+	        },
+		    success: (data) => {
+		    	$('#quitarDetallesPrenda').remove();
+		    	$('#contenedorTablaContadorPrenda').append(
+		    			
+		    			"<div class='modal-body' id='quitarDetallesPrenda'>" +
+		    			
+		    			"<table class='table table-striped table-bordered' id='idtableDetallesPrenda' style='width:100%' >" +
+	                                        "<thead>" +
+	                                            "<tr>" +
+	                                                "<th>Prenda</th>" +
+	                                                "<th>Cantidad</th>" +
+	                                                
+	                                            "</tr>" +
+	                                        "</thead>" +
+	                                    "</table>" + "</div>");
+		        var a;
+		        var b = [];
+		        for (i in data){
+		        	
+		        		a = [
+							"<tr>" +
+							"<td>" + data[i][1] + "</td>",
+							"<td>" + data[i][2] + "</td>",
+							
+							"<tr>"
+							];
+		    
+						b.push(a);	
+		        }	        
+			    var tabla = $('#idtableDetallesPrenda').DataTable({
+	            	"data":b,
+	                "ordering": true,
+	                "pageLength": 5,
+	                "lengthMenu": [
+	                    [5, 10, 25, 50, 10],
+	                    [5, 10, 25, 50, 10]
+	                ],
+	                "language": {
+	                    "sProcessing": "Procesando...",
+	                    "sLengthMenu": "Mostrar _MENU_ registros",
+	                    "sZeroRecords": "No se encontraron resultados",
+	                    "sEmptyTable": "Ning?n dato disponible en esta tabla =(",
+	                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+	                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+	                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+	                    "sInfoPostFix": "",
+	                    "sSearch": "Buscar:",
+	                    "sUrl": "",
+	                    "sInfoThousands": ",",
+	                    "sLoadingRecords": "Cargando...",
+	                    "oPaginate": {
+	                        "sFirst": "Primero",
+	                        "sLast": "?ltimo",
+	                        "sNext": "Siguiente",
+	                        "sPrevious": "Anterior"
+	                    },
+	                    "oAria": {
+	                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+	                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	                    },
+	                    "buttons": {
+	                        "copy": "Copiar",
+	                        "colvis": "Visibilidad"
+	                    }
+	                }
+	            });
+			    
+			    $.ajax({
+			          data: { id2 :id},
+			          url:   '/total',
+			          type:  'GET',
+			          
+			          success:  function (r) 
+			          
+			          {
+			              $('#cantidad').empty();
+			              console.log("aqui checa la cantidad "+r);
+			              $('#cantidad').append("<label>TOTAL DE PRENDAS:  "  +r+ "</label>");
+			          },
+			          error: function()
+			          {
+			              alert('Ocurrio un error en el servidor ..');
+			            
+			          }
+			      });
+			    
+			
+			    
+			    
+			  
+			    
+			    $('#modalTotalPrendas').modal('show');
+		    },
+		    
+		    
+		    
+		    error: (e) => {
+		        // location.reload();nnn
+		    }
+	})  
+ }
+		       
+        
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!-- Modal -->
+<div class="modal fade" id="traspasoAgente" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title" id="exampleModalLongTitle">Datos de traspaso</h5>
+        <button type="button" class="close" data-target="#traspasoAgente" data-toggle="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+		<form>
+	       <div class="modal-body row">
+	           <div class="form-group col-sm-6">
+	               <label for="vendedorMovimientoTraspaso" style="color:#212529">Vendedor</label>
+	               <select class="form-control vendedorMovi selectCustom" title="Seleccione uno..." id="vendedorTraspaso" data-live-search="true">
+	               </select>
+	           </div>
+	           <div class="form-group col-sm-6">
+	               <label for="empresaMovimiento" style="color:#212529">Empresa</label>
+	               <select class="form-control selectCustom" title="Seleccione uno..." id="empresaTraspaso"  data-live-search="true">
+	               </select>
+	           </div>
+	           <div class="form-group col-sm-11">
+	               <label for="prendaMovimiento" style="color:#212529">Muestra</label>
+	               <select class="form-control selectCustom" id="prendaTraspaso" title="Seleccione uno..." data-live-search="true">
+	               </select>
+	           </div>
+	           <div class="form-group col-sm-1">
+	               <label style="color:#212529">A&ntilde;adir</label>
+	               <a type="submit" class="btn btn-primary btn-circle btn-sm" id="BotonAgregarMuestra" onclick="agregarMiniTablaTraspaso('tablaMuestraTraspaso')"><i class="fas fa-plus"></i></a>
+	           </div>
+	           <div class="form-group col-sm-12" id="crearTablaTraspaso">
+		           <div class=" modal-body" id="borrarTablaTraspaso">
+		               <table class="table table-striped table-bordered" id ="tablaMuestraTraspaso">
+		                   <thead>
+		                       <tr style="color:#212529">
+		                           <th>C&oacute;digo de barras</th>
+		                           <th>Prendas</th>
+		                           <th>Modelo Prenda</th>
+		                           <th>C&oacute;digo Tela</th>
+		                           <th></th>
+		                       </tr>
+		                   </thead>
+		               </table>
+		           </div>
+	           </div>
+	       </div>
+	       <div class="modal-footer">
+	           <button type="button" class="btn btn-danger mr-auto" data-target="#traspasoAgente" data-toggle="modal">Cancelar</button>
+	           <button type="button" class="btn btn-primary" onclick="traspasoSolicitud('tablaMuestraTraspaso')">Enviar</button>
+	        </div>
+	    </form>
+    </div>
+  </div>
+</div>
+
+

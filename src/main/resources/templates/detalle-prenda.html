@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Prendas | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Prendas</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Prendas</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row d-none d-print-block">
+                        <table class="table table-borderless table-sm">
+                            <thead class="thead-dark">
+                                <tr >
+                                    <td style="width: 30%"><img class="h-50" src="/dist/img/logo.png"></td>
+                                    <td style="width: 40%; font-size: 44px;" class="text-center"><strong>Reporte de Prendas</strong></td>
+                                    <td style="width: 30%" class="text-right"><a class="fechaReportePrenda"></a></td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-dark">
+                                    <h3 class="card-title">Consulta de prenda</h3>
+                                </div>
+                                <br>
+                                    
+                                    
+                                        
+                                            <div class="row">
+                                                <div class="form-group col-sm-12">
+                                                    <table id="mytable" class="table table-hover"> 
+                                                        <thead class="thead-dark">
+                                                            <tr>
+                                                                <th width="33%" colspan="2">Modelo: </th>
+                                                                <th width="33%" colspan="2" >Descripci&oacute;n:</th>
+                                                                <th width="33%" colspan="2">Tipo:</th>
+                                                            </tr>
+                                                            <tbody>
+                                                                <tr th:each="prendas : ${BuscarPrendaById}" th:if="${prendas[25] == true}">
+                                                                    <td colspan="2" th:text="${prendas[2]}"></td>
+                                                                    <td colspan="2" th:text="${prendas[24]}"></td>
+                                                                    <td colspan="2" th:each="tipo: ${tipos}" th:if="${tipo[0] == prenda.idFamiliaPrenda}" th:text="${ tipo[1] }"></td>
+                                                                </tr>
+                                                                <tr th:each="prendas : ${BuscarPrendaById}" th:if="${prendas[25] == false}">
+                                                                    <td colspan="2" th:text="${prendas[3]}"></td>
+                                                                    <td colspan="2" th:text="${prendas[24]}"></td>
+                                                                    <td colspan="2" th:each="tipo: ${tipos}" th:if="${tipo[0] == prenda.idFamiliaPrenda}" th:text="${ tipo[1] }"></td>
+                                                                </tr>
+                                                                
+                                                            </tbody>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                   
+
+                                    
+                                     
+
+                                    <section class="container py-4" style="margin-top: -22px;">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                
+                                                <div id="tabsContent" class="tab-content">
+                                                    <div id="datos" class="tab-pane fade  active show">
+                                                        <h2><i class="fas fa-info-circle"></i>&nbsp; Datos generales</h2>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-12">
+                                                                <table class="table tablaPrenda table-striped table-bordered">
+                                                                    <thead class="thead-dark">
+                                                                        <tr>
+                                                                            <th scope="col">Tipo de prenda:</th>
+                                                                            <th scope="col">Descripci&oacute;n de la prenda:</th>
+                                                                            <th scope="col">Nota especial:</th>
+                                                                            <th scope="col">G&eacute;nero de prenda:</th>
+                                                                            <th scope="col">Diseño exclusivo para:</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr th:each="prendas : ${BuscarPrendaById}">
+                                                                            <td th:each="tipo: ${tipos}" th:if="${tipo[0] == prenda.idFamiliaPrenda}" th:text="${ tipo[1] }"></td>
+                                                                            <td th:text="${prendas[24]}"></td>
+                                                                            <td th:text="${prendas[6]}"></td>
+                                                                            <td th:text="${prendas[28]}"></td>
+                                                                            <td th:each="clientes : ${ListaClientesPrenda}" th:text="${clientes[1]}"></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="form-group col-sm-12">
+                                                                <table class="table tablaPrenda table-striped table-bordered">
+                                                                    <thead class="thead-dark">
+                                                                        <tr>
+                                                                            <th scope="col">Lista de marcadores</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr th:each="prendas : ${BuscarPrendaById}">
+                                                                            <td th:text="${prendas[5]}"></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label>Imagenes de  la Prenda</label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="row" id="ContenedorImagenesEditar" align="center">
+															<input type="hidden" name="idPrenda" id="idPrenda"  th:value="${prenda.idPrenda}"/>
+																<div class="col-sm-4" th:each="img: ${imagenesPrenda}" th:id="${'Contenedor-' + img.estatus}" th:style="${img.idPrenda != null || img.estatus == '1' || img.estatus == '2'} ? 'display: block' : 'display: none' ">
+																	<div class="card" style="width: 18rem;">  																					
+																		<div th:class="${'image-upload-edit-' + img.estatus}">
+	  																		<label th:for="${'file-input-edit-' + img.estatus}" th:id="${'contenedor-imagen-' + img.estatus}">
+	  																			<img class="card-img-top" th:id="${'img-edit-' + img.estatus}" th:src="@{'/uploads/prendas/' + ${img.rutaPrenda}}" th:onerror="this.src='/dist/img/preview.png'" style="max-width: 289px !important; max-height: 289px !important; width: auto !important; height: auto !important;"> 
+	  																		</label> 
+	  																		<input th:id="${'file-input-edit-' + img.estatus}" th:name="${'file-input-edit-' + img.estatus}" th:attr="onchange=|PreviewImageEdit(this, '${img.estatus}')|" type="file" style="display:none"/>
+	  																		<input type="hidden" th:id="${'id-input-edit-' + img.estatus}" th:name="${'id-input-edit-' + img.estatus}" th:value="${img.idPrendaImagen}"/>
+	  																		<input type="hidden" th:id="${'status-input-edit-' + img.estatus}" th:name="${'status-input-edit-' + img.estatus}" value="Same"/>
+																		</div> 
+																		<div class="card-body" align="center"> 
+																			<p class="card-text">
+																				<input type="text" th:id="${'name-edit-' + img.estatus}" th:name="${'name-edit-' + img.estatus}" class="form-control" th:value="${img.nombrePrenda}" placeholder="Nombre de Imagen" th:readonly="${img.estatus == '1' || img.estatus == '2' || img.estatus == '3' || img.estatus == '4' || img.estatus == '5' || img.estatus == '6'}">
+																			</p> 
+																		</div> 
+																	</div> 																				
+																</div>
+															</div>
+                                                           </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <div class="tab-content py-2">
+                                                    <div id="confeccion" class="tab-pane fade  active show">
+                                                        <h2><i class="fas fa-file-alt"></i>&nbsp; Datos de confecci&oacute;n</h2>
+                                                        <div class="row" th:each="prendas : ${BuscarPrendaById}">
+                                                            
+                                                            <div class="form-group col-sm-12">
+                                                                <table class="table tablaPrenda table-striped table-bordered">
+                                                                    <thead class="thead-dark">
+                                                                        <tr>
+                                                                            <th scope="col">Detalle de la confecci&oacute;n</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr th:each="prendas : ${BuscarPrendaById}">
+                                                                            <td th:text="${prendas[11]}"></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <div class="form-group col-sm-12">
+                                                                <table class="table tablaPrenda table-striped table-bordered">
+                                                                    <thead class="thead-dark">
+                                                                        <tr>
+                                                                            <th scope="col">Lista de marcadores</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr th:each="marcador : ${ListaMarcadoresPrendas}">
+                                                                            <td th:text="${marcador[1]}"></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <div class="tab-content py-2">
+                                                    <div id="materiales" class="tab-pane fade  active show">
+                                                        <h2><i class="flaticon-001-wool"></i>&nbsp; Lista de materiales</h2>
+                                                        <table class="table tablaPrenda table-striped table-bordered">
+                                                            <thead class="thead-dark">
+                                                                <tr>
+                                                                    <th scope="col">Clave AMP</th>
+                                                                    <th scope="col">Nombre</th>
+                                                                    <th scope="col">Clasificaci&oacute;n</th>
+                                                                    <th scope="col">Tama&ntilde;o</th>
+                                                                    <th scope="col">Unidad de Medida</th>
+                                                                    <th scope="col">Modelo</th>
+                                                                    <th scope="col">Proceso</th>
+                                                                    <th scope="col">Cantidad</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr th:each="mat: ${materialesPrenda}">
+                                                                    <td th:text="${mat[1]}"></td>
+                                                                    <td scope='row' th:text="${mat[2]}"></td>
+                                                                    <td th:text="${mat[3]}"></td>
+                                                                    <td th:text="${mat[4]}"></td>
+                                                                    <td th:text="${mat[5]}"></td>
+                                                                    <td th:text="${mat[6]}"></td>
+                                                                    <td th:text="${mat[7]}"></td>
+                                                                    <td th:text="${mat[9]}"></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <div class="tab-content py-2">
+                                                    <div id="piezas" class="tab-pane fade  active show">
+                                                        <h2><i class="flaticon-019-pattern-1"></i>&nbsp; Piezas de patronaje</h2>  
+                                                        <table class="table tablaPrenda table-striped table-bordered">
+                                                            <thead class="thead-dark">
+                                                                <tr>
+                                                                    <th scope="col" style='display: none;'>Id</th>
+                                                                            <th scope="col">Nombre</th>
+                                                                            <th scope="col" class="text-center">Tela<br>N&uacute;mero de piezas</th>
+                                                                            <th scope="col" class="text-center">Tela Combinación<br>N&uacute;mero de piezas</th>
+                                                                            <th scope="col" class="text-center">Forro<br>N&uacute;mero de piezas</th>
+                                                                            <th scope="col" class="text-center">Forro Combinación<br>N&uacute;mero de piezas</th>
+                                                                            <th scope="col" class="text-center">Entretela<br>N&uacute;mero de piezas</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr th:each="pat: ${patronajesPrenda}">
+                                                                    <td th:text="${pat[2]}"></td>
+                                                                    <td th:text="${pat[3]}"></td>
+                                                                    <td th:text="${pat[7]}"></td>
+                                                                    <td th:text="${pat[4]}"></td>
+                                                                    <td th:text="${pat[8]}"></td>
+                                                                    <td th:text="${pat[5]}"></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card">
+                                                    <div class="card-footer">
+                                                        <button id="btnimp" class="btn btn-primary d-print-none float-right" onclick="printmaterial();">Imprimir reporte <i class="fas fa-print"></i></button>
+                                                    </div>
+                                                </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Datatables Plugin-->
+    <script src="dist/js/jquery.dataTables.min.js"></script>
+    <script src="dist/js/dataTables.buttons.min.js"></script>
+    <script src="dist/js/buttons.colVis.min.js"></script>
+    <!-- Bootstrap Datatables Plugin-->
+    <script src="dist/js/dataTables.bootstrap4.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="dist/js/demo.js"></script>
+    <script src="dist/js/TablaPrenda.js"></script>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+    <script>
+        moment.lang('es', {
+              months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+              monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
+              weekdays: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sabado'.split('_'),
+              weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
+              weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
+            }
+            );
+        var now = moment().format('dddd, DD MMMM YYYY hh:mm A');
+        $('.fechaReportePrenda').append(now);
+    </script>
+    <script>
+		function changeClassById() {
+			document.getElementById("menuDiseno").className = "nav-item has-treeview menu-open";
+			document.getElementById("navDiseno").className = "nav-link active";
+            document.getElementById("navDiseno2").className = "nav-link active";
+		}
+		window.onload = changeClassById();
+    </script>
+
+    <script>
+        function printmaterial(){
+            window.print();
+        }
+    </script>
+    <script>
+        
+    </script>
+    
+</body>
+
+</html>

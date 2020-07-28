@@ -1,0 +1,46 @@
+<div class="small-box bg-altima">
+    <div class="inner">
+        <h3>Horarios</h3>
+        <button data-toggle="modal" data-target="#horarioRH" class="btn btn-link" id="btnHorariosDetalle" onclick="ListarHorarios()"
+            style="color: #ffffff!important; padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+    </div>
+    <div class="icon">
+        <i class="far fa-clock"></i>
+    </div>
+    <a class="small-box-footer">
+        <button onclick="agregarHorario()" class="btn btn-link" style="color: #ffffff!important">Agregar <i
+                class="fas fa-plus-circle"></i></button>
+    </a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="horarioRH" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalCuidadoMobile">
+        <div class="modal-content" id="contenedorTabla5">
+            <div class="modal-header bg-altima">
+                <h5 class="modal-title" id="exampleModalLongTitle">Horarios <button onclick="agregarHorario()"
+                        class="btn btn-light btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"
+                        data-placement="right" data-content="Agregar"><i class="fas fa-plus text-altima"></i></button>
+                </h5>
+                <button type="button" class="close" id="closeHorario" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered" id="tableHorarios" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Hora inicial</th>
+                            <th>Hora final</th>
+                            <th>Inicio Comida</th>
+                            <th>Final Comida</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

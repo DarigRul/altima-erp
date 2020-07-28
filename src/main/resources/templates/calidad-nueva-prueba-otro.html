@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Calidad | Altima</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header)sube -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Calidad&nbsp;<a th:href="@{'/calidad'}" class="btn btn-sm icon-btn btn-danger text-white"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Dise&ntilde;o</li>
+                                <li class="breadcrumb-item active">Calidad</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Nuevas pruebas de calidad</h3>
+                                </div>
+                                <div class="card-body">
+
+                                  <form class="row" th:action="@{/calidad-nueva-prueba-otro}" th:object="${diseniocalidad}" method="post"
+					enctype="multipart/form-data">
+					<input type="hidden" th:field="*{idMaterial}" class="form-control">
+					<input type="hidden" th:field="*{idCalidad}" class="form-control">
+					<input type="hidden" th:field="*{idText}" class="form-control">
+					<input type="hidden" th:field="*{creadoPor}" class="form-control">
+					<input type="hidden" th:field="*{actualizadoPor}" class="form-control">
+					<input type="hidden" th:field="*{fechaCreacion}" class="form-control">
+					<input type="hidden" th:field="*{ultimaFechaModificacion}" class="form-control">
+					<input type="hidden" th:field="*{estatus}" class="form-control">
+					<input type="hidden" th:field="*{tipoMaterial}" class="form-control">
+					
+                                        <div class="form-group col-sm-12" bis_skin_checked="1">
+                                            <label for="documentoOtroMaterial">Resultados</label>
+                                            <div class="input-group" bis_skin_checked="1">
+                                                <div class="custom-file" bis_skin_checked="1">
+                                                    <input type="file" class="custom-file-input"  th:name="file" th:id="inputGroupFile">
+                                                    <label for="inputGroupFile" class="custom-file-label" th:utext="${diseniocalidad.archivoRuta}">Foto</label>
+                                                     
+                                                   <!--   <label class="custom-file-label" for="documentoOtroMaterial">Elije un archivo</label>--->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-6" bis_skin_checked="1">
+                                            <label for="durabilidadOtroMaterial">Durabilidad</label>
+                                            <div class="custom-control custom-radio">
+                                                <input class="custom-control-input" type="radio" th:field="*{durabilidad}" value="Bueno">
+                                                <label for="durabilidad1" class="custom-control-label">Bueno</label>
+                                            </div>
+                                            <div class="custom-control custom-radio" bis_skin_checked="1">
+                                                <input class="custom-control-input" type="radio" th:field="*{durabilidad}"  value="Regular">
+                                                <label for="durabilidad2" class="custom-control-label">Regular</label>
+                                            </div>
+                                            <div class="custom-control custom-radio" bis_skin_checked="1">
+                                                <input class="custom-control-input" type="radio" th:field="*{durabilidad}"  value="Malo">
+                                                <label for="durabilidad3" class="custom-control-label">Malo</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-6" bis_skin_checked="1">
+                                            <label for="resistenciaOtroMaterial">Resistencia</label>
+                                            <div class="custom-control custom-radio" bis_skin_checked="1">
+                                                <input class="custom-control-input" type="radio" th:field="*{resistencia}" value="Bueno">
+                                                <label for="resistencia1" class="custom-control-label">Bueno</label>
+                                            </div>
+                                            <div class="custom-control custom-radio" bis_skin_checked="1">
+                                                <input class="custom-control-input" type="radio" th:field="*{resistencia}" value="Regular">
+                                                <label for="resistencia2" class="custom-control-label">Regular</label>
+                                            </div>
+                                            <div class="custom-control custom-radio" bis_skin_checked="1">
+                                                <input class="custom-control-input" type="radio" th:field="*{resistencia}" value="Malo">
+                                                <label for="resistencia3" class="custom-control-label">Malo</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <a th:href="@{'/calidad'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                                            <button type="submit" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+    <script>
+        $('#iDiseno').removeClass('text-altima');
+        $('#menuDiseno').addClass('menu-open');
+        $('#navDiseno').addClass('active-altima');
+        $('#navDiseno1').addClass('active');
+    </script>
+    <script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+	    	  position: 'center',
+	          icon: /*[[${icon}]]*/  ,
+	          title: /*[[${title}]]*/,
+	          showConfirmButton: false,
+	          timer: 1250
+	    });
+	</script>
+	<script>
+		  $('#inputGroupFile').on('change',function(){
+              var fileName = $(this).val().replace('C:\\fakepath\\', " ");
+              $(this).next('.custom-file-label').html(fileName);
+          })
+    </script>
+</body>

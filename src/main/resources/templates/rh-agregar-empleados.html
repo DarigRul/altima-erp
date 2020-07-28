@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Empleados | Altima</title>
+</head>
+<style>
+    .contain {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    #form1 {
+        width: auto;
+    }
+    
+    .alert {
+        text-align: center;
+    }
+    
+    #blah {
+        max-height: 150px;
+        height: auto;
+        width: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 5px;
+    }
+    
+    #img_contain {
+        border-radius: 5px;
+        /*  border:1px solid grey;*/
+        width: auto;
+    }
+    
+    .input-group {
+        margin-left: calc(calc(100vw - 450px)/2);
+        margin-top: 20px;
+        width: 320px;
+    }
+    
+    .imgInp {
+        width: 150px;
+        padding: 10px;
+        background-color: #d3d3d3;
+    }
+    
+    .loading {
+        animation: blinkingText ease 2.5s infinite;
+    }
+    
+    @keyframes blinkingText {
+        0% {
+            color: #000;
+        }
+        50% {
+            color: #transparent;
+        }
+        99% {
+            color: transparent;
+        }
+        100% {
+            color: #000;
+        }
+    }
+    
+    .custom-file-label {
+        cursor: pointer;
+    }
+</style>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Empleados&nbsp;<a th:href="@{/rh-empleados}"><button
+                              class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
+                              data-toggle="popover" data-placement="right" data-content="Regresar"><i
+                                 class="fas fa-arrow-left"></i></button></a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Recursos Humanos</li>
+                                <li class="breadcrumb-item active">Empleados</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="card">
+                        <div class="card-header bg-altima">
+                            <h5 class="card-title">Agregar empleado</h5>
+                        </div>
+                        <div class="card-body">
+                            <form class="row" th:object="${empleado}" th:action="@{/guardar-empleado}" th:method="post">
+                                <div class="form-group col-md-12">
+                                    <div class="contain animated bounce">
+                                        <div id='img_contain'><img id="blah" align='middle' src="/dist/img/userCircle.png" alt="your image" title='' /></div>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" id="inputGroupFile01" class="imgInp custom-file-input" aria-describedby="inputGroupFileAddon01">
+                                                <label class="custom-file-label" for="inputGroupFile01">Elegir foto</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="">Nombre</label>
+                                    <input type="text" class="form-control" th:field="*{nombrePersona}" id="" aria-describedby="emailHelp" placeholder="Leonardo" autofocus>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="">Apellido paterno</label>
+                                    <input type="text" class="form-control" th:field="*{apellidoPaterno}" id="" aria-describedby="emailHelp" placeholder="Linares">
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="">Apellido materno</label>
+                                    <input type="text" class="form-control" th:field="*{apellidoMaterno}" id="" aria-describedby="emailHelp" placeholder="Castillo">
+                                </div>
+
+                                <div class="form-group col-md-5">
+                                    <label for="">Fecha de nacimiento</label>
+                                    <input type="date" th:field="*{fechaNacimiento}" class="form-control" id="" aria-describedby="emailHelp">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="">Correo electr&oacute;nico</label>
+                                    <input type="email" class="form-control" th:field="*{correoElectronico}" id="" aria-describedby="emailHelp" placeholder="correo@hotmail.com">
+                                </div>
+                                <div class="form-group col-md-1">
+                                    <div class="custom-control custom-switch" style="margin-top: 40px;">
+                                        <input type="checkbox" class="custom-control-input" th:field="*{permiso}" th:value="true" id="customSwitch1">
+                                        <label class="custom-control-label" for="customSwitch1">Permiso</label>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-group col-md-3">
+                                    <label for="">No. Empleado</label>
+                                    <input type="number" class="form-control" id="" aria-describedby="emailHelp"
+                                        placeholder="12345">
+                                </div> -->
+                                <div class="form-group col-md-4">
+                                    <label for="inputState">Empresa</label>
+                                    <select id="inputState" th:field="*{idEmpresa}" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                                        <option th:each="empresa: ${empresas}" th:text="${empresa.nombreLookup}"
+                                            th:value="${empresa.idLookup}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputState">&Aacute;rea</label>
+                                    <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="area" onchange="listarDepartamentos(this.value)">
+                                        <option th:each="empresa:${listEmpresas}" th:value="${empresa.idLookup}" th:text="${empresa.nombreLookup}"></option>
+                                      </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputState">Departamento</label>
+                                    <select class="form-control selectpicker" id="departamento" onchange="listarPuestos(this.value)" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="inputState">Puesto</label>
+                                    <select class="form-control selectpicker" th:field="*{idPuesto}" id="puestos" onchange="listarSueldos()" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="">Fecha de ingreso</label>
+                                    <input type="date" class="form-control" th:field="*{fechaIngreso}" aria-describedby="emailHelp" placeholder="12345">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="">Salario</label>
+                                    <input type="number" class="form-control" th:field="*{sueldo}" id="" aria-describedby="emailHelp" placeholder="12345" min="1">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="">Categoría</label>
+                                    <input type="text" class="form-control" id="" th:field="*{categoria}" aria-describedby="emailHelp" placeholder="Especifique">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <a th:href="@{'/rh-empleados'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Cancelar</a>
+                                    <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+                                </div>
+                                <input type="hidden" id="idEmpleado" th:field="*{idEmpleado}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </section>
+        </div>
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/rh.js"></script>
+    <script src="/dist/js/plazas.js"></script>
+    <script th:if="${editar==true}" src="/dist/js/empleado.js"></script>
+    <script>
+        $('#iRH').removeClass('text-altima');
+        $('#menuRH').addClass('menu-open');
+        $('#navRH').addClass('active-altima');
+        $('#navRH2').addClass('active');
+    </script>
+    <script>
+        $("#inputGroupFile01").change(function(event) {
+            RecurFadeIn();
+            readURL(this);
+        });
+        $("#inputGroupFile01").on('click', function(event) {
+            RecurFadeIn();
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var filename = $("#inputGroupFile01").val();
+                filename = filename.substring(filename.lastIndexOf('\\') + 1);
+                reader.onload = function(e) {
+                    debugger;
+                    $('#blah').attr('src', e.target.result);
+                    $('#blah').hide();
+                    $('#blah').fadeIn(500);
+                    $('.custom-file-label').text(filename);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            $(".alert").removeClass("loading").hide();
+        }
+
+        function RecurFadeIn() {
+            console.log('ran');
+            FadeInAlert("Wait for it...");
+        }
+
+        function FadeInAlert(text) {
+            $(".alert").show();
+            $(".alert").text(text).addClass("loading");
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,313 @@
+<form class="row" th:object="${forro}" name="forroForm" id="forroForm" th:action="@{/guardar-forro}" enctype="multipart/form-data" method="post">
+	  <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+    <div class="form-group col-sm-6">
+        <label for="razonEmpresa">Porcentaje %</label>
+		<div class="input-group mb-3">
+			<input type="number" min="1"  id="telaComposicionf" class="form-control"  placeholder="100">
+			<div class="input-group-append">
+			  <span class="input-group-text">%</span>
+			</div>
+		  </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="status">Composici&oacute;n</label>
+		<div class="input-group mb-3">
+			<select id="telaFamcomposicionf" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+				<option th:each="lisCom: ${lisCom}"
+				th:value="${lisCom.idLookup}" th:text="${lisCom.nombreLookup}"></option>
+				
+			</select>
+			<div class="input-group-append" style="margin-left: 10px;">
+				<button type="button" id="adicionarf" onclick="guardarf()" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+			</div>
+		  </div>
+    </div>
+     <div class="form-group col-sm-12">
+		<table id="mytablef" class="table table-striped">
+			<thead>
+				<tr>
+					<th>Porcentaje %</th>
+					<th style="display:none;"></th>
+					<th>Composici&oacute;n</th>
+					<th>Eliminar</th>
+		
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="listForroComposicon: ${listForroComposicon}">
+		
+					<td th:text="${listForroComposicon[0]}"></td>
+					<td style="display:none;" th:text="${listForroComposicon[1]}"></td>
+					<td th:text="${listForroComposicon[2]}"></td>
+					<td> <button type="button" name="remove" onclick="eliminarf(this)"
+							class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span
+								class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
+					</td>
+		
+				</tr>
+			</tbody>
+		</table>
+    </div>
+	<div class="form-group col-sm-6">
+        <label for="razonEmpresa">Nombre</label>
+        <input type="text" th:field="*{nombreForro}" onblur="validarnombreForro()" class="form-control" placeholder="Forro" required>
+    </div>
+	
+	<div class="form-group col-sm-6">
+        <label for="razonEmpresa">Descripci&oacute;n</label>
+        <input type="text" th:field="*{descripcionForro}"  class="form-control" id="forroDescripcion" placeholder="Descripci&oacute;n" required>
+    </div>
+    
+    
+    <div class="form-group col-sm-4">
+        <label for="rfcEmpresa">Ancho(m)</label>
+        <input th:field="*{anchoForro}"  type="number" min="1" step="any" class="form-control"  placeholder="1.2" required>
+    </div>
+    <div class="form-group col-sm-4">
+        <label for="status">Color</label>
+        <input type="text" th:field="*{color}" required class="form-control" placeholder="Rojo">
+    </div>
+    
+    <div class="form-group col-sm-4">
+        <label for="status">C&oacute;digo Color</label>
+        <input required th:field="*{codigo_coolor}" type="color"  class="form-control" placeholder="Codigo Color">
+    </div>
+    
+    <div th:if="${EstatusCalidadForro == '2'}" class="form-group col-sm-6">      
+        <label for="status">Unidad de medida</label>
+        <select required class="form-control selectpicker"   th:field="*{idUnidadMedida}" data-live-search="true">
+       <option th:each="listLookupsMed:${listLookupsMed}"
+            
+                    th:value="${listLookupsMed[0]}"
+                    th:text="${listLookupsMed[1]}"
+            
+            />
+            </select>
+    </div>
+    
+    
+    
+    <div th:if="${EstatusCalidadForro == '2'}"  class="form-group col-sm-6">
+        <label for="rfcEmpresa">Existencias</label>
+        <input th:field="*{existenciaForro}"  type="number" min="0"  class="form-control"  placeholder="10" required>
+    </div>
+    
+    <!-- <div th:if="*{estatusForro  == '1'}"  class="form-group col-sm-4">
+        <label for="status">Forro Opcional 1</label>
+        <select required class="form-control" data-live-search="true" th:field="*{auxiliar1}">
+        	<option value=""  selected>Selecciona una..</option>
+         	<option th:each="listForrosAutori: ${listForrosAutori}"
+			th:value="${listForrosAutori.idForro}" th:text="${listForrosAutori.nombreForro}"></option>   
+		</select>
+    </div>
+    
+    
+    <div th:if="*{estatusForro  == '1'}"  class="form-group col-sm-4">
+        <label for="status">Forro Opcional 2</label>
+        <select required class="form-control" data-live-search="true" th:field="*{auxiliar2}">
+        	<option value=""  selected>Selecciona una..</option>
+         	<option th:each="listForrosAutori: ${listForrosAutori}"
+			th:value="${listForrosAutori.idForro}" th:text="${listForrosAutori.nombreForro}"></option>
+		</select>
+    </div>
+    
+    <div th:if="*{estatusForro  == '1'}"  class="form-group col-sm-4">
+        <label for="status">Forro Opcional 3</label>
+        <select required class="form-control" data-live-search="true" th:field="*{auxiliar3}">
+        	<option value=""  selected>Selecciona una..</option>
+         	<option th:each="listForrosAutori: ${listForrosAutori}"
+			th:value="${listForrosAutori.idForro}" th:text="${listForrosAutori.nombreForro}"></option>
+		</select>
+    </div> -->
+    
+    <div j class="col-sm-12">
+        <div class="form-group p-3 border p-2 rounded m-3">
+            <div class="row">
+                <div class="col-sm-3 text-center pt-2 border-right">
+                    <label for="mainImageForro"><img th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/forros/'+*{foto}}"  th:onerror="this.src='/dist/img/preview.png'" alt="Placeholder" id="serviceImageForro" class="placeholder img-thumbnail" aria-describedby="imagePreviewHelp" /></label>
+                    <small id="imagePreviewHelpForro" class="form-text text-muted">Previsualizaci&oacute;n de la imagen</small>
+                </div>
+                <div class="col">
+                    <label for="mainImageForro">Forro</label>
+                    <div class="input-group mb-3">
+                        <input type="file" name="imagenForro" th:value="*{foto}" class="form-control border p-1" id="mainImageForro"  />
+                        <div class="input-group-append">
+                            <span class="input-group-text bg-danger text-danger pointer" id="clearUploadForro"><i class="fas fa-times"></i></span>
+                        </div>
+                    </div>
+                    <small id="imageHelpForro" class="form-text text-muted">Selecciona la foto que desea subir.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="form-group col-sm-12">
+		<a th:href="@{/materiales}" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span
+			class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+		<button type="submit" onclick="arreglof()" class="btn btn-sm icon-btn btn-altima text-white float-right"><span
+				class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+	</div>
+    
+    <input name="EstatusCalidadForro" type="hidden" id="EstatusCalidadForro" th:value="${EstatusCalidadForro}">
+    <input name="txtTablaf" type="hidden" id="txtTablaf" value="">
+    <input name="txtTabla2f" type="hidden" id="txtTabla2f" value="">
+    
+    <input  type="hidden" th:field="*{idForro}">
+    <input  type="hidden" th:field="*{idText}">
+    <input  type="hidden" th:field="*{idTextProspecto}">
+    <input  type="hidden" th:field="*{creadoPor}">
+    <input  type="hidden" th:field="*{foto}">
+    <input  type="hidden" th:field="*{actualizadoPor}">
+    <input  type="hidden" th:field="*{fechaCreacion}">
+    <input  type="hidden" th:field="*{ultimaFechaModificacion}">
+     <input  type="hidden" th:field="*{estatusForro}">
+     <input  type="hidden" th:field="*{estatus}">
+    
+</form>
+
+<script>
+function guardarf(){
+	
+	if( document.getElementById("telaComposicionf").value == null || 
+			document.getElementById("telaComposicionf").value.length == 0 || 
+			/^\s+$/.test(document.getElementById("telaComposicionf").value) ||
+			 document.getElementById("telaFamcomposicionf").selectedIndex == null ||
+			 document.getElementById("telaFamcomposicionf").selectedIndex == "" ) {
+		Swal.fire({
+	          position: 'center',
+	          icon: 'error',
+	          title: 'Complete los campos porcentaje o composicion',
+	          showConfirmButton: false,
+	          timer: 3000
+	        });
+		}
+	
+	else {
+		  var telaComposicionf = document.getElementById("telaComposicionf").value;
+		    var telaFamcomposicionf = document.getElementById("telaFamcomposicionf").value;    
+		    var nombref = $( "#telaFamcomposicionf option:selected" ).text()
+		    
+		    var vali;
+    		var aux;
+    			$('#mytablef tr').each(function () {
+    				vali= $(this).find('td').eq(1).html();
+    				if ( vali == telaFamcomposicionf ){
+    					aux=0;
+    					Swal.fire({
+    		          		position: 'center',
+    		          		icon: 'error',
+    		          		title: 'Ya ha seleccionado esa composicion',
+    		          		showConfirmButton: false,
+    		          		timer: 3000
+    		        });
+    		}
+			
+		 });
+    		if (aux != 0){
+		  		var i = 1; //contador para asignar id al boton que borrara la fila
+		    	var fila = '<tr id="row' + i + '"><td>' + telaComposicionf + '</td> <td style="display:none;">' + telaFamcomposicionf + '</td> <td >' + nombref + '</td>  <td><button type="button" name="remove" id="' + i + '" onclick="eliminarf(this)" class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>   </tr>'; //esto seria lo que contendria la fila
+		    	i++;
+		    	$('#mytablef tr:first').after(fila);
+		    	$("#adicionadosf").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
+		    	var nFilas = $("#mytablef tr").length;
+		    	$("#adicionadosf").append(nFilas - 1);
+		    	//le resto 1 para no contar la fila del header
+		    	document.getElementById("telaComposicionf").value ="";
+		    	document.getElementById("telaFamcomposicionf").value = '';
+		  		$('#telaFamcomposicionf').change();
+    		}
+	}
+	   
+  
+   
+    
+    
+    
+    
+}
+function eliminarf(t) {
+	
+	  var td = t.parentNode;
+    var tr = td.parentNode;
+    var table = tr.parentNode;
+    table.removeChild(tr);
+	 
+	}
+	
+function arreglof() {
+	valores=new Array();
+	var compof="";
+	var idfamf="" ;
+	var contadorf=0;
+	$('#mytablef tr').each(function () {
+		compof=$(this).find('td').eq(0).html()+","+compof;
+		if ( $(this).find('td').eq(0).html() != null ){
+			var sumaf = $(this).find('td').eq(0).html();
+			contadorf = (Number(contadorf) +Number(sumaf));
+		}
+		
+		idfamf= $(this).find('td').eq(1).html()+","+idfamf;
+	      
+	  
+	  document.getElementById("txtTablaf").value = compof;
+	  document.getElementById("txtTabla2f").value = idfamf;
+	  
+	 });
+	
+	var formf = document.getElementById("forroForm");
+	formf.onsubmit = function(e){
+		if(contadorf == 100){
+		}else{
+			document.forroForm.telaComposicionf.focus()
+			Swal.fire({
+		          position: 'center',
+		          icon: 'error',
+		          title: 'Error es posible que el porcentaje no cumpla con el  100 % ',
+		          showConfirmButton: false,
+		          timer: 3000
+		        });
+			
+		e.preventDefault();
+		
+		}
+	}
+	
+	}
+	
+function validarnombreForro(){
+	
+	
+	console.log('hoola');
+	$.ajax({
+      	method: "POST",
+      	
+          url: "/buscar-forro-nombre",
+          data: { 
+          	 "_csrf": $('#token').val(),
+          	
+          	'nombre': $('#nombreForro').val()
+          	
+          },
+          
+         
+          success: (data) => {
+        	if ( data == 0 && $('#EstatusCalidadForro').val()==""){}
+        	
+        	else if (data == 0 ||data == 1 && $('#EstatusCalidadForro').val()==2) {}
+        	
+        	else{
+        		Swal.fire({
+					position: 'center',
+					icon: 'error',
+					title: 'Nombre de forro ya registrado',
+					showConfirmButton: false,
+					timer: 3000
+				});
+        		document.getElementById("nombreForro").placeholder = $('#nombreForro').val();
+        		$('#nombreForro').val('');
+        	}
+  		}
+  		 
+      })
+}
+	
+</script>

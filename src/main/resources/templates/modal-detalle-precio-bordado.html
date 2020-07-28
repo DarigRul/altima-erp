@@ -1,0 +1,63 @@
+<!-- Modal --> 
+<div class="modal fade" id="modalBordado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Lista de bordados</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="history.go(0);"  > <span aria-hidden="true">&times;</span> </button>
+			</div>
+			<form id="formBordado" name="formBordado"  th:action="@{/guardar-bordado}" method="POST" enctype="multipart/form-data">
+				
+				<div class="modal-body">
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="bordadoNombre">Precio</label> 
+							<input type="number" required step="any"  	class="form-control two-decimals" id="bordadoPrecio" name="bordadoPrecio" placeholder="50">
+							
+						</div>
+							<input type="hidden" class="form-control" id="id_coor_prenda" name="id_coor_prenda">
+							<input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+
+						<div class="form-group col-md-6">
+							<label for="exampleInputFile">Archivo bordado</label>
+							<div class="input-group">
+								<div class="custom-file">
+									<input type="file" required name="imagenTela" class="form-control border p-1" id="imagenTela" />
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-12 text-center">
+							<button type="submit" id="guardar_bordado"class="btn btn-primary" >Agregar</button>
+						</div>
+						
+					</div>
+				</div>
+				
+			</form>
+			
+			<div class="form-group col-md-12" id="contenedor">
+							<table class="table table-bordered tablaModalPrecio"
+								style="width: 100%" id="table">
+								<thead>
+									<tr>
+										<th>Precio</th>
+										<th>Archivo</th>
+										<th>Eliminar</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>50</td>
+										<td>Nombre del archivo</td>
+										<td class="text-center">
+											<button class="btn btn-danger">Eliminar</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+			
+			
+		</div>
+	</div>
+</div>

@@ -1,0 +1,122 @@
+<div class="card-body">
+    <div class="row d-none d-print-block">
+        <table class="table table-borderless table-sm">
+            <thead class="thead-dark">
+                <tr style=" border: 5px solid #343A40;border-right-width:0px;border-left-width:0px;border-top-width:0px;">
+                    <td style="width: 30%"><img class="h-50" src="/dist/img/logo.png"></td>
+                    <td style="width: 40%; font-size: 44px;" class="text-center"><strong>Reporte de Material</strong></td>
+                    <td style="width: 30%" class="text-right"><a class="fechaReporteMaterial"></a></td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div class="form-group col-sm-12" th:if="${material[15] == '0'}">
+        <table id="mytable" class="table table-hover"> 
+            <thead class="thead-dark">
+                    <tr>
+                        <th width="33%" colspan="2">Imagen material:</th>
+                        <th width="33%" colspan="2">Clave:</th>
+                        <th width="33%" colspan="2">Nombre:</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><img th:src="@{'/uploads/material/' + ${material[13]}}" th:onerror="this.src='/dist/img/preview.png'" id="serviceImageTela" height="150" width="150" aria-describedby="imagePreviewHelp" /></td>
+                        <td colspan="2" th:text="${material[0]}"></td>
+                        <td colspan="2" th:text="${material[1]}"></td>
+                    </tr>
+            </thead>
+        </table>    
+    </div>
+    <br>
+    
+    
+        <div class="form-group col-sm-12" th:if="${material[15] == '1'}">
+            <table id="mytable" class="table table-hover"> 
+                <thead class="thead-dark">
+                        
+                        <tr>
+                            <th width="33%" colspan="2">Imagen material:</th>
+                            <th width="33%" colspan="2">Clave:</th>
+                            <th width="33%" colspan="2">Nombre:</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><img th:src="@{'/uploads/material/' + ${material[13]}}" th:onerror="this.src='/dist/img/preview.png'" id="serviceImageTela" height="150" width="150" aria-describedby="imagePreviewHelp" /></td>
+                            <td colspan="2" th:text="${material[14]}"></td>
+                            <td colspan="2" th:text="${material[1]}"></td>
+                        </tr>
+                </thead>
+            </table>    
+        </div>
+        <br>
+
+        <div class="form-group col-sm-12">
+            <table id="datos" class="table table-hover">
+                <thead class="thead-dark">
+                        <tr>
+                            <th width="50%" colspan="2">Tipo de material:</th>
+                            <th width="50%" colspan="2">Tipo de material:</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" th:text="${material[2]}"></td>
+                            <td colspan="2" th:text="${material[7]}"></td>
+                        </tr>
+                    </thead>
+                </table>    
+            </div>
+            <br>
+
+            <div class="form-group col-sm-12">
+                <table id="datos" class="table table-hover">
+                    <thead class="thead-dark">    
+                        <tr>
+                            <th width="50%" colspan="2">Modelo:</th>
+                            <th width="50%" colspan="2">Tamaño:</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2"th:text="${material[6]}"></td>
+                            <td colspan="2"th:text="${material[4]}"> <a th:text="${material[5]}"></a></td>
+                        </tr>
+                    </thead>
+                </table>    
+            </div>
+            <br>    
+
+            <div class="form-group col-sm-12">
+                <table id="datos" class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th width="50%" colspan="2">Uso:</th>
+                            <th width="50%" colspan="2">Color:</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2"th:text="${material[9]}"></a></td>
+                            <td colspan="2"th:text="${material[3]}"></a> <i class="fas fa-tint" th:style="'color:'+${material[12]}+';font-size: 20px;'"></i></td>
+                        </tr>
+                    </thead>
+                </table>    
+            </div>
+            <br>
+            
+            <div class="form-group col-sm-12">
+                <table id="datos" class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th width="33%" colspan="2">Proveedores:</th>
+                            <th width="33%" colspan="2">Precio Unitario:</th>
+                            <th width="33%" colspan="2">Descripci&oacute;n:</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2" th:text="${material[10]}"></a></td>
+                            <td colspan="2" th:text="${material[8]}"></a>.00</td>
+                            <td colspan="2" th:text="${material[11]}"></a></td>
+                        </tr>
+                        
+                    </thead>
+                </table>
+            </div>
+             
+    </div>
+            <!-- /.card-body -->
+    
+    
+    

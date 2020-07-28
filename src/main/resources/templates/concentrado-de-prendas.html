@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Carga de pedidos | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Concentrado de prendas <button id="AgregarPrendaEmpleadoPlus" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button> <a th:href="@{/carga-de-pedidos}"><button data-toggle="popover"class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1>
+                        </div>
+                        <div th:insert="modal-concentrado-de-prendas"></div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a th:href="@{'/'}">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Agentes de Venta</li>
+                                <li class="breadcrumb-item active">Carga de Pedidos</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-dark">
+                                    <h3 class="card-title">Lista de empleados y coordinados</h3>
+                                </div>
+                                <div class="card-body" id="ContenedorDeTabla">
+	                                <div class="row">
+	                                	<div class="form-group col-md-6">
+											<label for="cargaEmpresa">Coordinado</label>
+											<div class="spinner-border text-primary spinner-border-sm" role="status" id="CargandoCoordinados" style="display: none">
+	  											<span class="sr-only">Loading...</span>
+											</div>
+											<select id="ListaCoordinadosGeneral" class="form-control selectpicker" data-live-search="true" title="Selecciona uno...">
+												<option th:each="coordinado: ${coordinados}" th:value="${coordinado.idCoordinado}" th:text="${coordinado.idText}"></option>
+											</select>
+										</div>
+		                                <div class="form-group col-md-6">
+											<label for="cargaEmpresa">Tipo de concentrado</label>
+											<div class="spinner-border text-primary spinner-border-sm" role="status" id="CargandoTipoConcentrado" style="display: none">
+	  											<span class="sr-only">Loading...</span>
+											</div>
+											<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." name="cargaTipopedido" id="cargaTipopedido">
+												<option value='1'>Concentrado general</option>
+												<option value='2'>Concentrado especial</option>
+											</select>
+										</div>
+									</div>
+                                    <table class="table table-bordered tablaConcentrado" id="TablaGeneral">
+                                        <thead>
+                                            <tr>
+                                                <th>Coordinado</th>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <th colspan="2">Coordinado</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Modelo</th>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <th colspan="2">Modelo</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Clave Tela</th>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <th colspan="2">Clave Tela</th>
+                                            </tr>
+                                            <tr>
+                                            	<th>Prenda</th>
+                                            	<td></td>
+                                            	<td></td>
+                                            	<td></td>
+                                            	<td></td>
+                                            	<th colspan="2">Prenda</th>
+                                            </tr>
+                                            <tr>
+                                            	<th>Color</th>
+                                            	<td></td>
+                                            	<td></td>
+                                            	<td></td>
+                                            	<td></td>
+                                            	<th colspan="2">Color</th>
+                                            </tr>
+                                            <tr>
+                                            	<th>Empleado(a)</th>
+                                            	<th colspan="4"></th>
+                                            	<th>Total</th>
+                                            	<th>Editar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        	<!-- <tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td class="text-center">
+                                                	<button data-toggle="modal" data-target="#modalConcentradoPrendas" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                </td>
+                                        	</tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <input type="hidden" th:value="${idPedido}" id="idPedido">
+         <input type="hidden" id="idEmpleado">
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+    <script th:src="@{/dist/js/sweetalert.js}"></script>
+    <script>  
+    		    var table = $('.tablaConcentradoModal')
+    		        .DataTable({
+    		            "ordering": false,
+    		            "pageLength": 5,
+    		            "responsive": true,
+    		            "stateSave":true,
+    		            "drawCallback": function() {
+    		                $('.popoverxd').popover({
+    		                    container: 'body',
+    		                    trigger: 'hover'
+    		                });
+    		              },
+    		              "columnDefs": [{
+    		                  "type": "html",
+    		                  "targets": '_all'
+    		                }],
+    		            "lengthMenu": [
+    		                [5, 10, 25, 50, 100],
+    		                [5, 10, 25, 50, 100]
+    		            ],
+    		            "language": {
+    		                "sProcessing": "Procesando...",
+    		                "sLengthMenu": "Mostrar _MENU_ registros",
+    		                "sZeroRecords": "No se encontraron resultados",
+    		                "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+    		                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+    		                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+    		                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+    		                "sInfoPostFix": "",
+    		                "sSearch": "Buscar:",
+    		                "sUrl": "",
+    		                "sInfoThousands": ",",
+    		                "sLoadingRecords": "Cargando...",
+    		                "oPaginate": {
+    		                    "sFirst": "Primero",
+    		                    "sLast": "Último",
+    		                    "sNext": "Siguiente",
+    		                    "sPrevious": "Anterior"
+    		                },
+    		                "oAria": {
+    		                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+    		                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+    		                },
+    		                "buttons": {
+    		                    "copy": "Copiar",
+    		                    "colvis": "Visibilidad"
+    		                }
+    		            }
+    		        });
+    		    new $.fn.dataTable.FixedHeader(table);
+    		    
+    		    var tablaModal =  table;
+
+    </script>
+    <script>  
+    		    var table1 = $('.tablaConcentrado')
+    		        .DataTable({
+    		            "ordering": false,
+    		            "pageLength": 5,
+    		            "responsive": true,
+    		            "stateSave":true,
+    		            "drawCallback": function() {
+    		                $('.popoverxd').popover({
+    		                    container: 'body',
+    		                    trigger: 'hover'
+    		                });
+    		              },
+    		              "columnDefs": [{
+    		                  "type": "html",
+    		                  "targets": '_all'
+    		                }],
+    		            "lengthMenu": [
+    		                [5, 10, 25, 50, 100],
+    		                [5, 10, 25, 50, 100]
+    		            ],
+    		            "language": {
+    		                "sProcessing": "Procesando...",
+    		                "sLengthMenu": "Mostrar _MENU_ registros",
+    		                "sZeroRecords": "No se encontraron resultados",
+    		                "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+    		                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+    		                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+    		                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+    		                "sInfoPostFix": "",
+    		                "sSearch": "Buscar:",
+    		                "sUrl": "",
+    		                "sInfoThousands": ",",
+    		                "sLoadingRecords": "Cargando...",
+    		                "oPaginate": {
+    		                    "sFirst": "Primero",
+    		                    "sLast": "Último",
+    		                    "sNext": "Siguiente",
+    		                    "sPrevious": "Anterior"
+    		                },
+    		                "oAria": {
+    		                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+    		                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+    		                },
+    		                "buttons": {
+    		                    "copy": "Copiar",
+    		                    "colvis": "Visibilidad"
+    		                }
+    		            }
+    		        });
+    		    new $.fn.dataTable.FixedHeader(table1);
+    </script>
+   <script src="/dist/js/ConcentradoPrendas.js"></script>
+   	<script>
+		$('#iComercial').removeClass('text-primary');
+		$('#menuComercial').addClass('menu-open');
+		$('#navComercial').addClass('active');
+		$('#menuVenta').addClass('menu-open');
+		$('#navVenta').addClass('active');
+		$('#navVenta4').addClass('active');
+	</script>
+	<script>
+	/*<![CDATA[*/
+	var message = /*[[${modelos}]]*/ 'default';
+	/*]]>*/
+	
+	var PrendasEmpleado = [];
+	
+	//Objetos vacios para almacenar los modelos que ya se han agregado, temporalmente
+	var ModelosAgregados = [];
+	var ModelosAgregadosEditar = [];
+	
+	//Se esconde el carga de modelos
+	$('#CargandoModelos').hide();
+	$('#CargandoCoordinados').hide();
+	$('#BotonCargandoGuardando').hide();
+	
+	//Se deshabilita el select de General y Especial
+	$("#cargaTipopedido").prop('disabled', true);
+	
+	//ID del coordinado actual global
+	var idCoordinado = 0;
+	</script>
+</body>
+
+</html>

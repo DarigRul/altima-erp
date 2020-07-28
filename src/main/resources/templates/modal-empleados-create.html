@@ -1,0 +1,149 @@
+<div class="modal fade" id="addEmpleados" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg"
+		role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Cambiar datos
+					del empleado</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body col-md">
+				<div class="row col-md-12">
+					<label for="coorSelectForm">Seleccione uno...</label> <select
+						class="form-control selectpicker" id="coorSelectForm">
+						<option value="listaSelect">Listado de empleados</option>
+						<option value="stockSelect">Stock pendiente por fabricar</option>
+						<option value="registroSelect">Registrar un Empleado</option>
+					</select>
+				</div>
+				<br>
+				<div id="listaEmpleadosForm">
+
+					<form class="row" id="listaEmpleados"
+						th:action="@{'/guardar-empleado-empresa/'+${idPedido}+'/'+${idcliente}}"
+						enctype="multipart/form-data" method="post">
+						<input type="hidden" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}" />
+						<div class="form-group col-md-4">
+							<label for="exampleInputFile">Lista de empleados</label>
+							<div class="input-group">
+								<div class="custom-file">
+									<!-- <input type="file" value="file" class="custom-file-input"> -->
+									<!-- <label class="custom-file-label"  type="archivo" name="archivo" id="archivo" for="archivoEmpleados">Selecciona un archivo</label>-->
+									<input type="file" required name="archivoss"
+										class="form-control border p-1" id="archivoss" />
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="coorSurcusalModal">Sucursal</label> <select
+								class="form-control selectpicker" data-live-search="true"
+								id="coorSucursalModal" name="get_sucursal_id_modal">
+								<option th:each="getlistSucursal, iterstat: ${getlistSucursal}"
+									th:value="${getlistSucursal.IdClienteSucursal}"
+									th:text="${getlistSucursal.NombreSucursal}"></option>
+							</select>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="coorPrendaModal">Raz&oacute;n social</label> <select
+								class="form-control selectpicker" data-live-search="true"
+								id="coorPrendaModal" name="get_factura_id_modal">
+								<option th:each="getlistfactura, iterstat: ${getlistfactura}"
+									th:value="${getlistfactura.idClienteFacturaF}"
+									th:text="${getlistfactura.razon_socialF}"></option>
+							</select>
+						</div>
+						<div class="form-group col-md-4"></div>
+						<div class="form-group col-sm-12">
+							<a data-dismiss="modal" class="btn btn-danger text-white">Cancelar</a>
+							<input type="submit" id="archivoempleado"
+								class="btn btn-primary next-step float-right"
+								value="GuardarExcel">
+						</div>
+						<div class="form-group col-md-4"></div>
+					</form>
+				</div>
+				<div id="SPF" style="display: none">
+					<form class="row"  id="stock"
+					 th:action="@{'/stockfabrica/'+${idPedido}+'/'+${idcliente}}" method="post">
+					 
+						<div class="form-group col-md-4">
+							<label for="coorSPFStock">Stock pendiente por fabricar</label> <input
+								type="number" class="form-control" id="coorSPFStock" name="coorSPFStock"
+								placeholder="2000" required>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="coorPrendaStock">Sucursal</label> <select
+								class="form-control selectpicker" data-live-search="true"
+								id="coorSucursalStock" name="coorSucursalStock">
+								<option th:each="getlistSucursal, iterstat: ${getlistSucursal}"
+									th:value="${getlistSucursal.IdClienteSucursal}"
+									th:text="${getlistSucursal.NombreSucursal}"></option>
+							</select>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="coorRazonsocialStock">Raz&oacute;n social</label> <select
+								class="form-control selectpicker" data-live-search="true"
+								id="coorRazonsocialStock" name="coorRazonsocialStock">
+								<option  th:each="getlistfactura, iterstat: ${getlistfactura}"
+									th:value="${getlistfactura.idClienteFacturaF}"
+									th:text="${getlistfactura.razon_socialF}">.</option>
+							</select>
+						</div>
+						<div class="form-group col-md-4"></div>
+						<div class="form-group col-sm-12">
+							<a data-dismiss="modal" class="btn btn-danger text-white">Cancelar</a>
+							<input type="submit"
+								class="btn btn-primary next-step float-right" value="Guardar Stock">
+						</div>
+						<div class="form-group col-md-4"></div>
+					</form>
+				</div>
+				<div id="varegistroempleado" style="display: none">
+					<form class="row"  id="ingresarempleado"
+					 th:action="@{'/registroempleadonombre/'+${idPedido}+'/'+${idcliente}}" method="POST">
+						<div class="form-group col-md-4">
+							<label for="coorRegistroempleado">Registrar un Empleado</label> <input
+								type="text" class="form-control" id="coorRegistroempleado" name="coorRegistroempleado"
+								placeholder="Registrar Nombre" required>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="coorPrendaStock">Sucursal</label> <select
+								class="form-control selectpicker" data-live-search="true"
+								id="coorSucursalRegistro" name="coorSucursalRegistro">
+								<option th:each="getlistSucursal, iterstat: ${getlistSucursal}"
+									th:value="${getlistSucursal.IdClienteSucursal}"
+									th:text="${getlistSucursal.NombreSucursal}"></option>
+							</select>
+						</div>
+						<div class="form-group col-md-4">
+							<label for="coorRazonsocialStock">Raz&oacute;n social</label> <select
+								class="form-control selectpicker" data-live-search="true"
+								id="coorRazonsocialRegistro" name="coorRazonsocialRegistro">
+								<option  th:each="getlistfactura, iterstat: ${getlistfactura}"
+									th:value="${getlistfactura.idClienteFacturaF}"
+									th:text="${getlistfactura.razon_socialF}">.</option>
+							</select>
+						</div>
+						<div class="form-group col-md-4"></div>
+						<div class="form-group col-sm-12">
+							<a data-dismiss="modal" class="btn btn-danger text-white">Cancelar</a>
+							<input type="submit"
+								class="btn btn-primary next-step float-right" value="Guardar Registro">
+						</div>
+						<div class="form-group col-md-4"></div>
+					</form>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	
+</script>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Cat&aacute;logos | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Cat&aacute;logos</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Recursos Humanos</li>
+                                <li class="breadcrumb-item active">Cat&aacute;logos</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Small boxes (Stat box) -->
+                    <div class="row">
+                        <!-- EMPRESAS O UNIDADES DE NEGOCIO -->
+                        <div th:insert="rh-empresas" class="col-lg-6 col-6" id="empresa"></div>
+                        <!-- AREAS -->
+                        <div th:insert="rh-areas" class="col-lg-6 col-6" id="areas"></div>
+                        <!-- DEPARTAMENTOS -->
+                        <div th:insert="rh-departamentos" class="col-lg-6 col-6" id="deptos"></div>
+                        <!-- PUESTOS -->
+                        <div th:insert="rh-puestos" class="col-lg-6 col-6" id="puestos"></div>
+                        <!-- HORARIOS -->
+                        <div th:insert="rh-horarios" class="col-lg-6 col-6" id="horarios"></div>
+                        <!-- CALENDARIOS -->
+                        <div th:insert="rh-calendarios" class="col-lg-6 col-6" id="calendarios"></div>
+
+                        <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- Main row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+
+    <!-- ./wrapper -->
+    <div th:insert="navegacion-scripts"></div>
+    <script src="dist/js/rh-tablas.js"></script>
+    <script src="dist/js/rh.js"></script>
+
+    <script>
+        $('#iRH').removeClass('text-altima');
+        $('#menuRH').addClass('menu-open');
+        $('#navRH').addClass('active-altima');
+        $('#navRH1').addClass('active');
+    </script>
+</body>
+
+</html>

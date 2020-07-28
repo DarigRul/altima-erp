@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Administraci&oacute;n de usuarios | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Usuarios&nbsp;<a th:href="${'agregar_usuario'}"><button class="bt btn-primary popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar" style="border-radius: 100%;"><i class="fas fa-plus fa-sm"></i></button></a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Usuarios</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-dark">
+                                    <h3 class="card-title">Consulta de usuarios</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaUsuarios table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                            	<th>ID</th>
+                                                <th>Username</th>
+                                                <th>Estatus</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="usuario:${usuarios}">
+                                                <td><a th:text="${usuario[0]}" th:href="'/editar_usuario/'+${usuario[3]}" ></a></td>
+                                                <td th:text="${usuario[1]}"></td>
+                                                <td th:text="${usuario[2]}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+     <!-- Datatables Plugin-->
+    <script src="dist/js/jquery.dataTables.min.js"></script>
+    <script src="dist/js/dataTables.buttons.min.js"></script>
+    <script src="dist/js/buttons.colVis.min.js"></script>
+    <!-- Bootstrap Datatables Plugin-->
+    <script src="dist/js/dataTables.bootstrap4.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="dist/js/demo.js"></script>
+   	<script>
+		function changeClassById() {
+			document.getElementById("menuDiseno").className = "nav-item has-treeview menu-open";
+			document.getElementById("navDiseno").className = "nav-link active";
+			document.getElementById("navDiseno2").className = "nav-link active";
+		}
+		window.onload = changeClassById();
+		
+	</script>
+	<script>
+	$(document).ready(function() {
+	    var table = $('.tablaUsuarios')
+	        .DataTable({
+	            "ordering": false,
+	            "pageLength": 5,
+	            "responsive": true,
+	            "drawCallback": function() {
+	                $('.popoverxd').popover({
+	                    container: 'body',
+	                    trigger: 'hover'
+	                });
+	              },
+	            "lengthMenu": [
+	                [5, 10, 25, 50, 100],
+	                [5, 10, 25, 50, 100]
+	            ],
+	            "language": {
+	                "sProcessing": "Procesando...",
+	                "sLengthMenu": "Mostrar _MENU_ registros",
+	                "sZeroRecords": "No se encontraron resultados",
+	                "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+	                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+	                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+	                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+	                "sInfoPostFix": "",
+	                "sSearch": "Buscar:",
+	                "sUrl": "",
+	                "sInfoThousands": ",",
+	                "sLoadingRecords": "Cargando...",
+	                "oPaginate": {
+	                    "sFirst": "Primero",
+	                    "sLast": "Último",
+	                    "sNext": "Siguiente",
+	                    "sPrevious": "Anterior"
+	                },
+	                "oAria": {
+	                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+	                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	                },
+	                "buttons": {
+	                    "copy": "Copiar",
+	                    "colvis": "Visibilidad"
+	                }
+	            }
+	        });
+
+	});
+</script>
+</body>
+
+</html>

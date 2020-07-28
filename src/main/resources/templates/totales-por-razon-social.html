@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Carga de pedidos | Altima</title>
+</head>
+
+
+
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Totales por raz&oacute;n social <a th:href="@{/carga-de-pedidos}"><button data-toggle="popover"class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1> </div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a th:href="@{'/'}">Dashboard</a></li>
+								<li class="breadcrumb-item active">Agentes de Venta</li>
+								<li class="breadcrumb-item active">Carga de Pedidos</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card">
+								<div class="card-header bg-dark">
+									<h3 class="card-title">No. Pedido: 5050</h3> </div>
+								<div class="card-body">
+									<form class="row" name="form"  id="form" th:method="post" th:action="@{/guardar-total-razon}">
+										<div class="col-md-3">
+										
+										<input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+											<h5 class="text-center">Descuento &oacute; cargo</h5>
+											<div class="form-group text-center">
+												<label for="">%</label>
+												<input type="number" step="any" disabled class="form-control" id="descuentoCargoPorcentaje" name="descuentoCargoPorcentaje" onChange=" descuento (1);"  >
+											</div>
+											<div class="form-group text-center">
+												<label for="">Monto</label>
+												<input type="number" step="any" disabled class="form-control" id="descuentoCargoMonto" name="descuentoCargoMonto" onChange=" descuento (2);">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<h5 class="text-center">Forma de pago: anticipo</h5>
+											<div class="form-group text-center">
+												<label for="">%</label>
+												<input type="number" disabled class="form-control" id="anticipoPorcentaje" name="anticipoPorcentaje"  onChange="anticipo(1);">
+											</div>
+											<div class="form-group text-center">
+												<label for="">Monto</label>
+												<input type="number" disabled class="form-control" id="anticipoMonto" name="anticipoMonto"  onChange="anticipo(2);">
+											</div>
+										</div>
+										<div class="col-md-3">
+											<h5 class="text-center">Forma de pago: entrega</h5>
+											<div class="form-group text-center">
+												<label for="">%</label>
+												<input type="number" min="0" max="100" step="any" class="form-control" disabled id="entregaPorcentaje" name="entregaPorcentaje" onChange="entrega(1);" >
+											</div>
+											<div class="form-group text-center">
+												<label for="">Monto</label>
+												<input type="number" min="0"   step="any"class="form-control" disabled id="entregaMonto" name="entregaMonto" onChange="entrega(2);" >
+											</div>
+										</div>
+										<div class="col-md-3">
+											<h5 class="text-center">Forma de pago: ajustes</h5>
+											<div class="form-group text-center">
+												<label for="">%</label>
+												<input type="number" class="form-control" disabled id="ajustesPorcentaje" name="ajustesPorcentaje" >
+											</div>
+											<div class="form-group text-center">
+												<label for="">Monto</label>
+												<input type="number" class="form-control" disabled id="ajustesMonto"  name="ajustesMonto"    >
+											</div>
+										</div>
+										<input  type="hidden" id="aux-iva" name="aux-iva">
+										<input  type="hidden" id="aux-sub1" name="aux-sub1">
+										<input  type="hidden" id="aux-sub2" name="aux-sub2">
+										<input  type="hidden" id="aux-id" name="aux-id">
+										
+										<br>
+										<div class="form-group col-sm-12"> <a th:href="@{/carga-de-pedidos}" class="btn btn-danger">Cancelar</a>
+											
+											
+											<button type="button" class="btn btn-primary next-step float-right" onclick="agregar()">Guardar</button>
+											
+											</div>
+									</form>
+									<br>
+										<table class="table table-bordered tablaConcentrado">
+											<thead>
+												<tr>
+													<th>Raz&oacute;n social</th>
+													<th>Nombre raz&oacute;n social</th>
+													<th>No. Prendas</th>
+													<th>Subtotal 1</th>
+													<th>Descuento/Cargo</th>
+													<th>Subtotal 2</th>
+													<th>IVA</th>
+													<th>Total Pedido</th>
+													<th>Anticipo</th>
+													<th>Entrega</th>
+													<th>Saldo</th>
+													<th></th>
+											</thead>
+											<tbody>
+										
+												
+												 <tr th:each="lisTotal: ${lisTotal}">
+                                              
+                                                <td th:text="${lisTotal[1]}"></td>
+                                                <td th:text="${lisTotal[2]}"></td>
+                                                <td th:text="${lisTotal[3]}"></td>
+                                                <td th:text="${lisTotal[4]}"></td>
+                                                <td th:id="descuento+${lisTotal[0]}"  th:text="${lisTotal[5]}" ></td>
+                                                
+                                              <!--   <td th:if="${lisTotal[6] == 0.0}"  th:id="sub2+${lisTotal[0]}"  th:text="${lisTotal[4]}"></td>
+                                                <td th:if="${lisTotal[6] != 0.0}"  th:id="sub2+${lisTotal[0]}"  th:text="${lisTotal[6]}"></td> --> 
+                                                
+                                                <td th:id="sub2+${lisTotal[0]}"  th:text="${lisTotal[6]}"></td>
+                                                <td th:text="${lisTotal[7]}"></td>
+                                                <td th:id="total+${lisTotal[0]}"  th:text="${lisTotal[8]}"></td>
+                                                <td th:id="anticipo+${lisTotal[0]}" th:text="${lisTotal[9]}"></td>
+                                                <td th:id="entrega+${lisTotal[0]}" th:text="${lisTotal[10]}"></td>
+                                                <td th:id="saldo+${lisTotal[0]}" th:text="${lisTotal[11]}"></td>
+                                                <td>
+														<button data-toggle="popover" onclick="editar(this);" 
+														
+														
+														th:id="${lisTotal[0]}"
+														th:sub1="${lisTotal[4]}"
+														th:des="${lisTotal[5]}"
+														th:sub2="${lisTotal[6]}"
+														th:iva="${lisTotal[7]}"
+														th:total="${lisTotal[8]}"
+														th:anticipo="${lisTotal[9]}"
+														th:entrega="${lisTotal[10]}"
+														th:saldo="${lisTotal[11]}"
+														
+														th:anticipoEstatus="${lisTotal[12]}"
+														
+														
+														th:p1="${lisTotal[13]}"
+														th:p2="${lisTotal[14]}"
+														th:p3="${lisTotal[15]}"
+														th:p4="${lisTotal[16]}"
+														class="btn btn-success btn-circle btn-sm popoverxd" 
+														data-container="body" data-placement="top" 
+														data-content="Modificar"><i class="fas fa-dollar-sign"></i></button>
+												</td>
+                                                
+                                                
+                                            </tr>     
+											</tbody>
+										</table>
+										
+										
+										
+										
+									</div>
+									<!-- /.card-body -->
+								</div>
+								<!-- /.card -->
+							</div>
+						</div>
+					</div>
+			</section>
+			<!-- /.content -->
+			</div>
+			<!-- /.content-wrapper -->
+			<div th:insert="navegacion-footer"></div>
+		</div>
+		<!-- ./wrapper -->
+		<div th:replace="navegacion-scripts"></div>
+		<script>
+		$('#modificarPrecio').click(function(){
+			$('#descuentoCargoPorcentaje').prop('disabled', false);
+		    $('#descuentoCargoMonto').prop('disabled', false);
+		    $('#anticipoPorcentaje').prop('disabled', false);
+		    $('#anticipoMonto').prop('disabled', false);
+		    $('#ajustesPorcentaje').prop('disabled', false);
+		    $('#ajustesMonto').prop('disabled', false);
+		    $('#entregaPorcentaje').prop('disabled', false);
+		    $('#entregaMonto').prop('disabled', false);
+		});
+		</script>
+		<script>
+		$('#iComercial').removeClass('text-primary');
+		$('#menuComercial').addClass('menu-open');
+		$('#navComercial').addClass('active');
+		$('#menuVenta').addClass('menu-open');
+		$('#navVenta').addClass('active');
+		$('#navVenta4').addClass('active');
+		</script>
+		
+		 <script th:src="@{/dist/js/sweetalert.js}"></script>
+		 <script th:if="${icon != null}" th:inline="javascript">
+            Swal.fire({
+
+                position: 'center',
+                icon: /*[[${icon}]]*/ 'default',
+                title: /*[[${title}]]*/ 'default',
+                showConfirmButton: false,
+                timer: 2500
+            });
+        </script>
+		
+
+	<script>
+	 function cambiar(obj) {
+		    elem=obj.parentNode.parentNode;
+		    elem.style.background=obj.checked ? '#ff0' : '';
+		    }
+	function bloquear() {
+		$("#form")[0].reset();
+		$('#descuentoCargoPorcentaje').prop('disabled', true);
+	    $('#descuentoCargoMonto').prop('disabled', true);
+	    $('#anticipoPorcentaje').prop('disabled', true);
+	    $('#anticipoMonto').prop('disabled', true);
+	    $('#ajustesPorcentaje').prop('disabled', true);
+	    $('#ajustesMonto').prop('disabled', true);
+	    $('#entregaPorcentaje').prop('disabled', true);
+	    $('#entregaMonto').prop('disabled', true);
+	}
+		function editar(e) {
+			
+			$("#form")[0].reset();
+			var id = e.getAttribute("id");
+			var sub1 = e.getAttribute("sub1");
+			var des = e.getAttribute("des");
+			var sub2 = e.getAttribute("sub2");
+			var iva = e.getAttribute("iva");
+			var total = e.getAttribute("total");
+			var anticipo = e.getAttribute("anticipo");
+			var anticipoEstatus = e.getAttribute("anticipoEstatus");
+			var entrega = e.getAttribute("entrega");
+			var saldo = e.getAttribute("saldo");
+			
+			$('#descuentoCargoPorcentaje').prop('disabled', false);
+			$("#descuentoCargoPorcentaje").val(e.getAttribute("p1"));
+			$('#descuentoCargoMonto').prop('disabled', false);
+			$("#descuentoCargoMonto").val(des);
+			
+			
+			
+			if ( anticipoEstatus == 0 ){
+				$("#anticipoMonto").val('0.00');
+				$("#anticipoPorcentaje").val('0.00');
+			}
+			else{
+				$('#anticipoPorcentaje').prop('disabled', false);
+				$("#anticipoPorcentaje").val(e.getAttribute("p2"));
+				$('#anticipoMonto').prop('disabled', false);
+				$("#anticipoMonto").val(anticipo);
+				
+			}
+
+			$('#entregaPorcentaje').prop('disabled', false);
+			$('#entregaMonto').prop('disabled', false);
+			$("#entregaMonto").val(entrega);
+			$("#entregaPorcentaje").val(e.getAttribute("p3"));
+		
+			
+			$("#ajustesMonto").val(saldo);
+			$("#ajustesPorcentaje").val(e.getAttribute("p4"));
+			
+			
+			
+			$("#aux-iva").val(iva);
+			$("#aux-sub1").val(sub1);
+			$("#aux-sub2").val(sub2);
+			$("#aux-id").val(id);
+	
+		}
+	
+		function descuento(tipo) {
+			if ($("#descuentoCargoPorcentaje").val() == ''){
+				$("#descuentoCargoPorcentaje").val('0.00');	
+			}
+			if ($("#descuentoCargoMonto").val() == ''){
+				$("#descuentoCargoMonto").val('0.00');	
+			}
+			
+			if (tipo == 1) {
+				
+				var porcentaje = Number.parseFloat($("#descuentoCargoPorcentaje").val()).toFixed(2) ;
+				var montoDescuento =Number.parseFloat(((porcentaje / 100) * $("#aux-sub1").val())).toFixed(2);
+				$("#descuentoCargoMonto").val(montoDescuento);
+				$("#descuentoCargoPorcentaje").val(porcentaje);
+
+				//se agrega el iba al sub2
+				var sub2 =  Number.parseFloat(montoDescuento) + Number.parseFloat($("#aux-sub1").val());
+				var sub22 = Number.parseFloat(sub2).toFixed(2) 
+				
+				
+				sub2 = (sub2 * ($("#aux-iva").val() / 100) + sub2).toFixed(2);
+				$("#aux-sub2").val(sub2);
+				document.getElementById("descuento"+$("#aux-id").val()).textContent =montoDescuento; 
+				document.getElementById("sub2"+$("#aux-id").val()).textContent =sub22; 
+				document.getElementById("total"+$("#aux-id").val()).textContent =sub2; 
+			}
+			if (tipo == 2) {
+				var monto = Number.parseFloat($("#descuentoCargoMonto").val()).toFixed(2) ;
+				var porcentaje  = Number.parseFloat( ((monto * 100) / $("#aux-sub1").val())).toFixed(2);
+				$("#descuentoCargoPorcentaje").val(porcentaje);
+				$("#descuentoCargoMonto").val(monto);
+				
+				var sub2 = Number.parseFloat($("#descuentoCargoMonto").val())
+						+ Number.parseFloat($("#aux-sub1").val());
+				
+				 var sub22 = Number.parseFloat(sub2).toFixed(2) 
+				
+				
+				
+				// se agrega el iba al sub2
+				sub2 = (sub2 * ($("#aux-iva").val() / 100) + sub2).toFixed(2);
+				$("#aux-sub2").val(sub2);
+				document.getElementById("descuento"+$("#aux-id").val()).textContent =monto; 
+				document.getElementById("sub2"+$("#aux-id").val()).textContent =sub22; 
+				document.getElementById("total"+$("#aux-id").val()).textContent =sub2; 
+			}
+			
+
+			if (document.form.anticipoPorcentaje.disabled) {
+
+				var division = sub2 / 2;
+				$("#entregaMonto").val(division.toFixed(2));
+				$("#entregaMonto").change();
+
+				
+			} else {
+				var division = sub2 /2;
+				$("#entregaMonto").val(division.toFixed(2));
+				$('#anticipoMonto').val(division.toFixed(2));
+				document.getElementById("entrega"+$("#aux-id").val()).textContent =division.toFixed(2); 
+				document.getElementById("anticipo"+$("#aux-id").val()).textContent =division.toFixed(2); 				
+				$("#anticipoMonto").change();
+				$("#entregaMonto").change();
+				
+				$("#ajustesPorcentaje").val('0.00');
+				$("#ajustesMonto").val('0.00');
+
+			}
+			
+			
+		
+		}
+		
+		function entrega(tipo) {
+			if ($("#entregaPorcentaje").val() == ''){
+				$("#entregaPorcentaje").val('0.00');	
+			}
+			if ($("#entregaMonto").val() == ''){
+				$("#entregaMonto").val('0.00');	
+			}
+			
+			
+			if ($("#aux-sub1").val() ==  $("#aux-sub2").val()){	
+				
+				document.getElementById("sub2"+$("#aux-id").val()).textContent =$("#aux-sub2").val(); 
+				var sub2 = Number.parseFloat($("#aux-sub2").val() + 0);
+				sub2 = (sub2 * ($("#aux-iva").val() / 100 ) + sub2).toFixed(2);
+				console.log ($("#aux-iva").val());
+				$("#aux-sub2").val(sub2);
+				document.getElementById("total"+$("#aux-id").val()).textContent =sub2; 
+			}
+			
+			
+			if (tipo == 1) {
+				 var porcentaje = Number.parseFloat( $("#entregaPorcentaje").val() ).toFixed(2);
+				 if (porcentaje <= 100){
+					 
+				 var monto = Number.parseFloat( ((porcentaje/100)*$("#aux-sub2").val() )).toFixed(2);
+				 $("#entregaMonto").val(monto);
+				 $("#entregaPorcentaje").val(porcentaje);
+				 
+				 if (document.form.anticipoPorcentaje.disabled) {
+					 var porcentaje2 =  Number.parseFloat(100-porcentaje).toFixed(2);
+					 var monto2 = Number.parseFloat( $("#aux-sub2").val() -monto  ).toFixed(2);
+					$("#ajustesPorcentaje").val(porcentaje2);
+					$("#ajustesMonto").val(monto2);
+					
+					document.getElementById("entrega"+$("#aux-id").val()).textContent =monto; 
+					document.getElementById("saldo"+$("#aux-id").val()).textContent =monto2; 
+					 
+				 }
+				 else {
+					 
+					 console.log(100 - $("#anticipoPorcentaje").val());
+					 
+					 console.log('porcentaje: '+porcentaje);
+					if (  ( 100 - $("#anticipoPorcentaje").val() ) >= porcentaje ){
+						
+						 console.log('if de ');
+						var porcentaje2 =  Number.parseFloat(100-porcentaje-  $("#anticipoPorcentaje").val()).toFixed(2);
+						 var monto2 = Number.parseFloat( ($("#aux-sub2").val()-  $("#anticipoMonto").val() ) -monto  ).toFixed(2);
+						$("#ajustesPorcentaje").val(porcentaje2);
+						$("#ajustesMonto").val(monto2);
+						
+						
+						document.getElementById("entrega"+$("#aux-id").val()).textContent =monto; 
+						document.getElementById("saldo"+$("#aux-id").val()).textContent =monto2; 
+					}
+					else{
+						
+						$("#anticipoPorcentaje").change();
+						$("#ajustesPorcentaje").val('0.00');
+						$("#ajustesMonto").val('0.00');
+						
+						document.getElementById("entrega"+$("#aux-id").val()).textContent ='0.00'; 
+						document.getElementById("saldo"+$("#aux-id").val()).textContent ='0.00'; 
+						 
+					}
+					 
+				 }
+				
+				
+				 }
+				 else{
+				 console.log ("no sea invecil");
+				 $("#entregaMonto").val('');
+				 }
+
+			}
+			if (tipo == 2) {
+				
+				var monto = Number.parseFloat(  $("#entregaMonto").val() ).toFixed(2);
+				 if ( monto <=  Number.parseFloat( $("#aux-sub2").val()) ){
+				 var porcentaje = Number.parseFloat( (( monto *100)/$("#aux-sub2").val()).toFixed(2)).toFixed(2);
+				
+				 $("#entregaPorcentaje").val(porcentaje);
+				 $("#entregaMonto").val(monto);
+				
+				 if (document.form.anticipoPorcentaje.disabled) {
+					 var porcentaje2 =  Number.parseFloat(100-porcentaje).toFixed(2);
+					 var monto2 = Number.parseFloat( $("#aux-sub2").val() -monto  ).toFixed(2);					 
+					 $("#ajustesPorcentaje").val(porcentaje2);
+					$("#ajustesMonto").val(monto2);
+					
+					document.getElementById("entrega"+$("#aux-id").val()).textContent =monto; 
+					document.getElementById("saldo"+$("#aux-id").val()).textContent =monto2; 
+				 
+				 }
+				 
+				 else {
+					 
+					 
+ 						console.log(100 - $("#anticipoPorcentaje").val());
+					 
+					 console.log('porcentaje: '+porcentaje);
+					if (  ( 100 - $("#anticipoPorcentaje").val() ) >= porcentaje ){
+						
+						 console.log('if de ');
+						var porcentaje2 =  Number.parseFloat(100-porcentaje-  $("#anticipoPorcentaje").val()).toFixed(2);
+						 var monto2 = Number.parseFloat( ($("#aux-sub2").val()-  $("#anticipoMonto").val() ) -monto  ).toFixed(2);
+						$("#ajustesPorcentaje").val(porcentaje2);
+						$("#ajustesMonto").val(monto2);
+						
+						document.getElementById("entrega"+$("#aux-id").val()).textContent =monto; 
+						document.getElementById("saldo"+$("#aux-id").val()).textContent =monto2; 
+						
+					}
+					else{
+						
+						$("#anticipoPorcentaje").change();
+						$("#ajustesPorcentaje").val('0.00');
+						$("#ajustesMonto").val('0.00');
+						
+						document.getElementById("entrega"+$("#aux-id").val()).textContent ='0.00'; 
+						document.getElementById("saldo"+$("#aux-id").val()).textContent ='0.00'; 
+						 
+					}
+					 
+				 }
+				 
+				 }else{
+				 console.log ("no sea invecil");
+				 $("#entregaMonto").val('');
+				 }
+			}
+			
+		}
+		
+		
+		function anticipo(tipo) {
+			if ($("#anticipoPorcentaje").val() == ''){
+				$("#anticipoPorcentaje").val('0.00');	
+			}
+			if ($("#anticipoMonto").val() == ''){
+				$("#anticipoMonto").val('0.00');	
+			}
+			
+			if ($("#aux-sub1").val() ==  $("#aux-sub2").val()){	
+				document.getElementById("sub2"+$("#aux-id").val()).textContent =$("#aux-sub2").val(); 
+				
+				var sub2 = Number.parseFloat($("#aux-sub2").val());
+				
+				sub2 = (sub2 * ($("#aux-iva").val() / 100 ) + sub2).toFixed(2);
+				console.log ($("#aux-iva").val());
+				$("#aux-sub2").val(sub2);
+				document.getElementById("total"+$("#aux-id").val()).textContent =sub2; 
+			}
+			
+			
+			if (tipo == 1) {
+				 var porcentaje = Number.parseFloat($("#anticipoPorcentaje").val()).toFixed(2);
+					
+				 if (porcentaje <= 100){
+				 var monto = Number.parseFloat(  ((porcentaje/100)*$("#aux-sub2").val())).toFixed(2);
+				 $("#anticipoMonto").val(monto);
+				 $("#anticipoPorcentaje").val(porcentaje);
+				 
+				 
+				var porcentaje2 =  Number.parseFloat(100-porcentaje).toFixed(2);
+				var monto2 = Number.parseFloat( $("#aux-sub2").val() -monto  ).toFixed(2);
+				 $("#entregaPorcentaje").val(porcentaje2); 
+				 $("#entregaMonto").val(monto2);
+				 $("#ajustesPorcentaje").val('0.00');
+					$("#ajustesMonto").val('0.00');
+					document.getElementById("saldo"+$("#aux-id").val()).textContent ='0.00'; 
+					
+					document.getElementById("anticipo"+$("#aux-id").val()).textContent =monto;
+					document.getElementById("entrega"+$("#aux-id").val()).textContent =monto2; 
+					
+				 }
+			}
+			if (tipo == 2) {
+				 
+				 var monto =  Number.parseFloat( $("#anticipoMonto").val()).toFixed(2);
+				 if ( monto <=  Number.parseFloat( $("#aux-sub2").val()) ){
+				
+				 var porcentaje = Number.parseFloat(  (( monto *100)/$("#aux-sub2").val())).toFixed(2);
+				 $("#anticipoPorcentaje").val(porcentaje);
+				 $("#anticipoMonto").val(monto);
+				 
+				 var porcentaje2 =  Number.parseFloat(100-porcentaje).toFixed(2);
+					var monto2 = Number.parseFloat( $("#aux-sub2").val() -monto  ).toFixed(2);
+					 $("#entregaPorcentaje").val(porcentaje2); 
+					 $("#entregaMonto").val(monto2);
+					 $("#ajustesPorcentaje").val('0.00');
+						$("#ajustesMonto").val('0.00');
+						document.getElementById("saldo"+$("#aux-id").val()).textContent ='0.00'; 
+						
+						document.getElementById("anticipo"+$("#aux-id").val()).textContent =monto;
+						document.getElementById("entrega"+$("#aux-id").val()).textContent =monto2; 
+				
+				 
+			}
+		}
+			
+		}
+			
+			//$("#anticipoMonto").val('0.00');
+			//$("#anticipoPorcentaje").val('0.00');
+		
+		
+		
+				
+		function agregar(){
+			
+        if ( $("#aux-id").val() >=1 ){
+        	  	var id =$("#aux-id").val();
+  			
+  				
+
+  				 $.ajax({
+ 			        method: "post",
+ 			        url: "/guardar-total-razon",
+ 			        data: {
+ 			        	
+ 			        	id :$("#aux-id").val(),
+ 			        	sub2 :$('#sub2'+id).html(),
+ 		  				iva  :$("#aux-iva").val(),
+ 		  				total :$('#total'+id).html(),
+ 		  				anticipo :$('#anticipo'+id).html() ,
+ 		  				entrega  :$('#entrega'+id).html() ,
+ 		  				saldo    :$('#saldo'+id).html() ,
+  						descuento    :$('#descuento'+id).html() ,
+  						porcentaje1:$("#descuentoCargoPorcentaje").val(),
+  						porcentaje2:$("#anticipoPorcentaje").val(),
+  						porcentaje3:$("#entregaPorcentaje").val(),
+  						porcentaje4:$("#ajustesPorcentaje").val(),
+ 		  				
+                      _csrf: $("#token").val(),
+                  },
+ 			        
+ 			        beforeSend: function () {
+ 			        	Swal.fire({
+ 	        				position: 'center',
+ 	        				icon: 'success',
+ 	        				title: 'Precio  modificado',
+ 	        				showConfirmButton: false,
+ 	        				timer: 1250
+ 	        			})
+ 	                },
+ 	                success: function (r) {
+ 	                	
+ 	                	
+ 	        			
+ 	                	 bloquear();
+ 	                	location.reload();
+ 	                },
+ 	                error: function () {
+ 	                    alert("Ocurrio un error en el servidor de modelo ..");
+ 	                    prenda.prop("disabled", false);
+ 	                },
+
+ 			    });
+  				
+          }
+            
+          else{
+        	  alert("debe seleccionar un registro no sea imbecil");
+          }
+			
+            
+		}
+				
+			
+
+		
+	</script>
+</body>
+
+</html>

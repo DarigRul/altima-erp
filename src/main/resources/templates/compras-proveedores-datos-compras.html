@@ -1,0 +1,83 @@
+<form>
+    <h5>Informaci&oacute;n del cr&eacute;dito</h5>
+    <div class="row">
+        <div class="form-group col-md-2">
+            <div class="form-group-lg">
+                <div class="column_2" style="margin-top: 38px;">
+                    <span>
+                    <input type="checkbox" id="manejoCredito"/>
+                  <label class="checkbox-inline" for="manejoCredito">Manejo de cr&eacute;dito</label>
+                  </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="diasCredito">D&iacute;as de cr&eacute;dito</label>
+            <input type="number" class="form-control" id="diasCredito" placeholder="2">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="limiteCredito">L&iacute;mite de cr&eacute;dito</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input type="number" class="form-control" id="limiteCredito">
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="saldoCredito">Saldo</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input type="number" class="form-control" id="saldoCredito">
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h5>Forma de pago</h5>
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label for="formaPago">Forma de pago</label>
+            <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="formaPago">
+                <option>Efectivo</option>
+                <option>Tarjeta</option>
+              </select>
+        </div>
+        <div class="form-group col-md-9">
+            <label for="pagoObservacion">Observaci&oacute;n</label>
+            <input type="text" class="form-control" id="pagoObservacion" placeholder="Especificar...">
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="descuentoContable">Observaci&oacute;n</label>
+            <input type="text" class="form-control" id="cuentaContable" placeholder="Especificar...">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="saldoCredito">Descuento</label>
+            <div class="input-group mb-3">
+                <input type="number" class="form-control" id="descuentoContable" placeholder="15">
+                <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="documentoContable">Documento modelo</label>
+            <div class="input-group mb-3">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="documentoContable">
+                    <label class="custom-file-label" for="documentoContable">Selecciona un archivo</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <a th:href="@{'/compras-proveedores'}" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+            <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+        </div>
+    </div>
+</form>

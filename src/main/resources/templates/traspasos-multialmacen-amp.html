@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Multialmac&eacute;n | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Traspasos <a th:href="@{/multialmacen-amp}"><button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1> </div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item altima">Altima</li>
+								<li class="breadcrumb-item active">Comercial</li>
+								<li class="breadcrumb-item active">AMP</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card">
+								<div class="card-header bg-altima">
+									<h3 class="card-title">Listado a traspasar</h3> </div>
+								<div class="card-body">
+									<form class="row">
+								
+									  <div class="form-group col-md-6">
+									    <label for="almacenOrigenTraspaso">Almac&eacute;n origen</label>
+									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="almacenOrigenTraspaso">
+									      <option>1</option>
+									      <option>2</option>
+									    </select>
+									  </div>
+									  <div class="form-group col-md-6">
+									    <label for="salidaTraspaso">Movimiento salida</label>
+									    <input type="text" class="form-control" id="salidaTraspaso" placeholder="Salida por traspaso">
+									  </div>
+									 <div class="form-group col-md-3">
+									    <label for="cantidadTraspaso">Cantidad</label>
+									    <input type="number" class="form-control" id="cantidadTraspaso" placeholder="4">
+									  </div>
+									  <div class="form-group col-md-3">
+									    <label for="articuloTraspaso">Art&iacute;culo</label>
+									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="articuloTraspaso">
+									      <option>1</option>
+									      <option>2</option>
+									    </select>
+									  </div>
+									  <div class="form-group col-md-3">
+									    <label for="almacenDestinoTraspaso">Almac&eacute;n destino</label>
+									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="almacenDestinoTraspaso">
+									      <option>1</option>
+									      <option>2</option>
+									    </select>
+									  </div>
+									  <div class="form-group col-md-3">
+									    <label for="entradaTraspaso" style="margin-left:2px">Movimiento entrada</label>
+										<div class="input-group mb-3">
+										  <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="entradaTraspaso">
+										      <option>1</option>
+										      <option>2</option>
+										   </select>
+										  <div class="input-group-append">
+										    <button class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Agregar" type="button"><i class="fas fa-plus"></i></button>
+										  </div>
+										</div>
+									  </div>
+										<div class="form-group col-md-12">
+										<table class="table tablaAgregarMovimientosAMP table-striped table-bordered" style="width:100%">
+											<thead>
+												<tr>
+													<th>Cantidad</th>
+													<th>Art&iacute;culo</th>
+													<th>Almac&eacute;n destino</th>
+													<th>Movimiento</th>
+													<th>Acciones</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>589</td>
+													<td>Tela Oxford</td>
+													<td>Apartados</td>
+													<td></td>
+													<td class="text-center">
+														<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-minus img-circle text-danger"></span>Eliminar</a>
+													</td>
+												</tr>
+												<tr>
+													<td>830</td>
+													<td>Tela California</td>
+													<td>Apartados</td>
+													<td></td>
+													<td class="text-center">
+														<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-minus img-circle text-danger"></span>Eliminar</a>
+													</td>
+												</tr>
+												<tr>
+													<td>158</td>
+													<td>Tela Crepe</td>
+													<td>Apartados</td>
+													<td></td>
+													<td class="text-center">
+														<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-minus img-circle text-danger"></span>Eliminar</a>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										</div>
+								</form>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+				<!-- Main row -->
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<div th:insert="navegacion-footer"></div>
+	</div>
+	<div th:replace="navegacion-scripts"></div>
+	<script src="dist/js/tablaGeneral.js"></script>
+	<script>
+	$('#iComercial').removeClass('text-altima');
+	$('#navComercial').addClass('active-altima');
+	$('#menuComercial').addClass('menu-open');
+	$('#menuAMP').addClass('menu-open');
+	$('#navAMP').addClass('active');
+	$('#navAMPMul').addClass('active');
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!-- Modal -->
+<div class="modal fade" id="agregarIncrementos" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalCuidadoMobile">
+    <div class="modal-content" id="contenedorTabla7">
+      <div class="modal-header bg-altima">
+        <h5 class="modal-title" id="exampleModalLongTitle">Agregar incremento</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form th:object="${plaza}" th:action="@{/rh-incrementos}" method="post">
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group col-md-4">
+            <label for="exampleFormControlSelect1">&Aacute;rea</label>
+            <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="area" onchange = "listarDepartamentos(this.value)">
+              <option th:each="empresa:${listEmpresas}" th:value="${empresa.idLookup}" th:text="${empresa.nombreLookup}"></option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label for="exampleFormControlSelect1">Departamento</label>
+            <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="departamento"  onchange = "listarPuestos(this.value)">
+            </select>
+          </div>
+
+          <div class="form-group col-md-4">
+            <label for="exampleFormControlSelect1">Puesto</label>
+            <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" th:field="*{idPuesto}"  id="puestos" onchange="listarSueldos()" >
+            
+            </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="exampleInputPassword1">N&uacute;mero de plazas</label>
+            <input type="number" class="form-control selectpicker" th:field="*{numeroPlaza}" id="numeroPlazaPrueba" placeholder="10"
+              min="1" required>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="exampleInputPassword1">Sueldo mensual</label>
+            <input type="number" class="form-control" th:field="*{sueldo}" id="sueldo" placeholder="3000" min="1" required>
+          </div>
+
+          <div class="form-group col-md-12">
+            <label for="exampleFormControlTextarea1">Observaciones</label>
+            <textarea class="form-control" th:field="*{observaciones}" id="observaciones" rows="3"
+              placeholder="Especificar si existe alguna observaci&oacute;n..."></textarea>
+          </div>
+          <input type="hidden" id="idPlaza" th:field="*{idIncrementoPlaza}"></input>
+        </div>
+      </div>
+      <div class="modal-footer">
+      	<a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+        <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="dist/js/plazas.js"></script>
+<script>
+
+  $(document).ready(function () {
+    $('.selectpicker').selectpicker({
+      style: 'border border-bootstrap'
+    });
+  });
+</script>
+</div>

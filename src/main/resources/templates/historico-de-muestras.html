@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="navegacion-head">
+<title id="pageTitle">Hist&oacute;rico De Muestras | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>
+								Hist&oacute;rico De Muestras
+							</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+								<li class="breadcrumb-item active">Inventario</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card">
+								<div class="card-header bg-dark">
+									<h3 class="card-title">Hist&oacute;rico de movimientos</h3>
+								</div>
+								<div class="card-body">
+									<table class="table table-striped table-bordered" id="inventarioMuestrario">
+										<thead>
+											<tr>
+												<th>C&oacute;digo de barras</th>
+												<th>Prenda</th>
+												<th>Modelo</th>
+												<th>Talla</th>
+												<th>Largo</th>
+												<th>Tela</th>
+												<th>G&eacute;nero</th>
+												<th>Fecha de salida</th>
+												<th>Entregado por</th>
+												<th>Recibido por</th>
+												<th>Estatus</th>
+											</tr>
+										</thead>
+										<tbody >
+											<tr th:each=" historico: ${historicos}">
+												<td th:text="${historico[3]}">340005XLMS0111</td>
+												<td th:text="${historico[4]}">Abrigo</td>
+												<td th:text="${historico[5]}">3400</td>
+												<td th:text="${historico[6]}">05</td>
+												<td th:text="${historico[7]}">XL</td>
+												<td th:text="${historico[8]}">MS011</td>
+												<td th:text="${historico[9]}">Dama</td>
+												<td th:text="${historico[10]}">28/01/2020 11:00</td>
+												<td th:text="${historico[11]}">Juan Manuel Hernández</td>
+												<td th:text="${historico[12]}">Juan Manuel Hernández</td>
+												<td th:text="${historico[14]}">Estatus</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<div th:insert="navegacion-footer"></div>
+	</div>
+	<!-- ./wrapper -->
+
+	<div th:replace="navegacion-scripts"></div>
+	<script src="/dist/js/tablaInventario.js"></script>
+	<script src="/dist/js/UploadImage.js"></script>
+
+	<script>
+		$('#iComercial').removeClass('text-primary');
+		$('#menuComercial').addClass('menu-open');
+		$('#navComercial').addClass('active');
+		$('#menuMuestrario').addClass('menu-open');
+		$('#navMuestrario').addClass('active');
+		$('#navMuestrario3').addClass('active');
+	</script>
+
+</body>
+</html>

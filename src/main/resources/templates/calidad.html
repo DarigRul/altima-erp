@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Calidad | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+								Calidad 
+							</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Dise&ntilde;o</li>
+                                <li class="breadcrumb-item active">Calidad</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card">
+								<div class="card-header bg-altima">
+									<h3 class="card-title">Pruebas de calidad</h3>
+								</div>
+								<div class="card-body">
+									<table class=" tablaGeneral table-striped table-bordered">
+										<thead>
+											<tr>
+												<th>Clave</th>
+												
+												<th>Nombre</th>
+												<th>Pruebas</th>
+												<th>Estatus</th>
+												<th>Detalles</th>
+												<th>Operaciones</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="calidades, calidad:${listCalidades}">
+												<td th:text="${calidades[1]}"></td>
+												
+												<td th:text="${calidades[3]}"></td>
+												<td class="tdcenter" th:if="${calidades[4]=='Material'}">
+													<a class="btn btn-info btn-circle btn-sm popoverxd text-white"  data-container="body" data-placement="top" data-html="true"
+													   th:attr="data-content='<strong>Prueba de Durabilidad: </strong>'+ ${calidades[9]}  + '<br>'+
+																		  	 '<strong>Prueba de Resistencia: </strong>'+ ${calidades[10]} + '<br>'"
+													><i class="fas fa-info fa-sm"></i>
+													</a>&nbsp;
+												</td>	
+												<td class="tdcenter" th:if="${calidades[4]=='Tela' || calidades[4]=='Forro'}">
+													<a class="btn btn-info btn-circle btn-sm popoverxd text-white"  data-container="body" data-placement="top" data-html="true"
+													   th:attr="data-content=${calidades[4]=='Tela'}? '<strong>Prueba de encogimiento: </strong>'+ ${calidades[9]} + '<br>'+
+																									  '<strong>Prueba de Lavado: </strong>'+ ${calidades[10]} + '<br>'+
+																									  '<strong>Prueba de Costura: </strong>'+ ${calidades[11]} + '<br>'+
+																									  '<strong>Prueba de Contaminaci&oacuten: </strong>'+ ${calidades[12]} + '<br>':
+																									  
+																									  '<strong>Prueba de encogimiento: </strong>'+ ${calidades[9]} + '<br>'+
+																									  '<strong>Prueba de Lavado: </strong>'+ ${calidades[10]} + '<br>'+
+																									  '<strong>Prueba de Costura: </strong>'+ ${calidades[11]} + '<br>'"
+													   ><i class="fas fa-info fa-sm"></i>
+													</a>&nbsp;
+												</td>
+												<td th:if="${calidades[8]==null}">Sin pruebas</td>
+												<td th:if="${calidades[8]==0}">En espera</td>
+												<td th:if="${calidades[8]==1}">Terminado</td>
+												<td th:if="${calidades[8]==2}">Aprobado</td>
+												<td th:if="${calidades[8]==3}">Rechazado</td>
+												<td class="tdcenter">
+													
+													<a th:if="${calidades[4]=='Tela'} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{detalle-calidad/tela/}+${calidades[0]}" class="btn btn-sm icon-btn btn-info text-white popoverxd" data-container="body" data-placement="top" data-content="Descargar archivo">
+														<span class="btn-glyphicon spancircle fas fa-info img-circle text-info" style="height:30px;width:30px;"></span>
+														Detalles</a>
+													<a th:if="${calidades[4]=='Forro'} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{detalle-calidad/forro/}+${calidades[0]}" class="btn btn-sm icon-btn btn-info text-white popoverxd"  data-container="body" data-placement="top" data-content="Descargar archivo">
+														<span class="btn-glyphicon spancircle fas fa-info img-circle text-info" style="height:30px;width:30px;"></span>
+														Detalles</a>
+													<a th:if="${calidades[4]=='Material'} and ${calidades[6]!='sin archivo'} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/uploads/calidadarchivos/}+${calidades[6]}" class="btn btn-sm icon-btn btn-info text-white popoverxd"  download data-container="body" data-placement="top" data-content="Descargar archivo">
+														<span class="btn-glyphicon spancircle fas fa-info img-circle text-info" style="height:30px;width:30px;"></span>
+														Detalles</a>
+													<a th:if="${calidades[4]=='Material'} and ${calidades[6]=='sin archivo'} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-sm icon-btn btn-danger text-white popoverxd" data-container="body" data-placement="top" data-content="Ingrese un archivo mediante el botón editar para poder descargarlo">
+														<span class="btn-glyphicon spancircle fas fa-exclamation-triangle img-circle text-danger" style="width:30px;"></span>
+														Sin archivo</a>
+													
+												</td>						
+												<td class="tdcenter">
+													<!--Editar-->
+													<a class="btn btn-warning btn-circle btn-sm popoverxd" onclick="cargando()" th:href="@{/calidad-nueva-prueba/tela/}+${calidades[0]}" th:if="${calidades[8] <= 1} and ${calidades[4]=='Tela' && (#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_REGISTRAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-container="body" data-placement="top" th:attr="data-content=${calidades[8]==null}?'Agregar prueba':'Editar'">
+														<i class="fas fa-pen"></i>
+													</a>
+													<a class="btn btn-warning btn-circle btn-sm popoverxd" onclick="cargando()" th:href="@{/calidad-nueva-prueba/forro/}+${calidades[0]}"  th:if="${calidades[8] <= 1} and ${calidades[4]=='Forro' && (#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_REGISTRAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-container="body" data-placement="top" th:attr="data-content=${calidades[8]==null}?'Agregar prueba':'Editar'">
+														<i class="fas fa-pen"></i>
+													</a>
+													<a class="btn btn-warning btn-circle btn-sm popoverxd" onclick="cargando()" th:href="@{/calidad-nueva-prueba-otro/}+${calidades[0]}"  th:if="${calidades[8] <= 1} and ${calidades[4]=='Material' && (#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_REGISTRAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-container="body" data-placement="top" th:attr="data-content=${calidades[8]==null}?'Agregar prueba':'Editar'">
+														<i class="fas fa-pen"></i>
+													</a>
+
+													<a th:if="${calidades[8] == 1} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_APROBAR_RECHAZAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="'aceptarCalidad('+${calidades[5]}+')'" class="btn btn-success text-white btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Aprobar"><i class="fas fa-check"></i></a>
+													
+													<a th:if="${calidades[8] == 1} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_APROBAR_RECHAZAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="'rechazarCalidad('+${calidades[5]}+')'" class="btn btn-danger text-white btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></a>
+													
+													<button th:if="${calidades[8]==3} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_REGISTRAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" type="button" class="btn btn-altima text-white btn-circle btn-sm popoverxd" data-toggle="modal" th:attr="data-target='#exampleModalCenter'+${calidad.index}" data-placement="top" data-content="Archivo de consentimiento">
+  														<i class="fas fa-file-signature"></i>
+													</button>
+												<form th:action="@{/calidad-consentimiento}" method="post"
+													enctype="multipart/form-data">
+													<input type="hidden" th:value="${calidades[5]}" name="id"
+														class="form-control">
+													<div class="modal fade"
+														th:id="exampleModalCenter+''+${calidad.index}"
+														tabindex="-1" role="dialog"
+														aria-labelledby="exampleModalCenterTitle"
+														aria-hidden="true">
+														<div class="modal-dialog modal-dialog-centered"
+															role="document">
+															<div class="modal-content modal-rounded-body">
+																<div class="modal-header bg-altima modal-rounded-header">
+																	<h5 class="modal-title" id="exampleModalLongTitle">
+																		Archivo de consentimiento
+																	</h5>
+																	<button type="button" class="close"
+																		data-dismiss="modal" aria-label="Close">
+																		<span aria-hidden="true">&times;</span>
+																	</button>
+																</div>
+																<div class="modal-body">
+																	<div class="input-group">
+																		<div class="custom-file">
+																			<input type="file" class="custom-file-input" th:id="inputGroupFile+''+${calidad.index}"
+																				name="file" accept=".xls,.xlsx,.pdf"> <label
+																				for="inputGroupFile+''+${calidad.index}" class="custom-file-label"
+																				th:utext="${calidades[7]}" >Seleccione un archivo...</label>
+																		</div>
+																	</div>
+																</div>
+																<div class="modal-footer modal-rounded-footer d-flex justify-content-between">
+																	<a data-dismiss="modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+																	<a th:if=" ${calidades[7]!='sin archivo'}"
+																		th:href="@{/uploads/calidadconsentimiento/}+${calidades[7]}"
+																		class="btn btn btn-sm  icon-btn btn-danger text-white mr-auto" download><span class="btn-glyphicon spancircle fas fa-download img-circle text-danger"></span>Descargar archivo
+																	</a>
+																	<button type="submit" class="btn btn btn-sm  icon-btn btn-altima text-white next-step float-right"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+		
+																</div>
+															</div>
+														</div>
+													</div>
+												</form> 
+											</td>
+											</tr>
+										</tbody>
+									</table>
+									
+								</div>
+								<!-- /.card-body -->
+								<div class="card-footer">
+									<a th:href="@{/uploads/plantillasCalidad/}+${'plantilla_1_calidad.docx'}" download class="btn btn-sm icon-btn float-right btn-danger text-white" type="submit"><span class="btn-glyphicon spancircle fas fa-download img-circle text-danger"></span>Descargar plantilla</a>
+								</div>
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<div th:insert="navegacion-footer"></div>
+	</div>
+	<!-- ./wrapper -->
+	<div th:replace="navegacion-scripts"></div>
+	<script src="dist/js/PruebasCalidad.js"></script>
+	<script>
+	var lengthid=$('input[id^=inputGroupFile]').length;
+	var id='#inputGroupFile';
+	for (i = 0; i < lengthid; i++) {
+		  $(id.concat(i)).on('change',function(){
+              var fileName = $(this).val().replace('C:\\fakepath\\', " ");
+              $(this).next('.custom-file-label').html(fileName);
+          })
+		}   
+    </script>
+	<!-- Popover-->
+	<!-- Script de la tabla -->
+	<script>
+	$(document).ready(function() {
+		listarTabla();
+	});
+	
+	</script>
+	<script>
+   	$('#iDiseno').removeClass('text-altima');
+	$('#menuDiseno').addClass('menu-open');
+	$('#navDiseno').addClass('active-altima');
+	$('#navDiseno1').addClass('active');
+	</script>
+	
+	<script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+	    	  position: 'center',
+	          icon: /*[[${icon}]]*/,
+	          title: /*[[${title}]]*/,
+	          showConfirmButton: false,
+	          timer: 1250
+	    });
+	</script>
+	<script src="dist/js/calidadConfirmaciones.js"></script>
+	<script src="dist/js/tablaGeneral.js"></script>
+</body>
+
+</html>

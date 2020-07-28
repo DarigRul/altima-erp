@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Inventario | Altima</title>
+</head>
+<style>
+    .contain {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    #form1 {
+        width: auto;
+    }
+    
+    .alert {
+        text-align: center;
+    }
+    
+    #blah {
+        max-height: 150px;
+        height: auto;
+        width: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 5px;
+    }
+    
+    #img_contain {
+        border-radius: 5px;
+        /*  border:1px solid grey;*/
+        width: auto;
+    }
+    
+    .input-group {
+        margin-left: calc(calc(100vw - 450px)/2);
+        margin-top: 20px;
+        width: 320px;
+    }
+    
+    .imgInp {
+        width: 150px;
+        padding: 10px;
+        background-color: #d3d3d3;
+    }
+    
+    .loading {
+        animation: blinkingText ease 2.5s infinite;
+    }
+    
+    @keyframes blinkingText {
+        0% {
+            color: #000;
+        }
+        50% {
+            color: #transparent;
+        }
+        99% {
+            color: transparent;
+        }
+        100% {
+            color: #000;
+        }
+    }
+    
+    .custom-file-label {
+        cursor: pointer;
+    }
+</style>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Agregar inventario <a th:href="@{/inventario-amp}"><button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">AMP</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-primary card-tabs">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Datos generales</h3>
+                                </div>
+                                <div class="card-body">
+                                    <form class="row" th:action="@{/guardar-inventario-amp}" enctype="multipart/form-data" method="POST">
+                                        <div class="form-group col-md-12">
+                                            <div class="contain animated bounce">
+                                                <div id="img_contain">
+                                                <img th:if="*{inventario.imagen == null}"  id="blah"  src="/dist/img/providerCircle.png" />
+                                                <img th:if="*{inventario.imagen != null}"  id="blah"   th:src="@{'/uploads/InventarioAMP/' + *{inventario.imagen}}"  th:onerror="this.src='/dist/img/providerCircle.png'" />
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" th:value="*{inventario.imagen}"  id="inputGroupFile01" name="inputGroupFile01"  class="imgInp custom-file-input" aria-describedby="inputGroupFileAddon01">
+                                                        <label class="custom-file-label" for="inputGroupFile01">Elegir foto</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                      
+                                        
+                                        <div class="form-group col-md-4">
+                                            <label for="internaAltima">Clave interna Altima</label>
+                                            <input type="text" readonly  class="form-control" th:field="*{inventario.idText}"> </div>
+                                       <!-- <div class="form-group col-md-4">
+                                            <label for="clasificacionTipo">Clasificaci&oacute;n</label>
+                                            <select th:field="*{inventario.idClasificacion}" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." >
+												<option th:each="listClasificacion: ${listClasificacion}" th:value="${listClasificacion.idLookup}"
+																		th:text="${listClasificacion.nombreLookup}"></option>
+											</select>
+                                        </div> --> 
+                                        <div class="form-group col-md-4"> 
+                                            <label for="lineaTipo">L&iacute;nea</label>
+                                            <select th:field="*{inventario.idLinea}" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+												<option th:each="listLinea: ${listLinea}" th:value="${listLinea.idLookup}"
+																		th:text="${listLinea.nombreLookup}"></option>
+											</select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="articulo">Art&iacute;culo</label>
+                                            <input th:field="*{inventario.articulo}" type="text" class="form-control" placeholder="Tela oxford">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="descripcion">Descripci&oacute;n</label>
+                                            <input type="text" th:field="*{inventario.descripcionInventario}" class="form-control" placeholder="Construida sobre terciopelo">
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="UDM">Unidad de medida</label>
+                                            <select th:field="*{inventario.idUnidadMedida}" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." >
+												<option th:each="listUnidad: ${listUnidad}" th:value="${listUnidad.idLookup}"
+																		th:text="${listUnidad.nombreLookup}"></option>
+											</select>
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="color">Color</label>
+                                            <input type="text" th:field="*{inventario.color}" class="form-control" placeholder="Blanco">
+                                        </div>
+                                        
+                                        <div class="form-group col-md-3">
+                                            <label for="color">Codigo de Color</label>
+                                            <input type="color" th:field="*{inventario.codigoColor}" class="form-control" placeholder="Blanco">
+                                        </div>
+                                        <div class="form-group col-sm-12"> <a th:href="@{/inventario-amp}" class="btn icon-btn btn-danger text-white" type="submit"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a> 
+                                        
+                                        <button class="btn icon-btn btn-altima float-right text-white" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button> 
+                                        
+                                        </div>
+                                    
+                                		<input  type="hidden" th:field="*{inventario.idInventario}">
+                                        <input  type="hidden" th:field="*{inventario.creadoPor}">
+                                        <input  type="hidden" th:field="*{inventario.actualizadoPor}">
+                                        <input  type="hidden" th:field="*{inventario.fechaCreacion}">
+                                        <input  type="hidden" th:field="*{inventario.ultimaFechaModificacion}">
+                                        <input  type="hidden" th:field="*{inventario.estatus}">
+                                        <input  type="hidden" th:field="*{inventario.imagen}">
+                                    
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Main row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#navComercial').addClass('active-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#menuAMP').addClass('menu-open');
+        $('#navAMP').addClass('active');
+        $('#navAMPInv').addClass('active');
+    </script>
+    <script>
+    
+    
+        $("#inputGroupFile01").change(function(event) {
+            RecurFadeIn();
+            readURL(this);
+        });
+        $("#inputGroupFile01").on('click', function(event) {
+            RecurFadeIn();
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var filename = $("#inputGroupFile01").val();
+                filename = filename.substring(filename.lastIndexOf('\\') + 1);
+                reader.onload = function(e) {
+                    debugger;
+                    $('#blah').attr('src', e.target.result);
+                    $('#blah').hide();
+                    $('#blah').fadeIn(500);
+                    $('.custom-file-label').text(filename);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            $(".alert").removeClass("loading").hide();
+        }
+
+        function RecurFadeIn() {
+            console.log('ran');
+            FadeInAlert("Wait for it...");
+        }
+
+        function FadeInAlert(text) {
+            $(".alert").show();
+            $(".alert").text(text).addClass("loading");
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Cotizaciones | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+  	<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+  	<input type="hidden" id="idCotizacion" th:value="${idCotizacion}"/>
+  	<input type="hidden" id="idCotizacionToPrendas" th:value="${ idCotizacionToPrendas }"/>
+  	<input type="hidden" id="Gerente" th:value="${ Gerente }"/>
+  	<input type="hidden" id="Agente" th:value="${ Agente }"/>
+  	<input type="hidden" id="Cliente" th:value="${ Cliente }"/>
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Cotizaciones <a th:href="@{/cotizaciones}"><button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1> </div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item altima">Altima</li>
+								<li class="breadcrumb-item">Comercial</li>
+								<li class="breadcrumb-item active">Cotizaciones</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card card-primary card-tabs">
+								<div class="card-header bg-altima p-0 pt-1 border-bottom-0">
+									<ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+										<li class="nav-item"> <a class="nav-link active" id="custom-tabs-two-home-tab" data-toggle="pill" href="#informacionDiv" role="tab" aria-controls="custom-tabs-two-home" aria-selected="true">Informaci&oacute;n de la cotizaci&oacute;n</a> </li>
+										<li class="nav-item"> <a class="nav-link" id="custom-tabs-two-profile-tab" th:data-toggle="${pill}" th:href="${ prendasDiv }" role="tab" aria-controls="custom-tabs-two-profile" aria-selected="false">Prendas</a> </li>
+										<li class="nav-item"> <a class="nav-link" id="custom-precios" th:data-toggle="${pill}" th:href="${ preciosDiv }" role="tab" aria-controls="custom-preciosxd" aria-selected="false">Totales cotizaciones</a> </li>
+									</ul>
+								</div>
+								<div class="card-body">
+									<div class="tab-content" id="custom-tabs-two-tabContent">
+										<div class="tab-pane fade active show" id="informacionDiv" role="tabpanel" aria-labelledby="custom-tabs-two-home-tab">
+											<div th:insert="cotizaciones-informacion"></div>
+										</div>
+										<div class="tab-pane fade" id="prendasDiv" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
+											<div th:insert="cotizaciones-prendas"></div>
+										</div>
+										<div class="tab-pane fade" id="preciosDiv" role="tabpanel" aria-labelledby="custom-precios">
+											<div th:insert="cotizaciones-precios"></div>
+										</div>
+									</div>
+								</div>
+								<!-- /.card -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<div th:insert="navegacion-footer"></div>
+	</div>
+	<!-- ./wrapper -->
+	<div th:replace="navegacion-scripts"></div>
+	<script th:src="@{/dist/js/tablaCotizacionesAgregar.js}"></script>
+	<script th:src="@{/dist/js/agregarCotizacion.js}"></script>
+	<script>
+	$('#iComercial').removeClass('text-altima');
+	$('#menuComercial').addClass('menu-open');
+	$('#navComercial').addClass('active-altima');
+	$('#navCotizaciones').addClass('active');
+	</script>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+
+		var tablaPrendasCotizar = /*[[${ListaCotizacionPrendas}]]*/'default';
+
+		/*]]>*/
+	</script>
+</body>
+
+</html>

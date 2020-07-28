@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Materiales | Altima</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse"   onload="cargar_pagina()" >
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Materiales&nbsp;<a th:href="@{/materiales}" class="btn btn-sm icon-btn btn-danger text-white"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Dise&ntilde;o</li>
+                                <li class="breadcrumb-item active">Materiales</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Nuevo material</h3>
+                                </div>
+                                <div class="card-body" >
+                              		<div id="edit"  class="form-group" th:unless="${editar}=='true'">
+                                        <label  for="status">Tipo de material</label>
+                                        <select  class="form-control selectpicker" id="status" name="status"  >
+                                        	<option value="selecciona">Selecciona uno...</option>
+                                            <option value="tela">Tela</option>
+                                            <option value="forro">Forro</option>
+                                            <option value="material">Otro material</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" th:if="${form}=='tela'" th:insert="form-tela"></div>
+                                    <div class="form-group" th:if="${form}=='forro'" th:insert="form-forro"></div>
+                                    <div class="form-group" th:if="${form}=='material'" th:insert="form-material"></div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:insert="navegacion-scripts"></div>
+    <script th:src="@{/dist/js/TipoMaterial.js}"></script>
+    <!-- select2 -->
+	<!-- Latest compiled and minified JavaScript -->
+	<script th:src="@{/dist/js/UploadImage.js}"></script>
+	
+	  <script>
+  function selected(){
+	  var texto=document.getElementById("cla");
+	  var valordeltexto=texto.options[texto.selectedIndex].text;
+	  console.log("aqui esta el valor del select");
+	  console.log(valordeltexto);
+	
+	  
+	 
+	  if(valordeltexto == "Independiente del color de la Tela"){
+		  console.log("si entra ");
+
+          document.getElementById("test2").style.display="block";
+          document.getElementById("test1").style.display="none";
+         
+		
+	  }else{
+		  
+		  
+          document.getElementById("test2").style.display="none";
+          document.getElementById("test1").style.display="block";
+        
+          console.log("no pelo ");
+   
+		  
+	  }
+	  
+  }
+  
+  
+
+
+        </script>
+        
+        
+        
+	
+     <script th:inline="javascript">
+	/*<![CDATA[*/
+
+	var materialDelController = /*[[${material}]]*/ 'default';
+	
+	
+	
+	
+	/*]]>*/
+	</script>
+	
+     <script th:inline="javascript">
+	/*<![CDATA[*/
+	var telaController = /*[[${tela}]]*/ 'default';
+
+	/*]]>*/
+	</script>
+	   <script th:inline="javascript">
+	/*<![CDATA[*/
+	var forroController = /*[[${forro}]]*/ 'default';
+	
+	/*]]>*/
+	</script>
+	
+	 <script>
+	
+	console.log(materialDelController);
+	console.log(telaController);
+	console.log(forroController);
+	var definitiva;
+	
+	
+	if (materialDelController.idMaterial != null) {
+        definitiva=materialDelController;
+		
+		console.log("esta llena la primera validacion");
+		} else if (telaController.idTela != null) {
+                  definitiva=telaController;
+			
+			      console.log("esta llena la segunda validacion");
+		} else {
+                  definitiva=forroController;
+			
+			      console.log("esta llena la tercera validacion");
+		}
+	
+	
+	
+	/*]]>*/
+	</script>
+	
+	<script>
+	
+	
+	
+ 
+	
+	function cargar_pagina(){
+		document.getElementById("disponible").style.display="none";
+	
+		document.getElementById("test2").style.display="none";
+		
+		
+		var texto=document.getElementById("cla");
+		  var valordeltexto=texto.options[texto.selectedIndex].text;
+		  console.log("aqui esta el valor del select");
+		  console.log(valordeltexto);
+		
+		
+		
+		if(valordeltexto == "Independiente del color de la Tela"){
+			  console.log("si entra if color edit ");
+
+	          document.getElementById("test2").style.display="block";
+	          document.getElementById("test1").style.display="none";
+	         
+			
+		  }
+		
+		
+		
+		
+		console.log(definitiva);
+		
+		console.log(definitiva.idMaterial);
+		
+		
+		 switch(true) {
+               
+                  case definitiva.idMaterial > 0:
+                	  //$('#status').val("material").change();
+              		console.log("algunamamadaparaverqueentro");
+              		 document.getElementById('edit').style.display = "none";
+              		 
+                   break;
+                   
+                   
+                  case definitiva.idTela   > 0:
+                	 // $('#status').val("tela").change();
+              		console.log("algunamamadaparaverqueentro");
+              	  document.getElementById('edit').style.display = "none";
+              		 
+                   break;
+                   
+                   
+                  case definitiva.idForro > 0:
+                	 // $('#status').val("forro").change();
+              		console.log("algunamamadaparaverqueentro");
+              		 document.getElementById('edit').style.display = "none";
+              		 
+                   break;
+       
+                  default:
+                        console.log("entro a la fubncion defautl");
+
+                        document.getElementById('disponible').style.display = "block";
+          		 document.getElementById('disponible2').style.display = "none";
+                        
+                        
+            	  
+                  
+                  
+                  function mostrar(){
+                	  
+                
+                  }
+
+                   break;  
+		
+	  }
+	}
+		 
+
+</script>
+<script>
+    $('#iDiseno').removeClass('text-altima');
+    $('#menuDiseno').addClass('menu-open');
+    $('#navDiseno').addClass('active-altima');
+    $('#navDiseno2').addClass('active');
+</script>
+<script>
+    $( "#status" ).change(function() {
+
+        if($('#status').val()=="material"){
+            var url = "/agregar-material/material";  
+        }
+        else if($('#status').val()=="tela"){
+            var url = "/agregar-material/tela";   
+        }
+        else if($('#status').val()=="forro"){
+            var url = "/agregar-material/forro";  
+        }
+        $(location).attr('href',url);
+});
+</script>
+<script th:src="@{/dist/js/tela.js}"></script>
+<script th:inline="javascript">
+    var condition = /*[[${EstatusCalidadTela}]]*/ '2';
+    /*<![CDATA[*/
+    if( condition) {
+            $('#ProveedorMaterialDiv').removeClass('col-md-12');
+            $('#ProveedorMaterialDiv').addClass('col-md-12');
+           }
+           else {
+            $('#ProveedorMaterialDiv').removeClass('col-md-12');
+            $('#ProveedorMaterialDiv').addClass('col-md-4');
+           }
+           /*]]>*/
+</script>
+</body>
+
+</html>

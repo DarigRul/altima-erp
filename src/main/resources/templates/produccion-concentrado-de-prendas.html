@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+<title id="pageTitle">Cierre de expediente | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Concentrado de prendas <a th:href="@{/cierre-de-expediente}"><button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Producci&oacute;n</li>
+                                <li class="breadcrumb-item active">Cierre de expediente</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-dark d-print-none">
+                                    <h3 class="card-title">Lista de empleados y coordinados</h3>
+                                </div>
+                                <div class="card-body">
+                                	<div class="row d-none d-print-block">
+								        <table class="table table-borderless table-sm">
+								            <thead class="thead-dark">
+								                <tr style=" border: 5px solid #343A40;border-right-width:0px;border-left-width:0px;border-top-width:0px;">
+								                    <td style="width: 30%"><img class="h-50" src="/dist/img/logo.png"></td>
+								                    <td style="width: 40%; font-size: 23px;" class="text-center"><strong>Reporte de concentrado de prendas</strong></td>
+								                    <td style="width: 30%;" class="text-right"><strong class="fechaReporteMaterial"></strong></td>
+								                </tr>
+								            </thead>
+								        </table>
+								    </div>
+								    <div class="row d-none d-print-block">
+								     	<table class="table table-borderless table-sm">
+								            <thead class="thead-dark">
+								                <tr>
+								                    <td style="width: 30%"><strong>No. Pedido: </strong><a>28942</a></td>
+								                    <td style="width: 40%;" class="text-center"><strong>Cliente: </strong><a id="clienteNombre">Bimbo</a></td>
+								                    <td style="width: 30%;" class="text-right"><strong>Fecha de entrega: </strong><a>21-02-2020</a></td>
+								                </tr>
+								            </thead>
+								        </table>
+								    </div>
+                                    <div class="row">
+	                                	<div class="form-group col-md-6 d-print-none">
+											<label for="cargaEmpresa">Coordinado</label>
+											<div class="spinner-border text-primary spinner-border-sm" role="status" id="CargandoCoordinados" style="display: none">
+	  											<span class="sr-only">Loading...</span>
+											</div>
+											<select id="ListaCoordinadosGeneral" class="form-control selectpicker" data-live-search="true" title="Selecciona uno...">
+												<option>Coordinado 001</option>
+											</select>
+										</div>
+		                                <div class="form-group col-md-6 d-print-none">
+											<label for="cargaEmpresa">Tipo de concentrado</label>
+											<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." name="cargaTipopedido" id="cargaTipopedido">
+												<option value='1'>Concentrado general</option>
+												<option value='2'>Concentrado especial</option>
+											</select>
+										</div>
+									</div>
+									<div class="d-print-none">
+                                    <table class="table tablaConcentradoPrint table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Coordinado</th>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <th>Coordinado</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Modelo</th>
+                                                <td>NG921</td>
+                                                <td>UD723</td>
+                                                <td>DS233</td>
+                                                <td>LK345</td>
+                                                <th>Modelo</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Clave Tela</th>
+                                                <td>TEL001</td>
+                                                <td>TEL034</td>
+                                                <td>TEL124</td>
+                                                <td>TEL010</td>
+                                                <th>Clave Tela</th>
+                                            </tr>
+                                            <tr>
+                                            	<th>Prenda</th>
+                                            	<td>Camisa</td>
+                                            	<td>Saco</td>
+                                            	<td>Pantalón</td>
+                                            	<td>Camisa</td>
+                                            	<th>Prenda</th>
+                                            </tr>
+                                            <tr>
+                                            	<th>Color</th>
+                                            	<td>Azul rey</td>
+                                            	<td>Gris</td>
+                                            	<td>Gris humo</td>
+                                            	<td>Roja</td>
+                                            	<th>Color</th>
+                                            </tr>
+                                            <tr>
+                                            	<th>Empleado(a)</th>
+                                            	<th colspan="4"></th>
+                                            	<th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                    <div class="d-none d-print-block">
+                                    <table class="table table-sm table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Coordinado</th>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <th>Coordinado</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Modelo</th>
+                                                <td>NG921</td>
+                                                <td>UD723</td>
+                                                <td>DS233</td>
+                                                <td>LK345</td>
+                                                <th>Modelo</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Clave Tela</th>
+                                                <td>TEL001</td>
+                                                <td>TEL034</td>
+                                                <td>TEL124</td>
+                                                <td>TEL010</td>
+                                                <th>Clave Tela</th>
+                                            </tr>
+                                            <tr>
+                                            	<th>Prenda</th>
+                                            	<td>Camisa</td>
+                                            	<td>Saco</td>
+                                            	<td>Pantalón</td>
+                                            	<td>Camisa</td>
+                                            	<th>Prenda</th>
+                                            </tr>
+                                            <tr>
+                                            	<th>Color</th>
+                                            	<td>Azul rey</td>
+                                            	<td>Gris</td>
+                                            	<td>Gris humo</td>
+                                            	<td>Roja</td>
+                                            	<th>Color</th>
+                                            </tr>
+                                            <tr>
+                                            	<th>Empleado(a)</th>
+                                            	<th colspan="4"></th>
+                                            	<th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jose Luis Morales</td>
+                                        		<td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>1</td>
+                                                <td>4</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Martin Jose Montero</td>
+                                        		<td>2</td>
+                                                <td>0</td>
+                                                <td>3</td>
+                                                <td>1</td>
+                                                <td>6</td>
+                                        	</tr>
+                                        	<tr>
+                                        		<td>Jorge Negrete</td>
+                                        		<td>0</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                                <td>0</td>
+                                                <td>2</td>
+                                        	</tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                	<a onclick="printmaterial();" class="d-print-none float-right btn btn-sm icon-btn btn-danger text-white" type="submit"><span class="btn-glyphicon spancircle fas fa-download img-circle text-danger"></span>Descargar reporte</a>
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaConcentradoPrendasProduccion.js"></script>
+    <script>
+		    function printmaterial(){
+		   	 var tempTitle = document.title;
+		   	 document.title = "ConcentradoDePrendas_"+nombreEmpresa+"_"+fechaGuardar+".pdf";
+		        window.print();
+		        document.title = tempTitle;
+		   }
+    </script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+    <script>
+    moment.lang('es', {
+    	  months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+    	  monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
+    	  weekdays: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sabado'.split('_'),
+    	  weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
+    	  weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
+    	}
+    	);
+    var now = moment().format('dddd, DD MMMM YYYY hh:mm A');
+    var fechaGuardar = moment().format('L[_]LT'); 
+	$('.fechaReporteMaterial').append(now);
+    </script>
+   	<script>
+		$('#iProduccion').removeClass('text-primary');
+		$('#menuProduccion').addClass('menu-open');
+		$('#navProduccion').addClass('active');
+		$('#navProduccion1').addClass('active');
+		var nombreEmpresa=$('#clienteNombre').text();
+	</script>
+</body>
+
+</html>

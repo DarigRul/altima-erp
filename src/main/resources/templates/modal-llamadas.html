@@ -1,0 +1,34 @@
+<!-- Modal -->
+<div class="modal fade" th:id="llamadasAgente+''+${cliente.index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content" th:id="contenedor+''+${clientes.idCliente}">
+         <input type="hidden" id="idcliente" th:value="${clientes.idCliente}">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de llamadas <button th:attr="onclick=|agendarLlamadaAgente('${clientes.idCliente}')|" class="bt btn-primary btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agendar llamada"><i class="fas fa-plus fa-sm"></i></button></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- <div class="modal-body">
+                <table class="table table-striped table-bordered tablaSeguimientos">
+                    <thead>
+                        <tr>
+                            <th>Fecha de llamada</th>
+                             <th>Estatus</th>-
+                            <th>Observaciones</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                          <tr th:each="calendariollamada :${Listcalendario}" th:if="${calendariollamada.idCliente==clientes.idCliente}">
+                            <td th:text="${calendariollamada.start}">21/12/2020</td>
+                            <td th:text="${calendariollamada.title}">Realizada</td>-
+                            <td th:text="${calendariollamada.description}">Realizada</td>
+                            <td><a onclick="editarLlamadaAgente()" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Actualizar"><i class="fas fa-pen"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+        </div>
+    </div>
+</div>

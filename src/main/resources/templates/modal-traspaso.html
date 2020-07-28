@@ -1,0 +1,72 @@
+<!-- Modal -->
+<div class="modal fade" id="addTraspaso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary" id="titleModal">
+                <h5 class="modal-title cartLess" id="exampleModalLongTitle">Nuevo Movimiento</h5>
+                <button type="button" class="close cartLess" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body row">
+                    <div class="form-group col-sm-6">
+                        <label for="vendedorMovimiento">Vendedor</label>
+                        <select class="form-control vendedorMovi selectCustom" title="Seleccione uno..." id="vendedorMovi" data-live-search="true">
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="empresaMovimiento">Empresa</label>
+                        <select class="form-control selectCustom" title="Seleccione uno..." id="empresaMovi" data-live-search="true">
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                   		<label for="prendaMovimiento">Encargado de recibir</label>
+                   		<input type="text" class="form-control" id="encargadoRecibir" placeholder="Ej. Rodrigo P&eacute;rez G&oacute;mez">
+               		</div>
+                    <div class="form-group col-sm-11 cartLess">
+                        <label for="prendaMovimiento">Muestra</label>
+                        <select class="form-control selectCustom"  id="prendaMovi" data-live-search="true">
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-1 cartLess">
+                        <label>A&ntilde;adir</label>
+                        <input type='hidden' id="movimiento" value=''>
+                        <a type="submit" class="btn btn-primary btn-circle btn-sm" id="BotonAgregarMuestra" onclick="agregarMiniTabla('tablaMuestra')"><i class="fas fa-plus"></i></a>
+                    </div>
+                    <div class="form-group col-sm-12" id="crearDatos">
+	                    <div id="borrarDatos">
+	                        <table class="table table-striped table-bordered" id ="tablaMuestra">
+	                            <thead class="cartLess">
+	                                <tr >
+	                                    <th>C&oacute;digo de barras</th>
+	                                    <th>Prendas</th>
+	                                    <th>Modelo Prenda</th>
+	                                    <th>C&oacute;digo Tela</th>
+	                                    <th>Eliminar</th>
+	
+	                                </tr>
+	                            </thead>
+	                        
+	                        </table>
+	                    </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
+                    <button type="button"  class="btn btn-primary" onclick="guardarNuevoMovimiento('tablaMuestra')">Enviar</button>
+                </div>
+            </form>
+            <input  id="userInput" type="hidden"  autofocus/>
+
+
+            <br>
+            
+            <div class="test">
+            
+            
+               <input id="scannerInput" type="hidden" value="barcodescan" autofocus/>
+            </div>
+        </div>
+    </div>
+</div>

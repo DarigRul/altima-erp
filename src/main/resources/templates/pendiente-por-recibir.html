@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Pendiente por recibir | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Pendiente por recibir</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">AMP</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                <div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card">
+								<div class="card-header bg-altima">
+									<h3 class="card-title">Listado de pendientes</h3>
+								</div>
+								<div class="card-body">
+									<table class="table tablaGeneral table-striped table-bordered" style="width:100%">
+										<thead>
+											<tr>
+												<th>Fecha de RC</th>
+												<th>Almac&eacute;n</th>
+												<th>Clave pedido</th>
+												<th>Clave tela</th>
+												<th>Metraje</th>
+												<th>Surtido</th>
+												<th>Restante</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td></td>
+												<td>Almacen 213</td>
+												<td>REQ0125</td>
+												<td>DHL1523</td>
+												<td>6530 mts</td>
+												<td>0</td>
+												<td>962</td>
+											</tr>
+											<tr>
+												<td></td>
+												<td>Apartado</td>
+												<td>PED0057</td>
+												<td>OXF4567</td>
+												<td>830 mts</td>
+												<td>550</td>
+												<td>280</td>
+											</tr>
+											<tr>
+												<td></td>
+												<td>Preapartado</td>
+												<td>PED0052</td>
+												<td>OXF4567</td>
+												<td>125 mts</td>
+												<td>0</td>
+												<td>125</td>
+											</tr>
+											<tr>
+												<td></td>
+												<td>Preapartado</td>
+												<td>PED0052</td>
+												<td>BLU1458</td>
+												<td>589 mts</td>
+												<td>0</td>
+												<td>589</td>
+											</tr>
+											<tr>
+												<td></td>
+												<td>Apartado</td>
+												<td>PED0048</td>
+												<td>CALF789</td>
+												<td>152 mts</td>
+												<td>0</td>
+												<td>152</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+                </div>
+                <!-- Main row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneral.js"></script>
+	<script>
+		$('#iComercial').removeClass('text-altima');
+		$('#navComercial').addClass('active-altima');
+		$('#menuComercial').addClass('menu-open');
+		$('#menuAMP').addClass('menu-open');
+		$('#navAMP').addClass('active');
+		$('#navAMPRec').addClass('active');
+	</script>
+</body>
+
+</html>

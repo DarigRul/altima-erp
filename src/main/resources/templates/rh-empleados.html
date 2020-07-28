@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Empleados | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+   <!-- Site wrapper -->
+   <div class="wrapper">
+      <!-- Navbar -->
+      <div th:insert="navegacion-nav"></div>
+      <!-- /.navbar -->
+      <!-- Modal -->
+      <div th:insert="navegacion-logout"></div>
+      <!-- Main Sidebar Container -->
+      <div th:insert="navegacion-aside"></div>
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+         <!-- Content Header (Page header) -->
+         <section class="content-header">
+            <div class="container-fluid">
+               <div class="row mb-2">
+                  <div class="col-sm-6">
+                     <h1>Empleados&nbsp;<a th:href="@{/rh-agregar-empleados}"><button
+                              class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body"
+                              data-toggle="popover" data-placement="right" data-content="Agregar"><i
+                                 class="fas fa-plus"></i></button></a></h1>
+                  </div>
+                  <div class="col-sm-6">
+                     <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item altima">Altima</li>
+                        <li class="breadcrumb-item active">Recursos Humanos</li>
+                        <li class="breadcrumb-item active">Empleados</li>
+                     </ol>
+                  </div>
+               </div>
+            </div>
+            <!-- /.container-fluid -->
+         </section>
+         <!-- Main content -->
+         <section class="content">
+            <div class="card">
+               <div class="card-header bg-altima">
+                  <h3 class="card-title">Lista de empleados</h3>
+               </div>
+               <div class="card-body">
+                  <table class="table table-striped table-bordered" style="width: 100%;" id="tablaEmpleados">
+                     <thead>
+                        <tr>
+                           <th>No. Empleados</th>
+                           <th>Nombre completo</th>
+                           <th>Empresa</th>
+                           <th>Área</th>
+                           <th>Departamento</th>
+                           <th>Puesto</th>
+                           <th style="width:20%">Acciones</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr th:each=" empleado: ${empleados}">
+                           <td th:text="${empleado[0]}"></td>
+                           <td th:text="${empleado[1]}"></td>
+                           <td th:text="${empleado[2]}"></td>
+                           <td th:text="${empleado[3]}"></td>
+                           <td th:text="${empleado[4]}"></td>
+                           <td th:text="${empleado[5]}"></td>
+                           <td class="text-center">
+
+                              <!-- MÁS DETALLE -->
+                              <a th:href="@{/rh-agregar-empleados}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body"
+                                    data-toggle="popover" data-placement="left" data-content="M&aacute;s detalles">
+                                    <i class="fas fa-info"></i>
+                              </a>
+
+                              <!-- EDITAR -->
+                              <a th:href="@{/rh-editar-empleado/}+${empleado[6]}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body"
+                                    data-toggle="popover" data-placement="left" data-content="Editar">
+                                    <i class="fas fa-pen"></i>
+                              </a>
+                              
+                              <!-- RECHAZAR -->
+                              <a class="btn btn-danger btn-circle btn-sm popoverxd" th:if="${empleado[7]==true}" data-container="body" th:href="@{/rh-empleado/baja/}+${empleado[6]}"
+                                 data-toggle="popover" data-placement="left" data-content="Rechazar">
+                                 <i class="fas fa-caret-down"></i>
+                           </a>
+                              <!-- APROBAR -->
+                              <a class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" th:if="${empleado[7]==false}" th:href="@{/rh-empleado/alta/}+${empleado[6]}"
+                                 data-toggle="popover" data-placement="left" data-content="Aprobar">
+                                 <i class="fas fa-sort-up"></i>
+                           </a>
+                           </td>
+                        </tr>
+                     </tbody>
+                     
+                  </table>
+               </div>
+            </div>
+
+         </section>
+      </div>
+      <!-- /.content -->
+
+   <!-- footer -->
+   <div th:insert="navegacion-footer"></div>
+   </div>
+   <!-- /.row -->
+
+   <!-- scripts -->
+   <div th:replace="navegacion-scripts"></div>
+   <script src="/dist/js/tablaEmpleados.js"></script>
+   <script src="/dist/js/rh.js"></script>
+   <script>
+      $('#iRH').removeClass('text-altima');
+      $('#menuRH').addClass('menu-open');
+      $('#navRH').addClass('active-altima');
+      $('#navRH2').addClass('active');
+   </script>
+
+</body>
+
+</html>

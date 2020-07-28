@@ -1,0 +1,884 @@
+<aside class="main-sidebar sidebar-light-primary elevation-4">
+    <!-- Brand Logo -->
+    <a th:href="${'/'}" class="brand-link">
+        <img src="/dist/img/AltimaLogo.png" alt="Altima Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8;" />
+        <span class="brand-text font-weight-light">Altima</span>
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="/dist/img/userCircle.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info" sec:authorize="isAuthenticated()">
+                <a class="d-block" sec:authentication="name">
+					Administrador
+				</a>
+            </div>
+        </div>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+              with font-awesome or any other icon font library -->
+                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}">
+                    <a th:href="${'/'}" class="nav-link" id="navDashboard">
+                        <i class="nav-icon fas fa-tachometer-alt text-altima" id="iDashboard"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_LISTAR'')')}) or 
+              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_AGREGAR'')')}) or
+              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_EDITAR'')')}) or 
+              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_ELIMINAR'')')})">
+                    <a th:href="${'/mensajeria'}" class="nav-link" id="navMensajeria">
+                        <i class="nav-icon fas fa-mail-bulk text-altima" id="iMensajeria"></i>
+                        <p>Mensajer&iacute;a</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="${'/reporte-catalogo'}" class="nav-link" id="navReportes">
+                        <i class="nav-icon fas fa-clipboard text-altima" id="iReportes"></i>
+                        <p>Reportes</p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview" id="menuDiseno" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+              (${#authorization.expression('hasRole(''ROLE_DISENIO'')')})">
+                    <a class="nav-link" id="navDiseno">
+                        <i class="nav-icon-custom flaticon-mannequin-with-stand text-altima" id="iDiseno"></i>
+                        <p>
+                            Dise&ntilde;o <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_APROBAR_RECHAZAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_REGISTRAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_ELIMINAR'')')})">
+                            <a th:href="${'/notificaciones-diseno'}" class="nav-link" id="navNotDis">
+                                <i class="nav-icon fas fa-bell"></i>
+                                <p>Notificaciones</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_APROBAR_RECHAZAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_REGISTRAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_ELIMINAR'')')})">
+                            <a th:href="${'/calidad'}" class="nav-link" id="navDiseno1">
+                                <i class="nav-icon fas fa-medal"></i>
+                                <p>Calidad</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_EDITAR'')')}) or 
+										(${#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ELIMINAR'')')}) or
+										(${#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_ACEPTAR_DECLINAR'')')})">
+                            <a th:href="${'/materiales'}" class="nav-link" id="navDiseno2">
+                                <i class="nav-icon-custom flaticon-button-with-cross-stitch"></i>
+                                <p>Materiales</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_ELIMINAR'')')})">
+                            <a th:href="${'/prendas'}" class="nav-link" id="navDiseno3">
+                                <i class="nav-icon-custom flaticon-female-black-dress"></i>
+                                <p>Prendas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_ELIMINAR'')')})">
+                            <a th:href="${'/catalogos'}" class="nav-link" id="navDiseno4">
+                                <i class="nav-icon fas fa-book-open"></i>
+                                <p>Cat&aacute;logos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_ELIMINAR'')')})">
+                            <a th:href="${'/control-de-produccion'}" class="nav-link" id="navDiseno5">
+                                <i class="nav-icon-custom flaticon-jacket-elegant-feminine-black-clothes-for-business"></i>
+                                <p>Producci&oacute;n de muestras</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" id="menuComercial" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+              (${#authorization.expression('hasRole(''ROLE_COMERCIAL'')')})">
+                    <a href="#" class="nav-link" id="navComercial">
+                        <i class="nav-icon fas fa-chart-pie text-altima" id="iComercial"></i>
+                        <p>
+                            Comercial <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item has-treeview" id="menuMuestrario" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO'')')})">
+                            <a class="nav-link" id="navMuestrario">
+                                <i class="nav-icon-custom flaticon-clothes-hanger"></i>
+                                <p>
+                                    Muestrario <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_ELIMINAR'')')})">
+                                    <a th:href="${'/inventario'}" class="nav-link" id="navMuestrario1">
+                                        <i class="nav-icon fas fa-stream"></i>
+                                        <p>Inventario</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_MOVIMIENTOS_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_MOVIMIENTOS_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_MOVIMIENTOS_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_MOVIMIENTOS_ELIMINAR'')')})">
+                                    <a th:href="${'/movimientos'}" class="nav-link" id="navMuestrario2">
+                                        <i class="nav-icon fas fa-exchange-alt"></i>
+                                        <p>Movimientos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_HISTORICO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_HISTORICO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_HISTORICO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_HISTORICO_ELIMINAR'')')})">
+                                    <a th:href="${'/historico-de-muestras'}" class="nav-link" id="navMuestrario3">
+                                        <i class="nav-icon fas fa-clock"></i>
+                                        <p>Hist&oacute;rico de muestras</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_CATALOGO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_CATALOGO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_CATALOGO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_CATALOGO_ELIMINAR'')')})">
+                                    <a th:href="${'/catalogos-muestrario'}" class="nav-link" id="navMuestrario4">
+                                        <i class="nav-icon fas fa-book-open"></i>
+                                        <p>Cat&aacute;logo</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview" id="menuVenta" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES'')')})">
+                            <a class="nav-link" id="navVenta">
+                                <i class="nav-icon fas fa-user-tie"></i>
+                                <p>
+                                    Agentes de venta <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_AGENDA_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_AGENDA_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_AGENDA_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_AGENDA_ELIMINAR'')')})">
+                                    <a th:href="${'/agenda-agente'}" class="nav-link" id="navVenta1">
+                                        <i class="nav-icon fas fa-calendar-alt"></i>
+                                        <p>Agenda</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CLIENTES_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CLIENTES_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CLIENTES_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CLIENTES_ELIMINAR'')')})">
+                                    <a th:href="${'/clientes'}" class="nav-link" id="navVenta2">
+                                        <i class="nav-icon fas fa-address-book"></i>
+                                        <p>Clientes</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_ELIMINAR'')')})">
+                                    <a th:href="${'/seguimientos'}" class="nav-link" id="navVenta3">
+                                        <i class="nav-icon fas fa-search"></i>
+                                        <p>Seguimientos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_ELIMINAR'')')})">
+                                    <a th:href="${'/carga-de-pedidos'}" class="nav-link" id="navVenta4">
+                                        <i class="nav-icon fas fa-luggage-cart"></i>
+                                        <p>Carga de Pedidos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_ELIMINAR'')')})">
+                                    <a th:href="${'/apartado-de-telas'}" class="nav-link" id="navVentaApartado">
+                                        <i class="nav-icon-custom flaticon-curling-hair-with-tissue-roll"></i>
+                                        <p>Apartado de Telas</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_ELIMINAR'')')})">
+                                    <a th:href="${'/movimientos-agentes'}" class="nav-link" id="navVenta5">
+                                        <i class="nav-icon fas fa-exchange-alt"></i>
+                                        <p>Movimientos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOPRENDAS_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOPRENDAS_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOPRENDAS_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOPRENDAS_ELIMINAR'')')})">
+                                    <a th:href="${'/catalogos-prendas-agentes'}" class="nav-link" id="navVenta6">
+                                        <i class="nav-icon-custom flaticon-lace-dress-with-white-belt"></i>
+                                        <p>Cat&aacute;logo de prendas</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOMATERIALES_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOMATERIALES_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOMATERIALES_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOMATERIALES_ELIMINAR'')')})">
+                                    <a th:href="${'/catalogos-materiales-agentes'}" class="nav-link" id="navVenta7">
+                                        <i class="nav-icon-custom flaticon-thread-spool-1"></i>
+                                        <p>Cat&aacute;logo de materiales</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview" id="menuExpediente" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE'')')})">
+                            <a class="nav-link" id="navExpediente">
+                                <i class="nav-icon fas fa-archive"></i>
+                                <p>
+                                    Expediente <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_ELIMINAR'')')})">
+                                    <a th:href="${'/expediente'}" class="nav-link" id="navExpediente1">
+                                        <i class="nav-icon fas fa-list"></i>
+                                        <p>Listado de pedidos</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview" id="menuAMP" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP'')')})">
+                            <a class="nav-link" id="navAMP">
+                                <i class="nav-icon fas fa-warehouse"></i>
+                                <p>
+                                    AMP <i class="fas fa-angle-left right" id="iAMP"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/catalogos-amp'}" class="nav-link" id="navAMPCat">
+                                        <i class="nav-icon fas fa-book-open"></i>
+                                        <p>Cat&aacute;logos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/inventario-amp'}" class="nav-link" id="navAMPInv">
+                                        <i class="nav-icon fas fa-stream"></i>
+                                        <p>Inventario</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/movimientos-amp'}" class="nav-link" id="navAMPEntSal">
+                                        <i class="nav-icon fas fa-exchange-alt"></i>
+                                        <p>Entradas y salidas</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/multialmacen-amp'}" class="nav-link" id="navAMPMul">
+                                        <i class="nav-icon fas fa-warehouse"></i>
+                                        <p>Multialmac&eacute;n</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/pendiente-por-surtir'}" class="nav-link" id="navAMPSur">
+                                        <i class="nav-icon fas fa-box-open"></i>
+                                        <p>Pendiente por surtir</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/pendiente-por-recibir'}" class="nav-link" id="navAMPRec">
+                                        <i class="nav-icon fas fa-box"></i>
+                                        <p>Pendiente por recibir</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview" id="menuMuestrario" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_COMERCIAL_RECEPCION'')')})">
+                            <a class="nav-link" id="navMuestrario">
+                                <i class="nav-icon fas fa-desktop"></i>
+                                <p>
+                                    Recepci&oacute;n <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_RECEPCION_AGENDA_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_RECEPCION_AGENDA_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_RECEPCION_AGENDA_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_RECEPCION_AGENDA_ELIMINAR'')')})">
+                                    <a th:href="${'/clientes'}" class="nav-link" id="navVenta1">
+                                        <i class="nav-icon fas fa-user"></i>
+                                        <p>Agenda</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview" id="menuMuestrario" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_COMERCIAL_VENTAS'')')})">
+                            <a class="nav-link" id="navMuestrario">
+                                <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                                <p>
+                                    Ventas <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_VENTAS_EJEMPLO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_VENTAS_EJEMPLO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_VENTAS_EJEMPLO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_VENTAS_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/'}" class="nav-link" id="navMuestrario1">
+                                        <i class="nav-icon far fa-circle"></i>
+                                        <p>Ejemplo</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/solicitud-gerencial'}" class="nav-link" id="navSolicitudMuestras">
+                                <i class="nav-icon fas fa-file-export"></i>
+                                <p>Solicitud de muestras</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/cotizaciones'}" class="nav-link" id="navCotizaciones">
+                                <i class="nav-icon fas fa-dollar-sign"></i>
+                                <p>Cotizaciones</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview" id="menuMuestrario" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL'')')})">
+                            <a class="nav-link" id="navMuestrario">
+                                <i class="nav-icon fas fa-user-tie"></i>
+                                <p>
+                                    Gerencia comercial <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_AGENDA_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_AGENDA_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_AGENDA_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_AGENDA_ELIMINAR'')')})">
+                                    <a th:href="${'/'}" class="nav-link" id="navMuestrario1">
+                                        <i class="nav-icon fas fa-calendar"></i>
+                                        <p>Agenda</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COTIZACIONES_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COTIZACIONES_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COTIZACIONES_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COTIZACIONES_ELIMINAR'')')})">
+                                    <a th:href="${'/'}" class="nav-link" id="navMuestrario1">
+                                        <i class="nav-icon fas fa-dollar-sign"></i>
+                                        <p>Cotizaciones</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_CLIENTES_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_CLIENTES_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_CLIENTES_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_CLIENTES_ELIMINAR'')')})">
+                                    <a th:href="${'/'}" class="nav-link" id="navMuestrario1">
+                                        <i class="nav-icon fas fa-address-book"></i>
+                                        <p>Clientes</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_ASIGNACIONES_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_ASIGNACIONES_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_ASIGNACIONES_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_ASIGNACIONES_ELIMINAR'')')})">
+                                    <a th:href="${'/'}" class="nav-link" id="navMuestrario1">
+                                        <i class="nav-icon fas fa-user-tag"></i>
+                                        <p>Asignaciones</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COMISIONES_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COMISIONES_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COMISIONES_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COMISIONES_ELIMINAR'')')})">
+                                    <a th:href="${'/'}" class="nav-link" id="navMuestrario1">
+                                        <i class="nav-icon fas fa-hand-holding-usd"></i>
+                                        <p>Comisiones</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview" id="menuMuestrario" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING'')')})">
+                            <a class="nav-link" id="navMuestrario">
+                                <i class="nav-icon fas fa-bullhorn"></i>
+                                <p>
+                                    Marketing <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_PROSPECTOS_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_PROSPECTOS_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_PROSPECTOS_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_PROSPECTOS_ELIMINAR'')')})">
+                                    <a th:href="${'/'}" class="nav-link" id="navMuestrario1">
+                                        <i class="nav-icon fas fa-id-card"></i>
+                                        <p>Prospectos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_SEGUIMIENTOS_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_SEGUIMIENTOS_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_SEGUIMIENTOS_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_SEGUIMIENTOS_ELIMINAR'')')})">
+                                    <a th:href="${'/'}" class="nav-link" id="navMuestrario1">
+                                        <i class="nav-icon fas fa-search"></i>
+                                        <p>Seguimientos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_LINEAEXPRESS_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_LINEAEXPRESS_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_LINEAEXPRESS_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_LINEAEXPRESS_ELIMINAR'')')})">
+                                    <a th:href="${'/'}" class="nav-link" id="navMuestrario1">
+                                        <i class="nav-icon fas fa-shipping-fast"></i>
+                                        <p>Linea Express</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_REGISTROLLAMADAS_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_REGISTROLLAMADAS_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_REGISTROLLAMADAS_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_REGISTROLLAMADAS_ELIMINAR'')')})">
+                                    <a th:href="${'/'}" class="nav-link" id="navMuestrario1">
+                                        <i class="nav-icon fas fa-phone"></i>
+                                        <p>Registro de llamadas</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_LISTAR'')')}) or 
+              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_AGREGAR'')')}) or
+              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_EDITAR'')')}) or 
+              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_ELIMINAR'')')})">
+                    <a th:href="${'/rutas'}" class="nav-link" id="navLogistica">
+                        <i class="nav-icon fas fa-truck text-altima" id="iLogistica"></i>
+                        <p>Log&iacute;stica</p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview" id="menuMaquila">
+                    <a class="nav-link" id="navMaquila">
+                        <i class="nav-icon-custom flaticon-classic-sewing-machine-with-spool-of-thread text-altima" id="iMaquila"></i>
+                        <p>
+                            Taller de maquila <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="${'/asignacion-de-operaciones'}" class="nav-link" id="navMaqAsig">
+                                <i class="nav-icon fas fa-clipboard-check"></i>
+                                <p>Asignaci&oacute;n de operaciones</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/catalogos-maquila'}" class="nav-link" id="navMaqCat">
+                                <i class="nav-icon fas fa-book-open"></i>
+                                <p>Cat&aacute;logos</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" id="menuCompras">
+                    <a class="nav-link" id="navCompras">
+                        <i class="nav-icon-custom fas fa-dollar-sign text-altima" id="iCompras"></i>
+                        <p>
+                            Compras <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="${'/catalogos-compras'}" class="nav-link" id="navComCat">
+                                <i class="nav-icon fas fa-book-open"></i>
+                                <p>Cat&aacute;logos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/compras-proveedores'}" class="nav-link" id="navComPro">
+                                <i class="nav-icon fas fa-user-friends"></i>
+                                <p>Proveedores</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" id="menuProduccion" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+              (${#authorization.expression('hasRole(''ROLE_PRODUCCION'')')})">
+                    <a class="nav-link" id="navProduccion">
+                        <i class="nav-icon fas fa-cogs text-altima" id="iProduccion"></i>
+                        <p>
+                            Producci&oacute;n <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_ELIMINAR'')')})">
+                            <a th:href="${'/catalogos-produccion'}" class="nav-link" id="navProduccion0">
+                                <i class="nav-icon fas fa-book-open"></i>
+                                <p>Catal&oacute;gos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_ELIMINAR'')')})">
+                            <a th:href="${'/cierre-de-expediente'}" class="nav-link" id="navProduccion1">
+                                <i class="nav-icon fas fa-file-download"></i>
+                                <p>Cierre de expediente</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_ELIMINAR'')')})">
+                            <a th:href="${'/ordenes-produccion-pedido'}" class="nav-link" id="navProduccionOrden">
+                                <i class="nav-icon fas fa-file-alt"></i>
+                                <p>&Oacute;rdenes de producci&oacute;n de pedido</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_FECHAS_PEDIDO_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_FECHAS_PEDIDO_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_FECHAS_PEDIDO_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_FECHAS_PEDIDO_ELIMINAR'')')})">
+                            <a th:href="${'/produccion-fechas-pedido'}" class="nav-link" id="navProduccion2">
+                                <i class="nav-icon far fa-calendar-alt"></i>
+                                <p>Fechas de pedido</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_MUESTRA_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_MUESTRA_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_MUESTRA_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_MUESTRA_ELIMINAR'')')})">
+                            <a th:href="${'/muestras'}" class="nav-link" id="navProduccion3">
+                                <i class="nav-icon-custom flaticon-sexy-female-dress-black-shape"></i>
+                                <p>Pedidos de muestra</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TELAS_FALTANTES_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TELAS_FALTANTES_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TELAS_FALTANTES_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TELAS_FALTANTES_ELIMINAR'')')})">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion4">
+                                <i class="nav-icon-custom flaticon-curling-hair-with-tissue-roll"></i>
+                                <p>Telas faltantes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_VENCER_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_VENCER_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_VENCER_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_VENCER_ELIMINAR'')')})">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion5">
+                                <i class="nav-icon far fa-clock"></i>
+                                <p>Pedidos a vencer</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CONTROL_PISO_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CONTROL_PISO_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CONTROL_PISO_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CONTROL_PISO_ELIMINAR'')')})">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion6">
+                                <i class="nav-icon fas fa-hand-paper"></i>
+                                <p>Control de piso</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_ASIGNACIONES_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_ASIGNACIONES_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_ASIGNACIONES_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_ASIGNACIONES_ELIMINAR'')')})">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion7">
+                                <i class="nav-icon fas fa-clipboard-check"></i>
+                                <p>Asignaciones</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CARGA_PRODUCCION_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CARGA_PRODUCCION_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CARGA_PRODUCCION_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CARGA_PRODUCCION_ELIMINAR'')')})">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion8">
+                                <i class="nav-icon fas fa-calculator"></i>
+                                <p>Carga de producci&oacute;n</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_AVANCES_PRODUCCION_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_AVANCES_PRODUCCION_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_AVANCES_PRODUCCION_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_AVANCES_PRODUCCION_ELIMINAR'')')})">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion9">
+                                <i class="nav-icon fas fa-forward"></i>
+                                <p>Avances de producci&oacute;n</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_DIA_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_DIA_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_DIA_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_DIA_ELIMINAR'')')})">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion10">
+                                <i class="nav-icon fas fa-calendar-day"></i>
+                                <p>Producci&oacute;n por d&iacute;a</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_MUESTRAS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_MUESTRAS_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_MUESTRAS_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_MUESTRAS_ELIMINAR'')')})">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion10">
+                                <i class="nav-icon flaticon-030-stitching"></i>
+                                <p>Producci&oacute;n de muestras</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_ELIMINAR'')')})">
+                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                                <i class="nav-icon fas fa-route"></i>
+                                <p>Rutas de procesos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_ELIMINAR'')')})">
+                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                                <i class="nav-icon flaticon-005-dress"></i>
+                                <p>Prendas faltantes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_ELIMINAR'')')})">
+                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                                <i class="nav-icon fas fa-box"></i>
+                                <p>Pedidos entregados</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_ELIMINAR'')')})">
+                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                                <i class="nav-icon fas fa-ticket-alt"></i>
+                                <p>Impresi&oacute;n de etiquetas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_ELIMINAR'')')})">
+                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                                <i class="nav-icon fas fa-tint"></i>
+                                <p>Hojas de tonos</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" id="menuServicio" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+              (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE'')')})">
+                    <a class="nav-link" id="navServicio">
+                        <i class="nav-icon far fa-comment-dots text-altima" id="iServicio"></i>
+                        <p>
+                            Servicio al cliente <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_ELIMINAR'')')})">
+                            <a th:href="${'/catalogos-servicio'}" class="nav-link" id="navCatSer">
+                                <i class="nav-icon fas fa-book-open"></i>
+                                <p>Cat&aacute;logos</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_LISTAR'')')}) or 
+              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_AGREGAR'')')}) or
+              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_EDITAR'')')}) or 
+              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_ELIMINAR'')')})">
+                    <a th:href="${'/administracion_usuarios'}" class="nav-link" id="navUsuario">
+                        <i class="nav-icon fas fa-users text-altima" id="iUsuario"></i>
+                        <p>Usuarios</p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview" id="menuRH" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+              (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS'')')})">
+                    <a class="nav-link" id="navRH">
+                        <i class="nav-icon fas fa-users-cog text-altima" id="iRH"></i>
+                        <p>
+                            Recursos humanos <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR'')')})">
+                            <a th:href="${'/rh-catalogos'}" class="nav-link" id="navRH1">
+                                <i class="nav-icon fas fa-cubes"></i>
+                                <p>Catálogos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_ELIMINAR'')')})">
+                            <a th:href="${'/rh-empleados'}" class="nav-link" id="navRH2">
+                                <i class="nav-icon fas fa-address-book"></i>
+                                <p>Empleados</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_ELIMINAR'')')})">
+                            <a th:href="${'/rh-permisos'}" class="nav-link" id="navRH3">
+                                <i class="nav-icon fas fa-address-book"></i>
+                                <p>Permisos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview" id="submenuRH" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}">
+                            <a class="nav-link" id="navRH4">
+                                <i class="nav-icon fas fa-file-alt"></i>
+                                <p>
+                                    Solicitudes <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_ELIMINAR'')')})">
+                                    <a th:href="${'/rh-incrementos'}" class="nav-link" id="subnavRH1">
+                                        <i class="nav-icon fas fa-chart-line"></i>
+                                        <p>Incremento de plazas</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_ELIMINAR'')')})">
+                                    <a th:href="${'/rh-solicitudes'}" class="nav-link" id="subnavRH2">
+                                        <i class="nav-icon fas fa-store"></i>
+                                        <p>Solicitudes de Empleados</p>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

@@ -1,0 +1,30 @@
+<!-- small box -->
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="small-box bg-altima div-rounded">
+    <div class="inner">
+        <h3>Instr. cuidado</h3>
+        <button data-toggle="modal" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or ${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_LISTAR'')')}" data-target="#detalleCuidado" class="btn btn-link" style="color: #ffffff!important; padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+    </div>
+    <div class="icon">
+        <i class="fas fa-exclamation-triangle" style="font-size: 3.5rem;top: 25px"></i>
+    </div>
+    <a class="small-box-footer div-rounded-footer">
+        <button onclick="agregarCuidado()" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or ${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_AGREGAR'')')}" class="btn btn-link" style="color: #ffffff!important">Agregar <i class="fas fa-plus-circle"></i></button>
+    </a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="detalleCuidado" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalCuidadoMobile">
+        <div class="modal-content modal-rounded-body" id="contenedorTabla7">
+            <div class="modal-header modal-rounded-header bg-altima">
+                <h5 class="modal-title" id="exampleModalLongTitle">Instrucciones de cuidado <button onclick="agregarCuidado()" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or ${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_AGREGAR'')')}" class="btn btn-light btn-circle btn-sm popoverxd"
+                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus text-altima"></i></button></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

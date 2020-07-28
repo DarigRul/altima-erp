@@ -1,0 +1,36 @@
+@charset "UTF-8";
+#loading {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(192, 192, 192, 0.5);
+  background-image: url("https://i.stack.imgur.com/MnyxU.gif");
+ 
+  background-repeat: no-repeat;
+  background-position: center;
+}
+}
+      
+    #page{
+            display: none;
+        }
+
+    #loading{
+            display: block;
+        }
+
+    .bd-example-modal-lg .modal-dialog{
+        display: table;
+        position: relative;
+        margin: 0 auto;
+        top: calc(50% - 24px);
+      }
+
+      .bd-example-modal-lg .modal-dialog .modal-content{
+        background-color: transparent;
+        border: none;
+      }

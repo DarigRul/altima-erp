@@ -1,0 +1,113 @@
+<!-- Modal -->
+<div class="modal fade" id="detalles-proceso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content" id="contenedorTabla">
+            <div  class="modal-header" id="menu" >
+                
+            </div>
+            <div class="modal-body">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="trazo">
+                    
+						
+						<input type="hidden" th:name="${_csrf.parameterName}" id="token" th:value="${_csrf.token}"/>
+						
+						<div class="modal-body" id="quitar">
+                    	<table class="table table-bordered" id="idtable" >
+                          
+                        </table>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane active" id="corte">
+                  		
+                  		<div class="modal-body" id="quitar2">
+                    	<table class="table table-bordered" id="idtable2" >
+                     
+                        </table>
+                        </div>
+						
+                    </div>
+                    <div role="tabpanel" class="tab-pane active" id="confeccion">
+                    	<div class="modal-body" id="quitar3">
+                    	<table class="table table-bordered" id="idtable3" >
+                     
+                        </table>
+                        </div>
+						
+                    </div>
+                    <div role="tabpanel" class="tab-pane active" id="planchado">
+                    	<div class="modal-body" id="quitar4">
+                    	<table class="table table-bordered" id="idtable4" >
+                     
+                        </table>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane active" id="terminado">
+                    	
+						<div class="modal-body" id="quitar5">
+                    	<table class="table table-bordered" id="idtable5" >
+                     
+                        </table>
+                        </div>
+                    	
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="aux" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content" >
+			
+			<div class="modal-body">
+				<!-- Tab panes -->
+				<form class="tab-content" name="auxform"  id="auxform">
+					<div class="row"  id ="contenedorSelect">
+						
+						<div class="form-group col-sm-6" id ="contenedorOperador">
+							<label for="pedidonom">Operador</label> 
+							
+							<select class="swal2-input" id="operador" name="operador">
+								<option value="">Seleccion a un operador</option>
+								
+							</select>
+						</div>
+						
+						<div class="form-group col-sm-6" id ="contenedorMuestra">
+							<label for="pedidonom">Muestra</label>  
+							<br><br>
+							<select class="swal2-input"  id="muestra"  name="muestra"  >
+								<option value="">Seleccion a una muestra</option>
+							</select>
+						</div>
+						
+						
+						</div>
+						<div class="row">
+						
+							<div class="form-group col-sm-6">
+								<label for="pedidonom">Fecha de recepcion</label> 
+								<input type="datetime-local" class="swal2-input" id="f1" name="f1"  required="required">
+							</div>
+							<div class="form-group col-sm-6">
+								<label for="pedidonom">Fecha de entrega</label> 
+								<input type="datetime-local" class="swal2-input" id="f2" name="f2" required="required">
+							</div>
+							<input type="hidden" name="id_muestra" id="id_muestra">
+							<input type="hidden"  name="tipo" id="tipo">
+							
+								<div class="form-group col-sm-12">
+		       						<button onclick="agregar()"  class="btn btn-primary next-step float-right" type="submit">Guardar</button>
+		      					</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+

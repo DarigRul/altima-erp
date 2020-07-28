@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Mensajer&iacute;a | Altima</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Solicitudes <a th:href="@{/mensajeria}"><button class="bt btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Mensajer&iacute;a</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                    	<div class="card">
+                                <div class="card-header bg-dark">
+                                    <h3 class="card-title">Generar solicitud</h3>
+                                </div>
+                                <div class="card-body">
+                                	<div class="form-group">
+                                        <label for="status">Tipo de solicitud</label>
+                                        <select class="form-control selectpicker" data-live-search="true" id="status" name="status" onChange="showSolicitud(this.value);">
+                                            <option value="materialSolicitud">Solicitud de material</option>
+                                            <option value="compraSolicitud">Requisici&oacute;n de compras</option>
+                                            <option value="ticketSolicitud">Ticket Soporte</option>
+                                        </select>
+                                    </div>
+                                    <!-- div th:insert="solicitudes-muestra"></div-->
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+			        </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+	<script>
+	$('#iMensajeria').removeClass('text-primary');
+	$('#navMensajeria').addClass('active');
+	</script>
+    <script type="text/javascript">
+        function showSolicitud(id) {
+            if (id == "muestraSolicitud") {
+                $("#muestraSolicitud").show();
+                $("#telaSolicitud").hide();
+                $("#materialSolicitud").hide();
+                $("#compraSolicitud").hide();
+                $("#ticketSolicitud").hide();
+            }
+            if (id == "telaSolicitud") {
+                $("#muestraSolicitud").hide();
+                $("#telaSolicitud").show();
+                $("#materialSolicitud").hide();
+                $("#compraSolicitud").hide();
+                $("#ticketSolicitud").hide();
+            }
+            if (id == "materialSolicitud") {
+                $("#muestraSolicitud").hide();
+                $("#telaSolicitud").hide();
+                $("#materialSolicitud").show();
+                $("#compraSolicitud").hide();
+                $("#ticketSolicitud").hide();
+            }
+            if (id == "compraSolicitud") {
+                $("#muestraSolicitud").hide();
+                $("#telaSolicitud").hide();
+                $("#materialSolicitud").hide();
+                $("#compraSolicitud").show();
+                $("#ticketSolicitud").hide();
+            }
+            if (id == "ticketSolicitud") {
+                $("#muestraSolicitud").hide();
+                $("#telaSolicitud").hide();
+                $("#materialSolicitud").hide();
+                $("#compraSolicitud").hide();
+                $("#ticketSolicitud").show();
+            }
+            
+        }
+    </script>
+</body>
+
+</html>

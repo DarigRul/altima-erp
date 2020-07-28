@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Agregar Usuario | Altima</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Usuarios</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+								<li class="breadcrumb-item active">Usuarios</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card">
+								<div class="card-header bg-dark">
+									<h3 class="card-title">Nuevo usuario</h3>
+								</div>
+								<div class="card-body">
+									<form class="form" id="form_usuario" th:action="@{/agregar_usuario}"
+										method="post">
+										<div class="form-row mb-0">
+											<div class="form-group col-md-4">
+												<label class="col-form-label-sm mb-0">Empleado</label> 
+												<select
+													
+													class="form-control selectpicker" data-live-search="true" required id="empleado" >
+													<option value="">Seleccione Empleado...</option>
+													<option th:each="empleado:${empleados}" th:selected="${empleado[6]==empleadoSelected}?'selected':'false'" th:value="${empleado[6]}"th:text="${empleado[1]}"></option>
+												</select>
+											</div>
+											<div class="form-group col-md-4">
+												<label class="col-form-label-sm mb-0">Nombre de
+													Usuario</label> <input type="text" required
+													class="form-control" id="username" th:value="${usuario}"/>
+													<input type="hidden" id="userCurrentName"  th:value="${usuario}"/>
+											</div>
+											<div class="form-group col-md-4" th:if="${idUser == null}">
+												<label class="col-form-label-sm mb-0">Contraseña</label> <input
+													type="password" required
+													id="pass" class="form-control" th:value="${passwordForm}"/>
+											</div>
+											<div class="form-group col-md-4" th:if="${idUser == null}">
+												<label class="col-form-label-sm mb-0">Confirmar
+													Contraseña</label> <input type="password" required
+													id="confirmPass" class="form-control" />
+											</div>
+											<div class="form-group col-md-4">
+												<label class="col-form-label-sm mb-0">Status Usuario</label>
+												<select class="form-control selectpicker" data-live-search="true" size="1"
+													id="statusUser">
+													<option value="">Seleccione...</option>
+													<option th:selected="${statusUser}==1?'selected':'false'" value="1">Activo</option>
+													<option th:selected="${statusUser}==0?'selected':'false'" value="0">Baja</option>
+												</select>
+											</div>
+											<div class="form-group col-md-5">
+												<label class="col-form-label-sm mb-0">Departamento</label> <select
+													class="form-control selectpicker" data-live-search="true" name="departamento" id="departamento"
+													onchange="cargarSeccion();">
+													<option value="">Seleccione...</option>
+												</select>
+											</div>
+											<div class="form-group col-md-5">
+												<label class="col-form-label-sm mb-0">Sección</label> <select
+													class="form-control selectpicker" data-live-search="true"
+													name="rol_select" id="rol_select" onchange="cargarPermiso($('select[name=departamento] option:selected').text(),$('#rol_select').val())"> 
+													<option value="">Seleccione...</option>
+												</select>
+											</div>
+											<div class="form-group col-sm-2">
+												<label for="status">Agregar</label>
+												<button id="adicionar" class="btn btn-info rounded-circle"
+													type="button" onclick="guardarRol()">
+													<i class="fas fa-plus"></i>
+												</button>
+											</div>
+											<table class="table table-bordered table-hover" >
+												<thead>
+													<tr>
+														<th style="display:none;">Id</th>
+														<th>Departamento</th>
+														<th>Rol</th>
+														<th>Permisos</th>
+														<th>Eliminar</th>
+													</tr>
+												</thead>
+												<tbody id="tablita" >
+													<div th:unless="${roles == null}">
+														<tr th:each="rol:${roles}">
+															<td th:text="${rol[0]=='ADMINISTRADOR'}?'Todos':${rol[1]}" ></td>
+															<td th:text="${rol[0]=='ADMINISTRADOR'}?'Todos':${rol[2]}"></td>
+															<td><p th:if="${rol[0]=='ADMINISTRADOR'}">Todos</p>
+															<select th:unless="${rol[0]=='ADMINISTRADOR'}" multiple class='form-control selectpicker'></select></td>
+															<td>
+																<button type="button" th:unless="${rol[0]=='ADMINISTRADOR'}" name="remove" class="btn btn-danger btn_remove borrar">Eliminar</button>
+															</td>
+														</tr>
+													</div>
+												</tbody>
+											</table>
+										</div>
+										<div class="form-group row">
+											<div class="col-lg-12 text-center text-white">
+												<a class="btn btn-danger" id="cancelar" href="javascript:history.back(-1);">Cancelar</a>
+												<button type="button" id="cambiarContra" class="btn btn-warning" th:unless="${idUser == null}"
+													data-toggle="modal" data-target="#passwordModal">Cambiar
+													Contraseña</button>
+												<button type="button" id="botonguardar" style="display: inline" class="btn btn-primary" onclick="guardarUsuario()">Guardar</button>
+												<button class="btn btn-primary" id="Guardando" type="button" style="display: none" disabled>Guardando...
+	  												<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+	  												<span class="sr-only">Loading...</span>
+												</button>
+											</div>
+										</div>
+										
+										
+									</form>
+									<div th:insert="modal-password"></div>
+								</div>
+									<input type="hidden" th:unless="${idUser == null}" th:field="${passwordForm.currentPassword}" class="form-control" placeholder="********" />
+                    				<input type="hidden" th:unless="${idUser == null}" th:field="${passwordForm.Id}" class="form-control" placeholder="********" />
+									<input type="hidden" th:value="${idUser}" id="idUser">
+									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" id="token"/>
+									
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<div th:insert="navegacion-footer"></div>
+	</div>
+	<!-- ./wrapper -->
+	<!-- jQuery -->
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<!-- Bootstrap 4 -->
+	<script src="/dist/js/bootstrap-select.min.js"></script>
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script th:src="@{/dist/js/demo.js}"></script>
+	<!-- sweet alert-->
+
+
+	<script th:src="@{/dist/js/sweetalert.js}"></script>
+		<script>
+
+		$('.selectCustom').selectpicker({
+			style: 'border border-bootstrap'
+		});
+	</script>
+	<script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+			
+			 position: 'center',
+			  icon:  /*[[${icon}]]*/'default',
+			  title: /*[[${title}]]*/'default',
+			  showConfirmButton: false,
+			  timer: 4000		
+	    });
+	</script>
+	<script th:src="@{/dist/js/roles_permisos.js}" th:inline="javascript"></script>	
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+
+		var RolesGenerales = /*[[${RolesGenerales}]]*/'default';
+		var userValid = /*[[${usuarios}]]*/'default';
+		var permisos = /*[[${dataRol}]]*/'default';
+		var roles = /*[[${permisos}]]*/'default';
+		var permiso="";
+		if ($('#idUser').val()!=""){
+			mapearPermisos();
+		}
+		/*]]>*/
+	</script>
+	
+</body>
+
+</html>

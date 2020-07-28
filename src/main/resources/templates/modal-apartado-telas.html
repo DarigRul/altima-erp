@@ -1,0 +1,41 @@
+<div class="modal fade" id="nuevaCarga" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Nueva carga de pedido</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+			</div>
+			<div class="modal-body col-md">
+				<form class="row" >
+					
+					<div class="form-group col-md-12">
+						<label for="cargaEmpresa">Pedido</label>
+						<select class="form-control selectpicker" data-live-search="true" name="cargaTipopedido" id="cargaTipopedido">
+							<option value='' selected>PED0001 Altima</option>
+							<option value=''>PED0002 DTI</option>
+							<option value=''>PED0003 DTI</option>
+							<option value=''>PED0004 DTI</option>
+							<option value=''>PED0005 Altima</option>
+							<option value=''>PED0006 Bimbo</option>
+						</select>
+					</div>
+					
+					
+					<div class="form-group col-md-6" id='div-ocultar' style="display: none">
+						<label for="cargaEmpresa">Pedido</label>
+						<select class="form-control selectpicker idPedido" data-live-search="true" name="id-pedido" id="id-pedido">
+						
+						</select>
+					</div>
+					
+					<div class="form-group col-sm-12"> <a th:href="@{/coordinados}" class="btn btn-danger ">Cancelar</a>
+						<input type="button" class="btn btn-primary next-step float-right" value="Guardar" onclick='agregar()'> </div>
+						<input type="hidden" th:name="${_csrf.parameterName}" id="token" th:value="${_csrf.token}"/>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

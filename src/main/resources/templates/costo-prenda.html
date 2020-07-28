@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+  <title id="pageTitle"> Costo prenda | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+  <!-- Site wrapper -->
+  <div class="wrapper">
+    <!-- Navbar -->
+    <div th:insert="navegacion-nav"></div>
+    <!-- /.navbar -->
+    <!-- Modal -->
+    <div th:insert="navegacion-logout"></div>
+    <!-- Main Sidebar Container -->
+    <div th:insert="navegacion-aside"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Prendas&nbsp;<a th:href="${'/prendas'}"><button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item altima">Altima</li>
+                <li class="breadcrumb-item active">Dise&ntilde;o</li>
+                <li class="breadcrumb-item active">Prendas</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-header bg-altima">
+              <h5 class="card-title">Costo de prenda</h5>
+            </div>
+            <div class="card-body">
+              <form class="row" th:object="${precio}" method="POST" th:action="@{/guardar-precio-prenda}">
+                <div class="form-group col-md-6">
+                  <label for="costoMaquila">Maquila</label>
+                    <div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">$</span>
+					  </div>
+					  <input min="0.00" max="10000.00" step="0.01"  type="number" class="form-control" required th:field="*{costoMaquila}" id="costoMaquila" placeholder="2000" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency">
+					</div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="costoMaquilaMuestra">Maquila muestra</label>
+                    <div class="input-group mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text">$</span>
+					  </div>
+					  <input min="0.00" max="10000.00" step="0.01"  type="number" class="form-control" required th:field="*{costoMaquilaMuestra}" id="costoMaquilaMuestra" placeholder="1500" pattern="^\d{1,3}(,\d{3})*(\.\d+)?" data-type="currency">
+					</div>
+                </div>
+                <div class="form-group col-sm-12">
+                  <a th:href="@{'/prendas'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                  <button type="submit" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+                </div>
+                <input type="hidden" th:field="*{idPrenda}">
+                <input type="hidden" th:field="*{idListaPrecioPrenda}">
+                <input type="hidden" th:field="*{creadoPor}">
+                
+                <input type="hidden" th:field="*{precioLocalNuevo}">
+                <input type="hidden" th:field="*{precioLocalAntiguo}">
+                <input type="hidden" th:field="*{precioForaneoNuevo}">
+                <input type="hidden" th:field="*{precioForaneoAntiguo}">
+                <input type="hidden" th:field="*{precioMuestrario}">
+                <input type="hidden" th:field="*{precioLineaExpressLocalNuevo}">
+                <input type="hidden" th:field="*{precioLineaExpressLocalAnterior}">
+                <input type="hidden" th:field="*{precioLineaExpressForaneoNuevo}">
+                <input type="hidden" th:field="*{precioLineaExpressForaneoAnterior}">
+                <input type="hidden" th:field="*{precioVentaInterna}">
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- /.card -->
+      </section>
+    </div>
+  <div th:insert="navegacion-footer"></div>
+  </div>
+  <!-- ./wrapper -->
+  <div th:replace="navegacion-scripts"></div>
+  <!-- <script src="/dist/js/CurrentValidation.js"></script> -->
+  <script>
+    $('#RH').removeClass('text-primary');
+    $('#menuRH').addClass('menu-open');
+    $('#RH').addClass('active');
+    $('#navRH3').addClass('active');
+  </script>
+    
+</body>
+
+</html>

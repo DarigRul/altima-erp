@@ -1,0 +1,50 @@
+<div class="modal fade" id="nuevaCarga" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content modal-rounded-body">
+			<div class="modal-header bg-altima modal-rounded-header">
+				<h5 class="modal-title" id="exampleModalLabel">Nueva carga de pedido</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+			</div>
+			<div class="modal-body col-md">
+				<form class="row" >
+					<div class="form-group col-md-6">
+						<label for="cargaEmpresa">Empresa</label>
+						<select class="form-control selectpicker" data-live-search="true" name="cargaEmpresa" id="cargaEmpresa">
+							<option value='' selected>Seleccione uno...</option>
+							<option th:each="clientes: ${clientes}" th:value="${clientes.idCliente}"
+								th:text="${clientes.Nombre}"></option>
+						</select>
+					</div>
+					
+					
+					<div class="form-group col-md-6">
+						<label for="cargaEmpresa">Tipo de pedido</label>
+						<select class="form-control selectpicker" data-live-search="true" name="cargaTipopedido" id="cargaTipopedido">
+							<option value='' selected>Seleccione uno...</option>
+							<option value='1'>Pedido General</option>
+							<option value='2'>Pedido Especial</option>
+							<option value='2'>Stock</option>
+							<option value='3'>Resurtido</option>
+							<option value='3'>Reajustes</option>
+						</select>
+					</div>
+					
+					
+					<div class="form-group col-md-6" id='div-ocultar' style="display: none">
+						<label for="cargaEmpresa">Pedido</label>
+						<select class="form-control selectpicker idPedido" data-live-search="true" name="id-pedido" id="id-pedido">
+						
+						</select>
+					</div>
+					
+					<div class="form-group col-sm-12"> <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+						<button type="button" onclick='agregar()' class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button> </div>
+						<input type="hidden" th:name="${_csrf.parameterName}" id="token" th:value="${_csrf.token}"/>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

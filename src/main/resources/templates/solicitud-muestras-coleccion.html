@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Solicitud Gerencial | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Solicitud de muestras <a th:href="@{/solicitud-gerencial}"><button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a th:href="@{'/'}">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Solicitud de muestras</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Formulario de solicitud</h3>
+                                </div>
+                                <div class="card-body">
+                                 <form class="row"  th:object="${coleccion}" th:action="@{/guardar-coleccion}" method="post">
+                                        <div class="form-group col-sm-4">
+                                            <label for="cantidadColeccion">Cantidad</label> 
+                                           <input  type="number" min="1" class="form-control" th:field="*{cantidad}" placeholder="1" required >
+                                        </div>
+										<div class="form-group col-md-4">
+										   <label for="prendaColeccion">Famila Prenda</label>
+										      <select  class="form-control selectpicker coorPrenda" required data-live-search="true" th:field="*{idFamiliaPrenda}">
+										     <option value="" selected>Selecciona uno...</option>
+											 <option th:each="listPrendas: ${listPrendas}" th:value="${listPrendas.idLookup}"
+												th:text="${listPrendas.nombreLookup}"></option>
+										    </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="prendaColeccion">Familia de genero</label>
+                                               <select  class="form-control selectpicker coorPrenda" required data-live-search="true" th:field="*{idFamiliaGenero}">
+                                              <option value="" selected>Selecciona uno...</option>
+                                              <option th:each="genero: ${generos}" th:value="${genero.idLookup}"
+                                                 th:text="${genero.nombreLookup}"></option>
+                                             </select>
+                                         </div>
+										
+										
+											 <input type="hidden" th:field="*{idPedido}" >
+											 <input type="hidden" th:field="*{idProduccionPedidoColeccion}" >
+											 <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+											 
+											 
+                                        <div class="form-group col-sm-12">
+                                        		<input type="submit" class="btn btn-primary next-step float-right" value="Agregar"> </div>
+                                        </div>
+										
+                                        <div class="form-group col-sm-12">
+                                        </div>
+                                        
+                                        
+                                        
+                                        
+                                        </form>
+                                        
+                                        <div class="form-group col-md-12">
+											<table class="table tablaColeccion table-striped table-bordered">
+		                                        <thead>
+		                                            <tr>
+		                                            	
+		                                                <th>Cantidad</th>
+                                                        <th>Prenda</th>
+                                                        <th>Genero</th>
+		                                                <th>Eliminar</th>
+		                                            </tr>
+		                                        </thead>
+		                                        <tbody>
+		                                        <tr th:each="mt:${listtabla}">
+		                                           	      <td th:text="${mt[1]}"></td>
+		                                                  <td th:text="${mt[2]}"></td>
+                                                          <td th:text="${mt[3]}"></td>
+		                                                <td class="text-center" >
+		                                                 <a class="btn icon-btn btn-danger text-white mr-auto" type="button" th:href="@{/eliminar-coleccion/}+${mt[4]}+@{/}+${mt[0]}"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</a>
+                                                		</td>
+		                                            </tr>
+		                                        </tbody>
+		                                    </table>
+										</div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+    
+    
+         <!-- Js de Coleccion -->
+    <script th:src="@{/dist/js/coleccion.js}"></script>
+         <!-- SweetAlert -->
+    <script th:src="@{/dist/js/sweetalert.js}"></script>
+    <script src="/dist/js/tablaSolicitudColeccion.js"></script>
+    <script>
+   	$('#iComercial').removeClass('text-altima');
+	$('#menuComercial').addClass('menu-open');
+	$('#navComercial').addClass('active-altima');
+        $('#navSolicitudMuestras').addClass('active');
+    </script>
+    
+    
+   
+	
+</body>
+
+</html>

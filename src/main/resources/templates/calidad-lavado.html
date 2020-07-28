@@ -1,0 +1,140 @@
+<div class="row">
+    <div class="col-sm-12">
+    <input type="hidden" id="idCalidadLavado" th:value="${idCalidad}">
+        <a><strong>IMPORTANTE</strong><br>
+	    <i class="fas fa-check-circle text-success"></i> Cortar 4 testigos con medidas de 25cm x 25cm<br>
+	    <i class="fas fa-check-circle text-success"></i> Marcar con una muesca el hilo de las telas<br>
+	    <strong style="color:#ff0000"><i class="fas fa-exclamation-triangle"></i> Guardar un testigo original</strong></a>
+        <hr>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label th:text="${tipoMaterial}==1?'Tela':'Forro'"></label>
+            <input type="text" class="form-control" id="telas" readonly th:value="${tela}">
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label>Operario</label>
+            <select class="form-control selectpicker idOperarios" title="Seleccione uno..." data-live-search="true" id="operarioLavado" th:disabled="${readLavado}" th:value="${operarioLavado}">
+                <option th:each="operario : ${operarios}" 
+            			th:value="${operario[0]}" 
+            			th:text="${operario[1]}+ ' ' + ${operario[2]} + ' ' + ${operario[3]}"></option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label style="font-size: 15px;">Fecha de realizaci&oacute;n</label>
+            <input type="date" class="form-control" id="fechaRealizacionLavado" placeholder="23.2" th:readonly="${readLavado}" th:value="${fechaRealizacionLavado}">
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <hr>
+        <h4>Descripci&oacute;n:<strong> Prueba de lavado</strong></h4>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label style="font-size: 15px;">Medida final del hilo</label>
+            <input type="number" class="form-control" id="medidaHiloPruebaLavado" onchange="HiloLavado()" placeholder="23.2" th:readonly="${readLavado}" th:value="${medidaHiloPruebaLavado}">
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label style="font-size: 15px;">Medida final de la trama</label>
+            <input type="number" class="form-control" id="medidaTramaPruebaLavado" onchange="TramaLavado()" placeholder="23.2" th:readonly="${readLavado}" th:value="${medidaTramaPruebaLavado}">
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <h5>Resultado</h5>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label style="font-size: 15px;">Diferencia hilo</label>
+            <input type="number" class="form-control" id="diferenciaHiloPruebaLavado" onchange="HiloLavado()" placeholder="23.2" th:readonly="${readLavado}" th:value="${diferenciaHiloPruebaLavado}">
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label style="font-size: 15px;">(100cm/_____cm)</label>
+            <input type="text" class="form-control" id="finalHiloMedPruebaLavado" placeholder="23.2" readonly="readonly" th:value="${finalHiloMedPruebaLavado==null}?'':${finalHiloMedPruebaLavado}+'%'">
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label style="font-size: 15px;">Diferencia trama</label>
+            <input type="number" class="form-control" id="diferenciaTramaPruebaLavado" onchange="TramaLavado()" placeholder="23.2" th:readonly="${readLavado}" th:value="${diferenciaTramaPruebaLavado}">
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label style="font-size: 15px;">(100cm/_____cm)</label>
+            <input type="text" class="form-control" id="finalTramaMedPruebaLavado" placeholder="23.2" readonly="readonly" th:value="${finalTramaMedPruebaLavado==null}?'':${finalTramaMedPruebaLavado}+'%'">
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label style="font-size: 15px;">Observaciones</label>
+            <textarea class="form-control" id="observacionesReultPruebaLavado" rows="3" placeholder="Especificar" th:readonly="${readLavado}" th:text="${observacionesReultPruebaLavado}"></textarea>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <hr>
+        <h4>Descripci&oacute;n:<strong> Solidez/Color</strong></h4>
+    </div>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label>Calidad</label>
+            <div class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" value="buena" id="buenaLavado" name="calidadLavado" th:disabled="${readLavado}" th:checked="${checkBLavado}">
+                <label for="buenaLavado" class="custom-control-label">Buena</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" value="regular" id="regularLavado" name="calidadLavado" th:disabled="${readLavado}" th:checked="${checkRLavado}">
+                <label for="regularLavado" class="custom-control-label">Regular</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" value="mala" id="malaLavado" name="calidadLavado" th:disabled="${readLavado}" th:checked="${checkMLavado}">
+                <label for="malaLavado" class="custom-control-label">Mala</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <hr>
+        <h4>Descripci&oacute;n:<strong> Resultado pilling</strong></h4>
+    </div>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" value="si" id="si" name="decision" th:disabled="${readLavado}" th:checked="${checkSLavado}">
+                <label for="si" class="custom-control-label">Si</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" value="no" id="no" name="decision" th:disabled="${readLavado}" th:checked="${checkNLavado}">
+                <label for="no" class="custom-control-label">No</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label style="font-size: 15px;">Observaciones</label>
+            <textarea class="form-control" id="observacionesReultPilling" rows="3" placeholder="Especificar" th:readonly="${readLavado}" th:text="${observacionesReultPilling}"></textarea>
+        </div>
+    </div>
+	<div class="form-group col-sm-12">
+        <a th:href="${'/calidad'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+		<button type="button" id="botonguardarlavado" class="btn icon-btn btn-altima text-white next-step float-right" th:hidden="${displaLavado}" onclick="ValidacionLavado()"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+		
+		<a type="button" class="btn btn-primary next-step float-right" onclick="PruebasLavado()" id="enlaceLavado" style="display: none;"></a>
+		<button class="btn btn-primary next-step float-right" id="Guardandolavado" type="button" style="display: none" disabled>Guardando...
+	  		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+	  		<span class="sr-only">Loading...</span></button>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="form-group col-sm-12" id="AlertaPestanaLavado" style="display: none; color: red;">
+			<div class="float-right">
+				<label>Debes llenar todos los campos correctamente.</label>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,56 @@
+
+	<div class="modal fade" id="editarnombreempleado"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ 
+	<form id="formcambiardgp" 
+				th:action="@{'/editarNombredgp/'+${idPedido}+'/'+${idcliente}}"
+				method="post" 
+				>
+			
+ 
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Cambiar Nombre del Empleado </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body col-md">
+            <div class="row">
+               <div class="form-group col-md-4">
+                  <label>Editar Nombre del Empleado</label>
+                  <input type="text" name="get_nombre_cambiar_dgp" id="myText" class="form-control" value="Mickey">
+                   <input type="hidden" name="get_id_cambiar_dgp" id="idcambiarnombre">
+               </div>
+               <div class="form-group col-md-4">
+							<label for="coorSurcusalModal">Surcusal</label> 
+							<select
+								class="form-control selectpicker" data-live-search="true"
+								id="coorSucursalModal" name="get_sucursal_id_modal_nombre">
+								<option th:each="getlistSucursal, iterstat: ${getlistSucursal}"
+									th:value="${getlistSucursal.IdClienteSucursal}"
+									th:text="${getlistSucursal.NombreSucursal}"></option>
+							</select>
+			   </div>
+			   <div class="form-group col-md-4">
+							<label for="coorPrendaModal">Raz&oacute;n social</label> <select
+								class="form-control selectpicker" data-live-search="true"
+								id="coorPrendaModal" name="get_factura_id_modal_nombre">
+								<option th:each="getlistfactura, iterstat: ${getlistfactura}"
+									th:value="${getlistfactura.idClienteFacturaF}"
+									th:text="${getlistfactura.razon_socialF}"></option>
+							</select>
+						</div>
+           
+            </div>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
+            <button onClick="cambiarnombredgp()"  data-dismiss="modal" class="btn btn-primary">Actualizar</button>
+         </div>
+         
+      </div>
+   </div>
+   	</form>
+   
+</div>

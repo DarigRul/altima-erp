@@ -1,0 +1,114 @@
+<div class="small-box bg-danger">
+    <div class="inner">
+        <h3>Operaciones</h3>
+        <button data-toggle="modal" data-target="#detalleOperaciones" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+    </div>
+    <div class="icon">
+        <i class="ion ion-ios-pricetags-outline"></i>
+    </div>
+    <a class="small-box-footer">
+        <button onclick="addAsignacion()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+    </a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="detalleOperaciones" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-catalogo-maquila-operacion" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de operaciones <button onclick="addAsignacion()" class="btn btn-light btn-circle btn-sm text-danger popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 <table class="table tablaMaquila table-striped table-bordered" style="width:100%">
+										<thead>
+											<tr>
+												<th>Clave</th>
+												<th>Descripci&oacute;n de la operaci&oacute;n</th>
+												<th>SAM</th>
+												<th>Producci&oacute;n hora</th>
+												<th>Producci&oacute;n turno</th>
+												<th>Acciones</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>OP001</td>
+												<td>Coser etiqueta a tabulejo</td>
+												<td>0.68</td>
+												<td>88</td>
+												<td>794</td>
+												<td class="text-center">
+													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creación: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicación: </strong>21/02/2020"><i class="fas fa-info"></i></button>
+													<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editAsignacion()" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+													<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteAsignacion()" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-times"></i></button>
+												</td>
+											</tr>
+											<tr>
+												<td>OP002</td>
+												<td>Coser centro espalda ( hacer fuelle )</td>
+												<td>0.72</td>
+												<td>83</td>
+												<td>750</td>
+												<td class="text-center">
+													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
+													<button data-toggle="modal" data-target="#modalAsignacion" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+													<button onclick="eliminarAsignacion()"  class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Eliminar"><i class="fas fa-times"></i></button>
+												</td>
+											</tr>
+											<tr>
+												<td>OP003</td>
+												<td>Coser tabulejo a espalda de forro</td>
+												<td>0.68</td>
+												<td>88</td>
+												<td>794</td>
+												<td class="text-center">
+													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
+													<button data-toggle="modal" data-target="#modalAsignacion" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+													<button onclick="eliminarAsignacion()"  class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Eliminar"><i class="fas fa-times"></i></button>
+												</td>
+											</tr>
+											<tr>
+												<td>OP004</td>
+												<td>Coser costadillos  a delanteros de forro</td>
+												<td>1.27</td>
+												<td>47</td>
+												<td>425</td>
+												<td class="text-center">
+													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
+													<button data-toggle="modal" data-target="#modalAsignacion" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+													<button onclick="eliminarAsignacion()"  class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Eliminar"><i class="fas fa-times"></i></button>
+												</td>
+											</tr>
+											<tr>
+												<td>OP005</td>
+												<td>Coser vistas de casimir a delanteros de forro</td>
+												<td>1.43</td>
+												<td>42</td>
+												<td>378</td>
+												<td class="text-center">
+													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
+													<button data-toggle="modal" data-target="#modalAsignacion" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+													<button onclick="eliminarAsignacion()"  class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Eliminar"><i class="fas fa-times"></i></button>
+												</td>
+											</tr>
+											<tr>
+												<td>OP006</td>
+												<td>Cotejar espalda a delanteros de forro</td>
+												<td>0.49</td>
+												<td>1.22</td>
+												<td>1102</td>
+												<td class="text-center">
+													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
+													<button data-toggle="modal" data-target="#modalAsignacion" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+													<button onclick="eliminarAsignacion()"  class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Eliminar"><i class="fas fa-times"></i></button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+            </div>
+        </div>
+    </div>
+</div>

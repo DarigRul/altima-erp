@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Permisos | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Permisos&nbsp;<a th:href="@{/rh-permisos}"><button
+                              class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"
+                              data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Recursos Humanos</li>
+                                <li class="breadcrumb-item active">Permisos</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="card">
+                        <div class="card-header bg-altima">
+                            <h5 class="card-title">Agregar Permiso</h5>
+                        </div>
+                        <div class="card-body">
+                            <form class="row" th:action="${action} == 'Guardar' ? @{/agregar_permiso} : @{/editar_permiso_guardado}" method="post" th:object="${per}">
+                                <input th:if="${action == 'editar'}" type="hidden" name="id_permiso" th:value="${addPermiso2}">
+
+                                <div class="form-group col-md-3">
+                                    <label for="exampleFormControlSelect1">&Aacute;rea</label>
+                                    <select name="id_area" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true"  onchange="listarDepartamentos(this.value)" title="Selecciona uno...">
+                                    <option th:each="empresa:${listEmpresas}" th:value="${empresa.idLookup}" th:text="${empresa.nombreLookup}" th:selected="${area}==${empresa.idLookup}"></option>
+          
+        </select>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="exampleFormControlSelect1">Departamento</label>
+                                    <select name="id_departamento" id="departamento" onchange="listarPuestos(this.value)" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+          
+        </select>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="exampleFormControlSelect1">Puesto</label>
+                                    <select name="id_puesto" id="puestos" onchange="listarEmpleado(this.value)" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+        
+        </select>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label>Empleado</label>
+                                    <select name="idEmpleado" id="empleado" class="form-control selectpicker empleado" data-live-search="true" data-live-search-normalize="true" th:field="*{idEmpleado}" title="Selecciona uno...">
+        </select>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="exampleInputPassword1">Tipo de permiso</label>
+                                    <select name="tipoPermiso" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." th:field="*{tipoPermiso}">
+                  <option value="Personal">Personal</option>
+                  <option value="Laboral">Laboral</option>
+                </select>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="exampleInputPassword1">Evento</label>
+                                    <select name="evento" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." th:field="*{evento}">
+                  <option value="Inicio laboral fuera de instalaciones">Inicio laboral fuera de instalaciones</option>
+                  <option value="Registro de salida laboral">Registro de salida laboral</option>
+                  <option value="Salida con regreso">Salida con regreso</option>
+                  <option value="Salida sin regreso">Salida sin regreso</option>
+                  <option value="Tiempo complementario">Tiempo complementario</option>
+                  <option value="Trabajo fuera de instalaciones">Trabajo fuera de instalaciones</option>
+                  <option value="Vacaciones">Vacaciones</option>
+                </select>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                 <label for="exampleInputPassword1">Condiciones</label>
+                <select name="condiciones" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." th:field="*{condiciones}">
+                  <option value="Con goce de sueldo">Con goce de sueldo</option>
+                  <option value="Tiempo por tiempo">Tiempo por tiempo</option>
+                </select>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="exampleInputPassword1">Fecha inicial</label>
+                                    <input type="date" class="form-control" th:field="*{fechaInicial}" name="fechaInicial">
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="exampleInputPassword1">Fecha final</label>
+                                    <input type="date" class="form-control" th:field="*{fechaFinal}" name="fechaFinal">
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="exampleInputPassword1">Hora inicial</label>
+                                    <input type="time" class="form-control" th:field="*{horaInicial}" name="horaInicial">
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="exampleInputPassword1">Hora final</label>
+                                    <input type="time" class="form-control" th:field="*{horaFinal}" name="horaFinal">
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label for="exampleFormControlTextarea1">Observaciones</label>
+                                    <textarea class="form-control" name="observaciones" rows="3" placeholder="Especificar" th:field="*{observaciones}"></textarea>
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <a th:href="@{'/rh-permisos'}" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                                    <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </section>
+        </div>
+
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+
+    <div th:replace="navegacion-scripts"></div>
+    <!-- Funcionalidad-->
+    <script src="/dist/js/rh.js"></script>
+    <!-- esta linea  -->
+    <script src="/dist/js/HrPermiso.js"></script>
+    <script>
+        $('#iRH').removeClass('text-altima');
+        $('#menuRH').addClass('menu-open');
+        $('#navRH').addClass('active-altima');
+        $('#navRH3').addClass('active');
+    </script>
+	
+	<script th:if="${area != null}" th:inline="javascript">
+	
+	listarDepartamentos(/*[[${area}]]*/ , /*[[${dep}]]*/ );
+	
+	listarPuestos(/*[[${dep}]]*/ , /*[[${pue}]]*/ );
+	
+	listarEmpleado(/*[[${pue}]]*/ ,    /*[[${per.idEmpleado}]]*/);
+	
+	
+	</script>  
+
+</body>
+
+</html>

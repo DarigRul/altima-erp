@@ -1,0 +1,55 @@
+<form class="row" id="cotizacionNueva" style="display:none">
+	<div class="form-group col-md-1">
+		<label for="cantidadCotizacion">Cantidad</label>
+		<input type="number" class="form-control" id="cantidadCotizacion" min="0" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="10">
+	</div>
+	<div class="form-group col-md-2">
+		<label for="coordinadoCotizacion">Coordinado</label>
+		<input type="number" class="form-control" id="coordinadoCotizacion" min="0" onkeypress='return event.charCode >= 48 && event.charCode <= 57' placeholder="1">
+	</div>
+	<div class="form-group col-md-3">
+		<label for="prendaCotizacion">Prenda</label>
+		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="prendaCotizacion">
+		<option th:each="prenda : ${ ListarPrendas }" th:value="${ prenda.idLookup }" th:text="${ prenda.nombreLookup }"></option>
+		</select>
+	</div>
+	<div class="form-group col-md-3">
+		<label for="modeloCotizacion">Modelo</label>
+		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="modeloCotizacion">
+		</select>
+	</div>
+	<div class="form-group col-md-3">
+		<label for="telaCotizacion">Tela</label>
+		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="telaCotizacion">
+		</select>
+	</div>
+	<div class="form-group col-md-12">
+		<a class="btn icon-btn btn-altima float-right text-white" onclick="ValidarRegistroTablita()" type="submit"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</a>
+	</div>
+	<table class="table table-striped table-bordered" id="tablaCotizacionesAgregar" style="width:100%">
+		<thead>
+			<tr class="text-center" style="font-size:12px">
+				<th style="width:5%">Prenda</th>
+				<th>Modelo</th>
+				<th>Tela</th>
+				<th>Composici&oacute;n</th>
+				<th>Color</th>
+				<th style="width:5%" class="choice desglozada">Coordinado</th>
+				<th style="width:5%" class="choice desglozada">Cantidad</th>
+				<th>Precio Unitario Inicial</th>
+				<th>Precio Bordado</th>
+				<th>% Adicional</th>
+				<th>Monto Adicional</th>
+				<th>Precio Unitario Final</th>
+				<th class="choice desglozada">Importe</th>
+				<th>Eliminar</th>
+			</tr>
+		</thead>
+		<tbody>		
+		</tbody>
+	</table>
+	<div class="form-group col-sm-12">
+		<a th:href="@{/cotizaciones}" class="btn icon-btn btn-danger text-white" type="submit"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+		<a onclick="ValidarCotizacionPrendas()" style="pointer-events: true" class="btn icon-btn btn-altima float-right text-white" type="submit" id="BotonGuardarPrendas" ><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</a>
+	</div>
+</form>

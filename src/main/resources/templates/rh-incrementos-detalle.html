@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Detalle de incremento | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Solicitud de incremento de Plazas<a th:href="@{/rh-incrementos}"><button
+                                        class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
+                                        data-toggle="popover" data-placement="right" data-content="Regresar">
+                                        <i class="fas fa-arrow-left"></i>
+                                    </button></a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Detalle de incremento</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Small boxes (Stat box) -->
+                    <div class="row">
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="card">
+                        <div class="card-header bg-dark">
+                            <h5 class="card-title">Detalle de incremento</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group col-sm-12">
+                                <table id="datos" class="table table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>&Aacute;rea</th>
+                                            <th>Departamento</th>
+                                            <th>Puesto</th>
+                                            <th>Núm. Plazas</th>
+                                        </tr>
+                                        <tr>
+                                            <td th:text="${incrementos[12]}"></td>
+                                            <td th:text="${incrementos[2]}"></td>
+                                            <td th:text="${incrementos[3]}"></td>
+                                            <td th:text="${incrementos[8]}"></td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <br>
+
+                            <div class="form-group col-sm-12">
+                                <table id="datos" class="table table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Sueldo</th>
+                                            <th>Fecha de solicitud</th>
+                                            <th>Fecha de Autorizaci&oacute;n/Rechazo
+                                            <th th:if ="${incrementos[10] == 3}">Motivo de rechazo</th>
+                                        </tr>
+                                        <tr>
+                                            <td th:text="${incrementos[4]}"></td>
+                                            <td th:text="${incrementos[5]}"></td>
+                                            <td th:text="${incrementos[6]}"></td>
+                                            <td>
+                                                <span th:if="${incrementos[10] == 3}"
+                                                    th:text="${incrementos[11]}"></span>
+                                                <span th:unless="${incrementos[11]}"></span>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button id="btnimp" class="btn btn-primary d-print-none float-right"
+                                onclick="printPlazas();">Imprimir reporte
+                                <i class="fas fa-print"></i></button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- /.card -->
+        </section>
+    </div>
+    <!-- /.content -->
+    </div>
+    <!-- /.row -->
+    </div>
+    <!-- Main row -->
+    </section>
+    <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Datatables Plugin-->
+    <script src="dist/js/jquery.dataTables.min.js"></script>
+    <!-- Bootstrap Datatables Plugin-->
+    <script src="dist/js/dataTables.bootstrap4.min.js"></script>
+    <!-- TABLA RESPONSIVA -->
+    <script src="dist/js/dataTables.fixedHeader.min.js"></script>
+    <script src="dist/js/dataTables.responsive.min.js"></script>
+    <script src="dist/js/responsive.bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="dist/js/demo.js"></script>
+    <!-- Popover-->
+    <script>
+        $(function () {
+            $('.popoverxd').popover({
+                container: 'body',
+                trigger: 'hover'
+            })
+        })
+    </script>
+    <!-- SweetAlert -->
+    <script src="dist/js/sweetalert.js"></script>
+    <!-- Funcionalidad-->
+    <!-- Funcionalidad-->
+    <script src="dist/js/rh.js"></script>
+    <script>
+        $('#RH').removeClass('text-primary');
+        $('#menuRH').addClass('menu-open');
+        $('#RH').addClass('active');
+        $('#submenuRH').addClass('menu-open');
+        $('#navRH3').addClass('active');
+        $('#subnavRH1').addClass('active');
+    </script>
+    <script>
+        function printPlazas() {
+            window.print();
+        }
+    </script>
+</body>
+
+</html>

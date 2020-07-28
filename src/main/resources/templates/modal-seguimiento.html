@@ -1,0 +1,39 @@
+<!-- Modal -->
+<div class="modal fade" id="accionesClienteAgente" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Acciones del Cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered tablaSeguimientos" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Acci&oacute;n</th>
+                            <th>Fecha</th>
+                            <th>Observaciones</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        	<td>Presentaci&oacute;n</td>
+                            <td>24/12/2020</td>
+                            <td></td>
+                            <td><a onclick="editarObservacionesClienteAgente()" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Actualizar observaci&oacute;n"><i class="fas fa-pen"></i></a></td>
+                        </tr>
+                        <tr>
+                        	<td>Toma de tallas</td>
+                            <td>30/12/2020</td>
+                            <td>Faltaron 20 empleados para talla</td>
+                            <td><a onclick="editarObservacionesClienteAgente()" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Actualizar observaci&oacute;n"><i class="fas fa-pen"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

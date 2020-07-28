@@ -1,0 +1,58 @@
+<!-- Modal -->
+<div class="modal fade" id="cartCatalogo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-altima">
+                <h5 class="modal-title">Nueva petici&oacute;n de muestras</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="empresaCatalogos">Empresa</label>
+                    <select class="form-control selectpicker" data-live-search-normalize="true" title="Selecciona uno..." id="empresaCatalogos" name="empresaCatalogos" data-live-search="true">
+                        <option value="selecciona">Altima</option>
+                        <option value="tela">DTI</option>
+                        <option value="forro">Parisina</option>
+                    </select>
+                </div>
+                <hr>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="border-0 bg-light">
+                                <div class="p-2 text-uppercase">Prenda</div>
+                            </th>
+                            <th scope="col" class="border-0 bg-light">
+                                <div class="py-2 text-uppercase">Clave Muestra</div>
+                            </th>
+                            <th scope="col" class="border-0 bg-light">
+                                <div class="py-2 text-uppercase">Tela</div>
+                            </th>
+                            <th scope="col" class="border-0 bg-light">
+                                <div class="py-2 text-uppercase">Talla</div>
+                            </th>
+                            <th scope="col" class="border-0 bg-light">
+                                <div class="py-2 text-uppercase"></div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border-0 align-middle"><strong>Camisa Modelo 45789</strong></td>
+                            <td class="border-0 align-middle"><strong>MU0001</strong></td>
+                            <td class="border-0 align-middle"><strong>TEL0001</strong></td>
+                            <td class="border-0 align-middle"><strong>XL</strong></td>
+                            <td class="border-0 align-middle"><a href="#" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Eliminar del pedido"><i class="fa fa-times"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a data-dismiss="true" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                <a class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-envelope img-circle text-altima"></span>Solicitar pedido</a>
+            </div>
+        </div>
+    </div>
+</div>

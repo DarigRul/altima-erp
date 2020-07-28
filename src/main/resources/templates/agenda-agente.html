@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="navegacion-head"></div>
+    <title id="pageTitle">Agenda | Altima</title>
+    <link rel="stylesheet" href="plugins/fullcalendar/main.min.css">
+    <link rel="stylesheet" href="plugins/fullcalendar-daygrid/main.min.css">
+    <link rel="stylesheet" href="plugins/fullcalendar-timegrid/main.min.css">
+    <link rel="stylesheet" href="plugins/fullcalendar-bootstrap/main.min.css">
+    <link rel='stylesheet' href='plugins/fullcalendar-list/main.css' />
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Agenda <a data-toggle="modal" data-target="#agendarCita" id="nueva-cita" class="btn btn-sm icon-btn btn-altima text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>A&ntilde;adir evento</a>&nbsp;
+                                <a data-toggle="modal" data-target="#agendarCitaMasiva" id="nueva-cita2" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-danger"></span>A&ntilde;adir evento recurrente</a>
+                                
+                                <a  onclick="imprimir()" class="btn btn-sm icon-btn btn-altima text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-print img-circle text-altima"></span>Imprimir</a>
+                            </h1>
+                        </div>
+                        <div class="modal fade" id="agendarCita">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-altima">
+                                        <h4 class="modal-title">Anadir evento</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form" id="event-form">
+                                            <div class="form-group">
+                                                <label for="nombre">Evento:</label>
+                                                <input type="text" class="form-control" id="newtitle" placeholder="Llamada">
+                                            </div>
+                                            <div class="form-group">
+												<label for="status">Empresa</label> <select
+													id="empresa1" class="form-control selectpicker empresa1"
+													data-live-search="true" data-live-normalize="true" title="Seleccione uno...">
+													<option value="0">No aplica</option>
+													<option th:each="empresa: ${empresa}"
+														th:value="${empresa.idCliente}"
+														th:text="${empresa.Nombre}"></option>
+
+												</select>
+											</div>
+                                            <div class="form-group">
+                                                <label for="descripcion">Descripci&oacute;n:</label>
+                                                <input type="text" class="form-control" id="description" placeholder="Especificar..."> </div>
+                                            <div class="form-group">
+                                                <label for="feini">Fecha inicial:</label>
+                                                <input type="datetime-local" max="2030-01-01"  class="form-control" id="startdateandtime"> </div>
+                                            <div class="form-group">
+                                                <label for="fefi">Fecha final:</label>
+                                                <input type="datetime-local" max="2030-01-01" class="form-control" id="enddateandtime"> </div>
+											
+											 
+                                            <div class="form-group">
+                                                <label for="fefi">Color:</label>
+                                                <input type="color" class="form-control" id="color">
+
+                                            </div>
+                                            
+                                           
+
+
+                                            <input type="hidden" name="idCalendario" id="idCalendario" />
+                                            <input type="hidden" th:name="${_csrf.parameterName}" id="token" th:value="${_csrf.token}" /> </form>
+                                    </div>
+                                    <div class="modal-footer" id="button-modal">
+                                        <a data-dismiss="modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                                        <a id="delete-modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Dar de baja</a>
+                                        <a id="submit-modal" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span><text id="submit-modal-text"></text></a>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <div class="modal fade" id="agendarCitaMasiva">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-altima">
+                                        <h4 class="modal-title">Evento recurrente</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form role="form" class="row">
+                                            <div class="form-group col-md-12">
+                                                <label for="nombre">Evento:</label>
+                                                <input id="title_even" type="text" class="form-control" placeholder="Llamada">
+                                            </div>
+                                            <div class="form-group col-md-12">
+												<label for="status">Empresa</label> <select
+												 id="empresa_even"  name="empresa_even"  class="form-control selectpicker empresa_even"
+													data-live-search="true" data-live-normalize="true" title="Seleccione uno...">
+													<option value="0">No aplica</option>
+													<option th:each="empresa: ${empresa}"
+														th:value="${empresa.idCliente}"
+														th:text="${empresa.Nombre}"></option>
+
+												</select>
+											</div>
+                                            <div class="form-group col-md-12">
+                                                <label for="descripcion">Descripci&oacute;n:</label>
+                                                <input id="desc_even"  type="text" class="form-control" placeholder="Especificar..."> </div>
+                                            <div class="form-group col-md-12">
+                                                <label id="semana1" class="control-label">Semana actual</label>
+                                                <div class="form-group-lg">
+                                                    <div class="column_2" style="text-align: center;">
+                                                    
+                                                      <span style="margin-right: 20px;">
+                                                        <input id ="d0" disabled name="d0"  type="checkbox" />
+                                                      <label class="checkbox-inline">Domingo</label>
+                                                      </span>
+                                                      
+                                                        <span style="margin-right: 20px;">
+                                                        <input id ="d1" disabled name="d1" type="checkbox"/>
+                                                      <label class="checkbox-inline">Lunes</label>
+                                                      </span>
+
+                                                        <span style="margin-right: 20px;">
+                                                        <input id ="d2" disabled name="d2" type="checkbox"/>
+                                                      <label class="checkbox-inline">Martes</label>
+                                                      </span>
+
+                                                        <span style="margin-right: 20px;">
+                                                        <input id ="d3" disabled name="d3" type="checkbox"/>
+                                                      <label class="checkbox-inline">Mi&eacute;rcoles</label>
+                                                      </span>
+
+                                                        <span style="margin-right: 20px;">
+                                                        <input id ="d4" disabled name="d4" type="checkbox"/>
+                                                      <label class="checkbox-inline">Jueves</label>
+                                                      </span>
+
+                                                        <span style="margin-right: 20px;">
+                                                        <input id ="d5" disabled name="d5" type="checkbox"/>
+                                                      <label class="checkbox-inline">Viernes</label>
+                                                      </span>
+
+                                                        <span >
+                                                        <input id ="d6" disabled name="d6" type="checkbox" />
+                                                      <label class="checkbox-inline">S&aacute;bado</label>
+                                                      </span>
+
+                                                      
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label id="semana2" class="control-label">Semana siguiente</label>
+                                                <div class="form-group-lg">
+                                                    <div class="column_2" style="text-align: center;">
+                                                    
+                                                      <span style="margin-right: 20px;">
+                                                        <input id ="dd0" disabled name="d0"  type="checkbox" />
+                                                      <label class="checkbox-inline">Domingo</label>
+                                                      </span>
+                                                      
+                                                        <span style="margin-right: 20px;">
+                                                        <input id ="dd1" disabled name="d1" type="checkbox"/>
+                                                      <label class="checkbox-inline">Lunes</label>
+                                                      </span>
+
+                                                        <span style="margin-right: 20px;">
+                                                        <input id ="dd2" disabled name="d2" type="checkbox"/>
+                                                      <label class="checkbox-inline">Martes</label>
+                                                      </span>
+
+                                                        <span style="margin-right: 20px;">
+                                                        <input id ="dd3" disabled name="d3" type="checkbox"/>
+                                                      <label class="checkbox-inline">Mi&eacute;rcoles</label>
+                                                      </span>
+
+                                                        <span style="margin-right: 20px;">
+                                                        <input id ="dd4" disabled name="d4" type="checkbox"/>
+                                                      <label class="checkbox-inline">Jueves</label>
+                                                      </span>
+
+                                                        <span style="margin-right: 20px;">
+                                                        <input id ="dd5" disabled name="d5" type="checkbox"/>
+                                                      <label class="checkbox-inline">Viernes</label>
+                                                      </span>
+
+                                                        <span >
+                                                        <input id ="dd6" disabled name="d6" type="checkbox" />
+                                                      <label class="checkbox-inline">S&aacute;bado</label>
+                                                      </span>
+
+                                                      
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="feini">Hora inicial:</label>
+                                                <input type="time"  min="06:00" max="22:00" id ="timestart_even" name ="timestart_even" class="form-control"> </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="fefi">Hora final:</label>
+                                                <input id ="timeend_even" name ="timeend_even" min="06:00" max="22:00" type="time" class="form-control"> </div>
+
+											
+											<div class="form-group col-md-12">
+                                                <label for="fefi">Color:</label>
+                                                <input id="color2"  type="color" class="form-control">
+
+                                            </div>
+                                            <input type="hidden" name="idCalendario2" id="idCalendario2" />
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a data-dismiss="modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                                       
+                                        <a id="submit-modal2" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agendar</a>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">Agente de Venta</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- /.col -->
+                        <div class="col-md-12">
+                            <div class="card card-primary">
+                                <div class="card-body p-0">
+                                    <!-- THE CALENDAR -->
+                                    <div id="calendar" style="width: 98%;margin-left: 1%;"></div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <!-- jQuery UI -->
+    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- fullCalendar 2.2.5 -->
+    <script src="plugins/moment/moment.min.js"></script>
+    <script src="plugins/fullcalendar/main.min.js"></script>
+    <script src="plugins/fullcalendar-daygrid/main.min.js"></script>
+    <script src="plugins/fullcalendar-timegrid/main.min.js"></script>
+    <script src="plugins/fullcalendar-interaction/main.min.js"></script>
+    <script src="plugins/fullcalendar/locales-all.min.js"></script>
+    <script src="plugins/fullcalendar-bootstrap/main.min.js"></script>
+    <script src="plugins/fullcalendar-list/main.min.js"></script>
+    <script src="dist/js/CalendarAgente.js"></script>
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active-altima');
+        $('#menuVenta').addClass('menu-open');
+        $('#navVenta').addClass('active');
+        $('#navVenta1').addClass('active');
+    </script>
+   
+</body>
+
+</html>

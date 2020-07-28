@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:include="navegacion-head :: header">
+    <title id="pageTitle">Carga de pedidos | Altima</title>
+  </head>
+  <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+      <!-- Navbar -->
+      <div th:insert="navegacion-nav"></div>
+      <!-- /.navbar -->
+      <!-- Modal -->
+      <div th:insert="navegacion-logout"></div>
+      <!-- Main Sidebar Container -->
+      <div th:insert="navegacion-aside"></div>
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>
+                  Concentrado de tallas <a
+                    th:href="@{'/agregar-concentrado-de-tallas/'}+${idpedido}"><button
+                    class="btn btn-primary btn-circle btn-sm popoverxd"
+                    data-container="body" data-placement="right"
+                    data-content="Agregar">
+                  <i class="fas fa-plus"></i>
+                  </button></a> <a th:href="@{/carga-de-pedidos}"><button
+                    data-toggle="popover"
+                    class="btn btn-danger btn-circle btn-sm popoverxd"
+                    data-container="body" data-placement="right"
+                    data-content="Regresar">
+                  <i class="fas fa-arrow-left"></i>
+                  </button></a>
+                </h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a th:href="@{'/'}">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Agentes de Venta</li>
+                  <li class="breadcrumb-item active">Carga de Pedidos</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <!-- Default box -->
+                <div class="card">
+                  <div class="card-header bg-dark">
+                    <h3 class="card-title">Lista de empleados</h3>
+                  </div>
+                  <div class="card-body">
+                    <table class="table table-bordered tablaConcentradoTallas">
+                      <thead>
+                        <tr>
+                          <th>Tallas</th>
+                        </tr>
+                        <tr>
+                          <th th:each="head, headit: ${head}" th:text="${head}">Empleado</th>
+                          <th>Especificaciones</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          th:each="prendastallas, prendastallasiterator: ${prendastallas}">
+                          <td
+                            th:each="prendastallas2, prendastallasiterator2: ${prendastallas}"
+                          th:text="${prendastallas2}?: 'Sin especificar'"></td>
+                          <!--  -->
+                          <td class="text-center">
+                            <button
+                              th:empleado="${empleados10[prendastallasiterator.index]}"
+                              th:onclick="|listarPrendas(['${idpedido}',this.getAttribute('empleado')])|"
+                              data-toggle="modal"
+                              th:attr="data-target='#modalConcentradoPrendasInfo'+${empleados10[prendastallasiterator.index]}"
+                              class="btn btn-info btn-circle btn-sm popoverxd"
+                              data-container="body" data-placement="top"
+                              data-content="Ver especificaciones">
+                            <i class="fas fa-info"></i>
+                            </button>
+                            <div th:insert="modal-concentrado-de-tallas-info"></div>
+                          </td>
+                          <td class="text-center">
+                          <a                           
+                           th:empleado="${empleados10[prendastallasiterator.index]}"
+                              th:onclick="|redirect(['${idpedido}',this.getAttribute('empleado')])|"
+                            ><button 
+                            
+                            class="btn btn-warning btn-circle btn-sm popoverxd"
+                            data-container="body" data-placement="top"
+                            data-content="Editar">
+                            <i class="fas fa-pen"></i>
+                            </button></a>
+                          </td>
+                          <!--  -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+      <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="../dist/js/tablaConcentradoTallas.js"></script>
+    <script>
+      $('#iComercial').removeClass('text-primary');
+      $('#menuComercial').addClass('menu-open');
+      $('#navComercial').addClass('active');
+      $('#menuVenta').addClass('menu-open');
+      $('#navVenta').addClass('active');
+      $('#navVenta4').addClass('active');
+    </script>
+  </body>
+</html>

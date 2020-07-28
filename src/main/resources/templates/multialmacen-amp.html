@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Multialmac&eacute;n | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Multialmac&eacute;n <a th:href="@{'/traspasos-multialmacen-amp'}" class="btn btn-sm icon-btn btn-altima text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-exchange-alt img-circle text-altima"></span>Traspasos</a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">AMP</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                <div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card">
+								<div class="card-header bg-altima">
+									<h3 class="card-title">Multialmac&eacute;n</h3>
+								</div>
+								<div class="card-body">
+									<table class="table tablaGeneral table-striped table-bordered" style="width:100%">
+										<thead>
+											<tr>
+												<th>Clave art&iacute;culo</th>
+												<th>Art&iacute;culo</th>
+												<th>Almac&eacute;n</th>
+												<th>Existencia</th>
+												<th>Pendiente por recibir</th>
+												<th>Acciones</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>TEL0256</td>
+												<td>Tela Oxford</td>
+												<td class="text-center">
+													<button data-toggle="modal" data-target="#modalMultialmacen" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver almacenes"><i class="fas fa-warehouse fa-sm" style="margin-left:-1px"></i></button>
+												</td>
+												<td>73</td>
+												<td class="text-center">
+													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Pendiente por recibir"><i class="fas fa-hourglass-half" style="margin-left:-1px"></i></button>
+												</td>
+												<td class="text-center">
+													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
+													<button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
+													<button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div th:insert="modal-amp-multialmacen"></div>
+								<div th:insert="modal-amp-ubicacion-almacen"></div>
+								<div th:insert="modal-amp-distribucion"></div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+                </div>
+                <!-- Main row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneral.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    $(document).on('click', '.ubicacionButton', function() {
+        $('#modalUbicacion').modal('show');
+    });
+    $(document).on('click', '.distribucionButton', function() {
+        $('#modalDistribucion').modal('show');
+    });
+    </script>
+    <script>
+    $("#modalUbicacion").draggable({
+        handle: ".modal-header"
+    });
+    $("#modalDistribucion").draggable({
+        handle: ".modal-header"
+    });
+    </script>
+	<script>
+		$('#iComercial').removeClass('text-altima');
+		$('#navComercial').addClass('active-altima');
+		$('#menuComercial').addClass('menu-open');
+		$('#menuAMP').addClass('menu-open');
+		$('#navAMP').addClass('active');
+		$('#navAMPMul').addClass('active');
+	</script>
+</body>
+
+</html>

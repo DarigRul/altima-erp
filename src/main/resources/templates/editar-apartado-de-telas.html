@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Apartado de telas | Altima</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Apartado de telas <a th:href="@{/apartado-de-telas}"><button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1> </div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a th:href="@{'/'}">Dashboard</a></li>
+								<li class="breadcrumb-item active">Agentes de Venta</li>
+								<li class="breadcrumb-item active">Apartado de telas</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card">
+								<div class="card-header bg-dark">
+									<h3 class="card-title">Agregar coordinados</h3> </div>
+								<div class="card-body">
+									<form class="row">
+										<dl class="row col-md-6">
+						                  <dt class="col-sm-4">Pedido</dt>
+						                  <dd class="col-sm-8">PE0001</dd>
+						                  <dt class="col-sm-4">Cliente</dt>
+						                  <dd class="col-sm-8">Altima</dd>
+						                  <dt class="col-sm-4">Solicitante</dt>
+						                  <dd class="col-sm-8">Agente de ventas</dd>
+						                  <dt class="col-sm-4">Apartado de telas</dt>
+						                  <dd class="col-sm-8">Definitiva</dd>
+						                </dl>
+						                <dl class="row col-md-6">
+						                  <dt class="col-sm-4">Fecha</dt>
+						                  <dd class="col-sm-8">14/05/2020</dd>
+						                  <dt class="col-sm-4">Fecha de entrega</dt>
+						                  <dd class="col-sm-8">31/05/2020</dd>
+						                  <dt class="col-sm-4">Personas</dt>
+						                  <dd class="col-sm-8">240</dd>
+						                  <dt class="col-sm-4">SPF</dt>
+						                  <dd class="col-sm-8">0</dd>
+						                </dl>
+										<label for="cargaEmpresa" style="margin-left:8px">Clave Tela</label>
+										<div class="input-group mb-3">
+											<select class="form-control selectpicker" data-live-search="true" name="cargaTipopedido" id="cargaTipopedido">
+												<option value='' selected>D1523</option>
+												<option value=''>BLUE563</option>
+											</select>
+											
+										  <div class="input-group-prepend">
+										    <button class="btn btn-primary popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Listar prendas" type="button"><i class="fas fa-plus"></i></button>
+										  </div>
+										</div>
+										<div class="form-group col-sm-6">
+											<img class="thumb1 centerImg border border-dark" src="https://www.linenme.com/files/styles/uc_product_full/public/01821.jpg?itok=ErnpEoBr">
+											 <h4 class="text-center"><strong>Clave Tela: </strong><a>D1523</a></h4>
+											 <h5 class="text-center"><strong>Total de consumo: </strong><a>962</a> mts</h5>
+											 <table class="table tablaPrenda table-striped table-bordered table-sm">
+		                                        <thead>
+		                                            <tr>
+		                                                <th>Prenda</th>
+		                                                <th>Modelo</th>
+		                                                <th>Personas</th>
+		                                                <th>Consumo</th>
+		                                            </tr>
+		                                        </thead>
+		                                        <tbody>
+		                                        
+		                                            <tr>
+		                                                <td>Chaleco</td>
+		                                                <td>131</td>
+		                                                <td>230</td>
+		                                                <td>375 mts</td>
+		                                            </tr>
+		                                            <tr>
+		                                                <td>Falda</td>
+		                                                <td>674</td>
+		                                                <td>45</td>
+		                                                <td>120 mts</td>
+		                                            </tr>
+		                                            <tr>
+		                                                <td>Pantalon</td>
+		                                                <td>464</td>
+		                                                <td>185</td>
+		                                                <td>290 mts</td>
+		                                            </tr>
+		                                            <tr>
+		                                                <td>Saco</td>
+		                                                <td>546</td>
+		                                                <td>230</td>
+		                                                <td>127 mts</td>
+		                                            </tr>
+		                                            <tr>
+		                                                <td>Pantalon</td>
+		                                                <td>589</td>
+		                                                <td>10</td>
+		                                                <td>50 mts</td>
+		                                            </tr>
+		                                        </tbody>
+		                                    </table>
+										</div>
+										<div class="form-group col-sm-6">
+											<img class="thumb1 centerImg border border-dark" src="https://media.istockphoto.com/photos/closeup-white-or-light-grey-colors-fabric-sample-texturelight-grey-picture-id1131975692">
+											 <h4 class="text-center"><strong>Clave Tela:</strong><a>BLUE563</a></h4>
+											 <h5 class="text-center"><strong>Total de consumo: </strong><a>345</a> mts</h5>
+											 <table class="table tablaPrenda table-striped table-bordered table-sm">
+		                                        <thead>
+		                                            <tr>
+		                                                <th>Prenda</th>
+		                                                <th>Modelo</th>
+		                                                <th>Personas</th>
+		                                                <th>Consumo</th>
+		                                            </tr>
+		                                        </thead>
+		                                        <tbody>
+		                                            <tr>
+		                                                <td>Blusa</td>
+		                                                <td>125</td>
+		                                                <td>240</td>
+		                                                <td>345 mts</td>
+		                                            </tr>
+		                                        </tbody>
+		                                    </table>
+										</div>
+										<div class="form-group col-sm-12"> <a th:href="@{/coordinados}" class="btn btn-danger">Cancelar</a>
+											<input type="submit" class="btn btn-primary next-step float-right" value="Guardar">
+										</div>
+									</form>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<div th:insert="navegacion-footer"></div>
+	</div>
+	<!-- ./wrapper -->
+	<div th:replace="navegacion-scripts"></div>
+	<script src="/dist/js/bootstrap-select.min.js"></script>
+	<script src="dist/js/tablaApartado.js"></script>
+	<script>
+	$(document).ready(function() {
+		$('.selectpicker').selectpicker({
+			style: 'border border-bootstrap'
+		});
+	});
+	</script>
+	<script>
+		$('#iComercial').removeClass('text-primary');
+		$('#menuComercial').addClass('menu-open');
+		$('#navComercial').addClass('active');
+		$('#menuVenta').addClass('menu-open');
+		$('#navVenta').addClass('active');
+		$('#navVentaApartado').addClass('active');
+	</script>
+</body>
+
+</html>

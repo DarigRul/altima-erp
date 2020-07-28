@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Cat&aacute;logos | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Cat&aacute;logos</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Dise&ntilde;o</li>
+                                <li class="breadcrumb-item active">Cat&aacute;logos</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Small boxes (Stat box) -->
+                    <div class="row">
+                        <!-- MARCAS 
+                      	<div th:insert="catalogos-marcas" class="col-lg-6 col-6"></div>  -->
+                        <!-- MAEDIDAS -->
+                        <div th:insert="catalogos-medida" class="col-lg-4 col-6" id="medidasCatalogo"></div>
+                        <!-- COLORES -->
+                        <div th:insert="catalogos-colores" class="col-lg-4 col-6" id="coloresCatalogo"></div>
+                        <!-- PZAS. TRAZO -->
+                        <div th:insert="catalogos-trazo" class="col-lg-4 col-6" id="trazosCatalogo"></div>
+                        <!-- INSTRUCCIONES DE CUIDAO -->
+                        <div th:insert="catalogos-cuidado" class="col-lg-6 col-6" id="cuidadosCatalogo"></div>
+                        <!-- FAM. PRENDAS -->
+                        <div th:insert="catalogos-prendas" class="col-lg-6 col-6" id="prendasCatalogo"></div>
+                        <!-- FAM. GENERO -->
+                        <div th:insert="catalogos-genero" class="col-lg-4 col-6" id="generosCatalogo"></div>
+                        <!-- TIPO MATERIAL -->
+                        <div th:insert="catalogos-material" class="col-lg-4 col-6" id="materialesCatalogo"></div>
+                        <!-- FAM. COMPOSICION -->
+                        <div th:insert="catalogos-composicionfam" class="col-lg-4 col-6" id="composicionesCatalogo"></div>
+                        <!-- MARCADOR -->
+                        <div th:insert="catalogos-marcador" class="col-lg-6 col-6" id="marcadoresCatalogo"></div>
+                        <!-- COMPOSICION -->
+                        <div th:insert="catalogos-composicion" class="col-lg-6 col-6" id="composicionCatalogo"></div>
+                        <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- Main row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+        <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
+        <input type="hidden" id="rolListar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_LISTAR'')')}? 1:0">
+        <input type="hidden" id="rolAgregar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_AGREGAR'')')}? 1:0">
+        <input type="hidden" id="rolEditar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_EDITAR'')')}? 1:0">
+        <input type="hidden" id="rolEliminar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_ELIMINAR'')')}? 1:0">
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <!-- Funcionalidad-->
+    <!-- Funcionalidad-->
+    <script src="dist/js/Catalogo.js"></script>
+    <script src="dist/js/viewCatalogos.js"></script>
+    <script>
+        $('#iDiseno').removeClass('text-altima');
+        $('#menuDiseno').addClass('menu-open');
+        $('#navDiseno').addClass('active-altima');
+        $('#navDiseno4').addClass('active');
+
+        var rolAdmin = $('#rolAdmin').val();
+        var rolListar = $('#rolListar').val();
+        var rolAgregar = $('#rolAgregar').val();
+        var rolEditar = $('#rolEditar').val();
+        var rolEliminar = $('#rolEliminar').val();
+
+        console.log(rolAdmin);
+    </script>
+    <script>
+        function agregarConsumoTrazo() {
+            Swal.fire({
+                title: 'Agregar consumo',
+                html: '<div class="row">' +
+                    '<div class="form-group col-sm-4">' +
+                    '<label for="consumoAncho">Ancho est&aacute;ndar</label>' +
+                    '<input type="number" class="form-control" id="consumoAncho" placeholder="1.5">' +
+                    '</div>' +
+                    '<div class="form-group col-sm-4">' +
+                    '<label for="consumoLargo">Largo de tela</label>' +
+                    '<input type="number" class="form-control" id="consumoLargo" placeholder="0.2">' +
+                    '</div>' +
+                    '<div class="form-group col-sm-4">' +
+                    '<label for="consumoTotal">Total de piezas</label>' +
+                    '<input type="number" class="form-control" id="consumoTotal" placeholder="7">' +
+                    '</div>' +
+                    '</div>',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Agregar',
+                cancelButtonText: 'Cancelar',
+                showLoaderOnConfirm: true,
+                preConfirm: (login) => {
+                    return fetch(`//api.github.com/users/${login}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText)
+                            }
+                            return response.json()
+                        })
+                        .catch(error => {
+                            Swal.showValidationMessage(
+                                `Request failed: ${error}`
+                            )
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Consumo agregado correctamente',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                }
+            });
+        }
+    </script>
+
+    <!--  -->
+    <!-- <script >
+	$(document).ready( function () {
+	    $('#myTable').DataTable();
+	} );
+	</script>
+<script>
+	$(document).ready(function() {
+		
+	   
+		$.getJSON("/orders", function (data){
+			var employeedata= '';
+			$.each(data, function(key, value){
+				employeedata += '<tr>';
+					employeedata += '<td>'+value.nombre+'</td>';
+					employeedata += '<td>'+value.nombre+'</td>';
+									employeedata += '</tr>'
+				
+			});
+			$('.dt_cliente2').append(employeedata);
+		});
+
+
+		     
+		});    
+	</script>
+	--->
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<div class="small-box bg-primary">
+    <div class="inner">
+        <h3>Rutas de producci&oacute;n</h3>
+        <button data-toggle="modal" data-target="#detalleRuta" id="modalRutas" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+    </div>
+    <div class="icon">
+        <i class="ion ion-ios-pricetags-outline"></i>
+    </div>
+    <a class="small-box-footer">
+        <button onclick="addRuta()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+    </a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="detalleRuta" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de rutas <button onclick="addRuta()" class="btn btn-light btn-circle btn-sm text-danger popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 <table class="table table-striped table-bordered tablaCatalogosProduccion" style="width:100%;">
+                    <thead>
+                        <tr>
+                        	<th>Clave Ruta</th>
+                            <th>Procesos</th>
+                            <th>Acciones</th>
+                           <!--  <th></th>--->
+                        </tr>
+                    </thead>
+                 	<tbody>
+                 		<tr>
+                 			<td>1</td>
+                 			<td class="text-center">
+                 				<button class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>
+							</td>
+                 			<td class="text-center">
+								<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creación: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicación: </strong>21/02/2020"><i class="fas fa-info"></i></button>
+								<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editRuta()" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+								<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteRuta()" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
+								<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveRuta()" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>
+							</td>
+                 		</tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="infoProcesos" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de procesos
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 <table class="table table-striped table-bordered tablaCatalogosProduccion" style="width:100%;">
+                    <thead>
+                        <tr>
+                        	<th>Proceso</th>
+                           <!--  <th></th>--->
+                        </tr>
+                    </thead>
+                 	<tbody>
+                 		<tr>
+                 			<td>Trazo</td>
+                 		</tr>
+                 		<tr>
+                 			<td>Confeccion</td>
+                 		</tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

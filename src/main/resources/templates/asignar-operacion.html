@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Asignaci&oacute;n de operaciones | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Asignaci&oacute;n de operaciones <a th:href="@{'/asignacion-de-operaciones'}" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Regresar"><i class="fas fa-arrow-left"></i></a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Taller de maquila</li>
+                                <li class="breadcrumb-item active">Asignaci&oacute;n de operaciones</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                <div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card">
+								<div class="card-header bg-altima">
+									<h3 class="card-title">Operaciones por prenda</h3>
+								</div>
+								<div class="card-body">
+									<form class="row">
+								
+									  <div class="form-group col-md-3">
+									    <label for="prendaAsignacion">Prenda</label>
+									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="prendaAsignacion">
+									      <option>Camisa</option>
+									    </select>
+									  </div>
+									  <div class="form-group col-md-3">
+									    <label for="modeloAsignacion">Modelo</label>
+									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="modeloAsignacion">
+									      <option>MODCAM001</option>
+									    </select>
+									  </div>
+									  <div class="form-group col-md-6">
+									    <label for="operacionAsignacion">Operaci&oacute;n</label>
+									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="operacionAsignacion">
+									      <option>Coser etiqueta a tabulejo</option>
+									    </select>
+									  </div>
+									  <div class="form-group col-md-12">
+									  	<a class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</a>
+									  </div>
+									 </form>
+									<table class="table tablaAgregarAsignacion table-striped table-bordered" style="width:100%">
+										<thead>
+											<tr>
+												<th>No. operaci&oacute;n</th>
+												<th>Descripci&oacute;n de operaciones</th>
+												<th>SAM</th>
+												<th>Producci&oacute;n hora</th>
+												<th>Producci&oacute;n turno</th>
+												<th>Acciones</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td>Coser etiqueta a tabulejo</td>
+												<td>0.68</td>
+												<td>88</td>
+												<td>794</td>
+												<td class="text-center">
+													<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</a>
+												</td>
+											</tr>
+											<tr>
+												<td>2</td>
+												<td>Coser prinza a espalda de forro	</td>
+												<td>0.72</td>
+												<td>83</td>
+												<td>750</td>
+												<td class="text-center">
+													<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</a>
+												</td>
+											</tr>
+											<tr>
+												<td>3</td>
+												<td>Coser centro de espalda de forro</td>
+												<td>0.68</td>
+												<td>88</td>
+												<td>794</td>
+												<td class="text-center">
+													<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</a>
+												</td>
+											</tr>
+											<tr>
+												<td>4</td>
+												<td>Coser tabulejo a espalda de forro</td>
+												<td>1.27</td>
+												<td>47</td>
+												<td>425</td>
+												<td class="text-center">
+													<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</a>
+												</td>
+											</tr>
+											<tr>
+												<td>5</td>
+												<td>Coser cinta de lino a vista de casimir</td>
+												<td>1.43</td>
+												<td>42</td>
+												<td>378</td>
+												<td class="text-center">
+													<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+                </div>
+                <!-- Main row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaAgregarAsignacionOperaciones.js"></script>
+	<script>
+		$('#iMaquila').removeClass('text-altima');
+		$('#navMaquila').addClass('active-altima');
+		$('#menuMaquila').addClass('menu-open');
+		$('#navMaqAsig').addClass('active');
+	</script>
+</body>
+
+</html>

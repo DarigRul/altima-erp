@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Solicitudes de empleados | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Solicitudes de empleados <a th:href="@{/rh-agregar-solicitudes}" class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Taller de maquila</li>
+                                <li class="breadcrumb-item active">Asignaci&oacute;n de operaciones</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Operaciones</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered" style="width:100%" id="tablaSolicitudes">
+                                        <thead>
+                                            <tr>
+                                                <th>Puesto</th>
+                                                <th>Fecha de solicitud</th>
+                                                <th>Estatus</th>
+                                                <th>Autorizado por</th>
+                                                <th>Fecha de autorizaci&oacute;n</th>
+                                                <th>Observaciones</th>
+                                                <th>Sueldo a publicar</th>
+                                                <th>Solicitante(?)</th>
+                                                <td style="font-weight: bold;width:15%">Acciones</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Hola</td>
+                                                <td>Hola</td>
+                                                <td>Adios</td>
+                                                <td>Adios</td>
+                                                <td>Adios</td>
+                                                <td>Hola</td>
+                                                <td>Hola</td>
+                                                <td>Hola</td>
+                                                <td class="tdcenter">
+                                                    <!-- EDITAR -->
+                                                    <a th:href="@{/rh-agregar-solicitudes}">
+                                                        <button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Editar"><i
+                                                      class="fas fa-pen"></i></button>
+                                                    </a>
+                                                    <!-- MÁS DETALLE -->
+                                                    <a th:href="@{/rh-agregar-solicitudes}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="M&aacute;s detalles"><i
+                                                    class="fas fa-info"></i>
+                                                    </a>
+                                                    <!-- RECHAZAR -->
+                                                    <button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Rechazar">
+                                                      <i class="fas fa-caret-down"></i>
+                                                    </button>
+                                                    <!-- APROBAR -->
+                                                    <button class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Aprobar">
+                                                  <i class="fas fa-sort-up"></i>
+                                                </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Main row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaSolicitudes.js"></script>
+    <script>
+        $('#iRH').removeClass('text-altima');
+        $('#menuRH').addClass('menu-open');
+        $('#navRH').addClass('active-altima');
+        $('#submenuRH').addClass('menu-open');
+        $('#navRH4').addClass('active');
+        $('#subnavRH2').addClass('active');
+    </script>
+</body>
+
+</html>

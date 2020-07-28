@@ -1,0 +1,58 @@
+<!-- small box -->
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="small-box bg-warning">
+    <div class="inner">
+        <h3>Clasificaci&oacute;n</h3>
+        <button data-toggle="modal" data-target="#detalleMarcas" class="btn btn-link" style="color: #1f2d3d!important; padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+    </div>
+    <div class="icon">
+        <i class="ion ion-ios-pricetags-outline"></i>
+    </div>
+    <a class="small-box-footer">
+        <button onclick="agregarMarca()" class="btn btn-link" style="color: #1f2d3d!important">Agregar <i class="fas fa-plus-circle"></i></button>
+    </a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="detalleMarcas" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-marcas" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de marcas <button onclick="agregarMarca()" class="btn btn-dark popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar" style="border-radius: 35%;color:#ffc107!important"><i class="fas fa-plus fa-sm"></i></button>
+                <a th:href="@{'/imprimir/' +marca (format=pdf)}" class="btn btn-dark popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Imprimir" style="border-radius: 35%;color:#ffc107!important"><i class="fas fa-print fa-sm"></i></a>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="quitar">
+                 <table class="table tablexd table-striped table-bordered" id="idtable">
+                    <thead>
+                        <tr>
+                            <th>C&oacute;digo</th>
+                            <th>C&oacute;digo</th>
+                           <th>C&oacute;digo</th>
+                           <th>C&oacute;digo</th>
+                           <!--  <th></th>--->
+                        </tr>
+                    </thead>
+                 <!--   <tbody > --> 
+                        
+                          
+                          <!-- 	<td th:text="${marca.idText}">MAE123</td>
+                          	<td th:value="${marca.nombre}" th:text="${marca.nombre}">MAE123</td>
+                            <td style="text-align: center;">
+                                <button class="btn btn-info popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por:</strong> Jose Luis Manuel Jajaja<br /><strong>Fecha de creaci&oacute;n:</strong> 01/02/2020<br><strong>Modificado por:</strong> Carlos Gabriel Hernandez Mendez<br><strong>Fecha de modicaci&oacute;n:</strong> 02/09/2020" style="border-radius: 35%;"><i class="fas fa-info-circle"></i></button>&nbsp;
+                            </td>
+                            <td class="tdcenter">
+                                <button th:id="${marca.idLookup}" th:value="${marca.nombre}" class="btn btn-warning popoverxd edit_data" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar" style="border-radius: 35%;"><i class="fas fa-pen fa-sm"></i></button>&nbsp;
+                                <button onclick="bajarMarca()" class="btn btn-danger popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja" style="border-radius: 35%;"><i class="fas fa-ban fa-sm"></i></button>&nbsp;
+                                <button onclick="reactivarMarca()" class="btn btn-success popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar" style="border-radius:35%;"><i class="fas fa-check fa-sm"></i></button>
+                            </td> ---> 
+                      
+                    <!-- </tbody> -->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<html xmlns:th="http://www.thymeleaf.org">

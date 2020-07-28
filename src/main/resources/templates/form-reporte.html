@@ -1,0 +1,21 @@
+<form class="row" id="materialForm" th:action="@{/reporte-catalogo}" method="post">
+	<div class="form-group col-sm-3">
+		<label for="catalogo">Tipo de Material</label>
+		<select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" name="cata" id="catalogo">
+			<option th:each="listLookups:${listLookups}" th:value="${listLookups}" th:text="${listLookups}" />
+		</select>
+	</div>
+	<div class="form-group col-sm-3">
+		<label for="palabra">Filtrar por palabra:</label>
+		<input type="text" name="palabra" class="form-control" id="palabra" placeholder="Ejemp: Boton"> </div>
+	<div class="form-group col-sm-3">
+		<label for="fecha1">Fecha 1</label>
+		<input type="date" name="fecha1" class="form-control" id="fecha1" placeholder="Fecha 1"> </div>
+	<div class="form-group col-sm-3">
+		<label for="fecha2">Fecha 2</label>
+		<input type="date" name="fecha2" class="form-control" id="fecha2" placeholder="Fecha 2"> </div>
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	<div class="form-group col-sm-12">
+		<button type="submit" class="btn btn-primary next-step float-right">Buscar</button>
+	</div>
+</form>

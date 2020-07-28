@@ -1,0 +1,210 @@
+<div class="card-body">
+    <div class="row d-none d-print-block">
+        <table class="table table-borderless table-sm">
+            <thead class="thead-dark">
+                <tr style=" border: 5px solid #343A40;border-right-width:0px;border-left-width:0px;border-top-width:0px;">
+                    <td style="width: 30%"><img class="h-50" src="/dist/img/logo.png"></td>
+                    <td style="width: 40%; font-size: 44px;" class="text-center"><strong>Reporte de Material</strong></td>
+                    <td style="width: 30%" class="text-right"><a class="fechaReporteMaterial"></a></td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    
+       <div class="form-group col-sm-12">
+            <table id="mytable" class="table table-hover"> 
+                <thead class="thead-dark">
+                    <tr>
+                        <th colspan="2">Porcentaje(%): </th>
+                        <th colspan="2" style="display:none;">Composici&oacute;n</th>
+                        <th colspan="2">Famila Composici&oacute;n</th>
+                    </tr>
+                    <thead>
+                    <tbody>
+                        <tr th:each="listTelaComposicon: ${listTelaComposicon}">
+                            <td colspan="2" th:text="${listTelaComposicon[0]}"></td>
+                            <td colspan="2" style="display:none;" th:text="${listTelaComposicon[1]}"></td>
+                            <td colspan="2" th:text="${listTelaComposicon[2]}"></td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        
+        <br>
+        <div class="form-group col-sm-12">
+            <table id="mytable" class="table table-hover"> 
+                <thead class="thead-dark">
+                    <tr>
+                        <th colspan="2">Prenda: </th>
+                    </tr>
+                    <thead>
+                    <tbody>
+                        <tr th:each="listVistaTelaPrenda: ${listVistaTelaPrenda}">
+                            <td colspan="2" th:text="${listVistaTelaPrenda[1]}"></td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        
+        <br>
+
+        <br>
+        <div class="form-group col-sm-12">
+            <table id="mytablePrenda" class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th width="50%" colspan="2">Imagen tela:</th>
+                    </tr>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" ><img th:src="@{'/uploads/telas/' + ${tela[11]}}" th:onerror="this.src='/dist/img/preview.png'" id="serviceImageTela" height="100" width="100" aria-describedby="imagePreviewHelp" /></td>                                                               
+                        </tr>
+                    </tbody>
+                    <thead>
+            </table>
+        </div>
+        <br>    
+
+        
+        <div class="form-group col-sm-12">
+        <table id="datos" class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th width="20%" colspan="2">Clave:</th>
+                    <th width="20%" colspan="2">Nombre:</th>
+                    <th width="20%" colspan="4">Familia de Composici&oacute;n:</th>
+                    <th width="20%" colspan="2">Ancho(m):</th>
+                    <th width="20%" colspan="2">Costo(m):</th>
+                </tr>
+                <tbody> 
+                <tr>
+                    <td colspan="2" th:text="${tela[0]}">TEL0001</td>
+                    <td colspan="2" th:text="${tela[1]}">Tela Gold Prime</td>
+                    <td colspan="4" th:text="${tela[2]}">50% Algodon 50% Poliester</td>
+                    <td colspan="2" th:text="${tela[3]}">1.24</td>
+                    <td colspan="2" th:text="${tela[4]}">90</td>
+                </tr>
+                </tbody>
+            </thead>
+        </table>
+        </div>
+        <br>
+    
+        
+        
+        <div class="form-group col-sm-12" th:if="${EstatusCalidadTela == '2'}">
+            <table id="mytablePrenda" class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th colspan="2">Forro</th>
+                        <th colspan="2" style="display:none;">id_forro</th>
+                    </tr>
+                    <thead>
+                    <tbody> 
+                        <tr th:each="listForroSelec: ${listForroSelec}">
+                            <td colspan="2" th:text="${listForroSelec[1]}"></td>
+                            <td colspan="2" style="display:none;" th:text="${listForroSelec[0]}"></td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+        <br>
+        <div class="form-group col-sm-12">
+        <table id="generales" class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th width="17%" colspan="2">Estampado:</th>
+                    <th width="17%" colspan="2">Color:</th>
+                    <th width="17%" colspan="2">C&oacute;digo color:</th>
+                    <th width="17%" colspan="2" th:if="${EstatusCalidadTela == '2'}">Unidad de medidad:</th>
+                    <th width="17%" colspan="2">Indicaciones:</th>
+                    <th width="17%" colspan="2">Proveedor:</th>
+                </tr>
+                <tbody>
+                <tr>
+                    <td colspan="2" th:text="${tela[5]}">Rayado</td>
+                    <td colspan="2" th:text="${tela[6]}">Azul</td>
+                    <td colspan="2" ><input type="color" th:value="${tela[7]}" disabled></td>
+                    <td colspan="2" th:if="${EstatusCalidadTela == '2'}" th:text="${tela[8]}">Pieza</td>
+                    <td colspan="2" th:text="${tela[9]}">No coser con aguja de caneva</td>
+                    <td colspan="2" >
+                        <span th:if="${tela[10]==1}">PRO1001 TELAS CONTNENTAL</span>
+                        <span th:if="${tela[10]==2}">PRO1002 CORDUROY</span>
+                        <span th:if="${tela[10]==3}">PRO1003 DYEXSA</span>
+                        <span th:if="${tela[10]==4}">PRO1004 FABRICA DE SAN MARTIN</span>
+                        <span th:if="${tela[10]==5}">PRO1005 FABRICA MAR&oacute;A</span>
+                        <span th:if="${tela[10]==6}">PRO1006 FABRICAS DE TELAS DE MORELIA</span>
+                        </td>
+                </tr>
+                </tbody>
+            </thead>
+        </table>
+        </div>
+        <br>
+        
+        <div class="form-group col-sm-12" th:if="${EstatusCalidadTela == '2'}">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                    <tr>
+                        <th colspan="2" style="display:none;">Id</th>
+                        <th colspan="2" style="display:none;">Tipo</th>
+                        <th width="25%" colspan="2">Material</th>
+                        <th width="25%" colspan="2">Clasificaci&oacute;n</th>
+                        <th width="25%" colspan="2">Color</th>
+                        <th width="25%" colspan="2">C&oacute;digo color</th>
+    
+                    </tr>
+                    <thead>
+                    <tbody>
+                        <tr th:each="table : ${tablemat}">
+                            <td colspan="2" style="display:none;" th:text="${table[0]}"></td>
+                            <td colspan="2" style="display:none;" th:text="${table[1]}"></td>
+                            <td colspan="2" th:text="${table[2]}"></td>
+                            <td colspan="2" th:text="${table[5]}"></td>
+                            <td colspan="2" th:text="${table[3]}"></td>
+                            <td colspan="2" ><input type="color" th:value="${table[4]}" disabled></td>
+                            
+                    </tbody>
+            </table>
+            
+        </div>
+    
+        <br>
+
+        <div class="form-group col-sm-12" th:if="${EstatusCalidadTela == '2'}">
+            <table id="mytablePrenda" class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th colspan="2">Descripci&oacute;n</th>
+                    </tr>
+                    <thead>
+                    <tbody> 
+                        <tr>
+                            <td colspan="2" th:text="${tela[13]}"></td>
+                        </tr>
+                    </tbody>
+            </table>
+        </div>
+       
+        
+        <!-- <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th colspan="2">Forro principal</th>
+                    <th colspan="2">Forro secundario 1</th>
+                    <th colspan="2">Forro secundario 2</th>
+                    <th colspan="2">Boton principal</th>
+                    <th colspan="2">Boton secundario 1</th>
+                    <th colspan="2">Boton secundario 2</th>
+                </tr>
+                <tr>
+                    <td colspan="2">Forro FOR0001</td>
+                    <td colspan="2">Forro FOR0002</td>
+                    <td colspan="2">Forro FOR0003</td>
+                    <td colspan="2">Boton BOT0001</td>
+                    <td colspan="2">Boton BOT0002</td>
+                    <td colspan="2">Boton BOT0003</td>
+                </tr>
+            </thead>
+        </table> -->
+    </div>

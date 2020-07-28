@@ -1,0 +1,84 @@
+<div class="col-12">
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header bg-dark">
+            <h3 class="card-title">Pruebas de encogimiento</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm table-striped table-bordered">
+                <thead>
+                    <tr class="tdcenter thead-dark" th:style="${detallesForro}">
+                        <th rowspan="2" colspan="2">
+                            Descripci&oacute;n
+                        </th>
+                        <th rowspan="1" colspan="2">
+                            Medida final
+                        </th>
+                        <th rowspan="2" colspan="8">
+                            Resultado
+                        </th>
+                    </tr>
+                    <tr class="tdcenter thead-dark" th:style="${detallesForro}">
+                        <th>Hilo</th>
+                        <th>Trama</th>
+                    </tr>
+                    <tr class="tdcenter" th:style="${detallesForro}">
+                        <th colspan="2">Prueba de Fusi&oacute;n</th>
+                        <td colspan="1" th:text="${finalMedHiloPruebaVapor==null}?'':${finalMedHiloPruebaVapor}"></td>
+                        <td colspan="1" th:text="${finalTramaMedPruebaVapor==null}?'':${finalTramaMedPruebaVapor}"></td>
+                        <td colspan="2">Diferencia hilo:</td>
+                        <td colspan="2" th:text="${diferenciaMedPruebaVapor==null}?'':${diferenciaMedPruebaVapor}+'%'"></td>
+                        <td colspan="2">Diferencia trama:</td>
+                        <td colspan="2" th:text="${diferenciaTramaPruebaVapor==null}?'':${diferenciaTramaPruebaVapor}+'%'"></td>
+                    </tr>
+                    <tr th:style="${detallesForro}">
+                        <td colspan="4" th:text="${entretela==null}?'Entretela:':'Entretela:  '+ ${entretela}"></td>
+                        <td colspan="4" th:text="${adherenciaEnco==null}?'Adherencia:':'Adherencia: '+ ${adherenciaEnco}"></td>
+                        <td colspan="4" th:text="${proveedorEncogi==null}?'Proveedor:':'Proveedor:  '+ ${proveedorEncogi}"></td>
+                    </tr>
+                    <tr th:style="${detallesForro}">
+                        <td colspan="4" th:text="${temperaturaVapor==null}?'Temperatura:':'Temperatura:  '+ ${temperaturaVapor}"></td>
+                        <td colspan="4" th:text="${tiempoVapor==null}?'Tiempo:':'Tiempo:   '+ ${tiempoVapor}"></td>
+                        <td colspan="4" th:text="${presionVapor==null}?'Presi&oacute;n:':'Presi&oacute;n:  '+ ${presionVapor}"></td>
+                    </tr>
+                    <tr th:style="${detallesForro}">
+                        <td colspan="12" class="text-justify" th:text="${observacionesReultPruebaVapor==null}?'Observaciones: ':'Observaciones:  '+ ${observacionesReultPruebaVapor}"></td>
+                    </tr>
+                    
+                    <tr class="tdcenter thead-dark">
+                        <th rowspan="2" colspan="2">
+                            Descripci&oacute;n
+                        </th>
+                        <th rowspan="1" colspan="2">
+                            Medida final
+                        </th>
+                        <th rowspan="2" colspan="8">
+                            Resultado
+                        </th>
+                    </tr>
+                    <tr class="tdcenter thead-dark">
+                        <th>Hilo</th>
+                        <th>Trama</th>
+                    </tr>
+                    <tr class="tdcenter">
+                        <th colspan="2">Vapor</th>
+                        <td colspan="1" th:text="${finalHiloMedPlanchaVapor==null}?'':${finalHiloMedPlanchaVapor}"></td>
+                        <td colspan="1" th:text="${finalTramaMedPlanchaVapor==null}?'':${finalTramaMedPlanchaVapor}"></td>
+                        <td colspan="2">Diferencia hilo:</td>
+                        <td colspan="2" th:text="${diferenciaHiloPlanchaVapor==null}?'':${diferenciaHiloPlanchaVapor}+'%'"></td>
+                        <td colspan="2">Diferencia trama: </td>
+                        <td colspan="2" th:text="${diferenciaTramaPlanchaVapor==null}?'':${diferenciaTramaPlanchaVapor}+'%'"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="12" class="text-justify" th:text="${observacionesReultPlanchaVapor==null}?'Observaciones:':'Observaciones: '+${observacionesReultPlanchaVapor}"></td>
+                    </tr>
+               </thead>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>

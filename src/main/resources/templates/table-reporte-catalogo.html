@@ -1,0 +1,33 @@
+<div class="card">
+	<div class="card-header bg-altima">
+		<h3 class="card-title">Nuevo material</h3> </div>
+	<div class="card-body">
+		<div th:insert="form-reporte"></div>
+	</div>
+	<!-- /.card-body -->
+</div>
+<div class="card">
+	<div class="card-header bg-altima" th:switch="${link}">
+		<h3 class="card-title">Reportes</h3> <a th:case="1" th:href="@{'/imprimirleo/'+${cata}+'/'+${palabra}+'/'+${fecha1}+'/'+${fecha2}+'/'+${link} (format=pdf)}" class="btn btn-dark popoverxd" data-container="body" target="_blank" data-toggle="popover" data-placement="right" data-content="Imprimir" style="border-radius: 35%;color:#ffc107!important"><i class="fas fa-print fa-sm"></i></a> <a th:case="2" th:href="@{'/imprimirleo/'+${cata}+'/'+ p +'/'+${fecha1}+'/'+${fecha2}+'/'+${link} (format=pdf)}" class="btn btn-dark popoverxd" data-container="body" target="_blank" data-toggle="popover" data-placement="right" data-content="Imprimir" style="border-radius: 35%;color:#ffc107!important"><i class="fas fa-print fa-sm"></i></a> <a th:case="3" th:href="@{'/imprimirleo/'+${cata}+'/'+${palabra}+'/'+f2+'/'+f1+'/'+${link} (format=pdf)}" class="btn btn-dark popoverxd" data-container="body" target="_blank" data-toggle="popover" data-placement="right" data-content="Imprimir" style="border-radius: 35%;color:#ffc107!important"><i class="fas fa-print fa-sm"></i></a> <a th:case="4" th:href="@{'/imprimirleo/'+${cata}+'/'+p+'/'+f1+'/'+f2+'/'+${link} (format=pdf)}" class="btn btn-dark popoverxd" data-container="body" target="_blank" data-toggle="popover" data-placement="right" data-content="Imprimir" style="border-radius: 35%;color:#ffc107!important"><i class="fas fa-print fa-sm"></i></a> </div>
+	<div class="card-body">
+		<table class="table tablaGeneral table-striped table-bordered" id="table-reporte">
+			<thead>
+				<tr>
+					<th> Clave </th>
+					<th> Nombre</th>
+					<th> Descripcion </th>
+					<th> Creado por: </th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="ca:${catalogoFiltro}">
+					<td th:text="${ca.idText}"></td>
+					<td th:text="${ca.nombreLookup}"></td>
+					<td th:text="${ca.descripcionLookup}"></td>
+					<td th:text="${ca.creadoPor}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- /.card-body -->
+</div>

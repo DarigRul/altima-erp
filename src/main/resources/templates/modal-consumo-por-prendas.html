@@ -1,0 +1,108 @@
+<!-- Modal -->
+<div class="modal fade" id="modalConsumoPorPrendas" name="modalConsumoPorPrendas"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content modal-rounded-body">
+      <div class="modal-header bg-altima modal-rounded-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Consumo por prendas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form>
+      <div class="modal-body">
+	      <div class="row">
+			  <div class="form-group col-md-12">
+			    <label for="tallaConsumo">Talla</label>
+			    <select class="form-control selectpicker tallaConsumo" required   data-live-search="true" data-live-search-normalize="true" id="tallaConsumo" name="tallaConsumo">
+			      <option value="1">1</option>
+			      <option value="1">2</option>
+			      <option value="1">3</option>
+			      <option value="1">4</option>
+			      <option value="1">5</option>
+			    </select>
+			  </div>
+			  <div id ="eliminar"  class="row"  tabindex="0">
+		      <div class="form-group col-md-3">
+			  	<label for="XXCConsumo">XXC</label>
+				<input type="number" class="form-control" placeholder="1.25" id="XXCConsumo">
+		      </div>
+		      <div class="form-group col-md-3">
+			  	<label for="XCConsumo">XC</label>
+				<input type="number" class="form-control" placeholder="1.3" id="XCConsumo">
+		      </div>
+		      <div class="form-group col-md-3">
+			  	<label for="CConsumo">C</label>
+				<input type="number" class="form-control" placeholder="1.35" id="CConsumo">
+		      </div>
+		      <div class="form-group col-md-3">
+			  	<label for="RConsumo">R</label>
+				<input type="number" class="form-control" placeholder="1.4" id="RConsumo">
+		      </div>
+		      <div class="form-group col-md-4">
+			  	<label for="LConsumo">L</label>
+				<input type="number" class="form-control" placeholder="1.45" id="LConsumo">
+		      </div>
+		      <div class="form-group col-md-4">
+			  	<label for="XLConsumo">XL</label>
+				<input type="number" class="form-control" placeholder="1.5" id="XLConsumo">
+		      </div>
+		      <div class="form-group col-md-4">
+			  	<label for="XXLConsumo">XXL</label>
+				<input type="number" class="form-control" placeholder="1.55" id="XXLConsumo">
+		      </div>
+		      </div>
+		      <!-- AUMENTO DE CONSUMO -->
+		      <!-- ESTAMPADO RAYAS -->
+		      <input type="hidden" value="5" id="rayasConsumo">
+		      <!-- ESTAMPADO CUADROS -->
+			  <input type="hidden" value="10" id="cuadrosConsumo">
+			<div class="form-group col-md-12">
+				<a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span
+						class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Cancelar</a>
+				<a id="btn-tallas" name="btn-tallas" class="btn icon-btn btn-altima text-white float-right"
+					onclick="agregar('Tela')"><span
+						class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-6">
+			  <label>Talla</label>
+			  <select class="form-control selectpicker" required data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+				<option value="1">1</option>
+				<option value="1">2</option>
+				<option value="1">3</option>
+				<option value="1">4</option>
+				<option value="1">5</option>
+			  </select>
+			</div>
+			<div class="form-group col-md-6">
+				<label>Largo</label>
+				<select class="form-control selectpicker" required data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+				  <option value="1">1</option>
+				  <option value="1">2</option>
+				  <option value="1">3</option>
+				  <option value="1">4</option>
+				  <option value="1">5</option>
+				</select>
+			  </div>
+			<div class="form-group col-md-6">
+				<label>Consumo ancho</label>
+			  <input type="number" class="form-control" placeholder="1.25">
+			</div>
+			<div class="form-group col-md-6">
+				<label>Consumo largo</label>
+			  <input type="number" class="form-control" placeholder="1.3">
+			</div>
+		  <div class="form-group col-md-12">
+			  <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span
+					  class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Cancelar</a>
+			  <a class="btn icon-btn btn-altima text-white float-right"><span
+					  class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</a>
+		  </div>
+	  </div>
+	  </div>
+	    <input type="hidden" th:value="${id_prenda}" id="id_prenda">
+	  </form>
+    </div>
+  </div>
+</div>

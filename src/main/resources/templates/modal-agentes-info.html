@@ -1,0 +1,52 @@
+<div class="modal fade" id="infoMovimientosAgentes" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-catalogo-agentes" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Muestras <a class="btn btn-light text-warning btn-circle btn-sm popoverxd" data-target="#traspasoAgente" data-toggle="modal" data-container="body" data-placement="top" data-content="Traspaso"><i class="fas fa-exchange-alt"></i></a>&nbsp;</h5>
+                <div th:insert="modal-traspaso-agente"></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="crearTabla">
+	            <div class="modal-body" id="borrarTabla">
+	            	<div class="form-check">
+					   <input type="checkbox" class="form-check-input" id="selectAll">
+					   <label class="form-check-label" for="selectAll">Seleccionar todo</label>
+					 </div>
+	 				<br>
+	                <table class="table table-striped table-bordered movimientoAgentes">
+										<thead>
+											<tr>
+												<th></th>
+												<th>C&oacute;digo de barras</th>
+												<th>Muestra</th>
+												<th>C&oacute;digo tela</th>
+												<th>Fecha de salida</th>
+												<th>Entregado por</th>
+												<th>Fecha de devoluci&oacute;n</th>
+												<th>Recibido por</th>
+												<th>Recargos(d&iacute;as)</th>
+												<th>Estatus</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><input type="checkbox" name="myTextEditBox" value="checked" /></td>
+												<td>FOL0001</td>
+												<td>Prenda muestra 1</td>
+												<td>TEL001</td>
+												<td>01/01/2020 13:00</td>
+												<td>Empleado Muestrario 1</td>
+												<td>06/01/2020 17:00</td>
+												<td>Empleado Muestrario 3</td>
+												<td>3</td>
+												<td>Entregado a vendedor</td>
+											</tr>
+										</tbody>
+									</table>
+	            </div>
+	    	</div>
+        </div>
+    </div>
+</div>

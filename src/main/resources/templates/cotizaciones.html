@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Cotizaciones | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Cotizaciones <a th:href="@{/agregar-cotizacion}"><button class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item">Comercial</li>
+                                <li class="breadcrumb-item active">Cotizaciones</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Lista de cotizaciones</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaCotizaciones table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Cotizaci&oacute;n</th>
+                                                <th>Fecha</th>
+                                                <th>Tipo de cotizaci&oacute;n</th>
+                                                <th>Cliente</th>
+                                                <th>Total</th>
+                                                <th>Agente de ventas</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+	                                        <tr th:each="cotizacion:${ListarCotizaciones}">
+	                                        	<td th:text="${cotizacion[1]}"></td><!-- id_text -->
+		                                        <td th:text="${cotizacion[2]}"></td><!-- fecha_creacion -->
+		                                        <!-- tipo_cotizacion -->
+		                                        <td th:if="${cotizacion[3]==1}">General</td>
+		                                        <td th:if="${cotizacion[3]==2}">Desglozada</td>
+		                                        <td th:text="${cotizacion[4]}"></td><!-- cliente -->
+		                                        <td th:text="${cotizacion[5]==0.0}?'Aún sin cotizar':'$ '+${cotizacion[5]}"></td><!-- total -->
+		                                        <td th:text="${cotizacion[6]}"></td><!-- agente de ventas -->
+		                                        <!-- estatus -->
+		                                        <td th:if="${cotizacion[7]==0}">Por Autorizar</td>
+		                                        <td th:if="${cotizacion[7]==1}">Pendiente de Autorizaci&oacute;n</td>
+		                                        <td th:if="${cotizacion[7]==2}">Autorizada</td>
+		                                        <td class="text-center">
+		                                       		<a th:if="${cotizacion[7]!=2} and ${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}" th:href="@{/Autorizar/}+${cotizacion[0]}" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Autorizar"><i class="fas fa-vote-yea" style="margin-left:-2px"></i></a>
+		                                        	<a th:if="${cotizacion[7]==0}" th:href="@{/agregar-cotizacion/}+${cotizacion[0]}"><button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button></a>
+		                                        	<a th:if="${cotizacion[7]==0}" th:href="@{/pedirAutorizacion/}+${cotizacion[0]}" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Solicitar autorizaci&oacute;n"><i class="fas fa-check"></i></a>
+		                                        	<button th:if="${cotizacion[7]==2}" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Descargar"><i class="fas fa-download"></i></button>
+		                                      		<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
+		                                        </td>
+	                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+   <script src="dist/js/tablaCotizaciones.js"></script>
+	
+   	<script>
+   	$('#iComercial').removeClass('text-altima');
+	$('#menuComercial').addClass('menu-open');
+	$('#navComercial').addClass('active-altima');
+	$('#navCotizaciones').addClass('active');
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Materiales | Altima</title>
+</head>
+<style>
+
+    
+@media screen {
+  div.divFooter {
+    display: none;
+  }
+}
+@media print {
+  div.divFooter {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+}</style>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Materiales</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Materiales</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="col-12">
+                        <!-- Default box
+                        <img src="/dist/img/logo.png" class="d-none d-print-block" id="logo" style="width: 200px; height: 100px;background-color: black;">
+                        <h2 class="d-none d-print-block" style=" text-align:center;" th:text="${h2}"></h2-->
+                        <div class="card">
+                            
+                            <div class="card-header bg-dark d-print-none" id="cab" >
+                                <h3 class="card-title" th:text="${h3}"></h3>&nbsp
+                            </div>
+                            
+                                <div th:if="${tipo=='tela'}" class="row" th:insert="detalle-material-tela"></div>
+                                <div th:if="${tipo=='forro'}" class="row" th:insert="detalle-material-forro"></div>
+                                <div th:if="${tipo=='material'}" class="row" th:insert="detalle-material-general"></div>
+                            <div class="card-footer">
+                                <button id="btnimp" class="btn btn-primary d-print-none float-right" onclick="printmaterial();">Imprimir reporte <i class="fas fa-print"></i></button>
+                            
+                            </div>
+                        </div>
+                
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer" class="divFooter"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+    <script>
+    moment.lang('es', {
+    	  months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
+    	  monthsShort: 'Enero._Feb._Mar_Abr._May_Jun_Jul._Ago_Sept._Oct._Nov._Dec.'.split('_'),
+    	  weekdays: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sabado'.split('_'),
+    	  weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
+    	  weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
+    	}
+    	);
+    var now = moment().format('dddd, DD MMMM YYYY hh:mm A');
+	$('.fechaReporteMaterial').append(now);
+    </script>
+    <script>
+        function printmaterial(){
+            window.print();
+        }
+    </script>
+    <script>
+		function changeClassById() {
+			document.getElementById("menuDiseno").className = "nav-item has-treeview menu-open";
+			document.getElementById("navDiseno").className = "nav-link active";
+			document.getElementById("navDiseno3").className = "nav-link active";
+		}
+		window.onload = changeClassById();
+	</script>
+</body>
+
+</html>

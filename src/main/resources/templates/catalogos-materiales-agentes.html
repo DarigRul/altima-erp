@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="navegacion-head"></div>
+<title>Cat&aacute;logo de Materiales | Altima</title>
+<link rel="stylesheet" href="/dist/css/bootstrap-select.min.css">
+<link href="dist/css/jplist.demo-pages.min.css" rel="stylesheet" type="text/css" />
+<!-- jPList core js and css  -->
+<link href="dist/css/jplist.core.min.css" rel="stylesheet" type="text/css" />
+<link href="dist/css/jplist.textbox-filter.min.css" rel="stylesheet" type="text/css" />
+<link href="dist/css/jplist.pagination-bundle.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>
+								Cat&aacute;logo de Materiales
+							</h1>
+							<div th:insert="modal-catalogo-cart"></div>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item">
+									<a href="#">Dashboard</a>
+								</li>
+								<li class="breadcrumb-item active">Agentes de Venta</li>
+								<li class="breadcrumb-item active">Cat&aacute;logo de materiales</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<!-- Default box -->
+				<div class="card card-solid">
+					<div class="card-body pb-0">
+						<div class="box">
+							<!--<><><><><><><><><><><><><><><><><><><><><><><><><><> DEMO START <><><><><><><><><><><><><><><><><><><><><><><><><><>-->
+							<div id="demo" class="jplist" style="margin: 20px 0 50px 0">
+								<!-- ios button: show/hide panel -->
+								<div class="jplist-ios-button">
+									<i class="fa fa-sort"></i> 
+								</div>
+								<!-- panel -->
+								<div class="jplist-panel panel-top">
+									<!-- items per page dropdown -->
+									<div class="jplist-drop-down" data-control-type="items-per-page-drop-down"
+										data-control-name="paging" data-control-action="paging">
+										<ul>
+											<li>
+												<span data-number="6" data-default="true"> Mostrar 6 </span>
+											</li>
+											<li>
+												<span data-number="12"> Mostrar 12 </span>
+											</li>
+											<li>
+												<span data-number="24"> Mostrar 24 </span>
+											</li>
+											<li>
+												<span data-number="48"> Mostrar 48 </span>
+											</li>
+											<li>
+												<span data-number="all"> Mostrar todo </span>
+											</li>
+										</ul>
+									</div>
+									<!-- sort dropdown -->
+									<div class="jplist-drop-down" data-control-type="sort-drop-down" data-control-name="sort"
+										data-control-action="sort" data-datetime-format="{month}/{day}/{year}">
+										<!-- {year}, {month}, {day}, {hour}, {min}, {sec} -->
+										<ul>
+											<li>
+												<span data-path="default">Ordenar por</span>
+											</li>
+											<li>
+												<span data-path=".prenda" data-order="asc" data-type="text">A-Z</span>
+											</li>
+											<li>
+												<span data-path=".prenda" data-order="desc" data-type="text">Z-A</span>
+											</li>
+										</ul>
+									</div>
+									<div class="jplist-drop-down" data-control-type="filter-drop-down"
+										data-control-name="category-filter" data-control-action="filter">
+										<ul>
+											<li>
+												<span data-path="default" style="font-size:15px">Todas los materiales</span>
+											</li>
+											<li>
+												<span data-path=".tela">Telas</span>
+											</li>
+											<li>
+												<span data-path=".forro">Forros</span>
+											</li>
+											<li>
+												<span data-path=".adorno">Adornos</span>
+											</li>
+											<li>
+												<span data-path=".boton">Botones</span>
+											</li>
+											<li>
+												<span data-path=".cierre">Cierres</span>
+											</li>
+										</ul>
+									</div>
+									<!-- filter by title -->
+									<div class="text-filter-box">
+										<i class="fas fa-search  jplist-icon"></i>
+										<!--[if lt IE 10]>
+                    <div class="jplist-label">Filter by Title:</div>
+                    <![endif]-->
+										<input class="form-control" data-path=".prenda" type="text" value=""
+											placeholder="Buscar por prenda" data-control-type="textbox"
+											data-control-name="title-filter" data-control-action="filter" />
+									</div>
+									<!-- pagination results -->
+									<div class="jplist-label" data-type="{start} - {end} de {all}"
+										data-control-type="pagination-info" data-control-name="paging"
+										data-control-action="paging"></div>
+									<!-- pagination control -->
+									<div class="jplist-pagination col-md-12" style="justify-content: center;"
+										data-control-type="pagination" data-control-name="paging" data-control-action="paging"></div>
+								</div>
+								<!-- data -->
+								<div class="list box text-shadow">
+									<!-- item 1 -->
+									<div class="list-item box col-md-4">
+										<!-- data -->
+										<div class="block text-justify">
+											<a data-toggle="modal" data-target="#imagenMaterialAgente"><img class="thumb1 centerImg"
+												src="https://thumbs.dreamstime.com/b/mezclilla-del-azul-de-la-textura-de-la-tela-40003724.jpg" alt="" title="" /></a>
+											<p class="stock">
+												<strong>Stock:</strong>
+												<a>9</a>
+											</p>
+											<p class="prenda">
+												<strong>Clave:</strong>
+												<a>TEL213</a>
+											</p>
+											<p class="desc">
+												<strong>Nombre:</strong>
+												<a>Mezclilla Levis</a>
+											</p>
+											<p class="tela">
+												<strong>Fam. Composici&oacute;n:</strong>
+												<a>Mezclilla</a>
+											</p>
+											<p class="talla">
+												<strong>Ancho:</strong>
+												<a>2.00</a>
+											</p>
+											<p class="theme" style="display: none">
+												<span class="abrigo"></span>
+											</p>
+										</div>
+										<!-- Modal -->
+										<div class="modal fade" id="imagenMaterialAgente" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+										  <div class="modal-dialog modal-dialog-centered" role="document">
+										    <div class="modal-content">
+										      <div class="modal-body">
+										        <img class="thumb2 centerImg2"
+												src="https://thumbs.dreamstime.com/b/mezclilla-del-azul-de-la-textura-de-la-tela-40003724.jpg" alt="" title="" />
+										      </div>
+										    </div>
+										  </div>
+										</div>
+									</div>
+
+								</div>
+								<div class="box jplist-hidden text-shadow align-center">
+									<p>No results found</p>
+								</div>
+							</div>
+							<!--<><><><><><><><><><><><><><><><><><><><><><><><><><> DEMO END <><><><><><><><><><><><><><><><><><><><><><><><><><>-->
+						</div>
+					</div>
+					<!-- /.card-body -->
+				</div>
+				<!-- /.card -->
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<div th:insert="navegacion-footer"></div>
+	</div>
+	<!-- ./wrapper -->
+	<div th:replace="navegacion-scripts"></div>
+	<script src="/dist/js/bootstrap-select.min.js"></script>
+	<script src="dist/js/jplist.core.min.js"></script>
+	<!-- jPList sort bundle -->
+	<script src="dist/js/jplist.sort-bundle.min.js"></script>
+	<!-- jPList textbox filter control -->
+	<script src="dist/js/jplist.textbox-filter.min.js"></script>
+	<!-- jPList pagination bundle -->
+	<script src="dist/js/jplist.pagination-bundle.min.js"></script>
+	<!-- filter dropdown bundle -->
+	<script src="dist/js/jplist.filter-dropdown-bundle.min.js"></script>
+	<script>
+		$('document').ready(function() {
+
+			//start jplist
+			$('#demo').jplist({
+				itemsBox : '.list',
+				itemPath : '.list-item',
+				panelPath : '.jplist-panel'
+			});
+
+			//add item to jPList collection in the given index
+			$('#demo').jplist({
+				command : 'add',
+				commandData : {
+					$item : $(html),
+					index : 0
+				}
+			});
+		});
+	</script>
+	<script>
+		$('.selectCustom').selectpicker({
+			style : 'border border-bootstrap'
+		});
+	</script>
+	<script>
+		$('#iComercial').removeClass('text-primary');
+		$('#menuComercial').addClass('menu-open');
+		$('#navComercial').addClass('active');
+		$('#menuVenta').addClass('menu-open');
+		$('#navVenta').addClass('active');
+		$('#navVenta7').addClass('active');
+	</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<div id="div2">
+	<table id="table2" class="display" style="width: 100%">
+		<thead>
+			<tr>
+				<th>Pedido</th>
+				<th>Clave de acceso</th>
+				<th>Fecha de entrega</th>
+				<th>Fecha de recepción</th>
+				<th>Pagaron anticipo?</th>
+				<th>Días de entrega</th>
+				<th>Fecha de anticipo</th>
+				<th>Fecha toma de tallas</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Corte</td>
+				<td>Position</td>
+				<td>Office</td>
+				<td>Name</td>
+				<td>Position</td>
+				<td>Office</td>
+				<td>Name</td>
+				<td>Position</td>
+				<td class="tdcenter"><a data-target="#mCorte" data-toggle="modal" class="btn btn-warning popoverxd" data-container="body" data-placement="top" data-content="Editar"
+					style="border-radius: 35%;"><i class="fas fa-pen fa-sm"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<script>
+		$(document).ready(function() {
+			$('#table2').DataTable();
+		});
+	</script>
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="mCorte" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="mCorte">Editar</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form action="">
+					<div class="modal-body">
+						<input type="hidden" class="form-control">
+						<label style="font-size: 15px;">Campos de la tabla a editar</label>
+						<input type="date" class="form-control">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-success">Guardar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

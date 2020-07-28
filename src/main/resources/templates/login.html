@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Inicio de sesi&oacute;n | Altima</title>
+	<link rel="stylesheet" type="text/css" href="/dist/css/login/css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" sizes="32x32" href="/dist/img/favicon.ico">
+</head>
+<body>
+	<img class="wave" src="/dist/css/login/img/wave.png">
+	<div class="container">
+		<div class="img">
+			<img src="/dist/css/login/img/bg.svg">
+		</div>
+		<div class="login-content">
+			<form th:action="@{/login}" method="post">
+				<img src="/dist/css/login/img/avatar.svg">
+				<h2 class="title" style="font-size: 35px;">Altima Uniformes</h2>
+           		<div class="input-div one">
+           		   <div class="i">
+           		   		<i class="fas fa-user"></i>
+           		   </div>
+           		   <div class="div">
+           		   		<h5>Usuario</h5>
+           		   		<input type="text" name="username" id="username" required class="input">
+				   </div>
+				   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+           		</div>
+           		<div class="input-div pass">
+           		   <div class="i"> 
+           		    	<i class="fas fa-lock"></i>
+           		   </div>
+           		   <div class="div">
+           		    	<h5>Contrase&ntilde;a</h5>
+           		    	<input type="password" name="password" id="password" required class="input">
+            	   </div>
+            	</div>
+				<input type="submit" class="btn" value="Iniciar sesi&oacute;n">
+            </form>
+        </div>
+    </div>
+
+	<script src="/dist/css/login/js/main.js"></script>
+	<script src="/dist/js/sweetalert.js"></script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	var errorlogin =[[${param.error} != null ? true:false]]
+	if(errorlogin){
+		Swal.fire({
+			  position: 'center',
+			  icon: 'error',
+			  title: 'Usuario y/o contrase&ntilde;a incorrectas',
+			  showConfirmButton: false,
+			  timer: 2300
+			})
+		}
+	var logoutlogin =[[${param.logout} != null ? true:false]]
+	if(logoutlogin){
+		Swal.fire({
+			  position: 'center',
+			  icon: 'success',
+			  title: 'Sesi&oacute;n cerrada correctamente',
+			  showConfirmButton: false,
+			  timer: 2300
+			})
+		}
+	/*]]>*/
+	</script>
+</body>
+</html>

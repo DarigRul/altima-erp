@@ -1,0 +1,616 @@
+<form class="row" id="telaForm" name="telaForm" th:method="post" th:action="@{/guardar-tela}"
+	enctype="multipart/form-data">
+<input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+	<div class="form-group col-sm-6">
+		<label for="razonEmpresa">Porcentaje %</label>
+		<div class="input-group mb-3">
+			<input type="number" min="1" id="telaComposicion" name="telaComposicion" class="form-control" placeholder="100">
+			<div class="input-group-append">
+			  <span class="input-group-text">%</span>
+			</div>
+		  </div>
+	</div>
+	<div class="form-group col-md-6">
+		<label for="status">Composici&oacute;n</label>
+		<div class="input-group mb-3">
+			<select id="telaFamcomposicion" name="telaFamcomposicion" class="form-control selectpicker"
+			data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+			<option th:each="lisCom: ${lisCom}" th:value="${lisCom.idLookup}" th:text="${lisCom.nombreLookup}"></option>
+
+		</select>
+			<div class="input-group-append" style="margin-left:10px;">
+				<button id="adicionar" onclick="guardar()" class="btn btn-sm icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="form-group col-sm-12">
+		<table id="mytable" class="table table-striped">
+			<thead>
+				<tr>
+					<th>Porcentaje %</th>
+					<th style="display:none;">Composici&oacute;n</th>
+					<th>Composici&oacute;n</th>
+					<th>Eliminar</th>
+		
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="listTelaComposicon: ${listTelaComposicon}">
+		
+					<td th:text="${listTelaComposicon[0]}"></td>
+					<td style="display:none;" th:text="${listTelaComposicon[1]}"></td>
+					<td th:text="${listTelaComposicon[2]}"></td>
+					<td> <button type="button" name="remove" onclick="eliminar(this)"
+							class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span
+								class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
+					</td>
+		
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="form-group col-sm-6">
+		<label for="razonEmpresa">Nombre</label>
+		<input type="text" th:field="*{tela.nombreTela}" onblur="validarnombre()"  class="form-control" placeholder="Tela" required>
+	</div>
+
+	<div class="form-group col-sm-6">
+		<label for="razonEmpresa">Famila Composici&oacute;n</label>
+		<select required id="telaFamcomposicion" class="form-control selectpicker"
+			th:field="*{tela.idFamiliaComposicion}" data-live-search="true" data-live-search-normalize="true" title="Seleccione uno...">
+			<option th:each="lisFam: ${lisFam}" th:value="${lisFam.idLookup}" th:text="${lisFam.nombreLookup}"></option>
+
+		</select>
+	</div>
+
+	<div class="form-group col-md-12">
+		<label for="status">Prenda</label>
+		<div class="input-group mb-3">
+			<select class="form-control selectpicker" name="idPrenda" id="idPrenda" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+				<option th:each="listPrendas: ${listPrendas}" th:value="${listPrendas.idLookup}"
+					th:text="${listPrendas.nombreLookup}"></option>
+			</select>
+			<div class="input-group-append" style="margin-left:10px;">
+				<button id="adicionarPrenda" onclick="guardarPrenda()"  class="btn btn-sm icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+			</div>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<table id="mytablePrenda" class="table table-striped">
+			<thead>
+				<tr>
+					<th>Prenda</th>
+					<th style="display:none;">id_prenda</th>
+					<th>Eliminar</th>
+
+				</tr>
+			</thead>
+				<tbody>
+					<tr th:each="listVistaTelaPrenda: ${listVistaTelaPrenda}">
+
+
+
+						<td th:text="${listVistaTelaPrenda[1]}"></td>
+
+						<td style="display:none;" th:text="${listVistaTelaPrenda[0]}"></td>
+						<td>
+								<button type="button" name="remove" onclick="eliminar(this)"
+								class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span
+									class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>
+
+					</tr>
+				</tbody>
+		</table>
+	</div>
+
+
+	<div class="form-group col-sm-4">
+		<label for="rfcEmpresa">Ancho(m)</label>
+		<input type="number" min="1" step="any" required class="form-control" th:field="*{tela.ancho}"
+			placeholder="1.2">
+	</div>
+	<div class="form-group col-sm-4">
+		<label for="rfcEmpresa">Costo por metro</label>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<span class="input-group-text">$</span>
+			</div>
+			<input type="number" min="1" required step="any" class="form-control" th:field="*{tela.costoPorMetro}"
+				placeholder="1.2">
+		</div>
+	</div>
+	<div class="form-group col-sm-4">
+		<label for="status">Estampado</label>
+		<select required class="form-control selectpicker" th:field="*{tela.estampado}" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+			<option value="Rayas verticales">Rayas verticales</option>
+			<option value="Rayas horizontales">Rayas horizontales</option>
+			<option value="Cuadros">Cuadros</option>
+			<option value="Fantasia">Fantasia</option>
+			<option value="Liso">Liso</option>
+		</select>
+	</div>
+
+	
+	<!--th:if="*{tela.estatusTela =='1'}"-->
+	
+	<div th:if="${EstatusCalidadTela == '2'}" class="form-group col-sm-4">
+		<label for="status">Unidad de medida</label>
+		<select required class="form-control selectpicker" th:field="*{tela.idUnidadMedida}" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+			<option th:each="listLookupsMed:${listLookupsMed}" th:value="${listLookupsMed[0]}"
+				th:text="${listLookupsMed[1]}"></option>
+		</select>
+	</div>
+
+	<div class="form-group col-sm-4">
+		<label for="status">Color</label>
+		<input type="text" required th:field="*{tela.Color}" class="form-control" placeholder="Rojo">
+	</div>
+
+	<div class="form-group col-sm-4">
+		<label for="status">C&oacute;digo Color</label>
+
+
+		<input required type="color" th:field="*{tela.codigoColor}" class="form-control" placeholder="Codigo Color">
+	</div>
+
+	<div class="form-group col-sm-12" id="ProveedorMaterialDiv">
+		<label for="status">Proveedor</label>
+		<select required class="form-control selectpicker" th:field="*{tela.idProveedor}" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+			<option value="1">PRO1001 TELAS CONTNELTAL</option>
+			<option value="2">PRO1002 CORDUROY</option>
+			<option value="3">PRO1003 DYEXSA</option>
+			<option value="4">PRO1004 FABRICA DE SAN MARTIN</option>
+			<option value="5">PRO1005 FABRICA MARIA</option>
+			<option value="6">PRO1006 FABRICAS DE TELAS DE MORELIA</option>
+		</select>
+	</div>
+
+
+
+	<div th:if="${EstatusCalidadTela == '2'}" class="form-group col-sm-12">
+		<label for="status">Forro</label>
+		<select required class="form-control selectpicker" multiple  data-live-search="true" data-live-search-normalize="true" title="Selecciona unos..." name="forros"
+			data-max-options="3">
+			<option th:each="listForroSelec: ${listForroSelec}" th:value="${listForroSelec[0]}"
+				th:text="${listForroSelec[1]}" selected></option>
+
+			<option th:each="listForro: ${listForro}" th:value="${listForro[0]}" th:text="${listForro[1]}"></option>
+		</select>
+	</div>
+
+	<div class="form-group col-sm-3" th:if="${EstatusCalidadTela == '2'}">
+		<label for="razonEmpresa">Tipo</label>
+		<select id="selecttipom" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+		</select>
+	</div>
+
+	<div class="form-group col-sm-3" th:if="${EstatusCalidadTela == '2'}">
+		<label for="status">Clasificaci&oacute;n</label>
+		<select id="clasi" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+			<option value="principal">Principal</option>
+			<option value="secundario">Secundario</option>
+		</select>
+	</div>
+	<div class="form-group col-sm-3" th:if="${EstatusCalidadTela == '2'}">
+		<label for="status">Color</label>
+		<input type="text" id="matcol" class="form-control" placeholder="Rojo">
+	</div>
+
+	<div class="form-group col-sm-3" th:if="${EstatusCalidadTela == '2'}">
+		<label for="status">C&oacute;digo Color</label>
+		<div class="input-group mb-3">
+			<input required type="color" id="matcod" class="form-control" placeholder="Codigo Color">
+			<div class="input-group-append" style="margin-left:10px;">
+				<button id="addMat" class="btn btn-sm icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+			</div>
+		  </div>
+	</div>
+	<div class="form-group col-sm-12" th:if="${EstatusCalidadTela == '2'}">
+		<table class="table table-striped" >
+			<thead>
+				<tr>
+					<th style="display:none;">Id</th>
+					<th>Tipo</th>
+					<th>Clasificaci&oacute;n</th>
+					<th>Color</th>
+					<th>C&oacute;digo color</th>
+					<th style="display:none;">cod color</th>
+					<th>Eliminar</th>
+
+				</tr>
+			</thead>
+				<tbody id="tablita">
+					<tr th:each="table : ${tablemat}">
+						<td style="display:none;" th:text="${table[0]}"></td>
+						<td th:text="${table[2]}"></td>
+						<td th:text="${table[5]}"></td>
+						<td th:text="${table[3]}"></td>
+						<td><input type="color" th:id="'color'+${table[0]}+${table[5]+table[3]}" disabled th:value="${table[4]}"></td>
+						<td style="display:none;" th:text="${table[4]}"></td>
+						<td><button type="button" th:id="${table[0]}" name="remove" onclick="eliminarMaterial(this)"  class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>
+					</tr>
+				</tbody>
+		</table>
+	</div>
+
+
+	<div th:if="${EstatusCalidadTela == '2'}" class="form-group col-sm-12">
+		<label for="coloniaEmpresa">Descripci&oacute;n</label>
+		<textarea required class="form-control" th:field="*{tela.descripcionTela}" placeholder="Especificar"
+			rows="3"></textarea>
+	</div>
+
+
+	<div class="form-group col-sm-12">
+		<label for="coloniaEmpresa">Indicaciones</label>
+		<textarea required class="form-control" th:field="*{tela.indicacion}" placeholder="Especificar"
+			rows="3"></textarea>
+	</div>
+
+	<div class="col-sm-12">
+		<div class="form-group p-3 border p-2 rounded m-3">
+			<div class="row">
+				<div class="col-sm-3 text-center pt-2 border-right">
+					<label for="mainImageTela"><img th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/' + ${tela.foto}}"
+							th:onerror="this.src='/dist/img/preview.png'" alt="Placeholder" id="serviceImageTela"
+							class="placeholder img-thumbnail" aria-describedby="imagePreviewHelp" /></label>
+					<small id="imagePreviewHelpTela" class="form-text text-muted">Previsualizaci&oacute;n de la
+						imagen</small>
+				</div>
+				<div class="col">
+					<label for="mainImageTela">Tela</label>
+					<div class="input-group mb-3">
+						<input type="file" name="imagenTela" th:value="*{tela.foto}" class="form-control border p-1"
+							id="mainImageTela" />
+						<div class="input-group-append">
+							<span class="input-group-text bg-danger text-danger pointer" id="clearUploadTela"><i
+									class="fas fa-times"></i></span>
+						</div>
+					</div>
+					<small id="imageHelpTela" class="form-text text-muted">Selecciona la foto que desea subir.</small>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group col-sm-12 d-flex justify-content-between">
+		<a th:href="@{/materiales}" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+		<button class="btn btn-sm icon-btn btn-info text-white mr-auto" th:if="${EstatusCalidadTela == '2'}" data-toggle="modal" data-target="#telasSustitutas" type="button"><span class="btn-glyphicon spancircle fas flaticon4-curling-hair-with-tissue-roll img-circle text-info"></span>Telas sustitutas</button>
+		<button onclick="arreglo()" class="btn btn-sm icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+	</div>
+	<input name="EstatusCalidadTela" type="hidden" id="EstatusCalidadTela" th:value="${EstatusCalidadTela}">
+	
+	<input name="txtTabla" type="hidden" id="txtTabla" value="">
+	<input name="txtTabla2" type="hidden" id="txtTabla2" value="">
+	<input name="id_prendas" type="hidden" id="id_prendas" value="">
+	<input name="colormat" type="hidden" id="colormat" value="">
+	<input name="codcolor" type="hidden" id="codcolor" value="">
+	<input name="idtipomat" type="hidden" id="idtipomat" value="">
+	<input name="posicionm" type="hidden" id="posicionm" value="">
+	<input th:unless="${tela.auxiliar1}==null" type="hidden" th:field="*{tela.auxiliar1}">
+	<input th:unless="${tela.auxiliar2}==null" type="hidden" th:field="*{tela.auxiliar2}">
+	<input th:unless="${tela.auxiliar3}==null" type="hidden" th:field="*{tela.auxiliar3}">
+	<input type="hidden" th:field="*{tela.idTela}">
+	<input type="hidden" th:field="*{tela.idText}">
+	<input type="hidden" th:field="*{tela.idTextProspecto}">
+	<input type="hidden" th:field="*{tela.creadoPor}">
+	<input type="hidden" th:field="*{tela.actualizadoPor}">
+	<input type="hidden" th:field="*{tela.fechaCreacion}">
+	<input type="hidden" th:field="*{tela.ultimaFechaModificacion}">
+	<input type="hidden" th:field="*{tela.foto}">
+	<input type="hidden" th:field="*{tela.estatusTela}">
+	<input type="hidden" th:field="*{tela.estatus}">
+
+
+</form>
+	<!-- Modal -->
+	<div th:if="${EstatusCalidadTela == '2'}" class="modal fade" id="telasSustitutas" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content modal-rounded-body">
+				<form th:method="post" id="fs" th:action="@{/tela-sustituta}">
+					<div class="modal-header bg-altima modal-rounded-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">Telas sustitutas</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+
+					<div class="modal-body">
+						<div th:if="${EstatusCalidadTela == '2'}" class="form-group col-sm-12">
+							<label for="status">Tela Opcional 1</label>
+							<select required class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno.." th:field="*{tela.auxiliar1}">
+								<option th:each="listTela: ${listTela}" th:value="${listTela[0]}"
+									th:text="${listTela[1]}"></option>
+							</select>
+						</div>
+							
+
+						<div th:if="${EstatusCalidadTela == '2'}" class="form-group col-sm-12">
+							<label for="status">Tela Opcional 2</label>
+							<select required class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno.."  th:field="*{tela.auxiliar2}">
+								<option th:each="listTela: ${listTela}" th:value="${listTela[0]}"
+									th:text="${listTela[1]}"></option>
+							</select>
+						</div>
+
+
+						<div th:if="${EstatusCalidadTela == '2'}" class="form-group col-sm-12">
+							<label for="status">Tela Opcional 3</label>
+							<select required class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno.."   th:field="*{tela.auxiliar3}">
+								<option th:each="listTela: ${listTela}" th:value="${listTela[0]}"
+									th:text="${listTela[1]}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="modal-footer modal-rounded-footer">
+						<button data-dismiss="modal" type="button" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+						<button type="button" onclick="submit_modal();" class="btn btn-sm icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+						<input type="hidden" th:field="*{tela.idTela}">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<script>
+	function submit_modal() {
+		document.getElementById("fs").submit();
+
+	}
+	function guardar() {
+		if (document.getElementById("telaComposicion").value == null ||
+			document.getElementById("telaComposicion").value.length == 0 ||
+			/^\s+$/.test(document.getElementById("telaComposicion").value) ||
+			document.getElementById("telaFamcomposicion").selectedIndex == null ||
+			document.getElementById("telaFamcomposicion").selectedIndex == "") {
+			Swal.fire({
+				position: 'center',
+				icon: 'error',
+				title: 'Complete Composicion o familia de composicion',
+				showConfirmButton: false,
+				timer: 1250
+			});
+		}
+		else {
+
+			var telaComposicion = document.getElementById("telaComposicion").value;
+			var telaFamcomposicion = document.getElementById("telaFamcomposicion").value;
+			var nombre = $("#telaFamcomposicion option:selected").text();
+
+			var vali;
+			var aux;
+			$('#mytable tr').each(function () {
+				vali = $(this).find('td').eq(1).html();
+				if (vali == telaFamcomposicion) {
+					aux = 0;
+					Swal.fire({
+						position: 'center',
+						icon: 'error',
+						title: 'Ya ha seleccionado esa composicion',
+						showConfirmButton: false,
+						timer: 1250
+					});
+				}
+
+			});
+			if (aux != 0) {
+				var i = 1; //contador para asignar id al boton que borrara la fila
+				var fila = '<tr id="row' + i + '"><td>' + telaComposicion + '</td> <td style="display:none;">' + telaFamcomposicion + '</td> <td >' + nombre + '</td>  <td><button type="button" name="remove" id="' + i + '" onclick="eliminar(this)" class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>   </tr>'; //esto seria lo que contendria la fila
+				i++;
+				$('#mytable tr:first').after(fila);
+				$("#adicionados").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
+				var nFilas = $("#mytable tr").length;
+				$("#adicionados").append(nFilas - 1);
+				//le resto 1 para no contar la fila del header
+				document.getElementById("telaFamcomposicion").value = '';
+				$('#telaFamcomposicion').change();
+				document.getElementById("telaComposicion").value = "";
+			}
+		}
+	}
+	function eliminar(t) {
+		var td = t.parentNode;
+		var tr = td.parentNode;
+		var table = tr.parentNode;
+		table.removeChild(tr);
+	}
+	
+
+	function validarnombre(){
+		$.ajax({
+	      	method: "POST",
+	      	
+	          url: "/buscar-tela-nombre",
+	          data: { 
+	          	 "_csrf": $('#token').val(),
+	          	
+	          	'nombre': $('#nombreTela').val()
+	          	
+	          },
+	          
+	         
+	          success: (data) => {
+	        	if ( data == 0 && $('#EstatusCalidadTela').val()==""){}
+	        	
+	        	else if (data == 0 ||data == 1 && $('#EstatusCalidadTela').val()==2) {}
+	        	
+	        	else{
+	        		Swal.fire({
+						position: 'center',
+						icon: 'error',
+						title: 'Nombre de tela ya registrado',
+						showConfirmButton: false,
+						timer: 1250
+					});
+	        		document.getElementById("nombreTela").placeholder = $('#nombreTela').val();
+	        		$('#nombreTela').val('');
+	        	}
+	  		}
+	  		 
+	      })
+	}
+
+	function arreglo() {
+		
+		var estatus  = $('#EstatusCalidadTela').val();
+		
+			var compo = "";
+			var idfam = "";
+			var contador = 0;
+			$('#mytable tr').each(function () {
+				compo = $(this).find('td').eq(0).html() + "," + compo;
+				if ($(this).find('td').eq(0).html() != null) {
+					var suma = $(this).find('td').eq(0).html();
+					contador = (Number(contador) + Number(suma));
+				}
+				idfam = $(this).find('td').eq(1).html() + "," + idfam;
+				document.getElementById("txtTabla").value = compo;
+				document.getElementById("txtTabla2").value = idfam;
+			});
+			var id = "";
+			$('#mytablePrenda tr').each(function () {
+				id = $(this).find('td').eq(1).html() + "," + id;
+				document.getElementById("id_prendas").value = id;
+			});
+			var color = "";
+			var codcolor = "";
+			var idtipomat = "";
+			var posicion = "";
+			$('#tablita tr').each(function () {
+				if (idtipomat == "") {
+					console.log("que pedo");
+					idtipomat = $(this).find('td').eq(0).html();
+					posicion = $(this).find('td').eq(2).html();
+					color = $(this).find('td').eq(3).html();
+					codcolor = $(this).find('td').eq(5).html();
+				}
+				else {
+					idtipomat = $(this).find('td').eq(0).html() + "," + idtipomat;
+					posicion = $(this).find('td').eq(2).html() + "," + posicion;
+					color = $(this).find('td').eq(3).html() + "," + color;
+					codcolor = $(this).find('td').eq(5).html() + "," + codcolor;
+				}
+
+				document.getElementById("idtipomat").value = idtipomat;
+				document.getElementById("colormat").value = color;
+				document.getElementById("codcolor").value = codcolor;
+				document.getElementById("posicionm").value = posicion;
+			});
+
+			
+			var eachMaterial=true;
+			for (i in lookup){
+					  // console.log("aqui"+lookup[i].idLookup);
+					   if(!idtipomat.includes(lookup[i].idLookup)){
+						eachMaterial=false;
+					   }
+
+	               }
+			
+			
+			var form = document.getElementById("telaForm");
+			if (estatus == 2){
+			form.onsubmit = function (e) {
+				if (contador == 100 && eachMaterial==true ) { }
+				else if (eachMaterial==false) {
+					document.telaForm.selecttipom.focus()
+					Swal.fire({
+						position: 'center',
+						icon: 'error',
+						title: 'Error tienes que agregar al menos un material de cada tipo',
+						showConfirmButton: false,
+						timer: 3000
+					});
+
+					e.preventDefault();
+				}
+				else {
+					document.telaForm.telaComposicion.focus()
+					Swal.fire({
+						position: 'center',
+						icon: 'error',
+						title: 'Error es posible que el porcentaje no cumpla con el  100 % ',
+						showConfirmButton: false,
+						timer: 3000
+					});
+
+					e.preventDefault();
+
+					}
+				}
+			}
+			if (estatus == null ||estatus == ''  ){
+				form.onsubmit = function(e){
+					if(contador == 100){
+					}else{
+						document.telaForm.telaComposicion.focus()
+						Swal.fire({
+					          position: 'center',
+					          icon: 'error',
+					          title: 'Error es posible que el porcentaje no cumpla con el  100 % ',
+					          showConfirmButton: false,
+					          timer: 3000
+					        });
+						
+					e.preventDefault();
+					
+					}
+				}
+			}
+	}
+	
+	
+	
+	function guardarPrenda() {
+		if (document.getElementById("idPrenda").value == null ||
+			document.getElementById("idPrenda").value.length == 0) {
+			Swal.fire({
+				position: 'center',
+				icon: 'error',
+				title: 'Error en prenda',
+				showConfirmButton: false,
+				timer: 1250
+			});
+		}
+
+		else {
+			//var telaComposicion = document.getElementById("telaComposicion").value;
+			var idPrenda = document.getElementById("idPrenda").value;
+			var nombre = $("#idPrenda option:selected").text();
+
+			var vali;
+			var aux;
+			$('#mytablePrenda tr').each(function () {
+				vali = $(this).find('td').eq(1).html();
+				if (vali == idPrenda) {
+					aux = 0;
+					Swal.fire({
+						position: 'center',
+						icon: 'error',
+						title: 'Ya ha seleccionado esa prenda',
+						showConfirmButton: false,
+						timer: 1250
+					});
+				}
+
+			});
+
+			if (aux != 0) {
+				var i = 1;
+
+				var fila = '<tr id="row' + i + '"><td>' + nombre + '</td> <td style="display:none;">' + idPrenda + '</td>   <td><button type="button" name="remove" id="' + i + '" onclick="eliminar(this)" class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>   </tr>'; //esto seria lo que contendria la fila
+				i++;
+				$('#mytablePrenda tr:first').after(fila);
+				$("#adicionados").text(""); //esta instruccion limpia el div adicioandos para que no se vayan acumulando
+				var nFilas = $("#mytable tr").length;
+				$("#adicionados").append(nFilas - 1);
+				//le resto 1 para no contar la fila del header
+				document.getElementById('idPrenda').options.selectedIndex = 0;
+				document.getElementById("idPrenda").value = "";
+			}
+		}
+	}
+</script>
