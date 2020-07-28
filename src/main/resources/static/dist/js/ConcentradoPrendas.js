@@ -562,6 +562,8 @@ function CrearNuevaTabla(data, ListaEmpleados){
 	
 			table1 = $('.tablaConcentrado')
 			    .DataTable({
+			    	"scrollX": true,
+			    	"autoWidth": false,
 			        "order": [[ 0, "asc" ]],
 			        "pageLength": 5,
 			        "responsive": true,
@@ -611,6 +613,7 @@ function CrearNuevaTabla(data, ListaEmpleados){
 			    });
 			
 			new $.fn.dataTable.FixedHeader(table1);
+
 
 			var ArrayFinal = [];
 			for(var empleado = 0; empleado < ListaEmpleados.length; empleado++){
@@ -670,7 +673,11 @@ function CrearNuevaTabla(data, ListaEmpleados){
 													"<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick=\"EditarRegistro(\'" + ArrayFinal[contador]["id"] + "'\, \'" + ArrayFinal[contador]["nombre"] + "\');\" data-container='body' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" +				
 												"</td>";
 				table1.rows.add( [ ArrayIndividual ] ).draw();
-			}		
+			}
+			
+			$('#ContenedorDeTabla').css( 'display', 'block' );
+			table1.columns.adjust().draw();
+
 }
 
 
@@ -740,6 +747,7 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 	
 			table1 = $('.tablaConcentrado')
 			    .DataTable({
+			    	
 			        "order": [[ 0, "asc" ]],
 			        "pageLength": 5,
 			        "responsive": true,
@@ -758,6 +766,8 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 			            [5, 10, 25, 50, 100],
 			            [5, 10, 25, 50, 100]
 			        ],
+			        "scrollX": true,
+			        "autoWidth": false,
 			        "language": {
 			            "sProcessing": "Procesando...",
 			            "sLengthMenu": "Mostrar _MENU_ registros",
