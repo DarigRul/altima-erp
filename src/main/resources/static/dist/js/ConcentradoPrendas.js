@@ -562,7 +562,6 @@ function CrearNuevaTabla(data, ListaEmpleados){
 	
 			table1 = $('.tablaConcentrado')
 			    .DataTable({
-			    	"scrollX": true,
 			        "order": [[ 0, "asc" ]],
 			        "pageLength": 5,
 			        "responsive": true,
@@ -741,7 +740,6 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 	
 			table1 = $('.tablaConcentrado')
 			    .DataTable({
-			    	"scrollX": true,
 			        "order": [[ 0, "asc" ]],
 			        "pageLength": 5,
 			        "responsive": true,

@@ -1,6 +1,5 @@
 package com.altima.springboot.app.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +19,6 @@ import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialCalendarioService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IComercialConcentradoPrendasService;
-import com.altima.springboot.app.models.service.IComercialConcentradoTallaService;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialPrendaBordadoService;
 
@@ -42,8 +40,6 @@ public class ExpedienteController {
 	private IComercialCoordinadoService CoordinadoService;
 	@Autowired
 	private IComercialConcentradoPrendasService concentradoPrendasService;
-	@Autowired
-	IComercialConcentradoTallaService ConcentradoTallaService;
 
 	// Metodo de Listar
 	@GetMapping("/expediente")
@@ -127,27 +123,6 @@ public class ExpedienteController {
 		model.addAttribute("empleados", concentradoPrendasService.findEmpleadosParaExpediente(id));
 		return "/imprimir-expediente-concentrado-prenda-individual";
 	}
-	
-	//Metodo para imprimir un concetrado de tallas 
-		@GetMapping("/expediente-imprimir-concentrado-por-tallas/{id}")
-		public String imprimirTallas(Model model, @PathVariable("id") Long idpedido, Model m) {
-			List<String> list = new ArrayList<>();
-				for (Object[] d : ConcentradoTallaService.findPrendaCliente(idpedido)) {
-					list.add((String) d[1]);
-				}
-			ConcentradoTallaService.genpivot(list);
-			List<String> list2 = new ArrayList<>();
-			list2.add("Empleado");
-			list2.addAll(list);
-			model.addAttribute("head", list2);
-			model.addAttribute("prendastallas", ConcentradoTallaService.findPrendaTalla2(ConcentradoTallaService.genpivot(list), idpedido));
-			model.addAttribute("empleados10", ConcentradoTallaService.findPrendaTalla3(idpedido));
-			model.addAttribute("idpedido", idpedido);		
-			ComercialPedidoInformacion pedido = cargaPedidoService.findOne(idpedido);
-			m.addAttribute("clientes", clienteservice.findAll(null));
-			model.addAttribute("pedido", pedido);
-			return "/imprimir-expediente-concentrado-de-tallas";
-		}
 
 	@GetMapping("/agregar-expediente")
 	public String agregarExpediente() {
