@@ -274,7 +274,7 @@
 																	<div class="card" style="width: 18rem;">  																					
 																		<div th:class="${'image-upload-edit-' + img.estatus}">
 	  																		<label th:for="${'file-input-edit-' + img.estatus}" th:id="${'contenedor-imagen-' + img.estatus}">
-	  																			<img class="card-img-top" th:id="${'img-edit-' + img.estatus}" th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/prendas/' + ${img.rutaPrenda}}" th:onerror="this.src='/dist/img/preview.png'" style="max-width: 289px !important; max-height: 289px !important; width: auto !important; height: auto !important;"> 
+	  																			<img class="card-img-top" th:id="${'img-edit-' + img.estatus}" th:src="@{'https://res.cloudinary.com/dti-consultores/image/upload/v1594938399/prendas/' + ${img.rutaPrenda}}" th:onerror="this.src='/dist/img/preview.png'" style="max-width: 289px !important; max-height: 289px !important; width: auto !important; height: auto !important;"> 
 	  																		</label> 
 	  																		<input th:id="${'file-input-edit-' + img.estatus}" th:name="${'file-input-edit-' + img.estatus}" th:attr="onchange=|PreviewImageEdit(this, '${img.estatus}')|" type="file" style="display:none"/>
 	  																		<input type="hidden" th:id="${'id-input-edit-' + img.estatus}" th:name="${'id-input-edit-' + img.estatus}" th:value="${img.idPrendaImagen}"/>
