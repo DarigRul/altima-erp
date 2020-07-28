@@ -111,12 +111,12 @@ public class CargaPedidoController {
 			model.put("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
 			model.put("isPreviewView", "false");
 			model.put("idPedido", id);
-			return "/agregar-empleado-empresa";
+			return "agregar-empleado-empresa";
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.put("getlistSucursal", icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente));
 			model.put("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
-			return "/agregar-empleado-empresa";
+			return "agregar-empleado-empresa";
 
 		} finally {
 			System.out.println("Finalizar proceso");
