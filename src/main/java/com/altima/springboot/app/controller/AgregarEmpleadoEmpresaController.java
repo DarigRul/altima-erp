@@ -154,7 +154,7 @@ public class AgregarEmpleadoEmpresaController {
 			map.put("getlistSucursal", icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente));
 			map.put("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
 		
-		return "/agregar-empleado-empresa";
+		return "agregar-empleado-empresa";
 	}
 	
 	
