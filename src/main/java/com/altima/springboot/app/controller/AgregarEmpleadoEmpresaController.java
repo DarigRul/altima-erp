@@ -248,7 +248,7 @@ public class AgregarEmpleadoEmpresaController {
 			InputStream in = file.getInputStream();
 			File currDir = new File(".");
 			String path = currDir.getAbsolutePath();
-			fileLocation = path.substring(0, path.length() - 1) + "upload-dir\\" + file.getOriginalFilename();
+			fileLocation = path.substring(0, path.length() - 1) + "upload-dir/" + file.getOriginalFilename();
 			System.out.println("ruta" + fileLocation);
 			Workbook workbook = WorkbookFactory.create(new File(fileLocation));
 
