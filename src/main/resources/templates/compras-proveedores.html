@@ -61,11 +61,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>PRO0001</td>
-                                                <td>Industrializaci&oacute;n Mu&ntilde;oz</td>
-                                                <td>222 454 5128</td>
-                                                <td>Moral</td>
+                                            <tr th:each="proveedor:${proveedores}">
+                                                <td th:text="${proveedor.idText}"></td>
+                                                <td th:text="${proveedor.nombreProveedor}"></td>
+                                                <td th:text="${proveedor.telefonoProveedor}"></td>
+                                                <td th:text="${proveedor.tipo}"></td>
                                                 <td class="tdcenter">
                                                     <a class="btn btn-info text-white btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver sucursales"><i class="fas fa-info"></i></a>
                                                 </td>
@@ -73,36 +73,13 @@
                                                     <a class="btn btn-primary btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Ver datos de facturaci&oacute;n"><i class="fas fa-file-alt"></i></a>
                                                 </td>
                                                 <td class="tdcenter">
-                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
+                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar" th:href="@{/editar_datos_generales/}+${proveedor.idProveedor}"><i class="fas fa-pen"></i></a>
 
 
-                                                    <a class="btn btn-danger text-white btn-circle btn-sm btn-delete popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja">
+                                                    <a class="btn btn-danger text-white btn-circle btn-sm btn-delete popoverxd" th:if="${proveedor.estatus == '1'}" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja" th:onclick="'bajaProveedor('+${proveedor.idProveedor}+')'">
                                                         <i class="fas fa-caret-down"></i> </a>
 
-                                                    <a class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta">
-                                                        <i class="fas fa-sort-up"></i> </a>
-                                                </td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>PRO0002</td>
-                                                <td>Parisina</td>
-                                                <td>222 454 5128</td>
-                                                <td>Moral</td>
-                                                <td class="tdcenter">
-                                                    <a class="btn btn-info text-white btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver sucursales"><i class="fas fa-info"></i></a>
-                                                </td>
-                                                <td class="tdcenter">
-                                                    <a class="btn btn-primary btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Ver datos de facturaci&oacute;n"><i class="fas fa-file-alt"></i></a>
-                                                </td>
-                                                <td class="tdcenter">
-                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
-
-
-                                                    <a class="btn btn-danger text-white btn-circle btn-sm btn-delete popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja">
-                                                        <i class="fas fa-caret-down"></i> </a>
-
-                                                    <a class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta">
+                                                    <a class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd"  th:if="${proveedor.estatus == '0'}" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta" th:onclick="'altaProveedor('+${proveedor.idProveedor}+')'">
                                                         <i class="fas fa-sort-up"></i> </a>
                                                 </td>
 
@@ -126,6 +103,7 @@
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/ComprasProveedores.js"></script>
     <script>
         $('#iCompras').removeClass('text-altima');
         $('#menuCompras').addClass('menu-open');

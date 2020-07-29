@@ -141,13 +141,20 @@ public class AgregarEmpleadoEmpresaController {
 			ModelMap map,HttpServletRequest request) {
 			ComercialClienteEmpleado ComercialClienteEmpleadoobj;
 			System.out.println("HOLAAAAA "+ idcliente);
+			System.out.println("este es el controller a modificar ");
+			
+			int count= 0;
+			
+			count = cargaclienteempleadoservice.countdeempleados(idPedido);
+			
 			ComercialClienteEmpleadoobj = new ComercialClienteEmpleado();
 			ComercialClienteEmpleadoobj.setNombre_empleado(coorRegistroempleado);
 			ComercialClienteEmpleadoobj.setIdPedidoInformacion(idPedido);
 			ComercialClienteEmpleadoobj.setIdClienteSucursal(Long.parseLong(coorSucursalRegistro));
 			ComercialClienteEmpleadoobj.setIdClienteFactura(Long.parseLong(coorRazonsocialRegistro));
-			ComercialClienteEmpleadoobj.setCreadoPor("Shinigami");
+			ComercialClienteEmpleadoobj.setCreadoPor("Shinigami loko lokoteeee");
 			ComercialClienteEmpleadoobj.setActualizadoPor("Yaz");
+			ComercialClienteEmpleadoobj.setIdText("EMP"+ (10000+count));
 			comercialClienteEmpleadoRepository.save(ComercialClienteEmpleadoobj);
 			
 			map.put("empleadosEmpresa", cargaclienteempleadoservice.findAllEmpleadosEmpresa(idPedido));
@@ -171,10 +178,16 @@ public class AgregarEmpleadoEmpresaController {
 		ComercialClienteEmpleado ComercialClienteEmpleadoobj;
 		int contador = cargaclienteempleadoservice.obtenerContador(idpedido);
 		System.out.println("Valor del contador "+contador);
+		
+	
 		for (int i =0; i <coorSPFStock; i++) {
+			int count= 0;
+			
+			count = cargaclienteempleadoservice.countdeempleados(idpedido);
 			 
-				
+			
 			ComercialClienteEmpleadoobj = new ComercialClienteEmpleado();
+			ComercialClienteEmpleadoobj.setIdText("EMP"+ (10000+count));
 			/*ComercialClienteEmpleadoobj.setNombre_empleado(coorSucursalStock);*/
 			ComercialClienteEmpleadoobj.setNombre_empleado("SPF"+(contador+(1+i)));	
 			ComercialClienteEmpleadoobj.setIdPedidoInformacion(idpedido);
@@ -248,7 +261,7 @@ public class AgregarEmpleadoEmpresaController {
 			InputStream in = file.getInputStream();
 			File currDir = new File(".");
 			String path = currDir.getAbsolutePath();
-			fileLocation = path.substring(0, path.length() - 1) + "upload-dir\\" + file.getOriginalFilename();
+			fileLocation = path.substring(0, path.length() - 1) + "upload-dir/" + file.getOriginalFilename();
 			System.out.println("ruta" + fileLocation);
 			Workbook workbook = WorkbookFactory.create(new File(fileLocation));
 
@@ -263,6 +276,10 @@ public class AgregarEmpleadoEmpresaController {
 			ComercialClienteEmpleado ComercialClienteEmpleadoobj = new ComercialClienteEmpleado();
 			ArrayList<String> datos = new ArrayList<String>();
 			System.out.println(sheet.getPhysicalNumberOfRows());
+			
+           int count;
+			
+			
 			while (rowIter.hasNext()) {
 				System.out.println("incrementando "+ rowCount);
 				Iterator cellIter = ((Row) rowIter.next()).cellIterator();
@@ -270,12 +287,16 @@ public class AgregarEmpleadoEmpresaController {
 
 				if (rowCount > 1 && rowCount<sheet.getPhysicalNumberOfRows()) {
 					ComercialClienteEmpleadoobj = new ComercialClienteEmpleado();
+					count = cargaclienteempleadoservice.countdeempleados(id);
 					while (cellIter.hasNext()) {
 						Cell cell = (Cell) cellIter.next();
 
 						datos.add(dataFormatter.formatCellValue(cell));
+						
 
 					}
+					
+					
 
 					ComercialClienteEmpleadoobj.setNombre_empleado(datos.get(0));
 
@@ -284,6 +305,9 @@ public class AgregarEmpleadoEmpresaController {
 					ComercialClienteEmpleadoobj.setIdPedidoInformacion(id);
 					ComercialClienteEmpleadoobj.setCreadoPor("Shinigami");
 					ComercialClienteEmpleadoobj.setActualizadoPor("Yaz");
+				
+				
+					ComercialClienteEmpleadoobj.setIdText("EMP"+ (10000+count+rowCount -2));
 
 					Listaempleado.add(ComercialClienteEmpleadoobj);
 					datos.clear();
@@ -317,8 +341,18 @@ public class AgregarEmpleadoEmpresaController {
 		try {
 			for (String id : request.getParameterValues("getdeletenombre_empleado")) {
 				System.out.println(id);
-				comercialClienteEmpleadoRepository
-						.delete(comercialClienteEmpleadoRepository.findById(Long.parseLong(id)).orElse(null));
+				System.out.println("entre al elinar aqui es donde debes talachear");
+				ComercialClienteEmpleado objeto = cargaclienteempleadoservice.findOne(Long.parseLong(id));
+				 String idtext= objeto.getIdText();
+				 System.out.println("aqui esta id text que se va aborrar   " + idtext );
+				comercialClienteEmpleadoRepository.delete(comercialClienteEmpleadoRepository.findById(Long.parseLong(id)).orElse(null));
+				int max = cargaclienteempleadoservice.max(idpedido);
+				System.out.println("aqui esta el id maximo"  + max);
+				ComercialClienteEmpleado objeto2 = cargaclienteempleadoservice.findOne(Long.valueOf(max));
+				System.out.println("aqui esta el ultimo idtext de ese pedido   "+ objeto2.getIdText());
+				objeto2.setIdText(idtext);
+				comercialClienteEmpleadoRepository.save(objeto2);
+				
 			}
 
 			model.addAttribute("empleadosEmpresa", cargaclienteempleadoservice.findAllEmpleadosEmpresa(idpedido));

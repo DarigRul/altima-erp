@@ -87,5 +87,32 @@ public class ComercialClienteEmpleadoServiceImpl implements ComercialClienteEmpl
 										"INNER JOIN alt_comercial_cliente_factura AS CF ON CE.id_cliente_factura = CF.id_cliente_factura\r\n" + 
 										"WHERE CE.id_pedido_informacion = " + id + ";").getResultList();
 		}
+		
+		
+		@Override
+		@Transactional
+		public int countdeempleados(Long id) {
+			// TODO Auto-generated method stub
+			String auxs = em.createNativeQuery ("SELECT COUNT(*) FROM alt_comercial_cliente_empleado where  id_pedido_informacion= "+ id).getSingleResult().toString();
+			int aux = Integer.parseInt(auxs);	
+			return aux + 1;
+	}
+		
+		
+		
+		@Override
+		@Transactional
+		public int max(Long id) {
+			// TODO Auto-generated method stub
+			String auxs = em.createNativeQuery ("SELECT MAX(id_empleado) as maximo\n" + 
+					"from alt_comercial_cliente_empleado WHERE id_pedido_informacion= "+ id).getSingleResult().toString();
+			int aux = Integer.parseInt(auxs);	
+			return aux ;
+	}
+		
+		
+		
+		
+		
 
 }
