@@ -31,4 +31,8 @@ public interface IUsuarioService {
 
 	Usuario FindAllUserAttributes(String username, Collection<? extends GrantedAuthority> rol);
 
+	List<Object[]> FindClienteProspecto(Long idcliente);
+
+	 List<Object[]> FindClienteProspectoAgente(Long idagente);
+
 }

@@ -132,6 +132,26 @@ public class UsuarioServiceImpl implements IUsuarioService {
 				"WHERE roluser.id_usuario ="+id).getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> FindClienteProspecto(Long idcliente){
+		return em.createNativeQuery("SELECT cc.id_cliente,hu.id_usuario,he.nombre_persona,he.apellido_paterno,he.apellido_materno\n" + 
+				"FROM `alt_hr_usuario` hu, alt_hr_empleado he,alt_comercial_cliente cc where hu.id_empleado = he.id_empleado and he.id_puesto=1 and hu.id_usuario=cc.id_usuario and cc.id_cliente="+idcliente+"\n" + 
+				"").getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> FindClienteProspectoAgente(Long idagente){
+		return em.createNativeQuery("SELECT hu.id_usuario,he.nombre_persona,he.apellido_paterno,he.apellido_materno\n" + 
+				"FROM `alt_hr_usuario` hu, alt_hr_empleado he where hu.id_empleado = he.id_empleado and he.id_puesto=1 and \n" + 
+				"hu.id_usuario<>"+idagente+"").getResultList();
+	}
+	
+	
+	
 	@Override
 	@Transactional
 	public Usuario FindAllUserAttributes(String username, Collection<? extends GrantedAuthority> rol){
