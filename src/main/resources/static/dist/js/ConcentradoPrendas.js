@@ -505,6 +505,8 @@ function CrearNuevaTabla(data, ListaEmpleados){
 	var colores = "";
 	var tdVacios = "";
 	var tdVaciosParaCuerpo = "";
+	var tfooter = "";
+	var ColumnasTotales = 0;
 	
 	//Array de Objetos para guardar los modelos
 	PrendasArray = [];
@@ -516,12 +518,12 @@ function CrearNuevaTabla(data, ListaEmpleados){
 		prendas += "<td>" + data[j][4] + "</td>";
 		colores += "<td>" + data[j][5] + "</td>";
 		tdVacios += "<td></td>";
-		tdVaciosParaCuerpo += "<td></td>" + ",";
-		
+		tfooter += "<td><span class='CantidadTotal-" + j + "'>0</span></td>";
 		PrendasArray.push(PrendasObjeto);
 		PrendasObjeto = null;
 	}
-	
+	ColumnasTotales = j;
+
 	$('#ContenedorDeTabla').append("<table class='table table-bordered tablaConcentrado' id='TablaGeneral'>" +
                                         "<thead>" +
                                             "<tr>" +
@@ -558,10 +560,17 @@ function CrearNuevaTabla(data, ListaEmpleados){
                                         "</thead>" +
                                         "<tbody>" +
                                         "</tbody>" +
+                                        "<tfoot b>" +
+                                        	"<th>Totales</th>" + 
+                                        	tfooter +
+                                        	"<td></td>" + 
+                                        	"<td></td>" + 
+                                        "</tfoot>" + 
                                     "</table>");
 	
 			table1 = $('.tablaConcentrado')
 			    .DataTable({
+			    	"scrollY": false,
 			    	"scrollX": true,
 			    	"autoWidth": false,
 			        "order": [[ 0, "asc" ]],
@@ -675,9 +684,13 @@ function CrearNuevaTabla(data, ListaEmpleados){
 				table1.rows.add( [ ArrayIndividual ] ).draw();
 			}
 			
+			//Cantidades Totales
+			for(var con = 0; con < ColumnasTotales; con++){
+				$('.CantidadTotal-' + con).text(table1.column( (con + 1) ).data().sum());
+			}
+			
 			$('#ContenedorDeTabla').css( 'display', 'block' );
 			table1.columns.adjust().draw();
-
 }
 
 
@@ -690,6 +703,8 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 	var colores = "";
 	var tdVacios = "";
 	var tdVaciosParaCuerpo = "";
+	var tfooter = "";
+	var ColumnasTotales = 0;
 	
 	//Array de Objetos para guardar los modelos
 	PrendasArray = [];
@@ -702,10 +717,11 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 		colores += "<td>" + data[j][5] + "</td>";
 		tdVacios += "<td></td>";
 		tdVaciosParaCuerpo += "<td></td>" + ",";
-		
+		tfooter += "<td><span class='CantidadTotal-" + j + "'>0</span></td>";
 		PrendasArray.push(PrendasObjeto);
 		PrendasObjeto = null;
 	}
+	ColumnasTotales = j;
 	
 	$('#ContenedorDeTabla').append("<table class='table table-bordered tablaConcentrado' id='TablaGeneral'>" +
                                         "<thead>" +
@@ -743,6 +759,12 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
                                         "</thead>" +
                                         "<tbody>" +
                                         "</tbody>" +
+                                        "<tfoot b>" +
+                                    	"<th>Totales</th>" + 
+                                    	tfooter +
+                                    	"<td></td>" + 
+                                    	"<td></td>" + 
+                                    "</tfoot>" + 
                                     "</table>");
 	
 			table1 = $('.tablaConcentrado')
@@ -858,5 +880,13 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 													"<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick=\"EditarRegistro(\'" + ArrayFinal[contador]["id"] + "'\, \'" + ArrayFinal[contador]["nombre"] + "\');\" data-container='body' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" +				
 												"</td>";
 				table1.rows.add( [ ArrayIndividual ] ).draw();
-			}		
+			}
+			
+			//Cantidades Totales
+			for(var con = 0; con < ColumnasTotales; con++){
+				$('.CantidadTotal-' + con).text(table1.column( (con + 1) ).data().sum());
+			}
+			
+			$('#ContenedorDeTabla').css( 'display', 'block' );
+			table1.columns.adjust().draw();
 }
