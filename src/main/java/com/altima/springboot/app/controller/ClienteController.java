@@ -5,7 +5,9 @@ import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +21,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.altima.springboot.app.models.entity.ComercialCliente;
 import com.altima.springboot.app.models.entity.ComercialClienteFactura;
-import com.altima.springboot.app.models.entity.ComercialClienteSucursal;
-import com.altima.springboot.app.models.entity.DisenioTela;
 import com.altima.springboot.app.models.entity.HrDireccion;
 import com.altima.springboot.app.models.entity.Usuario;
 import com.altima.springboot.app.models.service.IComercialClienteService;
@@ -55,6 +59,7 @@ public class ClienteController {
 		String role = "[ROLE_ADMINISTRADOR]";
 		if (auth.getAuthorities().toString().equals(role)) {
 			model.addAttribute("clientes", ClienteService.findAll(null));
+			model.addAttribute("agentes", ClienteService.findAllAgentes());
 		} else {
 			model.addAttribute("clientes", ClienteService.findAll(iduser));
 		}
@@ -70,6 +75,20 @@ public class ClienteController {
 		model.put("direccion", direccion);
 		model.put("subtitulo", "Nuevo Cliente");
 		return "agregar-cliente";
+	}
+
+	@RequestMapping(value = "/agentes-clientes", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> listarclientesagentes(Long Idcliente, Model model) {
+		// model.addAttribute("dfa", usuarioService.FindClienteProspecto(Idcliente));
+		return usuarioService.FindClienteProspecto(Idcliente);
+	}
+
+	@RequestMapping(value = "/agentes-clientes1", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> listarclientesagentes1(Long idagente, Model model) {
+		// model.addAttribute("dfa", usuarioService.FindClienteProspecto(Idcliente));
+		return usuarioService.FindClienteProspectoAgente(idagente);
 	}
 
 	@PostMapping("/guardar-cliente")
@@ -91,8 +110,8 @@ public class ClienteController {
 			direccion.setCreadoPor(auth.getName());
 			DireccionService.save(direccion);
 
-			// Guardamos los datos de cliente.
-			cliente.setEstatusCliente(0);
+			// Guardamos los datos de prospecto.
+			cliente.setEstatusCliente(1);/////////// 1 para prospecto
 			cliente.setEstatusC(1);
 			cliente.setCfechaCreacion(hourdateFormat.format(date));
 			cliente.setCultimaFechaModificacion(hourdateFormat.format(date));
@@ -109,7 +128,7 @@ public class ClienteController {
 			 * cliente.setCidText("CLTEF" +(contador+100)); }
 			 */
 
-			cliente.setCidText("CLTE" + (cliente.getIdCliente()));
+			cliente.setCidText("PROSP" + (cliente.getIdCliente()));
 
 			cliente.setCcreadoPor(auth.getName());
 			cliente.setIdDireccion(direccion.getIdDireccion());
@@ -139,7 +158,9 @@ public class ClienteController {
 			direccion.setUltimaFechaModificacion(hourdateFormat.format(date));
 			cliente.setCactualizadoPor(auth.getName());
 			cliente.setCultimaFechaModificacion(hourdateFormat.format(date));
-
+			Usuario user = usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
+			Long iduser = user.getIdUsuario();
+			cliente.setIdUsuario(iduser);
 			if (!imagenCliente.isEmpty()) {
 				if (cliente.getImagen() != null && cliente.getImagen().length() > 0) {
 					UploadService.deleteForro(cliente.getImagen());
@@ -160,6 +181,23 @@ public class ClienteController {
 		}
 
 		return "redirect:clientes";
+	}
+
+	@PostMapping("/asignar-agente")
+	public String asignaragente(Long idcliente, Long idagente) {
+		ComercialCliente cliente = ClienteService.findOne(idcliente);
+		cliente.setIdUsuario(idagente);
+		ClienteService.save(cliente);
+		return "redirect:/clientes";
+	}
+
+	@PostMapping("/convertir-cliente")
+	public String convertircliente(Long idcliente) {
+		ComercialCliente cliente = ClienteService.findOne(idcliente);
+		cliente.setCidText("CLTE" + idcliente);
+		cliente.setEstatusCliente(0);
+		ClienteService.save(cliente);
+		return "redirect:/clientes";
 	}
 
 	@GetMapping("/editar-cliente/{id}")
