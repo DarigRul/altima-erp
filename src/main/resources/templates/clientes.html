@@ -75,12 +75,12 @@
 												<td th:text="${cliente.Telefono}"></td>
 												<td th:if="${cliente.TipoCliente == '1'}" th:text="Moral"></td>
 												<td th:if="${cliente.TipoCliente == '2'}" th:text="Fisica"></td>
-												<td class="tdcenter"><a
+												<td class="tdcenter"><a th:if="${cliente.estatusCliente == 0}"
 													th:href="@{/sucursales/}+ ${cliente.idCliente}"
 													class="btn btn-info btn-circle btn-sm popoverxd"
 													data-container="body" data-placement="top"
 													data-content="Sucursales"><i class="fas fa-building"></i></a>
-													<a
+													<a th:if="${cliente.estatusCliente == 0}"
 													th:href="@{/facturacion-clientes/}+ ${cliente.idCliente}"
 													class="btn btn-primary btn-circle btn-sm text-white popoverxd"
 													data-container="body" data-placement="top"
