@@ -78,9 +78,12 @@ public class HrDepartamentoServiceImpl implements IHrDepartamentoService {
 
 	@Override
 	public Object obtenerDepartamento(Long id) {
-		return em.createNativeQuery(
-				"SELECT dp.id_departamento as idDepartamento, dp.nombre_departamento as nombreDepa, ar.id_lookup as idArea, ar.nombre_lookup as nombreArea FROM alt_hr_departamento dp INNER JOIN alt_hr_lookup ar ON dp.id_area = ar.id_lookup WHERE ar.id_lookup = dp.id_area AND dp.id_departamento = " + id + " ORDER BY dp.fecha_creacion")
-				.getSingleResult();
+		return em.createNativeQuery("SELECT\n" + "	dp.id_departamento AS idDepartamento,\n"
+				+ "	dp.nombre_departamento AS nombreDepa,\n" + "	ar.id_lookup AS idArea,\n"
+				+ "	ar.nombre_lookup AS nombreArea,\n" + "	ar.estatus AS estatus \n" + "FROM\n"
+				+ "	alt_hr_departamento dp\n" + "	INNER JOIN alt_hr_lookup ar ON dp.id_area = ar.id_lookup \n"
+				+ "WHERE\n" + "	ar.id_lookup = dp.id_area \n" + "	AND dp.id_departamento =" + id + "ORDER BY\n"
+				+ "	dp.fecha_creacion").getSingleResult();
 	}
 
 }

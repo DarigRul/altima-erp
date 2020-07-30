@@ -52,22 +52,15 @@ public class HrHorarioServiceImpl implements IHrHorarioService {
 	@Transactional
 	public List<HrHorario> findAllHorarios() {
 		// TODO Auto-generated method stub
-		return em.createQuery("from HrHorario ORDER BY fechaCreacion DESC").getResultList();
+		return em.createNativeQuery("SELECT * FROM alt_hr_horario hr ORDER BY hr.fecha_creacion DESC").getResultList();
+
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public 	List<HrHorario> obtenerHorario(Long id){
-		return em.createNativeQuery("SELECT\n" +
-		"	h.id_horario,\n" +
-		"	h.hora_inicial,\n" +
-		"	h.hora_final,\n" +
-		"	h.inicio_comida,\n" +
-		"	h.final_comida,\n" +
-		"	h.estatus \n" +
-		"FROM\n" +
-		"	alt_hr_horario h \n" +
-		"WHERE\n" +
-		"	h.id_horario = " + id).getResultList();
+	public List<HrHorario> obtenerHorario(Long id) {
+		return em.createNativeQuery("SELECT\n" + "	h.id_horario,\n" + "	h.hora_inicial,\n" + "	h.hora_final,\n"
+				+ "	h.inicio_comida,\n" + "	h.final_comida,\n" + "	h.estatus \n" + "FROM\n" + "	alt_hr_horario h \n"
+				+ "WHERE\n" + "	h.id_horario = " + id).getResultList();
 	}
 }

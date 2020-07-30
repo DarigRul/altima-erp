@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -86,6 +87,24 @@ public class HrCatalogosRestController {
         return hrLookupService.findAllByTipoLookup(tipo);
     }
 
+    // Método para dar de baja empresa
+    @GetMapping("/darBajaEmpresa")
+    public Object darBajaEmpresa(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrLookup EhrE = hrLookupService.findOne(idLookup);
+        EhrE.setEstatus("0");
+        hrLookupService.save(EhrE);
+        return hrLookupService.findOne(idLookup);
+    }
+
+    // Método para dar de alta empresa
+    @GetMapping("/darAltaEmpresa")
+    public Object darAltaEmpresa(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrLookup EhrE = hrLookupService.findOne(idLookup);
+        EhrE.setEstatus("1");
+        hrLookupService.save(EhrE);
+        return hrLookupService.findOne(idLookup);
+    }
+
     // Método para editar Empresas
     @GetMapping("/editarEmpresa")
     public HrLookup editarEmpresa(@RequestParam(name = "idLookup") Long idLookup) {
@@ -129,6 +148,24 @@ public class HrCatalogosRestController {
     @GetMapping("/rh-listarAreas")
     public List<HrLookup> listarAreas(@RequestParam(name = "tipo") String tipo) {
         return hrDepartamentoService.findAllEmpresas(tipo);
+    }
+
+    // Método para dar de baja area
+    @GetMapping("/darBajaArea")
+    public Object darBajaArea(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrLookup EhrA = hrLookupService.findOne(idLookup);
+        EhrA.setEstatus("0");
+        hrLookupService.save(EhrA);
+        return hrLookupService.findOne(idLookup);
+    }
+
+    // Método para dar de alta area
+    @GetMapping("/darAltaArea")
+    public Object darAltaArea(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrLookup EhrA = hrLookupService.findOne(idLookup);
+        EhrA.setEstatus("1");
+        hrLookupService.save(EhrA);
+        return hrLookupService.findOne(idLookup);
     }
 
     // Método para editar Áreas
@@ -180,6 +217,24 @@ public class HrCatalogosRestController {
         List<Object[]> listarDepartamentos = hrDepartamentoService.listarDepartamentos();
         model.addAttribute("listarDepartamentos", listarDepartamentos);
         return hrDepartamentoService.listarDepartamentos();
+    }
+
+    // Método para dar de baja departamento
+    @GetMapping("/darBajaDepartamento")
+    public Object darBajaDepartamento(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrDepartamento EhrD = hrDepartamentoService.findOne(idLookup);
+        EhrD.setEstatus("0");
+        hrDepartamentoService.save(EhrD);
+        return hrDepartamentoService.findOne(idLookup);
+    }
+
+    // Método para dar de alta departamento
+    @GetMapping("/darAltaDepartamento")
+    public Object darAltaDepartamento(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrDepartamento EhrD = hrDepartamentoService.findOne(idLookup);
+        EhrD.setEstatus("1");
+        hrDepartamentoService.save(EhrD);
+        return hrDepartamentoService.findOne(idLookup);
     }
 
     // Método para editar Departamento
@@ -245,6 +300,24 @@ public class HrCatalogosRestController {
         return hrPuestoService.listarPuestos();
     }
 
+    // Método para dar de baja puesto
+    @GetMapping("/darBajaPuesto")
+    public Object darBajaPuesto(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrPuesto EhrP = hrPuestoService.findOne(idLookup);
+        EhrP.setEstatus("0");
+        hrPuestoService.save(EhrP);
+        return hrPuestoService.findOne(idLookup);
+    }
+
+    // Método para dar de alta puesto
+    @GetMapping("/darAltaPuesto")
+    public Object darAltaPuesto(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrPuesto EhrP = hrPuestoService.findOne(idLookup);
+        EhrP.setEstatus("1");
+        hrPuestoService.save(EhrP);
+        return hrPuestoService.findOne(idLookup);
+    }
+
     // Método para editar puestos
     @GetMapping("/editarPuesto")
     public Object editarPuesto(@RequestParam(name = "idLookup") Long idLookup) {
@@ -297,6 +370,24 @@ public class HrCatalogosRestController {
         return hrHorarioService.findAllHorarios();
     }
 
+    // Método para dar de baja horario
+    @GetMapping("/darBajaHorario")
+    public Object darBajaHorario(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrHorario EhrH = hrHorarioService.findOne(idLookup);
+        EhrH.setEstatus("0");
+        hrHorarioService.save(EhrH);
+        return hrHorarioService.findOne(idLookup);
+    }
+
+    // Método para dar de alta horario
+    @GetMapping("/darAltaHorario")
+    public Object darAltaHorario(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrHorario EhrH = hrHorarioService.findOne(idLookup);
+        EhrH.setEstatus("1");
+        hrHorarioService.save(EhrH);
+        return hrHorarioService.findOne(idLookup);
+    }
+
     // Método para editar horarios
     @GetMapping("/editarHorario")
     public List<HrHorario> editarHorario(@RequestParam(name = "idHorario") Long idHorario) {
@@ -308,7 +399,7 @@ public class HrCatalogosRestController {
     public int postPuesto(@RequestParam(name = "idCalendario") Long idCalendario,
             @RequestParam(name = "fechaFestivo") String fechaFestivo,
             @RequestParam(name = "festividad") String festividad,
-            @RequestParam(name = "estatusFestivo") Boolean estatusFestivo) {
+            @RequestParam(name = "estatusFestivo") String estatusFestivo) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -329,7 +420,6 @@ public class HrCatalogosRestController {
                 nuevosFestivos.setFechaCreacion(dtf.format(now));
                 nuevosFestivos.setEstatus(estatusFestivo);
                 nuevosFestivos.setActualizadoPor(auth.getName());
-                System.out.println("prueba " + fechaFestivo);
                 hrCalendarioService.save(nuevosFestivos);
                 estatus = "Success";
                 return 2;
@@ -345,6 +435,24 @@ public class HrCatalogosRestController {
     @GetMapping("/getListarCalendarios")
     public List<HrCalendario> listarCalendariosInsertados() {
         return hrCalendarioService.findAllCalendarios();
+    }
+
+    // Método para dar de baja Calendario
+    @GetMapping("/darBajaCalendario")
+    public Object darBajaCalendario(@RequestParam(name = "idCalendario") Long idCalendario) throws Exception {
+        HrCalendario EhrC = hrCalendarioService.findOne(idCalendario);
+        EhrC.setEstatus("0");
+        hrCalendarioService.save(EhrC);
+        return hrCalendarioService.findOne(idCalendario);
+    }
+
+    // Método para dar de alta Calendario
+    @GetMapping("/darAltaCalendario")
+    public Object darAltaCalendario(@RequestParam(name = "idCalendario") Long idCalendario) throws Exception {
+        HrCalendario EhrC = hrCalendarioService.findOne(idCalendario);
+        EhrC.setEstatus("1");
+        hrCalendarioService.save(EhrC);
+        return hrCalendarioService.findOne(idCalendario);
     }
 
     // Método para editar calendarios

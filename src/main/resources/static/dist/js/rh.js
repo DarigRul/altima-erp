@@ -1,4 +1,4 @@
-//Función para agregar empresas
+//Funci&oacute;n para agregar empresas
 function agregarEmpresa() {
     Swal.fire({
         title: 'Nueva empresa',
@@ -54,7 +54,7 @@ function agregarEmpresa() {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: '¡Intente de nuevo!'
+                            text: '&iexcl;Intente de nuevo!'
                         })
                     }
                 },
@@ -63,7 +63,7 @@ function agregarEmpresa() {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: '¡Registro duplicado!'
+                        text: '&iexcl;Registro duplicado!'
                     })
                 }
             });
@@ -79,6 +79,7 @@ $('#empresaRH').on('shown.bs.modal', function () {
 
 //Listar empresas insertadas
 function listarEmpresa() {
+
     $.ajax({
         method: "GET",
         url: "/getLookupHR",
@@ -94,13 +95,83 @@ function listarEmpresa() {
                     data[i]["nombreLookup"],
                     "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
                     "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarEmpresa(" + data[i]["idLookup"] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick='eliminarMaterialExtra(" + data[i]["idLookup"] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" +
-                    "<button class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>"
+                    (data[i].estatus == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaEmpresa onclick=darBajaEmpresa(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                    (data[i].estatus == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaEmpresa onclick=darAltaEmpresa(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
                 ]).draw(false);
             }
         },
         error: (e) => {
             alert("Error en el servidor");
+        }
+    });
+}
+
+//Funcion para dar de baja
+function darBajaEmpresa(idLookup) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darBajaEmpresa",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+    });
+}
+
+//Funcion para dar de alta
+function darAltaEmpresa(idLookup) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darAltaEmpresa",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
         }
     });
 }
@@ -125,14 +196,14 @@ function editarEmpresa(idLookup) {
     });
 }
 
-//Función para agregar Áreas
+//Funci&oacute;n para agregar &Aacute;reas
 function agregarArea() {
     Swal.fire({
         title: 'Nueva &aacute;rea',
         html: '<div class="row">' +
             '<div class="form-group col-sm-12">' +
             '<label for="area">Nombre de la &aacute;rea</label>' +
-            '<input type="text" class="swal2-input" id="areaLookup" placeholder="Producción">' +
+            '<input type="text" class="swal2-input" id="areaLookup" placeholder="Producci&oacute;n">' +
             '<input type="hidden" id="idLookup" value="">' +
             '</div>' +
             '<input type="hidden" class="swal2-input" id="idarea">' +
@@ -182,7 +253,7 @@ function agregarArea() {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: '¡Intente de nuevo!'
+                            text: '&iexcl;Intente de nuevo!'
                         })
                     }
                 },
@@ -191,7 +262,7 @@ function agregarArea() {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: '¡Registro duplicado!'
+                        text: '&iexcl;Registro duplicado!'
                     })
                 }
             });
@@ -205,7 +276,7 @@ $('#areaRH').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
-//Listar Áreas insertadas
+//Listar &Aacute;reas insertadas
 function listarAreas() {
     $.ajax({
         method: "GET",
@@ -222,13 +293,83 @@ function listarAreas() {
                     data[i]["nombreLookup"],
                     "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
                     "<button class='btn btn-warning btn-circle btn-sm popoverxd'  onclick='editarArea(" + data[i]["idLookup"] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick='' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" +
-                    "<button class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>"
+                    (data[i].estatus == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaArea onclick=darBajaArea(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                    (data[i].estatus == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaArea onclick=darAltaArea(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
                 ]).draw(false);
             }
         },
         error: (e) => {
             alert("Error en el servidor");
+        }
+    });
+}
+
+//Funcion para dar de baja
+function darBajaArea(idLookup) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darBajaArea",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+    });
+}
+
+//Funcion para dar de alta
+function darAltaArea(idLookup) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darAltaArea",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
         }
     });
 }
@@ -253,7 +394,7 @@ function editarArea(idLookup) {
     });
 }
 
-//Función para agregar departamento
+//Funci&oacute;n para agregar departamento
 function agregarDepartamento(idArea) {
     mostrarAreas(idArea);
     Swal.fire({
@@ -264,7 +405,7 @@ function agregarDepartamento(idArea) {
             '<input type="text" class="swal2-input" id="departamento" placeholder="Ingresa el departamento">' +
             '</div>' +
             '</div>' +
-            '<label for="areadep">Área</label>' +
+            '<label for="areadep">&Aacute;rea</label>' +
             '<select class="swal2-input form-control selectpicker" title="Seleccione uno..."  id="listarAreasCatalogos">' +
             '</select>' +
             '<input type="hidden" id="idDepartamento" value="">' +
@@ -316,7 +457,7 @@ function agregarDepartamento(idArea) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: '¡Intente de nuevo!'
+                            text: '&iexcl;Intente de nuevo!'
                         })
                     }
                 },
@@ -325,7 +466,7 @@ function agregarDepartamento(idArea) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: '¡Registro duplicado!',
+                        text: '&iexcl;Registro duplicado!',
                     })
                 }
             });
@@ -339,7 +480,7 @@ $('#departamentosRH').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
-//función para mostrar áreas en departamentos
+//funci&oacute;n para mostrar &aacute;reas en departamentos
 function mostrarAreas(idArea) {
     $.ajax({
         method: "GET",
@@ -381,13 +522,83 @@ function listarDepartamentos() {
                     data[i][3],
                     "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
                     "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarDepartamento(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" +
-                    "<button class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>"
+                    (data[i][4] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick=darBajaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                    (data[i][4] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
                 ]).draw(false);
             }
         },
         error: (e) => {
             alert("Error en el servidor");
+        }
+    });
+}
+
+//Funcion para dar de baja
+function darBajaDepartamento(idLookup) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darBajaDepartamento",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+    });
+}
+
+//Funcion para dar de alta
+function darAltaDepartamento(idLookup) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darAltaDepartamento",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
         }
     });
 }
@@ -412,7 +623,7 @@ function editarDepartamento(idLookup) {
     });
 }
 
-//Función para agregar puestos
+//Funci&oacute;n para agregar puestos
 function agregarPuesto(idDepartamento, check) {
     mostrarDepartamentos(idDepartamento);
     Swal.fire({
@@ -498,7 +709,7 @@ function agregarPuesto(idDepartamento, check) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: '¡Intente de nuevo!'
+                            text: '&iexcl;Intente de nuevo!'
                         })
                     }
                 },
@@ -507,7 +718,7 @@ function agregarPuesto(idDepartamento, check) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: '¡Registro duplicado!',
+                        text: '&iexcl;Registro duplicado!',
                     })
                 }
             });
@@ -522,7 +733,7 @@ $('#puestoRH').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
-//Función para mostrar departamentos en puestos
+//Funci&oacute;n para mostrar departamentos en puestos
 function mostrarDepartamentos(idDepartamento) {
     $.ajax({
         method: "GET",
@@ -566,13 +777,83 @@ function ListarPuestos() {
                     data[i][7],
                     "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
                     "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarPuesto(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" +
-                    "<button class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>"
+                    (data[i][8] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaPuesto onclick=darBajaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                    (data[i][8] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaPuesto onclick=darAltaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
                 ]).draw(false);
             }
         },
         error: (e) => {
             alert("Error en el servidor");
+        }
+    });
+}
+
+//Funcion para dar de baja
+function darBajaPuesto(idLookup) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darBajaPuesto",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+    });
+}
+
+//Funcion para dar de alta
+function darAltaPuesto(idLookup) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darAltaPuesto",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
         }
     });
 }
@@ -602,7 +883,7 @@ function editarPuesto(idLookup) {
     });
 }
 
-//función para agregar horarios
+//funci&oacute;n para agregar horarios
 function agregarHorario() {
     Swal.fire({
         title: 'Agregar Horario',
@@ -669,7 +950,7 @@ function agregarHorario() {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: '¡Intente de nuevo!'
+                            text: '&iexcl;Intente de nuevo!'
                         })
                     }
                 },
@@ -678,7 +959,7 @@ function agregarHorario() {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: '¡Registro duplicado!',
+                        text: '&iexcl;Registro duplicado!',
                     })
                 }
             });
@@ -700,20 +981,90 @@ function ListarHorarios() {
             tableRHHorarios.rows().remove().draw();
             for (i in data) {
                 tableRHHorarios.row.add([
-                    data[i]["idHorario"],
-                    data[i]["horaInicial"],
-                    data[i]["horaFinal"],
-                    data[i]["inicioComida"],
-                    data[i]["finalComida"],
+                    data[i][0],
+                    data[i][1],
+                    data[i][2],
+                    data[i][3],
+                    data[i][4],
                     "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
-                    "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarHorario(" + data[i]["idHorario"] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" +
-                    "<button class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>"
+                    "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarHorario(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
+                    (data[i][9] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaHorario onclick=darBajaHorario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                    (data[i][9] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaHorario onclick=darAltaHorario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
                 ]).draw(false);
             }
         },
         error: (e) => {
             alert("Error en el servidor");
+        }
+    });
+}
+
+//Funcion para dar de baja
+function darBajaHorario(idLookup) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darBajaHorario",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+    });
+}
+
+//Funcion para dar de alta
+function darAltaHorario(idLookup) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darBajaHorario",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
         }
     });
 }
@@ -741,7 +1092,7 @@ function editarHorario(idHorario) {
     });
 }
 
-//Función para agregar calendarios
+//Funci&oacute;n para agregar calendarios
 function agregarCalendario() {
     Swal.fire({
         title: 'Agregar Calendario',
@@ -760,7 +1111,7 @@ function agregarCalendario() {
             '<div class="row">' +
             '<div class="form-group col-sm-12">' +
             '<label for="estatusfecha">Status</label>' +
-            '<input type="checkbox" class="swal2-input" value="false"  id="checkbox" onclick="$(this).val(this.checked ? true : false)" >' +
+            '<input type="checkbox" class="swal2-input" value="false"  id="checkbox" onclick="$(this).val(this.checked ? "1" : "0")" >' +
             '</div>' +
             '</div>' +
             '<input type="hidden" class="swal2-input" id="idCalendario">' +
@@ -813,7 +1164,7 @@ function agregarCalendario() {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: '¡Intente de nuevo!'
+                            text: '&iexcl;Intente de nuevo!'
                         })
                     }
                 },
@@ -822,7 +1173,7 @@ function agregarCalendario() {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: '¡Registro duplicado!',
+                        text: '&iexcl;Registro duplicado!',
                     })
                 }
             });
@@ -848,19 +1199,89 @@ function ListarCalendarios() {
             tableRHCalendario.rows().remove().draw();
             for (i in data) {
                 tableRHCalendario.row.add([
-                    data[i]["idCalendario"],
-                    data[i]["fecha"],
-                    data[i]["nombreCalendario"],
-                    data[i]["estatus"] == true ? "Valido" : "No valido",
+                    data[i][0],
+                    data[i][1],
+                    data[i][2],
+                    data[i][7] == 1 ? "Valido" : "No valido",
                     "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
-                    "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarCalendario(" + data[i]["idCalendario"] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" +
-                    "<button class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>"
+                    "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarCalendario(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
+                    (data[i][7] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick=darBajaCalendario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                    (data[i][7] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaCalendario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
                 ]).draw(false);
             }
         },
         error: (e) => {
             alert("Error en el servidor");
+        }
+    });
+}
+
+//Funcion para dar de baja
+function darBajaCalendario(idCalendario) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darBajaCalendario",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idCalendario": idCalendario
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+    });
+}
+
+//Funcion para dar de alta
+function darAltaCalendario(idCalendario) {
+    Swal.fire({
+        title: '¿Deseas eliminar el proceso?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/darAltaCalendario",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idCalendario": idCalendario
+                },
+                success: (data) => {
+                },
+                error: function (data) {
+                    alert("Error en el servidor");
+                }
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Proceso eliminado correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
         }
     });
 }
