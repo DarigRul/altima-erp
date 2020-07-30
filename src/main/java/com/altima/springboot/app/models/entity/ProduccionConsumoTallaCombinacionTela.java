@@ -32,6 +32,9 @@ public class ProduccionConsumoTallaCombinacionTela implements Serializable{
 	@Column(name="id_talla")
 	private Long idTalla;
 	
+	@Column(name="id_material")
+	private Long idMaterial;
+	
 	@Column(name="consumo_largo")
 	private String consumoLargo;
 	
@@ -52,6 +55,17 @@ public class ProduccionConsumoTallaCombinacionTela implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
+
+	
+	
+	
+	public Long getIdMaterial() {
+		return idMaterial;
+	}
+
+	public void setIdMaterial(Long idMaterial) {
+		this.idMaterial = idMaterial;
+	}
 
 	public Long getIdConsumo() {
 		return idConsumo;
