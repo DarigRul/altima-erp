@@ -64,18 +64,24 @@
 												<th>Cliente</th>
 												<th>Teléfono</th>
 												<th>Tipo</th>
-
+												<th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')">Asignado
+													a:</th>
 												<th>Acciones</th>
+
 											</tr>
 										</thead>
 										<tbody>
-											<tr th:each="cliente: ${clientes}">
+											<tr th:each="cliente, icli: ${clientes}">
 												<td th:text="${cliente.CidText}"></td>
 												<td th:text="${cliente.Nombre}"></td>
 												<td th:text="${cliente.Telefono}"></td>
 												<td th:if="${cliente.TipoCliente == '1'}" th:text="Moral"></td>
 												<td th:if="${cliente.TipoCliente == '2'}" th:text="Fisica"></td>
-												<td class="tdcenter"><a th:if="${cliente.estatusCliente == 0}"
+												</td>
+												<td sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')"
+													th:text="${agentes[icli.index][1] + ' ' + agentes[icli.index][2] + ' ' + agentes[icli.index][3]}"></td>
+												<td class="tdcenter"><a
+													th:if="${cliente.estatusCliente == 0}"
 													th:href="@{/sucursales/}+ ${cliente.idCliente}"
 													class="btn btn-info btn-circle btn-sm popoverxd"
 													data-container="body" data-placement="top"
@@ -110,9 +116,11 @@
 													data-container="body" data-toggle="popover"
 													data-placement="top" data-content="Dar de alta"> <i
 														class="fas fa-sort-up"></i>
-												</a></td>
-
+												</a>
 											</tr>
+
+
+
 										</tbody>
 									</table>
 									<div th:insert="modal-asignacion-agente"></div>

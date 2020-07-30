@@ -33,10 +33,10 @@ public class ComercialClienteServiceImpl implements IComercialClienteService {
 		if (iduser != null) {
 			result = em
 					.createQuery(
-							"from ComercialCliente where IdUsuario=" + iduser + "  ORDER BY id_text, nombre,estatus")
+							"from ComercialCliente where IdUsuario=" + iduser + "  ORDER BY idCliente DESC")
 					.getResultList();
 		} else {
-			result = em.createQuery("from ComercialCliente   ORDER BY id_text, nombre,estatus").getResultList();
+			result = em.createQuery("from ComercialCliente   ORDER BY idCliente DESC").getResultList();
 		}
 		return result;
 	}
@@ -46,9 +46,10 @@ public class ComercialClienteServiceImpl implements IComercialClienteService {
 	@Transactional
 	public List<Object[]> findAllAgentes() {
 		// TODO Auto-generated method stub
-		return em.createNativeQuery("SELECT hu.id_usuario,he.nombre_persona,he.apellido_paterno,he.apellido_materno\n"
-				+ "FROM `alt_hr_usuario` hu, alt_hr_empleado he where hu.id_empleado = he.id_empleado and he.id_puesto=1;\n"
-				+ "").getResultList();
+		return em.createNativeQuery("SELECT cc.id_cliente,he.nombre_persona,he.apellido_paterno,he.apellido_materno\n" + 
+				"FROM `alt_comercial_cliente` cc,alt_hr_usuario hu,alt_hr_empleado he\n" + 
+				"where cc.id_usuario=hu.id_usuario\n" + 
+				"and hu.id_empleado=he.id_empleado ORDER BY cc.id_cliente DESC").getResultList();
 	}
 
 	@Override
