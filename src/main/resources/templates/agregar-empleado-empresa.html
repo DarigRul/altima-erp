@@ -119,6 +119,7 @@
 														<th class="text-center"><input type="checkbox" id="checkBoxAll"
 																th:value="0"
 																th:disabled="${isPreviewView}" />&nbsp;Seleccionar todo</th>
+													    <th>Folio</th>
 														<th>Nombre del empleado</th>
 														<th>Sucursal</th>
 														<th>Raz&oacute;n social</th>
@@ -128,10 +129,12 @@
 												</thead>
 												<tbody>
 													<tr th:each="data, iterstat: ${empleadosEmpresa}">
-														<td class="text-center"><input type="checkbox"
-																th:disabled="${isPreviewView}" class="chkCheckBoxId"
+												
+				                                <td class="text-center"><input type="checkbox" th:disabled="${isPreviewView}" class="chkCheckBoxId"
 																th:value="${data.idEmpleado}"
 																name="getdeletenombre_empleado" /></td>
+																
+																	<td th:text="${data.idText}"></td>
 														<td th:text="${data.nombre_empleado}"></td>
 														<td class="text-center"><select disabled
 																class="form-control selectpicker"

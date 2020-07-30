@@ -55,7 +55,7 @@ public class ComercialClienteEmpleadoServiceImpl implements ComercialClienteEmpl
 		@Transactional
 		public List<ComercialClienteEmpleado> findAllEmpleadosEmpresa(Long id ) {
 			
-			return em.createQuery("from ComercialClienteEmpleado  where idPedidoInformacion = "+id).getResultList();
+			return em.createQuery("from ComercialClienteEmpleado  where idPedidoInformacion = "+id+" order by idText Desc ").getResultList();
 			//return (List<ComercialCoordinadoMaterial>) repositoryMaterial.findAll();
 		}
 
