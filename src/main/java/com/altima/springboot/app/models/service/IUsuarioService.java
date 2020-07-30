@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.altima.springboot.app.dto.ChangePasswordForm;
-import com.altima.springboot.app.models.entity.Rol;
 import com.altima.springboot.app.models.entity.Usuario;
 
 public interface IUsuarioService {
