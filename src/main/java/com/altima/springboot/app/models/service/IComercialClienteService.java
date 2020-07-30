@@ -25,4 +25,6 @@ public interface IComercialClienteService {
 	
 	public Integer ContadorFacturas (Long id);
 
+	List<Object[]> findAllAgentes();
+
 }
