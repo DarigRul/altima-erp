@@ -24,7 +24,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,15 +52,12 @@ public class HrCatalogosRestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        String estatus = "";
         HrLookup empresa = new HrLookup();
         empresa.setNombreLookup(nombreEmpresa);
         empresa.setTipoLookup("Empresa");
         empresa.setCreadoPor(auth.getName());
-        empresa.setEstatus("1");
-        empresa.setIdText("EMP");
         empresa.setFechaCreacion(dtf.format(now));
-        // empresa.setIdText("EMP" + (1000 + empresa.getIdLookup()));
+        empresa.setEstatus("1");
         try {
             HrLookup hr = hrLookupService.findOne(idLookup);
             hr.setNombreLookup(nombreEmpresa);
@@ -70,11 +66,11 @@ public class HrCatalogosRestController {
         } catch (Exception e) {
             try {
                 hrLookupService.save(empresa);
-                estatus = "Success";
+                empresa.setIdText("EMP" + (10000 + empresa.getIdLookup()));
+                hrLookupService.save(empresa);
                 return 2;
             } catch (Exception p) {
                 p.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         } finally {
@@ -118,13 +114,11 @@ public class HrCatalogosRestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        String estatus = "";
         HrLookup area = new HrLookup();
         area.setNombreLookup(nombreArea);
         area.setTipoLookup("Area");
         area.setCreadoPor(auth.getName());
         area.setEstatus("1");
-        area.setIdText("AREA");
         area.setFechaCreacion(dtf.format(now));
         try {
             HrLookup hr = hrLookupService.findOne(idLookup);
@@ -134,11 +128,10 @@ public class HrCatalogosRestController {
         } catch (Exception e) {
             try {
                 hrLookupService.save(area);
-                estatus = "Success";
+                area.setIdText("AREA" + (10000 + area.getIdLookup()));
                 return 2;
             } catch (Exception p) {
                 p.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         }
@@ -182,7 +175,6 @@ public class HrCatalogosRestController {
         Authentication authDepa = SecurityContextHolder.getContext().getAuthentication();
         Date date1 = new Date();
         DateFormat fechaCreacion = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String estatus = "";
         try {
             HrDepartamento hrD = hrDepartamentoService.findOne(idDepartamento);
             hrD.setNombreDepartamento(nombreDepartamento);
@@ -198,13 +190,12 @@ public class HrCatalogosRestController {
                 departamento.setCreado_por(authDepa.getName());
                 departamento.setFechaCreacion(fechaCreacion.format(date1));
                 departamento.setActualizadoPor(authDepa.getName());
-                departamento.setIdText("DEPA");
                 hrDepartamentoService.save(departamento);
-                estatus = "Success";
+                departamento.setIdText("DEP" + (10000 + departamento.getIdDepartamento()));
+                hrDepartamentoService.save(departamento);
                 return 2;
             } catch (Exception p) {
                 p.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         } finally {
@@ -252,9 +243,9 @@ public class HrCatalogosRestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        String estatus = "";
         try {
             HrPuesto hrP = hrPuestoService.findOne(idPuesto);
+            hrP.setActualizadoPor(auth.getName());
             hrP.setNombrePuesto(nombrePuesto);
             hrP.setIdDepartamento(departamento);
             hrP.setTiempoExtra(checkbox);
@@ -266,7 +257,8 @@ public class HrCatalogosRestController {
         } catch (Exception e) {
             try {
                 HrPuesto nuevoPuesto = new HrPuesto();
-                nuevoPuesto.setIdText("PTO");
+                nuevoPuesto.setCreadoPor(auth.getName());
+                nuevoPuesto.setFechaCreacion(dtf.format(now));
                 nuevoPuesto.setNombrePuesto(nombrePuesto);
                 nuevoPuesto.setNombrePlaza(nomPlazas);
                 nuevoPuesto.setSueldo(sueldos);
@@ -276,11 +268,11 @@ public class HrCatalogosRestController {
                 nuevoPuesto.setCreadoPor(auth.getName());
                 nuevoPuesto.setTiempoExtra(checkbox);
                 hrPuestoService.save(nuevoPuesto);
-                estatus = "Success";
+                nuevoPuesto.setIdText("PTO" + (10000 + nuevoPuesto.getIdPuesto()));
+                hrPuestoService.save(nuevoPuesto);
                 return 2;
             } catch (Exception p) {
                 e.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         }
@@ -333,7 +325,6 @@ public class HrCatalogosRestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        String estatus = "";
         try {
             HrHorario hrH = hrHorarioService.findOne(idHorario);
             hrH.setHoraInicial(horaInicio);
@@ -354,11 +345,9 @@ public class HrCatalogosRestController {
                 horarioLaboral.setActualizadoPor(auth.getName());
                 horarioLaboral.setEstatus("1");
                 hrHorarioService.save(horarioLaboral);
-                estatus = "Success";
                 return 2;
             } catch (Exception p) {
                 e.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         }
@@ -403,7 +392,6 @@ public class HrCatalogosRestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        String estatus = "";
         try {
             HrCalendario hrC = hrCalendarioService.findOne(idCalendario);
             hrC.setFecha(fechaFestivo);
@@ -421,11 +409,9 @@ public class HrCatalogosRestController {
                 nuevosFestivos.setEstatus(estatusFestivo);
                 nuevosFestivos.setActualizadoPor(auth.getName());
                 hrCalendarioService.save(nuevosFestivos);
-                estatus = "Success";
                 return 2;
             } catch (Exception p) {
                 e.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         }
