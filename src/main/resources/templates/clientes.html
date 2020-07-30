@@ -110,11 +110,7 @@
 													data-container="body" data-toggle="popover"
 													data-placement="top" data-content="Dar de alta"> <i
 														class="fas fa-sort-up"></i>
-												</a> <a th:onclick="|convertircliente('${cliente.idCliente}')|"
-													class="btn btn-success btn-circle btn-sm popoverxd"
-													data-container="body" data-toggle="popover"
-													data-placement="top" data-content="Convertir en cliente"><i
-														class="fas fa-user"></i></a></td>
+												</a></td>
 
 											</tr>
 										</tbody>
@@ -219,31 +215,5 @@
 
 
 </body>
-<script>
-function convertircliente(idcliente){
-	var idcliente=idcliente;
-	 $.ajax({
-         type: "POST",
-         url: "/convertir-cliente",
-         data: {
-             "_csrf": $('#token').val(),
-             'idcliente': idcliente
 
-         }
-
-     }).done(function(data) {
-    	 Swal.fire({
-             position: 'center',
-             icon: 'success',
-             title: 'Ahora es un cliente ingrese los datos faltantes a continuación',
-             showConfirmButton: false,
-             timer: 3000
-         })
-         location.href="/editar-cliente/"+idcliente
-     });
-    
-	
-	
-}
-</script>
 </html>

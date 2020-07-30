@@ -59,7 +59,7 @@
                 for (i in data2) {
                 $('#asignacionAgenteSelect').append(
 
-                    "<option disabled value=" + data2[i][1] + " >" + data2[i][2]+ ' ' +data2[i][3] + ' '+data2[i][4] + "</option>"
+                    "<option value=" + data2[i][1] + " >" + data2[i][2]+ ' ' +data2[i][3] + ' '+data2[i][4] + "</option>"
 
                 );
             }
@@ -110,13 +110,27 @@
           }
 
       }).done(function(data) {
-    	  Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: 'Asignado correctamente',
-              showConfirmButton: false,
-              timer: 1250
-          })
+    	  $.ajax({
+    	         type: "POST",
+    	         url: "/convertir-cliente",
+    	         data: {
+    	             "_csrf": $('#token').val(),
+    	             'idcliente': $('#idcliente').val()
+
+    	         }
+
+    	     }).done(function(data) {
+    	    	 Swal.fire({
+    	             position: 'center',
+    	             icon: 'success',
+    	             title: 'Cliente asignado correctamente',
+    	             showConfirmButton: false,
+    	             timer: 3000
+    	         })
+    	         location.href="/clientes"
+    	        
+    	     });
+    	    
       });
      
 	  
