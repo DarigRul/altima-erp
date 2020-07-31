@@ -97,6 +97,21 @@
 		})
   }
   function asignaragente(){
+	  
+	  Swal.fire({
+  title: '&iquest;Est&aacute; seguro que desea asignar a este agente?',
+  text: "Puede cambiarlo en otro momento",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  cancelButtonText: 'Cancelar',
+  confirmButtonText: 'Si, asignar',
+  reverseButtons: true
+
+ 
+}).then((result) => {
+  if (result.value) {
 	  console.log( $('#idagente').val());
 	  console.log($('#asignacionAgenteSelect').val());
 	  $.ajax({
@@ -132,6 +147,11 @@
     	     });
     	    
       });
+	  
+  }
+})
+	  //////////////////////////////
+	 
      
 	  
   }

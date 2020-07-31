@@ -63,7 +63,8 @@
 												<th>No. Cliente</th>
 												<th>Cliente</th>
 												<th>Teléfono</th>
-												<th>Tipo</th>
+												<th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')">Fecha
+													creación</th>
 												<th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')">Asignado
 													a:</th>
 												<th>Acciones</th>
@@ -75,8 +76,10 @@
 												<td th:text="${cliente.CidText}"></td>
 												<td th:text="${cliente.Nombre}"></td>
 												<td th:text="${cliente.Telefono}"></td>
-												<td th:if="${cliente.TipoCliente == '1'}" th:text="Moral"></td>
-												<td th:if="${cliente.TipoCliente == '2'}" th:text="Fisica"></td>
+												<td sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')"
+													th:text="${cliente.CfechaCreacion}"></td>
+												<!-- <td th:if="${cliente.TipoCliente == '1'}" th:text="Moral"></td>
+												<td th:if="${cliente.TipoCliente == '2'}" th:text="Fisica"></td> -->
 												</td>
 												<td sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')"
 													th:text="${agentes[icli.index][1] + ' ' + agentes[icli.index][2] + ' ' + agentes[icli.index][3]}"></td>
@@ -92,6 +95,14 @@
 													data-container="body" data-placement="top"
 													data-content="Datos de facturaci&oacute;n"><i
 														class="fas fa-file-alt"></i></a> <a
+													sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')"
+													class="btn btn-info btn-circle btn-sm popoverxd text-white"
+													data-container="body" data-placement="top" data-html="true"
+													th:attr="data-content='<strong>Creado por: </strong>'+ ${cliente.CcreadoPor}  + '<br>'+
+													   '<strong>Fecha de creación: </strong>'+ ${cliente.CfechaCreacion}  + '<br>'+
+													   '<strong>Modificado por: </strong>'+ ${cliente.CactualizadoPor}  + '<br>'+
+																		  	 '<strong>Fecha de modicación: </strong>'+ ${cliente.CultimaFechaModificacion} + '<br>'"><i
+														class="fas fa-info fa-sm"></i> </a>&nbsp; <a
 													th:href="@{/editar-cliente/}+ ${cliente.idCliente}"
 													class="btn btn-warning btn-circle btn-sm popoverxd"
 													data-container="body" data-toggle="popover"
