@@ -3,63 +3,46 @@ $(document).ready(function() {
 			   style: 'border border-bootstrap'
 		   });
 		   
-		   
-		   
-		    $( "#tipo" ).change(function() {
-
-		        if($('#tipo').val()=="tela"){
-		        	document.getElementById("table-tela").style.display = "block"
-		        	document.getElementById("table-forro").style.display = "none"
-		        	$("#boton-agregar").attr('onclick', 'tallas ("Tela");');
-		        	$("#btn-tallas").attr('onclick', 'agregar("Tela");');
-		        	
-		        }
-		        else if($('#tipo').val()=="forro"){
-		        	
-		        	$.ajax({  
-		        		data:{"idPrenda":$("#id_prenda").val()},
-		        	    method: "GET",
-		        	    url: "/validar-forro-prenda",
-		        	    success: (data) => {
-		        	    	if ( data == true){
-		        	    		document.getElementById("table-tela").style.display = "none"
-		    			        	
-		        			    document.getElementById("table-forro").style.display = "block"
-		        			        
-		        			    	$("#boton-agregar").attr('onclick', 'tallas ("Forro");');
-		    		        	$("#btn-tallas").attr('onclick', 'agregar("Forro");');
-		        	    	}
-		        	    	else{
-		        	    		Swal.fire({
-		        	    			  icon: 'error',
-		        	    			  title: 'Lo sentimos',
-		        	    			  text: 'No existe un forro asignado a esta prenda',
-		        	    			})
-		        	    			 $("#boton-agregar").attr('onclick', 'error(this);');
-		        	    			
-		        	    		
-		        	    	}
-		        	    	console.log(data);	
-		        	    } , 
-		        	    error: (e) => {
-		        	    }
-		        	})
-		        	
-		        	
-		        	
-		        }
-		        else if($('#status').val()=="forro"){
-		            var url = "/agregar-material/forro";  
-		        }
-		        $(location).attr('href',url);
 		});
+
+
+function materiales(s){
+	var value = s[s.selectedIndex].value;
+	var id = s[s.selectedIndex].id;
 	
-		   
-		   
-		});
+	  if(value =="Tela"){
+      	console.log("tea");
+      	 var url = "/consumo-talla-prenda/"+$('#id_prenda').val()+"/Tela/"+id; 
+      	 $(location).attr('href',url);
+      	
+      	
+      }
+      
+      if(value=="Forro"){
+      	console.log("tea");
+      	 var url = "/consumo-talla-prenda/"+$('#id_prenda').val()+"/Forro/"+id; 
+      	 $(location).attr('href',url);
+      	
+      }
+      
+     if(value=="tela-combinacion"){
+    	 
+    	 var url = "/consumo-talla-prenda/"+$('#id_prenda').val()+"/tela-combinacion/"+id; 
+      	 $(location).attr('href',url);
+    	
+      	
+      }
+     
+     if(value=="tela-entretela"){
+    	 
+    	 var url = "/consumo-talla-prenda/"+$('#id_prenda').val()+"/tela-entretela/"+id; 
+      	 $(location).attr('href',url);
+    	
+      	
+      }
+	   
 
-
-
+	  }
 function error(e) {
 	$("#eliminar").empty();
 	$('#modalConsumoPorPrendas').modal('hide');
@@ -72,6 +55,14 @@ function error(e) {
 }
 
 function editar_tallas(e , tipo) {
+	if (tipo==1){tipo="Tela";}
+	if (tipo==2){tipo="Forro";}
+	if (tipo==3){tipo="tela-combinacion";}
+	
+	if (tipo==4){tipo="tela-entretela";}
+	
+	if (tipo =="Tela" || tipo=="Forro"){
+	
 	var num_talla= e.getAttribute("num_talla");
 	var talla = e.getAttribute("id_talla");
 	var id_prenda = $("#id_prenda").val();
@@ -102,11 +93,55 @@ function editar_tallas(e , tipo) {
 	    error: (e) => {
 	    }
 	})
+	$('#modalConsumoPorPrendas').modal('show'); // abrir
+	}
+	if (tipo =="tela-combinacion" || tipo=="tela-entretela"){
+		var num_talla= e.getAttribute("num_talla");
+		var talla = e.getAttribute("id_talla");
+		var select_talla = $("#tallaConsumo2");
+		select_talla.find("option").remove();
+		$('#tallaConsumo2').append('<option  value="' + talla + '">'+num_talla+'</option>');
+		$('.tallaConsumo2').selectpicker('refresh');
+		$('.tallaConsumo2').val(talla);
+		$('.tallaConsumo2').selectpicker('refresh');
+			
+		var largo = $("#largoConsumo2");
+		largo.find("option").remove();
+		$.ajax({  
+			data: { tipo:tipo },
+		    method: "GET",
+		    url: "/listar-largos-prenda",
+		    success: (data) => {
+		    	
+		  
+		    	$.each(data, function(key, val) {
+		    		$('#largoConsumo2').append('<option value="' + val[0] + '">'+val[1]+'</option>');})
+		    		$('.largoConsumo2').selectpicker('refresh');
+		    } , 
+		    error: (e) => {
+		    }
+		})
+		$('#modalConsumoPorPrendas2').modal('show'); // abrir
+		
+	}
 }
 
 function tallas(tipo) {
-	console.log(tipo);
-	console.log($("#id_prenda").val());
+	if (tipo== null){
+		Swal.fire({
+			  icon: 'error',
+			  title: 'Error',
+			  text: 'Seleccione un material',
+			})
+			return;
+	}
+	if (tipo==1){tipo="tela";}
+	if (tipo==2){tipo="forro";}
+	if (tipo==3){tipo="tela-combinacion";}
+	if (tipo==4){tipo="tela-entretela";}
+	
+	if (tipo =="tela" || tipo=="forro"){
+		
 	$("#eliminar").empty();
 	var talla = $("#tallaConsumo");
 	talla.find("option").remove();
@@ -143,13 +178,61 @@ function tallas(tipo) {
 	    }
 	})
 	$('#modalConsumoPorPrendas').modal('show'); // abrir
+	}
+	
+	 if (tipo =="tela-combinacion" || tipo =="tela-entretela"){
+		
+		var talla = $("#tallaConsumo2");
+		talla.find("option").remove();
+		$.ajax({  
+			data: { id:  $("#id_prenda").val(), tipo:tipo },
+		    method: "GET",
+		    url: "/listar-tallas-prenda",
+		    success: (data) => {
+		    	
+		  
+		    	$.each(data, function(key, val) {
+		    		$('#tallaConsumo2').append('<option value="' + val[0] + '">'+val[1]+'</option>');})
+		    		$('.tallaConsumo2').selectpicker('refresh');
+		    } , 
+		    error: (e) => {
+		    }
+		})
+		
+		var largo = $("#largoConsumo2");
+		largo.find("option").remove();
+		$.ajax({  
+			data: { tipo:tipo },
+		    method: "GET",
+		    url: "/listar-largos-prenda",
+		    success: (data) => {
+		    	
+		  
+		    	$.each(data, function(key, val) {
+		    		$('#largoConsumo2').append('<option value="' + val[0] + '">'+val[1]+'</option>');})
+		    		$('.largoConsumo2').selectpicker('refresh');
+		    } , 
+		    error: (e) => {
+		    }
+		})
+		
+		$('#modalConsumoPorPrendas2').modal('show'); // abrir
+		
+	}
 }
 function agregar(tipo) {
+	if (tipo==1){tipo="Tela";}
+	if (tipo==2){tipo="Forro";}
+	if (tipo==3){tipo="tela-combinacion";}
+	if (tipo==4){tipo="tela-entretela";}
+	
+	if (tipo =="Tela" || tipo=="Forro"){
 	 var datos= [];
 	  var  x = new Boolean(false);
 	  $("#eliminar input").each(function (index, dato) {
           if ($(dato).val() == null || $(dato).val() == "" || $(dato).val() < 0 ) {
        			x = true;
+       			console.log("ff");
           } else {
               datos.push({ id_material: $(dato).attr("name"), color: $(dato).val() });
           }
@@ -204,12 +287,118 @@ function agregar(tipo) {
 			})
 			
 	  }
-	  
-	  
+	}
+	if (tipo =="tela-combinacion" || tipo =="tela-entretela"){
+		if ( $("#largo").val() != "" &&
+			$("#ancho").val() != ""  &&
+			$("#largo").val() > 0 &&
+			$("#ancho").val() > 0 &&
+			$("#tallaConsumo2").val() != null &&
+			$("#largoConsumo2").val() != null){
+			$.ajax({
+		          type: "POST",
+		          url: "/guardar-largo-prenda-extras",
+		          data: {
+		              idPrenda: $("#id_prenda").val(),
+		              idTalla:  $("#tallaConsumo2").val(),
+		              idLargo:  $("#largoConsumo2").val(),
+		              tipo:tipo,
+		              largo:   $("#largo").val(),
+		              ancho:   $("#ancho").val(),
+		              idMaterial:   $("#id_tela_combinacion").val(),
+		              _csrf: $("#token").val()
+		              
+		          },
+
+		          beforeSend: function () {
+		              Swal.fire({
+		                  position: "center",
+		                  icon: "success",
+		                  title: "Agregado correctamente",
+		                  allowOutsideClick: false,
+		                  timerProgressBar: true,
+		                  showConfirmButton: false,
+		                  onBeforeOpen: () => {},
+		              });
+		          },
+		          success: function (data) {
+		        	  console.log(data);
+		          },
+		          complete: function () {
+		              location.reload();
+		          },
+		      });
+		}
+		else{
+			console.log("if no");
+		}
+		
+	}
 	  
 }
 
+$("#largoConsumo2").change(function(){
+	
+	var tipo =  $("#aux-tipo").val();
+	
+	if ( tipo == 3 ){tipo ="tela-combinacion"}
+	if ( tipo == 4 ){tipo ="tela-entretela"}
+	if ( $("#tallaConsumo2").val() == null ||  $("#tallaConsumo2").val() == '' ){
+		Swal.fire({
+			  icon: 'error',
+			  title: 'Lo sentimos',
+			  text: 'Por favor seleccione una talla',
+			})
 
+	}
+	else{
+		$.ajax({  
+			data: { 
+				idTalla:  $("#tallaConsumo2").val(),
+				idPrenda: $("#id_prenda").val(),
+	            idLargo:  $("#largoConsumo2").val(),
+	            idMaterial:   $("#id_tela_combinacion").val(),
+	            tipo:tipo			
+			},
+		    method: "GET",
+		    url: "/buscar-largos-anchos",
+		    beforeSend: function () {
+	        	 Swal.fire({
+	                 title: 'Verificando existencia ',
+	                 html: 'Por favor espere',// add html attribute if you want or remove
+	                 allowOutsideClick: false,
+	                 timerProgressBar: true,
+	                 onBeforeOpen: () => {
+	                     Swal.showLoading()
+	                 },
+	             });
+	        	
+	        },
+		    success: (data) => {
+		    	
+		    	$("#ancho").val(data[0]);
+		    	$("#largo").val(data[1]);
+		    	
+		    } , 
+		    
+		    complete: function(data) {
+				Swal.fire({
+	 				title: 'Agregado correctamente',
+	 				showConfirmButton: false,
+	 				timer: 1
+	 			})
+		    },
+		    error: (e) => {
+		    }
+		});
+	}
+})
+
+
+$("#tallaConsumo2").change(function(){
+	$("#largoConsumo2").val(null);
+    $("#largoConsumo2").selectpicker("refresh");
+})
 
 
 

@@ -123,26 +123,26 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Transactional
 	public List<Object[]> materialesPorPrenda(Long id) {
 		
-		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + 
-				"	material.id_material,\r\n" + 
-				"	material.nombre_material,\r\n" + 
-				"	material_prenda.id_material_prenda ,\r\n" + 
-				"	look.nombre_lookup\r\n" + 
-				"FROM\r\n" + 
-				"	alt_disenio_material_prenda AS material_prenda,\r\n" + 
-				"	alt_disenio_material AS material,\r\n" + 
-				"	alt_disenio_lookup adl,\r\n" + 
-				"	alt_disenio_lookup AS look \r\n" + 
-				"WHERE\r\n" + 
-				"	1 = 1 \r\n" + 
-				"	\r\n" + 
-				"	AND look.id_lookup = material.id_tipo_material \r\n" + 
-				"	AND look.nombre_lookup NOT IN ( 'Tela Material' ) \r\n" + 
-				"	AND look.nombre_lookup NOT IN ( 'Forro Material' ) \r\n" + 
-				"	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \r\n" + 
-				"	AND material.id_material = material_prenda.id_material \r\n" + 
-				"	AND material.id_proceso = adl.id_lookup \r\n" + 
-				"	AND material_prenda.id_prenda = "+id).getResultList();
+		List<Object[]> re = em.createNativeQuery("SELECT\n" + 
+				"					material.id_material, \n" + 
+				"					material.nombre_material, \n" + 
+				"					material_prenda.id_material_prenda , \n" + 
+				"					look.nombre_lookup\n" + 
+				"				FROM\n" + 
+				"					alt_disenio_material_prenda AS material_prenda,\n" + 
+				"					alt_disenio_material AS material,\n" + 
+				"					alt_disenio_lookup adl,\n" + 
+				"					alt_disenio_lookup AS look \n" + 
+				"				WHERE\n" + 
+				"					1 = 1\n" + 
+				"					AND look.id_lookup = material.id_tipo_material \n" + 
+				"					AND look.nombre_lookup NOT IN ( 'Tela Material' ) \n" + 
+				"					AND look.nombre_lookup NOT IN ( 'Forro Material' )  \n" + 
+				"					AND look.nombre_lookup NOT IN ( 'Entretela' )  \n" + 
+				"					AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' )  \n" + 
+				"					AND material.id_material = material_prenda.id_material \n" + 
+				"					AND material.id_proceso = adl.id_lookup \n" + 
+				"					AND material_prenda.id_prenda = "+id).getResultList();
 		return re;
 		//AND material.nombre_material NOT IN ('Tela principal')
 	}

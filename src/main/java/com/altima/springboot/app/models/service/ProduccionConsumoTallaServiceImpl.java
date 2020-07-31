@@ -125,7 +125,6 @@ public class ProduccionConsumoTallaServiceImpl implements IProduccionConsumoTall
 	public List<Object[]> Consumo_Talla(Long id , String Cabezal){
 		List<Object[]> queryresult;
 		 
-
 			queryresult = em.createNativeQuery("SELECT\r\n" + 
 					"	look2.nombre_lookup,\r\n" + 
 					Cabezal +
@@ -222,5 +221,72 @@ public class ProduccionConsumoTallaServiceImpl implements IProduccionConsumoTall
 				
 				return null;
 			}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> Materiales_Prenda(Long id) {
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	m.id_material,\n" + 
+				"	m.nombre_material ,\n" + 
+				"	'Tela'\n" + 
+				"FROM\n" + 
+				"	alt_disenio_material_prenda AS MP,\n" + 
+				"	alt_disenio_material AS m \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND MP.id_material = m.id_material \n" + 
+				"	AND MP.id_prenda = "+id+" \n" + 
+				"	AND m.nombre_material = 'Tela principal'\n" + 
+				"UNION\n" + 
+				"SELECT\n" + 
+				"	material.id_material,\n" + 
+				"	material.nombre_material,\n" + 
+				"	'tela-combinacion'\n" + 
+				"FROM\n" + 
+				"	alt_disenio_material_prenda AS material_prenda,\n" + 
+				"	alt_disenio_material AS material,\n" + 
+				"	alt_disenio_lookup adl,\n" + 
+				"	alt_disenio_lookup AS look \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND look.id_lookup = material.id_clasificacion \n" + 
+				"	AND look.nombre_lookup IN ( 'Combinación' ) \n" + 
+				"	AND material.id_material = material_prenda.id_material \n" + 
+				"	AND material.id_proceso = adl.id_lookup \n" + 
+				"	AND material_prenda.id_prenda = "+id+" UNION\n" + 
+				"SELECT\n" + 
+				"	m.id_material,\n" + 
+				"	m.nombre_material ,\n" + 
+				"	'Forro'\n" + 
+				"FROM\n" + 
+				"	alt_disenio_material_prenda AS MP,\n" + 
+				"	alt_disenio_material AS m \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND MP.id_material = m.id_material \n" + 
+				"	AND MP.id_prenda = "+id+" \n" + 
+				"	AND m.nombre_material = 'Forro principal'\n" + 
+				"	\n" + 
+				"	UNION\n" + 
+				"SELECT\n" + 
+				"	material.id_material,\n" + 
+				"	material.nombre_material,\n" + 
+				"	'tela-entretela'\n" + 
+				"FROM\n" + 
+				"	alt_disenio_material_prenda AS material_prenda,\n" + 
+				"	alt_disenio_material AS material,\n" + 
+				"	alt_disenio_lookup adl,\n" + 
+				"	alt_disenio_lookup AS look \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND look.id_lookup = material.id_tipo_material\n" + 
+				"	AND (look.nombre_lookup = 'Entretela' )\n" + 
+				"	AND material.id_material = material_prenda.id_material \n" + 
+				"	AND material.id_proceso = adl.id_lookup \n" + 
+				"	AND material_prenda.id_prenda = "+id).getResultList();
+		return re;
 	}
 }

@@ -230,7 +230,15 @@ public class ProduccionConsumoTallaForroServiceImpl implements IProduccionConsum
 		// TODO Auto-generated method stub
 		
 			  
-			
+			System.out.println("SELECT m.id_material \r\n" + 
+							"FROM\r\n" + 
+							"	alt_disenio_material_prenda AS MP,\r\n" + 
+							"	alt_disenio_material AS m \r\n" + 
+							"WHERE\r\n" + 
+							"	1 = 1 \r\n" + 
+							"	AND MP.id_material = m.id_material \r\n" + 
+							"	AND MP.id_prenda = "+idPrenda+" \r\n" + 
+							"	AND m.nombre_material = 'Forro principal'");
 			  
 			  
 			// TODO Auto-generated method stub
