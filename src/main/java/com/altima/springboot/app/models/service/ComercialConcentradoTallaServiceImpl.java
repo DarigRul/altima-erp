@@ -142,7 +142,7 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 						+ "				and coor_prenda.id_coordinado=alt_comercial_coordinado.id_coordinado\r\n"
 						+ "				and alt_comercial_coordinado.id_pedido=" + idpedido + "\r\n" + ///// cambiar por
 																										///// id_pedido
-						"                GROUP BY look.nombre_lookup ORDER BY FIELD(nombre_prenda,'Vestido','Sweater','Gabardina','Abrigo','Blusa','Chaleco','Falda','Pantalón','Saco')DESC")
+						"                GROUP BY look.nombre_lookup ORDER BY FIELD(nombre_prenda,'Vestido','Sweater','Gabardina','Abrigo','Camisa','Blusa','Chaleco','Falda','Pantalón','Saco')DESC")
 				.getResultList();
 	}
 
