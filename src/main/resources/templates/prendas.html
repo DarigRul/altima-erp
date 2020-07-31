@@ -50,7 +50,7 @@
                                     <h3 class="card-title">Listado de prendas</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table tablaPrenda table-striped table-bordered">
+                                    <table class="table tablaGeneral table-striped table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>Modelo</th>
@@ -95,69 +95,9 @@
 
         <div th:insert="navegacion-footer"></div>
     </div>
-    <!-- ./wrapper -->
-    
-    <!-- Modal para confirmar prenda -->
-	<div class="modal fade" id="confirmarPrendaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content">
-	      <div class="modal-body">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	        ¿Deseas confirmar esta prenda?
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
-	        <div id="ContenedorBotonModalConfirmar"></div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<!-- Modal para confirmar prenda -->
-	
-	<!-- Modal para Dar de Alta  -->
-	<div class="modal fade" id="AltaPrendaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content">
-	      <div class="modal-body">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	        ¿Deseas dar de alta esta prenda?
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
-	        <div id="ContenedorBotonModalAlta"></div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<!-- Modal para Dar de Alta  -->
-	
-	
-	<!-- Modal para Dar de Alta  -->
-	<div class="modal fade" id="BajaPrendaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	  <div class="modal-dialog modal-dialog-centered" role="document">
-	    <div class="modal-content">
-	      <div class="modal-body">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	        ¿Deseas dar de baja esta prenda?
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
-	        <div id="ContenedorBotonModalBaja"></div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<!-- Modal para Dar de Alta  -->
 
     <div th:replace="navegacion-scripts"></div>
-	<script src="dist/js/tablaPrenda.js"></script>
-	<script src="dist/js/sweetalert.js"></script>
+	<script src="dist/js/tablaGeneral.js"></script>
    	<script>
 		
 		$('#iDiseno').removeClass('text-altima');
@@ -172,90 +112,134 @@
 
 		function ModalConfirmarPrenda(id)
 		{
-			console.log(id);
-			$('#confirmarPrendaModal').modal('show');
-			$('#RemoverBotonModalConfirmar').remove();
-			$('#ContenedorBotonModalConfirmar').append("<div id='RemoverBotonModalConfirmar'><button id='BloquearConfirmar' onclick='ConfirmarPrenda(" + id + ")' class='btn btn-success' style='color: white;'>Confirmar</button></div>");
-		}
-		
-		
-		function ConfirmarPrenda(id)
-		{
-			var token = $('#token').val();
-			$('#BloquearConfirmar').prop('disabled', true);
-			console.log(token);
-			$.ajax({
-				type: "GET",
-				url: "/confirmar_prenda",
-				data: {
-					"_csrf": token,
-					"id": id
-				},
-				success: (data) => {
+			Swal.fire({
+				title: "¿Deseas confimar la prenda?",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#0288d1',
+				cancelButtonColor: '#dc3545',
+				confirmButtonText: 'Confirmar',
+				cancelButtonText: 'Cancelar'
+			}).then((result) => {
+				if (result.value) {
+					var token = $('#token').val();
+					$('#BloquearConfirmar').prop('disabled', true);
+					console.log(token);
+					$.ajax({
+						type: "GET",
+						url: "/confirmar_prenda",
+						data: {
+							"_csrf": token,
+							"id": id
+						},
+						success: (data) => {
 					console.log(data);
-					location.reload();
+					Swal.fire({
+						position: 'center',
+						icon: 'success',
+						title: 'Prenda confirmada correctamente',
+						showConfirmButton: false,
+						timer: 2500
+					});
+					setTimeout(function () {
+						location.reload();
+					}, 2500);
 				},
-				failure: function (errMsg) {
-					alert(errMsg);
+						failure: function (errMsg) {
+							alert(errMsg);
+						}
+					});
 				}
 			});
 		}
+		
+		
 		
 		
 		function ModalAltaPrenda(id)
 		{
-			$('#AltaPrendaModal').modal('show');
-			$('#RemoverBotonModalAlta').remove();
-			$('#ContenedorBotonModalAlta').append("<div id='RemoverBotonModalAlta'><button id='BloquearAlta' onclick='AltaPrenda(" + id + ")' class='btn btn-success' style='color: white;'>Dar de Alta</button></div>");
+		
+			Swal.fire({
+				title: "¿Deseas dar de alta la prenda?",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#0288d1',
+				cancelButtonColor: '#dc3545',
+				confirmButtonText: 'Confirmar',
+				cancelButtonText: 'Cancelar'
+			}).then((result) => {
+				if (result.value) {
+					var token = $('#token').val();
+					$('#BloquearAlta').prop('disabled', true);
+					console.log(token);
+					$.ajax({
+						type: "GET",
+						url: "/alta_baja_prenda",
+						data: {
+							"_csrf": token,
+							"id": id
+						},
+						success: (data) => {
+							console.log(data);
+							Swal.fire({
+								position: 'center',
+								icon: 'success',
+								title: 'Prenda dada de alta correctamente',
+								showConfirmButton: false,
+								timer: 2500
+							});
+							setTimeout(function () {
+								location.reload();
+							}, 2500);
+						},
+						failure: function (errMsg) {
+							alert(errMsg);
+						}
+					});
+				}
+			});
 		}
 		
-		function AltaPrenda(id)
+		
+		function ModalBajaPrenda(id)
 		{
-			var token = $('#token').val();
-			$('#BloquearAlta').prop('disabled', true);
-			console.log(token);
-			$.ajax({
-				type: "GET",
-				url: "/alta_baja_prenda",
-				data: {
-					"_csrf": token,
-					"id": id
-				},
+				Swal.fire({
+				title: "¿Deseas dar de baja la prenda?",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#0288d1',
+				cancelButtonColor: '#dc3545',
+				confirmButtonText: 'Confirmar',
+				cancelButtonText: 'Cancelar'
+			}).then((result) => {
+				if (result.value) {
+					var token = $('#token').val();
+					$('#BloquearBaja').prop('disabled', true);
+					console.log(token);
+					$.ajax({
+						type: "GET",
+						url: "/alta_baja_prenda",
+						data: {
+							"_csrf": token,
+							"id": id
+						},
 				success: (data) => {
 					console.log(data);
-					location.reload();
+					Swal.fire({
+						position: 'center',
+						icon: 'success',
+						title: 'Prenda dada de baja correctamente',
+						showConfirmButton: false,
+						timer: 2500
+					});
+					setTimeout(function () {
+						location.reload();
+					}, 2500);
 				},
 				failure: function (errMsg) {
 					alert(errMsg);
 				}
 			});
-		}
-		
-		function ModalBajaPrenda(id)
-		{
-			$('#BajaPrendaModal').modal('show');
-			$('#RemoverBotonModalBaja').remove();
-			$('#ContenedorBotonModalBaja').append("<div id='RemoverBotonModalBaja'><button id='BloquearBaja' onclick='BajaPrenda(" + id + ")' class='btn btn-success' style='color: white;'>Dar de Baja</button></div>");
-		}
-		
-		function BajaPrenda(id)
-		{
-			var token = $('#token').val();
-			$('#BloquearBaja').prop('disabled', true);
-			console.log(token);
-			$.ajax({
-				type: "GET",
-				url: "/alta_baja_prenda",
-				data: {
-					"_csrf": token,
-					"id": id
-				},
-				success: (data) => {
-					console.log(data);
-					location.reload();
-				},
-				failure: function (errMsg) {
-					alert(errMsg);
 				}
 			});
 		}
