@@ -116,13 +116,13 @@
 													data-content="Asignaci&oacute;n de agente"> <i
 														class="fas fa-user"></i>
 												</a> <a th:if="${cliente.estatusC  == 1}"
-													th:href="@{/delete-cliente/}+ ${cliente.idCliente}"
+												th:onclick="|bajacliente('${cliente.idCliente}')|"	
 													class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
 													data-container="body" data-toggle="popover"
 													data-placement="top" data-content="Dar de baja"> <i
 														class="fas fa-caret-down"></i>
 												</a> <a th:if="${cliente.estatusC  == 0}"
-													th:href="@{/alta-cliente/}+ ${cliente.idCliente}"
+													th:onclick="|altacliente('${cliente.idCliente}')|"	
 													class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd"
 													data-container="body" data-toggle="popover"
 													data-placement="top" data-content="Dar de alta"> <i
@@ -151,7 +151,11 @@
 	</div>
 	<!-- ./wrapper -->
 	<div th:replace="navegacion-scripts"></div>
-	<script src="/dist/js/tablaGeneral.js"></script>
+	
+	
+
+</body>
+<script src="/dist/js/tablaGeneral.js"></script>
 	<script>
 		$('#iComercial').removeClass('text-altima');
 		$('#menuComercial').addClass('menu-open');
@@ -172,67 +176,44 @@
 	</script>
 
 	<script>
-		$('.btn-delete').on('click', function (e) {
-		    e.preventDefault();
-		    var href =$(this).attr('href');
-		    $('#bajaClienteModal #btnDelteYes').attr('href',href);
-		    $('#bajaClienteModal').modal();
-		});
+	function bajacliente(e) {
+			Swal.fire({
+				  title: '&iquest;Est&aacute; seguro que desea dar de baja a este cliente?',
+				  text: "Puede cambiarlo en otro momento",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: 'Cancelar',
+				  confirmButtonText: 'Si, dar de baja',
+				  reverseButtons: true
+
+				}).then((result) => {
+				  if (result.value) {
+					 location.href="/delete-cliente/"+e
+				  }
+				})
+		}
+	
+	function altacliente(e) {
+		Swal.fire({
+			  title: '&iquest;Est&aacute; seguro que desea dar de alta a este cliente?',
+			  text: "Puede cambiarlo en otro momento",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText: 'Cancelar',
+			  confirmButtonText: 'Si, dar de alta',
+			  reverseButtons: true
+
+			}).then((result) => {
+			  if (result.value) {
+				 location.href="/alta-cliente/"+e
+			  }
+			})
+	}
 		</script>
 
-	<script>
-		$('.btn-alta').on('click', function (e) {
-		    e.preventDefault();
-		    var href =$(this).attr('href');
-		    $('#altaClienteModal #btnDelteYes').attr('href',href);
-		    $('#altaClienteModal').modal();
-		});
-		</script>
-
-
-	<div class="modal fade" id="bajaClienteModal" tabindex="-1"
-		role="dialog" aria-labelledby="exampleModalCenterTitle"
-		aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-body">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					¿Deseas dar de baja al cliente?
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger mr-auto"
-						data-dismiss="modal">Cancelar</button>
-					<a id="btnDelteYes" class="btn btn-primary">Confirmar</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="altaClienteModal" tabindex="-1"
-		role="dialog" aria-labelledby="exampleModalCenterTitle"
-		aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-body">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					¿Deseas dar de alta al cliente?
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger mr-auto"
-						data-dismiss="modal">Cancelar</button>
-					<a id="btnDelteYes" class="btn btn-primary">Confirmar</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-</body>
 
 </html>

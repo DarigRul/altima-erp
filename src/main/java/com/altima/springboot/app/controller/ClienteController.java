@@ -224,7 +224,7 @@ public class ClienteController {
 		cliente.setCactualizadoPor(auth.getName());
 		cliente.setCultimaFechaModificacion(hourdateFormat.format(date));
 		ClienteService.save(cliente);
-		redirectAttrs.addFlashAttribute("title", "Cliente elimnado correctamente").addFlashAttribute("icon", "success");
+		redirectAttrs.addFlashAttribute("title", "Cliente eliminado correctamente").addFlashAttribute("icon", "success");
 		return "redirect:/clientes";
 	}
 
