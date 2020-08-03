@@ -132,9 +132,11 @@ public class ExpedienteController {
 	@GetMapping("/expediente-imprimir-concentrado-por-tallas/{id}")
 	public String imprimirTallas(Model model, @PathVariable("id") Long idpedido, Model m) {
 		List<String> list = new ArrayList<>();
-			for (Object[] d : ConcentradoTallaService.findPrendaCliente(idpedido)) {
-				list.add((String) d[1]);
-			}
+
+		for (Object[] d : ConcentradoTallaService.findPrendaCliente(idpedido)) {
+
+			list.add((String) d[1]);
+		}
 		ConcentradoTallaService.genpivot(list);
 		List<String> list2 = new ArrayList<>();
 		list2.add("Empleado");
@@ -142,7 +144,9 @@ public class ExpedienteController {
 		model.addAttribute("head", list2);
 		model.addAttribute("prendastallas", ConcentradoTallaService.findPrendaTalla2(ConcentradoTallaService.genpivot(list), idpedido));
 		model.addAttribute("empleados10", ConcentradoTallaService.findPrendaTalla3(idpedido));
-		model.addAttribute("idpedido", idpedido);		
+		model.addAttribute("idpedido", idpedido);
+		
+		//mio
 		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(idpedido);
 		m.addAttribute("clientes", clienteservice.findAll(null));
 		model.addAttribute("pedido", pedido);
