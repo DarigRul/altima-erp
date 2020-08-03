@@ -364,7 +364,7 @@ $("#largoConsumo2").change(function(){
 		    url: "/buscar-largos-anchos",
 		    beforeSend: function () {
 	        	 Swal.fire({
-	                 title: 'Verificando existencia ',
+	                 title: 'Verificando existencia.',
 	                 html: 'Por favor espere',// add html attribute if you want or remove
 	                 allowOutsideClick: false,
 	                 timerProgressBar: true,
