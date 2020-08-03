@@ -14,7 +14,7 @@ import com.altima.springboot.app.models.service.IProduccionLookupService;
 import com.altima.springboot.app.models.service.IServicioClienteLookupService;
 
 @Controller
-public class ConcentradoTallasController {
+public class ConcentradoTallasController {  
 	@Autowired
 	ComercialClienteEmpleadoService ComClienteEmpleadoService;
 	@Autowired
