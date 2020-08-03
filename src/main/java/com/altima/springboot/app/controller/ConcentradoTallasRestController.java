@@ -122,16 +122,16 @@ public class ConcentradoTallasRestController {
 
 	@RequestMapping(value = "/verifduplicadoconcentradotalla", method = RequestMethod.GET)
 	public boolean verificarduplicado(Model model, @RequestParam(value = "values[]", required = false) String[] values,
-			String Empleado, String Largo, String PrendaCliente, String Talla, String Pulgadas) {
+			String Empleado,String Pedido, String Largo, String PrendaCliente, String Talla, String Pulgadas) {
 		boolean response;
 		int contador = 0;
 		for (String especificacion : values) {
 
-			if (ConcentradoTallaService.findDuplicates(Empleado, Largo, PrendaCliente, Talla, Pulgadas, especificacion)
+			if (ConcentradoTallaService.findDuplicates(Empleado, Largo, PrendaCliente, Talla, Pulgadas, especificacion, Pedido)
 					.size() > 0) {
 				contador++;
 			}
-			if (ConcentradoTallaService.findDuplicates(Empleado, PrendaCliente, especificacion).size() > 0) {
+			if (ConcentradoTallaService.findDuplicates(Empleado, PrendaCliente, especificacion,Pedido).size() > 0) {
 				contador++;
 			}
 		}

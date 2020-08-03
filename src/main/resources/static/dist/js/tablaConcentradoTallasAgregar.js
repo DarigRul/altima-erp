@@ -430,11 +430,11 @@ function guardarespecificaciones() {
 							"idprenda": $('#id_prenda').val()
 						},
 						success: (data) => {
-							var pedido = data[0][1];
-							var empleado = data[0][2];
-							var prenda = data[0][3];
-							var talla = data[0][4];
-							var largo = data[0][5];
+							var pedido = data[0][7];
+							var empleado = data[0][1];
+							var prenda = data[0][2];
+							var talla = data[0][3];
+							var largo = data[0][4];
 
 							$
 								.ajax({
@@ -446,7 +446,8 @@ function guardarespecificaciones() {
 										'Largo': largo,
 										'PrendaCliente': prenda,
 										'Talla': talla,
-										'Pulgadas': pulgadas
+										'Pulgadas': pulgadas,
+										'Pedido': $('#idpedido').val()
 
 									}
 

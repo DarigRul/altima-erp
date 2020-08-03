@@ -36,22 +36,22 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 	@Override
 	@Transactional(readOnly = true)
 	public List<ComercialConcentradoTalla> findDuplicates(String Empleado, String Largo, String PrendaCliente,
-			String Talla, String Pulgadas, String especificacion) {
+			String Talla, String Pulgadas, String especificacion,String Pedido) {
 		// TODO Auto-generated method stub
 		return em.createQuery("from ComercialConcentradoTalla where IdEmpleadoPedido=" + Empleado
 				+ " and IdPrendaCliente=" + PrendaCliente + " and IdTalla=" + Talla + " and IdLargo=" + Largo
-				+ " and Pulgadas=" + Pulgadas + " and Especificacion=" + especificacion + " ").getResultList();
+				+ " and Pulgadas=" + Pulgadas + " and Especificacion=" + especificacion + " and IdPedido="+Pedido+" ").getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly = true)
 	public List<ComercialConcentradoTalla> findDuplicates(String Empleado, String PrendaCliente,
-			String especificacion) {
+			String especificacion,String Pedido) {
 		// TODO Auto-generated method stub
 		return em
 				.createQuery("from ComercialConcentradoTalla where IdEmpleadoPedido=" + Empleado
-						+ " and IdPrendaCliente=" + PrendaCliente + " and Especificacion=" + especificacion + " ")
+						+ " and IdPrendaCliente=" + PrendaCliente + " and Especificacion=" + especificacion + " and IdPedido="+Pedido+" ")
 				.getResultList();
 	}
 
