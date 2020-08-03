@@ -132,7 +132,7 @@ function listarEspecificaciones(prenda, id) {
 					"<td>" + data[i][5] + "</td>",
 					"<td>" + data[i][8] + "</td>",
 					"<td style='text-align: center'>" +
-					"<button onclick=eliminarEspecificacion('" + data[i][0] + "','" + data[i][11] + "','" + data[i][3] + "') class='btn btn-danger' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'>Eliminar</button>" +
+					"<button onclick=eliminarEspecificacion('" + data[i][0] + "','" + data[i][11] + "','" + data[i][2] + "') class='btn btn-danger' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'>Eliminar</button>" +
 					"</td>" +
 
 					"<tr>"
