@@ -28,9 +28,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.altima.springboot.app.models.entity.ComprasProveedores;
 import com.altima.springboot.app.models.entity.DisenioComposicionIcuidado;
 import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.service.ICatalogoService;
+import com.altima.springboot.app.models.service.IComprasProveedorService;
 import com.altima.springboot.app.models.service.IDisenioComposicionCuidadoService;
 import com.altima.springboot.app.models.service.IUploadService;
 
@@ -47,6 +50,9 @@ public class CatalogoController {
 
 	@Autowired
 	private IUploadService uploadFileService;
+	
+	@Autowired
+	private IComprasProveedorService proveedorService;
 
 	@GetMapping(value = "/uploads/cuidados/{filename:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String filename) {
@@ -64,6 +70,15 @@ public class CatalogoController {
 				.body(recurso);
 	}
 
+
+	@RequestMapping(value = "/listarProveedoresColores", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ComprasProveedores> listarProveedoresColores() {
+		
+		return  proveedorService.findAll();
+
+	}
+	
 	@RequestMapping(value = "/verifduplicado", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean verificaduplicado(String Lookup, String Tipo,@RequestParam(required=false) String atributo) {
@@ -81,7 +96,6 @@ public class CatalogoController {
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	@ResponseBody
 	public List<DisenioLookup> listarlookup(String Tipo) {
-
 		return catalogo.findAllLookup(Tipo);
 	}
 
@@ -139,8 +153,8 @@ public class CatalogoController {
 	@PostMapping("/guardarcatalogo")
 	public String guardacatalogo(String Descripcion, String Color, String PiezaTrazo, String FamiliaPrenda,
 			String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado, String UnidadMedida,
-			String Material, HttpServletRequest request, String Marcador, String CodigoColor, String Posicion,
-			@RequestParam(required = false) MultipartFile iconocuidado, Long Idcuidado, String Simbolo,
+			String proveedorColor, String Material, HttpServletRequest request, String Marcador, String CodigoColor, 
+			String Posicion, @RequestParam(required = false) MultipartFile iconocuidado, Long Idcuidado, String Simbolo,
 			String Composicion, String TipoMaterial) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -172,6 +186,7 @@ public class CatalogoController {
 			color.setFechaCreacion(dateFormat.format(date));
 			color.setEstatus(1);
 			color.setAtributo1(CodigoColor);
+			color.setAtributo2(proveedorColor);
 			catalogo.save(color);
 			return "catalogos";
 		}
@@ -497,7 +512,7 @@ public class CatalogoController {
 	@PostMapping("/editarcatalogo")
 	public String editacatalogo(Model model, final Long idLookup, String Color, String PiezaTrazo, String FamiliaPrenda,
 			String Descripcion, String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado,
-			String UnidadMedida, String Material, String Marcador, String CodigoColor, String Posicion, String Simbolo,
+			String UnidadMedida, String Material, String proveedor, String Marcador, String CodigoColor, String Posicion, String Simbolo,
 			String Composicion, String TipoMaterial,@RequestParam(required = false) MultipartFile iconocuidado) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -516,6 +531,7 @@ public class CatalogoController {
 			color = catalogo.findOne(idLookup);
 			color.setNombreLookup(StringUtils.capitalize(Color));
 			color.setAtributo1(CodigoColor);
+			color.setAtributo2(proveedor);
 			color.setUltimaFechaModificacion(dateFormat.format(date));
 			color.setActualizadoPor(auth.getName());
 			catalogo.save(color);

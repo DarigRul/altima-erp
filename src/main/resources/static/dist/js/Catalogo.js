@@ -10,7 +10,6 @@ $(document).ready(function() {
     listarMateriales();
     listarMarcadores();
     listarComposiciones1();
-
 });
 
 function listarcuidadosjson() {
@@ -87,7 +86,7 @@ function listarcuidadosjson2(idcomposicion) {
 
 // /////////////////////////////
 function listarColores() {
-
+	var Proveedores=[];
     $.ajax({
         method: "GET",
         url: "/listar",
@@ -95,6 +94,12 @@ function listarColores() {
             "Tipo": "Color"
         },
         success: (data) => {
+        	$.ajax({
+                type: "GET",
+                url: "/listarProveedoresColores",
+                success: (datitos) => {
+               	Proveedores=datitos;
+                
             $('#quitar2').remove();
             $('#contenedorTabla2').append("<div class='modal-body' id='quitar2'>" +
                 "<table class='table table-striped table-bordered' id='idtable2' style='width:100%'>" +
@@ -103,24 +108,27 @@ function listarColores() {
                 "<th>Clave</th>" +
                 "<th>Nombre</th>" +
                 "<th>Color</th>" +
+                "<th>Proveedor</th>" +
                 "<th>Acciones</th>" +
                 "</tr>" +
                 "</thead>" +
                 "</table>" + "</div>");
             var a;
+            var idProveedor;
             var b = [];
             if (rolAdmin == 1) {
                 for (i in data) {
                     var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
-
+                    idProveedor=parseInt(data[i].atributo2)-1;
                     a = [
                         "<tr>" +
                         "<td>" + data[i].idText + "</td>",
                         "<td>" + data[i].nombreLookup + "</td>",
                         "<td> <input type='color' value=" + data[i].atributo1 + " disabled> </td>",
+                        "<td>" + Proveedores[idProveedor].nombreProveedor + "</td>",
                         "<td style='text-align: center'>" +
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                        " <button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        " <button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' proveedorColor='" + data[i].atributo2 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
                         (data[i].estatus == 1 ? "<button onclick='bajarColor(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
                         (data[i].estatus == 0 ? "<button onclick='reactivar(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
                         "</td>" +
@@ -206,6 +214,8 @@ function listarColores() {
                 }
             });
             new $.fn.dataTable.FixedHeader(tablaColores);
+                }	 
+            })
         },
         error: (e) => {
 
@@ -1332,6 +1342,23 @@ $('#detalleMarcas').on('shown.bs.modal', function() {
 $('#detalleColores').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
+
+
+function listarProveedores(proveedor){
+	 $.ajax({
+         type: "GET",
+         url: "/listarProveedoresColores",
+         success: (data) => {
+        	 
+    		 for (i in data){
+        	 $('#proveedorColor').append("<option value="+data[i].idProveedor+" name"+data[i].nombreProveedor+">"+data[i].nombreProveedor+"</option>");
+        	 }
+	    	 if(proveedor!=1){
+	    		 $('#proveedorColor option[value="'+proveedor+'"]').attr("selected", true);
+        	 }
+         }	 
+         })
+}
 // Agregar Color
 function agregarColor() {
     Swal.fire({
@@ -1340,8 +1367,10 @@ function agregarColor() {
             '<div class="form-group col-sm-12">' +
             '<label for="pedidonom">Nombre del color</label>' +
             '<input type="text" class="swal2-input" name="color" id="color" placeholder="Rojo">' +
-            '<label for="pedidonom">Codigo del color</label>' +
+            '<label for="pedidonom">Código del color</label>' +
             '<input type="color" class="swal2-input" id="codigocolor" placeholder="Rojo">' +
+            '<label for="proveedorColor">Proveedor</label>' +
+            '<select class="form-control" data-live-search="true" id="proveedorColor"><option value="error">Seleccione uno...</option>'+listarProveedores(1)+'</select>' +
             '</div>' +
             '</div>',
         showCancelButton: true,
@@ -1350,7 +1379,7 @@ function agregarColor() {
         confirmButtonText: 'Agregar',
         confirmButtonColor: '#0288d1',
         preConfirm: (color) => {
-            if (document.getElementById("color").value.length < 1) {
+            if (document.getElementById("color").value.length < 1 || $('#proveedorColor').val()=="error") {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
                 )
@@ -1360,6 +1389,7 @@ function agregarColor() {
         if (result.value && document.getElementById("color").value) {
             var Color = document.getElementById("color").value;
             var CodigoColor = document.getElementById("codigocolor").value;
+            var proveedorColor = document.getElementById("proveedorColor").value;
 
 
             $.ajax({
@@ -1373,15 +1403,18 @@ function agregarColor() {
                 }
 
             }).done(function(data) {
+            	console.log($('#proveedorColor').val());
                 if (data == false) {
-
+                	
+                
                     $.ajax({
                         type: "POST",
                         url: "/guardarcatalogo",
                         data: {
                             "_csrf": $('#token').val(),
                             'Color': Color,
-                            'CodigoColor': CodigoColor
+                            'CodigoColor': CodigoColor,
+                            'proveedorColor': proveedorColor
 
                         }
 
@@ -1419,6 +1452,8 @@ $(document).on('click', '.edit_data_color', function() {
         var color_id = $(this).attr("id");
         var color_nombre = $(this).attr("value");
         var color_repr = $(this).attr("color");
+        var provee = $(this).attr("proveedorColor");
+        console.log(provee);
         Swal.fire({
             title: 'Editar color',
             html: '<div class="row">' +
@@ -1427,7 +1462,9 @@ $(document).on('click', '.edit_data_color', function() {
                 '<input type="text" class="form-control" name="color" id="color" value="' + color_nombre + '" placeholder="Rojo">' +
                 '<label for="pedidonom">Codigo del color</label>' +
                 '<input type="color" class="form-control" id="color_repr" value="' + color_repr + '" placeholder="Rojo">' +
-                '<input type="hidden" value=" ' + color_id + ' ">' +
+                '<label for="proveedorColor">Proveedor</label>' +
+                '<select class="form-control" id="proveedorColor" value='+ provee +'><option value="error">Seleccione uno...</option>'+listarProveedores(provee)+'</select>' +
+
                 '</div>' +
                 '</div>',
             inputAttributes: {
@@ -1439,24 +1476,25 @@ $(document).on('click', '.edit_data_color', function() {
             confirmButtonText: 'Actualizar',
             confirmButtonColor: '#0288d1',
             preConfirm: (color) => {
-                if (document.getElementById("color").value.length < 1) {
+                if (document.getElementById("color").value.length < 1 || $('#proveedorColor').val()=="error") {
                     Swal.showValidationMessage(
                         `Complete todos los campos`
                     )
                 }
+                
+                
             }
         }).then((result) => {
             if (result.value && document.getElementById("color").value) {
                 var Color = document.getElementById("color").value;
                 var ColorRepr = document.getElementById("color_repr").value;
+                var proveedorr = document.getElementById("proveedorColor").value;
                 $.ajax({
                     type: "GET",
                     url: "/verifduplicado",
                     data: {
                         'Lookup': Color,
                         'Tipo': "Color"
-
-
                     }
 
                 }).done(function(data) {
@@ -1468,7 +1506,8 @@ $(document).on('click', '.edit_data_color', function() {
                                 "_csrf": $('#token').val(),
                                 'Color': Color,
                                 'idLookup': color_id,
-                                'CodigoColor': ColorRepr
+                                'CodigoColor': ColorRepr,
+                        		'proveedor': proveedorr
                                     // ,'Descripcion':Descripcion
                             }
 
