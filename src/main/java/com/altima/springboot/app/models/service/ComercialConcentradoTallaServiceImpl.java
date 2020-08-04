@@ -240,7 +240,7 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 				"   )\r\n" + 
 				"   as query2 \r\n" + 
 				"GROUP by\r\n" + 
-				"   query2.nombre_prenda\r\n" + 
+				"   query2.nombre_prenda ORDER BY FIELD(nombre_prenda,'Vestido','Sweater','Gabardina','Abrigo','Camisa','Blusa','Chaleco','Falda','Pantalón','Saco')DESC \r\n" + 
 				"").getResultList();
 	}
 	
