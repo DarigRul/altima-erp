@@ -1,0 +1,64 @@
+<!-- Modal -->
+<div class="modal fade" id="nuevoSeguimiento" tabindex="-1" role="dialog" aria-labelledby="nuevoTicketTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content modal-rounded-body">
+        <div class="modal-header bg-altima modal-rounded-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Nuevo seguimiento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="">
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-md-6">
+                <label for="estatus">Estatus</label>
+                <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="estatus">
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="comentario">Comentario</label>
+                <div class="input-group mb-3">
+                    <input class="form-control" style="border-radius: .25rem;" type="text" id="comentario" placeholder="Especificar">
+                    <div class="input-group-append" style="margin-left: 10px;">
+                        <button class="btn icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Estatus</th>
+                            <th>Comentario</th>
+                            <th>Auxiliar</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>02/08/2020  10:15 a.m. </td>
+                            <td>Pendiente</td>
+                            <td>Encontre cerrado muestrario </td>
+                            <td>Aberlado</td>
+                            <td class="text-center">
+                                <a class="btn btn-danger btn-circle btn-sm popoverxd" data-target="popover" data-placement="top" data-content="Eliminar"><i class="fas fa-times text-white"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>    
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer modal-rounded-footer">
+            <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+            <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
