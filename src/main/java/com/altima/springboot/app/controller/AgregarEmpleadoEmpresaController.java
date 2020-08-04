@@ -396,7 +396,7 @@ public class AgregarEmpleadoEmpresaController {
 		model.addAttribute("getlistSucursal", icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente));
 		model.addAttribute("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
 
-		return "/agregar-empleado-empresa";
+		return "agregar-empleado-empresa";
 	}
 
 	@RequestMapping(value = "/editarsucursalyrazonsocial/{idPedido}/{idcliente}", method = RequestMethod.POST)
