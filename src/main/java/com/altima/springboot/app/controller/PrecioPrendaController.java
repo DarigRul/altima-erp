@@ -17,17 +17,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.altima.springboot.app.models.entity.DisenioListaPrecioPrenda;
+import com.altima.springboot.app.models.entity.DisenioPrenda;
 import com.altima.springboot.app.models.service.IDisenioListaPrecioPrendaService;
+import com.altima.springboot.app.models.service.IDisenioPrendaService;
 
 @Controller
 public class PrecioPrendaController {
 	@Autowired
 	IDisenioListaPrecioPrendaService disenioListaPrecioPrendaService;
+	@Autowired
+	IDisenioPrendaService prendaService;
 	
 	@GetMapping("/precio-prenda/{id}")
 	public String infoClothesPrice(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
 			DisenioListaPrecioPrenda precio = disenioListaPrecioPrendaService.findByidPrenda(id);
+			DisenioPrenda prenda = prendaService.findOne(id);
 			precio.setIdPrenda(id);
+			model.addAttribute("idText", prenda.getIdText());
 			model.addAttribute("precio", precio);
 			return "precios-prenda";
 	}
