@@ -55,8 +55,6 @@
                                                 <th>Proveedor</th>
                                                 <th>Teléfono</th>
                                                 <th>Tipo</th>
-                                                <th>Sucursales</th>
-                                                <th>Datos de facturaci&oacute;n</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -66,12 +64,6 @@
                                                 <td th:text="${proveedor.nombreProveedor}"></td>
                                                 <td th:text="${proveedor.telefonoProveedor}"></td>
                                                 <td th:text="${proveedor.tipo}"></td>
-                                                <td class="tdcenter">
-                                                    <a class="btn btn-info text-white btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver sucursales"><i class="fas fa-info"></i></a>
-                                                </td>
-                                                <td class="tdcenter">
-                                                    <a class="btn btn-primary btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Ver datos de facturaci&oacute;n"><i class="fas fa-file-alt"></i></a>
-                                                </td>
                                                 <td class="tdcenter">
                                                     <a class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar" th:href="@{/editar_datos_generales/}+${proveedor.idProveedor}"><i class="fas fa-pen"></i></a>
 
