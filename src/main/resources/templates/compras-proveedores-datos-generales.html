@@ -9,9 +9,17 @@
             <label for="proveedorTipo">Tipo <strong style="color:red">*</strong></label>
             <input type="text" class="form-control" id="proveedorTipo" th:field="*{tipo}" placeholder="Moral">
         </div>
-        <div class="form-group col-md-10">
+        <div class="form-group col-md-9">
             <label for="proveedorCalle">Calle <strong style="color:red">*</strong></label>
             <input type="text" class="form-control" id="proveedorCalle" th:field="*{calle}" placeholder="Calle Constitucion entre Avs. 2 y 4" required>
+        </div>
+        <div class="form-group col-md-1">
+            <div class="form-check mb-2 mr-sm-2 float-right" style="margin-top: 38px;">
+                <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                <label class="form-check-label font-weight-bold" for="inlineFormCheck">
+                  S/N
+                </label>
+              </div>            
         </div>
         <div class="form-group col-md-1">
             <label for="proveedorNumExt">N&uacute;m. Ext <strong style="color:red">*</strong></label>
@@ -42,35 +50,43 @@
             <input type="text" class="form-control" id="proveedorMunicipio" th:field="*{municipio}" placeholder="Puebla"
             pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" required>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <label for="proveedorEstado">Estado <strong style="color:red">*</strong></label>
             <select class="form-control selectpicker" data-live-search="true" id="proveedorEstado" th:field="*{estado}" title="Seleccione uno..." required>
             	 <div th:insert="estados"></div>
             </select>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <label for="proveedorPais">Pa&iacute;s <strong style="color:red">*</strong></label>
             <select class="form-control selectpicker" data-live-search="true" id="proveedorPais" th:field="*{pais}" title="Seleccione uno..." required>
             	 <div th:insert="paises"></div>
             </select>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
             <label for="proveedorClasificacion">Clasificaci&oacute;n <strong style="color:red">*</strong></label>
             <input type="text" class="form-control" id="proveedorClasificacion" th:field="*{clasificacion}" placeholder="M&eacute;xico" required>
         </div>
         <div class="form-group col-md-3">
+            <label for="proveedorZona">Zona <strong style="color:red">*</strong></label>
+            <input type="text" class="form-control" id="proveedorZona" placeholder="M&eacute;xico" required>
+        </div>
+        <div class="form-group col-md-2">
             <label for="proveedorRFC">RFC <strong style="color:red">*</strong></label>
             <input type="text" class="form-control" id="proveedorRFC" th:field="*{rfcProveedor}" placeholder="M&eacute;xico"
             pattern="^([A-ZÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))((-)?([A-Z\d]{3}))?$" required>
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-2">
             <label for="proveedorCURP">CURP <strong style="color:red">*</strong></label>
             <input type="text" class="form-control" id="proveedorCURP" th:field="*{curpProveedor}" placeholder="M&eacute;xico" required
             pattern="^([A-Z&]|[a-z&]{1})([AEIOU]|[aeiou]{1})([A-Z&]|[a-z&]{1})([A-Z&]|[a-z&]{1})([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])([HM]|[hm]{1})([AS|as|BC|bc|BS|bs|CC|cc|CS|cs|CH|ch|CL|cl|CM|cm|DF|df|DG|dg|GT|gt|GR|gr|HG|hg|JC|jc|MC|mc|MN|mn|MS|ms|NT|nt|NL|nl|OC|oc|PL|pl|QT|qt|QR|qr|SP|sp|SL|sl|SR|sr|TC|tc|TS|ts|TL|tl|VZ|vz|YN|yn|ZS|zs|NE|ne]{2})([^A|a|E|e|I|i|O|o|U|u]{1})([^A|a|E|e|I|i|O|o|U|u]{1})([^A|a|E|e|I|i|O|o|U|u]{1})([0-9]{2})$" title="Deben ser mayusculas">
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-2">
             <label for="proveedorTelefono">Tel&eacute;fono <strong style="color:red">*</strong></label>
             <input type="tel" pattern="[0-9]{10}" class="form-control" id="proveedorTelefono" th:field="*{telefonoProveedor}" placeholder="M&eacute;xico" required>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="proveedorCorreo">Correo <strong style="color:red">*</strong></label>
+            <input type="email" class="form-control" id="proveedorCorreo" placeholder="M&eacute;xico" required>
         </div>
         <input type="hidden" id="datosPrueba" th:field="*{idProveedor}">
         <div class="form-group col-md-3">

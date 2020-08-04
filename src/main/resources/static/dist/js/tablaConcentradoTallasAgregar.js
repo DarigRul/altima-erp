@@ -46,6 +46,7 @@ $(document).ready(function () {
 
 });
 
+
 // //////////////////////77
 function muestraPrendas() {
 
@@ -198,32 +199,58 @@ function eliminarEspecificacion(e, prenda, idprenda) {
 	var pedido = $('#idpedido').val();
 	var prenda = prenda;
 	var idprenda = idprenda;
-	$.ajax({
-		type: "DELETE",
-		url: "/eliminar-especificacion",
-		data: {
-			"_csrf": $('#token').val(),
-			'id': e
+	Swal.fire({
+		  title: '&iquest;Est&aacute; seguro que desea eliminar esta especificación?',
+		  text: "Esta acción es irrevesible",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  cancelButtonText: 'Cancelar',
+		  confirmButtonText: 'Si, eliminar',
+		  reverseButtons: true
 
-		}
+		}).then((result) => {
+		  if (result.value) {
+			 /////
+			  $.ajax({
+					type: "DELETE",
+					url: "/eliminar-especificacion",
+					data: {
+						"_csrf": $('#token').val(),
+						'id': e
 
-	}).done(function (data) {
-		if (data == true) {
-			listarEspecificaciones(prenda, idprenda);
-			listarPrendas(empleado, pedido);
-		} else {
-			Swal
-				.fire({
-					position: 'center',
-					icon: 'error',
-					title: 'Algo ha fallado al intentar eliminar reintente por favor',
-					showConfirmButton: false,
-					timer: 2500
-				})
+					}
 
-		}
+				}).done(function (data) {
+					if (data == true) {
+						listarEspecificaciones(prenda, idprenda);
+						listarPrendas(empleado, pedido);
+						Swal
+						.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'Especificacíón eliminada correctamente',
+							showConfirmButton: false,
+							timer: 2500
+						})
+					} else {
+						Swal
+							.fire({
+								position: 'center',
+								icon: 'error',
+								title: 'Algo ha fallado al intentar eliminar reintente por favor',
+								showConfirmButton: false,
+								timer: 2500
+							})
 
-	});
+					}
+
+				});
+			  ///////////7
+		  }
+		})
+	
 }
 // /////////////77
 function prendaEmpleado() {
@@ -753,6 +780,12 @@ function GuardarPrendaTalla() {
 					selectobject = document.getElementById("empleado");
 					selectobject.disabled = true;
 					$('#empleado').selectpicker('refresh');
+					Swal.fire({
+						icon: 'success',
+						title: 'Prenda guardada correctamente',
+						showConfirmButton: false,
+						timer: 2500
+					})
 				});
 	} else {
 		Swal.fire({

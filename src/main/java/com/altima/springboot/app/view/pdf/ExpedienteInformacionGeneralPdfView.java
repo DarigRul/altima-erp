@@ -76,7 +76,12 @@ public class ExpedienteInformacionGeneralPdfView extends AbstractPdfView {
 		cell = new PdfPCell(new Phrase(" "));
 		cell.setBorder(0);
 		tablaTomaTallasAnticipo.addCell(cell);
-		cell = new PdfPCell(new Phrase(pedido.getFechaAnticipo().toString()));
+		if(pedido.getFechaAnticipo() != null) {
+			cell = new PdfPCell(new Phrase(pedido.getFechaAnticipo().toString()));
+		}
+		else {
+			cell = new PdfPCell(new Phrase("Sin Fecha"));
+		}
 		cell.setPadding(2f);
 		tablaTomaTallasAnticipo.addCell(cell);
 		tablaTomaTallasAnticipo.setWidths(new float[] { 6f, 1f, 6f });

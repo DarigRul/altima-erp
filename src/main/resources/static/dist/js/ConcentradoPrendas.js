@@ -563,7 +563,7 @@ function CrearNuevaTabla(data, ListaEmpleados){
                                         "<tfoot b>" +
                                         	"<th>Totales</th>" + 
                                         	tfooter +
-                                        	"<td></td>" + 
+                                        	"<td class='CantidadTotal_Dos'></td>" + 
                                         	"<td></td>" + 
                                         "</tfoot>" + 
                                     "</table>");
@@ -667,6 +667,7 @@ function CrearNuevaTabla(data, ListaEmpleados){
 			
 			
 			//Otro ciclon xd
+			var Totales = 0;
 			for(var contador = 0; contador < ArrayFinal.length; contador++){
 				var ArrayIndividual = [];
 				var CantidadesASumar = [];
@@ -678,6 +679,7 @@ function CrearNuevaTabla(data, ListaEmpleados){
 				}
 				
 				ArrayIndividual[contador2 + 1] = CantidadesASumar.reduce(function(a, b){ return a + b;}, 0);
+				Totales += CantidadesASumar.reduce(function(a, b){ return a + b;}, 0);
 				ArrayIndividual[contador2 + 2] = "<td class='text-center'>" +
 													"<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick=\"EditarRegistro(\'" + ArrayFinal[contador]["id"] + "'\, \'" + ArrayFinal[contador]["nombre"] + "\');\" data-container='body' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" +				
 												"</td>";
@@ -688,6 +690,7 @@ function CrearNuevaTabla(data, ListaEmpleados){
 			for(var con = 0; con < ColumnasTotales; con++){
 				$('.CantidadTotal-' + con).text(table1.column( (con + 1) ).data().sum());
 			}
+			$('.CantidadTotal_Dos').text(Totales);
 			
 			$('#ContenedorDeTabla').css( 'display', 'block' );
 			table1.columns.adjust().draw();
@@ -762,7 +765,7 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
                                         "<tfoot b>" +
                                     	"<th>Totales</th>" + 
                                     	tfooter +
-                                    	"<td></td>" + 
+                                    	"<td class='CantidadTotal_Dos'></td>" + 
                                     	"<td></td>" + 
                                     "</tfoot>" + 
                                     "</table>");
@@ -865,6 +868,7 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 			
 			
 			//Otro ciclon xd
+			var Totales = 0;
 			for(var contador = 0; contador < ArrayFinal.length; contador++){
 				var ArrayIndividual = [];
 				var CantidadesASumar = [];
@@ -876,6 +880,7 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 				}
 				
 				ArrayIndividual[contador2 + 1] = CantidadesASumar.reduce(function(a, b){ return a + b;}, 0);
+				Totales += CantidadesASumar.reduce(function(a, b){ return a + b;}, 0);
 				ArrayIndividual[contador2 + 2] = "<td class='text-center'>" +
 													"<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick=\"EditarRegistro(\'" + ArrayFinal[contador]["id"] + "'\, \'" + ArrayFinal[contador]["nombre"] + "\');\" data-container='body' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" +				
 												"</td>";
@@ -886,6 +891,7 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados){
 			for(var con = 0; con < ColumnasTotales; con++){
 				$('.CantidadTotal-' + con).text(table1.column( (con + 1) ).data().sum());
 			}
+			$('.CantidadTotal_Dos').text(Totales);
 			
 			$('#ContenedorDeTabla').css( 'display', 'block' );
 			table1.columns.adjust().draw();

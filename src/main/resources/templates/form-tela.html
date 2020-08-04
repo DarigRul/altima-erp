@@ -150,8 +150,6 @@
 
 	<div class="form-group col-sm-4">
 		<label for="status">C&oacute;digo Color</label>
-
-
 		<input required type="color" th:field="*{tela.codigoColor}" class="form-control" placeholder="Codigo Color">
 	</div>
 
@@ -193,6 +191,21 @@
 			<option value="secundario">Secundario</option>
 		</select>
 	</div>
+	
+	    <div class="form-group col-sm-5" th:if="${EstatusCalidadTela == '2'}">
+        <label for="status">Color</label>
+        <div class="input-group mb-5">
+        <select class="form-control selectpicker" id="codColor" title="Seleccione uno...">
+        	<option th:each="color:${colores}" th:value="${color.idLookup}"
+        	th:data-content="@{<i class='fa fa-tint'}+@{style='color:}+${color.atributo1}+@{;'></i>}+'             '+${color.nombreLookup}" th:data-codigo="${color.atributo1}" th:data-nombre="${color.nombreLookup}"></option>
+        </select>
+        <div class="input-group-append" style="margin-left:10px;">
+			<button id="addMat" class="btn btn-sm icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+		</div>
+        </div>
+    </div>
+    
+    <!--
 	<div class="form-group col-sm-3" th:if="${EstatusCalidadTela == '2'}">
 		<label for="status">Color</label>
 		<input type="text" id="matcol" class="form-control" placeholder="Rojo">
@@ -207,6 +220,7 @@
 			</div>
 		  </div>
 	</div>
+	-->
 	<div class="form-group col-sm-12" th:if="${EstatusCalidadTela == '2'}">
 		<table class="table table-striped" >
 			<thead>

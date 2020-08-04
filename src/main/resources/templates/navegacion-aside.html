@@ -474,6 +474,29 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item has-treeview" id="menuAuxiliar">
+                                <a class="nav-link" id="navAuxiliar">
+                                    <i class="nav-icon fas fa-user-alt"></i>
+                                    <p>
+                                        Auxiliar de Ventas <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a th:href="${'/'}" class="nav-link" id="navAuxCal">
+                                            <i class="nav-icon fas fa-calendar"></i>
+                                            <p>Calendario</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a th:href="${'/tickets'}" class="nav-link" id="navAuxTic">
+                                            <i class="nav-icon fas fa-ticket-alt"></i>
+                                            <p>Tickets</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
                         <li class="nav-item has-treeview" id="menuMuestrario" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                     (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING'')')})">
                             <a class="nav-link" id="navMuestrario">

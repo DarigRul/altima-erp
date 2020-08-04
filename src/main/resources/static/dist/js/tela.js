@@ -30,8 +30,10 @@ $( document ).ready(function() {
   $( "#addMat" ).click(function() {
     var _idmat = $("#selecttipom" ).children("option:selected").val();
     var _texttipo = $("#selecttipom" ).children("option:selected").html();
-    var _idcol = $('#matcol').val();
-    var _idcod = $('#matcod').val();
+    var _idcol = $("#codColor").children("option:selected").data('nombre');
+    var _idcod = $("#codColor").children("option:selected").data('codigo');
+    console.log(_idcol);
+    console.log(_idcod);
 	var pos = $('#clasi').val();
 	if(_idmat=="" || _idcol=="" || _idcol==""){
 		return false;
