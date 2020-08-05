@@ -17,4 +17,6 @@ public interface IComercialCotizacionPrendaService {
 	List<Object[]> FindCotizacionPrendas(Long id);
 	
 	double findSubtotalCotizacionPrendas(Long id);
+	
+	void removePrendas (List<ComercialCotizacionPrenda> comercialCotizacionPrenda);
 }

@@ -31,6 +31,12 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 	}
 	
 	@Override
+	@Transactional
+	public void removePrendas (List<ComercialCotizacionPrenda> comercialCotizacionPrenda) {
+		repository.deleteAll(comercialCotizacionPrenda);
+	}
+	
+	@Override
 	@Transactional(readOnly = true)
 	public List<ComercialCotizacionPrenda> findAll(Long id) {
 		// TODO Auto-generated method stub

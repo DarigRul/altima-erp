@@ -58,7 +58,7 @@ public class CotizacionesController {
 			model.addAttribute("prendasDiv", "#");
 			model.addAttribute("preciosDiv", "#");
 			model.addAttribute("pill", "");
-			model.addAttribute("ListarGerentes", empleadoService.findAllByPuesto("Gerencia Comercial"));
+			model.addAttribute("ListarGerentes", empleadoService.findAllByPuesto("Gerente de ventas"));
 			model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
 			model.addAttribute("ListarClientes", clienteService.findAll(null));
 			model.addAttribute("ListarPrendas", CoordinadoService.findAllPrenda());
@@ -90,7 +90,7 @@ public class CotizacionesController {
 		model.addAttribute("prendasDiv", "#prendasDiv");
 		model.addAttribute("pill", "pill");
 		model.addAttribute("preciosDiv", "#preciosDiv");
-		model.addAttribute("ListarGerentes", empleadoService.findAllByPuesto("Gerencia Comercial"));
+		model.addAttribute("ListarGerentes", empleadoService.findAllByPuesto("Gerente de ventas"));
 		model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
 		model.addAttribute("ListarClientes", clienteService.findAll(null));
 		model.addAttribute("textArea", cotizacion.getObservaciones());

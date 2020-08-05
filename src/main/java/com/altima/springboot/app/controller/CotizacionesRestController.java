@@ -3,6 +3,7 @@ package com.altima.springboot.app.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -50,7 +51,16 @@ public class CotizacionesRestController {
 	@RequestMapping(value="/agregarCotizacionPrendaTablita", method=RequestMethod.POST)
 	public Object[] agregarCotizacionPrendaTablita(@RequestParam (name="idModelo") String idPrenda,
 												   @RequestParam (name="idTela") String idTela){
+		try {
 		return cotizacionPrendaService.FindDatosCotizacionPrenda(Long.parseLong(idTela), Long.parseLong(idPrenda));
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			return null;
+		}
+		finally {
+			System.out.println("Fin de proceso agregarCotizacionPrendaTablita");
+		}
 	}
 	
 	@RequestMapping(value="/GuardarCotizacionInfo", method=RequestMethod.POST)
@@ -187,6 +197,34 @@ public class CotizacionesRestController {
 			
 			JSONArray datos = new JSONArray(lista);
 			
+			//Es para borrar registros eliminados en la tabla del usuario
+			int contadorsillo=0;
+			List<Object[]> AllPrendas = cotizacionPrendaService.FindCotizacionPrendas(Long.parseLong(idCotizacionPrendas));
+			List<ComercialCotizacionPrenda> AllPrendasToDelete = new ArrayList<ComercialCotizacionPrenda>();
+			
+			for (Object[] a: AllPrendas) {
+				for (int i=0;i<datos.length();i++) {
+					JSONObject dato = datos.getJSONObject(i);
+					if(dato.getInt("idCotizacionPrenda")==Integer.parseInt(a[0].toString())) {
+						contadorsillo=1;
+					}
+				}
+				if(contadorsillo==0){
+					AllPrendasToDelete.add(cotizacionPrendaService.findOne(Long.parseLong(a[0].toString())));
+				}
+				else {
+					contadorsillo=0;
+				}
+			}
+			try {
+			cotizacionPrendaService.removePrendas(AllPrendasToDelete);
+			System.out.println("Prendas eliminadas");
+			}
+			catch (Exception e) {
+				System.out.println("No hay prendas a eliminar");
+			}
+			
+			//Es para agregar los nuevos registros creados en la tabla del usuario
 			for (int i=0;i<datos.length();i++) {
 				JSONObject dato = datos.getJSONObject(i);
 				System.out.println(dato);
@@ -210,6 +248,8 @@ public class CotizacionesRestController {
 					
 					cotizacionPrendaService.save(cotiPrenda);
 				}
+				
+				//Es para editar los registros existentes en la tabla del usuario
 				else {
 					
 					ComercialCotizacionPrenda cotiPrenda = cotizacionPrendaService.findOne(dato.getLong("idCotizacionPrenda"));
@@ -229,7 +269,9 @@ public class CotizacionesRestController {
 					
 					cotizacionPrendaService.save(cotiPrenda);
 				}
+				System.out.println(dato.getInt("idCotizacionPrenda"));
 			}
+			
 			return 1;
 		}catch(Exception e) {
 			System.out.println(e);
