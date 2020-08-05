@@ -248,6 +248,7 @@ public class HrCatalogosRestController {
         LocalDateTime now = LocalDateTime.now();
         try {
             HrPuesto hrP = hrPuestoService.findOne(idPuesto);
+            hrP.setNombrePuesto(nombrePuesto);
             hrP.setIdDepartamento(departamento);
             hrP.setTiempoExtra(checkbox);
             hrP.setNombrePlaza(nomPlazas);
