@@ -624,7 +624,7 @@ function editarDepartamento(idLookup) {
 }
 
 //Funci&oacute;n para agregar puestos
-function agregarPuesto(idDepartamento, check) {
+function agregarPuesto(idDepartamento) {
     mostrarDepartamentos(idDepartamento);
     Swal.fire({
         title: 'Agregar Puesto',
@@ -654,7 +654,7 @@ function agregarPuesto(idDepartamento, check) {
             '<label for="puesto">Perfil</label>' +
             '<input type="text" class="swal2-input" id="perfil" placeholder="Coordinador">' +
             '</div>' +
-            '<input type="hidden" id="idPuesto">' +
+            '<input type="hidden" id="idPuesto" value="">' +
             '</div>',
         showCancelButton: true,
         cancelButtonColor: '#6C757D',
@@ -689,7 +689,7 @@ function agregarPuesto(idDepartamento, check) {
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
-                            title: '&Aacute;rea editada correctamente',
+                            title: 'Puesto editado correctamente',
                             showConfirmButton: false,
                             timer: 2300,
                             onClose: () => {
@@ -701,7 +701,7 @@ function agregarPuesto(idDepartamento, check) {
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
-                            title: '&Aacute;rea agregada correctamente',
+                            title: 'Puesto agregado correctamente',
                             showConfirmButton: false,
                             timer: 2300
                         })
@@ -771,10 +771,10 @@ function ListarPuestos() {
                     data[i][0],
                     data[i][1],
                     data[i][3],
-                    data[i][4] == true ? "Aceptado" : "Rechazado",
+                    data[i][4] == 1 ? "Aceptado" : "Rechazado",
                     data[i][5],
                     data[i][6],
-                    data[i][7],
+                    data[i][7] == true ? "Aceptado" : "Rechazado",
                     "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
                     "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarPuesto(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
                     (data[i][8] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaPuesto onclick=darBajaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +

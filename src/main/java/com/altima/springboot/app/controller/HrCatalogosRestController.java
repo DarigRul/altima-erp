@@ -52,12 +52,6 @@ public class HrCatalogosRestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        HrLookup empresa = new HrLookup();
-        empresa.setNombreLookup(nombreEmpresa);
-        empresa.setTipoLookup("Empresa");
-        empresa.setCreadoPor(auth.getName());
-        empresa.setFechaCreacion(dtf.format(now));
-        empresa.setEstatus("1");
         try {
             HrLookup hr = hrLookupService.findOne(idLookup);
             hr.setNombreLookup(nombreEmpresa);
@@ -65,6 +59,13 @@ public class HrCatalogosRestController {
             return 1;
         } catch (Exception e) {
             try {
+                HrLookup empresa = new HrLookup();
+                empresa.setNombreLookup(nombreEmpresa);
+                empresa.setTipoLookup("Empresa");
+                empresa.setCreadoPor(auth.getName());
+                empresa.setFechaCreacion(dtf.format(now));
+                empresa.setEstatus("1");
+                empresa.setIdText("EMP");
                 hrLookupService.save(empresa);
                 empresa.setIdText("EMP" + (10000 + empresa.getIdLookup()));
                 hrLookupService.save(empresa);
@@ -114,12 +115,6 @@ public class HrCatalogosRestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        HrLookup area = new HrLookup();
-        area.setNombreLookup(nombreArea);
-        area.setTipoLookup("Area");
-        area.setCreadoPor(auth.getName());
-        area.setEstatus("1");
-        area.setFechaCreacion(dtf.format(now));
         try {
             HrLookup hr = hrLookupService.findOne(idLookup);
             hr.setNombreLookup(nombreArea);
@@ -127,6 +122,13 @@ public class HrCatalogosRestController {
             return 1;
         } catch (Exception e) {
             try {
+                HrLookup area = new HrLookup();
+                area.setNombreLookup(nombreArea);
+                area.setTipoLookup("Area");
+                area.setCreadoPor(auth.getName());
+                area.setEstatus("1");
+                area.setFechaCreacion(dtf.format(now));
+                area.setIdText("AREA");
                 hrLookupService.save(area);
                 area.setIdText("AREA" + (10000 + area.getIdLookup()));
                 return 2;
@@ -184,12 +186,13 @@ public class HrCatalogosRestController {
         } catch (Exception e) {
             try {
                 HrDepartamento departamento = new HrDepartamento();
-                departamento.setNombreDepartamento(nombreDepartamento);
-                departamento.setIdArea(nomArea);
                 departamento.setEstatus("1");
                 departamento.setCreado_por(authDepa.getName());
                 departamento.setFechaCreacion(fechaCreacion.format(date1));
                 departamento.setActualizadoPor(authDepa.getName());
+                departamento.setIdText("DEP");
+                departamento.setNombreDepartamento(nombreDepartamento);
+                departamento.setIdArea(nomArea);
                 hrDepartamentoService.save(departamento);
                 departamento.setIdText("DEP" + (10000 + departamento.getIdDepartamento()));
                 hrDepartamentoService.save(departamento);
@@ -245,8 +248,6 @@ public class HrCatalogosRestController {
         LocalDateTime now = LocalDateTime.now();
         try {
             HrPuesto hrP = hrPuestoService.findOne(idPuesto);
-            hrP.setActualizadoPor(auth.getName());
-            hrP.setNombrePuesto(nombrePuesto);
             hrP.setIdDepartamento(departamento);
             hrP.setTiempoExtra(checkbox);
             hrP.setNombrePlaza(nomPlazas);
@@ -259,13 +260,14 @@ public class HrCatalogosRestController {
                 HrPuesto nuevoPuesto = new HrPuesto();
                 nuevoPuesto.setCreadoPor(auth.getName());
                 nuevoPuesto.setFechaCreacion(dtf.format(now));
+                nuevoPuesto.setEstatus("1");
+                nuevoPuesto.setCreadoPor(auth.getName());
+                nuevoPuesto.setIdText("PTO");
                 nuevoPuesto.setNombrePuesto(nombrePuesto);
                 nuevoPuesto.setNombrePlaza(nomPlazas);
                 nuevoPuesto.setSueldo(sueldos);
                 nuevoPuesto.setPerfil(perfiles);
-                nuevoPuesto.setEstatus("1");
                 nuevoPuesto.setIdDepartamento(departamento);
-                nuevoPuesto.setCreadoPor(auth.getName());
                 nuevoPuesto.setTiempoExtra(checkbox);
                 hrPuestoService.save(nuevoPuesto);
                 nuevoPuesto.setIdText("PTO" + (10000 + nuevoPuesto.getIdPuesto()));
