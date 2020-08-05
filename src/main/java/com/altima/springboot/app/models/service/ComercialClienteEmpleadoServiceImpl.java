@@ -102,13 +102,38 @@ public class ComercialClienteEmpleadoServiceImpl implements ComercialClienteEmpl
 		
 		@Override
 		@Transactional
-		public int max(Long id) {
+		public String max(Long id) {
 			// TODO Auto-generated method stub
-			String auxs = em.createNativeQuery ("SELECT MAX(id_empleado) as maximo\n" + 
+			String auxs = em.createNativeQuery ("SELECT MAX(id_Text) as maximo\n" + 
 					"from alt_comercial_cliente_empleado WHERE id_pedido_informacion= "+ id).getSingleResult().toString();
-			int aux = Integer.parseInt(auxs);	
-			return aux ;
+			
+			return auxs ;
 	}
+		
+		
+		
+		
+		
+		@Override
+		@Transactional
+		public ComercialClienteEmpleado findByidText(String idText, Long idPedidoInformacion) {
+			// TODO Auto-generated method stub		
+			return  (ComercialClienteEmpleado) em.createQuery(" from ComercialClienteEmpleado where idText='"+idText+"' and idPedidoInformacion="+idPedidoInformacion).getSingleResult();
+		
+		}
+		
+
+		@Override
+		@Transactional
+		public String findMaxByidText( Long idPedidoInformacion) {
+			// TODO Auto-generated method stub		
+			return  (String) em.createNativeQuery("select max(id_text) from alt_comercial_cliente_empleado where  id_pedido_informacion="+idPedidoInformacion).getSingleResult();
+		
+		}
+		
+		
+		
+		
 		
 		
 		

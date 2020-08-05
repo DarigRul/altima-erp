@@ -337,21 +337,43 @@ public class AgregarEmpleadoEmpresaController {
 	@RequestMapping(value = "/eliminar/{idPedido}/{idcliente}", method = RequestMethod.POST)
 	public String delete(HttpServletRequest request, Model model, @PathVariable(value = "idPedido") Long idpedido,
 			@PathVariable(value = "idcliente") Long idcliente) {
+		
+		String idtext;
+		String flag;
 
 		try {
 			for (String id : request.getParameterValues("getdeletenombre_empleado")) {
 				System.out.println(id);
 				System.out.println("entre al elinar aqui es donde debes talachear");
 				ComercialClienteEmpleado objeto = cargaclienteempleadoservice.findOne(Long.parseLong(id));
-				 String idtext= objeto.getIdText();
+				  idtext= objeto.getIdText();
 				 System.out.println("aqui esta id text que se va aborrar   " + idtext );
-				comercialClienteEmpleadoRepository.delete(comercialClienteEmpleadoRepository.findById(Long.parseLong(id)).orElse(null));
-				int max = cargaclienteempleadoservice.max(idpedido);
-				System.out.println("aqui esta el id maximo"  + max);
-				ComercialClienteEmpleado objeto2 = cargaclienteempleadoservice.findOne(Long.valueOf(max));
-				System.out.println("aqui esta el ultimo idtext de ese pedido   "+ objeto2.getIdText());
-				objeto2.setIdText(idtext);
-				comercialClienteEmpleadoRepository.save(objeto2);
+				 flag = cargaclienteempleadoservice.findMaxByidText(idpedido);
+				 
+				 System.out.println("aqui esta idText variable a borrar   " + idtext );
+				 
+				 System.out.println("aqui esta la flag  " + flag );
+				 
+				 if (idtext.equals(flag)) {
+					 
+					 System.out.println("entre al if de la flag perro");
+						comercialClienteEmpleadoRepository.delete(comercialClienteEmpleadoRepository.findById(Long.parseLong(id)).orElse(null));
+
+				} else {
+					 System.out.println("entre al elseeeeeeeeeeeeee de la flag perro");
+					
+					comercialClienteEmpleadoRepository.delete(comercialClienteEmpleadoRepository.findById(Long.parseLong(id)).orElse(null));
+					String max = cargaclienteempleadoservice.max(idpedido);
+					System.out.println("aqui esta el id maximo"  + max);
+					
+					
+					ComercialClienteEmpleado objeto2 = (ComercialClienteEmpleado) cargaclienteempleadoservice.findByidText(max, idpedido);
+					System.out.println("aqui esta el ultimo idtext de ese pedido   "+ objeto2.getIdText());
+					objeto2.setIdText(idtext);
+					comercialClienteEmpleadoRepository.save(objeto2);
+					
+
+				}
 				
 			}
 
