@@ -22,7 +22,9 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Agregar provedor <a th:href="@{/inventario-amp}"><button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a>                                <button data-target="#agregarProveedor" data-toggle="modal" class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></h1>
+                            <h1>Agregar provedor <a th:href="@{/inventario-amp}"><button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a>       
+                            
+                            <button onclick="agregarProveedor()" data-target="#agregarProveedor" data-toggle="modal" class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></h1>
                         </div>
                         <div th:insert="modal-amp-inventario-proveedor-precio"></div>
                         <div th:insert="modal-historico-proveedor-precio"></div>
@@ -59,18 +61,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>CIE263</td>
-                                                <td>NAT025</td>
-                                                <td>National</td>
-                                                <td>12</td>
-                                                <td>6</td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-                                                    <button class="btn btn-warning btn-circle btn-sm popoverxd" data-target="#agregarProveedor" data-toggle="modal" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-                                                    <button class="btn btn-success btn-circle btn-sm popoverxd" data-target="#historicoPrecios" data-toggle="modal" data-container="body" data-placement="top" data-content="Ver hist&oacute;rico de precios"><i class="fas fa-dollar-sign"></i></button>
+                                        <tr th:each="view, icli: ${view}">
+                                        
+                                        <td th:text="${view[2]}"></td>
+                                        <td th:text="${view[3]}"></td>
+                                        <td th:text="${view[4]}"></td>
+                                        <td th:text="${view[5]}"></td>
+                                        <td th:text="${view[6]}"></td>
+                                        <td class="text-center">
+                                                    <button class="btn btn-danger btn-circle btn-sm popoverxd" th:onclick="|baja('${view[0]}')|"	 data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
+                                                    <button class="btn btn-warning btn-circle btn-sm popoverxd" th:id="${view[0]}" th:idProveedor="${view[1]}" th:ClaveInt="${view[2]}" th:Precio="${view[5]}" th:dias="${view[6]}"  onclick="editar(this);"  data-target="#agregarProveedor" data-toggle="modal" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                    <button class="btn btn-success btn-circle btn-sm popoverxd" th:id="${view[0]}" onclick="precios(this);"  data-target="#historicoPrecios" data-toggle="modal" data-container="body" data-placement="top" data-content="Ver hist&oacute;rico de precios"><i class="fas fa-dollar-sign"></i></button>
                                                 </td>
-                                            </tr>
+                                        </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -88,6 +92,16 @@
     </div>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaAMPInvAdd.js"></script>
+    <script src="/dist/js/InventarioProvedoresAMP.js"></script>
+    <script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+	    	  position: 'center',
+	          icon: /*[[${icon}]]*/,
+	          title: /*[[${title}]]*/,
+	          showConfirmButton: false,
+	          timer: 1250
+	    });
+	</script>
     <script>
         $('#iComercial').removeClass('text-altima');
         $('#navComercial').addClass('active-altima');

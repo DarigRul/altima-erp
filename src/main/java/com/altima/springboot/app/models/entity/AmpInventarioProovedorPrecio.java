@@ -35,14 +35,12 @@ public class AmpInventarioProovedorPrecio implements Serializable {
 	@Column(name="creado_por")
 	private String creadoPor;
 	
-	@Column(name="actualizado_por")
-	private String actualizadoPor;
+	
 	
 	@Column(name="fecha_creacion")
 	private String fechaCreacion;
 	
-	@Column(name="ultima_fecha_modificacion")
-	private String ultimaFechaModificacion;
+
 	
 	@Column(name="estatus")
 	private String estatus;
@@ -79,14 +77,7 @@ public class AmpInventarioProovedorPrecio implements Serializable {
 		this.creadoPor = creadoPor;
 	}
 
-	public String getActualizadoPor() {
-		return actualizadoPor;
-	}
-
-	public void setActualizadoPor(String actualizadoPor) {
-		this.actualizadoPor = actualizadoPor;
-	}
-
+	
 	public String getFechaCreacion() {
 		return fechaCreacion;
 	}
@@ -95,13 +86,7 @@ public class AmpInventarioProovedorPrecio implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public String getUltimaFechaModificacion() {
-		return ultimaFechaModificacion;
-	}
 
-	public void setUltimaFechaModificacion(String ultimaFechaModificacion) {
-		this.ultimaFechaModificacion = ultimaFechaModificacion;
-	}
 
 	public String getEstatus() {
 		return estatus;

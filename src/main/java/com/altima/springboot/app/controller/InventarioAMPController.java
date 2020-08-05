@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.altima.springboot.app.models.entity.AmpInventario;
+import com.altima.springboot.app.models.entity.AmpInventarioProovedor;
+import com.altima.springboot.app.models.entity.AmpInventarioProovedorPrecio;
 import com.altima.springboot.app.models.entity.AmpLookup;
 import com.altima.springboot.app.models.entity.ComercialCliente;
 import com.altima.springboot.app.models.entity.ComercialClienteSucursal;
 import com.altima.springboot.app.models.entity.DisenioTela;
 import com.altima.springboot.app.models.entity.HrDireccion;
+import com.altima.springboot.app.models.service.IAmpInventarioProovedorService;
 import com.altima.springboot.app.models.service.IAmpInventarioService;
 import com.altima.springboot.app.models.service.IAmpLoookupService;
 import com.altima.springboot.app.models.service.ICatalogoService;
@@ -48,6 +55,9 @@ public class InventarioAMPController {
 	
 	@Autowired
 	private IAmpInventarioService InventarioSerivice;
+	
+	@Autowired
+	private IAmpInventarioProovedorService ProveedorSerivice;
 	
 	
 	@GetMapping("/inventario-amp")
@@ -126,9 +136,12 @@ public class InventarioAMPController {
 	}
 	
 
-	@GetMapping("/proveedores-inventario-amp")
-	public String addproveedores()
+	@GetMapping("/proveedores-inventario-amp/{id}")
+	public String addproveedores(@PathVariable (value="id") Long id, Model model)
 	{
+		model.addAttribute("idInventario", id);
+		model.addAttribute("view", ProveedorSerivice.View(id));
+		
 		return"proveedores-inventario-amp";
 	}
 
@@ -188,5 +201,91 @@ public class InventarioAMPController {
         .addFlashAttribute("title", "Inventario dada de alta correctamente")
         .addFlashAttribute("icon", "success");
 		return "redirect:/inventario-amp";
+	}
+	
+	
+	@RequestMapping(value = "/proveedores-activos", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object []> provedor() {
+		return ProveedorSerivice.Proveedores();
+	}
+	
+	@RequestMapping(value = "/historial-precio", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object []> precios(Long id) {
+		System.out.println("id de precios "+id);
+		return ProveedorSerivice.ViewPagos(id);
+	}
+	@RequestMapping(value = "/agregar-proveedor", method = RequestMethod.POST)
+	@ResponseBody
+	public String provedornew (Long id , Long idProveedor, String clave , Float costo, int dias , Long idInventario ) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		if ( id == null) {
+			AmpInventarioProovedor obj = new AmpInventarioProovedor();
+			AmpInventarioProovedorPrecio objPrecio = new AmpInventarioProovedorPrecio();
+			
+			obj.setIdProveedor(idProveedor);
+			obj.setClaveProveedor(clave);
+			obj.setIdInventario(idInventario);
+			obj.setCreadoPor(auth.getName());
+			obj.setFechaCreacion(hourdateFormat.format(date));
+			obj.setEstatus("1");
+			obj.setDias(dias);
+			ProveedorSerivice.save(obj);
+			objPrecio.setIdProveedor(obj.getIdInventarioProveedor());
+			objPrecio.setPrecio(Float.toString(costo));
+			objPrecio.setCreadoPor(auth.getName());
+			objPrecio.setFechaCreacion(hourdateFormat.format(date));
+			objPrecio.setEstatus("1");
+			ProveedorSerivice.savePrecio(objPrecio);
+			
+			
+		}
+		else {
+			AmpInventarioProovedor obj = ProveedorSerivice.findOne(id);
+			
+			obj.setIdProveedor(idProveedor);
+			obj.setClaveProveedor(clave);
+			obj.setIdInventario(idInventario);
+			obj.setActualizadoPor(auth.getName());
+			obj.setUltimaFechaModificacion(hourdateFormat.format(date));
+			obj.setDias(dias);
+			ProveedorSerivice.save(obj);
+			Float precio=  ProveedorSerivice.findOnePrecio(id);
+			System.out.println("precio"+costo);
+			System.out.println("precio de la base"+precio);
+			
+			if ( costo > precio || precio<costo ) {
+				AmpInventarioProovedorPrecio objPrecio = new AmpInventarioProovedorPrecio();
+				
+				objPrecio.setIdProveedor(obj.getIdInventarioProveedor());
+				objPrecio.setPrecio(Float.toString(costo));
+				objPrecio.setCreadoPor(auth.getName());
+				objPrecio.setFechaCreacion(hourdateFormat.format(date));
+				objPrecio.setEstatus("1");
+				ProveedorSerivice.savePrecio(objPrecio);
+			}
+			
+			
+		}
+		return "hola";
+	}
+	
+	@GetMapping("delete-proveedor-amp/{id}")
+	public String deleteMaterial(@PathVariable("id") Long id, RedirectAttributes redirectAttrs) throws Exception {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+		AmpInventarioProovedor obj = ProveedorSerivice.findOne(id);
+		obj.setEstatus("0");
+		obj.setActualizadoPor(auth.getName());
+		obj.setUltimaFechaModificacion(hourdateFormat.format(date));
+		ProveedorSerivice.save(obj);
+		redirectAttrs.addFlashAttribute("title", "Proveedor dado de baja correctamente").addFlashAttribute("icon", "success");
+		return "redirect:/proveedores-inventario-amp/"+obj.getIdInventario();
 	}
 }

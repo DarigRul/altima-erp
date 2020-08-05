@@ -73,7 +73,7 @@
                                                     <a th:if="${inventario[7]  == 1}" th:href="@{/baja-inventario-amp/}+ ${inventario[0]}" class="btn btn-danger btn-circle btn-sm popoverxd btn-baja" data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></a>
                                                     <a th:if="${inventario[7]  == 0}" th:href="@{/alta-inventario-amp/}+ ${inventario[0]}" class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd btn-alta" data-container="body" data-placement="top" data-content="Dar de alta"><i class="fas fa-sort-up"></i></a>
                                                     <a th:href="@{/editar-inventario-amp/}+ ${inventario[0]}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
-                                                    <a th:href="@{'/proveedores-inventario-amp'}" class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Proveedores"><i class="fas fa-building"></i></a>
+                                                    <a th:href="@{'/proveedores-inventario-amp/'}+${inventario[0]}" class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Proveedores"><i class="fas fa-building"></i></a>
                                                 </td>
                                         	 </tr>
                                             
@@ -109,6 +109,7 @@
 	</script>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaInventarioAMP.js"></script>
+   
     
     <script>
     

@@ -49,6 +49,9 @@ public class AmpInventarioProovedor implements Serializable {
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	@Column(name="dias")
+	private int dias;
 
 	public Long getIdInventarioProveedor() {
 		return idInventarioProveedor;
@@ -124,6 +127,14 @@ public class AmpInventarioProovedor implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public int getDias() {
+		return dias;
+	}
+
+	public void setDias(int dias) {
+		this.dias = dias;
 	}
 	
 	
