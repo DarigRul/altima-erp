@@ -93,7 +93,7 @@ public class ExpedienteTotalesPorRazonSocialPdfView extends AbstractPdfView{
 		tabla3.addCell(cell);
 		
 		for(int con = 0; con < lista.size(); con++) {
-			cell = new PdfPCell(new Phrase(lista.get(con).toString(), font));
+			cell = new PdfPCell(new Phrase(lista.get(con)[0].toString(), font));
 			cell.setPadding(Padd);
 			tabla3.addCell(cell);
 		}
