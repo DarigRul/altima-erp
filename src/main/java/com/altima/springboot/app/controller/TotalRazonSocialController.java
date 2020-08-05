@@ -63,7 +63,7 @@ public class TotalRazonSocialController {
 					float m_descuento;
 					
 					sub2 =  (sub1 * p_descuento/100)+ sub1;
-					totalf = (sub2 * iva )+sub2;
+					totalf = (sub2 * (iva/100) )+sub2;
 					
 					m_ancicipo = (totalf*(p_ancicipo/100));
 					
@@ -98,7 +98,7 @@ public class TotalRazonSocialController {
 					float iva = Float.parseFloat(a[4].toString());
 					float totalf;
 					sub2 = sub1;
-					totalf = (sub2 * iva )+sub2;
+					totalf = (sub2 * (iva/100) )+sub2;
 					
 					total2.setIdPedido(Long.parseLong(a[1].toString()));
 					total2.setIdClienteFacturaF(Long.parseLong(a[0].toString()));
