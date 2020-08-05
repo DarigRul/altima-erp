@@ -468,7 +468,7 @@ table.dataTable thead td {
 }
 
 [data-theme="dark"] .input-group .form-control {
-    width: 85%!important;
+    width: 50%!important;
 }
 
 [data-theme="dark"] hr {
