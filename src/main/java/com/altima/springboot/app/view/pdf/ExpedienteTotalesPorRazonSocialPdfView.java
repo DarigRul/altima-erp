@@ -93,8 +93,37 @@ public class ExpedienteTotalesPorRazonSocialPdfView extends AbstractPdfView{
 		tabla3.addCell(cell);
 		
 		for(int con = 0; con < lista.size(); con++) {
-			//cell = new PdfPCell(new Phrase(lista.get(con)[0].toString(), font));
-			cell = new PdfPCell(new Phrase("prueba", font));
+			cell = new PdfPCell(new Phrase(lista.get(con)[1].toString(), font));
+			cell.setPadding(Padd);
+			tabla3.addCell(cell);
+			cell = new PdfPCell(new Phrase(lista.get(con)[2].toString(), font));
+			cell.setPadding(Padd);
+			tabla3.addCell(cell);
+			cell = new PdfPCell(new Phrase(lista.get(con)[3].toString(), font));
+			cell.setPadding(Padd);
+			tabla3.addCell(cell);
+			cell = new PdfPCell(new Phrase(lista.get(con)[4].toString(), font));
+			cell.setPadding(Padd);
+			tabla3.addCell(cell);
+			cell = new PdfPCell(new Phrase(lista.get(con)[5].toString(), font));
+			cell.setPadding(Padd);
+			tabla3.addCell(cell);
+			cell = new PdfPCell(new Phrase(lista.get(con)[6].toString(), font));
+			cell.setPadding(Padd);
+			tabla3.addCell(cell);
+			cell = new PdfPCell(new Phrase(lista.get(con)[7].toString(), font));
+			cell.setPadding(Padd);
+			tabla3.addCell(cell);
+			cell = new PdfPCell(new Phrase(lista.get(con)[8].toString(), font));
+			cell.setPadding(Padd);
+			tabla3.addCell(cell);
+			cell = new PdfPCell(new Phrase(lista.get(con)[9].toString(), font));
+			cell.setPadding(Padd);
+			tabla3.addCell(cell);
+			cell = new PdfPCell(new Phrase(lista.get(con)[10].toString(), font));
+			cell.setPadding(Padd);
+			tabla3.addCell(cell);
+			cell = new PdfPCell(new Phrase(lista.get(con)[11].toString(), font));
 			cell.setPadding(Padd);
 			tabla3.addCell(cell);
 		}

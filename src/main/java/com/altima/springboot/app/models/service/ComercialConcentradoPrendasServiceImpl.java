@@ -37,19 +37,21 @@ public class ComercialConcentradoPrendasServiceImpl implements IComercialConcent
 	@Override
 	public List<Object> findAllEmpleadosByPedido(Long id) {
 		// TODO Auto-generated method stub
-		return em.createNativeQuery("SELECT \r\n" + 
-										"cce2.id_empleado as ID,\r\n" + 
-										"cce2.nombre_empleado as Nombre\r\n" + 
-										"FROM alt_comercial_cliente_empleado cce2\r\n" + 
-										"WHERE cce2.id_empleado NOT IN \r\n" + 
-											"(\r\n" + 
-												"SELECT\r\n" + 
-												"cce.id_empleado\r\n" + 
-												"FROM alt_comercial_cliente_empleado cce \r\n" + 
-												"RIGHT JOIN alt_comercial_concetrado_prenda ccp ON cce.id_empleado = ccp.id_empleado\r\n" + 
-												"WHERE cce.id_pedido_informacion = " + id + "\r\n" + 
-											")\r\n" + 
-										"AND cce2.id_pedido_informacion = " + id + ";").getResultList();
+		return em.createNativeQuery("SELECT\n" + 
+				"	cce2.id_empleado as ID,\n" + 
+				"	cce2.nombre_empleado as Nombre\n" + 
+				"	FROM alt_comercial_cliente_empleado cce2\n" + 
+				"    \n" + 
+				"	WHERE cce2.id_empleado NOT IN\n" + 
+				"		( \n" + 
+				"			SELECT\n" + 
+				"				cce.id_empleado\n" + 
+				"				FROM alt_comercial_cliente_empleado cce\n" + 
+				"				RIGHT JOIN alt_comercial_concetrado_prenda ccp ON cce.id_empleado = ccp.id_empleado\n" + 
+				"				WHERE cce.id_pedido_informacion = " + id + "\n" + 
+				"		)\n" + 
+				"	\n" + 
+				"    AND cce2.id_pedido_informacion = " + id + ";").getResultList();
 	}
 	
 	//Metodo para obtener las prendas, telas y materiales de un coordinado
