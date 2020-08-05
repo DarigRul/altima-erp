@@ -111,9 +111,7 @@ public class AgregarEmpleadoEmpresaController {
 	
 	
 
-	List<ComercialClienteEmpleado> Listaempleado = new ArrayList<ComercialClienteEmpleado>();
-	List<ComercialClienteSucursal> Listasucursal = new ArrayList<ComercialClienteSucursal>();
-	List<ComercialClienteFactura> Listafactura = new ArrayList<ComercialClienteFactura>();
+	
 	private static final String template = "Hello, %s!";
 
 	@Autowired
@@ -213,19 +211,30 @@ public class AgregarEmpleadoEmpresaController {
 		return "agregar-empleado-empresa";
 	}
 	 
-	@RequestMapping(value = "/cargarregistroempleado/{idPedido}/{idcliente}", method = RequestMethod.GET)
+	@RequestMapping(value = "/cargarregistroempleado/{idPedido}/{idcliente}", method = RequestMethod.POST)
 	public String GuardarCargaEmpleado(@PathVariable(value = "idPedido") Long idpedido,
 			@PathVariable(value = "idcliente") Long idcliente,
-			Model model, ModelMap mp,
-			HttpServletRequest request) {
+			Model model, ModelMap mp, @RequestParam(name="idText[]",required = false) String[] idText,HttpServletRequest request,
+			@RequestParam(name="idPedidoInformacion[]",required = false) Long[] idPedidoInformacion,
+			@RequestParam(name="nombreEmpleado[]",required = false) String[] nombreEmpleado,
+			@RequestParam(name="idClienteFactura[]",required = false) Long[] idClienteFactura,
+			@RequestParam(name="idClienteSucursal[]",required = false) Long[] idClienteSucursal,
+			@RequestParam(name="creadoPor[]",required = false) String[] creadoPor,
+			@RequestParam(name="actualizadoPor[]",required = false) String[] actualizadoPor
+			) {
 		
 		
 		System.out.println("id pedido " + idpedido);
-		System.out.println("Listaempleado" + Listaempleado.size());
-		for (int i = 0; i < Listaempleado.size(); i++) {
-		comercialClienteEmpleadoRepository.save(Listaempleado.get(i));
-			
-
+		for (int i = 0; i < idText.length; i++) {
+			ComercialClienteEmpleado empleado = new ComercialClienteEmpleado();
+			System.out.println("nombre empleado "+nombreEmpleado[0]);
+			empleado.setIdText(idText[i]);
+			empleado.setNombre_empleado(nombreEmpleado[i]);
+			empleado.setIdPedidoInformacion(idPedidoInformacion[i]);
+			empleado.setIdClienteFactura(idClienteFactura[i]);
+			empleado.setCreadoPor(creadoPor[i]);
+			empleado.setActualizadoPor(actualizadoPor[i]);
+			comercialClienteEmpleadoRepository.save(empleado);
 		}
 
 		mp.put("empleadosEmpresa", cargaclienteempleadoservice.findAllEmpleadosEmpresa(idpedido));
@@ -233,9 +242,9 @@ public class AgregarEmpleadoEmpresaController {
 		mp.put("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
 		/* mp.put("isPreviewView", "true"); */
 
-		Listaempleado.clear();
+		// Listaempleado.clear();
 
-		return "agregar-empleado-empresa";
+		return "redirect:/agregar-empleado-empresa";
 	}
 
 	@GetMapping("/empleado/{idPedido}/{idcliente}")
@@ -256,6 +265,7 @@ public class AgregarEmpleadoEmpresaController {
 
 		System.out.println("mi id" + id);
 		try {
+			List<ComercialClienteEmpleado> Listaempleado = new ArrayList<ComercialClienteEmpleado>();
 			Listaempleado.clear();
 			almacenamientoArchivoService.store(file);
 			InputStream in = file.getInputStream();

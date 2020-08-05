@@ -2,6 +2,7 @@ package com.altima.springboot.app.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.altima.springboot.app.models.entity.ComercialClienteEmpleado;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.entity.Usuario;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
@@ -105,8 +107,14 @@ public class CargaPedidoController {
 
 			// System.out.println("las query
 			// "+icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente).get(0).getNombreSucursal());
-			model.put("empleadosEmpresa", cargaclienteempleadoservice.findAllEmpleadosEmpresa(id));
+			if(!cargaclienteempleadoservice.findAllEmpleadosEmpresa(id).isEmpty()){
+				model.put("empleadosEmpresa", new ArrayList<ComercialClienteEmpleado>());
+			}
+			else{
+				model.put("empleadosEmpresa", cargaclienteempleadoservice.findAllEmpleadosEmpresa(id));
+			}
 
+			model.put("form", new ArrayList<ComercialClienteEmpleado>());
 			model.put("getlistSucursal", icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente));
 			model.put("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
 			model.put("isPreviewView", "false");

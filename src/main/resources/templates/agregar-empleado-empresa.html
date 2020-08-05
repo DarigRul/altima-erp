@@ -118,8 +118,9 @@
 													<tr>
 														<th class="text-center"><input type="checkbox" id="checkBoxAll"
 																th:value="0"
-																th:disabled="${isPreviewView}" />&nbsp;Seleccionar todo</th>
-													    <th>Folio</th>
+																th:disabled="${isPreviewView}" />&nbsp;Seleccionar todo
+														</th>
+														<th>Folio</th>
 														<th>Nombre del empleado</th>
 														<th>Sucursal</th>
 														<th>Raz&oacute;n social</th>
@@ -129,12 +130,13 @@
 												</thead>
 												<tbody>
 													<tr th:each="data, iterstat: ${empleadosEmpresa}">
-												
-				                                <td class="text-center"><input type="checkbox" th:disabled="${isPreviewView}" class="chkCheckBoxId"
+
+														<td class="text-center"><input type="checkbox"
+																th:disabled="${isPreviewView}" class="chkCheckBoxId"
 																th:value="${data.idEmpleado}"
 																name="getdeletenombre_empleado" /></td>
-																
-																	<td th:text="${data.idText}"></td>
+
+														<td th:text="${data.idText}"></td>
 														<td th:text="${data.nombre_empleado}"></td>
 														<td class="text-center"><select disabled
 																class="form-control selectpicker"
@@ -176,14 +178,37 @@
 											</table>
 										</div>
 										<div class="form-group col-sm-12">
-											<a th:href="@{'/carga-de-pedidos'}"
-												class="btn btn-danger">Cancelar</a> <a
+											<a th:href="@{'/carga-de-pedidos'}" class="btn btn-danger">Cancelar</a> <a
 												th:href="@{'/cargarregistroempleado/'+${idPedido}+'/'+${idcliente}}"
 												class="btn btn-primary next-step float-right">Guardar</a>
 											<!-- <input type="submit" class="btn btn-primary next-step float-right"  value="Guardarprueba2">-->
 										</div>
 									</form>
-									<div></div>
+									<form th:if="${add}==true" action="#" th:action="@{'/cargarregistroempleado/'+${idPedido}+'/'+${idcliente}}"  method="post">
+									
+											<input type="submit" id="submitButton" th:value="Save">
+											<input type="reset" id="resetButton" name="reset" th:value="Reset" />
+											<table>
+												<thead>
+													<tr>
+														<th> Title</th>
+														<th> Author</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="empleado, itemStat : *{empleadosEmpresa}">
+														<td><input type="hidden" name="idText[]" th:value="${empleado.idText}"></td>
+														<td><input type="hidden" name="nombreEmpleado[]" th:value="${empleado.nombre_empleado}"></td>
+														<td><input type="hidden" name="idClienteFactura[]" th:value="${empleado.idClienteFactura}"></td>
+														<td><input type="hidden" name="idClienteSucursal[]" th:value="${empleado.idClienteSucursal}"></td>
+														<td><input type="hidden" name="creadoPor[]" th:value="${empleado.creadoPor}"></td>
+														<td><input type="hidden" name="actualizadoPor[]" th:value="${empleado.actualizadoPor}"></td>
+														<td><input type="hidden" name="idPedidoInformacion[]" th:value="${empleado.idPedidoInformacion}"></td>
+													</tr>
+												</tbody>
+											</table>
+									
+									</form>
 								</div>
 								<!-- /.card-body -->
 							</div>
