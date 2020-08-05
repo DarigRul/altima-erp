@@ -184,7 +184,7 @@
 											<!-- <input type="submit" class="btn btn-primary next-step float-right"  value="Guardarprueba2">-->
 										</div>
 									</form>
-									<form th:if="${add}==true" action="#" th:action="@{'/cargarregistroempleado/'+${idPedido}+'/'+${idcliente}}"  method="post">
+									<form  action="#" th:action="@{'/cargarregistroempleado/'+${idPedido}+'/'+${idcliente}}"  method="post">
 									
 											<input type="submit" id="submitButton" th:value="Save">
 											<input type="reset" id="resetButton" name="reset" th:value="Reset" />
