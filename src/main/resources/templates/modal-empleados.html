@@ -1,56 +1,47 @@
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-</head>
-<body>
-
-<div class="modal fade" id="editarEmpleados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editarEmpleados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+   aria-hidden="true">
    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
+      <div class="modal-content modal-rounded-body">
+         <div class="modal-header bg-altima modal-rounded-header">
             <h5 class="modal-title" id="exampleModalLabel">Cambiar datos del empleados</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+               <span aria-hidden="true">&times;</span>
             </button>
          </div>
          <div class="modal-body col-md">
-            <div class="row">
-              <form method="POST" enctype="multipart/form-data" id="formsucursalrazonsocial" th:action="@{'/editarsucursalyrazonsocial/'+${idPedido}+'/'+${idcliente}}">
-				
-				
-			     
-               <div class="form-group col-md-12">
-                  <label for="coorPrendaModal" >Surcusal</label>
-                  <select class="form-control selectpicker" id="sucursalmodel" name="sucursalmodel" onchange="ModificarSucursal(this)">
-    						<option  
-    						  th:each="getlistSucursal, iterstat: ${getlistSucursal}"
-                              th:value="${getlistSucursal.IdClienteSucursal}"
-                              th:text="${getlistSucursal.NombreSucursal}">
-                     </option>
-                   </select>
+            <form method="POST" enctype="multipart/form-data" id="formsucursalrazonsocial"
+               th:action="@{'/editarsucursalyrazonsocial/'+${idPedido}+'/'+${idcliente}}">
+               <div class="row">
+
+                  <div class="form-group col-md-6">
+                     <label for="coorPrendaModal">Surcusal</label>
+                     <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="sucursalmodel" name="sucursalmodel"
+                        onchange="ModificarSucursal(this)">
+                        <option th:each="getlistSucursal, iterstat: ${getlistSucursal}"
+                           th:value="${getlistSucursal.IdClienteSucursal}" th:text="${getlistSucursal.NombreSucursal}">
+                        </option>
+                     </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                     <label for="coorPrendaModal">Raz&oacute;n social</label>
+                     <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="razonfacturamodal" name="razonfacturamodal"
+                        onchange="ModificarFactura(this)">
+                        <option th:each="getlistfactura, iterstat: ${getlistfactura}"
+                           th:value="${getlistfactura.idClienteFacturaF}" th:text="${getlistfactura.razon_socialF}">
+                        </option>
+                     </select>
+                  </div>
+                  <input type="hidden" name="get_id_obterneridsempleado" id="get_id_obterneridsempleado">
+
                </div>
-               <div class="form-group col-md-12">
-                  <label for="coorPrendaModal">Raz&oacute;n social</label>
-                  <select class="form-control selectpicker" id="razonfacturamodal" name="razonfacturamodal" onchange="ModificarFactura(this)">
-						<option
-                          th:each="getlistfactura, iterstat: ${getlistfactura}"
-                          th:value="${getlistfactura.idClienteFacturaF}"
-                          th:text="${getlistfactura.razon_socialF}">
-                         </option>
-					</select>
-               </div>
-               
-               <input type="hidden" name="get_id_obterneridsempleado" id="get_id_obterneridsempleado">
-               
-               </form>
-            </div>
+            </form>
          </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
-            <button type="button" onclick="getsucursalyrazonsocial()" data-dismiss="modal" class="btn btn-primary">Guardar</button>
+         <div class="modal-footer modal-rounded-footer">
+            <button data-dismiss="modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
+                  class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+                  <button type="button" onclick="getsucursalyrazonsocial()" class="btn btn-sm icon-btn btn-altima text-white float-right"><span
+                     class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
          </div>
       </div>
    </div>
-   
 </div>
-</body>
-</html>
