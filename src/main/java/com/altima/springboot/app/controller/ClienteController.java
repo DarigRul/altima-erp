@@ -204,11 +204,6 @@ public class ClienteController {
 		return "redirect:/clientes";
 	}
 
-	public boolean nose() {
-		System.out.println("fdsfguieu");
-		return true;
-	}
-
 	/*
 	 * este componente(@authComponent) funciona mandando el id del registro como
 	 * parametro para hacer un findone y obtener el id del usuario de registro y el

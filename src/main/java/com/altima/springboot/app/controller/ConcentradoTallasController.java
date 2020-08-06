@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,13 @@ public class ConcentradoTallasController {
 	@Autowired
 	IProduccionLookupService ProduccionLookupService;
 
+	/*
+	 * este componente(@authComponent) funciona mandando el id del registro como
+	 * parametro para hacer un findone y obtener el id del usuario de registro y el
+	 * id del usuario de la sesion actual para asi compararlos y aprobar o denegar
+	 * el acceso a editar cierto registro
+	 */
+	//@PreAuthorize("@authComponent.hasPermissionpedido(idpedido)")
 	@GetMapping("/concentrado-de-tallas/{idpedido}")
 	public String listConcentradoTallas(Model model, @PathVariable("idpedido") Long idpedido) {
 
@@ -63,8 +71,6 @@ public class ConcentradoTallasController {
 	@GetMapping("/editar-concentrado-de-tallas/{idpedido}/{idempleado}")
 	public String editConcentradoTallas(Model model, @PathVariable("idpedido") Long idpedido,
 			@PathVariable("idempleado") Long idempleado) {
-		ComClienteEmpleadoService.findAllEmpleadosEmpresa(idpedido);
-		ConcentradoTallaService.findPrendaCliente(idpedido);
 		model.addAttribute("idempleado", idempleado);
 		model.addAttribute("idpedido", idpedido);
 		model.addAttribute("empleados", ComClienteEmpleadoService.findAllEmpleadosEmpresa(idpedido));
