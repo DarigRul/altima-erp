@@ -107,12 +107,7 @@ public class CargaPedidoController {
 
 			// System.out.println("las query
 			// "+icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente).get(0).getNombreSucursal());
-			if(!cargaclienteempleadoservice.findAllEmpleadosEmpresa(id).isEmpty()){
-				model.put("empleadosEmpresa", new ArrayList<ComercialClienteEmpleado>());
-			}
-			else{
 				model.put("empleadosEmpresa", cargaclienteempleadoservice.findAllEmpleadosEmpresa(id));
-			}
 
 			model.put("form", new ArrayList<ComercialClienteEmpleado>());
 			model.put("getlistSucursal", icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente));
