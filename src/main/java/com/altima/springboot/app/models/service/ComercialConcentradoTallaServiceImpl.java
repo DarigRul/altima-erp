@@ -533,7 +533,7 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 				"		alt_comercial_concentrado_tallas on query5.id_coordinado_prenda=alt_comercial_concentrado_tallas.id_prenda_cliente\r\n" + 
 				"		and query5.id_empleado=alt_comercial_concentrado_tallas.id_empleado_pedido\r\n" + 
 				"		where alt_comercial_concentrado_tallas.id_empleado_pedido is null\r\n" + 
-				"		and alt_comercial_concentrado_tallas.id_prenda_cliente is null  query2.nombre_prenda ORDER BY FIELD(nombre_prenda,'Vestido','Sweater','Gabardina','Abrigo','Camisa','Blusa','Chaleco','Falda','Pantalón','Saco')DESC").getResultList();
+				"		and alt_comercial_concentrado_tallas.id_prenda_cliente is null ORDER BY FIELD(nombre_prenda,'Vestido','Sweater','Gabardina','Abrigo','Camisa','Blusa','Chaleco','Falda','Pantalón','Saco')DESC").getResultList();
 	}
 	
 	
