@@ -244,7 +244,7 @@ public class AgregarEmpleadoEmpresaController {
 
 		// Listaempleado.clear();
 
-		return "redirect:/agregar-empleado-empresa";
+		return "/agregar-empleado-empresa";
 	}
 
 	@GetMapping("/empleado/{idPedido}/{idcliente}")
