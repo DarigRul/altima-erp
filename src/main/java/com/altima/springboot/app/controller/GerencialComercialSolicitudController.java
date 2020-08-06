@@ -397,6 +397,8 @@ public class GerencialComercialSolicitudController {
 	@ResponseBody
 	public List<Object []> telaPrimera(Long id) {
 		
+		System.out.println("ejecute coodinado tela y salio este");
+		
 		return  serviceDetallePedido.findAllTelaPrimera(id);
 	}
 	

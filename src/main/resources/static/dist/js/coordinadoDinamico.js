@@ -81,6 +81,8 @@ $(document).ready(function() {
 	                },
 	                success:  function (r) 
 	                {
+	                	
+	                	console.log("este ajax es que esta llenando la tela")
 	                	prenda.prop('disabled', false);
 
 	                    // Limpiamos el select

@@ -108,13 +108,13 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Override
 	@Transactional
 	public List<Object[]> findAllTela(Long id) {
-		List<Object[]> re = em.createNativeQuery("Select  tela.id_tela, CONCAT(tela.id_text,' ', tela.nombre_tela) \r\n" + 
-				"from alt_disenio_tela as tela ,alt_disenio_tela_prenda as tela_prenda\r\n" + 
-				"WHERE 1=1 \r\n" + 
-				"and tela.estatus=1\r\n" + 
-				"and tela.estatus_tela=1\r\n" + 
-				"and tela.id_tela = tela_prenda.id_tela\r\n" + 
-				"and tela_prenda.id_prenda="+id).getResultList();
+		System.out.println("si corrio el metodo de la tela");
+		List<Object[]> re = em.createNativeQuery("Select  tela.id_tela, CONCAT(tela.id_text,' ', tela.nombre_tela) \n" + 
+				"							from alt_disenio_tela as tela ,alt_disenio_tela_prenda as tela_prenda\n" + 
+				"								WHERE 1=1 and tela.estatus_tela=1\n" + 
+				"								and tela.estatus=1\n" + 
+				"								and tela.id_tela = tela_prenda.id_tela \n" + 
+				"								and tela_prenda.id_prenda="+ id).getResultList();
 		return re;
 	}
 	

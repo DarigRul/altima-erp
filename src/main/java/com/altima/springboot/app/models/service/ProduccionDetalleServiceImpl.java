@@ -265,6 +265,7 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public List<Object[]> findAllTela(Long id) {
+		System.out.println("este es el que saca las telas");
 		
 	
 		List<Object[]> re = em.createNativeQuery("Select\r\n" + "tela.id_tela,\r\n"
@@ -335,6 +336,8 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public List<Object[]> findAllTelaPrimera(Long id) {
+		
+		System.out.println("este es el bueno para las telas de coordinados");
 		List<Object[]> re = em.createNativeQuery("Select  tela.id_tela, CONCAT(tela.id_text,' ', tela.nombre_tela) \r\n"
 				+ "				from alt_disenio_tela as tela ,alt_disenio_tela_prenda as tela_prenda\r\n"
 				+ "				WHERE 1=1 \r\n" + "				\r\n" + "				and tela.estatus_tela=1\r\n"
