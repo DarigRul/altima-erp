@@ -14,6 +14,21 @@
 		    }
 		});
 		$(document).ready(function() {
+		    if ($("#navCalendario").hasClass("active-altima")) {
+		        $("#navCalendario").hover(function() {
+		            $("#iCalendario").removeClass("text-altima");
+		        }, function() {
+		            $("#iCalendario").addClass("text-white");
+		        });
+		    } else {
+		        $("#navCalendario").hover(function() {
+		            $("#iCalendario").removeClass("text-altima");
+		        }, function() {
+		            $("#iCalendario").addClass("text-altima");
+		        });
+		    }
+		});
+		$(document).ready(function() {
 		    if ($("#navMensajeria").hasClass("active-altima")) {
 		        $("#navMensajeria").hover(function() {
 		            $("#iMensajeria").removeClass("text-altima");
