@@ -74,6 +74,9 @@ public class ComprasProveedores implements Serializable {
 	@Column(name="tipo")
 	private String tipo;
 	
+	@Column(name="zona")
+	private String zona;
+	
 	@Column(name="estatus")
 	private String estatus;
 	
