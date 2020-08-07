@@ -82,7 +82,7 @@
 												<td th:if="${cliente.TipoCliente == '2'}" th:text="Fisica"></td> -->
 												</td>
 												<td sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')"
-													th:text="${agentes[icli.index][1] + ' ' + agentes[icli.index][2] + ' ' + agentes[icli.index][3]}"></td>
+													th:text="${agentes[icli.index][1]} ? ${agentes[icli.index][1]} + ' ' + ${agentes[icli.index][2]} + ' ' + ${agentes[icli.index][3]}:'Sin asignar creado por administrador'"></td>
 												<td class="tdcenter"><a
 													th:if="${cliente.estatusCliente == 0}"
 													th:href="@{/sucursales/}+ ${cliente.idCliente}"

@@ -47,9 +47,11 @@ public class ComercialClienteServiceImpl implements IComercialClienteService {
 	public List<Object[]> findAllAgentes() {
 		// TODO Auto-generated method stub
 		return em.createNativeQuery("SELECT cc.id_cliente,he.nombre_persona,he.apellido_paterno,he.apellido_materno\n" + 
-				"FROM `alt_comercial_cliente` cc,alt_hr_usuario hu,alt_hr_empleado he\n" + 
+				"FROM `alt_comercial_cliente` cc,alt_hr_usuario hu\n" + 
+				"LEFT JOIN alt_hr_empleado he\n" + 
+				"on hu.id_empleado=he.id_empleado\n" + 
 				"where cc.id_usuario=hu.id_usuario\n" + 
-				"and hu.id_empleado=he.id_empleado ORDER BY cc.id_cliente DESC").getResultList();
+				"ORDER BY cc.id_cliente DESC").getResultList();
 	}
 
 	@Override

@@ -15,7 +15,7 @@
 				<div class="row">
 					<div class="form-group col-md-12">
 						<input type="hidden" value="" id="idcliente"> <label
-							for="asignacionAgenteSelect">Asignar a</label> <select
+							for="asignacionAgenteSelect">Asignar a</label> <select required
 							class="form-control " title="dfsaf" id="asignacionAgenteSelect">
 
 						</select>
@@ -57,9 +57,15 @@
 				console.log(data2);
 				$("#asignacionAgenteSelect").empty();
                 for (i in data2) {
+                	if(data2[i][3]===null && data2[i][2]===null && data2[i][4]===null){
+                		data2[i][2]='Sin asignar';
+                		data2[i][3]='creado por';
+                		data2[i][4]='administrador';
+                		
+                	}
                 $('#asignacionAgenteSelect').append(
 
-                    "<option value=" + data2[i][1] + " >" + data2[i][2]+ ' ' +data2[i][3] + ' '+data2[i][4] + "</option>"
+                    "<option  value=" + data2[i][1] + " >" + data2[i][2]+ ' ' +data2[i][3] + ' '+data2[i][4] + "</option>"
 
                 );
             }
