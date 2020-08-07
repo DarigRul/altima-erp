@@ -521,8 +521,8 @@ div.fc-content>span.fc-time {
 }
 
 .modal-rounded-header {
-    border-top-left-radius: 23px!important;
-    border-top-right-radius: 23px!important;
+    border-top-left-radius: 25px!important;
+    border-top-right-radius: 25px!important;
 }
 .modal-rounded-footer {
     border-bottom-left-radius: 25px!important;

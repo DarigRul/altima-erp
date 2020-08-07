@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Bordados | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Bordados&nbsp;
+                                <a th:href="@{/agregar-bordado}" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                        class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nuevo bordado</a>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">Agentes de venta</li>
+                                <li class="breadcrumb-item active">Bordados</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de bordados</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Cliente</th>
+                                                <th>Descripci&oacute;n</th>
+                                                <th>Tama&ntilde;o</th>
+                                                <th>Precio</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Bimbo</td>
+                                                <td>Logotipo de la empresa</td>
+                                                <td>4</td>
+                                                <td>25</td>
+                                                <td>Pendiente</td>
+                                                <td class="text-center">
+                                                    <a class="btn btn-info text-white btn-circle btn-sm popoverxd" data-toggle="popover"
+                                                        data-content="Ver detalles" data-placement="top"><i class="fas fa-info"></i></a>
+                                                    <a th:href="@{/agregar-bordado}" class="btn btn-warning btn-circle btn-sm popoverxd" data-toggle="popover"
+                                                        data-content="Editar" data-placement="top"><i class="fas fa-pen"></i></a>
+                                                    <button  onclick="rechazarBordado()" class="btn btn-danger btn-circle btn-sm popoverxd" data-toggle="popover" data-content="Rechazar"
+                                                        data-placement="top"><i class="fas fa-times"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active-altima');
+        $('#menuVenta').addClass('menu-open');
+        $('#navVenta').addClass('active');
+        $('#navVenFlu').addClass('active');
+    </script>
+    <script>
+        function rechazarBordado() {
+            Swal.fire({
+                title: 'Deseas rechazar el bordado?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0288d1',
+                cancelButtonColor: '#dc3545',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Bordado rechazado correctamente',
+                        showConfirmButton: false,
+                        timer: 2500
+                        })
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
