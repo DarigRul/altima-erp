@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.altima.springboot.app.models.entity.ComercialCotizacion;
 import com.altima.springboot.app.models.entity.ComercialCotizacionTotal;
@@ -150,5 +152,16 @@ public class CotizacionesController {
 			System.out.println(e);
 			return "redirect:/cotizaciones";
 		}
+	}
+	
+	// Metodo para imprimir los empleados de un pedido
+	@RequestMapping(value = { "/imprimir-cotizacion/{id}/{totales}/{cv}" }, method = RequestMethod.GET)
+	public String listGeneral(@PathVariable(value = "id") Long id, @PathVariable(value = "totales") boolean totales, @PathVariable(value = "cv") boolean cv, Model model) {
+		
+		model.addAttribute("tipo", cotizacionService.findOne(id).getTipoCotizacion());
+		model.addAttribute("totales", totales);
+		model.addAttribute("cv", cv);
+		model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id));
+		return "/imprimir-cotizacion";
 	}
 }

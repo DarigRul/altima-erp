@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Bordados | Altima</title>
+</head>
+<style>
+#form1{width:auto}.alert{text-align:center}#blah{max-height:150px;height:auto;width:auto;display:block;margin-left:auto;margin-right:auto;padding:5px}#img_contain{border-radius:5px;width:auto}.input-group1{margin-left:calc(calc(100vw - 450px)/ 2);margin-top:20px;width:320px}.imgInp{width:150px;padding:10px;background-color:#d3d3d3}.loading{animation:blinkingText ease 2.5s infinite}@keyframes blinkingText{0%{color:#000}50%{color:#transparent}99%{color:transparent}100%{color:#000}}.custom-file-label{cursor:pointer}
+</style>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Bordados&nbsp;
+                                <a th:href="@{/bordados}" class="btn btn-sm icon-btn btn-danger text-white"><span
+                                        class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">Agentes de venta</li>
+                                <li class="breadcrumb-item active">Bordados</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Nuevo bordado</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label for="clienteBordado">Cliente</label>
+                                            <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="clienteBordado">
+                                              <option>1</option>
+                                              <option>2</option>
+                                              <option>3</option>
+                                              <option>4</option>
+                                              <option>5</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="tipoBordado">Bordado</label>
+                                            <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="tipoBordado">
+                                              <option>1</option>
+                                              <option>2</option>
+                                              <option>3</option>
+                                              <option>4</option>
+                                              <option>5</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="archivoBordado">Solicitud de ponchado</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="archivoBordado">
+                                                <label class="custom-file-label" for="archivoBordado">Elegir archivo</label>
+                                              </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="contain animated bounce">
+                                                <div id="img_contain"><img id="blah" align="middle" src="/dist/img/bordadoCircle.png" alt="your image" title=""></div>
+                                                <div class="input-group1">
+                                                    <div class="custom-file">
+                                                        <input type="file" id="inputGroupFile01" class="imgInp custom-file-input" aria-describedby="inputGroupFileAddon01">
+                                                        <label class="custom-file-label" for="inputGroupFile01">Elegir foto</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="tamanoBordado">Tama&ntilde;o</label>
+                                            <input type="number" class="form-control" id="tamanoBordado" placeholder="4">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="precioBordado">Precio</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                  <span class="input-group-text">$</span>
+                                                </div>
+                                                <input type="number" class="form-control" id="precioBordado" placeholder="25">
+                                              </div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="parteBordado">Parte del bordado</label>
+                                            <input type="text" class="form-control" id="parteBordado" placeholder="Arriba">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="hiloBordado">No. hilo</label>
+                                            <input type="number" class="form-control" id="hiloBordado" placeholder="57">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="colorBordado">Color</label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" placeholder="Rojo" style="border-radius: .25rem;">
+                                                <div class="input-group-append" style="margin-left: 10px;">
+                                                    <button type="button" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                                        class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                                                </div>
+                                              </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <table class="table tablaGeneral table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Partes del bordado</th>
+                                                        <th>No. hilo</th>
+                                                        <th>Color</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Letras X</td>
+                                                        <td>815</td>
+                                                        <td>Rojo</td>
+                                                        <td class="text-center">
+                                                            <button type="button" class="btn btn-sm icon-btn btn-danger text-white"><span
+                                                                    class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- <div class="form-group col-md-12">
+                                            <label for="archivoBordado">Solicitud de ponchado</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="archivoBordado">
+                                                <label class="custom-file-label" for="archivoBordado">Elegir archivo</label>
+                                              </div>
+                                        </div> -->
+                                        <div class="form-group col-md-12">
+                                            <a th:href="@{/bordados}" class="btn icon-btn btn-danger text-white mr-auto"><span
+                                                    class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                                            <button type="button" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active-altima');
+        $('#menuVenta').addClass('menu-open');
+        $('#navVenta').addClass('active');
+        $('#navVenFlu').addClass('active');
+    </script>
+    <script>
+        $("#inputGroupFile01").change(function(event) {
+            RecurFadeIn();
+            readURL(this);
+        });
+        $("#inputGroupFile01").on('click', function(event) {
+            RecurFadeIn();
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var filename = $("#inputGroupFile01").val();
+                filename = filename.substring(filename.lastIndexOf('\\') + 1);
+                reader.onload = function(e) {
+                    debugger;
+                    $('#blah').attr('src', e.target.result);
+                    $('#blah').hide();
+                    $('#blah').fadeIn(500);
+                    $('.custom-file-label').text(filename);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            $(".alert").removeClass("loading").hide();
+        }
+
+        function RecurFadeIn() {
+            console.log('ran');
+            FadeInAlert("Wait for it...");
+        }
+
+        function FadeInAlert(text) {
+            $(".alert").show();
+            $(".alert").text(text).addClass("loading");
+        }
+    </script>
+</body>
+
+</html>

@@ -79,7 +79,7 @@
 		                                       		<a th:if="${cotizacion[7]!=2} and ${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}" th:href="@{/Autorizar/}+${cotizacion[0]}" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Autorizar"><i class="fas fa-vote-yea" style="margin-left:-2px"></i></a>
 		                                        	<a th:if="${cotizacion[7]==0}" th:href="@{/agregar-cotizacion/}+${cotizacion[0]}"><button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button></a>
 		                                        	<a th:if="${cotizacion[7]==0}" th:href="@{/pedirAutorizacion/}+${cotizacion[0]}" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Solicitar autorizaci&oacute;n"><i class="fas fa-check"></i></a>
-		                                        	<button th:if="${cotizacion[7]==2}" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Descargar"><i class="fas fa-download"></i></button>
+		                                        	<button th:if="${cotizacion[7]==2}" class="btn btn-primary btn-circle btn-sm popoverxd" th:attr="onclick=|ElegirConfiguracionCotizacion('${cotizacion[0]}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Descargar"><i class="fas fa-download"></i></button>
 		                                      		<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
 		                                        </td>
 	                                        </tr>
@@ -98,17 +98,71 @@
         <!-- /.content-wrapper -->
 
         <div th:insert="navegacion-footer"></div>
+       	<!-- Modal para configuracion de cotizacion antes de imprimir  -->
+		<div class="modal fade" id="ElegirConfiguracionDeCotizacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+			    		Selecciona las opciones que deseas:
+			    		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          		<span aria-hidden="true">&times;</span>
+			        	</button>
+			    	</div>
+		      		<div class="modal-body">
+		        		<div class="custom-control custom-checkbox">
+				    		<input type="checkbox" class="custom-control-input" id="ImprimirConTotales">
+				    		<label class="custom-control-label" for="ImprimirConTotales">Imprimir con totales</label>
+						</div><br>
+						<div class="custom-control custom-checkbox">
+				    		<input type="checkbox" class="custom-control-input" id="ImprimirConCV">
+				    		<label class="custom-control-label" for="ImprimirConCV">Imprimir con CV</label>
+				    	</div><br>
+		      		</div>
+		      		<div class="modal-footer">
+		      			<div id="buttonContainer">
+		      			<!-- Se inserta el boton a traves de JS -->
+		      			</div>
+		      		</div>
+		    	</div>
+		  	</div>
+		</div>
+		<!-- Modal para configuracion de cotizacion antes de imprimir  -->
+		
+		
     </div>
     <!-- ./wrapper -->
 
     <div th:replace="navegacion-scripts"></div>
-   <script src="dist/js/tablaCotizaciones.js"></script>
-	
+    <script src="dist/js/tablaCotizaciones.js"></script>
    	<script>
    	$('#iComercial').removeClass('text-altima');
 	$('#menuComercial').addClass('menu-open');
 	$('#navComercial').addClass('active-altima');
 	$('#navCotizaciones').addClass('active');
+	</script>
+	<script>
+	$(document).ready(function(){
+		$("#ElegirConfiguracionDeCotizacion").on("hidden.bs.modal", function () {
+			$("#buttonButton").remove();
+			$('#ImprimirConTotales').prop('checked', false);
+			$('#ImprimirConCV').prop('checked', false);
+		});
+	});
+	
+	function ElegirConfiguracionCotizacion(id){
+		//Se le inserta el boton
+		$("#buttonContainer").append("<button id='buttonButton' class='btn btn-success' onclick='Imprimir(" + id + ")'>Imprimir</button>");
+		//Se abre el modal primero
+		$('#ElegirConfiguracionDeCotizacion').modal('toggle');
+
+	}
+	
+	function Imprimir(id){
+		var ImprimirConTotales = $('#ImprimirConTotales').is(':checked');
+		var ImprimirConCv = $('#ImprimirConCV').is(':checked');
+		window.open("/imprimir-cotizacion/" + id + "/" + ImprimirConTotales + "/" + ImprimirConCv + "?format=pdf", '_blank');
+		$('#ElegirConfiguracionDeCotizacion').modal('toggle');
+	}
 	</script>
 </body>
 

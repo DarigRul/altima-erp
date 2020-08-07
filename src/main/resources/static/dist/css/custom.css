@@ -528,12 +528,16 @@ div.fc-content>span.fc-time {
     border-bottom-left-radius: 25px!important;
     border-bottom-right-radius: 25px!important;
 }
+.border-bottom-20 {
+    border-bottom-left-radius: 20px!important;
+    border-bottom-right-radius: 20px!important;
+}
 .card{
     border-radius: 25px!important;
 }
 .card-header{
-    border-top-left-radius: 25px!important;
-    border-top-right-radius: 25px!important;
+    border-top-left-radius: 20px!important;
+    border-top-right-radius: 20px!important;
 }
 .border-tab{
     border-top-left-radius: 25px!important;

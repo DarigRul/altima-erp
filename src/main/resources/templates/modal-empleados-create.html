@@ -2,8 +2,8 @@
 	aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg"
 		role="document">
-		<div class="modal-content">
-			<div class="modal-header">
+		<div class="modal-content modal-rounded-body">
+			<div class="modal-header bg-altima modal-rounded-header">
 				<h5 class="modal-title" id="exampleModalLabel">Cambiar datos
 					del empleado</h5>
 				<button type="button" class="close" data-dismiss="modal"
@@ -11,7 +11,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body col-md">
+			<div class="modal-body">
 				<div class="row col-md-12">
 					<label for="coorSelectForm">Seleccione uno...</label> <select
 						class="form-control selectpicker" id="coorSelectForm">
@@ -20,7 +20,6 @@
 						<option value="registroSelect">Registrar un Empleado</option>
 					</select>
 				</div>
-				<br>
 				<div id="listaEmpleadosForm">
 
 					<form class="row" id="listaEmpleados"
@@ -57,14 +56,12 @@
 									th:text="${getlistfactura.razon_socialF}"></option>
 							</select>
 						</div>
-						<div class="form-group col-md-4"></div>
 						<div class="form-group col-sm-12">
-							<a data-dismiss="modal" class="btn btn-danger text-white">Cancelar</a>
-							<input type="submit" id="archivoempleado"
-								class="btn btn-primary next-step float-right"
-								value="GuardarExcel">
+								<button data-dismiss="modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
+									class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+									<button type="submit" id="archivoempleado" class="btn btn-sm icon-btn btn-altima next-step text-white float-right"><span
+									   class="btn-glyphicon fas fa-file-excel img-circle text-altima"></span>Guardar Excel</button>
 						</div>
-						<div class="form-group col-md-4"></div>
 					</form>
 				</div>
 				<div id="SPF" style="display: none">
@@ -78,7 +75,7 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="coorPrendaStock">Sucursal</label> <select
-								class="form-control selectpicker" data-live-search="true"
+								class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true"
 								id="coorSucursalStock" name="coorSucursalStock">
 								<option th:each="getlistSucursal, iterstat: ${getlistSucursal}"
 									th:value="${getlistSucursal.IdClienteSucursal}"
@@ -87,20 +84,19 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="coorRazonsocialStock">Raz&oacute;n social</label> <select
-								class="form-control selectpicker" data-live-search="true"
+								class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true"
 								id="coorRazonsocialStock" name="coorRazonsocialStock">
 								<option  th:each="getlistfactura, iterstat: ${getlistfactura}"
 									th:value="${getlistfactura.idClienteFacturaF}"
 									th:text="${getlistfactura.razon_socialF}">.</option>
 							</select>
 						</div>
-						<div class="form-group col-md-4"></div>
 						<div class="form-group col-sm-12">
-							<a data-dismiss="modal" class="btn btn-danger text-white">Cancelar</a>
-							<input type="submit"
-								class="btn btn-primary next-step float-right" value="Guardar Stock">
+								<button data-dismiss="modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
+									class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+									<button type="submit" class="btn btn-sm icon-btn btn-altima next-step text-white float-right"><span
+									   class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar stock</button>
 						</div>
-						<div class="form-group col-md-4"></div>
 					</form>
 				</div>
 				<div id="varegistroempleado" style="display: none">
@@ -129,13 +125,12 @@
 									th:text="${getlistfactura.razon_socialF}">.</option>
 							</select>
 						</div>
-						<div class="form-group col-md-4"></div>
 						<div class="form-group col-sm-12">
-							<a data-dismiss="modal" class="btn btn-danger text-white">Cancelar</a>
-							<input type="submit"
-								class="btn btn-primary next-step float-right" value="Guardar Registro">
+							<button data-dismiss="modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
+								class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+								<button type="submit" class="btn btn-sm icon-btn btn-altima next-step text-white float-right"><span
+								   class="btn-glyphicon fas fa-user img-circle text-altima"></span>Guardar empleado</button>
 						</div>
-						<div class="form-group col-md-4"></div>
 					</form>
 				</div>
 				

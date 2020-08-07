@@ -35,6 +35,8 @@ public class UploadServiceImpl implements IUploadService {
 
 	private final static String folderInventarioAMP = "uploads/InventarioAMP";
 
+	private final static String folderEmpleados = "uploads/empleados";
+
 	@Override
 	public Resource load(String filename) throws MalformedURLException {
 		Path pathFoto = getPath(filename);
@@ -107,12 +109,14 @@ public class UploadServiceImpl implements IUploadService {
 		Files.copy(file.getInputStream(), rootPath);
 		return uniqueFilename;
 	}
+
 	@Override
 	public File fileTela(String filename) {
 		Path rootPath = getPathTela(filename);
 		File archivo = rootPath.toFile();
 		return archivo;
 	}
+
 	@Override
 	public boolean deleteTela(String filename) {
 		Path rootPath = getPathTela(filename);
@@ -137,6 +141,7 @@ public class UploadServiceImpl implements IUploadService {
 
 		return img;
 	}
+
 	public boolean deletePrenda(String filename) {
 		Path rootPath = getPath(filename);
 		File archivo = rootPath.toFile();
@@ -485,4 +490,40 @@ public class UploadServiceImpl implements IUploadService {
 		// TODO Auto-generated method stub
 		return new Cloudinary("cloudinary://586924591476784:z-5mX4JAKv4x2MhCvB5gdm0BEgo@dstky13uz");
 	}
+
+	/* EMPLEADOS */
+	public Path getPathEmpleado(String filename) {
+		return Paths.get(folderEmpleados).resolve(filename).toAbsolutePath();
+	}
+
+	@Override
+	public Resource loadEmpleado(String filename) throws MalformedURLException {
+		Path pathFotografia = getPathEmpleado(filename);
+		Resource recurso = null;
+		recurso = new UrlResource(pathFotografia.toUri());
+		if (!recurso.exists() || !recurso.isReadable()) {
+			throw new RuntimeException("Error: No se puede cargar la imagen " + pathFotografia.toString());
+		}
+		return recurso;
+	}
+
+	@Override
+	public String copyEmpleado(MultipartFile fotografia) throws IOException {
+		String uniqueFname = UUID.randomUUID().toString() + "_" + fotografia.getOriginalFilename();
+		Path pathFotografia = getPathEmpleado(uniqueFname);
+		Files.copy(fotografia.getInputStream(), pathFotografia);
+		return uniqueFname;
+	}
+
+	@Override
+	public boolean deleteEmpleado(String filename) {
+		Path pathFotografia = getPathEmpleado(filename);
+		File archivo = pathFotografia.toFile();
+
+		if (archivo.exists() && archivo.canRead()) {
+			archivo.delete();
+		}
+		return true;
+	}
+
 }
