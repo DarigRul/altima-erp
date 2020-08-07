@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class BordadosAgenteVentasController {
     @GetMapping("/bordados")
     public String listBordados() {
-        return "/bordados";
+        return "bordados";
     }
 
     @GetMapping("/agregar-bordado")
     public String addBordados() {
-        return "/agregar-bordado";
+        return "agregar-bordado";
     }
 }
