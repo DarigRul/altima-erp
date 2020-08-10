@@ -64,16 +64,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Bimbo</td>
-                                                <td>Logotipo de la empresa</td>
-                                                <td>4</td>
-                                                <td>25</td>
-                                                <td>Pendiente</td>
+                                            <tr th:each="mt:${listBordado}"  >
+                                                 <td th:text="${mt[0]}"></td>
+                                                 <td th:text="${mt[1]}"></td>
+                                                 <td th:text="${mt[2]}"></td>
+                                                 <td th:text="${mt[3]}"></td>
+                                                 <td th:text="${mt[4]}"></td>
                                                 <td class="text-center">
                                                     <a class="btn btn-info text-white btn-circle btn-sm popoverxd" data-toggle="popover"
                                                         data-content="Ver detalles" data-placement="top"><i class="fas fa-info"></i></a>
-                                                    <a th:href="@{/agregar-bordado}" class="btn btn-warning btn-circle btn-sm popoverxd" data-toggle="popover"
+                                                    <a th:href="@{/bordados/}+${mt[5]}" class="btn btn-warning btn-circle btn-sm popoverxd" data-toggle="popover"
                                                         data-content="Editar" data-placement="top"><i class="fas fa-pen"></i></a>
                                                     <button  onclick="rechazarBordado()" class="btn btn-danger btn-circle btn-sm popoverxd" data-toggle="popover" data-content="Rechazar"
                                                         data-placement="top"><i class="fas fa-times"></i></button>

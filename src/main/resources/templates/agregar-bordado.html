@@ -7,7 +7,7 @@
 <style>
 #form1{width:auto}.alert{text-align:center}#blah{max-height:150px;height:auto;width:auto;display:block;margin-left:auto;margin-right:auto;padding:5px}#img_contain{border-radius:5px;width:auto}.input-group1{margin-left:calc(calc(100vw - 450px)/ 2);margin-top:20px;width:320px}.imgInp{width:150px;padding:10px;background-color:#d3d3d3}.loading{animation:blinkingText ease 2.5s infinite}@keyframes blinkingText{0%{color:#000}50%{color:#transparent}99%{color:transparent}100%{color:#000}}.custom-file-label{cursor:pointer}
 </style>
-<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse"    onload="cargar_pagina()">
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -53,26 +53,21 @@
                                 <div class="card-header bg-altima">
                                     <h3 class="card-title">Nuevo bordado</h3>
                                 </div>
+                              <form id="bordadoForm" th:object="${objetoBordado}" th:action="@{/guardar_bordado}" enctype="multipart/form-data" method="post" >
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             <label for="clienteBordado">Cliente</label>
-                                            <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="clienteBordado">
-                                              <option>1</option>
-                                              <option>2</option>
-                                              <option>3</option>
-                                              <option>4</option>
-                                              <option>5</option>
+                                            <select class="form-control selectpicker" data-live-search="true" th:field="*{idCliente}" data-live-search-normalize="true" title="Selecciona uno..." id="clienteBordado">
+                                                     <option th:each="listaCli:${listaCli}" th:value="${listaCli.idCliente}"
+                                                 th:text="${listaCli.nombre}"></option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="tipoBordado">Bordado</label>
-                                            <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="tipoBordado">
-                                              <option>1</option>
-                                              <option>2</option>
-                                              <option>3</option>
-                                              <option>4</option>
-                                              <option>5</option>
+                                            <select class="form-control selectpicker" data-live-search="true" th:field="*{idLookup}" data-live-search-normalize="true" title="Selecciona uno..." id="tipoBordado">
+                                             <option th:each="listLookup:${listLookup}" th:value="${listLookup.idLookup}"
+                                                 th:text="${listLookup.nombreLookup}"></option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
@@ -84,46 +79,72 @@
                                         </div>
                                         <div class="form-group col-md-12">
                                             <div class="contain animated bounce">
-                                                <div id="img_contain"><img id="blah" align="middle" src="/dist/img/bordadoCircle.png" alt="your image" title=""></div>
+                                                <div id="img_contain"><img id="blah" align="middle" th:src="@{'/uploads/bordadoParte/' + *{rutaBordado}}"
+															th:onerror="this.src='/dist/img/preview.png'" alt="your image" title=""></div>
                                                 <div class="input-group1">
                                                     <div class="custom-file">
-                                                        <input type="file" id="inputGroupFile01" class="imgInp custom-file-input" aria-describedby="inputGroupFileAddon01">
+                                                        <input type="file" name="inputGroupFile01" id="inputGroupFile01" class="imgInp custom-file-input" aria-describedby="inputGroupFileAddon01">
                                                         <label class="custom-file-label" for="inputGroupFile01">Elegir foto</label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-4">
                                             <label for="tamanoBordado">Tama&ntilde;o</label>
-                                            <input type="number" class="form-control" id="tamanoBordado" placeholder="4">
+                                            <input  type="number" class="form-control" id="tamanoBordado" placeholder="4" th:field="*{tamano}" >
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        
+                                          <div class="form-group col-md-4">
+                                            <label for="tamanoBordado">Descripcion</label>
+                                            <input  type="text" class="form-control" id="tamanoBordado" placeholder="Descripcion" th:field="*{descripcion}" >
+                                        </div>
+                                        <div  class="form-group col-md-4">
                                             <label for="precioBordado">Precio</label>
                                             <div class="input-group mb-3">
                                                 <div class="input-group-prepend">
                                                   <span class="input-group-text">$</span>
                                                 </div>
-                                                <input type="number" class="form-control" id="precioBordado" placeholder="25">
+                                                <input  type="number" class="form-control" id="precioBordado" placeholder="25" th:field="*{precio}" >
                                               </div>
+                                                <input type="hidden" class="form-control" id="idBordado" th:field="*{idBordado}">
+                                             <button type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                                        class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
                                         </div>
+                                        
+                                             
+                                        </form>
+                                              
+                                              <form id="bordadoParteForm" th:object="${objetoBordadoParte}" th:action="@{/guardar_bordado_parte}" enctype="multipart/form-data" method="post" >  
+                                               
                                         <div class="form-group col-md-4">
+                                        
+                                        <input type="hidden" class="form-control" id="idBordadoParte" th:field="*{idBordado}"  >
+                                        
+                                        
                                             <label for="parteBordado">Parte del bordado</label>
-                                            <input type="text" class="form-control" id="parteBordado" placeholder="Arriba">
+                                            <input type="text" class="form-control" id="parteBordado" placeholder="Arriba" th:field="*{partesBordado}"  >
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="hiloBordado">No. hilo</label>
-                                            <input type="number" class="form-control" id="hiloBordado" placeholder="57">
+                                            <input type="number" class="form-control" id="hiloBordado" placeholder="57" th:field="*{numeroHilo}"  >
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="colorBordado">Color</label>
                                             <div class="input-group mb-3">
-                                                <input type="text" class="form-control" placeholder="Rojo" style="border-radius: .25rem;">
+                                                    
+                               <select class="form-control selectpicker" th:field="*{color}" id="idColor1" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                                         <option th:each="listLookupsCol:${listLookupsCol}"
+                                         th:data-content="@{<i class='fa fa-tint'}+@{style='color:}+${listLookupsCol[3]}+@{;'></i>}+'             '+${listLookupsCol[1]}"
+                                              th:value="${listLookupsCol[0]}"></option>
+                                                 </select>
                                                 <div class="input-group-append" style="margin-left: 10px;">
-                                                    <button type="button" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                                    <button type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
                                                         class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
                                                 </div>
                                               </div>
                                         </div>
+                                        
+                                 </form>
                                         <div class="form-group col-md-12">
                                             <table class="table tablaGeneral table-striped table-bordered">
                                                 <thead>
@@ -135,10 +156,10 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Letras X</td>
-                                                        <td>815</td>
-                                                        <td>Rojo</td>
+                                                    <tr th:each="mt:${listaParteBordadoList}">
+                                                         <td th:text="${mt[0]}"></td>
+                                                         <td th:text="${mt[1]}"></td>
+                                                         <td th:text="${mt[2]}"></td>
                                                         <td class="text-center">
                                                             <button type="button" class="btn btn-sm icon-btn btn-danger text-white"><span
                                                                     class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
@@ -185,6 +206,8 @@
         $('#navVenta').addClass('active');
         $('#navVenFlu').addClass('active');
     </script>
+    	
+    
     <script>
         $("#inputGroupFile01").change(function(event) {
             RecurFadeIn();
@@ -220,6 +243,22 @@
             $(".alert").show();
             $(".alert").text(text).addClass("loading");
         }
+        
+        
+        //para obtener el valor del imput
+      function cargar_pagina() {
+        	console.log("entre a la function ready");
+        	
+        	var idBordado = document.getElementById('idBordado').value;
+        		
+
+        	console.log("aqui esta el que queremos asignar" + idBordado);
+        	
+        		document.getElementById('idBordadoParte').value = idBordado;
+        	
+        	//console.log("aqui esta ala que le queremos dar valor" + $("#idBordadoParte").val());
+        }
+        
     </script>
 </body>
 

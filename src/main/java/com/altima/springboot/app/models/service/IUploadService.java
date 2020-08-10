@@ -93,5 +93,13 @@ public interface IUploadService {
 	public String copyEmpleado(MultipartFile file) throws IOException;
 
 	public boolean deleteEmpleado(String filename);
+	
+	
+	// Bordado
+	public Resource loadBordadoParte(String filename) throws MalformedURLException;
+
+	public String copyBordadoParte(MultipartFile file1) throws IOException;
+
+	public boolean deleteBordadoParte(String filename);
 
 }

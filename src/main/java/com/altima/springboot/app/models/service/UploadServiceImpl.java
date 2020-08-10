@@ -36,6 +36,8 @@ public class UploadServiceImpl implements IUploadService {
 	private final static String folderInventarioAMP = "uploads/InventarioAMP";
 
 	private final static String folderEmpleados = "uploads/empleados";
+	
+	private final static String folderBordados = "uploads/bordadoParte";
 
 	@Override
 	public Resource load(String filename) throws MalformedURLException {
@@ -522,6 +524,48 @@ public class UploadServiceImpl implements IUploadService {
 
 		if (archivo.exists() && archivo.canRead()) {
 			archivo.delete();
+		}
+		return true;
+	}
+	
+	
+	
+	/* bordado  parte*/
+
+	public Path getPathBordadoParte(String filename) {
+		return Paths.get(folderBordados).resolve(filename).toAbsolutePath();
+
+	}
+
+	@Override
+	public Resource loadBordadoParte(String filename) throws MalformedURLException {
+		Path pathFoto = getPathBordadoParte(filename);
+		Resource recurso = null;
+
+		recurso = new UrlResource(pathFoto.toUri());
+		if (!recurso.exists() && !recurso.isReadable()) {
+			throw new RuntimeException("Error: No se puede cargar la imagen " + pathFoto.toString());
+		}
+
+		return recurso;
+	}
+
+	@Override
+	public String copyBordadoParte(MultipartFile file) throws IOException {
+		String uniqueFilename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+		Path rootPath = getPathBordadoParte(uniqueFilename);
+		Files.copy(file.getInputStream(), rootPath);
+		return uniqueFilename;
+	}
+
+	@Override
+	public boolean deleteBordadoParte(String filename) {
+		Path rootPath = getPathBordadoParte(filename);
+		File archivo = rootPath.toFile();
+
+		if (archivo.exists() && archivo.canRead()) {
+			if (archivo.delete()) {
+			}
 		}
 		return true;
 	}

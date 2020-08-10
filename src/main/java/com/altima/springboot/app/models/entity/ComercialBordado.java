@@ -33,7 +33,7 @@ public class ComercialBordado implements Serializable{
 	private Long idLookup;
 	
 	@Column(name="tamaño")
-	private String tamaño;
+	private String tamano;
 	
 	@Column(name="precio")
 	private String precio;
@@ -61,6 +61,26 @@ public class ComercialBordado implements Serializable{
 	
 	@Column(name="estatus_bordado")
 	private String estatus_bordado;
+	
+	
+	@Column(name="descripcion")
+	private String  descripcion ;
+
+	public String getTamano() {
+		return tamano;
+	}
+
+	public void setTamano(String tamano) {
+		this.tamano = tamano;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 
 	public Long getIdBordado() {
 		return idBordado;
@@ -86,13 +106,7 @@ public class ComercialBordado implements Serializable{
 		this.idLookup = idLookup;
 	}
 
-	public String getTamaño() {
-		return tamaño;
-	}
 
-	public void setTamaño(String tamaño) {
-		this.tamaño = tamaño;
-	}
 
 	public String getPrecio() {
 		return precio;
