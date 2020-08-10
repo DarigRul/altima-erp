@@ -182,30 +182,14 @@ function Guardar() {
 	
 	$('#ElDeGuardar').remove();
 	$('#Guardando').css('display', 'block');
-	console.log(objeto_patronajes);
-	/*
-	if (CambiarImgFrente == true && CambiarImgEspalda == true) {
-		$('#FormImagenes').click();
-	}
-	if (CambiarImgFrente != true && CambiarImgEspalda != true) {
-		console.log("ninguna imagen cambio");
-	}
-	if (CambiarImgFrente == true && CambiarImgEspalda != true) {
-		$('#FormImagenFrente').click();
-	}
-	if (CambiarImgFrente != true && CambiarImgEspalda == true) {
-		$('#FormImagenEspalda').click();
-	}*/
 	
 	RecogerDatosPrimeraParte();
 	RecogerDatosSegundaParte();
 	var token = $('#token').val();
 	var header = $('#token').val();
-	console.log($('#ClientePrenda').val(),);
 	
 	if(accion == "editar")
 	{
-		console.log(objeto_prenda);
 		//Solicitud Ajax
 		$.ajax({
 			type: "POST",
@@ -227,7 +211,8 @@ function Guardar() {
 						"objeto_patronajes": JSON.stringify(objeto_patronajes),
 						"objeto_marcadores": RecogerDatosTerceraParte(),
 						"clientes": JSON.stringify($('#ClientePrenda').val()),
-						"accion": accion
+						"accion": accion,
+						"idPrenda" : data
 					},
 					success: (data) => {
 						$('#BotonBloquearGuardar').prop('disabled', false);
@@ -255,10 +240,8 @@ function Guardar() {
 				"disenioprenda": JSON.stringify(objeto_prenda)
 			},
 			success: (data) => {
-				console.log(data);
-				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='idPrenda' id='idPrenda' value='" + data.idPrenda + "'/>");
+				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='idPrenda' id='idPrenda' value='" + data + "'/>");
 				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='accion' id='accion' value='agregar'/>");
-				console.log(RecogerDatosTerceraParte());
 				$.ajax({
 					type: "POST",
 					url: "/guardar_final",
@@ -268,7 +251,8 @@ function Guardar() {
 						"objeto_patronajes": JSON.stringify(objeto_patronajes),
 						"objeto_marcadores": RecogerDatosTerceraParte(),
 						"clientes": JSON.stringify($('#ClientePrenda').val()),
-						"accion": $('#accionPag').val()
+						"accion": $('#accionPag').val(),
+						"idPrenda" : data
 					},
 					success: (data) => {
 						$('#BotonBloquearGuardar').prop('disabled', false);
@@ -299,9 +283,7 @@ function Guardar() {
 				"disenioprenda": JSON.stringify(objeto_prenda)
 			},
 			success: (data) => {
-				console.log(data);
-				console.log(prendasmarcadores);
-				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='idPrenda' id='idPrenda' value='" + data.idPrenda + "'/>");
+				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='idPrenda' id='idPrenda' value='" + data + "'/>");
 				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='accion' id='accion' value='copiar'/>");
 				$.ajax({
 					type: "POST",
@@ -312,7 +294,8 @@ function Guardar() {
 						"objeto_patronajes": JSON.stringify(objeto_patronajes),
 						"objeto_marcadores": RecogerDatosTerceraParte(),
 						"clientes": JSON.stringify($('#ClientePrenda').val()),
-						"accion": accion
+						"accion": accion,
+						"idPrenda" : data
 					},
 					success: (data) => {
 						$('#BotonBloquearGuardar').prop('disabled', false);
