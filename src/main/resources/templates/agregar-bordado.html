@@ -72,8 +72,9 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="archivoBordado">Solicitud de ponchado</label>
-                                            <div>
-                                                <input type="file" name="inputFileBordado" id="inputFileBordado" th:value="${objetoBordado.rutaBordado}" aria-describedby="inputFileBordado">
+                                            <div class="custom-file mb-3">
+                                                <input type="file" name="inputFileBordado" class="custom-file-input input2" id="inputFileBordado" th:value="${objetoBordado.rutaBordado}" aria-describedby="inputFileBordado">
+                                                <label class="custom-file-label label2" for="customFile" th:text="*{rutaPonchado}">Choose file</label>
                                               </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -83,7 +84,7 @@
                                                 <div class="input-group">
                                                     <div class="custom-file">
                                                         <input type="file" name="inputGroupFile01" id="inputGroupFile01" class="imgInp custom-file-input" aria-describedby="inputGroupFileAddon01">
-                                                        <label class="custom-file-label" for="inputGroupFile01">Elegir foto</label>
+                                                        <label class="custom-file-label label1" for="inputGroupFile01" th:text="*{rutaBordado}"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -214,6 +215,12 @@
     	
     
     <script>
+
+$(".input2").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".label2").addClass("selected").html(fileName);
+  });
+
         $("#inputGroupFile01").change(function(event) {
             RecurFadeIn();
             readURL(this);
@@ -232,7 +239,7 @@
                     $('#blah').attr('src', e.target.result);
                     $('#blah').hide();
                     $('#blah').fadeIn(500);
-                    $('.custom-file-label').text(filename);
+                    $('.label1').text(filename);
                 }
                 reader.readAsDataURL(input.files[0]);
             }
