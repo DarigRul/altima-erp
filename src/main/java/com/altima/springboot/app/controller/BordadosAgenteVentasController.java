@@ -140,7 +140,7 @@ public class BordadosAgenteVentasController {
 		
 		objetoBordado.setCreadoPor(auth.getName());
 		objetoBordado.setActualizadoPor("Actualizador");
-		objetoBordado.setEstatus("1");
+		objetoBordado.setEstatus("0");
 		objetoBordado.setEstatus_bordado("1");
 		objetoBordado.setFechaCreacion(hourdateFormat.format(date));
 
