@@ -422,6 +422,20 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tablaFooter2.addCell(espacioBlanco1);
 		    	tablaFooter2.addCell(espacioBlanco3);
 		    	tablaFooter2.addCell(espacioBlanco2);
+		    	//Firmas ya pro
+		    	PdfPCell firmaActual = new PdfPCell(new Phrase(" "));
+		    	firmaActual.setBorder(0);
+		    	firmaActual.setPadding(3f);
+		    	Image firma = Image.getInstance("src/main/resources/static/dist/img/firma.png");
+		    	
+		    	firma.scalePercent(10f);
+		    	
+		    	tablaFooter2.addCell(firmaActual);
+		    	tablaFooter2.addCell(firmaActual);
+		    	PdfPCell firmaImg = new PdfPCell(firma);
+		    	firmaImg.setBorder(0);
+		    	firmaImg.setPadding(3f);
+		    	tablaFooter2.addCell(firmaImg);
 		    	//Espacios para firmar
 		    	PdfPCell espacioFirma1 = new PdfPCell(new Phrase("____________________"));
 		    	PdfPCell espacioFirma2 = new PdfPCell(new Phrase("_____________________"));
@@ -451,6 +465,8 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tablaFooter2.addCell(espacioBlanco3);
 		    	tablaFooter2.addCell(puestosFirma2);
 		    	tablaFooter2.setWidths(new float[] { 5f, 5f, 5f });
+		    	
+		    	
 		    	
 		    	
 
