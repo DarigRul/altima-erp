@@ -242,7 +242,7 @@ public class BordadosAgenteVentasController {
 		    bordadoService.deleteParteBordado(idBordadoParte);
 			redirectAttrs.addFlashAttribute("title", "Parte de bordado Eliminado correctamente").addFlashAttribute("icon",
 					"success");
-			return "redirect:/bordados";
+			return "redirect:/bordados/"+idBordadoParte ;
 		}
 
     
