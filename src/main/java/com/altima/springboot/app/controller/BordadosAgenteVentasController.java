@@ -86,7 +86,8 @@ public class BordadosAgenteVentasController {
     
 	@PostMapping("/guardar_bordado")
 	public String guardarMaterial(@ModelAttribute ComercialBordado objetoBordado, RedirectAttributes redirectAttrs,
-			@RequestParam(value = "inputGroupFile01", required = true) MultipartFile imagenParteBordado)
+            @RequestParam(value = "inputGroupFile01", required = true) MultipartFile imagenParteBordado,
+            @RequestParam(value = "inputFileBordado", required = true) MultipartFile inputFileBordado)
 			throws IllegalStateException, IOException {
 		
 		System.out.println("Entre el metodo de guardar la primera parte de bordado");		
@@ -110,6 +111,28 @@ public class BordadosAgenteVentasController {
 			}
 			
 			objetoBordado.setRutaBordado(uniqueFilename);
+			
+			System.out.println("este es un pinche prueba");
+
+        } // imagen
+        
+        if (!inputFileBordado.isEmpty()) {// imagen
+			if (objetoBordado.getRutaPonchado() != null && objetoBordado.getRutaPonchado().length() > 0) {
+				UploadService.deleteBordadoParte(objetoBordado.getRutaPonchado());
+				
+			}
+			String uniqueFilename2 = null;
+			try {
+				uniqueFilename2 = UploadService.copyBordadoParte(inputFileBordado);
+			
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+            objetoBordado.setRutaPonchado(uniqueFilename2);
+            objetoBordado.setEstatus_bordado("1");
 			
 			System.out.println("este es un pinche prueba");
 
