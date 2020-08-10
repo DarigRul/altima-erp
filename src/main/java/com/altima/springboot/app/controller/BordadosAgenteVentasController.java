@@ -212,6 +212,39 @@ public class BordadosAgenteVentasController {
 			return "redirect:bordados/"+id;
 
 		}
+	  
+	  
+	  @GetMapping("/eliminar_bordado/{id}")
+		public String deleteBordado(@PathVariable("id") Long idBordado, RedirectAttributes redirectAttrs) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			
+			ComercialBordado objetoBordado = bordadoService.findOne(idBordado);
+			objetoBordado.setEstatus("0");
+			bordadoService.save(objetoBordado);
+			
+
+			
+			
+			
+			redirectAttrs.addFlashAttribute("title", "Bordado Eliminado correctamente").addFlashAttribute("icon",
+					"success");
+			return "redirect:/bordados";
+		}
+		
+		
+		@GetMapping("/eliminar_parte_bordado/{id}")
+		public String deleteBordadoParte(@PathVariable("id") Long idBordadoParte, RedirectAttributes redirectAttrs) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");			
+		    bordadoService.deleteParteBordado(idBordadoParte);
+			redirectAttrs.addFlashAttribute("title", "Parte de bordado Eliminado correctamente").addFlashAttribute("icon",
+					"success");
+			return "redirect:/bordados";
+		}
+
     
     
 }

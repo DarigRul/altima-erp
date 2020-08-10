@@ -160,8 +160,10 @@
                                                          <td th:text="${mt[1]}"></td>
                                                          <td th:text="${mt[2]}"></td>
                                                         <td class="text-center">
-                                                            <button type="button" class="btn btn-sm icon-btn btn-danger text-white"><span
-                                                                    class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
+                                                        
+
+                                                        <a th:href="@{/eliminar_bordado/}+${mt[3]}"><button type="button" class="btn btn-sm icon-btn btn-danger text-white"><span
+                                                                    class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></a>
                                                         </td>
                                                     </tr>
                                                 </tbody>

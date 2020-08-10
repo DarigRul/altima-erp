@@ -120,7 +120,8 @@ public class ComercialBordadoServiceImpl implements ComercialBordadoService {
 		return em.createNativeQuery("SELECT\r\n" + 
 				"pt.partes_bordado as parte,\r\n" + 
 				"pt.numero_hilo as hilo,\r\n" + 
-				"lk.nombre_lookup as color\r\n" + 
+				"lk.nombre_lookup as color,\r\n" + 
+				"pt.id_bordado_parte_bordado as idbord\r\n" + 
 				"FROM alt_comercial_bordado_parte_bordado pt INNER JOIN alt_disenio_lookup lk \r\n" + 
 				"ON pt.color=lk.id_lookup WHERE pt.estatus=1 AND pt.id_bordado="+ id)
 				.getResultList();
