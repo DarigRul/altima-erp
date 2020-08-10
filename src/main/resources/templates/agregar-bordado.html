@@ -53,9 +53,9 @@
                                 <div class="card-header bg-altima">
                                     <h3 class="card-title">Nuevo bordado</h3>
                                 </div>
-                              <form id="bordadoForm" th:object="${objetoBordado}" th:action="@{/guardar_bordado}" enctype="multipart/form-data" method="post" >
                                 <div class="card-body">
-                                    <div class="row">
+                              <form class="row" id="bordadoForm" th:object="${objetoBordado}" th:action="@{/guardar_bordado}" enctype="multipart/form-data" method="post" >
+
                                         <div class="form-group col-md-4">
                                             <label for="clienteBordado">Cliente</label>
                                             <select class="form-control selectpicker" data-live-search="true" th:field="*{idCliente}" data-live-search-normalize="true" title="Selecciona uno..." id="clienteBordado">
@@ -100,20 +100,22 @@
                                         <div  class="form-group col-md-4">
                                             <label for="precioBordado">Precio</label>
                                             <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                  <span class="input-group-text">$</span>
-                                                </div>
-                                                <input  type="number" class="form-control" id="precioBordado" placeholder="25" th:field="*{precio}" >
-                                              </div>
-                                                <input type="hidden" class="form-control" id="idBordado" th:field="*{idBordado}">
-                                             <button type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
-                                                        class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">$</span>
+                                                              </div>
+                                                            <input  type="number" class="form-control" id="precioBordado" placeholder="25" th:field="*{precio}" style="border-radius: .25rem;">
+                                                            <div class="input-group-append" style="margin-left: 10px;">
+                                                                <input type="hidden" class="form-control" id="idBordado" th:field="*{idBordado}">
+                                                                <button type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                                                           class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                                                            </div>
+                                                          </div>
                                         </div>
                                         
                                              
                                         </form>
                                               
-                                              <form id="bordadoParteForm" th:object="${objetoBordadoParte}" th:action="@{/guardar_bordado_parte}" enctype="multipart/form-data" method="post" >  
+                                        <form class="row" id="bordadoParteForm" th:object="${objetoBordadoParte}" th:action="@{/guardar_bordado_parte}" enctype="multipart/form-data" method="post" >  
                                                
                                         <div class="form-group col-md-4">
                                         
@@ -145,7 +147,7 @@
                                         
                                  </form>
                                         <div class="form-group col-md-12">
-                                            <table class="table tablaGeneral table-striped table-bordered">
+                                            <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
                                                 <thead>
                                                     <tr>
                                                         <th>Partes del bordado</th>
@@ -181,7 +183,6 @@
                                                     class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
                                             <button type="button" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
                                         </div>
-                                    </div>
                                 </div>
                                 <!-- /.card-body -->
                             </div>
