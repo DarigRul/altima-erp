@@ -124,7 +124,7 @@ public class BordadosAgenteVentasController {
 			String uniqueFilename2 = null;
 			try {
 				uniqueFilename2 = UploadService.copyBordadoParte(inputFileBordado);
-			
+                objetoBordado.setEstatus_bordado("1");
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -132,16 +132,19 @@ public class BordadosAgenteVentasController {
 			}
 			
             objetoBordado.setRutaPonchado(uniqueFilename2);
-            objetoBordado.setEstatus_bordado("1");
+            
 			
-			System.out.println("este es un pinche prueba");
+			System.out.println("este es un pinche prueba alv x2");
 
 		} // imagen
-		
+        if(objetoBordado.getIdBordado()==null || objetoBordado.getIdBordado()==0){
+            objetoBordado.setEstatus_bordado("0");
+        }
+
 		objetoBordado.setCreadoPor(auth.getName());
 		objetoBordado.setActualizadoPor("Actualizador");
 		objetoBordado.setEstatus("1");
-		objetoBordado.setEstatus_bordado("0");
+		
 		objetoBordado.setFechaCreacion(hourdateFormat.format(date));
 
 		
