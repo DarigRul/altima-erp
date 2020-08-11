@@ -243,3 +243,87 @@ function comprobar(obj)
 	document.getElementById('fechaFin').readOnly = true;
    }     
 }
+
+
+function valida_envia(){
+   	if (document.fvalida.idEmpleadoSolicitante.value.length==0){
+   		Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Seleccione un solicitante',
+            showConfirmButton: false,
+            timer: 1250
+          }) 
+      		//document.fvalida.nombre.focus()
+      		return 0;
+   	}
+   	
+   	if (document.fvalida.idEmpleadoAuxiliar.value.length==0){
+   		Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Seleccione un auxiliar',
+            showConfirmButton: false,
+            timer: 1250
+          }) 
+      		//document.fvalida.nombre.focus()
+      		return 0;
+   	}
+   	
+   	if (document.fvalida.idLookup.value.length==0){
+   		Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Seleccione una categoria',
+            showConfirmButton: false,
+            timer: 1250
+          }) 
+      		//document.fvalida.nombre.focus()
+      		return 0;
+   	}
+   	
+   	if (document.fvalida.descripcion.value.length==0){
+   		Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Ingrese una descripcion',
+            showConfirmButton: false,
+            timer: 1250
+          }) 
+      		//document.fvalida.nombre.focus()
+      		return 0;
+   	}
+   	
+   	if (  $('#fechaCalendario').is(':checked')){
+   		console.log("si entra")
+   		
+   		if (document.fvalida.fechaInicio.value.length==0){
+   			Swal.fire({
+   	            position: 'center',
+   	            icon: 'warning',
+   	            title: 'Ingrese la fecha de inicio',
+   	            showConfirmButton: false,
+   	            timer: 1250
+   	          }) 
+   	      		//document.fvalida.nombre.focus()
+   	      		return 0;
+   		}
+   		
+   		if (document.fvalida.fechaFin.value.length==0){
+   			Swal.fire({
+   	            position: 'center',
+   	            icon: 'warning',
+   	            title: 'Ingrese la fecha de finalizacion',
+   	            showConfirmButton: false,
+   	            timer: 1250
+   	          }) 
+   	      		//document.fvalida.nombre.focus()
+   	      		return 0;
+   		}
+   		
+   	}
+	
+   
+	
+   	document.fvalida.submit();
+}

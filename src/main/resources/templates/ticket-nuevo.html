@@ -8,7 +8,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form   th:method="post" th:action="@{/guardar-ticket}">
+        <form   th:method="post" th:action="@{/guardar-ticket}" name="fvalida">
         <div class="modal-body">
           <div class="row">
             <div class="form-group col-md-12">
@@ -62,7 +62,7 @@
         </div>
         <div class="modal-footer modal-rounded-footer">
             <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-            <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+            <button class="btn icon-btn btn-altima text-white float-right" type="button" onclick="valida_envia()"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
         </div>
         <input type="hidden" id="idTicket" name="idTicket" >
         </form>
