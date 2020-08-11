@@ -143,4 +143,44 @@ public class ComercialPrendaBordadoServiceImpl implements IComercialPrendaBordad
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> BordadosView(Long id) {
+		
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	bordado.id_bordado,\n" + 
+				"	bordado.descripcion \n" + 
+				"FROM\n" + 
+				"	alt_comercial_bordado AS bordado,\n" + 
+				"	alt_comercial_pedido_informacion AS pedido \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND bordado.estatus_bordado = 1 \n" + 
+				"	AND bordado.estatus = 1 \n" + 
+				"	AND pedido.id_empresa = bordado.id_cliente \n" + 
+				"	AND pedido.id_pedido_informacion = "+id).getResultList();
+		return re;
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public Float precioBordado(Long id) {
+		
+		String re = em.createNativeQuery("SELECT\n" + 
+				"	look.atributo_1\n" + 
+				"FROM\n" + 
+				"	alt_comercial_bordado AS bordado,\n" + 
+				"	alt_comercial_lookup AS look \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND bordado.id_lookup = look.id_lookup \n" + 
+				"	AND bordado.id_bordado="+id).getSingleResult().toString();
+		
+		
+			return Float.parseFloat(re); 
+			
+	}
+	
 }

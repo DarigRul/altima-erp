@@ -64,6 +64,8 @@ public class DetallePreciosCargaPedidosController {
 		}
 		
 		model.addAttribute("listCoor", bordadoService.findAllCoordinado(id));
+		
+		model.addAttribute("selectBordado", bordadoService.BordadosView(id));
 		return "detalle-de-precios";
 	}
 	
@@ -83,6 +85,7 @@ public class DetallePreciosCargaPedidosController {
 	public String guardar_bor( 
 			@RequestParam("bordadoPrecio") String bordadoPrecio,
 			@RequestParam("id_coor_prenda") Long id_coor_prenda,
+			@RequestParam("idBordado") Long idBordado,
 			@RequestParam(value="imagenTela") MultipartFile imagenTela ) throws Exception {
 		
 		System.out.println("I am a save" +id_coor_prenda );
@@ -94,6 +97,7 @@ public class DetallePreciosCargaPedidosController {
 		ComercialPrendaBordado bordado = new ComercialPrendaBordado();
 		bordado.setIdCoordinadoPrenda( id_coor_prenda );
 		bordado.setPrecioBordado(bordadoPrecio);
+		bordado.setIdBordado(idBordado);
 		
 		if (!imagenTela.isEmpty()){
 			if ( bordado.getArchivoBordado() != null && bordado.getArchivoBordado() .length() > 0) {
@@ -206,6 +210,14 @@ public class DetallePreciosCargaPedidosController {
 		 
 		return"agregar-material";  
 	
+	}
+	
+
+	@RequestMapping(value = "/precio-bordado", method = RequestMethod.GET)
+	@ResponseBody
+	public Float precio(Long id) {
+		
+		return  bordadoService.precioBordado(id);
 	}
 	
 }
