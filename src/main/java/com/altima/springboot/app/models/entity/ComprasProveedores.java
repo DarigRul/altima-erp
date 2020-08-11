@@ -80,7 +80,72 @@ public class ComprasProveedores implements Serializable {
 	@Column(name="estatus")
 	private String estatus;
 	
+	@Column(name="creado_por")
+	private String creadoPor;
 	
+	@Column(name="actualizado_por")
+	private String actualizadoPor;
+	
+	@Column(name="fecha_creacion")
+	private String fechaCreacion;
+	
+	@Column(name="ultima_fecha_modificacion")
+	private String ultimaFechaModificacion;
+	
+	@Column(name="correo_proveedor")
+	private String correoProveedor;
+	
+	
+	
+	
+	public String getZona() {
+		return zona;
+	}
+
+	public void setZona(String zona) {
+		this.zona = zona;
+	}
+
+	public String getCreadoPor() {
+		return creadoPor;
+	}
+
+	public void setCreadoPor(String creadoPor) {
+		this.creadoPor = creadoPor;
+	}
+
+	public String getActualizadoPor() {
+		return actualizadoPor;
+	}
+
+	public void setActualizadoPor(String actualizadoPor) {
+		this.actualizadoPor = actualizadoPor;
+	}
+
+	public String getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(String fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+	public String getUltimaFechaModificacion() {
+		return ultimaFechaModificacion;
+	}
+
+	public void setUltimaFechaModificacion(String ultimaFechaModificacion) {
+		this.ultimaFechaModificacion = ultimaFechaModificacion;
+	}
+
+	public String getCorreoProveedor() {
+		return correoProveedor;
+	}
+
+	public void setCorreoProveedor(String correoProveedor) {
+		this.correoProveedor = correoProveedor;
+	}
+
 	public Long getIdProveedor() {
 		return IdProveedor;
 	}
