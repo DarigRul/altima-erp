@@ -136,17 +136,14 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="hiloBordado">No. hilo</label>
-                                            <input type="number" class="form-control" id="hiloBordado" placeholder="57" th:field="*{numeroHilo}"  >
+                                            <input type="text" class="form-control" id="hiloBordado" placeholder="Hilo" th:field="*{numeroHilo}"  >
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="colorBordado">Color</label>
                                             <div class="input-group mb-3">
-                                                    
-                               <select class="form-control selectpicker" th:field="*{color}" id="idColor1" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
-                                         <option th:each="listLookupsCol:${listLookupsCol}"
-                                         th:data-content="@{<i class='fa fa-tint'}+@{style='color:}+${listLookupsCol[3]}+@{;'></i>}+'             '+${listLookupsCol[1]}"
-                                              th:value="${listLookupsCol[0]}"></option>
-                                                 </select>
+                                                      <input type="text" class="form-control" id="color" placeholder="Color" th:field="*{color}"  >
+                                        </div>
+                               
                                                 <div class="input-group-append" style="margin-left: 10px;">
                                                     <button type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
                                                         class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
