@@ -148,19 +148,24 @@ public class ComercialPrendaBordadoServiceImpl implements IComercialPrendaBordad
 	@Transactional
 	public List<Object[]> BordadosView(Long id) {
 		
+		
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\n" + 
 				"	bordado.id_bordado,\n" + 
 				"	bordado.descripcion \n" + 
 				"FROM\n" + 
 				"	alt_comercial_bordado AS bordado,\n" + 
+				"	alt_comercial_coordinado_prenda AS coor_pre,\n" + 
+				"	alt_comercial_coordinado AS coor,\n" + 
 				"	alt_comercial_pedido_informacion AS pedido \n" + 
 				"WHERE\n" + 
 				"	1 = 1 \n" + 
 				"	AND bordado.estatus_bordado = 1 \n" + 
 				"	AND bordado.estatus = 1 \n" + 
+				"	AND coor_pre.id_coordinado = coor.id_coordinado \n" + 
+				"	AND coor.id_pedido = pedido.id_pedido_informacion \n" + 
 				"	AND pedido.id_empresa = bordado.id_cliente \n" + 
-				"	AND pedido.id_pedido_informacion = "+id).getResultList();
+				"	AND id_coordinado_prenda = "+id+" \n").getResultList();
 		return re;
 	}
 	
@@ -181,6 +186,28 @@ public class ComercialPrendaBordadoServiceImpl implements IComercialPrendaBordad
 		
 			return Float.parseFloat(re); 
 			
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> findAllDescipcion(Long id) {
+		
+		
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	pb.id_prenda_bordado,\n" + 
+				"	pb.precio_bordado,\n" + 
+				"	bordado.descripcion,\n" + 
+				"	pb.archivo_bordado \n" + 
+				"FROM\n" + 
+				"	alt_comercial_bordado AS bordado,\n" + 
+				"	alt_comercial_prenda_bordado AS pb \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND pb.id_bordado = bordado.id_bordado \n" + 
+				"	AND pb.id_coordinado_prenda = "+id).getResultList();
+		return re;
 	}
 	
 }

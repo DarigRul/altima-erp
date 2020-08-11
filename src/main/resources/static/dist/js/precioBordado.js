@@ -181,6 +181,8 @@
 	 function bordados(id) {
 		 
 		 document.formBordado.id_coor_prenda.value = id
+		 
+		 console.log ("el id coor_prenda es "+id);
 		 $.ajax({
 			    method: "GET",
 			    url: "/mostrar-bordados",
@@ -205,6 +207,7 @@
 		                    	"<thead>" +
 		                               "<tr>" +
 		                                  "<th>Precio</th>" +
+		                                  "<th>Descripcion</th>" +
 		                                  "<th>Archivo</th>" +
 		                                  "<th>Eliminar</th>" +
 		                                 "</tr>" +
@@ -218,11 +221,12 @@
 			        	
 			        		a = [
 								"<tr>" +
-								"<td>" + data[i].precioBordado+ "</td>",
-								"<td>" + data[i].archivoBordado + "</td>",		
+								"<td>" + data[i][1]+ "</td>",
+								"<td>" + data[i][2]+ "</td>",
+								"<td>" + data[i][3] + "</td>",		
 								" <td>"+
 								
-								"<button  onclick='eliminar(" + data[i].idPrendaBordado + ")' class='btn btn-danger'>Eliminar</button>"+
+								"<button  onclick='eliminar(" + data[i][0] + ")' class='btn btn-danger'>Eliminar</button>"+
 								
 								"</td>"+
 								"<tr>"
@@ -281,6 +285,34 @@
 			    }
 		}
 		)
+		
+		
+		 $.ajax({
+	            method: "GET",
+	               url: "/select-bordados",
+	               
+	               data: {
+
+	                   "_csrf": $('#token').val(),
+	                   "id": id
+	               },
+	               success: (data) => {
+	            	   $('#idBordado').empty();
+	            	   $('#idBordado').selectpicker('refresh');
+	            	   $('#idBordado').empty();
+	            	   $('#idBordado').selectpicker('refresh');
+	                  for(var key in data) {
+	                	  $('#idBordado').append('<option value="'+data[key][0]+'">'+data[key][1]+'</option>')
+	                  }
+	                  
+	                  
+	                
+	                  $('#idBordado').selectpicker('refresh');
+	                  
+	               },
+	              
+	              
+	           });
 	 }
 	 
 	 $(".two-decimals").change(function(){ 

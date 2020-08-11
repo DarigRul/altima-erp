@@ -15,8 +15,7 @@
               <select class="form-control selectpicker" onchange="bordado_precio(this.value)" data-live-search="true" data-live-search-normalize="true"
                 title="Selecciona uno..." id="idBordado" name="idBordado" >
                 
-                <option th:each="selectBordado: ${selectBordado}"
-				th:value="${selectBordado[0]}" th:text="${selectBordado[1]}"></option>
+               
                
               </select>
             </div>
@@ -51,6 +50,7 @@
 								<thead>
 									<tr>
 										<th>Precio</th>
+										<th>Descripcion</th>
 										<th>Archivo</th>
 										<th>Eliminar</th>
 									</tr>
@@ -59,6 +59,7 @@
 									<tr>
 										<td>50</td>
 										<td>Nombre del archivo</td>
+										<td>Ruta</td>
 										<td class="text-center">
 											<button class="btn btn-danger">Eliminar</button>
 										</td>
