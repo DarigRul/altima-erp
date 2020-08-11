@@ -128,5 +128,18 @@ public class ComercialBordadoServiceImpl implements ComercialBordadoService {
 	}
 	
 	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public String findPrecio(String Lookup) {
+		
+		return (String) em.createNativeQuery(" SELECT\r\n" + 
+				"lk.atributo_1\r\n" + 
+				"\r\n" + 
+				"FROM alt_comercial_lookup lk where lk.nombre_lookup= '"+Lookup +"' ").getSingleResult();
+	}
+	
+	
 
 }

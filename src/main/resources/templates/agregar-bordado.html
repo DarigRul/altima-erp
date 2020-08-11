@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="tipoBordado">Bordado</label>
-                                            <select class="form-control selectpicker" data-live-search="true" th:field="*{idLookup}" data-live-search-normalize="true" title="Selecciona uno..." id="tipoBordado">
+                                            <select class="form-control selectpicker" data-live-search="true" th:field="*{idLookup}" data-live-search-normalize="true" title="Selecciona uno..." id="coorLookup">
                                              <option th:each="listLookup:${listLookup}" th:value="${listLookup.idLookup}"
                                                  th:text="${listLookup.nombreLookup}"></option>
                                             </select>
@@ -100,11 +100,13 @@
                                         </div>
                                         <div  class="form-group col-md-4">
                                             <label for="precioBordado">Precio</label>
+                                            
+                                            
                                             <div class="input-group mb-3">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text">$</span>
                                                               </div>
-                                                            <input  type="number" class="form-control" id="precioBordado" placeholder="25" th:field="*{precio}" style="border-radius: .25rem;">
+                                                            <input  type="number" class="form-control" id="precioBordado" placeholder="25" th:field="*{precio}" disabled style="border-radius: .25rem;">
                                                             <div class="input-group-append" style="margin-left: 10px;">
                                                                 <input type="hidden" class="form-control" id="idBordado" th:field="*{idBordado}">
                                                                 <input type="hidden" class="form-control" id="idBordado" th:field="*{estatus_bordado}">
@@ -116,7 +118,11 @@
                                                           </div>
                                         </div>
                                         
-                                             
+                                
+                                 
+                                  <div class="form-group col-md-12" id="test">
+                                  
+                                               
                                         </form>
                                               
                                         <form class="row" id="bordadoParteForm" th:object="${objetoBordadoParte}" th:action="@{/guardar_bordado_parte}" enctype="multipart/form-data" method="post" >  
@@ -150,6 +156,9 @@
                                         </div>
                                         
                                  </form>
+                                  
+                                      </div>
+                                 
                                         <div class="form-group col-md-12">
                                             <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
                                                 <thead>
@@ -175,17 +184,11 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <!-- <div class="form-group col-md-12">
-                                            <label for="archivoBordado">Solicitud de ponchado</label>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="archivoBordado">
-                                                <label class="custom-file-label" for="archivoBordado">Elegir archivo</label>
-                                              </div>
-                                        </div> -->
+                                    
                                         <div class="form-group col-md-12">
                                             <a th:href="@{/bordados}" class="btn icon-btn btn-danger text-white mr-auto"><span
                                                     class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-                                            <button type="button" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+                                           
                                         </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -212,8 +215,28 @@
         $('#navVenta').addClass('active');
         $('#navVenFlu').addClass('active');
     </script>
-    	
     
+          <script th:if="${icon != null}" th:inline="javascript">
+            Swal.fire({
+
+                position: 'center',
+                icon: /*[[${icon}]]*/ 'default',
+                title: /*[[${title}]]*/ 'default',
+                showConfirmButton: false,
+                timer: 2500
+            });
+        </script>
+    	
+       <script th:inline="javascript">
+	/*<![CDATA[*/
+
+	var chekedFront = /*[[${checked}]]*/ 'default';
+	
+	
+	
+	
+	/*]]>*/
+	</script>
     <script>
 
 $(".input2").on("change", function() {
@@ -259,6 +282,22 @@ $(".input2").on("change", function() {
         
         //para obtener el valor del imput
       function cargar_pagina() {
+        	
+	  console.log("aqui esta la variable para la validacion    " + chekedFront);
+    	  
+    	  if(chekedFront=="nuevo"){
+    		  console.log("entre al if  checked front")
+    		  
+    		  document.getElementById("test").style.display="none";
+    		  
+    	  }else{
+    		  
+    		  console.log("me la pele y entre al ese de fronted cheked")
+    		  
+    		  document.getElementById("test").style.display="block";
+    		  
+    	  }
+        	
         	console.log("entre a la function ready");
         	
         	var idBordado = document.getElementById('idBordado').value;
@@ -266,12 +305,64 @@ $(".input2").on("change", function() {
 
         	console.log("aqui esta el que queremos asignar" + idBordado);
         	
-        		document.getElementById('idBordadoParte').value = idBordado;
+            document.getElementById('idBordadoParte').value = idBordado;
         	
         	//console.log("aqui esta ala que le queremos dar valor" + $("#idBordadoParte").val());
         }
         
+        
+        
+        
     </script>
+    <script type="text/javascript">
+    
+    
+    $("#coorLookup").change(function(){
+    	
+	     console.log("estoy etrandfo al change")  
+	     
+	       var texto=document.getElementById("coorLookup");
+	  var valordeltexto=texto.options[texto.selectedIndex].text;
+	  console.log("aqui esta el valor del select");
+	  console.log(valordeltexto);
+	     
+	  
+	     
+	     console.log("aqui esta el valor de lokkup   " + valordeltexto )
+	     $.ajax({
+             data: { lookup : valordeltexto },
+             url:   '/precio_bordado',
+             type:  'GET',
+           
+             success:  function (r) 
+             {
+             	
+
+            
+              console.log("aqui esta la  r   " +r)
+              
+              var result = r;
+              
+              console.log("el result   " +result)
+              document.getElementById('precioBordado').value = result;
+              
+              
+              
+            
+                 
+                
+             },
+             error: function()
+             {
+                 alert('Ocurrio un error en el servidor de modelo ..');
+                 prenda.prop('disabled', false);
+             }
+         });
+    	
+    })
+    
+    </script>
+    
 </body>
 
 </html>

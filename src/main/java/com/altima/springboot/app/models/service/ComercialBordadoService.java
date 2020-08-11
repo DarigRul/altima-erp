@@ -34,6 +34,8 @@ public interface ComercialBordadoService {
 	
 	public List<Object[]> findListaParteBordados(Long id);
 	
+	public String findPrecio(String Lookup);
+	
 	
 	
 	

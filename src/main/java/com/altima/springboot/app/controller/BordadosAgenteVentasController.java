@@ -1,6 +1,8 @@
 package com.altima.springboot.app.controller;
 
 import java.io.IOException;
+
+
 import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,11 +18,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,6 +42,8 @@ import com.altima.springboot.app.models.service.IUploadService;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
+
+@CrossOrigin(origins = { "*" })
 @Controller
 public class BordadosAgenteVentasController {
 	
@@ -70,13 +78,15 @@ public class BordadosAgenteVentasController {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	
     	String nombre = auth.getName();
-    	
+
+     	String checked = "nuevo";
     	List<ComercialCliente> listClientes = bordadoService.findListaClientes(nombre);
     	List<ComercialLookup> listLookup= bordadoService.findListaLookupComercial();
     	model.addAttribute("objetoBordado", bordado);
     	model.addAttribute("listaCli", listClientes);   	
     	model.addAttribute("listLookup", listLookup);
     	model.addAttribute("objetoBordadoParte", objetoBordadoParte);
+    	model.addAttribute("checked", checked);
     	
     	
         return "agregar-bordado";
@@ -150,6 +160,9 @@ public class BordadosAgenteVentasController {
 		
 		bordadoService.save(objetoBordado);
 		System.out.println("si pelo el save");
+		
+		redirectAttrs.addFlashAttribute("title", "Bordado agregado  correctamente").addFlashAttribute("icon",
+				"success");
 
 		return "redirect:bordados/"+objetoBordado.getIdBordado();
 
@@ -212,6 +225,10 @@ public class BordadosAgenteVentasController {
 		    bordadoService.saveParte(objetoBordadoParte);
 			System.out.println("Si pelo el saveParte de uno a muchos");
 			
+			redirectAttrs.addFlashAttribute("title", "Parte del bordado agregado  correctamente").addFlashAttribute("icon",
+					"success");
+
+			
 			return "redirect:bordados/"+id;
 
 		}
@@ -232,7 +249,7 @@ public class BordadosAgenteVentasController {
 			
 			
 			redirectAttrs.addFlashAttribute("title", "Bordado Eliminado correctamente").addFlashAttribute("icon",
-					"success");
+					"warning");
 			return "redirect:/bordados";
 		}
 		
@@ -243,9 +260,18 @@ public class BordadosAgenteVentasController {
 			Date date = new Date();
 			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");			
 		    bordadoService.deleteParteBordado(idBordadoParte);
-			redirectAttrs.addFlashAttribute("title", "Parte de bordado Eliminado correctamente").addFlashAttribute("icon",
-					"success");
+			
+			redirectAttrs.addFlashAttribute("title", "Bordado Eliminado correctamente").addFlashAttribute("icon",
+					"warning");
 			return "redirect:/bordados/"+idBordadoParte ;
+		}
+		
+		
+		@RequestMapping(value = "/precio_bordado", method = RequestMethod.GET)
+		@ResponseBody
+		public String listarPrecioBordado(String lookup) {
+			System.out.println("Entre al rest de precio");
+			return  bordadoService.findPrecio(lookup);
 		}
 
     
