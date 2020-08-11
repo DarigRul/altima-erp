@@ -108,7 +108,7 @@ public class ComercialBordadoServiceImpl implements ComercialBordadoService {
 				"				FROM alt_comercial_bordado bor INNER JOIN alt_comercial_cliente cli\r\n" + 
 				"				ON bor.id_cliente=cli.id_cliente	\r\n" + 
 				"		    inner JOIN alt_comercial_lookup lk on bor.id_lookup=lk.id_lookup\r\n" + 
-				"		     WHERE bor.estatus=\"1\"")
+				"		     WHERE bor.estatus=\"1\" order by bor.fecha_creacion DESC")
 				.getResultList();
 	}
 	
