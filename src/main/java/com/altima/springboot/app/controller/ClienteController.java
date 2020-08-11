@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -210,7 +209,7 @@ public class ClienteController {
 	 * id del usuario de la sesion actual para asi compararlos y aprobar o denegar
 	 * el acceso a editar cierto registro
 	 */
-	@PreAuthorize("@authComponent.hasPermission(#cliente.IdCliente)")
+	@PreAuthorize("@authComponent.hasPermission(#cliente.IdCliente,{'editar-cliente'})")
 	@GetMapping("/editar-cliente/{idCliente}")
 	public String editar(Map<String, Object> model, ComercialCliente cliente) {
 		HrDireccion direccion;

@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.altima.springboot.app.component.AuthComponent;
 import com.altima.springboot.app.models.entity.ComercialClienteEmpleado;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
-import com.altima.springboot.app.models.entity.Usuario;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialClienteFacturaService;
@@ -55,6 +56,9 @@ public class CargaPedidoController {
 	@Autowired
 	IUsuarioService usuarioService;
 
+	@Autowired
+	AuthComponent currentuserid;
+
 	@RequestMapping(value = "/mostrar-pedidos", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object[]> operadores(Long id) {
@@ -66,9 +70,6 @@ public class CargaPedidoController {
 	public String guardacatalogo(Long cargaEmpresa, String cargaTipopedido, Long id_pedido, HttpServletRequest request,
 			RedirectAttributes redirectAttrs) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		/* Obtener todos los datos del usuario logeado */
-		Usuario user = usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
-		Long iduser = user.getIdUsuario();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		ComercialPedidoInformacion pedido = new ComercialPedidoInformacion();
@@ -80,7 +81,7 @@ public class CargaPedidoController {
 		pedido.setFechaCreacion(hourdateFormat.format(date));
 		pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
 		pedido.setEstatus("1");
-		pedido.setIdUsuario(iduser);
+		pedido.setIdUsuario(currentuserid.currentuserid());
 		cargaPedidoService.save(pedido);
 		pedido.setIdText("VENT" + (pedido.getIdPedidoInformacion() + 10000));
 		cargaPedidoService.save(pedido);
@@ -90,6 +91,7 @@ public class CargaPedidoController {
 
 	}
 
+	@PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
 	@GetMapping("/informacion-general/{id}")
 	public String listGeneral(@PathVariable(value = "id") Long id, Map<String, Object> model, Model m) {
 		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
@@ -98,6 +100,7 @@ public class CargaPedidoController {
 		return "informacion-general";
 	}
 
+	@PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
 	@GetMapping("/agregar-empleado-empresa/{id}/{idcliente}")
 	public String getEmpleadosInsert(@PathVariable(value = "id") Long id,
 			@PathVariable(value = "idcliente") Long idcliente, Map<String, Object> model) {
@@ -107,7 +110,7 @@ public class CargaPedidoController {
 
 			// System.out.println("las query
 			// "+icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente).get(0).getNombreSucursal());
-				model.put("empleadosEmpresa", cargaclienteempleadoservice.findAllEmpleadosEmpresa(id));
+			model.put("empleadosEmpresa", cargaclienteempleadoservice.findAllEmpleadosEmpresa(id));
 
 			model.put("form", new ArrayList<ComercialClienteEmpleado>());
 			model.put("getlistSucursal", icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente));

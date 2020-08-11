@@ -3,6 +3,7 @@ package com.altima.springboot.app.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ public class ConcentradoPrendasController
 	@Autowired
 	private IComercialConcentradoPrendasService concentradoPrendasService;
 	
+	@PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
 	@GetMapping("/concentrado-de-prendas/{id}")
 	public String listGeneral(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
 		

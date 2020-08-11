@@ -33,6 +33,7 @@ public class ConcentradoTallasController {
 	 * el acceso a editar cierto registro
 	 */
 	//@PreAuthorize("@authComponent.hasPermissionpedido(idpedido)")
+	@PreAuthorize("@authComponent.hasPermission(#idpedido,{'pedido'})")
 	@GetMapping("/concentrado-de-tallas/{idpedido}")
 	public String listConcentradoTallas(Model model, @PathVariable("idpedido") Long idpedido) {
 

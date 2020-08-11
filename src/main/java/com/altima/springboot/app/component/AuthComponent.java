@@ -6,7 +6,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.altima.springboot.app.models.entity.ComercialCliente;
+import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.entity.Usuario;
+import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IUsuarioService;
 
@@ -16,18 +18,40 @@ public class AuthComponent {
 	IUsuarioService usuarioService;
 	@Autowired
 	private IComercialClienteService ClienteService;
+	@Autowired
+	private ICargaPedidoService cargaPedidoService;
 
-	public boolean hasPermission(Long id) {
+	public boolean hasPermission(Long id, String url) {
+		System.out.println(id);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		boolean respuesta;
-		ComercialCliente cl = ClienteService.findOne(id);
-		Long idc = cl.getIdUsuario();
-		currentuserid();
-		if (idc == currentuserid() || auth.getAuthorities().toString().contains("ROLE_ADMINISTRADOR")) {
-			respuesta = true;
-		} else {
-			respuesta = false;
+		boolean respuesta = false;
+		switch (url) {
+		case "editar-cliente":
+			System.out.println("aquientro");
+			ComercialCliente cl = ClienteService.findOne(id);
+			Long idusercliente = cl.getIdUsuario();
+			currentuserid();
+			if (idusercliente == currentuserid() || auth.getAuthorities().toString().contains("ROLE_ADMINISTRADOR")) {
+				respuesta = true;
+			} else {
+				respuesta = false;
+			}
+			break;
+		case "pedido":
+			ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+			Long iduserpedido = pedido.getIdUsuario();
+			currentuserid();
+			if (iduserpedido == currentuserid() || auth.getAuthorities().toString().contains("ROLE_ADMINISTRADOR")) {
+				respuesta = true;
+			} else {
+				respuesta = false;
+			}
+			break;
+
+		default:
+			break;
 		}
+
 		return respuesta;
 	}
 
