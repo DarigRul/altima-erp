@@ -98,15 +98,17 @@ public class ComercialBordadoServiceImpl implements ComercialBordadoService {
 	public List<Object[]> findListaBordados() {
 		
 		return em.createNativeQuery("SELECT\r\n" + 
-				"cli.nombre as nombre,\r\n" + 
-				"bor.descripcion as descrip,\r\n" + 
-				"bor.tamaño as tamaño,\r\n" + 
-				"bor.precio as precio,\r\n" + 
-				"bor.estatus_bordado as estatus,\r\n" + 
-				"bor.id_bordado\r\n" + 
-				"\r\n" + 
-				"FROM alt_comercial_bordado bor INNER JOIN alt_comercial_cliente cli\r\n" + 
-				"ON bor.id_cliente=cli.id_cliente WHERE bor.estatus=\"1\"")
+				"				cli.nombre as nombre,\r\n" + 
+				"				bor.descripcion as descrip,\r\n" + 
+				"				bor.tamaño as tamaño,\r\n" + 
+				"				bor.precio as precio,\r\n" + 
+				"				bor.estatus_bordado as estatus, \r\n" + 
+				"				bor.id_bordado,\r\n" + 
+				"				lk.atributo_1 as preciolk			\r\n" + 
+				"				FROM alt_comercial_bordado bor INNER JOIN alt_comercial_cliente cli\r\n" + 
+				"				ON bor.id_cliente=cli.id_cliente	\r\n" + 
+				"		    inner JOIN alt_comercial_lookup lk on bor.id_lookup=lk.id_lookup\r\n" + 
+				"		     WHERE bor.estatus=\"1\"")
 				.getResultList();
 	}
 	
