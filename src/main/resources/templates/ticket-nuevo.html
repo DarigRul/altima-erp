@@ -8,54 +8,55 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="">
+        <form   th:method="post" th:action="@{/guardar-ticket}">
         <div class="modal-body">
           <div class="row">
             <div class="form-group col-md-12">
               <label for="solicitante">Solicitante</label>
               <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true"
-                title="Selecciona uno..." id="solicitante">
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                title="Selecciona uno..." id="idEmpleadoSolicitante" name="idEmpleadoSolicitante" >
+                
+                <option th:each="solicitante: ${solicitante}"
+				th:value="${solicitante[0]}" th:text="${solicitante[1]}" th:selected="${solicitanteEmpleado}==${solicitante[0]}"></option>
+               
               </select>
             </div>
             <div class="form-group col-md-12">
               <label for="auxiliar">Auxiliar</label>
               <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true"
-                title="Selecciona uno..." id="auxiliar">
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                title="Selecciona uno..."  id="idEmpleadoAuxiliar" name="idEmpleadoAuxiliar" >
+                 <option th:each="auxiliar: ${auxiliar}"
+				th:value="${auxiliar[0]}" th:text="${auxiliar[1]}" th:selected="${auxiliarEmpleado}==${auxiliar[0]}" ></option>
               </select>
             </div>
             <div class="form-group col-md-5">
                 <label for="categoria">Categoria</label>
-                <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="categoria">
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" 
+                id="idLookup" name="idLookup" title="Selecciona uno...">
+                    <option th:each="categoria: ${categoria}"
+				th:value="${categoria[0]}" th:text="${categoria[1]}"  ></option>
                   </select>
             </div>
             <div class="form-group col-md-5">
               <label for="descripcion">Descripci&oacute;n</label>
-              <input class="form-control" type="text" id="descripcion" placeholder="Especificar">
+              <input class="form-control" type="text" id="descripcion" name="descripcion" placeholder="Especificar">
             </div>
             <div class="form-group col-md-2">
               <div class="form-check mb-2 mr-sm-2 float-right" style="margin-top: 38px;">
-                <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                <input class="form-check-input" type="checkbox"  value="1"
+													id="fechaCalendario" name="fechaCalendario" onChange="comprobar(this);">
                 <label class="form-check-label font-weight-bold" for="inlineFormCheck" style="font-size: 15px;">
                   Aplicar fecha
                 </label>
               </div>
             </div>
             <div class="form-group col-md-6">
-              <label for="fechaInicio">Fecha inicio</label>
-             <input class="form-control" type="date" id="fechaInicio" placeholder="Especificar">
+              <label for="fechaInicio">Fecha de inicio</label>
+             <input class="form-control" type="date" id="fechaInicio" readOnly  name="fechaInicio" placeholder="Especificar">
           </div>
           <div class="form-group col-md-6">
-            <label for="fechaFinal">Fecha de inicio</label>
-           <input class="form-control" type="date" id="fechaFinal" placeholder="Especificar">
+            <label for="fechaFinal">Fecha de finalizacion</label>
+           <input class="form-control" type="date" name="fechaFin" readOnly id="fechaFin" placeholder="Especificar">
         </div>
           </div>
         </div>
@@ -63,7 +64,18 @@
             <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
             <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
         </div>
+        <input type="hidden" id="idTicket" name="idTicket" >
         </form>
       </div>
     </div>
   </div>
+  
+  <script>
+	
+	
+	function habilitar(obj){   
+	 
+	}
+	    
+	    </script>      
+	

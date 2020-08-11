@@ -58,6 +58,12 @@ public class ComercialTicket implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	@Column(name="id_empleado_solicitante")
+	private String idEmpleadoSolicitante;
+	
+	@Column(name="id_empleado_auxiliar")
+	private String idEmpleadoAuxiliar;
 
 	public Long getIdTicket() {
 		return idTicket;
@@ -158,6 +164,24 @@ public class ComercialTicket implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getIdEmpleadoSolicitante() {
+		return idEmpleadoSolicitante;
+	}
+
+	public void setIdEmpleadoSolicitante(String idEmpleadoSolicitante) {
+		this.idEmpleadoSolicitante = idEmpleadoSolicitante;
+	}
+
+	public String getIdEmpleadoAuxiliar() {
+		return idEmpleadoAuxiliar;
+	}
+
+	public void setIdEmpleadoAuxiliar(String idEmpleadoAuxiliar) {
+		this.idEmpleadoAuxiliar = idEmpleadoAuxiliar;
+	}
+
+	
 	
 	
 

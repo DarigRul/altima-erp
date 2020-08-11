@@ -23,7 +23,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Tickets&nbsp;<button data-toggle="modal" data-target="#nuevoTicket" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo ticket</button>
+                            <h1>Tickets&nbsp;<button  th:onclick="|limpiarForm(${solicitanteEmpleado}, ${auxiliarEmpleado})|" data-toggle="modal" data-target="#nuevoTicket" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo ticket</button>
                             </h1>
                         </div>
                         <div th:insert="ticket-nuevo"></div>
@@ -57,7 +57,6 @@
                                                 <th>Ticket</th>
                                                 <th>Usuario</th>
                                                 <th>Fecha solicitante</th>
-                                                <th>Prioridad</th>
                                                 <th>Categor&iacute;a</th>
                                                 <th>Estatus</th>
                                                 <th>Fecha de soluci&oacute;n</th>
@@ -65,20 +64,22 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>48</td>
-                                                <td>Muestrario</td>
-                                                <td>03/08/2020  11:45 a.m.</td>
-                                                <td>Media</td>
-                                                <td></td>
-                                                <td>En espera</td>
-                                                <td></td>
-                                                <td class="text-center">
+                                        
+                                        <tr th:each="view, icli: ${view}">
+												<td th:text="${view[1]}"></td>
+												<td th:text="${view[2]}"></td>
+												<td th:text="${view[3]}"></td>
+												<td th:text="${view[4]}"></td>
+												<td th:text="${view[5]}"></td>
+												<td th:text="${view[6]}"></td>
+												 <td class="text-center">
                                                     <a class="btn btn-info btn-circle btn-sm popoverxd" data-target="popover" data-placement="top" data-content="Detalles"><i class="fas fa-info text-white"></i></a>
-                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd" data-target="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
-                                                    <a data-toggle="modal" data-target="#nuevoSeguimiento" class="btn btn-success btn-circle btn-sm popoverxd" data-placement="top" data-content="Nuevo seguimiento"><i class="fas fa-search text-white"></i></a>
+                                                    <a th:if="${solicitanteSelected!=null}" class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editar(this)" th:id="${view[0]}" data-target="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
+                                                    <a  onclick="seguimiento(this)" th:id="${view[0]}" data-toggle="modal" data-target="#nuevoSeguimiento" class="btn btn-success btn-circle btn-sm popoverxd" data-placement="top" data-content="Nuevo seguimiento"><i class="fas fa-search text-white"></i></a>
                                                 </td>
-                                            </tr>
+												
+											</tr>
+                                            
                                         </tbody>
                                     </table>
                                     <div th:insert="ticket-seguimiento"></div>
@@ -100,6 +101,8 @@
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaGeneral.js"></script>
     <script src="/dist/js/ComprasProveedores.js"></script>
+    
+     <script src="/dist/js/tickets.js"></script>
     <script>
         $('#iComercial').removeClass('text-altima');
         $('#navComercial').addClass('active-altima');
