@@ -8,6 +8,7 @@
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
     <!-- Site wrapper -->
     <div class="wrapper">
+    <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
         <!-- Navbar -->
         <div th:insert="navegacion-nav"></div>
         <!-- /.navbar -->
@@ -91,6 +92,9 @@
         $('#menuCompras').addClass('menu-open');
         $('#navCompras').addClass('active-altima');
         $('#navComPro').addClass('active');
+        if(document.getElementById("manejoCredito").checked==false){
+        	$('.checkCredito').hide();
+        }
     </script>
 </body>
 

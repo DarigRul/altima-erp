@@ -67,7 +67,7 @@
 		                                        <td th:text="${cotizacion[2]}"></td><!-- fecha_creacion -->
 		                                        <!-- tipo_cotizacion -->
 		                                        <td th:if="${cotizacion[3]==1}">General</td>
-		                                        <td th:if="${cotizacion[3]==2}">Desglozada</td>
+		                                        <td th:if="${cotizacion[3]==2}">Desglosada</td>
 		                                        <td th:text="${cotizacion[4]}"></td><!-- cliente -->
 		                                        <td th:text="${cotizacion[5]==0.0}?'Aún sin cotizar':'$ '+${cotizacion[5]}"></td><!-- total -->
 		                                        <td th:text="${cotizacion[6]}"></td><!-- agente de ventas -->

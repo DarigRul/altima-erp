@@ -1,4 +1,5 @@
-<form th:action="@{/guardar_datos_generales}" th:object="${proveedor}" method="post">
+<form th:object="${proveedor}" method="post" action="javascript:validarDatos()">
+<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
     <div class="row">
      	<div class="form-group col-md-8">
             <label for="proveedorNombre">Nombre <strong style="color:red">*</strong></label>
@@ -21,12 +22,12 @@
                 </label>
               </div>            
         </div>
-        <div class="form-group col-md-1">
+        <div class="form-group col-md-1 check">
             <label for="proveedorNumExt">N&uacute;m. Ext <strong style="color:red">*</strong></label>
             <input type="number" class="form-control" id="proveedorNumExt" th:field="*{numeroExterior}" placeholder="1"
-             pattern="[0-9]{10}" required>
+             pattern="[0-9]{10}"  min="0" required>
         </div>
-        <div class="form-group col-md-1">
+        <div class="form-group col-md-1 check">
             <label for="proveedorNumInt">N&uacute;m. Int</label>
             <input type="number" class="form-control" id="proveedorNumInt" th:field="*{numeroInterior}" placeholder="32">
         </div>
@@ -68,7 +69,7 @@
         </div>
         <div class="form-group col-md-3">
             <label for="proveedorZona">Zona <strong style="color:red">*</strong></label>
-            <input type="text" class="form-control" id="proveedorZona" placeholder="M&eacute;xico" required>
+            <input type="text" class="form-control" id="proveedorZona" th:field="*{zona}" placeholder="M&eacute;xico" required>
         </div>
         <div class="form-group col-md-2">
             <label for="proveedorRFC">RFC <strong style="color:red">*</strong></label>
@@ -82,11 +83,11 @@
         </div>
         <div class="form-group col-md-2">
             <label for="proveedorTelefono">Tel&eacute;fono <strong style="color:red">*</strong></label>
-            <input type="tel" pattern="[0-9]{10}" class="form-control" id="proveedorTelefono" th:field="*{telefonoProveedor}" placeholder="M&eacute;xico" required>
+            <input type="tel" pattern="[0-9]{10}" class="form-control" id="proveedorTelefono" th:field="*{telefonoProveedor}" placeholder="2462453263" required>
         </div>
         <div class="form-group col-md-3">
             <label for="proveedorCorreo">Correo <strong style="color:red">*</strong></label>
-            <input type="email" class="form-control" id="proveedorCorreo" placeholder="M&eacute;xico" required>
+            <input type="email" class="form-control" id="proveedorCorreo" th:field="*{correoProveedor}" placeholder="proveedor@correo.com" required>
         </div>
         <input type="hidden" id="datosPrueba" th:field="*{idProveedor}">
         <div class="form-group col-md-3">
@@ -95,8 +96,7 @@
         </div>
         <div class="form-group col-md-12">
             <a th:href="@{'/compras-proveedores'}" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-            <a class="btn icon-btn btn-altima text-white float-right" onclick="validarDatos()" style="cursor:pointer;"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</a>
-            <button class="btn icon-btn btn-altima text-white float-right" type="submit" id="enviarDatos" style="display:none"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+            <button class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
         </div>
     </div>
 </form>
