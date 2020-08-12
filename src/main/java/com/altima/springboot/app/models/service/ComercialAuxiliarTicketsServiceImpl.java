@@ -167,7 +167,7 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"	ticket.id_ticket,\r\n" + 
 				"	ticket.id_text,\r\n" + 
 				"	empleado.nombre_persona,\r\n" + 
-				"	ticket.fecha_inicio,\r\n" + 
+				"	DATE_FORMAT( ticket.fecha_inicio, '%d/%m/%Y %H:%i:%s' ),\r\n" + 
 				"	look.nombre_lookup,\r\n" + 
 				"	(\r\n" + 
 				"	SELECT\r\n" + 
@@ -182,7 +182,7 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"		estatus.id_ticket_estatus DESC \r\n" + 
 				"		LIMIT 1 \r\n" + 
 				"	),\r\n" + 
-				"	ticket.fecha_fin \r\n" + 
+				"	DATE_FORMAT( ticket.fecha_fin, '%d/%m/%Y %H:%i:%s' ) \r\n" + 
 				"FROM\r\n" + 
 				"	alt_comercial_ticket AS ticket,\r\n" + 
 				"	alt_comercial_lookup AS look,\r\n" + 
@@ -205,7 +205,7 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	estatus.id_ticket_estatus,\r\n" + 
-				"	DATE_FORMAT( estatus.fecha_creacion, '%d/%l/%Y %H:%i:%s' ),\r\n" + 
+				"	DATE_FORMAT( estatus.fecha_creacion, '%d/%m/%Y %H:%i:%s' ),\r\n" + 
 				"	estatus.estatus_nombre,\r\n" + 
 				"	estatus.comentario,\r\n" + 
 				"IF\r\n" + 
@@ -268,5 +268,45 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				return null;
 			}
 	
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Object[]> detalles_estatus(Long id) {
+		
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\r\n" + 
+				"	CONCAT( solicitante.nombre_persona, ' ', solicitante.apellido_paterno, ' ', solicitante.apellido_materno ),\r\n" + 
+				"	CONCAT( auxiliar.nombre_persona, ' ', auxiliar.apellido_paterno, ' ', auxiliar.apellido_materno ),\r\n" + 
+				"	look.nombre_lookup,\r\n" + 
+				"	ticket.descripcion,\r\n" + 
+				"	DATE_FORMAT( ticket.fecha_inicio, '%d/%m/%Y %H:%i:%s' ),\r\n" + 
+				"	DATE_FORMAT( ticket.fecha_fin, '%d/%m/%Y %H:%i:%s' ) ,\r\n" + 
+				"	(\r\n" + 
+				"	SELECT\r\n" + 
+				"		estatus.estatus_nombre \r\n" + 
+				"	FROM\r\n" + 
+				"		alt_comercial_ticket_estatus AS estatus \r\n" + 
+				"	WHERE\r\n" + 
+				"		1 = 1 \r\n" + 
+				"		AND estatus.id_ticket = ticket.id_ticket \r\n" + 
+				"		AND estatus.estatus = 1 \r\n" + 
+				"	ORDER BY\r\n" + 
+				"		estatus.id_ticket_estatus DESC \r\n" + 
+				"		LIMIT 1 \r\n" + 
+				"	) \r\n" + 
+				"FROM\r\n" + 
+				"	alt_comercial_ticket AS ticket,\r\n" + 
+				"	alt_hr_empleado AS solicitante,\r\n" + 
+				"	alt_hr_empleado AS auxiliar,\r\n" + 
+				"	alt_comercial_lookup AS look \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND ticket.id_empleado_solicitante = solicitante.id_empleado \r\n" + 
+				"	AND ticket.id_empleado_auxiliar = auxiliar.id_empleado \r\n" + 
+				"	AND ticket.id_lookup = look.id_lookup \r\n" + 
+				"	AND ticket.id_ticket = "+id).getResultList();
+		return re;
+		//AND material.nombre_material NOT IN ('Tela principal')
 	}
 }

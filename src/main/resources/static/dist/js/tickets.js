@@ -365,3 +365,31 @@ function valida_envia(){
 	
    	document.fvalida.submit();
 }
+
+function detalles(e) {
+	var id = e.getAttribute("id");
+	
+	$.ajax({
+        data: {id:id},
+        url:   '/detalles-ticket',
+        type:  'GET',
+        success:  function (r) 
+        {	
+        	$(r).each(function(i, v){ // indice, valor
+                
+            	$('#text-solicita').html(v[0]); 
+            	$('#text-auxiliar').html(v[1]); 
+            	$('#text-categoria').html(v[2]); 
+            	$('#text-descripcion').html(v[3]); 
+            	$('#text-inicio').html(v[4]); 
+            	$('#text-fin').html(v[5]); 
+            	$('#text-estatus').html(v[6]); 
+        	})
+        	
+        	
+        },
+        error: function(){
+        }
+    });
+	
+}

@@ -100,7 +100,7 @@ public class AuxiliarTicketsController {
     			ticket.setFechaInicio(null);
     		}
     		TicketService.save(ticket);
-    		ticket.setIdText("ticket"+(100+ticket.getIdTicket()));
+    		ticket.setIdText("TICKET"+(1000+ticket.getIdTicket()));
     		TicketService.save(ticket);	
     	}
     	else {
@@ -176,5 +176,12 @@ public class AuxiliarTicketsController {
 	public String estatus(Long id) {
     	
 		return  TicketService.Verificar_Estatus(id);
+	}
+    
+    @RequestMapping(value = "/detalles-ticket", method = RequestMethod.GET)
+	@ResponseBody
+	public  List<Object[]> detalles(Long id) {
+    	
+		return  TicketService.detalles_estatus(id);
 	}
 }

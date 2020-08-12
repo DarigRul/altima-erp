@@ -55,7 +55,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Ticket</th>
-                                                <th>Usuario</th>
+                                                <th>Solicitante</th>
                                                 <th>Fecha solicitante</th>
                                                 <th>Categor&iacute;a</th>
                                                 <th>Estatus</th>
@@ -73,7 +73,7 @@
 												<td th:text="${view[5]}"></td>
 												<td th:text="${view[6]}"></td>
 												 <td class="text-center">
-                                                    <a class="btn btn-info btn-circle btn-sm popoverxd" data-toggle="modal" data-target="#infoTicket" data-placement="top" data-content="Detalles"><i class="fas fa-info text-white"></i></a>
+                                                    <a class="btn btn-info btn-circle btn-sm popoverxd" data-toggle="modal" data-target="#infoTicket" onclick="detalles(this)" th:id="${view[0]}" data-placement="top" data-content="Detalles"><i class="fas fa-info text-white"></i></a>
                                                     <a th:if="${solicitanteSelected!=null}" class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editar(this)" th:id="${view[0]}" data-target="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
                                                     <a  onclick="seguimiento(this)" th:id="${view[0]}" data-toggle="modal" data-target="#nuevoSeguimiento" class="btn btn-success btn-circle btn-sm popoverxd" data-placement="top" data-content="Nuevo seguimiento"><i class="fas fa-search text-white"></i></a>
                                                 </td>

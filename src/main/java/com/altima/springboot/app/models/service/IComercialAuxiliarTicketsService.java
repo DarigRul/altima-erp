@@ -38,5 +38,7 @@ public interface IComercialAuxiliarTicketsService {
 	 
 	 String Verificar_Estatus (Long id);
 	 
+	 List<Object[]> detalles_estatus (Long id);
+	 
 	 
 }
