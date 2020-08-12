@@ -90,10 +90,14 @@ public class AuxiliarTicketsController {
     		ticket.setCreadoPor(auth.getName());
     		ticket.setFechaCreacion(hourdateFormat.format(date));
     		ticket.setEstatus("1");
-    		if ( ticket.getFechaCalendario() != "1" ) {
+    		if ( ticket.getFechaCalendario() != null ) {
+    			System.out.println(ticket.getFechaFin());
+    			System.out.println(ticket.getFechaInicio());
+    			
+    		}
+    		else {
     			ticket.setFechaFin(null);
     			ticket.setFechaInicio(null);
-    			
     		}
     		TicketService.save(ticket);
     		ticket.setIdText("ticket"+(100+ticket.getIdTicket()));
@@ -110,13 +114,14 @@ public class AuxiliarTicketsController {
     		
     		obj.setFechaInicio(ticket.getFechaInicio());
     		obj.setFechaFin(ticket.getFechaFin());
-    		
-    		System.out.println("estatus calendario"+ticket.getFechaCalendario());
-    		
-    		if ( obj.getFechaCalendario() != "1" ) {
+    		if ( obj.getFechaCalendario() != null ) {
+    			System.out.println(obj.getFechaFin());
+    			System.out.println(obj.getFechaInicio());
+    			
+    		}
+    		else {
     			obj.setFechaFin(null);
     			obj.setFechaInicio(null);
-    			
     		}
     		obj.setActualizadoPor(auth.getName());
     		obj.setUltimaFechaModificacion(hourdateFormat.format(date));
@@ -129,6 +134,7 @@ public class AuxiliarTicketsController {
     
     @PostMapping("/guardar-seguimiento-ticket")
 	public String guardarCliente(Long idTicket,String estatus, String comentario ) {
+    	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     	Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -163,5 +169,12 @@ public class AuxiliarTicketsController {
 	public ComercialTicket buscar(Long id) {
     	
 		return  TicketService.findOne(id);
+	}
+    
+    @RequestMapping(value = "/validar-ticket-estatus", method = RequestMethod.GET)
+	@ResponseBody
+	public String estatus(Long id) {
+    	
+		return  TicketService.Verificar_Estatus(id);
 	}
 }

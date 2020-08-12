@@ -8,7 +8,7 @@ function listar(id) {
 	        {
 	            $(r).each(function(i, v){ // indice, valor
 	                
-	            	fila = '<tr> <td>'+v[1]+'</td>  <td >'+ v[2] +'</td> <td >'+ v[3] +'</td> <td >'+ v[4] +'</td>  <td   class="text-center"><a onclick="eliminar('+v[0]+')" class="btn btn-danger btn-circle btn-sm popoverxd" data-target="popover" data-placement="top" data-content="Eliminar"><i class="fas fa-times text-white"></i></a></td> </tr>'+fila ;
+	            	fila = '<tr> <td>'+v[1]+'</td>  <td >'+ v[2] +'</td> <td >'+ v[3] +'</td> <td >'+ v[4] +'</td>  </tr>'+fila ;
 	            	
 	            })
 	            document.getElementById("tableSeguimientoBody").innerHTML =fila;
@@ -25,8 +25,57 @@ function listar(id) {
 	   $("#estatus").val(id);
 		 $('#estatus').selectpicker('refresh');
 		 $("#comentario").val(null);
+		 
+		 $.ajax({
+		        data: {id:id},
+		        url:   '/validar-ticket-estatus',
+		        type:  'GET',
+		        success:  function (r) 
+		        {
+		          console.log (r);
+		          if ( r == 'Cancelado'){
+		        	  $('#estatus').prop('disabled', true);
+		        	  $('#estatus').selectpicker('refresh');
+		        	  $("#btn-estatus").attr('onclick', 'mensaje ("Cancelado")');
+		        	  
+		        	  $('#comentario').prop('disabled', true);
+		          }
+		          else if ( r=='Realizado'){
+		        	  $('#estatus').prop('disabled', true);
+		        	  $('#estatus').selectpicker('refresh');
+		        	  $("#btn-estatus").attr('onclick', 'mensaje ("Realizado")');
+		        	  $('#comentario').prop('disabled', true);
+		          }
+		          else{
+		        	  $('#estatus').prop('disabled', false);
+		        	  $("#estatus").val(id);
+		     		 $('#estatus').selectpicker('refresh');
+		     		 $("#comentario").val(null);
+		     		$("#btn-estatus").attr('onclick', 'agregarSeguimiento()');
+		     		$('#comentario').prop('disabled', false);
+		          }
+		       	
+		            
+		        },
+		        error: function(){
+		           
+		        }
+		    });
 }
 
+function mensaje(estatus) {
+	
+	Swal.fire({
+		  icon: 'error',
+		  title: 'Lo sentimos.',
+		  text: 'Este ticket cuenta con el estatus: '+estatus,
+		  showConfirmButton: false,
+	       timer: 2250
+		})
+	
+
+	
+}
 function seguimiento(e) {
 	var id = e.getAttribute("id");
 	 $("#tableSeguimiento tbody").empty();
@@ -59,17 +108,7 @@ function agregarSeguimiento() {
 	             "_csrf": $('#token').val()
 	        },
 	        beforeSend: function () {
-	        	 Swal.fire({
-	        		 position: 'center',
-	     				icon: 'success',
-	     				title: 'Agregado correctamente',
-	                 allowOutsideClick: false,
-	                 timerProgressBar: true,
-	                 showConfirmButton: false,
-	                 onBeforeOpen: () => {
-	                    
-	                 },
-	             });
+	        	
 	        	
 	        },
 	    
@@ -193,10 +232,9 @@ function editar(e) {
 	          	document.getElementById('fechaFin').readOnly = false;
 		     	
 	     	   	}
-	     	 
-	     	$("#fechaInicio").val(r.fechaInicio);
-	     	
-	     	$("#fechaFin").val(r.fechaFin);
+	     	   	
+	     	$("#fechaInicio").val(moment(r.fechaInicio).format("YYYY-MM-DDTHH:mm:ss"));
+	     	$("#fechaFin").val(moment(r.fechaFin).format("YYYY-MM-DDTHH:mm:ss"));
 	     	$("#idTicket").val(r.idTicket);
 	     	 
 	        },

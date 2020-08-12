@@ -161,6 +161,7 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 	@Transactional
 	public List<Object[]> view() {
 		
+	
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	ticket.id_ticket,\r\n" + 
@@ -168,7 +169,19 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"	empleado.nombre_persona,\r\n" + 
 				"	ticket.fecha_inicio,\r\n" + 
 				"	look.nombre_lookup,\r\n" + 
-				"	'estatus',\r\n" + 
+				"	(\r\n" + 
+				"	SELECT\r\n" + 
+				"		estatus.estatus_nombre \r\n" + 
+				"	FROM\r\n" + 
+				"		alt_comercial_ticket_estatus AS estatus \r\n" + 
+				"	WHERE\r\n" + 
+				"		1 = 1 \r\n" + 
+				"		AND estatus.id_ticket = ticket.id_ticket \r\n" + 
+				"		AND estatus.estatus = 1 \r\n" + 
+				"	ORDER BY\r\n" + 
+				"		estatus.id_ticket_estatus DESC \r\n" + 
+				"		LIMIT 1 \r\n" + 
+				"	),\r\n" + 
 				"	ticket.fecha_fin \r\n" + 
 				"FROM\r\n" + 
 				"	alt_comercial_ticket AS ticket,\r\n" + 
@@ -178,7 +191,9 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"	1 = 1 \r\n" + 
 				"	AND ticket.id_empleado_solicitante = empleado.id_empleado \r\n" + 
 				"	AND look.id_lookup = ticket.id_lookup \r\n" + 
-				"	AND ticket.estatus =1").getResultList();
+				"	AND ticket.estatus \r\n" + 
+				"ORDER BY\r\n" + 
+				"	ticket.id_ticket DESC").getResultList();
 		return re;
 		//AND material.nombre_material NOT IN ('Tela principal')
 	}
@@ -188,20 +203,23 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 	public List<Object[]> viewEstatus(Long id) {
 		
 		List<Object[]> re = em.createNativeQuery(""
-				+ "SELECT \r\n" + 
-				"estatus.id_ticket_estatus,\r\n" + 
-				"DATE_FORMAT(estatus.fecha_creacion, '%d/%l/%Y %H:%i:%s'),\r\n" + 
-				"estatus.estatus_nombre,\r\n" + 
-				"estatus.comentario,\r\n" + 
-				"empleado.nombre_persona\r\n" + 
+				+ "SELECT\r\n" + 
+				"	estatus.id_ticket_estatus,\r\n" + 
+				"	DATE_FORMAT( estatus.fecha_creacion, '%d/%l/%Y %H:%i:%s' ),\r\n" + 
+				"	estatus.estatus_nombre,\r\n" + 
+				"	estatus.comentario,\r\n" + 
+				"IF\r\n" + 
+				"	( estatus.id_empleado = 0, \"ADMIN\", empleado.nombre_persona ) \r\n" + 
 				"FROM\r\n" + 
-				"alt_comercial_ticket_estatus as estatus,\r\n" + 
-				"alt_hr_empleado as empleado\r\n" + 
-				"WHERE \r\n" + 
-				"1=1\r\n" + 
-				"and estatus.id_empleado = empleado.id_empleado\r\n" + 
-				"and estatus.id_ticket ="+id+"\r\n" + 
-				"and estatus.estatus=1").getResultList();
+				"	alt_comercial_ticket_estatus AS estatus,\r\n" + 
+				"	alt_hr_empleado AS empleado \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND ( estatus.id_empleado = empleado.id_empleado || estatus.id_empleado = 0 ) \r\n" + 
+				"	AND estatus.id_ticket = "+id+" \r\n" + 
+				"	AND estatus.estatus = 1 \r\n" + 
+				"GROUP BY\r\n" + 
+				"	estatus.id_ticket_estatus").getResultList();
 		return re;
 		//AND material.nombre_material NOT IN ('Tela principal')
 	}
@@ -225,5 +243,30 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 	@Override
 	public ComercialTicketEstatus findOneEstatus(Long id) {
 		return repository2.findById(id).orElse(null);
+	}
+	
+	
+	@Override
+	public String Verificar_Estatus(Long id) {
+		try {
+			String re = em.createNativeQuery(""
+					+ "SELECT\r\n" + 
+					"	estatus.estatus_nombre \r\n" + 
+					"FROM\r\n" + 
+					"	alt_comercial_ticket_estatus AS estatus \r\n" + 
+					"WHERE\r\n" + 
+					"	1 = 1 \r\n" + 
+					"	AND estatus.id_ticket = "+id+" \r\n" + 
+					"	AND estatus.estatus = 1 \r\n" + 
+					"	AND (estatus.estatus_nombre = 'Cancelado' || estatus.estatus_nombre = 'Realizado')\r\n" + 
+					"	LIMIT 1").getSingleResult().toString();
+					
+			return re;
+			}
+			catch(Exception e) {
+				
+				return null;
+			}
+	
 	}
 }

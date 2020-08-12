@@ -35,4 +35,8 @@ public interface IComercialAuxiliarTicketsService {
 	 Integer idUsuario(String user);
 	 
 	 ComercialTicketEstatus findOneEstatus(Long id);
+	 
+	 String Verificar_Estatus (Long id);
+	 
+	 
 }

@@ -24,13 +24,13 @@
                 <div class="input-group mb-3">
                     <input class="form-control" style="border-radius: .25rem;" type="text" id="comentario" name="comentario" placeholder="Especificar">
                     <div class="input-group-append" style="margin-left: 10px;">
-                        <button onclick="agregarSeguimiento()" class="btn icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+                        <button id="btn-estatus" name="btn-estatus" onclick="agregarSeguimiento()" class="btn icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
                     </div>
                 </div>
             </div>
             <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
             
-            <input type="hidden" name="idTicket2" id="idTicket2" />
+            <input type="text" name="idTicket2" id="idTicket2" />
             <div class="form-group col-md-12">
                 <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;" id="tableSeguimiento">
                     <thead>
@@ -39,7 +39,7 @@
                             <th>Estatus</th>
                             <th>Comentario</th>
                             <th>Auxiliar</th>
-                            <th>Acciones</th>
+                            
                         </tr>
                     </thead>
                     <tbody id="tableSeguimientoBody">
@@ -48,9 +48,7 @@
                             <td>Pendiente</td>
                             <td>Encontre cerrado muestrario </td>
                             <td>Aberlado</td>
-                            <td class="text-center">
-                                <a class="btn btn-danger btn-circle btn-sm popoverxd" data-target="popover" data-placement="top" data-content="Eliminar"><i class="fas fa-times text-white"></i></a>
-                            </td>
+                          
                         </tr>
                     </tbody>
                 </table>    
