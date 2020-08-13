@@ -55,7 +55,7 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 		if (iduser != null) {
 			re = em.createNativeQuery("SELECT\r\n" + "	informacion.id_pedido_informacion,\r\n"
 					+ "	informacion.id_text,\r\n" + "	cliente.nombre,\r\n"
-					+ "	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\r\n" + "	cliente.id_cliente \r\n"
+					+ "	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\r\n" + "	cliente.id_cliente, informacion.observacion \r\n"
 					+ "FROM\r\n" + "	alt_comercial_pedido_informacion AS informacion,\r\n"
 					+ "	alt_comercial_cliente AS cliente \r\n" + "WHERE\r\n" + "	1 = 1 \r\n"
 					+ "	AND informacion.id_empresa = cliente.id_cliente \r\n" + "	AND informacion.id_usuario = "
@@ -63,7 +63,7 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 		} else {
 			re = em.createNativeQuery("SELECT\r\n" + "	informacion.id_pedido_informacion,\r\n"
 					+ "	informacion.id_text,\r\n" + "	cliente.nombre,\r\n"
-					+ "	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\r\n" + "	cliente.id_cliente \r\n"
+					+ "	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\r\n" + "	cliente.id_cliente, informacion.observacion \r\n"
 					+ "FROM\r\n" + "	alt_comercial_pedido_informacion AS informacion,\r\n"
 					+ "	alt_comercial_cliente AS cliente \r\n" + "WHERE\r\n" + "	1 = 1 \r\n"
 					+ "	AND informacion.id_empresa = cliente.id_cliente \r\n" + "ORDER BY\r\n"

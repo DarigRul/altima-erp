@@ -142,10 +142,22 @@ public class CargaPedidoController {
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		pedido.setActualizadoPor(auth.getName());
 		pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
+		pedido.setIdUsuario(currentuserid.currentuserid());
 		cargaPedidoService.save(pedido);
 
 		redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon", "success");
 		return "redirect:/carga-de-pedidos";
 
 	}
+	
+	 @PostMapping("/observaciones")
+	    public String guardarobservaciones(RedirectAttributes redirectAttrs,String observacion,Long idpedido ) {
+	        	ComercialPedidoInformacion pedido=cargaPedidoService.findOne(idpedido);
+	        	pedido.setObservacion(observacion);
+	        	cargaPedidoService.save(pedido);
+	    	redirectAttrs.addFlashAttribute("title", "Observaciones guardadas correctamente").addFlashAttribute("icon", "success");
+			return "redirect:/carga-de-pedidos";
+	    }
 }
+   
+
