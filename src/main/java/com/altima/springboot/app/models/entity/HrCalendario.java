@@ -28,6 +28,9 @@ public class HrCalendario implements Serializable {
 
 	@Column(name = "fecha")
 	private String fecha;
+	
+	@Column(name = "id_text")
+	private String idText;
 
 	@Column(name = "nombre_calendario")
 	private String nombreCalendario;
@@ -46,6 +49,17 @@ public class HrCalendario implements Serializable {
 
 	@Column(name = "estatus")
 	private String Estatus;
+	
+	
+	
+
+	public String getIdText() {
+		return idText;
+	}
+
+	public void setIdText(String idText) {
+		this.idText = idText;
+	}
 
 	public Long getIdCalendario() {
 		return idCalendario;
