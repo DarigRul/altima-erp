@@ -6,12 +6,23 @@ function listar(id) {
 	        type:  'GET',
 	        success:  function (r) 
 	        {
+	        	var tabla = $('#tableSeguimiento').DataTable();
 	            $(r).each(function(i, v){ // indice, valor
 	                
-	            	fila = '<tr> <td>'+v[1]+'</td>  <td >'+ v[2] +'</td> <td >'+ v[3] +'</td> <td >'+ v[4] +'</td>  </tr>'+fila ;
+	            	tabla.row.add([	
+	            		v[1],
+	            		v[2],
+	            		v[3],
+	            		v[4]
+	           		  
+	           		 ]).node().id ="row";
+	           	tabla.draw( false );
+	            	//fila = '<tr> <td>'+v[1]+'</td>  <td >'+ v[2] +'</td> <td >'+ v[3] +'</td> <td >'+ v[4] +'</td>  </tr>' ;
+	            	
+	            	
 	            	
 	            })
-	            document.getElementById("tableSeguimientoBody").innerHTML =fila;
+	            
 	       	
 	            
 	        },
@@ -88,7 +99,6 @@ function seguimiento(e) {
 }
 
 function agregarSeguimiento() {	
-	 var fila="";
 	if ( document.getElementById("estatus").value && 
 			document.getElementById("comentario").value ){
 		
@@ -109,7 +119,7 @@ function agregarSeguimiento() {
 	        },
 	        beforeSend: function () {
 	        	
-	        	
+	        	 document.getElementById("btn-estatus").disabled=true;
 	        },
 	    
 	        success: function(data) {
@@ -124,7 +134,8 @@ function agregarSeguimiento() {
 	                 
 	             });
 	       },
-	       complete: function() {   
+	       complete: function() {
+	    	   document.getElementById("btn-estatus").disabled=false;
 	    	   listar(idTicket2)
 	    	   
 			
@@ -214,6 +225,11 @@ function editar(e) {
 	        type:  'GET',
 	        success:  function (r) 
 	        {	
+	        	if ( $("#solicitanteSelected").val () ==1    ){
+	        		$("#idEmpleadoSolicitante").prop('disabled', true);
+	        		$('#idEmpleadoSolicitante').selectpicker('refresh');
+	        	}
+	        	
 	        	$("#idEmpleadoSolicitante").val(r.idEmpleadoSolicitante);
 	     	   	$('#idEmpleadoSolicitante').selectpicker('refresh');
 	        
@@ -227,14 +243,22 @@ function editar(e) {
 	     	  $("#descripcion").val(r.descripcion);
 	     	   	
 	     	   	if (r.fechaCalendario == 1 ){
-	     	   	$("#fechaCalendario").prop("checked", true);
-	     	   document.getElementById('fechaInicio').readOnly = false;
-	          	document.getElementById('fechaFin').readOnly = false;
+	     	   		$("#fechaCalendario").prop("checked", true);
+	     	   		document.getElementById('fechaInicio').readOnly = false;
+	     	   		document.getElementById('fechaFin').readOnly = false;
+	     	   		$("#fechaInicio").val(moment(r.fechaInicio).format("YYYY-MM-DDTHH:mm:ss"));
+	     	   		$("#fechaFin").val(moment(r.fechaFin).format("YYYY-MM-DDTHH:mm:ss"));
 		     	
 	     	   	}
+	     	 	else{
+	     	   		$("#fechaCalendario").prop("checked", false);
+	     	   		document.getElementById('fechaInicio').readOnly = true;
+	     	   		document.getElementById('fechaFin').readOnly = true;
+	     	   		$("#fechaInicio").val(null);
+	     	   		$("#fechaFin").val(null);
+	     	   	}
 	     	   	
-	     	$("#fechaInicio").val(moment(r.fechaInicio).format("YYYY-MM-DDTHH:mm:ss"));
-	     	$("#fechaFin").val(moment(r.fechaFin).format("YYYY-MM-DDTHH:mm:ss"));
+	     	
 	     	$("#idTicket").val(r.idTicket);
 	     	 
 	        },
@@ -269,6 +293,15 @@ function limpiarForm(solicitud, auxiliar){
 	$("#fechaFin").val(null);
 	$("#idTicket").val(null);
 	
+	if (solicitud != null){
+		$("#idEmpleadoSolicitante").prop('disabled', true);
+		$('#idEmpleadoSolicitante').selectpicker('refresh');
+	}
+	if (auxiliar != null){
+		$("#idEmpleadoAuxiliar").prop('disabled', true);
+		$('#idEmpleadoAuxiliar').selectpicker('refresh');
+	}
+	
 }
 function comprobar(obj)
 {   
@@ -279,6 +312,9 @@ function comprobar(obj)
 	   
    	document.getElementById('fechaInicio').readOnly = true;
 	document.getElementById('fechaFin').readOnly = true;
+	$("#fechaInicio").val(null);
+	$("#fechaFin").val(null);
+
    }     
 }
 
@@ -393,3 +429,7 @@ function detalles(e) {
     });
 	
 }
+
+$('#nuevoSeguimiento').on('hidden.bs.modal', function () {
+    location.reload();
+});

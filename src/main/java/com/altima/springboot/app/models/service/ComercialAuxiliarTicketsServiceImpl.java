@@ -167,22 +167,40 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"	ticket.id_ticket,\r\n" + 
 				"	ticket.id_text,\r\n" + 
 				"	empleado.nombre_persona,\r\n" + 
-				"	DATE_FORMAT( ticket.fecha_inicio, '%d/%m/%Y %H:%i:%s' ),\r\n" + 
+				"	DATE_FORMAT( ticket.fecha_creacion, '%d/%m/%Y %H:%i:%s' ),\r\n" + 
 				"	look.nombre_lookup,\r\n" + 
-				"	(\r\n" + 
-				"	SELECT\r\n" + 
-				"		estatus.estatus_nombre \r\n" + 
-				"	FROM\r\n" + 
-				"		alt_comercial_ticket_estatus AS estatus \r\n" + 
-				"	WHERE\r\n" + 
-				"		1 = 1 \r\n" + 
-				"		AND estatus.id_ticket = ticket.id_ticket \r\n" + 
-				"		AND estatus.estatus = 1 \r\n" + 
-				"	ORDER BY\r\n" + 
-				"		estatus.id_ticket_estatus DESC \r\n" + 
-				"		LIMIT 1 \r\n" + 
+				"	IFNULL((\r\n" + 
+				"		SELECT\r\n" + 
+				"			estatus.estatus_nombre \r\n" + 
+				"		FROM\r\n" + 
+				"			alt_comercial_ticket_estatus AS estatus \r\n" + 
+				"		WHERE\r\n" + 
+				"			1 = 1 \r\n" + 
+				"			AND estatus.id_ticket = ticket.id_ticket \r\n" + 
+				"			AND estatus.estatus = 1 \r\n" + 
+				"		ORDER BY\r\n" + 
+				"			estatus.id_ticket_estatus DESC \r\n" + 
+				"			LIMIT 1 \r\n" + 
+				"			),\r\n" + 
+				"		\"En espera\" \r\n" + 
 				"	),\r\n" + 
-				"	DATE_FORMAT( ticket.fecha_fin, '%d/%m/%Y %H:%i:%s' ) \r\n" + 
+				"	IFNULL((\r\n" + 
+				"		SELECT\r\n" + 
+				"		DATE_FORMAT(estatus.fecha_creacion, '%d/%m/%Y %H:%i:%s' )\r\n" + 
+				"			\r\n" + 
+				"		FROM\r\n" + 
+				"			alt_comercial_ticket_estatus AS estatus \r\n" + 
+				"		WHERE\r\n" + 
+				"			1 = 1 \r\n" + 
+				"			AND estatus.id_ticket = ticket.id_ticket \r\n" + 
+				"			AND estatus.estatus = 1 \r\n" + 
+				"			and (estatus.estatus_nombre='Realizado' || estatus.estatus_nombre='Cancelado' )\r\n" + 
+				"		ORDER BY\r\n" + 
+				"			estatus.id_ticket_estatus DESC \r\n" + 
+				"			LIMIT 1 \r\n" + 
+				"			),\r\n" + 
+				"		\"\" \r\n" + 
+				"	)\r\n" + 
 				"FROM\r\n" + 
 				"	alt_comercial_ticket AS ticket,\r\n" + 
 				"	alt_comercial_lookup AS look,\r\n" + 
@@ -219,7 +237,8 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"	AND estatus.id_ticket = "+id+" \r\n" + 
 				"	AND estatus.estatus = 1 \r\n" + 
 				"GROUP BY\r\n" + 
-				"	estatus.id_ticket_estatus").getResultList();
+				"	estatus.id_ticket_estatus"+
+				" 	ORDER BY  estatus.id_ticket_estatus desc").getResultList();
 		return re;
 		//AND material.nombre_material NOT IN ('Tela principal')
 	}

@@ -4,7 +4,7 @@
       <div class="modal-content modal-rounded-body">
         <div class="modal-header bg-altima modal-rounded-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Nuevo seguimiento</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" onclick="history.go(0);"  data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -43,22 +43,13 @@
                         </tr>
                     </thead>
                     <tbody id="tableSeguimientoBody">
-                        <tr >
-                            <td>02/08/2020  10:15 a.m. </td>
-                            <td>Pendiente</td>
-                            <td>Encontre cerrado muestrario </td>
-                            <td>Aberlado</td>
-                          
-                        </tr>
+                       
                     </tbody>
                 </table>    
             </div>
           </div>
         </div>
-        <div class="modal-footer modal-rounded-footer">
-            <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-            <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
-        </div>
+      
         </form>
       </div>
     </div>

@@ -84,6 +84,15 @@ public class AuxiliarTicketsController {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Integer id_empleado =TicketService.idUsuario(auth.getName());
+		if ( ticket.getIdEmpleadoSolicitante() == null) {
+			ticket.setIdEmpleadoSolicitante(id_empleado.toString());
+		}
+		if (ticket.getIdEmpleadoAuxiliar()== null) {
+			ticket.setIdEmpleadoAuxiliar(id_empleado.toString());
+		}
+			
+			
     	if (ticket.getIdTicket() == null) {
     		
     		ticket.setIdText("ticket");
