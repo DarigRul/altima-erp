@@ -220,6 +220,7 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 	@Transactional
 	public List<Object[]> viewEstatus(Long id) {
 		
+		
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	estatus.id_ticket_estatus,\r\n" + 

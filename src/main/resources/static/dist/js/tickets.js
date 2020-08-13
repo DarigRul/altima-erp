@@ -1,5 +1,5 @@
 function listar(id) {
-	var fila="";
+	
 	 $.ajax({
 	        data: {id:id},
 	        url:   '/lista-seguimientos',
@@ -7,6 +7,11 @@ function listar(id) {
 	        success:  function (r) 
 	        {
 	        	var tabla = $('#tableSeguimiento').DataTable();
+	        	
+	        
+	        	 
+	        	tabla.clear();
+	        	    
 	            $(r).each(function(i, v){ // indice, valor
 	                
 	            	tabla.row.add([	
@@ -89,7 +94,7 @@ function mensaje(estatus) {
 }
 function seguimiento(e) {
 	var id = e.getAttribute("id");
-	 $("#tableSeguimiento tbody").empty();
+	
 	 listar(id)
 	 $("#idTicket2").val(id);
 	 
