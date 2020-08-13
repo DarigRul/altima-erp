@@ -131,6 +131,7 @@ public class HrCatalogosRestController {
                 area.setIdText("AREA");
                 hrLookupService.save(area);
                 area.setIdText("AREA" + (10000 + area.getIdLookup()));
+                hrLookupService.save(area);
                 return 2;
             } catch (Exception p) {
                 p.printStackTrace();
@@ -347,6 +348,9 @@ public class HrCatalogosRestController {
                 horarioLaboral.setFechaCreacion(dtf.format(now));
                 horarioLaboral.setActualizadoPor(auth.getName());
                 horarioLaboral.setEstatus("1");
+                horarioLaboral.setIdText("HRO");
+                hrHorarioService.save(horarioLaboral);
+                horarioLaboral.setIdText("HRO" + (10000 + horarioLaboral.getIdHorario()));
                 hrHorarioService.save(horarioLaboral);
                 return 2;
             } catch (Exception p) {
@@ -411,6 +415,9 @@ public class HrCatalogosRestController {
                 nuevosFestivos.setFechaCreacion(dtf.format(now));
                 nuevosFestivos.setEstatus(estatusFestivo);
                 nuevosFestivos.setActualizadoPor(auth.getName());
+                nuevosFestivos.setIdText("CAL");
+                hrCalendarioService.save(nuevosFestivos);
+                nuevosFestivos.setIdText("CAL" + (10000 + nuevosFestivos.getIdCalendario()));
                 hrCalendarioService.save(nuevosFestivos);
                 return 2;
             } catch (Exception p) {

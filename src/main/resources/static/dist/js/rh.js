@@ -517,7 +517,7 @@ function listarDepartamentos() {
             tableRHDepartamento.rows().remove().draw();
             for (i in data) {
                 tableRHDepartamento.row.add([
-                    data[i][0],
+                    data[i][5],
                     data[i][1],
                     data[i][3],
                     "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
@@ -768,7 +768,7 @@ function ListarPuestos() {
             tableRHPuestos.rows().remove().draw();
             for (i in data) {
                 tableRHPuestos.row.add([
-                    data[i][0],
+                    data[i][9],
                     data[i][1],
                     data[i][3],
                     data[i][4] == 1 ? "Aceptado" : "Rechazado",
@@ -883,7 +883,7 @@ function editarPuesto(idLookup) {
     });
 }
 
-//funci&oacute;n para agregar horarios
+//funcion para agregar horarios
 function agregarHorario() {
     Swal.fire({
         title: 'Agregar Horario',
@@ -969,7 +969,6 @@ function agregarHorario() {
 }
 
 //Listar horarios insertados
-
 function ListarHorarios() {
     $.ajax({
         method: "GET",
@@ -981,7 +980,7 @@ function ListarHorarios() {
             tableRHHorarios.rows().remove().draw();
             for (i in data) {
                 tableRHHorarios.row.add([
-                    data[i][0],
+                    data[i][10],
                     data[i][1],
                     data[i][2],
                     data[i][3],
@@ -1111,10 +1110,10 @@ function agregarCalendario() {
             '<div class="row">' +
             '<div class="form-group col-sm-12">' +
             '<label for="estatusfecha">Status</label>' +
-            '<input type="checkbox" class="swal2-input" value="false"  id="checkbox" onclick="$(this).val(this.checked ? "1" : "0")" >' +
+            '<input type="checkbox" class="swal2-input" value="0"  id="checkbox" onclick="$(this).val(this.checked ? 1 : 0)">' +
             '</div>' +
             '</div>' +
-            '<input type="hidden" class="swal2-input" id="idCalendario">' +
+            '<input type="hidden" class="swal2-input" id="idCalendario" value>' +
             '</div>',
         showCancelButton: true,
         cancelButtonColor: '#6C757D',
@@ -1128,6 +1127,8 @@ function agregarCalendario() {
             var estatusFestivo = document.getElementById("checkbox").value;
             console.log(estatusFestivo);
             console.log(fechaFestivo);
+            console.log(idCalendario);
+
             $.ajax({
                 type: "POST",
                 url: "/postCalendarios",
@@ -1199,7 +1200,7 @@ function ListarCalendarios() {
             tableRHCalendario.rows().remove().draw();
             for (i in data) {
                 tableRHCalendario.row.add([
-                    data[i][0],
+                    data[i][8],
                     data[i][1],
                     data[i][2],
                     data[i][7] == 1 ? "Valido" : "No valido",

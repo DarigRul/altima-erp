@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.models.entity.HrCalendario;
-import com.altima.springboot.app.models.entity.HrHorario;
 import com.altima.springboot.app.repository.HrCalendariosRepository;
 
 @Service
