@@ -378,7 +378,9 @@ function valida_envia(){
    	}
    	
    	if (  $('#fechaCalendario').is(':checked')){
-   		console.log("si entra")
+   		var start = moment(fechaInicio.value);
+ 		var end = moment(fechaFin.value);
+ 		var hoy = new Date();
    		
    		if (document.fvalida.fechaInicio.value.length==0){
    			Swal.fire({
@@ -403,6 +405,58 @@ function valida_envia(){
    	      		//document.fvalida.nombre.focus()
    	      		return 0;
    		}
+   		if(!start.isValid() ) {
+    		Swal.fire({
+				position: 'center',
+				icon: 'warning',
+				title: 'La fecha de inicio no es válida.',
+				showConfirmButton: false,
+				timer: 1250
+			})
+    		
+    		return false; 
+    	}//dddfff
+   		if(!end.isValid()) {
+    		Swal.fire({
+				position: 'center',
+				icon: 'warning',
+				title: 'La fecha de finalización no es válida.',
+				showConfirmButton: false,
+				timer: 1250
+			})
+    		return false; 
+    	}
+   		if(start.isAfter(end)) {
+	 		Swal.fire({
+				position: 'center',
+				icon: 'warning',
+				title: 'La fecha de finalización debe ser posterior a la fecha de inicio.',
+				showConfirmButton: false,
+				timer: 1250
+			})
+	 		return false; 
+	 	}
+   		if ( hoy >= start){
+    		Swal.fire({
+				position: 'center',
+				icon: 'warning',
+				title: 'La fecha de inicio debe ser mayor o igual a la fecha actual.',
+				showConfirmButton: false,
+				timer: 1250
+			})
+			return false;
+    	}
+    	
+    	if ( hoy >= end){
+    		Swal.fire({
+				position: 'center',
+				icon: 'warning',
+				title: 'La fecha de finalizacion debe ser mayor o igual a la fecha actual.',
+				showConfirmButton: false,
+				timer: 1250
+			})
+			return false;
+    	}
    		
    	}
 	
