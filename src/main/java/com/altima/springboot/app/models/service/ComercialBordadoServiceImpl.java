@@ -104,7 +104,8 @@ public class ComercialBordadoServiceImpl implements ComercialBordadoService {
 				"				bor.precio as precio,\r\n" + 
 				"				bor.estatus_bordado as estatus, \r\n" + 
 				"				bor.id_bordado,\r\n" + 
-				"				lk.atributo_1 as preciolk			\r\n" + 
+				"				lk.atributo_1 as preciolk,\r\n" + 
+				"				bor.id_cliente \r\n" + 
 				"				FROM alt_comercial_bordado bor INNER JOIN alt_comercial_cliente cli\r\n" + 
 				"				ON bor.id_cliente=cli.id_cliente	\r\n" + 
 				"		    inner JOIN alt_comercial_lookup lk on bor.id_lookup=lk.id_lookup\r\n" + 
@@ -139,6 +140,27 @@ public class ComercialBordadoServiceImpl implements ComercialBordadoService {
 				"lk.atributo_1\r\n" + 
 				"\r\n" + 
 				"FROM alt_comercial_lookup lk where lk.nombre_lookup= '"+Lookup +"' ").getSingleResult();
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> findListaBordadoCliente(Long id) {
+		
+		return em.createNativeQuery("SELECT \r\n" + 
+				"bor.descripcion as descri,\r\n" + 
+				"lk.nombre_lookup as tamano,\r\n" + 
+				"lk.atributo_1 as price,\r\n" + 
+				"bor.estatus_bordado,\r\n" + 
+				"bor.id_bordado,\r\n" + 
+				"bor.id_cliente\r\n" + 
+				"\r\n" + 
+				"FROM\r\n" + 
+				"\r\n" + 
+				"alt_comercial_bordado bor  inner join alt_comercial_lookup lk on \r\n" + 
+				"bor.id_lookup=lk.id_lookup where bor.estatus=1 and bor.id_cliente="+id)
+				.getResultList();
 	}
 	
 	

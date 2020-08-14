@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Bordados | Altima</title>
+</head>
+<style>
+#form1{width:auto}.alert{text-align:center}#blah{max-height:150px;height:auto;width:auto;display:block;margin-left:auto;margin-right:auto;padding:5px}#img_contain{border-radius:5px;width:auto}.input-group1{margin-left:calc(calc(100vw - 450px)/ 2);margin-top:20px;width:320px}.imgInp{width:150px;padding:10px;background-color:#d3d3d3}.loading{animation:blinkingText ease 2.5s infinite}@keyframes blinkingText{0%{color:#000}50%{color:#transparent}99%{color:transparent}100%{color:#000}}.custom-file-label{cursor:pointer}
+</style>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse"    onload="cargar_pagina()">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Bordados&nbsp;
+                                <a th:href="@{/bordados}" class="btn btn-sm icon-btn btn-danger text-white"><span
+                                        class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                                        <a  data-toggle="modal" data-target="#nuevoBordado" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                            class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nuevo bordado</a>
+                            </h1>
+                        </div>
+                        <div th:insert="bordado-nuevo"></div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">Agentes de venta</li>
+                                <li class="breadcrumb-item active">Bordados</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Nuevo bordado</h3>
+                                </div>
+                                <div class="card-body">
+                              
+                                            
+                    
+                                        <div class="form-group col-md-12">
+                                            <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Descripci&oacute;n</th>
+                                                        <th>Tama&ntilde;o</th>
+                                                        <th>Precio</th>
+                                                        <th>Estatus</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                         <td>Registro de patente de bordado</td>
+                                                         <td>25</td>
+                                                         <td>34</td>
+                                                         <td>Aceptado</td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-danger btn-circle btn-sm popoverxd" data-toggle="popover" data-content="Eliminar" data-placement="top"><i class="fas fa-times"></i></button>
+                                                            <button data-target="#nuevoBordado" class="btn btn-warning btn-circle btn-sm popoverxd" data-toggle="modal" data-content="Editar" data-placement="top"><i class="fas fa-pen"></i></button>
+                                                            <button data-target="#editarEspecificaciones" class="btn btn-success btn-circle btn-sm popoverxd" data-toggle="modal" data-content="Especificaciones" data-placement="top"><i class="fas fa-clipboard"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div th:insert="bordado-especificaciones"></div>
+                                        <!-- <div class="form-group col-md-12">
+                                            <label for="archivoBordado">Solicitud de ponchado</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="archivoBordado">
+                                                <label class="custom-file-label" for="archivoBordado">Elegir archivo</label>
+                                              </div>
+                                        </div> -->
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active-altima');
+        $('#menuVenta').addClass('menu-open');
+        $('#navVenta').addClass('active');
+        $('#navVenFlu').addClass('active');
+    </script>
+    	
+    
+    <script>
+
+$(".input2").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".label2").addClass("selected").html(fileName);
+  });
+
+        $("#inputGroupFile01").change(function(event) {
+            RecurFadeIn();
+            readURL(this);
+        });
+        $("#inputGroupFile01").on('click', function(event) {
+            RecurFadeIn();
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var filename = $("#inputGroupFile01").val();
+                filename = filename.substring(filename.lastIndexOf('\\') + 1);
+                reader.onload = function(e) {
+                    debugger;
+                    $('#blah').attr('src', e.target.result);
+                    $('#blah').hide();
+                    $('#blah').fadeIn(500);
+                    $('.label1').text(filename);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            $(".alert").removeClass("loading").hide();
+        }
+
+        function RecurFadeIn() {
+            console.log('ran');
+            FadeInAlert("Wait for it...");
+        }
+
+        function FadeInAlert(text) {
+            $(".alert").show();
+            $(".alert").text(text).addClass("loading");
+        }
+        
+        
+        //para obtener el valor del imput
+      function cargar_pagina() {
+        	console.log("entre a la function ready");
+        	
+        	var idBordado = document.getElementById('idBordado').value;
+        		
+
+        	console.log("aqui esta el que queremos asignar" + idBordado);
+        	
+        		document.getElementById('idBordadoParte').value = idBordado;
+        	
+        	//console.log("aqui esta ala que le queremos dar valor" + $("#idBordadoParte").val());
+        }
+        
+    </script>
+</body>
+
+</html>

@@ -273,7 +273,124 @@ public class BordadosAgenteVentasController {
 			System.out.println("Entre al rest de precio");
 			return  bordadoService.findPrecio(lookup);
 		}
+		
+		
+		
+		///////////////////////------>>>>NEW TEMPLATES<<<<<<<<<<<<<<<<<<<<-----------////////////
+		
+		
+		
+		  @GetMapping("/bordadosn")
+		    public String listBordadosN(Model model) {
+		    	
+		    	List<Object[]> listaBordados= bordadoService.findListaBordados();
+		    	model.addAttribute("listBordado", listaBordados);
+		    	
+		    	
+		    	
+		    	
+		    	
+		        return "bordadosn";
+		    }
+		  
+		 
+		  
+		  @GetMapping("/bordadosn/{id}")
+		    public String listBordadosNumn(Model model,@PathVariable("id") Long id) {
+			  
+			  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    	System.out.println("aqui esta en controlador que vota el find one");
+		    	ComercialBordadoParteBordado objetoBordadoParte= new ComercialBordadoParteBordado();
+		    	ComercialBordado objetoBordado = new ComercialBordado();
+		    	String nombre = auth.getName();
+		    	List<ComercialCliente> listClientes = bordadoService.findListaClientes(nombre);
+		    	List<ComercialLookup> listLookup= bordadoService.findListaLookupComercial();
+		    	model.addAttribute("listaCli", listClientes);   	
+		    	model.addAttribute("listLookup", listLookup);	    		    
+		    	model.addAttribute("objetoBordado", objetoBordado);
+		    	model.addAttribute("objetoBordadoParte", objetoBordadoParte);
+		    	List<DisenioLookup> listLookupsCol = disenioMaterialService.findListaColor();
+		    	//List<Object[]> listaParteBordadoList=bordadoService.findListaParteBordados(id);
+		    	List<Object[]> listaBordadoPorCliente = bordadoService.findListaBordadoCliente(id);
+	        	model.addAttribute("listLookupsCol", listLookupsCol);
+	        	model.addAttribute("listaBordadoPorCliente", listaBordadoPorCliente);
+		        return "agregar-bordadon";
+		    }
+		  
+		  @PostMapping("/guardar_bordadon")
+			public String guardarBordado(@ModelAttribute ComercialBordado objetoBordado, RedirectAttributes redirectAttrs,
+		            @RequestParam(value = "inputGroupFile01", required = true) MultipartFile imagenParteBordado,
+		            @RequestParam(value = "inputFileBordado", required = true) MultipartFile inputFileBordado)
+					throws IllegalStateException, IOException {
+				
+				System.out.println("Entre el metodo de guardar la primera parte de bordado");		
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				Date date = new Date();
+			    DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			    
+				if (!imagenParteBordado.isEmpty()) {// imagen
+					if (objetoBordado.getRutaBordado() != null && objetoBordado.getRutaBordado().length() > 0) {
+						UploadService.deleteBordadoParte(objetoBordado.getRutaBordado());
+						
+					}
+					String uniqueFilename = null;
+					try {
+						uniqueFilename = UploadService.copyBordadoParte(imagenParteBordado);
+					
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					objetoBordado.setRutaBordado(uniqueFilename);
+					
+					System.out.println("este es un pinche prueba");
 
+		        } // imagen
+		        
+		        if (!inputFileBordado.isEmpty()) {// imagen
+					if (objetoBordado.getRutaPonchado() != null && objetoBordado.getRutaPonchado().length() > 0) {
+						UploadService.deleteBordadoParte(objetoBordado.getRutaPonchado());
+						
+					}
+					String uniqueFilename2 = null;
+					try {
+						uniqueFilename2 = UploadService.copyBordadoParte(inputFileBordado);
+		                objetoBordado.setEstatus_bordado("1");
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+		            objetoBordado.setRutaPonchado(uniqueFilename2);
+		            
+					
+					System.out.println("este es un pinche prueba alv x2");
+
+				} // imagen
+		        if(objetoBordado.getIdBordado()==null || objetoBordado.getIdBordado()==0){
+		            objetoBordado.setEstatus_bordado("0");
+		        }
+
+				objetoBordado.setCreadoPor(auth.getName());
+				objetoBordado.setActualizadoPor("Actualizador");
+				objetoBordado.setEstatus("1");
+				
+				objetoBordado.setFechaCreacion(hourdateFormat.format(date));
+
+				
+				bordadoService.save(objetoBordado);
+				System.out.println("si pelo el save");
+				
+				redirectAttrs.addFlashAttribute("title", "Bordado agregado  correctamente").addFlashAttribute("icon",
+						"success");
+
+				return "redirect:bordados/"+objetoBordado.getIdBordado();
+
+			}
+			
     
     
 }

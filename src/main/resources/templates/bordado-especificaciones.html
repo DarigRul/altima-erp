@@ -1,0 +1,78 @@
+<!-- Modal -->
+<div class="modal fade" id="editarEspecificaciones" tabindex="-1" role="dialog" aria-labelledby="nuevoBordadoTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 55%;" role="document">
+      <div class="modal-content modal-rounded-body">
+        <div class="modal-header bg-altima modal-rounded-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Especificaciones del bordado</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            
+            <form class="row" id="bordadoParteForm" th:object="${objetoBordadoParte}" th:action="@{/guardar_bordado_parte}" enctype="multipart/form-data" method="post" >  
+                                               
+                <div class="form-group col-md-4">
+                
+                <input type="hidden" class="form-control" id="idBordadoParte" th:field="*{idBordado}"  >
+                
+                
+                    <label for="parteBordado">Parte del bordado</label>
+                    <input type="text" class="form-control" id="parteBordado" placeholder="Arriba" th:field="*{partesBordado}"  >
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="hiloBordado">No. hilo</label>
+                    <input type="number" class="form-control" id="hiloBordado" placeholder="57" th:field="*{numeroHilo}"  >
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="colorBordado">Color</label>
+                    <div class="input-group mb-3">
+                            
+       <select class="form-control selectpicker" th:field="*{color}" id="idColor1" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                 <option th:each="listLookupsCol:${listLookupsCol}"
+                 th:data-content="@{<i class='fa fa-tint'}+@{style='color:}+${listLookupsCol[3]}+@{;'></i>}+'             '+${listLookupsCol[1]}"
+                      th:value="${listLookupsCol[0]}"></option>
+                         </select>
+                        <div class="input-group-append" style="margin-left: 10px;">
+                            <button type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                        </div>
+                      </div>
+                </div>
+                
+         </form>
+         <div class="form-group col-md-12">
+            <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Partes del bordado</th>
+                        <th>No. hilo</th>
+                        <th>Color</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="mt:${listaParteBordadoList}">
+                         <td th:text="${mt[0]}"></td>
+                         <td th:text="${mt[1]}"></td>
+                         <td th:text="${mt[2]}"></td>
+                        <td class="text-center">
+                        
+
+                        <a th:href="@{/eliminar_bordado/}+${mt[3]}"><button type="button" class="btn btn-sm icon-btn btn-danger text-white"><span
+                                    class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        <div class="modal-footer  modal-rounded-footer">
+          <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span
+            class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+            <button type="button" class="btn icon-btn btn-altima text-white float-right"><span
+                class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
