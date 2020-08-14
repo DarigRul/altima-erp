@@ -1,0 +1,74 @@
+<!-- Modal -->
+<div class="modal fade" id="nuevoBordado" tabindex="-1" role="dialog" aria-labelledby="nuevoBordadoTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;" role="document">
+      <div class="modal-content modal-rounded-body">
+        <div class="modal-header bg-altima modal-rounded-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Nuevo bordado</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form class="row" id="bordadoForm" th:object="${objetoBordado}" th:action="@{/guardar_bordado}" enctype="multipart/form-data" method="post" >
+
+                <div class="form-group col-md-4">
+                    <label for="clienteBordado">Cliente</label>
+                    <select class="form-control selectpicker" data-live-search="true" th:field="*{idCliente}" data-live-search-normalize="true" title="Selecciona uno..." id="clienteBordado">
+                             <option th:each="listaCli:${listaCli}" th:value="${listaCli.idCliente}"
+                         th:text="${listaCli.nombre}"></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="tipoBordado">Bordado</label>
+                    <select class="form-control selectpicker" data-live-search="true" th:field="*{idLookup}" data-live-search-normalize="true" title="Selecciona uno..." id="tipoBordado">
+                     <option th:each="listLookup:${listLookup}" th:value="${listLookup.idLookup}"
+                         th:text="${listLookup.nombreLookup}"></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="archivoBordado">Solicitud de ponchado</label>
+                    <div class="custom-file mb-3">
+                        <input type="file" name="inputFileBordado" class="custom-file-input input2" id="inputFileBordado" th:value="${objetoBordado.rutaBordado}" aria-describedby="inputFileBordado">
+                        <label class="custom-file-label label2" for="customFile" th:text="*{rutaPonchado}">Choose file</label>
+                      </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <div class="contain animated bounce">
+                        <div id="img_contain"><img id="blah" align="middle" th:src="@{'/uploads/bordadoParte/' + *{rutaBordado}}"
+                                    th:onerror="this.src='/dist/img/bordadoCircle.png'" alt="your image" title=""></div>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" name="inputGroupFile01" id="inputGroupFile01" class="imgInp custom-file-input" aria-describedby="inputGroupFileAddon01">
+                                <label class="custom-file-label label1" for="inputGroupFile01" th:text="*{rutaBordado}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="tamanoBordado">Tama&ntilde;o</label>
+                    <input  type="number" class="form-control" id="tamanoBordado" placeholder="4" th:field="*{tamano}" >
+                </div>
+                
+                  <div class="form-group col-md-4">
+                    <label for="tamanoBordado">Descripcion</label>
+                    <input  type="text" class="form-control" id="tamanoBordado" placeholder="Descripcion" th:field="*{descripcion}" >
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="precioBordado">Precio</label>
+                    <input  type="number" class="form-control" id="precioBordado" placeholder="25" th:field="*{precio}" style="border-radius: .25rem;">
+                </div>
+                <input type="hidden" class="form-control" id="idBordado" th:field="*{idBordado}">
+                <input type="hidden" class="form-control" id="idBordado" th:field="*{estatus_bordado}">
+                <input type="hidden" class="form-control" id="idBordado" th:field="*{rutaBordado}">
+                <input type="hidden" class="form-control" id="idBordado" th:field="*{rutaPonchado}">
+                </form>
+        </div>
+        <div class="modal-footer  modal-rounded-footer">
+          <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span
+            class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+            <button type="button" class="btn icon-btn btn-altima text-white float-right"><span
+                class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
