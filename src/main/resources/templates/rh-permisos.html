@@ -139,6 +139,8 @@
     <div th:replace="navegacion-scripts"></div>
 
     <script src="dist/js/tablaPermisos.js"></script>
+    
+    <script src="/dist/js/sweetalert.js"></script>
 
     <script>
         $('#iRH').removeClass('text-altima');
@@ -148,15 +150,16 @@
     </script>
     <!-- Codigo para mensajes de alerta-->
     <script th:if="${icon != null}" th:inline="javascript">
-        Swal.fire({
+            Swal.fire({
 
-            position: 'center',
-            icon: 'success',
-            title: /*[[${title}]]*/ 'default',
-            showConfirmButton: false,
-            timer: 2500
-        });
-    </script>
+                position: 'center',
+                icon: /*[[${icon}]]*/ 'default',
+                title: /*[[${title}]]*/ 'default',
+                showConfirmButton: false,
+                timer: 2500
+            });
+        </script>
+        
 
 </body>
 

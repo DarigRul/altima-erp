@@ -176,8 +176,7 @@ public class HrPermisoController {
 			//la informacion ya editada al volver a guardar se lista la nueva inf
 			List<HrPermiso> rhPermiso = servicePermiso.findListaPermiso();
 			model.addAttribute("listarPermisos", rhPermiso);
-			
-		return "/rh-permisos";
+		    return "/rh-permisos";
 		
 		}
 		
@@ -189,14 +188,14 @@ public class HrPermisoController {
 			 	HrPermiso addPermiso = servicePermiso.findOne(id) ;
 			 	addPermiso.setEstatus("0");
 			 	servicePermiso.save(addPermiso);
-			 	redirectAttrs.addFlashAttribute("title", "Permiso Eliminado Correctamente").addFlashAttribute("icon","danger");
+			 	redirectAttrs.addFlashAttribute("title", "Permiso Eliminado").addFlashAttribute("icon","warning");
 				return "redirect:/rh-permisos";
 				
 		}
 		
 		
 		@RequestMapping(value = "/activar-permiso/{id}")//, method = RequestMethod.POST
-		public String activarPermiso(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
+		public String activarPermiso(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m, RedirectAttributes redirectAttrs) {
 			
 			//System.out.println("Si estoy entrando al metodo findOne aceptado");
 			
@@ -205,12 +204,13 @@ public class HrPermisoController {
 		 	List<HrPermiso> rhPermiso = servicePermiso.findListaPermiso();
 			model.addAttribute("listarPermisos", rhPermiso);
 			servicePermiso.save(addPermiso);
+			redirectAttrs.addFlashAttribute("title", "Permiso Activado").addFlashAttribute("icon","success");
 			return "redirect:/rh-permisos";
 		}
 		
 		//este metodo me ayuda cuando quiero pasar informacion por medio de post,update, etc, cuando necesita proporcionar una ruta de nivel superior para un controlador
 		@RequestMapping(value = "/rechazar-permiso/{id}")//, method = RequestMethod.POST
-		public String rechazarPermiso(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
+		public String rechazarPermiso(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m,  RedirectAttributes redirectAttrs) {
 			
 			//System.out.println("Si estoy entrando al metodo findOne rechazar");
 			//encuentro los datos en este caso el id 
@@ -223,6 +223,7 @@ public class HrPermisoController {
 			//guardar una ves encontrado el valor 
 			servicePermiso.save(addPermiso);
 			//me regresa a la vista listar
+			redirectAttrs.addFlashAttribute("title", "Permiso Rechazado").addFlashAttribute("icon","warning");
 			return "redirect:/rh-permisos";
 		}	
 }
