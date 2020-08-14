@@ -80,7 +80,7 @@ public class AuxiliarTicketsController {
 		return  TicketService.viewEstatus(id);
 	}
     @PostMapping("/guardar-ticket")
-	public String guardarCliente(ComercialTicket ticket) {
+	public String guardarCliente(ComercialTicket ticket, RedirectAttributes redirectAttrs) {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -110,7 +110,9 @@ public class AuxiliarTicketsController {
     		}
     		TicketService.save(ticket);
     		ticket.setIdText("TICKET"+(1000+ticket.getIdTicket()));
-    		TicketService.save(ticket);	
+    		TicketService.save(ticket);
+    		redirectAttrs.addFlashAttribute("title", "Ticket guardado correctamente").addFlashAttribute("icon",
+					"success");
     	}
     	else {
     		ComercialTicket obj =TicketService.findOne(ticket.getIdTicket());
@@ -136,6 +138,8 @@ public class AuxiliarTicketsController {
     		obj.setUltimaFechaModificacion(hourdateFormat.format(date));
     		
     		TicketService.save(obj);	
+    		redirectAttrs.addFlashAttribute("title", "Ticket editado correctamente").addFlashAttribute("icon",
+					"success");
     	}
     	return "redirect:tickets";
     	

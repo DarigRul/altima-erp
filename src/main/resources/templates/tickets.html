@@ -51,7 +51,7 @@
                                     <h3 class="card-title">Listado de tickets</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table tablaGeneral table-striped table-bordered">
+                                    <table class="table tablaGeneral table-striped table-bordered" id="table-ticket">
                                         <thead>
                                             <tr>
                                                 <th>Ticket</th>
@@ -112,6 +112,15 @@
         $('#navAuxiliar').addClass('active');
         $('#navAuxTic').addClass('active');
     </script>
+    <script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+	    	  position: 'center',
+	          icon: /*[[${icon}]]*/,
+	          title: /*[[${title}]]*/,
+	          showConfirmButton: false,
+	          timer: 1250
+	    });
+	</script>
 </body>
 
 </html>

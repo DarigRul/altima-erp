@@ -129,7 +129,7 @@ function agregarSeguimiento() {
 	    
 	        success: function(data) {
 	        	
-	        
+	        	
 	        	 Swal.fire({
 	        		 position: 'center',
 	     				icon: 'success',
@@ -143,7 +143,11 @@ function agregarSeguimiento() {
 	    	   document.getElementById("btn-estatus").disabled=false;
 	    	   listar(idTicket2)
 	    	   
-			
+			var tabla = $('#table-ticket').DataTable();
+	        	
+		        
+	        	 
+	        	tabla.clear()
 		    },
 	    })
 	}
@@ -436,5 +440,17 @@ function detalles(e) {
 }
 
 $('#nuevoSeguimiento').on('hidden.bs.modal', function () {
-    location.reload();
+	
+	 Swal.fire({
+         title: 'Actualizando',
+         icon: 'success',
+         allowOutsideClick: false,
+         timerProgressBar: true,
+         onBeforeOpen: () => {
+             Swal.showLoading()
+             location.reload();
+         },
+     });
+     
+    
 });
