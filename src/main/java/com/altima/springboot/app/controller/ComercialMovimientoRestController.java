@@ -18,10 +18,12 @@ import com.altima.springboot.app.models.entity.ComercialCliente;
 import com.altima.springboot.app.models.entity.ComercialMovimiento;
 import com.altima.springboot.app.models.entity.ComercialMovimientoMuestraDetalle;
 import com.altima.springboot.app.models.entity.HrEmpleado;
+import com.altima.springboot.app.models.entity.ProduccionDetallePedido;
 import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IComercialMovimientoMuestraDetalleService;
 import com.altima.springboot.app.models.service.IComercialMovimientoService;
 import com.altima.springboot.app.models.service.IHrEmpleadoService;
+import com.altima.springboot.app.models.service.IProduccionDetalleService;
 
 @RestController
 public class ComercialMovimientoRestController {
@@ -37,6 +39,8 @@ public class ComercialMovimientoRestController {
 	
 	@Autowired
 	private IHrEmpleadoService empleadoService;
+	@Autowired
+	private IProduccionDetalleService detallePedidoService;
 	
 	@RequestMapping(value ="/listarVendedores", method=RequestMethod.GET)
 	public List<Object> listarVendedores(){
@@ -74,8 +78,25 @@ public class ComercialMovimientoRestController {
 										@RequestParam(name="idMovimiento", required=false)Long idMovimiento,
 										@RequestParam(name="object_muestras") String objectmuestras) {
 		
+		
 		//Para editar el movimiento y sus registros
 		try {
+			try {
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+				LocalDateTime now = LocalDateTime.now();
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				for (ComercialMovimientoMuestraDetalle a: moviDetalleService.findAllbyMovimiento(idMovimiento)) {
+					ProduccionDetallePedido detallePedido = detallePedidoService.findOne(a.getIdDetallePedido());
+					
+					detallePedido.setEstatus("1");
+					detallePedido.setActualizadoPor(auth.getName());
+					detallePedido.setUltimaFechaModificacion(dtf.format(now));
+					detallePedidoService.save(detallePedido);
+				}
+			}catch(Exception e) {
+				System.out.println(e);
+			}
+			
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -111,6 +132,13 @@ public class ComercialMovimientoRestController {
 				muestraDetalleEntity.setEstatus(1);
 				
 				moviDetalleService.save(muestraDetalleEntity);
+				
+				ProduccionDetallePedido detallePedido = detallePedidoService.findOne(muestraDetalleEntity.getIdDetallePedido());
+				
+				detallePedido.setEstatus("2");
+				detallePedido.setActualizadoPor(auth.getName());
+				detallePedido.setUltimaFechaModificacion(dtf.format(now));
+				detallePedidoService.save(detallePedido);
 			}
 			return 1;
 		}
@@ -172,7 +200,12 @@ public class ComercialMovimientoRestController {
 					
 					moviDetalleService.save(muestraDetalleEntity);
 				
-				
+					ProduccionDetallePedido detallePedido = detallePedidoService.findOne(muestraDetalleEntity.getIdDetallePedido());
+					
+					detallePedido.setEstatus("2");
+					detallePedido.setActualizadoPor(auth.getName());
+					detallePedido.setUltimaFechaModificacion(dtf.format(now));
+					detallePedidoService.save(detallePedido);
 				}
 				return 2;
 			}catch(Exception p) {
@@ -303,6 +336,13 @@ public class ComercialMovimientoRestController {
 				muestra.setActualizadoPor(auth.getName());
 				muestra.setUltimaFechaModificacion(dtf.format(now));
 				moviDetalleService.save(muestra);
+				
+				ProduccionDetallePedido detallePedido = detallePedidoService.findOne(muestra.getIdDetallePedido());
+				
+				detallePedido.setEstatus("1");
+				detallePedido.setActualizadoPor(auth.getName());
+				detallePedido.setUltimaFechaModificacion(dtf.format(now));
+				detallePedidoService.save(detallePedido);
 			}
 		}catch(Exception e) {
 			System.out.println(e);
@@ -364,6 +404,13 @@ public class ComercialMovimientoRestController {
 				muestraDetalleEntity.setEstatus(3);
 				
 				moviDetalleService.save(muestraDetalleEntity);
+				
+				ProduccionDetallePedido detallePedido = detallePedidoService.findOne(muestraDetalleEntity.getIdDetallePedido());
+				
+				detallePedido.setEstatus("1");
+				detallePedido.setActualizadoPor(auth.getName());
+				detallePedido.setUltimaFechaModificacion(dtf.format(now));
+				detallePedidoService.save(detallePedido);
 			}
 		}catch(Exception e) {
 			System.out.println(e);
@@ -411,6 +458,13 @@ public class ComercialMovimientoRestController {
 				muestraDetalleEntity.setCreadoPor(auth.getName());
 				muestraDetalleEntity.setEstatus(3);
 				moviDetalleService.save(muestraDetalleEntity);
+				
+				ProduccionDetallePedido detallePedido = detallePedidoService.findOne(muestraDetalleEntity.getIdDetallePedido());
+				
+				detallePedido.setEstatus("1");
+				detallePedido.setActualizadoPor(auth.getName());
+				detallePedido.setUltimaFechaModificacion(dtf.format(now));
+				detallePedidoService.save(detallePedido);
 				
 			}
 			

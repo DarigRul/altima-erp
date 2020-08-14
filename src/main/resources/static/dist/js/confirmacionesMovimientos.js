@@ -11,6 +11,7 @@ function limpiarModal(){
 	$('#vendedorMovi').find("option").remove();
 	$('#empresaMovi').find("option").remove();
 	$('#prendaMovi').find("option").remove();
+	$('#prendaMovi').find("option").remove();
 	$('#encargadoRecibir').val("");
 	$('#movimiento').val('');
 	$('#borrarDatos').remove();

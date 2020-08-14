@@ -153,6 +153,7 @@ function foreach(root, selector, callback) {
 					        timer: 2000,
 					        onClose: () => {
 					        	$('#addTraspaso').modal(false);
+					        	
 					        }
 						  })
 				   }
@@ -164,9 +165,8 @@ function foreach(root, selector, callback) {
 							showConfirmButton: false,
 					        timer: 2000,
 					        onClose: () => {
-					        	$('#addTraspaso').modal('hide');
 					        	shoppingCart.clearCart();
-					        	
+					        	location.reload();
 					        }
 						  })
 				   }

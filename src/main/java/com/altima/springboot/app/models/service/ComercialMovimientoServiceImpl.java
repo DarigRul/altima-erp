@@ -39,7 +39,9 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 	public List<Object> listarMuestras() {
 		return em.createNativeQuery("select prenda.descripcion_prenda, pedido.talla, telas.nombre_tela, pedido.id_detalle_pedido, prenda.id_text AS text, telas.id_text from alt_produccion_detalle_pedido pedido" + 
 									"	INNER JOIN alt_disenio_prenda prenda ON pedido.id_prenda = prenda.id_prenda" + 
-									"	INNER JOIN alt_disenio_tela telas ON pedido.id_tela = telas.id_tela").getResultList();
+									"	INNER JOIN alt_disenio_tela telas ON pedido.id_tela = telas.id_tela" +
+									"   INNER JOIN alt_disenio_lista_precio_prenda precio ON prenda.id_prenda = precio.id_prenda" +	
+									"   WHERE pedido.estatus_confeccion=2 AND pedido.estatus=1").getResultList();
 	}
 	
 	@Override
@@ -56,14 +58,27 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 	public List<Object> findAllWithNames(){
 		
 		
-		return em.createNativeQuery("SELECT movimiento.id_movimiento, movimiento.id_text, cliente.nombre,cliente.apellido_paterno, cliente.apellido_materno, empleado.nombre_persona, empleado.apellido_paterno as paterno, empleado.apellido_materno as materno, movimiento.fecha_salida, movimiento.fecha_entrega, movimiento.estatus, (SELECT SUM(DISTINCT precio.precio_muestrario) FROM alt_comercial_movimiento_muestra_detalle as muest\r\n" + 
-				"											INNER JOIN alt_disenio_prenda prenda ON muest.modelo_prenda = prenda.id_prenda\r\n" + 
-				"											INNER JOIN alt_disenio_lista_precio_prenda precio ON muest.modelo_prenda = precio.id_prenda\r\n" + 
-				"											WHERE muest.id_movimiento = movimiento.id_movimiento) AS Total, movimiento.encargado\r\n" + 
-				"											from alt_comercial_movimiento as movimiento\r\n" + 
-				"							INNER JOIN alt_comercial_cliente cliente ON movimiento.empresa = id_cliente \r\n" + 
-				"							INNER JOIN alt_hr_empleado empleado ON movimiento.vendedor = empleado.id_empleado\r\n" + 
-				"							ORDER BY movimiento.id_text").getResultList();
+		return em.createNativeQuery("SELECT movimiento.id_movimiento, \n" + 
+											"movimiento.id_text, \n" + 
+											"cliente.nombre,\n" + 
+											"cliente.apellido_paterno, \n" + 
+											"cliente.apellido_materno, \n" + 
+											"empleado.nombre_persona, \n" + 
+											"empleado.apellido_paterno as paterno, \n" + 
+											"empleado.apellido_materno as materno, \n" + 
+											"movimiento.fecha_salida, \n" + 
+											"movimiento.fecha_entrega, \n" + 
+											"movimiento.estatus, \n" + 
+											"(SELECT SUM(precio.precio_muestrario) \n" + 
+											" FROM alt_comercial_movimiento_muestra_detalle as muest\n" + 
+											"	INNER JOIN alt_disenio_prenda prenda ON muest.modelo_prenda = prenda.id_prenda\n" + 
+											"	INNER JOIN alt_disenio_lista_precio_prenda precio ON muest.modelo_prenda = precio.id_prenda\n" + 
+											"	WHERE muest.id_movimiento = movimiento.id_movimiento\n" +
+											"   AND (muest.estatus=1 OR muest.estatus=2 OR muest.estatus=6 OR muest.estatus=7)) AS Total, movimiento.encargado\n" + 
+									"from alt_comercial_movimiento as movimiento\n" + 
+									"	INNER JOIN alt_comercial_cliente cliente ON movimiento.empresa = id_cliente\n" + 
+									"	INNER JOIN alt_hr_empleado empleado ON movimiento.vendedor = empleado.id_empleado\n" + 
+									"ORDER BY movimiento.id_text").getResultList();
 	}
 	
 	@Override
