@@ -74,16 +74,21 @@ public class ControlProduccionMuestraServiceImpl implements IControlProduccionMu
 				.getResultList();
 		return re;*/
 		
-		List<Object[]> re = em.createNativeQuery("select \r\n" + 
-				"empleado.id_empleado,  CONCAT(empleado.nombre_persona,' ',empleado.apellido_paterno) as nombre \r\n" + 
-				"from \r\n" + 
-				"alt_hr_empleado as empleado,\r\n" + 
-				"alt_hr_puesto as puesto\r\n" + 
-				"where \r\n" + 
-				"1=1\r\n" + 
-				"AND empleado.id_puesto= puesto.id_puesto\r\n" + 
-				"AND puesto.nombre_puesto='Operario'\r\n" + 
-				"ORDER BY  empleado.nombre_persona")
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	empleado.id_empleado,\n" + 
+				"	CONCAT( empleado.nombre_persona, ' ', empleado.apellido_paterno ) AS nombre \n" + 
+				"FROM\n" + 
+				"	alt_hr_empleado AS empleado,\n" + 
+				"	alt_hr_puesto AS puesto,\n" + 
+				"	alt_hr_departamento AS departamento \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND empleado.id_puesto = puesto.id_puesto \n" + 
+				"	AND puesto.id_departamento = departamento.id_departamento \n" + 
+				"	AND departamento.nombre_departamento = 'DISEÑO' \n" + 
+				"ORDER BY\n" + 
+				"	empleado.nombre_persona")
 		.getResultList();
 		return re;
 	}
