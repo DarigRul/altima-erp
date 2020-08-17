@@ -86,6 +86,7 @@ public class PrendasController {
 		model.addAttribute("imagenesPrenda", disenioImagenPrendaService.findByPrenda(0L));
 		m.put("prenda", prenda);
 		m.put("accion", "agregar");
+		m.put("nombreOriginal", "Nuevo");
 		return "agregar-confirmar-prenda";
 	}
 	
@@ -123,6 +124,7 @@ public class PrendasController {
 		model.addAttribute("prenda", prenda);
 		m.put("accion", "editar");
 		m.put("disenio", disenio);
+		m.put("nombreOriginal", prenda.getDescripcionPrenda());
 		
 		return "agregar-confirmar-prenda";
 	}

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.altima.springboot.app.models.entity.ComercialCotizacion;
 import com.altima.springboot.app.models.entity.ComercialCotizacionPrenda;
 import com.altima.springboot.app.models.entity.ComercialCotizacionTotal;
+import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialCotizacionPrendaService;
 import com.altima.springboot.app.models.service.IComercialCotizacionService;
@@ -36,6 +37,8 @@ public class CotizacionesRestController {
 	private  IComercialCoordinadoService CoordinadoService;
 	@Autowired
 	private IComercialCotizacionPrendaService cotizacionPrendaService;
+	@Autowired
+	private IComercialClienteService ClienteService;
 
 	
 	@RequestMapping(value="/ExtraerModelos", method=RequestMethod.GET)
@@ -312,5 +315,11 @@ public class CotizacionesRestController {
 		}finally {
 			
 		}
+	}
+	
+	//Metodo para obtener el correo de una cotizacion
+	@RequestMapping(value = "/correo_cliente_cotizacion", method = RequestMethod.GET)
+	public String validarDescripcionPrenda(@RequestParam(name = "id") Long idCotizacion) {
+		return ClienteService.findOne(Long.valueOf(cotizacionService.findOne(idCotizacion).getIdCliente().longValue())).getCorreo();
 	}
 }

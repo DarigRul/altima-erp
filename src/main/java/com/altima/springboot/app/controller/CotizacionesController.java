@@ -155,12 +155,14 @@ public class CotizacionesController {
 	}
 	
 	// Metodo para imprimir los empleados de un pedido
-	@RequestMapping(value = { "/imprimir-cotizacion/{id}/{totales}/{cv}" }, method = RequestMethod.GET)
-	public String listGeneral(@PathVariable(value = "id") Long id, @PathVariable(value = "totales") boolean totales, @PathVariable(value = "cv") boolean cv, Model model) {
+	@RequestMapping(value = { "/imprimir-cotizacion/{id}/{totales}/{cv}/{mail}" }, method = RequestMethod.GET)
+	public String listGeneral(@PathVariable(value = "id") Long id, @PathVariable(value = "totales") boolean totales, @PathVariable(value = "cv") boolean cv, @PathVariable(value = "mail") String mail, Model model) {
 		
 		model.addAttribute("tipo", cotizacionService.findOne(id).getTipoCotizacion());
+		model.addAttribute("id", cotizacionService.findOne(id).getIdText());
 		model.addAttribute("totales", totales);
 		model.addAttribute("cv", cv);
+		model.addAttribute("mail", mail);
 		model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id));
 		return "/imprimir-cotizacion";
 	}

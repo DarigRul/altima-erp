@@ -1,9 +1,11 @@
 package com.altima.springboot.app.view.pdf;
 
 import java.awt.Color;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,8 +13,31 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.Address;
+import javax.mail.BodyPart;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.URLName;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
@@ -23,6 +48,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
+import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.BaseFont;
@@ -35,20 +61,32 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfSmartCopy;
 import com.lowagie.text.pdf.PdfWriter;
+import com.sun.mail.smtp.SMTPTransport;
 
 @Component("/imprimir-cotizacion")
 public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 	
 	private static final String FILE1 = "src/main/resources/static/dist/pdf/cotizaciones/CV_Estatico.pdf";
+	public static final String DEST = "src/main/resources/static/dist/pdf/cotizaciones/Resultado.pdf";
 
-    
+	@Autowired
+    private JavaMailSender javaMailSender;
+	
+	@SuppressWarnings("static-access")
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
-		//Objeto del controller
+		
+		
+		DateTime jodaTime = new DateTime();
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH-mm-ss-SSS");
+		String nombrePDF = "Cotizacion_" + (String) model.get("id") + "_" + formatter.print(jodaTime) + ".pdf";
+		String archivo = "src/main/resources/static/dist/pdf/cotizaciones/" + nombrePDF;
+
 		@SuppressWarnings("unchecked")
 		List<Object[]> prendas = (List<Object[]>) model.get("ListaCotizacionPrendas");
 		String tipoCotizacion = (String) model.get("tipo");
+		String correo = (String) model.get("mail");
 		boolean totales = (boolean) model.get("totales");
 		boolean cv = (boolean) model.get("cv");
 
@@ -57,7 +95,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		Color bajito = new Color(255, 137, 137);
 		Font HelveticaBold = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 9);
 		Font Helvetica = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 9);
-		
 		
 		//Variables iniciadas
 		SimpleDateFormat formato = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
@@ -68,9 +105,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		PdfPCell cell = new PdfPCell(new Phrase(" "));
 		cell.setBorder(0);
 		espacio.addCell(cell);
-		document.setMargins(20f, 20f, 30f, 90f);
-		document.open();
-		
 		/**
 		 * 
 		 * 
@@ -213,19 +247,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	leyenda.setHorizontalAlignment(Element.ALIGN_CENTER);
     	tablaHeader3.addCell(nombre);
     	tablaHeader3.addCell(leyenda);
-    	
-		try {
-			document.add(tablaHeader1);
-			document.add(espacio);
-			document.add(tablaHeader2);
-			document.add(espacio);
-			document.add(tablaHeader3);
-			document.add(espacio);
-			
-		} catch (DocumentException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
 		/**
 		 * 
@@ -467,41 +488,111 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tablaFooter2.setWidths(new float[] { 5f, 5f, 5f });
 		    	
 		    	
-		    	
-		    	
-
-		
-		writer.setPageEvent(new HeaderFooterCotizacionesPdfView());
-		document.add(tablaPrendas);
-		document.newPage();
-		document.add(espacio);
-		document.add(tablaFooter1);
-		document.add(espacio);
-		document.add(tablaFooter2);
-		document.add(espacio);
-		document.newPage();
-		
-
 		//Aqui se hace el merge del CV si es que existe
 		if(cv) {
+			HeaderFooterCotizacionesPdfView event = new HeaderFooterCotizacionesPdfView();
+			writer.setPageEvent(event);
+			document.open();
+			document.addTitle("Cotizacion" + (String) model.get("id") + "_" + formatter.print(jodaTime));
+			document.add(tablaHeader1);
+			document.add(espacio);
+			document.add(tablaHeader2);
+			document.add(espacio);
+			document.add(tablaHeader3);
+			document.add(espacio);
+			document.add(tablaPrendas);
+			document.newPage();
+			document.add(espacio);
+			document.add(tablaFooter1);
+			document.add(espacio);
+			document.add(tablaFooter2);
+			document.add(espacio);
+			document.newPage();
 			PdfReader reader = new PdfReader(FILE1);
 			PdfImportedPage page = writer.getImportedPage(reader, 1); 
-			
 			PdfContentByte cb = writer.getDirectContent();
-			document.newPage();
 			cb.addTemplate(page, 0, 0);
+			document.close();
+		}
+		if(!cv) {
+			HeaderFooterCotizacionesPdfView event = new HeaderFooterCotizacionesPdfView();
+			writer.setPageEvent(event);
+			document.open();
+			document.addTitle("Cotizacion" + (String) model.get("id") + "_" + formatter.print(jodaTime));
+			document.add(tablaHeader1);
+			document.add(espacio);
+			document.add(tablaHeader2);
+			document.add(espacio);
+			document.add(tablaHeader3);
+			document.add(espacio);
+			document.add(tablaPrendas);
+			document.newPage();
+			document.add(espacio);
+			document.add(tablaFooter1);
+			document.add(espacio);
+			document.add(tablaFooter2);
+			document.add(espacio);
+		}
+		if(!correo.equalsIgnoreCase("nulo")) {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			document = new Document(PageSize.A4);
+			writer =  PdfWriter.getInstance(document, baos);
+			HeaderFooterCotizacionesPdfView event = new HeaderFooterCotizacionesPdfView();
+			writer.setPageEvent(event);
+			document.open();
+			document.add(new Chunk(""));
+			document.addTitle("Cotizacion" + (String) model.get("id") + "_" + formatter.print(jodaTime));
+			document.add(tablaHeader1);
+			document.add(espacio);
+			document.add(tablaHeader2);
+			document.add(espacio);
+			document.add(tablaHeader3);
+			document.add(espacio);
+			document.add(tablaPrendas);
+			document.newPage();
+			document.add(espacio);
+			document.add(tablaFooter1);
+			document.add(espacio);
+			document.add(tablaFooter2);
+			document.add(espacio);
+			document.newPage();
+			PdfReader reader = new PdfReader(FILE1);
+			PdfImportedPage page = writer.getImportedPage(reader, 1); 
+			PdfContentByte cb = writer.getDirectContent();
+			cb.addTemplate(page, 0, 0);
+			document.close();
 			
-			//document.add(new Paragraph("my timestamp")); 
-
-			document.close();
-
+			
+			/**
+			 * 
+			 * Correo
+			 * 
+			 * 
+			 */
+            
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("dtu_test@uniformes-altima.com.mx");
+            helper.setTo(correo);
+            helper.setSubject("test");
+            helper.setText("test");
+            /**
+             * Archivo
+             */
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(" ");
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            messageBodyPart = new MimeBodyPart();
+            DataSource pdfds = new ByteArrayDataSource(baos.toByteArray(), "application/pdf");
+            messageBodyPart.setDataHandler(new DataHandler(pdfds));
+            messageBodyPart.setFileName("Cotizacion" + (String) model.get("id") + "_" + formatter.print(jodaTime) + ".pdf");
+            multipart.addBodyPart(messageBodyPart);
+            message.setContent(multipart);
+            /**
+             * Se envia
+             */
+            javaMailSender.send(message);
 		}
-		else {
-			document.close();
-		}
-		
-		
-		
-		
 	}
 }

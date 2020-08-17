@@ -145,7 +145,7 @@ public class DisenioPrendaServiceImpl implements IDisenioPrendaService {
 	public boolean validarDescripcionPrenda(String desc) {
 		// TODO Auto-generated method stub
 		boolean Bandera = false;
-		List<DisenioPrenda> res = (List<DisenioPrenda>) em.createNativeQuery("SELECT * FROM alt_disenio_prenda WHERE descripcion_prenda = '" + desc + "';").getResultList();
+		List<DisenioPrenda> res = (List<DisenioPrenda>) em.createNativeQuery("SELECT 'descripcion_prenda' FROM alt_disenio_prenda WHERE CAST(descripcion_prenda AS BINARY) = '" + desc + "';").getResultList();
 		
 			if(res.size() > 0) {
 				Bandera =  false;

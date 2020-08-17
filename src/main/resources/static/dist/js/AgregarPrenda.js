@@ -7,14 +7,20 @@ $(document).ready(function () {
 				url: "/validacion_descripcion_prenda",
 				data: { valor: this.value },
 				success: (data) => {
-					  if(data){
-						  $('#WarningNombrePrenda').css("display", "none");
-						  BanderaDescripcionRepetida = true;
-					  }
-					  else{
-						  $('#WarningNombrePrenda').css("display", "inline");
-						  BanderaDescripcionRepetida = false;
-					  }
+console.log($('#NombreOriginalPrenda').val());
+					if($('#NombreOriginalPrenda').val() == this.value){
+						//
+					}
+					else{
+						  if(data){
+							  $('#WarningNombrePrenda').css("display", "none");
+							  BanderaDescripcionRepetida = true;
+						  }
+						  else{
+							  $('#WarningNombrePrenda').css("display", "inline");
+							  BanderaDescripcionRepetida = false;
+						  }
+					}
 				},
 				error: (e) => {
 					console.log(e);
@@ -330,7 +336,7 @@ function ValidarPrimerPestana() {
 					nombres[i] = $('#name-edit-' + i).val();
 					idContenedores[i] = i;
 				}
-			}	
+			}
 		}
 		else{
 			//Se obtienen los divs visibles
@@ -339,7 +345,7 @@ function ValidarPrimerPestana() {
 					nombres[i] = $('#name-' + i).val();
 					idContenedores[i] = i;
 				}
-			}	
+			}
 		}
 		
 		//Se ordena el array
@@ -879,30 +885,52 @@ function QuitarImagen(id)
 
 function PreviewImage(input, id)
 {
-	 if (input.files && input.files[0]) {
-		    var reader = new FileReader();
-
-		    reader.onload = function(e) {
-		      $('#img-' + id).attr('src', e.target.result);
-		    }
-
-		 reader.readAsDataURL(input.files[0]); 
-	 }
+	var nombre = input.value;
+	if (/\s/.test(nombre.substring(12))) {
+		 Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Por seguridad, no deben haber espacios en las imagenes que subas'
+			  })
+	}
+	else{
+		 if (input.files && input.files[0]) {
+			    var reader = new FileReader();
+	
+			    reader.onload = function(e) {
+			      $('#img-' + id).attr('src', e.target.result);
+			    }
+	
+			 reader.readAsDataURL(input.files[0]); 
+		 }
+	}
+		 
 }
 
 function PreviewImageEdit(input, id)
 {
-	$('#status-input-edit-' + id).val("Alter");
+	var nombre = input.value;
+	if (/\s/.test(nombre.substring(12))) {
+		 Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Por seguridad, no deben haber espacios en las imagenes que subas'
+			  })
+	}
+	else{
+		
+		$('#status-input-edit-' + id).val("Alter");
+		
+		 if (input.files && input.files[0]) {
+			    var reader = new FileReader();
 	
-	 if (input.files && input.files[0]) {
-		    var reader = new FileReader();
-
-		    reader.onload = function(e) {
-		      $('#img-edit-' + id).attr('src', e.target.result);
-		    }
-
-		 reader.readAsDataURL(input.files[0]); 
-	 }
+			    reader.onload = function(e) {
+			      $('#img-edit-' + id).attr('src', e.target.result);
+			    }
+	
+			 reader.readAsDataURL(input.files[0]); 
+		 }
+	}
 }
 
 

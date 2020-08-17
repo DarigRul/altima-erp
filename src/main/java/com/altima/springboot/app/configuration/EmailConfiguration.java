@@ -15,14 +15,14 @@ public class EmailConfiguration {
         
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("mail.uniformes-altima.com.mx");
-        mailSender.setPort(465);
+        mailSender.setPort(26);
         mailSender.setUsername("dtu_test@uniformes-altima.com.mx");
         mailSender.setPassword("ForeverAltima123");
  
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.ssl.enable", "true");
+        props.put("mail.smtp.ssl.enable", "false");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.debug", "true");
  

@@ -81,6 +81,7 @@
 		                                        	<a th:if="${cotizacion[7]==0}" th:href="@{/pedirAutorizacion/}+${cotizacion[0]}" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Solicitar autorizaci&oacute;n"><i class="fas fa-check"></i></a>
 		                                        	<button th:if="${cotizacion[7]==2}" class="btn btn-primary btn-circle btn-sm popoverxd" th:attr="onclick=|ElegirConfiguracionCotizacion('${cotizacion[0]}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Descargar"><i class="fas fa-download"></i></button>
 		                                      		<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
+		                                      		<button class="btn btn-primary btn-circle btn-sm popoverxd" th:attr="onclick=|EnviarCorreoCotizacionModal('${cotizacion[0]}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Enviar por Correo"><i class="fas fa-paper-plane"></i></button>
 		                                        </td>
 	                                        </tr>
                                         </tbody>
@@ -129,6 +130,36 @@
 		<!-- Modal para configuracion de cotizacion antes de imprimir  -->
 		
 		
+		<!-- Modal para cuando envias un correo  -->
+		<div class="modal fade" id="EnviarCorreoCotizacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+			    		Enviar cotizaci&oacute;n por correo
+			    		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          		<span aria-hidden="true">&times;</span>
+			        	</button>
+			    	</div>
+		      		<div class="modal-body">
+		        		<div class="custom-control">
+		        		<label for="exampleInputEmail1">Correo de Cliente:</label>
+		        			<input type="email" class="form-control" id="CorreoParaCotizacion" aria-describedby="emailHelp" placeholder="Ingresar Correo">
+						</div><br>
+						<div class="custom-control" id="ContenedorBotonParaEnviar">
+				    		<!--  -->
+				    	</div><br>
+		      		</div>
+		      		<div class="modal-footer">
+		      			<div id="buttonContainer">
+		      			<!-- Se inserta el boton a traves de JS -->
+		      			</div>
+		      		</div>
+		    	</div>
+		  	</div>
+		</div>
+		<!-- Modal para cuando envias un correo  -->
+		
+		
     </div>
     <!-- ./wrapper -->
 
@@ -142,10 +173,16 @@
 	</script>
 	<script>
 	$(document).ready(function(){
+		$( "#CorreoParaCotizacion" ).prop( "disabled", true );
 		$("#ElegirConfiguracionDeCotizacion").on("hidden.bs.modal", function () {
 			$("#buttonButton").remove();
 			$('#ImprimirConTotales').prop('checked', false);
 			$('#ImprimirConCV').prop('checked', false);
+		});
+		$("#EnviarCorreoCotizacion").on("hidden.bs.modal", function () {
+			$( "#CorreoParaCotizacion" ).prop( "disabled", true );
+			$('#ActuallyBotonEnviar').remove();
+			$('#CorreoParaCotizacion').val(' ');
 		});
 	});
 	
@@ -156,12 +193,35 @@
 		$('#ElegirConfiguracionDeCotizacion').modal('toggle');
 
 	}
-	
 	function Imprimir(id){
 		var ImprimirConTotales = $('#ImprimirConTotales').is(':checked');
 		var ImprimirConCv = $('#ImprimirConCV').is(':checked');
-		window.open("/imprimir-cotizacion/" + id + "/" + ImprimirConTotales + "/" + ImprimirConCv + "?format=pdf", '_blank');
+		window.open("/imprimir-cotizacion/" + id + "/" + ImprimirConTotales + "/" + ImprimirConCv + "/nulo?format=pdf", '_blank');
 		$('#ElegirConfiguracionDeCotizacion').modal('toggle');
+	}
+	
+	function EnviarCorreoCotizacionModal(id){
+		$.ajax({
+			type: "GET",
+			url: "/correo_cliente_cotizacion",
+			data: { id: id },
+			success: (data) => {
+				$('#CorreoParaCotizacion').val(data);
+				$( "#CorreoParaCotizacion" ).prop( "disabled", false );
+				$('#ContenedorBotonParaEnviar').append("<button id='ActuallyBotonEnviar' class='btn btn-success' onclick='EnviarCorreoCotizacion(" + id + ")'>Enviar</button>");
+			},
+			error: (e) => {
+				alert(e);
+			}
+		});
+		//Se abre el modal primero
+		$('#EnviarCorreoCotizacion').modal('toggle');
+	}
+	
+	function EnviarCorreoCotizacion(id){
+		console.log(id, $('#CorreoParaCotizacion').val());
+		window.open("/imprimir-cotizacion/" + id + "/" + true + "/" + true + "/" + $('#CorreoParaCotizacion').val() + "?format=pdf", '_blank');
+		$('#EnviarCorreoCotizacion').modal('toggle');
 	}
 	</script>
 </body>
