@@ -970,9 +970,8 @@ function listarMateriales() {
 
     $.ajax({
         method: "GET",
-        url: "/listar",
+        url: "/listar-material-clasificacion",
         data: {
-            "Tipo": "Material"
         },
         success: (data) => {
             $('#quitar9').remove();
@@ -983,6 +982,7 @@ function listarMateriales() {
                 "<th>Clave</th>" +
                 "<th>Nombre</th>" +
                 "<th>Tipo</th>" +
+                "<th>Clasificacion</th>" +
                 "<th>Acciones</th>" +
                 "</tr>" +
                 "</thead>" +
@@ -991,17 +991,18 @@ function listarMateriales() {
             var b = [];
             if (rolAdmin == 1) {
                 for (i in data) {
-                    var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
+                    var creacion = data[i][9] == null ? "" : data[i][9];
                     a = [
                         "<tr>" +
-                        "<td>" + data[i].idText + "</td>",
-                        "<td>" + data[i].nombreLookup + "</td>",
-                        (data[i].atributo1 == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
+                        "<td>" + data[i][1] + "</td>",
+                        "<td>" + data[i][2] + "</td>",
+                        (data[i][3] == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
+                        "<td>" + data[i][4] + "</td>",
                         "<td style='text-align: center;'>" +
-                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                        "<button onclick='editarMaterial(this);' atributo1='" + data[i].atributo1 + "' idlookup='" + data[i].idLookup + "' nombre='" + data[i].nombreLookup + "'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
-                        (data[i].estatus == 1 ? "<button onclick='bajarMaterial(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
-                        (data[i].estatus == 0 ? "<button onclick='reactivar(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][7] + " <br /><strong>Fecha de creación:</strong> " + data[i][8] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
+                        "<button onclick='editarMaterial(this);' atributo1='" + data[i][3] + "' atributo2='" + data[i][5] + "' idlookup='" + data[i][0] + "' nombre='" + data[i][2] + "'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        (data[i][6] == 1 ? "<button onclick='bajarMaterial(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                        (data[i][6] == 0 ? "<button onclick='reactivar(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
                         "</td>" +
 
                         "<tr>"
@@ -1010,20 +1011,24 @@ function listarMateriales() {
                 }
             } else {
                 for (i in data) {
-                    var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
-                    if (data[i].estatus == 1) {
+                	 var creacion = data[i][9] == null ? "" : data[i][9];
+                    if (data[i][6] == 1) {
                         a = [
-                            "<tr>" +
-                            "<td>" + data[i].idText + "</td>",
-                            "<td>" + data[i].nombreLookup + "</td>",
-                            (data[i].atributo1 == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
-                            "<td style='text-align: center;'>" +
-                            "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                            (rolEditar == 1 ? "<button onclick='editarMaterial(this);' atributo1='" + data[i].atributo1 + "' idlookup='" + data[i].idLookup + "' nombre='" + data[i].nombreLookup + "'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" : " ") +
-                            (rolEliminar == 1 ? "<button onclick='bajarMaterial(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
-                            "</td>" +
+                        	 "<tr>" +
+                             "<td>" + data[i][1] + "</td>",
+                             "<td>" + data[i][2] + "</td>",
+                             (data[i][3] == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
+                             "<td>" + data[i][4] + "</td>",
+                             "<td style='text-align: center;'>" +
+                             "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][7] + " <br /><strong>Fecha de creación:</strong> " + data[i][8] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
+                            
+                             (rolEditar == 1 ? "<button onclick='bajarMaterial(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                             (rolEliminar == 1 ? "<button onclick='reactivar(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
+                             "</td>" +
 
-                            "<tr>"
+                             "<tr>"
+                        	
+                        
                         ];
                         b.push(a);
                     }
@@ -3189,6 +3194,12 @@ function agregarMaterial() {
             '<option value="1">Material Principal</option>' +
             '</select>' +
             '</div>' +
+            '<div class="form-group col-sm-12">'+
+		  	'<label for="ubicacionTalla">Clasificaci&oacute;n</label>'+
+		  	'<select class="form-control" id="clasificacion" name="clasificacion" >'+
+		  	'<option>Seleccione clasificaci&oacute;n</option>' +
+		   '</select>'+
+		  '</div>'+
             '</div>',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
@@ -3206,8 +3217,9 @@ function agregarMaterial() {
         if (result.value && document.getElementById("material").value && document.getElementById("tipomaterial").value.length == 1) {
             var Material = document.getElementById("material").value;
             var TipoMaterial = document.getElementById("tipomaterial").value;
-            console.log(TipoMaterial)
-                // //////////
+            var CategoriaMaterial = document.getElementById("clasificacion").value;
+           // console.log(TipoMaterial)
+            console.log(CategoriaMaterial)
             $.ajax({
                 type: "GET",
                 url: "/verifduplicado",
@@ -3227,7 +3239,8 @@ function agregarMaterial() {
                         data: {
                             "_csrf": $('#token').val(),
                             'Material': Material,
-                            'TipoMaterial': TipoMaterial
+                            'TipoMaterial': TipoMaterial,
+                            'CategoriaMaterial': CategoriaMaterial
                                 // ,'Descripcion':Descripcion
                         }
 
@@ -3257,6 +3270,21 @@ function agregarMaterial() {
             // window.setTimeout(function(){location.reload()}, 2000);
         }
     })
+    	$.ajax({
+		method: "GET",
+		url: "/listar-amp",
+		data:{
+			"Tipo":"Clasificacion"
+		} ,
+		success: (data) => {
+			$.each(data, function(key, val) {
+	    		$('#clasificacion').append('<option value="' + val.idLookup + '">'+val.nombreLookup+'</option>');})
+	    		//$('.selectpicker').selectpicker(["refresh"]);
+		},
+		error: (e) => {
+
+		}
+	})
 }
 
 // Editar genero
@@ -3264,6 +3292,8 @@ function agregarMaterial() {
 
 function editarMaterial(e) {
     var descr = e.getAttribute("descripcion");
+    
+    var idClasificacion = e.getAttribute("atributo2");
     // / var atributo1= e.getAttribute("atributo1");
 
     Swal.fire({
@@ -3280,6 +3310,12 @@ function editarMaterial(e) {
             (e.getAttribute("atributo1") == 1 ? "<option value='0'>Material General</option>" : "<option value='1'>Material Principal</option>") +
             '</select>' +
             '</div>' +
+            '<div class="form-group col-sm-12">'+
+		  	'<label for="ubicacionTalla">Clasificaci&oacute;n</label>'+
+		  	'<select class="form-control" id="clasificacion" name="clasificacion" >'+
+		  
+		   '</select>'+
+		  '</div>'+
             '<input type="hidden" value=" ' + e.getAttribute("idlookup") + ' " class="swal2-input" id="idlookup" placeholder="Parisina">' +
             '</div>',
         showCancelButton: true,
@@ -3300,6 +3336,7 @@ function editarMaterial(e) {
 
             var idLookup = document.getElementById("idlookup").value;
             var TipoMaterial = document.getElementById("tipomaterial").value;
+            var CategoriaMaterial = document.getElementById("clasificacion").value;
             $.ajax({
                 type: "GET",
                 url: "/verifduplicado",
@@ -3319,7 +3356,8 @@ function editarMaterial(e) {
                             "_csrf": $('#token').val(),
                             'Material': Material,
                             'idLookup': idLookup,
-                            'TipoMaterial': TipoMaterial
+                            'TipoMaterial': TipoMaterial,
+                            'CategoriaMaterial':CategoriaMaterial
                                 // ,'Descripcion':Descripcion
                         }
 
@@ -3348,6 +3386,29 @@ function editarMaterial(e) {
 
         } // /fin if
     })
+    $.ajax({
+		method: "GET",
+		url: "/listar-amp",
+		data:{
+			"Tipo":"Clasificacion"
+		} ,
+		success: (data) => {
+			$.each(data, function(key, val) {
+				
+				if ( val.idLookup == idClasificacion  ){
+					$('#clasificacion').append('<option selected value="' + val.idLookup + '">'+val.nombreLookup+'</option>');
+				}
+			else{
+				$('#clasificacion').append('<option value="' + val.idLookup + '">'+val.nombreLookup+'</option>');
+			}
+				
+			})
+	    		//$('.selectpicker').selectpicker(["refresh"]);
+		},
+		error: (e) => {
+
+		}
+	})
 }
 // Dar de baja familia de genero
 function bajarMaterial(idbaja) {

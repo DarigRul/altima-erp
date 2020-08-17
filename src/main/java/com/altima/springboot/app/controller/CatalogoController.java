@@ -96,7 +96,17 @@ public class CatalogoController {
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	@ResponseBody
 	public List<DisenioLookup> listarlookup(String Tipo) {
+		
 		return catalogo.findAllLookup(Tipo);
+		
+	}
+	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
+	@RequestMapping(value = "/listar-material-clasificacion", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object []> listarlookup2() {
+		return catalogo.findAllMaterialClasificacion();
+	
 	}
 
 	@RequestMapping(value = { "/catalogos" }, method = RequestMethod.GET)
@@ -155,7 +165,7 @@ public class CatalogoController {
 			String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado, String UnidadMedida,
 			String proveedorColor, String Material, HttpServletRequest request, String Marcador, String CodigoColor, 
 			String Posicion, @RequestParam(required = false) MultipartFile iconocuidado, Long Idcuidado, String Simbolo,
-			String Composicion, String TipoMaterial) {
+			String Composicion, String TipoMaterial, String CategoriaMaterial) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -377,6 +387,7 @@ public class CatalogoController {
 			material.setFechaCreacion(dateFormat.format(date));
 			material.setEstatus(1);
 			material.setAtributo1(TipoMaterial);
+			material.setAtributo2(CategoriaMaterial);
 			catalogo.save(material);
 			return "catalogos";
 		}
@@ -513,7 +524,7 @@ public class CatalogoController {
 	public String editacatalogo(Model model, final Long idLookup, String Color, String PiezaTrazo, String FamiliaPrenda,
 			String Descripcion, String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado,
 			String UnidadMedida, String Material, String proveedor, String Marcador, String CodigoColor, String Posicion, String Simbolo,
-			String Composicion, String TipoMaterial,@RequestParam(required = false) MultipartFile iconocuidado) {
+			String Composicion, String TipoMaterial, String CategoriaMaterial, @RequestParam(required = false) MultipartFile iconocuidado) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -602,6 +613,8 @@ public class CatalogoController {
 			material.setUltimaFechaModificacion(dateFormat.format(date));
 			material.setActualizadoPor(auth.getName());
 			material.setAtributo1(TipoMaterial);
+			System.out.println("Esta es la categoria:"+ CategoriaMaterial);
+			material.setAtributo2(CategoriaMaterial);
 			catalogo.save(material);
 			return "redirect:catalogos";
 		}

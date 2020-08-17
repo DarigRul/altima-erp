@@ -96,5 +96,31 @@ public class CatalogoServiceImpl implements ICatalogoService {
 	}
 
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object []> findAllMaterialClasificacion() {
+	
+		return em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	lookup.id_lookup as 'id_lookup',\n" + 
+				"	lookup.id_text as 'id_text' ,\n" + 
+				"	lookup.nombre_lookup as 'nombre_lookup' ,\n" + 
+				"	lookup.atributo_1 as 'atributo_1',\n" + 
+				"	lookAMP.nombre_lookup as 'nombre_lookAMP',\n" + 
+				"	lookAMP.id_lookup as 'id_lookAMP',\n" + 
+				"	lookup.estatus as 'estatus',\n" + 
+				"	DATE_FORMAT(lookup.fecha_creacion, '%Y-%m-%d %H:%i:%S'),\n" + 
+				"	lookup.creado_por,\n" + 
+				"	lookup.actualizado_por,\n" + 
+				"	DATE_FORMAT(lookup.ultima_fecha_modificacion, '%Y-%m-%d %H:%i:%S')\n" + 
+				"	\n" + 
+				"FROM\n" + 
+				"	alt_disenio_lookup AS lookup,\n" + 
+				"	alt_amp_lookup AS lookAMP \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND lookup.atributo_2 = lookAMP.id_lookup \n" + 
+				"	AND lookAMP.tipo_lookup = 'Clasificacion'").getResultList();
+	}
 
 }
