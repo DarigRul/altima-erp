@@ -3197,7 +3197,7 @@ function agregarMaterial() {
             '<div class="form-group col-sm-12">'+
 		  	'<label for="ubicacionTalla">Clasificaci&oacute;n</label>'+
 		  	'<select class="form-control" id="clasificacion" name="clasificacion" >'+
-		  	'<option>Seleccione clasificaci&oacute;n</option>' +
+		  	'<option value="0">Seleccione clasificaci&oacute;n</option>' +
 		   '</select>'+
 		  '</div>'+
             '</div>',
@@ -3207,14 +3207,22 @@ function agregarMaterial() {
         confirmButtonText: 'Agregar',
         confirmButtonColor: '#0288d1',
         preConfirm: (tipomaterial, material) => {
-            if (document.getElementById("tipomaterial").value.length != 1 || document.getElementById("material").value.length < 1) {
+            if (document.getElementById("tipomaterial").value.length != 1 
+            		|| document.getElementById("material").value.length < 1 
+            		|| document.getElementById("clasificacion").value == 0
+            		) {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
+                	
+                	
                 )
+                console.log("ggg")
             }
         }
     }).then((result) => {
-        if (result.value && document.getElementById("material").value && document.getElementById("tipomaterial").value.length == 1) {
+        if (result.value && document.getElementById("material").value 
+        		&& document.getElementById("tipomaterial").value.length == 1
+        		&&  document.getElementById("clasificacion").value ) {
             var Material = document.getElementById("material").value;
             var TipoMaterial = document.getElementById("tipomaterial").value;
             var CategoriaMaterial = document.getElementById("clasificacion").value;
