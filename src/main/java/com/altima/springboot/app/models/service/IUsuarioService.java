@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.altima.springboot.app.dto.ChangePasswordForm;
+import com.altima.springboot.app.models.entity.HrEmpleado;
 import com.altima.springboot.app.models.entity.Usuario;
 
 public interface IUsuarioService {
@@ -33,5 +34,7 @@ public interface IUsuarioService {
 	List<Object[]> FindClienteProspecto(Long idcliente);
 
 	 List<Object[]> FindClienteProspectoAgente(Long idagente);
+
+	Object[] findEmpleadoByUserName(String userName);
 
 }

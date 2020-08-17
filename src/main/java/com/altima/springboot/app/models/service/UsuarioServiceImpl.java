@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.dto.ChangePasswordForm;
+import com.altima.springboot.app.models.entity.HrEmpleado;
 import com.altima.springboot.app.models.entity.Usuario;
 import com.altima.springboot.app.repository.UsuarioRepository;
 
@@ -175,6 +176,22 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
 		}
 
+	}
+	
+	@Override
+	@Transactional
+	public Object[] findEmpleadoByUserName (String userName) {
+		
+		return  (Object[]) em.createNativeQuery("SELECT hr.id_empleado, \n" + 
+				"	hr.nombre_persona, \n" + 
+				"	hr.apellido_paterno, \n" + 
+				"	hr.apellido_materno \n" + 
+				"\n" + 
+				"FROM alt_hr_usuario AS usuario\n" + 
+				"INNER JOIN alt_hr_empleado hr ON usuario.id_empleado = hr.id_empleado\n" + 
+				"INNER JOIN alt_hr_puesto puesto ON hr.id_puesto = puesto.id_puesto\n" + 
+				"WHERE usuario.nombre_usuario ='"+ userName + "'\n"+
+				"AND puesto.nombre_puesto='AGENTE DE VENTAS'").getSingleResult();
 	}
 
 }

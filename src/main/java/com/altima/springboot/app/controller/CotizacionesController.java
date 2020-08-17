@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import com.altima.springboot.app.models.service.IComercialCotizacionPrendaServic
 import com.altima.springboot.app.models.service.IComercialCotizacionService;
 import com.altima.springboot.app.models.service.IComercialCotizacionTotalService;
 import com.altima.springboot.app.models.service.IHrEmpleadoService;
+import com.altima.springboot.app.models.service.IUsuarioService;
 
 @Controller
 public class CotizacionesController {
@@ -35,6 +38,8 @@ public class CotizacionesController {
 	private  IComercialCoordinadoService CoordinadoService;
 	@Autowired
 	private IComercialCotizacionPrendaService cotizacionPrendaService;
+	@Autowired
+	private IUsuarioService usuarioService;
 	
 	@GetMapping("/cotizaciones")
 	public String listCotizaciones(Model model) {
@@ -45,6 +50,7 @@ public class CotizacionesController {
 	@GetMapping("/agregar-cotizacion")
 	public String addCotizaciones(Model model) {
 		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			try {
 				int cotizacion = Integer.parseInt(cotizacionService.findMax());
 				model.addAttribute("numeroCotizacion","COT"+((cotizacion+1) + 10000));
@@ -57,11 +63,29 @@ public class CotizacionesController {
 									   "Especificaciones:\n" + 
 									   "\n" + 
 									   "Nota especial:");
+			
+			if(auth.getName().equalsIgnoreCase("ADMIN")) {
+				model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
+			}
+			else {
+				try {
+					Object[] empleado = usuarioService.findEmpleadoByUserName(auth.getName());
+					model.addAttribute("Agente", empleado[1]+ " " + empleado[2] + " " + empleado[3]);
+					System.out.println("Es un agente de ventas");
+					model.addAttribute("idAgente", empleado[0]);
+					model.addAttribute("agente", "1");
+					
+				}
+				catch(Exception e) {
+					System.out.println("No es un agente de ventas \n"+e);
+					model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
+				}
+			}
+			
 			model.addAttribute("prendasDiv", "#");
 			model.addAttribute("preciosDiv", "#");
 			model.addAttribute("pill", "");
 			model.addAttribute("ListarGerentes", empleadoService.findAllByPuesto("Gerente de ventas"));
-			model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
 			model.addAttribute("ListarClientes", clienteService.findAll(null));
 			model.addAttribute("ListarPrendas", CoordinadoService.findAllPrenda());
 			
@@ -79,6 +103,7 @@ public class CotizacionesController {
 		DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
 		separadoresPersonalizados.setDecimalSeparator('.');
 		DecimalFormat df = new DecimalFormat("0.##", separadoresPersonalizados);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		//Esto hace referencia a la primera ventrana de agregar cotizacion "Cotizaciones-informacion.html"
 		model.addAttribute("idCotizacion", cotizacion.getIdCotizacion());
@@ -87,13 +112,32 @@ public class CotizacionesController {
 		model.addAttribute("tipoCotizacion", cotizacion.getTipoCotizacion());
 		model.addAttribute("tipoPrecioVentas", cotizacion.getTipoPrecio());
 		model.addAttribute("Gerente", cotizacion.getIdGerente());
-		model.addAttribute("Agente", cotizacion.getIdAgenteVentas());
+		
+		if(auth.getName().equalsIgnoreCase("ADMIN")) {
+			model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
+			model.addAttribute("Agente", cotizacion.getIdAgenteVentas());
+		}
+		else {
+			try {
+				Object[] empleado = usuarioService.findEmpleadoByUserName(auth.getName());
+				model.addAttribute("Agente", empleado[1]+ " " + empleado[2] + " " + empleado[3]);
+				System.out.println("Es un agente de ventas");
+				model.addAttribute("agente", "1");
+				model.addAttribute("idAgente", cotizacion.getIdAgenteVentas());
+				
+			}
+			catch(Exception e) {
+				System.out.println("No es un agente de ventas \n"+e);
+				model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
+				model.addAttribute("Agente", cotizacion.getIdAgenteVentas());
+			}
+		}
+		
 		model.addAttribute("Cliente", cotizacion.getIdCliente());
 		model.addAttribute("prendasDiv", "#prendasDiv");
 		model.addAttribute("pill", "pill");
 		model.addAttribute("preciosDiv", "#preciosDiv");
 		model.addAttribute("ListarGerentes", empleadoService.findAllByPuesto("Gerente de ventas"));
-		model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
 		model.addAttribute("ListarClientes", clienteService.findAll(null));
 		model.addAttribute("textArea", cotizacion.getObservaciones());
 		model.addAttribute("iva", cotiTotal.getIva());

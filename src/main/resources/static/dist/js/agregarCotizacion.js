@@ -6,6 +6,13 @@
 $(document).ready(function() {
 	$("#telaCotizacion").prop("disabled", true);
     $("#modeloCotizacion").prop("disabled", true);
+    if(valorIndice==null){
+    	$(".agenteCotizacionInput").remove();
+    }
+    else{
+    	$(".agenteCotizacionSelect").remove();
+    }
+    
 	marcarSelects();
 	mapearTablita();
 });
@@ -306,7 +313,13 @@ function GuardarCotizacionInfo(){
 	var tipoPrecioVentas = $('#tipoPrecioVentas').val();
 	var gerenteVentas = $('#gerenteVentas').val();
 	var clienteCotizacion = $('#clienteCotizacion').val();
-	var agenteCotizacion = $('#agenteCotizacion').val();
+	 if(valorIndice==null){
+	    	var agenteCotizacion = $('#agenteCotizacion').val();
+	    }
+	    else{
+	    	var agenteCotizacion = $('#agenteCotizacion').data('agente');
+	    }
+	
 	var IVACotizacion = $('#IVACotizacion').val();
 	var observacionCotizacion = $('#observacionCotizacion').val();
 	var idCotizacion = $('#idCotizacion').val();
@@ -329,9 +342,29 @@ function GuardarCotizacionInfo(){
 	    data: {"_csrf": $('#token').val(),
 	    		lista:lista
 	    },
+		beforeSend: function () {
+       	 Swal.fire({
+                title: 'Cargando ',
+                html: 'Por favor espere',// add html attribute if you want or remove
+                allowOutsideClick: false,
+                timerProgressBar: true,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                },
+            });
+       	
+       },
 	    success: (data) => {
 	    	console.log(data);
 			if(data!=0){
+				Swal.fire({
+		            position: 'center',
+		            icon: 'success',
+		            title: 'Correcto',
+		            html: '¡Se han guardado los datos correctamente!',
+		            showConfirmButton: false,
+		            timer: 3500
+		        })
 				$('#idCotizacion').val(data);
 	        	$('#custom-tabs-two-profile-tab').attr("href","#prendasDiv");
 	        	$('#custom-tabs-two-profile-tab').attr("data-toggle","pill");
@@ -344,7 +377,7 @@ function GuardarCotizacionInfo(){
 		            title: 'Error',
 		            html: '¡Algo salió mal al guardar los datos!',
 		            showConfirmButton: false,
-		            timer: 3500,
+		            timer: 3500
 		        })
 			}
 	    },
@@ -355,7 +388,7 @@ function GuardarCotizacionInfo(){
 	            title: 'Error',
 	            html: '¡Algo salió mal al guardar los datos!',
 	            showConfirmButton: false,
-	            timer: 3500,
+	            timer: 3500
 	        })
 	    }
 	});
@@ -381,9 +414,29 @@ function GuardarCotizacionInfo(){
 		data: {"_csrf": $('#token').val(),
 				lista:lista
 		},
+		beforeSend: function () {
+       	 Swal.fire({
+                title: 'Cargando ',
+                html: 'Por favor espere',// add html attribute if you want or remove
+                allowOutsideClick: false,
+                timerProgressBar: true,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                },
+            });
+       	
+       },
 		success: (data) => {
 			console.log("ya edita");
 			if(data!=0){
+				Swal.fire({
+		            position: 'center',
+		            icon: 'success',
+		            title: 'Correcto',
+		            html: '¡Se han editado los datos correctamente!',
+		            showConfirmButton: false,
+		            timer: 3500
+		        })
             	$('#custom-tabs-two-profile-tab').click();
             	
 			}else{
@@ -393,7 +446,7 @@ function GuardarCotizacionInfo(){
 		          title: 'Error',
 		          html: '¡Algo salió mal al guardar los datos!',
 		          showConfirmButton: false,
-		          timer: 3500,
+		          timer: 3500
 		      })
 			}
 		},

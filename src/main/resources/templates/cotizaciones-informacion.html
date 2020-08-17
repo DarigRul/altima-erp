@@ -30,10 +30,10 @@
 	</div>
 	<div class="form-group col-md-3">
 		<label for="agenteCotizacion">Agente de ventas</label>
-		<select th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}" class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="agenteCotizacion">
+		<select th:style="${paraNoAgentes}" class="form-control selectpicker agenteCotizacionSelect" data-live-search="true" title="Selecciona uno..." th:id="${agente=='1'}?'':agenteCotizacion">
 			<option th:each="agente:${ListarAgentes}" th:value="${agente[0]}" th:text="${agente[1]+' '}+${agente[2]+' '}+${agente[3]+' '}">1</option>
 		</select>
-		<input th:unless="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}" type="text" class="form-control" id="agenteCotizacion" disabled value="Jose Manuel Morelos"> 
+		<input th:style="${paraAgentes}" type="text" class="form-control agenteCotizacionInput" th:id="${agente=='1'}?agenteCotizacion:''" disabled th:data-agente="${idAgente}" th:value="${Agente}"> 
 	</div>
 	<div class="form-group col-md-3">
 		<label for="clienteCotizacion">Cliente a cotizar</label>
