@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.altima.springboot.app.dto.ComercialTicketDTO;
 import com.altima.springboot.app.models.entity.ComercialTicket;
 import com.altima.springboot.app.models.entity.ComercialTicketEstatus;
 import com.altima.springboot.app.repository.ComercialClienteRepository;
@@ -329,4 +330,12 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 		return re;
 		//AND material.nombre_material NOT IN ('Tela principal')
 	}
+
+	@Override
+	@Transactional
+	public List<ComercialTicket> findAllTicket() {
+		return em.createQuery("From ComercialTicket ct where ct.estatus=1 and ct.fechaInicio is not null and ct.fechaFin is not null").getResultList();
+	}
+
+	
 }

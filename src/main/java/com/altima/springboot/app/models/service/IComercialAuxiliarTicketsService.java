@@ -2,6 +2,7 @@ package com.altima.springboot.app.models.service;
 
 import java.util.List;
 
+import com.altima.springboot.app.dto.ComercialTicketDTO;
 import com.altima.springboot.app.models.entity.ComercialMovimiento;
 import com.altima.springboot.app.models.entity.ComercialTicket;
 import com.altima.springboot.app.models.entity.ComercialTicketEstatus;
@@ -39,6 +40,6 @@ public interface IComercialAuxiliarTicketsService {
 	 String Verificar_Estatus (Long id);
 	 
 	 List<Object[]> detalles_estatus (Long id);
-	 
-	 
+
+	 List<ComercialTicket> findAllTicket();
 }

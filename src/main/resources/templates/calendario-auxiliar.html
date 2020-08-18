@@ -84,7 +84,14 @@
         left  : 'prev,next today',
         center: 'title',
         right : 'dayGridMonth,timeGridWeek,listMonth'
-      },
+	  },
+	  events: {
+	        url: '/ticket/allevents/',
+	        type: 'GET',
+	        error: function() {
+	            alert('Error en el servidor');
+			},
+		},
       	allDaySlot:false,
 		defaultDate: moment().format("YYYY-MM-DD"),
 		editable: false,
