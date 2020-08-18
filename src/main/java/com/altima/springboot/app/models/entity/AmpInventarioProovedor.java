@@ -53,6 +53,20 @@ public class AmpInventarioProovedor implements Serializable {
 	@Column(name="dias")
 	private int dias;
 
+	@Column(name="tipo")
+	private String tipo;
+	
+	
+
+	
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 	public Long getIdInventarioProveedor() {
 		return idInventarioProveedor;
 	}
