@@ -1,0 +1,62 @@
+<form class="row">
+    <div class="form-group col-md-4">
+      <label for="fechaCita">Fecha y hora cita</label>
+      <input type="datetime-local" class="form-control" id="fechaCita">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="clienteCita">Cliente</label>
+      <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="clienteCita">
+          <option value="1">1</option>
+          <option value="1">2</option>
+          <option value="1">3</option>
+          <option value="1">4</option>
+      </select>
+    </div>
+    <div class="form-group col-md-4">
+        <label for="direccionCita">Direcci&oacute;n</label>
+        <input type="text" class="form-control" id="direccionCita" placeholder="Av. Primero de Mayo 126, 8 de Agosto, Benito Juárez, 03820 Ciudad de México, CDMX">
+     </div>
+     <div class="form-group col-md-3">
+        <label for="telefonoCita">Tel&eacute;fono</label>
+        <input type="number" class="form-control" id="telefonoCita" placeholder="222 123 5324">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="dirigirseCita">Dirigirse con</label>
+        <input type="text" class="form-control" id="dirigirseCita" placeholder="Jorge Manuel Martinez">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="fechaSalida">Hora Salida Altima</label>
+        <input type="datetime-local" class="form-control" id="fechaSalida">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="actividadCita">Actividad</label>
+        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="actividadCita">
+            <option value="1">1</option>
+            <option value="1">2</option>
+            <option value="1">3</option>
+            <option value="1">4</option>
+        </select>
+      </div>
+      <div class="form-group col-md-12">
+        <hr>
+        <h4>Personas por atender</h4>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="damasAtender">Damas</label>
+        <input type="number" class="form-control" id="damasAtender" placeholder="20">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="caballerosAtender">Caballeros</label>
+        <input type="number" class="form-control" id="caballerosAtender" placeholder="15">
+      </div>
+      <div class="form-group col-md-12">
+        <label for="comentariosCita">Comentarios</label>
+        <textarea class="form-control" id="comentariosCita" rows="3"></textarea>
+      </div>
+    <div class="form-group col-md-12">
+        <a th:href="@{'/servicio-cliente'}" class="btn icon-btn btn-danger text-white mr-auto"><span
+                class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+        <button type="button" class="btn icon-btn btn-altima text-white float-right"><span
+                class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+    </div>
+  </form>

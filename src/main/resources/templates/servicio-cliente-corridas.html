@@ -1,0 +1,43 @@
+<form class="row">
+    <div class="form-group col-md-6">
+      <label for="generoCorridas">G&eacute;nero</label>
+      <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="generoCorridas">
+        <option value="1">Dama</option>
+        <option value="1">Caballero</option>
+       </select>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="tipoCorridas">Tipo</label>
+        <div class="input-group mb-3">
+            <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="tipoCorridas" style="border-radius: .25rem;">
+                <option value="1">Media corrida</option>
+                <option value="1">Completa</option>
+               </select>
+            <div class="input-group-append" style="margin-left:10px;">
+                <button type="button" class="btn icon-btn btn-altima text-white"><span
+                    class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+            </div>
+          </div>
+    </div>
+    <div class="form-group col-md-12">
+        <table class="table tablaGeneral table-striped table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>G&eacute;nero</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Dama</td>
+                    <td>Media corrida</td>
+                    <td class="text-center">
+                        <button type="button" class="btn icon-btn btn-danger text-white"><span
+                            class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
+                    </td>
+                </tr>    
+            </tbody>
+        </table>
+    </div>
+  </form>
