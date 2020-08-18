@@ -35,12 +35,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a th:href="${'/servicio-cliente'}" class="nav-link" id="navSer">
-                        <i class="nav-icon fas fa-user text-altima" id="iSer"></i>
-                        <p>Servicio al cliente</p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a th:href="${'/cambio-fecha-pedido'}" class="nav-link" id="navCal">
                         <i class="nav-icon fas fa-calendar text-altima" id="iCal"></i>
                         <p>Cambio de fecha de pedido</p>
@@ -386,6 +380,12 @@
                                     </a>
                                 </li>
                             </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a th:href="${'/servicio-cliente'}" class="nav-link" id="navSer">
+                                <i class="nav-icon fas fa-user" id="iSer"></i>
+                                <p>Servicio al cliente</p>
+                            </a>
                         </li>
                         <li class="nav-item has-treeview" id="menuMuestrario" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                     (${#authorization.expression('hasRole(''ROLE_COMERCIAL_RECEPCION'')')})">
