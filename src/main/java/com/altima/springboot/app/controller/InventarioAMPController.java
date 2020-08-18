@@ -243,7 +243,7 @@ public class InventarioAMPController {
 		
 		if (tipo.equals("m")) {
 			DisenioMaterial material = disenioMaterialService.findOne(id);
-			material.setEstatus("0");
+			material.setEstatus("1");
 			material.setActualizadoPor(auth.getName());
 			material.setUltimaFechaModificacion(hourdateFormat.format(date));
 			disenioMaterialService.save(material);
@@ -253,14 +253,14 @@ public class InventarioAMPController {
 			DisenioTela tela = disenioTelaService.findOne(id);
 			tela.setUltimaFechaModificacion(hourdateFormat.format(date));
 			tela.setActualizadoPor(auth.getName());
-			tela.setEstatus("0");
+			tela.setEstatus("1");
 			
 			disenioTelaService.save(tela);
 			
 		}
 		if (tipo.equals("f")) {
 			DisenioForro forro = forroService.findOne(id);
-			forro.setEstatus("0");
+			forro.setEstatus("1");
 			forro.setActualizadoPor(auth.getName());
 			forro.setUltimaFechaModificacion(hourdateFormat.format(date));
 			forroService.save(forro);
@@ -269,7 +269,7 @@ public class InventarioAMPController {
 		if (tipo.equals("aa")) {
 			AmpInventario inventario = null;
 			inventario = InventarioSerivice.findOne(id);
-			inventario.setEstatus("0");
+			inventario.setEstatus("1");
 			inventario.setActualizadoPor(auth.getName());
 			inventario.setUltimaFechaModificacion(hourdateFormat.format(date));
 			InventarioSerivice.save(inventario);
