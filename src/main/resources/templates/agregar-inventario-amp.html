@@ -110,7 +110,7 @@
                                     <h3 class="card-title">Datos generales</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form class="row" th:action="@{/guardar-inventario-amp}" enctype="multipart/form-data" method="POST">
+                                    <form class="row" th:action="@{/guardar-inventario-amp}" enctype="multipart/form-data" method="POST" name="fvalida">
                                         <div class="form-group col-md-12">
                                             <div class="contain animated bounce">
                                                 <div id="img_contain">
@@ -131,13 +131,13 @@
                                         <div class="form-group col-md-4">
                                             <label for="internaAltima">Clave interna Altima</label>
                                             <input type="text" readonly  class="form-control" th:field="*{inventario.idText}"> </div>
-                                       <!-- <div class="form-group col-md-4">
+                                        <div class="form-group col-md-4">
                                             <label for="clasificacionTipo">Clasificaci&oacute;n</label>
-                                            <select th:field="*{inventario.idClasificacion}" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." >
-												<option th:each="listClasificacion: ${listClasificacion}" th:value="${listClasificacion.idLookup}"
+                                            <select th:field="*{inventario.idClasificacion}" class="form-control selectpicker" onchange="listarLinea(this.value)"  data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." >
+												<option  th:each="listClasificacion: ${listClasificacion}" th:if="${listClasificacion.nombreLookup != 'Materia Prima' and listClasificacion.nombreLookup != 'Habilitacion' }" th:value="${listClasificacion.idLookup}"
 																		th:text="${listClasificacion.nombreLookup}"></option>
 											</select>
-                                        </div> --> 
+                                        </div> 
                                         <div class="form-group col-md-4"> 
                                             <label for="lineaTipo">L&iacute;nea</label>
                                             <select th:field="*{inventario.idLinea}" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
@@ -171,7 +171,7 @@
                                         </div>
                                         <div class="form-group col-sm-12"> <a th:href="@{/inventario-amp}" class="btn icon-btn btn-danger text-white" type="submit"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a> 
                                         
-                                        <button class="btn icon-btn btn-altima float-right text-white" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button> 
+                                        <button class="btn icon-btn btn-altima text-white float-right" type="button" onclick="valida_envia()"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button> 
                                         
                                         </div>
                                     
@@ -244,6 +244,14 @@
             $(".alert").text(text).addClass("loading");
         }
     </script>
+     <script src="/dist/js/agregarInventarioAmp.js"></script>
+     <script th:if="${linea != null}" th:inline="javascript">
+	
+     listarLinea(/*[[${clasificacion}]]*/ , /*[[${linea}]]*/ );
+	
+	
+	
+	</script>  
 </body>
 
 </html>

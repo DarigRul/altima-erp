@@ -47,6 +47,7 @@ function guardarProveedor(){
 		var costo =$("#proveedorCosto").val();  
 		var dias =$("#proveedorSurtido").val(); 
 		var idInventario =$("#idInventario").val(); 
+		var tipo =$("#tipo").val(); 
 	$.ajax({
         type: "POST",
         url:"/agregar-proveedor",
@@ -57,6 +58,7 @@ function guardarProveedor(){
         	"costo":costo,
         	"dias":dias,
         	"idInventario":idInventario,
+        	"tipo":tipo,
              "_csrf": $('#token').val(),
         },
         beforeSend: function () {

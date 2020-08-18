@@ -68,11 +68,12 @@ public class AmpInventarioProovedorServiceImp implements IAmpInventarioProovedor
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<Object []> View(Long id) {
+	public List<Object []> View(Long id, String tipo) {
+		
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	pro.id_inventario_proveedor,\r\n" + 
-				"   compras.id_proveedor,\r\n"+
+				"   compras.id_proveedor,\r\n" + 
 				"	pro.clave_proveedor,\r\n" + 
 				"	compras.id_text,\r\n" + 
 				"	compras.nombre_proveedor,\r\n" + 
@@ -85,7 +86,8 @@ public class AmpInventarioProovedorServiceImp implements IAmpInventarioProovedor
 				"	1 = 1 \r\n" + 
 				"	AND pro.id_proveedor = compras.id_proveedor \r\n" + 
 				"	AND pro.id_inventario ="+id+"\r\n" + 
-				"	AND pro.estatus=1").getResultList();
+				"	AND pro.estatus=1\r\n" + 
+				"	AND pro.tipo='"+tipo+"'").getResultList();
 	
 		return re;
 	}

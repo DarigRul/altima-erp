@@ -33,6 +33,8 @@ import com.altima.springboot.app.models.entity.AmpInventarioProovedorPrecio;
 import com.altima.springboot.app.models.entity.AmpLookup;
 import com.altima.springboot.app.models.entity.ComercialCliente;
 import com.altima.springboot.app.models.entity.ComercialClienteSucursal;
+import com.altima.springboot.app.models.entity.DisenioForro;
+import com.altima.springboot.app.models.entity.DisenioMaterial;
 import com.altima.springboot.app.models.entity.DisenioTela;
 import com.altima.springboot.app.models.entity.HrDireccion;
 import com.altima.springboot.app.models.service.IAmpInventarioProovedorService;
@@ -40,6 +42,9 @@ import com.altima.springboot.app.models.service.IAmpInventarioService;
 import com.altima.springboot.app.models.service.IAmpLoookupService;
 import com.altima.springboot.app.models.service.ICatalogoService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
+import com.altima.springboot.app.models.service.IDisenioForroService;
+import com.altima.springboot.app.models.service.IDisenioMaterialService;
+import com.altima.springboot.app.models.service.IDisenioTelaService;
 import com.altima.springboot.app.models.service.IUploadService;
 
 @Controller
@@ -58,6 +63,15 @@ public class InventarioAMPController {
 	
 	@Autowired
 	private IAmpInventarioProovedorService ProveedorSerivice;
+	
+	@Autowired
+	private IDisenioTelaService disenioTelaService;
+	
+	@Autowired
+	private IDisenioForroService forroService;
+	
+	@Autowired
+	private IDisenioMaterialService disenioMaterialService;
 	
 	
 	@GetMapping("/inventario-amp")
@@ -85,6 +99,11 @@ public class InventarioAMPController {
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		DecimalFormat df = new  DecimalFormat ("00000");
+		String unique = LookService.nombreCategoria(inventario.getIdLinea());
+		System.out.println("aqui esta el result de la query pref " + unique);
+		String prefijo = unique.substring(1, 4);
+		System.out.println("aqui esta el prefijo" + prefijo);
+		
 		if (!imagen.isEmpty()){
 			if ( inventario.getImagen() != null && inventario.getImagen().length() > 0) {
 				UploadService.deleteInventarioAMP(inventario.getImagen());
@@ -109,7 +128,8 @@ public class InventarioAMPController {
 			
 			InventarioSerivice.save(inventario);
 			
-			inventario.setIdText(inventario.getArticulo().substring(0,3) + df.format(inventario.getIdInventario()));
+			//inventario.setIdText(inventario.getArticulo().substring(0,3) + df.format(inventario.getIdInventario()));
+			inventario.setIdText(prefijo.toUpperCase() + (inventario.getIdInventario() + 10000));
 			InventarioSerivice.save(inventario);
 			redirectAttrs.addFlashAttribute("title", "Inventario guardado correctamente").addFlashAttribute("icon", "success");
 		}
@@ -132,15 +152,19 @@ public class InventarioAMPController {
 		model.addAttribute("listLinea", LookService.findAllLookup("Linea"));
 		model.addAttribute("listUnidad", LookCatalogoService.findAllLookup("Unidad Medida"));
 		model.addAttribute("inventario", inventario);
+		
+		model.addAttribute("clasificacion", inventario.getIdClasificacion());
+		model.addAttribute("linea", inventario.getIdLinea());
 		return "agregar-inventario-amp";
 	}
 	
 
-	@GetMapping("/proveedores-inventario-amp/{id}")
-	public String addproveedores(@PathVariable (value="id") Long id, Model model)
+	@GetMapping("/proveedores-inventario-amp/{id}/{tipo}")
+	public String addproveedores(@PathVariable (value="id") Long id,@PathVariable (value="tipo") String tipo, Model model)
 	{
 		model.addAttribute("idInventario", id);
-		model.addAttribute("view", ProveedorSerivice.View(id));
+		model.addAttribute("tipo", tipo);
+		model.addAttribute("view", ProveedorSerivice.View(id, tipo));
 		
 		return"proveedores-inventario-amp";
 	}
@@ -163,18 +187,45 @@ public class InventarioAMPController {
 	}
 	
 	
-	@GetMapping("baja-inventario-amp/{id}") 
-	public String baja_sucursal(@PathVariable("id") Long id, RedirectAttributes redirectAttrs) throws Exception {
+	@GetMapping("baja-inventario-amp/{id}/{tipo}") 
+	public String baja_sucursal(@PathVariable("id") Long id,@PathVariable("tipo") String tipo, RedirectAttributes redirectAttrs) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		if (tipo.equals("m")) {
+			DisenioMaterial material = disenioMaterialService.findOne(id);
+			material.setEstatus("0");
+			material.setActualizadoPor(auth.getName());
+			material.setUltimaFechaModificacion(hourdateFormat.format(date));
+			disenioMaterialService.save(material);
+			
+		}
+		if (tipo.equals("t")) {
+			DisenioTela tela = disenioTelaService.findOne(id);
+			tela.setUltimaFechaModificacion(hourdateFormat.format(date));
+			tela.setActualizadoPor(auth.getName());
+			tela.setEstatus("0");
+			
+			disenioTelaService.save(tela);
+			
+		}
+		if (tipo.equals("f")) {
+			DisenioForro forro = forroService.findOne(id);
+			forro.setEstatus("0");
+			forro.setActualizadoPor(auth.getName());
+			forro.setUltimaFechaModificacion(hourdateFormat.format(date));
+			forroService.save(forro);
+			
+		}
+		if (tipo.equals("aa")) {
+			AmpInventario inventario = null;
+			inventario = InventarioSerivice.findOne(id);
+			inventario.setEstatus("0");
+			inventario.setActualizadoPor(auth.getName());
+			inventario.setUltimaFechaModificacion(hourdateFormat.format(date));
+			InventarioSerivice.save(inventario);
+		}
 		
-		AmpInventario inventario = null;
-		inventario = InventarioSerivice.findOne(id);
-		inventario.setEstatus("0");
-		inventario.setActualizadoPor(auth.getName());
-		inventario.setUltimaFechaModificacion(hourdateFormat.format(date));
-		InventarioSerivice.save(inventario);
 	
 		redirectAttrs
         .addFlashAttribute("title", "Inventario dada de baja correctamente")
@@ -184,18 +235,45 @@ public class InventarioAMPController {
 		
 	}
 	
-	@GetMapping("alta-inventario-amp/{id}") 
-	public String alta_sucursal(@PathVariable("id") Long id, RedirectAttributes redirectAttrs) throws Exception {
+	@GetMapping("alta-inventario-amp/{id}/{tipo}") 
+	public String alta_sucursal(@PathVariable("id") Long id, @PathVariable("tipo") String tipo, RedirectAttributes redirectAttrs) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		
-		AmpInventario inventario = null;
-		inventario = InventarioSerivice.findOne(id);
-		inventario.setEstatus("1");
-		inventario.setActualizadoPor(auth.getName());
-		inventario.setUltimaFechaModificacion(hourdateFormat.format(date));
-		InventarioSerivice.save(inventario);
+		if (tipo.equals("m")) {
+			DisenioMaterial material = disenioMaterialService.findOne(id);
+			material.setEstatus("0");
+			material.setActualizadoPor(auth.getName());
+			material.setUltimaFechaModificacion(hourdateFormat.format(date));
+			disenioMaterialService.save(material);
+			
+		}
+		if (tipo.equals("t")) {
+			DisenioTela tela = disenioTelaService.findOne(id);
+			tela.setUltimaFechaModificacion(hourdateFormat.format(date));
+			tela.setActualizadoPor(auth.getName());
+			tela.setEstatus("0");
+			
+			disenioTelaService.save(tela);
+			
+		}
+		if (tipo.equals("f")) {
+			DisenioForro forro = forroService.findOne(id);
+			forro.setEstatus("0");
+			forro.setActualizadoPor(auth.getName());
+			forro.setUltimaFechaModificacion(hourdateFormat.format(date));
+			forroService.save(forro);
+			
+		}
+		if (tipo.equals("aa")) {
+			AmpInventario inventario = null;
+			inventario = InventarioSerivice.findOne(id);
+			inventario.setEstatus("0");
+			inventario.setActualizadoPor(auth.getName());
+			inventario.setUltimaFechaModificacion(hourdateFormat.format(date));
+			InventarioSerivice.save(inventario);
+		}
 	
 		redirectAttrs
         .addFlashAttribute("title", "Inventario dada de alta correctamente")
@@ -218,7 +296,7 @@ public class InventarioAMPController {
 	}
 	@RequestMapping(value = "/agregar-proveedor", method = RequestMethod.POST)
 	@ResponseBody
-	public String provedornew (Long id , Long idProveedor, String clave , Float costo, int dias , Long idInventario ) {
+	public String provedornew (Long id , Long idProveedor, String clave , Float costo, int dias , Long idInventario, String tipo ) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
@@ -234,6 +312,7 @@ public class InventarioAMPController {
 			obj.setFechaCreacion(hourdateFormat.format(date));
 			obj.setEstatus("1");
 			obj.setDias(dias);
+			obj.setTipo(tipo);
 			ProveedorSerivice.save(obj);
 			objPrecio.setIdProveedor(obj.getIdInventarioProveedor());
 			objPrecio.setPrecio(Float.toString(costo));
@@ -253,6 +332,7 @@ public class InventarioAMPController {
 			obj.setActualizadoPor(auth.getName());
 			obj.setUltimaFechaModificacion(hourdateFormat.format(date));
 			obj.setDias(dias);
+			obj.setTipo(tipo);;
 			ProveedorSerivice.save(obj);
 			Float precio=  ProveedorSerivice.findOnePrecio(id);
 			System.out.println("precio"+costo);
@@ -286,6 +366,12 @@ public class InventarioAMPController {
 		obj.setUltimaFechaModificacion(hourdateFormat.format(date));
 		ProveedorSerivice.save(obj);
 		redirectAttrs.addFlashAttribute("title", "Proveedor dado de baja correctamente").addFlashAttribute("icon", "success");
-		return "redirect:/proveedores-inventario-amp/"+obj.getIdInventario();
+		return "redirect:/proveedores-inventario-amp/"+obj.getIdInventario()+"/"+obj.getTipo();
+	}
+	
+	@RequestMapping(value = "/listar-linea", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object []> linea(Long id) {
+		return LookService.listarLinea(id);
 	}
 }

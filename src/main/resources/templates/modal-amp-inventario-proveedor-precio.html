@@ -22,11 +22,11 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="proveedorCosto">Costo</label>
-                        <input type="number" class="form-control" placeholder="60" id="proveedorCosto">
+                        <input type="number" min="1"  class="form-control" placeholder="60" id="proveedorCosto">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="proveedorSurtido">Tiempo de surtido(d&iacute;as)</label>
-                        <input type="number" class="form-control" placeholder="9" id="proveedorSurtido">
+                        <input type="number" min="1" class="form-control" placeholder="9" id="proveedorSurtido">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -35,6 +35,7 @@
                 </div>
                 <input type="hidden" id="id" name="id">
                 
+                <input type="hidden" id="tipo" name="tipo"  th:value="${tipo}">
                 <input type="hidden" id="idInventario" name="idInventario"  th:value="${idInventario}">
                 <input type="hidden" name="_csrf" id="token"
                                     th:value="${_csrf.token}" />

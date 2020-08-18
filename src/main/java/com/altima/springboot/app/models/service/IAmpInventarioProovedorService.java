@@ -16,7 +16,7 @@ public interface IAmpInventarioProovedorService {
 	
 	List<Object []> Proveedores();
 	
-	List<Object []> View(Long id);
+	List<Object []> View(Long id, String tipo);
 	
 	void savePrecio(AmpInventarioProovedorPrecio obj);
 	
