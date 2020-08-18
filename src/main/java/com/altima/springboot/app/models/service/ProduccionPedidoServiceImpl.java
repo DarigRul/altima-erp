@@ -166,6 +166,10 @@ public class ProduccionPedidoServiceImpl implements IProduccionPedidoService {
 	@Override
 	@Transactional
 	public List<Object[]> materialesPorPrenda(Long id) {
+		
+		System.out.println("para la cascara"  + id);
+		
+		System.out.println("este arroja los materiales");
 		List<Object[]> re = em.createNativeQuery("SELECT material.id_material,material.nombre_material  \r\n" + 
 				"FROM alt_disenio_material_prenda as material_prenda , alt_disenio_material as material\r\n" + 
 				"WHERE 1=1\r\n" + 
@@ -173,7 +177,7 @@ public class ProduccionPedidoServiceImpl implements IProduccionPedidoService {
 				"AND material.id_material = material_prenda.id_material\r\n" + 
 				"AND material_prenda.id_prenda="+id).getResultList();
 		return re;
-		//AND material.nombre_material NOT IN ('Tela principal')
+
 	}
 	
 	
