@@ -147,6 +147,10 @@
 						</div><br>
 						<div class="custom-control" id="ContenedorBotonParaEnviar">
 				    		<!--  -->
+				    		<button class="btn btn-primary" type="button" disabled id='ContenedorBotonParaEnviarCargando' style="display: none;">
+  								<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+	  								Enviando Correo...
+							</button>
 				    	</div><br>
 		      		</div>
 		      		<div class="modal-footer">
@@ -219,9 +223,22 @@
 	}
 	
 	function EnviarCorreoCotizacion(id){
-		console.log(id, $('#CorreoParaCotizacion').val());
-		window.open("/imprimir-cotizacion/" + id + "/" + true + "/" + true + "/" + $('#CorreoParaCotizacion').val() + "?format=pdf", '_blank');
-		$('#EnviarCorreoCotizacion').modal('toggle');
+		$('#ActuallyBotonEnviar').remove();
+		$('#ContenedorBotonParaEnviarCargando').css("display", "block");
+		$.ajax({
+			type: "GET",
+			url: "/imprimir-cotizacion/" + id + "/" + true + "/" + true + "/" + $('#CorreoParaCotizacion').val(),
+			data: {  },
+			success: (data) => {
+				//
+				$('#ContenedorBotonParaEnviarCargando').css("display", "none");
+				$('#EnviarCorreoCotizacion').modal('toggle');
+			},
+			error: (e) => {
+				alert(e);
+			}
+		});
+		
 	}
 	</script>
 </body>

@@ -41,6 +41,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
+import com.altima.springboot.app.models.service.IEnviarCorreoService;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -70,41 +71,50 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 	public static final String DEST = "src/main/resources/static/dist/pdf/cotizaciones/Resultado.pdf";
 
 	@Autowired
-    private JavaMailSender javaMailSender;
+    private IEnviarCorreoService enviarCorreoService;
 	
 	@SuppressWarnings("static-access")
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
-		
-		
+		/*
+		 * 
+		 * Variables del controller y de tiempo
+		 * 
+		 */
+		@SuppressWarnings("unchecked")
+		List<Object[]> prendas = (List<Object[]>) model.get("ListaCotizacionPrendas");
 		DateTime jodaTime = new DateTime();
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH-mm-ss-SSS");
 		String nombrePDF = "Cotizacion_" + (String) model.get("id") + "_" + formatter.print(jodaTime) + ".pdf";
 		String archivo = "src/main/resources/static/dist/pdf/cotizaciones/" + nombrePDF;
-
-		@SuppressWarnings("unchecked")
-		List<Object[]> prendas = (List<Object[]>) model.get("ListaCotizacionPrendas");
 		String tipoCotizacion = (String) model.get("tipo");
 		String correo = (String) model.get("mail");
 		boolean totales = (boolean) model.get("totales");
 		boolean cv = (boolean) model.get("cv");
+		SimpleDateFormat formato = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+		String fecha = formato.format(new Date());
 
-		//Colores y Fuente
+		/*
+		 * 
+		 * Colores y Fuente
+		 * 
+		 */
 		Color fuerte = new Color(255, 102, 102);
 		Color bajito = new Color(255, 137, 137);
 		Font HelveticaBold = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 9);
 		Font Helvetica = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 9);
-		
-		//Variables iniciadas
-		SimpleDateFormat formato = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
-		String fecha = formato.format(new Date());
 
-		//Espacio en blanco xd
+		/*
+		 * 
+		 * Celda para espacios en blanco
+		 * 
+		 */
 		PdfPTable espacio = new PdfPTable(1);
 		PdfPCell cell = new PdfPCell(new Phrase(" "));
 		cell.setBorder(0);
 		espacio.addCell(cell);
+		
 		/**
 		 * 
 		 * 
@@ -112,7 +122,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		 * 
 		 * 
 		 */
-		//Primera tabla de numero, nombre y fecha
     	PdfPTable tablaHeader1 = new PdfPTable(1);
     	PdfPCell numeroCotizacion = new PdfPCell(new Phrase("No. 25895", HelveticaBold));
     	PdfPCell lugarCotizacion = new PdfPCell(new Phrase("Notaria 33", HelveticaBold));
@@ -127,7 +136,11 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	tablaHeader1.addCell(lugarCotizacion);
     	tablaHeader1.addCell(fechaCotizacion);
     	
-    	//Segunda tabla con direccion
+    	/*
+    	 * 
+    	 * Parte de la Direccion
+    	 * 
+    	 */
     	PdfPTable tablaHeader2 = new PdfPTable(5);
     	PdfPCell celda;
     	celda = new PdfPCell(new Phrase("Calle: ", Helvetica));
@@ -149,7 +162,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_RIGHT);
     	tablaHeader2.addCell(celda);
-    	//
     	celda = new PdfPCell(new Phrase("Colonia: ", Helvetica));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -169,7 +181,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_RIGHT);
     	tablaHeader2.addCell(celda);
-    	//
     	celda = new PdfPCell(new Phrase("Delegación: ", Helvetica));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -189,7 +200,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_RIGHT);
     	tablaHeader2.addCell(celda);
-    	//
     	celda = new PdfPCell(new Phrase("Teléfono: ", Helvetica));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -209,7 +219,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_RIGHT);
     	tablaHeader2.addCell(celda);
-    	//
     	celda = new PdfPCell(new Phrase("Correo: ", Helvetica));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -229,7 +238,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_RIGHT);
     	tablaHeader2.addCell(celda);
-    	
     	try {
 			tablaHeader2.setWidths(new float[] { 3f, 5f, 1f, 3f, 3f });
 		} catch (DocumentException e) {
@@ -237,7 +245,12 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			e.printStackTrace();
 		}
     	
-    	//Tercera tabla, para el nombre y por medio de la presente
+
+    	/*
+    	 * 
+    	 * Tabla para el nombre y por medio de la presente
+    	 * 
+    	 */
     	PdfPTable tablaHeader3 = new PdfPTable(1);
     	PdfPCell nombre = new PdfPCell(new Phrase("Atte. Patricia Jaime", HelveticaBold));
     	PdfPCell leyenda = new PdfPCell(new Phrase("Por medio de la presente nos permitimos poner a su consideración la cotización de las siguientes prendas: ", Helvetica));
@@ -255,7 +268,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		 * 
 		 * 
 		 */
-		//Cuerpo del documento
 		PdfPTable tablaPrendas = null;
 		//Si pasa aqui, es 1, es decir una cotizacion General
 		if(tipoCotizacion.equalsIgnoreCase("1")) {
@@ -561,38 +573,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			PdfContentByte cb = writer.getDirectContent();
 			cb.addTemplate(page, 0, 0);
 			document.close();
-			
-			
-			/**
-			 * 
-			 * Correo
-			 * 
-			 * 
-			 */
-            
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom("dtu_test@uniformes-altima.com.mx");
-            helper.setTo(correo);
-            helper.setSubject("test");
-            helper.setText("test");
-            /**
-             * Archivo
-             */
-            BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText(" ");
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(messageBodyPart);
-            messageBodyPart = new MimeBodyPart();
-            DataSource pdfds = new ByteArrayDataSource(baos.toByteArray(), "application/pdf");
-            messageBodyPart.setDataHandler(new DataHandler(pdfds));
-            messageBodyPart.setFileName("Cotizacion" + (String) model.get("id") + "_" + formatter.print(jodaTime) + ".pdf");
-            multipart.addBodyPart(messageBodyPart);
-            message.setContent(multipart);
-            /**
-             * Se envia
-             */
-            javaMailSender.send(message);
+			enviarCorreoService.enviarCorreoArchivoAdjuntoConMime("dtu_test@uniformes-altima.com.mx", correo, "Envio de Cotización", "A continuación se anexa un informe de la cotización solicitada.", baos, "Cotizacion" + (String) model.get("id") + "_" + formatter.print(jodaTime) + ".pdf");
 		}
 	}
 }
