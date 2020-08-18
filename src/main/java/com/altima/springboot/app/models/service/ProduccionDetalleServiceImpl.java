@@ -222,6 +222,7 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public List<Object[]> materialesPorPrendaExtra(Long id) {
+		System.out.println("vamos a mnodificar la entretela");
 		
 		
 		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + 
@@ -295,39 +296,54 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public List<Object[]> findListMatEx(Long id) {
-		List<Object[]> re = em.createNativeQuery("SELECT material.id_material,\r\n" + "material.nombre_material,\r\n"
-				+ "material_prenda.id_material_prenda\r\n" + "				\r\n"
-				+ "											FROM alt_disenio_material_prenda as material_prenda , \r\n"
-				+ "				                            alt_disenio_material as material , alt_disenio_lookup adl\r\n"
-				+ "				                           \r\n"
-				+ "										    WHERE 1=1\r\n"
-				+ "											AND material.nombre_material NOT IN ('Tela principal')\r\n"
-				+ "				                                 \r\n"
-				+ "				                            AND material.nombre_material NOT IN ('Forro principal')\r\n"
-				+ "				                            AND material.nombre_material NOT IN ('Tela combinacion')\r\n"
-				+ "								            AND material.nombre_material NOT IN ('Tela combinacion')\r\n"
-				+ "										    AND (adl.nombre_lookup='Corte' or                                                                         adl.nombre_lookup='Confección')\r\n"
-				+ "											AND material.id_material = material_prenda.id_material\r\n"
-				+ "											AND material.id_proceso = adl.id_lookup\r\n"
-				+ "				                            \r\n"
-				+ "										    AND material_prenda.id_material_prenda=" + id + "\r\n"
-				+ "\r\n" + "\r\n" + "\r\n" + "UNION\r\n" + "\r\n" + "SELECT material.id_material,\r\n"
-				+ "material.nombre_material,\r\n" + "material_prenda.id_material_prenda\r\n" + "				\r\n"
-				+ "											FROM alt_disenio_material_extra_prenda as material_prenda , \r\n"
-				+ "				                            alt_disenio_material as material , alt_disenio_lookup adl\r\n"
-				+ "				                           \r\n"
-				+ "										    WHERE 1=1\r\n"
-				+ "											AND material.nombre_material NOT IN ('Tela principal')\r\n"
-				+ "				                                 \r\n"
-				+ "				                            AND material.nombre_material NOT IN ('Forro principal')\r\n"
-				+ "				                            AND material.nombre_material NOT IN ('Tela combinacion')\r\n"
-				+ "								            AND material.nombre_material NOT IN ('Tela combinacion')\r\n"
-				+ "										    AND (adl.nombre_lookup='Corte' or                                                                         adl.nombre_lookup='Confección')\r\n"
-				+ "											AND material.id_material = material_prenda.id_material\r\n"
-				+ "											AND material.id_proceso = adl.id_lookup\r\n"
-				+ "				                            \r\n"
-				+ "										    AND material_prenda.id_material_prenda=" + id)
+		
+		System.out.println("entre a este 1227 y el id   " + id);
+		
+	
+		List<Object[]> re = em.createNativeQuery("SELECT\n" + 
+				"	material.id_material,\n" + 
+				"	material.nombre_material,\n" + 
+				"	material_prenda.id_material_prenda \n" + 
+				"FROM\n" + 
+				"	alt_disenio_material_prenda AS material_prenda,\n" + 
+				"	alt_disenio_material AS material,\n" + 
+				"	alt_disenio_lookup adl \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND material.nombre_material NOT IN ( 'Tela principal' ) \n" + 
+				"	AND material.nombre_material NOT IN ( 'Forro principal' ) \n" + 
+				"	AND material.nombre_material NOT IN ( 'Tela combinacion' ) \n" + 
+	
+				"	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \n" + 
+				"	AND material.id_material = material_prenda.id_material \n" + 
+				"	AND material.id_proceso = adl.id_lookup \n" + 
+				"	AND material_prenda.id_material_prenda = "+id+"     \n" + 
+				"\n" + 
+				"\n" + 
+				"\n" + 
+				"UNION\n" + 
+				"\n" + 
+				"SELECT\n" + 
+				"	material.id_material,\n" + 
+				"  material.nombre_material,\n" + 
+				"	material_prenda.id_material_prenda \n" + 
+				"FROM\n" + 
+				"	alt_disenio_material_extra_prenda AS material_prenda,\n" + 
+				"	alt_disenio_material AS material,\n" + 
+				"	alt_disenio_lookup adl \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND material.nombre_material NOT IN ( 'Tela principal' ) \n" + 
+				"	AND material.nombre_material NOT IN ( 'Forro principal' ) \n" + 
+				"	AND material.nombre_material NOT IN ( 'Tela combinacion' ) \n" + 
+
+				"	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \n" + 
+				"	AND material.id_material = material_prenda.id_material \n" + 
+				"	AND material.id_proceso = adl.id_lookup \n" + 
+				"	AND material_prenda.id_material_prenda = " + id)
 				.getResultList();
+		
+		
 		return re;
 
 	}
