@@ -138,7 +138,7 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"					AND look.id_lookup = material.id_tipo_material \n" + 
 				"					AND look.nombre_lookup NOT IN ( 'Tela Material' ) \n" + 
 				"					AND look.nombre_lookup NOT IN ( 'Forro Material' )  \n" + 
-				"					AND look.nombre_lookup NOT IN ( 'Entretela' )  \n" + 
+			
 				"					AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' )  \n" + 
 				"					AND material.id_material = material_prenda.id_material \n" + 
 				"					AND material.id_proceso = adl.id_lookup \n" + 
