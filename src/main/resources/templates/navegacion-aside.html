@@ -578,15 +578,31 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_LISTAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_AGREGAR'')')}) or
-              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_EDITAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_ELIMINAR'')')})">
-                    <a th:href="${'/rutas'}" class="nav-link" id="navLogistica">
+                <li class="nav-item has-treeview" id="menuLogistica" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_LISTAR'')')}) or 
+                (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_AGREGAR'')')}) or
+                (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_EDITAR'')')}) or 
+                (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_ELIMINAR'')')})">
+                    <a class="nav-link" id="navLogistica">
                         <i class="nav-icon fas fa-truck text-altima" id="iLogistica"></i>
-                        <p>Log&iacute;stica</p>
+                        <p>
+                            Log&iacute;stica <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="${'/logistica-catalogos-unidades'}" class="nav-link" id="navLogUni">
+                                <i class="nav-icon fas fa-truck-moving"></i>
+                                <p>Cat&aacute;logo de unidades </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/logistica-solicitud-camionetas'}" class="nav-link" id="navLogCam">
+                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <p>Solicitud de camioneta</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item has-treeview" id="menuMaquila">
                     <a class="nav-link" id="navMaquila">
@@ -776,7 +792,7 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_ELIMINAR'')')})">
-                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                            <a th:href="${'/rutas'}" class="nav-link" id="navProRut">
                                 <i class="nav-icon fas fa-route"></i>
                                 <p>Rutas de procesos</p>
                             </a>
@@ -786,7 +802,7 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_ELIMINAR'')')})">
-                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                            <a th:href="${'/'}" class="nav-link" id="navProPre">
                                 <i class="nav-icon flaticon-005-dress"></i>
                                 <p>Prendas faltantes</p>
                             </a>
@@ -796,7 +812,7 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_ELIMINAR'')')})">
-                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion11">
                                 <i class="nav-icon fas fa-box"></i>
                                 <p>Pedidos entregados</p>
                             </a>
@@ -806,7 +822,7 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_ELIMINAR'')')})">
-                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion11">
                                 <i class="nav-icon fas fa-ticket-alt"></i>
                                 <p>Impresi&oacute;n de etiquetas</p>
                             </a>
@@ -816,7 +832,7 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_ELIMINAR'')')})">
-                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion11">
                                 <i class="nav-icon fas fa-tint"></i>
                                 <p>Hojas de tonos</p>
                             </a>
