@@ -26,17 +26,14 @@ public class LogisticaUnidad implements Serializable {
 	@GenericGenerator(name="native",strategy="native")
 	private Long idUnidad;
 	
-	@Column(name="id_lookup")
-	private Long idLookup;
+	@Column(name="id_empleado")
+	private Long idEmpleado;
 	
 	@Column(name="id_text")
 	private String idText;
 	
 	@Column(name="modelo")
 	private String modelo;
-	
-	@Column(name="chofer_asignado")
-	private String choferAsignado;
 	
 	@Column(name="creado_por")
 	private String creadoPor;
@@ -52,6 +49,16 @@ public class LogisticaUnidad implements Serializable {
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	
+
+	public Long getIdEmpleado() {
+		return idEmpleado;
+	}
+
+	public void setIdEmpleado(Long idEmpleado) {
+		this.idEmpleado = idEmpleado;
+	}
 
 	public Long getIdUnidad() {
 		return idUnidad;
@@ -61,13 +68,6 @@ public class LogisticaUnidad implements Serializable {
 		this.idUnidad = idUnidad;
 	}
 
-	public Long getIdLookup() {
-		return idLookup;
-	}
-
-	public void setIdLookup(Long idLookup) {
-		this.idLookup = idLookup;
-	}
 
 	public String getIdText() {
 		return idText;
@@ -83,14 +83,6 @@ public class LogisticaUnidad implements Serializable {
 
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
-	}
-
-	public String getChoferAsignado() {
-		return choferAsignado;
-	}
-
-	public void setChoferAsignado(String choferAsignado) {
-		this.choferAsignado = choferAsignado;
 	}
 
 	public String getCreadoPor() {
