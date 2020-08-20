@@ -46,7 +46,6 @@ public class AuxiliarTicketsController {
     		model.addAttribute("solicitanteSelected", 2);
     	}else {
     		String puesto = TicketService.user(auth.getName());
-    		System.out.println("Hola soy tickest entrando con el usuario de: "+puesto);
     		if (puesto.equals("AYUDANTE DE VENTAS")) {
     			model.addAttribute("solicitante", TicketService.VentasDep("not in"));
         		model.addAttribute("auxiliar", TicketService.VentasDep("in"));
@@ -72,6 +71,10 @@ public class AuxiliarTicketsController {
     	m.put("ticket", ticket);
     	
     	model.addAttribute("view", TicketService.view());
+    	
+    	
+    
+    	
         return "tickets";
     }
     @RequestMapping(value = "/lista-seguimientos", method = RequestMethod.GET)
@@ -85,11 +88,28 @@ public class AuxiliarTicketsController {
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Integer id_empleado =TicketService.idUsuario(auth.getName());
+		String puesto = TicketService.user(auth.getName());
+		
 		if ( ticket.getIdEmpleadoSolicitante() == null) {
 			ticket.setIdEmpleadoSolicitante(id_empleado.toString());
 		}
 		if (ticket.getIdEmpleadoAuxiliar()== null) {
-			ticket.setIdEmpleadoAuxiliar(id_empleado.toString());
+			if (puesto.equals("AYUDANTE DE VENTAS")) {
+				ticket.setIdEmpleadoAuxiliar(id_empleado.toString());
+			}
+			
+			else {
+				String idAuxiliar = String.valueOf(TicketService.AleatorioAuxiliar(ticket.getFechaFin(),ticket.getFechaInicio() ));
+			
+				if ( idAuxiliar.equals("0")) {
+				redirectAttrs.addFlashAttribute("title", "Lo sentimos no hay auxiliares disponibles en ese horario").addFlashAttribute("icon",
+						"success");
+				return "redirect:tickets";
+				}
+				else {
+					ticket.setIdEmpleadoAuxiliar( idAuxiliar);
+				}
+			}
 		}
 			
 			

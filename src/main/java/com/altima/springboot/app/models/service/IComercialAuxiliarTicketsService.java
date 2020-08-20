@@ -42,4 +42,6 @@ public interface IComercialAuxiliarTicketsService {
 	 List<Object[]> detalles_estatus (Long id);
 
 	 List<ComercialTicket> findAllTicket();
+	 
+	 Long AleatorioAuxiliar(String fechaInicio , String fechaFin);
 }

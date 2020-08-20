@@ -341,17 +341,22 @@ function valida_envia(){
       		return 0;
    	}
    	
-   	if (document.fvalida.idEmpleadoAuxiliar.value.length==0){
-   		Swal.fire({
-            position: 'center',
-            icon: 'warning',
-            title: 'Seleccione un auxiliar',
-            showConfirmButton: false,
-            timer: 1250
-          }) 
-      		//document.fvalida.nombre.focus()
-      		return 0;
+   	if(document.getElementById("idEmpleadoAuxiliar")){
+   		if (document.fvalida.idEmpleadoAuxiliar.value.length==0){
+   	   		Swal.fire({
+   	            position: 'center',
+   	            icon: 'warning',
+   	            title: 'Seleccione un auxiliar',
+   	            showConfirmButton: false,
+   	            timer: 1250
+   	          }) 
+   	      		//document.fvalida.nombre.focus()
+   	      		return 0;
+   	   	}
+   		
    	}
+
+   	
    	
    	if (document.fvalida.idLookup.value.length==0){
    		Swal.fire({
@@ -380,7 +385,10 @@ function valida_envia(){
    	if (  $('#fechaCalendario').is(':checked')){
    		var start = moment(fechaInicio.value);
  		var end = moment(fechaFin.value);
- 		var hoy = new Date();
+ 		
+ 		var hoy = moment(new Date()).format("YYYY-MM-DD"); 
+ 		
+ 
    		
    		if (document.fvalida.fechaInicio.value.length==0){
    			Swal.fire({
