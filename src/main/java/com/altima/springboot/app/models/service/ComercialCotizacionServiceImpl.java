@@ -40,7 +40,7 @@ public class ComercialCotizacionServiceImpl implements IComercialCotizacionServi
 				"INNER JOIN alt_comercial_cotizacion_total ct ON cc.id_cotizacion = ct.id_cotizacion \r\n" +
 				"INNER JOIN alt_comercial_cliente cliente ON cc.id_cliente = cliente.id_cliente \r\n" +
 				"INNER JOIN alt_hr_empleado empleado ON cc.id_agente_ventas = empleado.id_empleado\r\n" + 
-				"ORDER BY cc.id_text").getResultList();
+				"ORDER BY cc.id_cotizacion DESC").getResultList();
 	}
 
 	@Override

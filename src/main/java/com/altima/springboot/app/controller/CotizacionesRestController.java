@@ -51,6 +51,12 @@ public class CotizacionesRestController {
 		return CoordinadoService.findAllTela(idFamPrenda);
 	}
 	
+	@RequestMapping(value="/ListarClientesporAgente", method=RequestMethod.GET)
+	public List<Object[]> ListarClientesporAgente (@RequestParam(name="idAgente")Long idAgente) {
+		return ClienteService.findClientesByAgenteVentas(idAgente);
+		
+	}
+	
 	@RequestMapping(value="/agregarCotizacionPrendaTablita", method=RequestMethod.POST)
 	public Object[] agregarCotizacionPrendaTablita(@RequestParam (name="idModelo") String idPrenda,
 												   @RequestParam (name="idTela") String idTela){
@@ -131,7 +137,6 @@ public class CotizacionesRestController {
 			ComercialCotizacion cotizacion = cotizacionService.findOne(Long.parseLong(datos[8]));
 
 			System.out.println(lista);
-			cotizacion.setIdText("CAL"+(cotizacion.getIdCotizacion() + 10000));
 			cotizacion.setTituloCotizacion(datos[1]);
 			cotizacion.setTipoCotizacion(datos[2]);
 			cotizacion.setTipoPrecio(datos[3]);

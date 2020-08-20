@@ -27,4 +27,6 @@ public interface IComercialClienteService {
 
 	List<Object[]> findAllAgentes();
 
+	List<Object[]> findClientesByAgenteVentas(Long idEmpleado);
+
 }

@@ -81,12 +81,16 @@ $(document).ready(function() {
 
 
 	    if($('#tipoCotizacion').val()==1){
-			table.columns(':eq(5)').visible(false);
-			table.columns(':eq(6)').visible(false);
+			table.columns(':eq(0)').visible(false);
+			table.columns(':eq(1)').visible(false);
 			table.columns(':eq(12)').visible(false);
+			$('.cantidadCotizacion').hide();
+			$('.coordinadoCotizacion').hide();
 		}
 	    else{
 	    	table.columns().visible(true);
+	    	$('.cantidadCotizacion').show();
+			$('.coordinadoCotizacion').show();
 	    }
 	  	$('#cotizacionNueva').show();
 	  	 table.draw();
@@ -100,18 +104,4 @@ $('#example_filter input[type=search]').keyup( function () {
         jQuery.fn.DataTable.ext.type.search.html(this.value)
     ).draw();
 } );
-
-// OCULTAR COLUMNAS DE LA TABLA
-$('#tipoCotizacion').on('change', function () {	  
-	  if($(this).val()==1){
-			table.columns(':eq(5)').visible(false);
-			table.columns(':eq(6)').visible(false);
-			table.columns(':eq(12)').visible(false);
-		}
-	  else{
-		  table.columns().visible(true);
-	  }
-	  table.draw();
-	  $('#tablaCotizacionesAgregar_wrapper').css('width', '100%');
-	});
 

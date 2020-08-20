@@ -14,6 +14,7 @@ import com.altima.springboot.app.repository.ComercialClienteFacturacionRepositor
 import com.altima.springboot.app.repository.ComercialClienteRepository;
 
 @Service
+@SuppressWarnings("unchecked")
 public class ComercialClienteServiceImpl implements IComercialClienteService {
 	@PersistenceContext
 	private EntityManager em;
@@ -24,7 +25,6 @@ public class ComercialClienteServiceImpl implements IComercialClienteService {
 	@Autowired
 	private ComercialClienteFacturacionRepository repositoryFactura;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<ComercialCliente> findAll(Long iduser) {
@@ -41,7 +41,6 @@ public class ComercialClienteServiceImpl implements IComercialClienteService {
 		return result;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<Object[]> findAllAgentes() {
@@ -85,7 +84,6 @@ public class ComercialClienteServiceImpl implements IComercialClienteService {
 	}
 
 	// F A C T U R A
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<ComercialClienteFactura> ListaFactura(Long id) {
@@ -119,7 +117,7 @@ public class ComercialClienteServiceImpl implements IComercialClienteService {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	@Transactional
 	public List<ComercialCliente> findAllEstatus1(Long iduser) {
@@ -134,4 +132,17 @@ public class ComercialClienteServiceImpl implements IComercialClienteService {
 		}
 		return result;
 	}
+	
+	@Override
+	@Transactional
+	public List<Object[]> findClientesByAgenteVentas (Long idEmpleado){
+		return em.createNativeQuery("SELECT cliente.id_cliente, \n" + 
+									"		CONCAT(cliente.nombre,' ',IFNULL(cliente.apellido_paterno,'') , ' ', IFNULL(cliente.apellido_materno,''))\n" + 
+									"\n" + 
+									"FROM alt_comercial_cliente AS cliente\n" + 
+									"INNER JOIN alt_hr_usuario usuario ON cliente.id_usuario = usuario.id_usuario\n" + 
+									"INNER JOIN alt_hr_empleado empleado ON usuario.id_empleado = empleado.id_empleado\n" + 
+									"WHERE empleado.id_empleado ="+idEmpleado+" \n" + 
+									"ORDER BY cliente.nombre").getResultList();
+	}	
 }

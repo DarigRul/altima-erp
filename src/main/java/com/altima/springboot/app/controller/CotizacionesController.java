@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.altima.springboot.app.models.entity.ComercialCotizacion;
 import com.altima.springboot.app.models.entity.ComercialCotizacionTotal;
+import com.altima.springboot.app.models.entity.HrEmpleado;
 import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialCotizacionPrendaService;
@@ -74,6 +75,7 @@ public class CotizacionesController {
 					System.out.println("Es un agente de ventas");
 					model.addAttribute("idAgente", empleado[0]);
 					model.addAttribute("agente", "1");
+					model.addAttribute("ListarClientes", clienteService.findClientesByAgenteVentas(Long.parseLong(empleado[0].toString())));
 					
 				}
 				catch(Exception e) {
@@ -86,7 +88,6 @@ public class CotizacionesController {
 			model.addAttribute("preciosDiv", "#");
 			model.addAttribute("pill", "");
 			model.addAttribute("ListarGerentes", empleadoService.findAllByPuesto("Gerente de ventas"));
-			model.addAttribute("ListarClientes", clienteService.findAll(null));
 			model.addAttribute("ListarPrendas", CoordinadoService.findAllPrenda());
 			
 			return "agregar-cotizacion";
@@ -119,26 +120,27 @@ public class CotizacionesController {
 		}
 		else {
 			try {
-				Object[] empleado = usuarioService.findEmpleadoByUserName(auth.getName());
-				model.addAttribute("Agente", empleado[1]+ " " + empleado[2] + " " + empleado[3]);
+				HrEmpleado empleado = empleadoService.findOne(cotizacion.getIdAgenteVentas());
+				model.addAttribute("Agente", empleado.getNombrePersona()+ " " + empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno());
 				System.out.println("Es un agente de ventas");
 				model.addAttribute("agente", "1");
 				model.addAttribute("idAgente", cotizacion.getIdAgenteVentas());
+
 				
 			}
 			catch(Exception e) {
 				System.out.println("No es un agente de ventas \n"+e);
 				model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
 				model.addAttribute("Agente", cotizacion.getIdAgenteVentas());
+				
 			}
 		}
-		
+		model.addAttribute("ListarClientes", clienteService.findClientesByAgenteVentas(cotizacion.getIdAgenteVentas()));
 		model.addAttribute("Cliente", cotizacion.getIdCliente());
 		model.addAttribute("prendasDiv", "#prendasDiv");
 		model.addAttribute("pill", "pill");
 		model.addAttribute("preciosDiv", "#preciosDiv");
 		model.addAttribute("ListarGerentes", empleadoService.findAllByPuesto("Gerente de ventas"));
-		model.addAttribute("ListarClientes", clienteService.findAll(null));
 		model.addAttribute("textArea", cotizacion.getObservaciones());
 		model.addAttribute("iva", cotiTotal.getIva());
 		

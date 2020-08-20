@@ -19,6 +19,65 @@ $(document).ready(function() {
 
 var contadorGeneral=0;
 
+$('#agenteCotizacion').on("change",function(){
+	if(valorIndice==null){
+	var idAgente = $('#agenteCotizacion').val();
+	 $.ajax({
+		  method: "GET",
+		    url: "/ListarClientesporAgente",
+		    data: {idAgente : idAgente},
+		    beforeSend: function () {
+		    	$('#clienteCotizacion').prop("disabled", true);
+		    },
+		    success: (data) => {
+		    	console.log(data);
+		    	$('#clienteCotizacion').find("option").remove();
+		    	for(i in data){
+		    		$('#clienteCotizacion').append("<option value="+data[i][0]+">"+data[i][1]+"</option>");
+		    	}
+		    	if(data==''){
+		    		$('#clienteCotizacion').prop("disabled", true);
+		    	}
+		    	else{
+		    		$('#clienteCotizacion').prop("disabled", false);
+		    	}
+		    	$(".selectpicker").selectpicker("refresh");
+		    },
+		    error: (e) => {
+		    	
+		    }
+	 })
+	}
+	else{
+		var idAgente = $('#agenteCotizacion').data('agente');
+		 $.ajax({
+			  method: "GET",
+			    url: "/ListarClientesporAgente",
+			    data: {idAgente : idAgente},
+			    beforeSend: function () {
+			    	$('#clienteCotizacion').prop("disabled", true);
+			    },
+			    success: (data) => {
+			    	$('#clienteCotizacion').find("option").remove();
+			    	for(i in data){
+			    		$('#clienteCotizacion').append("<option value="+data[i][0]+">"+data[i][1]+"</option>");
+			    	}
+			    	
+			    	if(data==''){
+			    		$('#clienteCotizacion').prop("disabled", true);
+			    	}
+			    	else{
+			    		$('#clienteCotizacion').prop("disabled", false);
+			    	}
+			    	$(".selectpicker").selectpicker("refresh");
+			    },
+			    error: (e) => {
+			    	
+			    }
+		 })
+	}
+})
+
 function marcarSelects(){
 	var Gerente = $('#Gerente').val();
 	var Agente = $('#Agente').val();
@@ -112,22 +171,28 @@ function mapearTablita(){
 			precioInicial = tablaPrendasCotizar[i][14];
 		}
 		table.row.add([	
-			 "<input type='hidden' id='idPrenda"+contadorGeneral+"' class='form-control' value='"+tablaPrendasCotizar[i][1]+"'>"+tablaPrendasCotizar[i][2]+
-			 "<input type='hidden' class='form-control' id='idCotizacionPrenda"+contadorGeneral+"' value="+tablaPrendasCotizar[i][0]+">",
-			 "<input type='hidden' id='idModelo"+contadorGeneral+"' class='form-control' value='"+tablaPrendasCotizar[i][3]+"'>"+tablaPrendasCotizar[i][4]+
-			 "<input type='hidden' class='form-control idCoordinadoPrenda' id='idCoordinadoPrenda"+contadorGeneral+"' value="+tablaPrendasCotizar[i][9]+">" + 
-			 "<input type='hidden' class='form-control cantidad' id='cantidad"+contadorGeneral+"' value="+tablaPrendasCotizar[i][10]+">",
-			 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+tablaPrendasCotizar[i][5]+"'>"+tablaPrendasCotizar[i][6] ,
+			
+			 tablaPrendasCotizar[i][10],
+			 tablaPrendasCotizar[i][9],
+			 "<input type='hidden' id='idPrenda"+contadorGeneral+"' class='form-control' value='"+tablaPrendasCotizar[i][1]+"'>" +
+			 "<input type='hidden' class='form-control' id='idCotizacionPrenda"+contadorGeneral+"' value="+tablaPrendasCotizar[i][0]+">" +
+			 "<input type='hidden' id='idModelo"+contadorGeneral+"' class='form-control' value='"+tablaPrendasCotizar[i][3]+"'>" +
+			 "<input type='hidden' class='form-control idCoordinadoPrenda' id='idCoordinadoPrenda"+contadorGeneral+"' value="+tablaPrendasCotizar[i][9]+">" +
+			 "<input type='hidden' class='form-control cantidad' id='cantidad"+contadorGeneral+"' value="+tablaPrendasCotizar[i][10]+">" +
+			 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+tablaPrendasCotizar[i][5]+"'>" +
+			 tablaPrendasCotizar[i][2] +
+			 "<input type='hidden' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+tablaPrendasCotizar[i][19]+" disabled>" +
+			 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+tablaPrendasCotizar[i][18]+" disabled>",
+			 tablaPrendasCotizar[i][4] ,
+			 tablaPrendasCotizar[i][6] ,
 			 tablaPrendasCotizar[i][7] ,
 			 tablaPrendasCotizar[i][8] ,
-			 tablaPrendasCotizar[i][9] ,
-			 tablaPrendasCotizar[i][10] ,
 			 precioInicial,
 			 "<input type='number' class='form-control bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"' placeholder='10'  value="+tablaPrendasCotizar[i][15]+">" ,
 			 "<input type='number' class='form-control porcentajeCotizacion' id='porcentajeCotizacion"+contadorGeneral+"' placeholder='5' value="+tablaPrendasCotizar[i][16]+">" ,
 			 "<input type='number' class='form-control montoCotizacion' id='montoCotizacion"+contadorGeneral+"' placeholder='15' value="+tablaPrendasCotizar[i][17]+">" ,
-			 "<input type='number' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+tablaPrendasCotizar[i][18]+" disabled>",
-			 "<input type='number' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+tablaPrendasCotizar[i][19]+" disabled>",
+			 tablaPrendasCotizar[i][18],
+			 tablaPrendasCotizar[i][19],
 			 "<a class='btn btn-danger btn-circle btn-sm text-white popoverxd' id='borrar' data-container='body' data-placement='top'><i class='fas fa-minus'></i></a>"    
 			 ]).node().id ="row"+contadorGeneral;
 		table.draw( false );
@@ -170,22 +235,28 @@ function AgregarRegistroTablita (){
 			
 			console.log(data);
 			table.row.add([	
-							 "<input type='hidden' id='idPrenda"+contadorGeneral+"' class='form-control' value='"+idPrenda+"'>"+$('#prendaCotizacion').find('option:selected').text()+
-							 "<input type='hidden' class='form-control' id='idCotizacionPrenda"+contadorGeneral+"' value="+-1+">",
-							 "<input type='hidden' id='idModelo"+contadorGeneral+"' class='form-control' value='"+idModelo+"'>"+$('#modeloCotizacion').find('option:selected').text()+
-							 "<input type='hidden' class='form-control idCoordinadoPrenda' id='idCoordinadoPrenda"+contadorGeneral+"' value="+idCoordinadoPrenda+">" + 
-							 "<input type='hidden' class='form-control cantidad' id='cantidad"+contadorGeneral+"' value="+cantidad+">",
-							 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+idTela  +"'>"+$('#telaCotizacion').find('option:selected').text() ,
-							 data[0] ,
+							
+							 cantidad,
+							 idCoordinadoPrenda,
+							 "<input type='hidden' id='idPrenda"+contadorGeneral+"' class='form-control' value='"+idPrenda+"'>"+
+							 "<input type='hidden' class='form-control' id='idCotizacionPrenda"+contadorGeneral+"' value="+-1+">" +
+							 "<input type='hidden' id='idModelo"+contadorGeneral+"' class='form-control' value='"+idModelo+"'>" +
+							 "<input type='hidden' class='form-control idCoordinadoPrenda' id='idCoordinadoPrenda"+contadorGeneral+"' value="+idCoordinadoPrenda+">" +
+							 "<input type='hidden' class='form-control cantidad' id='cantidad"+contadorGeneral+"' value="+cantidad+">" +
+							 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+idTela  +"'>"+
+							 $('#prendaCotizacion').find('option:selected').text() +
+							 "<input type='hidden' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+precioInicial*cantidad+" disabled>" +
+							 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+precioInicial+" disabled>",
+							 $('#modeloCotizacion').find('option:selected').text(),
+							 $('#telaCotizacion').find('option:selected').text(),
+							 data[0],
 							 data[1] ,
-							 idCoordinadoPrenda ,
-							 cantidad ,
 							 precioInicial,
 							 "<input type='number' class='form-control bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"' placeholder='10'  value=0>" ,
 							 "<input type='number' class='form-control porcentajeCotizacion' id='porcentajeCotizacion"+contadorGeneral+"' placeholder='5' value=0>" ,
 							 "<input type='number' class='form-control montoCotizacion' id='montoCotizacion"+contadorGeneral+"' placeholder='15' value=0>" ,
-							 "<input type='number' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+precioInicial+" disabled>",
-							 "<input type='number' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+precioInicial*cantidad+" disabled>",
+							 precioInicial,
+							 precioInicial*cantidad,
 							 "<a class='btn btn-danger btn-circle btn-sm text-white popoverxd' id='borrar' data-container='body' data-placement='top'><i class='fas fa-minus'></i></a>"    
 							 ]).node().id ="row"+contadorGeneral;
 			table.draw( false );
@@ -197,11 +268,61 @@ function AgregarRegistroTablita (){
 	});
 }
 
+function cotizacionGeneral(){
+	table.columns(':eq(1)').visible(true);
+	table.columns(':eq(0)').visible(true);
+	table.columns(':eq(12)').visible(true);
+	var tablita = table.rows().nodes();
+	var contador=0
+	var contadorsito = 0;
+	var subtotal=0;
+	table.draw();
+	
+	tablita.each(function () {
+		console.log(contador);
+	$.trim($(this).closest('tr').find('td:eq(0)').text("1"));
+	$.trim($(this).closest('tr').find('td:eq(1)').text("1"));
+
+	if(table.rows('#row'+contador).any()){
+		fila=$('#precioFinal'+contador).closest('tr');
+		$('#precioFinal'+contador).val((parseFloat(fila.find('td:eq(7)').text())+
+									   parseFloat($('#bordadoPrecioCotizacion'+contador).val())+
+									   parseFloat($('#montoCotizacion'+contador).val())).toFixed(2));
+		fila.find('td:eq(11)').text((parseFloat($('#precioFinal'+contador).val())).toFixed(2));
+		fila.find('td:eq(12)').text((parseFloat($('#precioFinal'+contador).val())).toFixed(2));
+		$('#importeFinal'+contador).val((parseFloat($('#precioFinal'+contador).val())).toFixed(2));
+		$('#cantidad'+contador).val(1);
+		console.log("si quiera entra?");
+		subtotal += parseFloat($('#precioFinal'+contador).val());
+		
+		if(contadorsito==4){
+			contadorsito=-1;
+			table.page( 'next' ).draw( 'page' );
+		}
+		contadorsito++;
+	}
+	else{
+		console.log("no existe datos");
+	}
+	
+	contador++;
+	})
+	
+	table.columns(':eq(1)').visible(false);
+	table.columns(':eq(0)').visible(false);
+	table.columns(':eq(12)').visible(false);
+	table.draw();
+	$('#Subtotal').text(subtotal);
+	
+	ValidarCotizacionPrendas();
+}
+
+
 //=Borrar registro de la tabla de agregar una muestra==//
 //                                                     //
  $(document).on('click', '#borrar', function (event) { //
      event.preventDefault();                           //
-     let hola = $(this).closest('tr').remove();        //
+     let hola = $(this).closest('tr');  		       //
      table.row(hola).remove().draw();                  //
  });                                                   //
 //=====================================================//
@@ -209,13 +330,26 @@ function AgregarRegistroTablita (){
 //===========Cambiar dinámicamente el precio del bordado en el precio unitario final============//
  $(document).on('change', '.bordadoPrecioCotizacion', function (event) {						//
 	 event.preventDefault(); 																	//
-	 var bordadoPrecioCotizacion = parseFloat($(this).val());									//
+		table.columns(':eq(1)').visible(true);													//
+		table.columns(':eq(0)').visible(true);													//
+		table.columns(':eq(12)').visible(true);													//
+	 var bordadoPrecioCotizacion = parseFloat(($(this).val()=='')?0:$(this).val());				//
 	 let fila = $(this).closest('tr');															//
 	 var array = table.row(fila).data();														//
-	 var montoCotizacion = parseFloat(fila.find('.montoCotizacion').val());						//
+	 var montoCotizacion = parseFloat((fila.find('.montoCotizacion').val()=='')?0:fila.find('.montoCotizacion').val());//
 	 var precio = parseFloat(array[7])+bordadoPrecioCotizacion+montoCotizacion;					//
 	 fila.find('.precioFinal').val(precio.toFixed(2)); 											//
 	 fila.find('.importeFinal').val((precio*parseFloat(fila.find('.cantidad').val())).toFixed(2));//
+	 fila.find('td:eq(11)').text(fila.find('.precioFinal').val());								//
+	 fila.find('td:eq(12)').text(fila.find('.importeFinal').val());								//
+	 if($('#tipoCotizacion').val()==1){															//
+		table.columns(':eq(1)').visible(false);													//
+		table.columns(':eq(0)').visible(false);													//
+		table.columns(':eq(12)').visible(false);												//
+	 }																							//
+	 if($(this).val()==''){																		//
+		 $(this).val(0);																		//
+	 }																							//
 	 table.draw(false);  																		//
  });																							//
  //=============================================================================================//
@@ -223,15 +357,28 @@ function AgregarRegistroTablita (){
  //=================Cambiar dinámicamente el porcentaje adicional en el precio unitario final===================//
  $(document).on('change', '.porcentajeCotizacion', function (event) {											//
 	 event.preventDefault(); 																					//
-	 var porcentajeCotizacion = parseFloat($(this).val());														//
+		table.columns(':eq(1)').visible(true); 																	//
+		table.columns(':eq(0)').visible(true); 																	//
+		table.columns(':eq(12)').visible(true); 																//
+	 var porcentajeCotizacion = parseFloat(($(this).val()=='')?0:$(this).val());								//
 	 let fila = $(this).closest('tr');																			//
 	 var array = table.row(fila).data();																		//
-	 var bordadoPrecioCotizacion = parseFloat(fila.find('.bordadoPrecioCotizacion').val());						//
+	 var bordadoPrecioCotizacion = parseFloat((fila.find('.bordadoPrecioCotizacion').val()=='')?0:fila.find('.bordadoPrecioCotizacion').val());//
 	 var precio = parseFloat(array[7])*(porcentajeCotizacion/100);												//
 	 fila.find('.montoCotizacion').val(precio.toFixed(2));														//
 	 var montoCotizacion = parseFloat(precio);																	//
 	 fila.find('.precioFinal').val((parseFloat(array[7])+montoCotizacion+bordadoPrecioCotizacion).toFixed(2));	//
 	 fila.find('.importeFinal').val((parseFloat(fila.find('.precioFinal').val())*parseFloat(fila.find('.cantidad').val())).toFixed(2));//
+	 fila.find('td:eq(11)').text(fila.find('.precioFinal').val()); 												//
+	 fila.find('td:eq(12)').text(fila.find('.importeFinal').val()); 											//
+	 if($('#tipoCotizacion').val()==1){ 																		//
+		table.columns(':eq(1)').visible(false); 																//
+		table.columns(':eq(0)').visible(false); 																//
+		table.columns(':eq(12)').visible(false); 																//
+	 } 																											//
+	 if($(this).val()==''){ 																					//
+		 $(this).val(0); 																						//
+	 } 																											//
 	 table.draw(false); 																						//
  });	 																										//
  //=============================================================================================================//
@@ -240,15 +387,28 @@ function AgregarRegistroTablita (){
  //==============================Cambiar dinámicamente el monto adicional en el precio unitario final===============================//
  $(document).on('change', '.montoCotizacion', function (event) {																	//
 	 event.preventDefault();  																										//
-	 var montoCotizacion = parseFloat($(this).val());																				//
+		table.columns(':eq(1)').visible(true);																						//
+		table.columns(':eq(0)').visible(true);																						//
+		table.columns(':eq(12)').visible(true);																						//
+	 var montoCotizacion = parseFloat(($(this).val()=='')?0:$(this).val());															//
 	 let fila = $(this).closest('tr'); 																								//
 	 var array = table.row(fila).data(); 																							//
-	 var bordadoPrecioCotizacion = parseFloat(fila.find('.bordadoPrecioCotizacion').val());											//
+	 var bordadoPrecioCotizacion = parseFloat((fila.find('.bordadoPrecioCotizacion').val()=='')?0:fila.find('.bordadoPrecioCotizacion').val());											//
 	 var precio = parseFloat(montoCotizacion*100/parseFloat(array[7]));																//
 	 fila.find('.porcentajeCotizacion').val((precio>=0)?precio.toFixed(2):0); 														//
 	 fila.find('.precioFinal').val(((parseFloat(array[7])+montoCotizacion+bordadoPrecioCotizacion)>=0)?								//
 			 						(parseFloat(array[7])+montoCotizacion+bordadoPrecioCotizacion).toFixed(2):parseFloat(array[7]));//
 	 fila.find('.importeFinal').val((parseFloat(fila.find('.precioFinal').val())*parseFloat(fila.find('.cantidad').val())).toFixed(2));//
+ fila.find('td:eq(11)').text(fila.find('.precioFinal').val());																		//
+ fila.find('td:eq(12)').text(fila.find('.importeFinal').val());																		//
+	 if($('#tipoCotizacion').val()==1){																								//
+		table.columns(':eq(1)').visible(false);																						//
+		table.columns(':eq(0)').visible(false);																						//
+		table.columns(':eq(12)').visible(false);																					//
+	 }																																//
+	 if($(this).val()==''){																											//
+		 $(this).val(0);																											//
+	 }																																//
 	 table.draw(false);  																											//
  });	 																															//
  //=================================================================================================================================// 
@@ -257,52 +417,70 @@ function AgregarRegistroTablita (){
  //======================Cambiar dinámicamente el porcentaje de anticipo en el subtotal=========================//
  $(document).on('change', '#anticipoCotizacion', function (event) {												//
 	 event.preventDefault(); 																					//
-	 var porcentajeAnticipo = parseFloat($(this).val());														//
+	 var porcentajeAnticipo = parseFloat(($(this).val()=='')?0:$(this).val());									//
+	 var descuentoMontoCotizacion = parseFloat(($('#descuentoMontoCotizacion').val()=='')?0:$('#descuentoMontoCotizacion').val());//
+	 var anticipoMontoCotizacion = parseFloat(($('#anticipoMontoCotizacion').val()=='')?0:$('#anticipoMontoCotizacion').val());//
 	 var subtotal = parseFloat($('#SubtotalInicial').val());													//
 	 var Total = parseFloat($('#Subtotal').text());																//
 	 $('#anticipoMontoCotizacion').val((subtotal*(porcentajeAnticipo/100)).toFixed(2));							//
-	 $('#Subtotal').text((subtotal-parseFloat($('#anticipoMontoCotizacion').val())-parseFloat($('#descuentoMontoCotizacion').val())).toFixed(2));//
+	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 if($(this).val()==''){ 																					//
+		 $(this).val(0); 																						//
+	 } 																											//
  });	 																										//
  //=============================================================================================================//
 
  //========================Cambiar dinámicamente el monto de anticipo en el subtotal============================//
  $(document).on('change', '#anticipoMontoCotizacion', function (event) {										//
 	 event.preventDefault(); 																					//
-	 var anticipoMontoCotizacion = parseFloat($(this).val());													//
+	 var anticipoMontoCotizacion = parseFloat(($(this).val()=='')?0:$(this).val());								//
+	 var descuentoMontoCotizacion = parseFloat(($('#descuentoMontoCotizacion').val()=='')?0:$('#descuentoMontoCotizacion').val());//
 	 var subtotal = parseFloat($('#SubtotalInicial').val());													//
 	 var Total = parseFloat($('#Subtotal').text());																//
 	 $('#anticipoCotizacion').val(((anticipoMontoCotizacion*100)/subtotal).toFixed(2));							//
-	 $('#Subtotal').text((subtotal-parseFloat($('#anticipoMontoCotizacion').val())-parseFloat($('#descuentoMontoCotizacion').val())).toFixed(2));//
+	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 if($(this).val()==''){																						//
+		 $(this).val(0);																						//
+	 } 																											//
  });	 																										//
  //=============================================================================================================//
  
  //=====================Cambiar dinámicamente el porcentaje de descuento en el subtotal=========================//
  $(document).on('change', '#descuentoCotizacion', function (event) {											//
 	 event.preventDefault(); 																					//
-	 var descuentoCotizacion = parseFloat($(this).val());														//
+	 var descuentoCotizacion = parseFloat(($(this).val()=='')?0:$(this).val());									//
+	 var descuentoMontoCotizacion = parseFloat(($('#descuentoMontoCotizacion').val()=='')?0:$('#descuentoMontoCotizacion').val());//
+	 var anticipoMontoCotizacion = parseFloat(($('#anticipoMontoCotizacion').val()=='')?0:$('#anticipoMontoCotizacion').val());//
 	 var subtotal = parseFloat($('#SubtotalInicial').val());													//
 	 var Total = parseFloat($('#Subtotal').text());																//
 	 $('#descuentoMontoCotizacion').val((subtotal*(descuentoCotizacion/100)).toFixed(2));						//
-	 $('#Subtotal').text((subtotal-parseFloat($('#anticipoMontoCotizacion').val())-parseFloat($('#descuentoMontoCotizacion').val())).toFixed(2));//
+	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 if($(this).val()==''){																						//
+		 $(this).val(0);																						//
+	 }																											//
  });	 																										//
  //=============================================================================================================//
  
  //========================Cambiar dinámicamente el monto de descuento en el subtotal============================//
  $(document).on('change', '#descuentoMontoCotizacion', function (event) {										//
 	 event.preventDefault(); 																					//
-	 var descuentoMontoCotizacion = parseFloat($(this).val());													//
+	 var descuentoMontoCotizacion = parseFloat(($(this).val()=='')?0:$(this).val());							//
+	 var anticipoMontoCotizacion = parseFloat(($('#anticipoMontoCotizacion').val()=='')?0:$('#anticipoMontoCotizacion').val());//
 	 var subtotal = parseFloat($('#SubtotalInicial').val());													//
 	 var Total = parseFloat($('#Subtotal').text());																//
 	 $('#descuentoCotizacion').val(((descuentoMontoCotizacion*100)/subtotal).toFixed(2));						//
-	 $('#Subtotal').text((subtotal-parseFloat($('#anticipoMontoCotizacion').val())-parseFloat($('#descuentoMontoCotizacion').val())).toFixed(2));//
+	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 if($(this).val()==''){																						//
+		 $(this).val(0);																						//
+	 }																											//
  });	 																										//
  //=============================================================================================================//
  
@@ -310,6 +488,17 @@ function GuardarCotizacionInfo(){
 	var numeroCotizacion = $('#numeroCotizacion').val();
 	var tituloCotizacion = $('#tituloCotizacion').val();
 	var tipoCotizacion = $('#tipoCotizacion').val();
+	
+	
+	if(tipoCotizacion=='1'){
+		cotizacionGeneral();
+	}
+	else{
+		table.columns().visible(true);
+    	$('.cantidadCotizacion').show();
+		$('.coordinadoCotizacion').show();
+	}
+	
 	var tipoPrecioVentas = $('#tipoPrecioVentas').val();
 	var gerenteVentas = $('#gerenteVentas').val();
 	var clienteCotizacion = $('#clienteCotizacion').val();
@@ -369,7 +558,6 @@ function GuardarCotizacionInfo(){
 	        	$('#custom-tabs-two-profile-tab').attr("href","#prendasDiv");
 	        	$('#custom-tabs-two-profile-tab').attr("data-toggle","pill");
 	        	$('#custom-tabs-two-profile-tab').click();
-				  
 			}else{
 				Swal.fire({
 		            position: 'center',
@@ -429,6 +617,7 @@ function GuardarCotizacionInfo(){
 		success: (data) => {
 			console.log("ya edita");
 			if(data!=0){
+
 				Swal.fire({
 		            position: 'center',
 		            icon: 'success',
@@ -438,7 +627,6 @@ function GuardarCotizacionInfo(){
 		            timer: 3500
 		        })
             	$('#custom-tabs-two-profile-tab').click();
-            	
 			}else{
 				Swal.fire({
 		          position: 'center',
@@ -469,6 +657,7 @@ function GuardarCotizacionInfo(){
 function GuardarCotizacionPrendas(){
 	var idCotizacion = $('#idCotizacion').val();
 	var idCotizacionPrendas = $('#idCotizacionToPrendas').val();
+	var tipoCotizacion = $('#tipoCotizacion').val();
 	var tablita = table.rows().data();
 	var contador=0;
 	var subtotal = 0;
@@ -526,16 +715,17 @@ function GuardarCotizacionPrendas(){
 	                     Swal.showLoading()
 	                 },
 	             });
-	        	
 	        },
 			success: (data) => {
-				Swal.fire({
-					icon: 'success',
-					title: 'Cotización Agregada',
-					text: '¡Se ha completado la cotización con éxito!',
-					showConfirmButton: false,
-			        timer: 2000,
-				})
+				if(tipoCotizacion!='1'){
+					Swal.fire({
+						icon: 'success',
+						title: 'Cotización Agregada',
+						text: '¡Se han agregado las prendas con éxito!',
+						showConfirmButton: false,
+				        timer: 2000,
+					})
+				}
 			}
 		});
 		console.log(contenedorPrendas);
@@ -578,6 +768,7 @@ function GuardarCotizacionPrendas(){
 			}
 			
 		}
+		table.draw();
 		$('#Subtotal').text(subtotal);
 		$.ajax({
 			method: "POST",
@@ -601,14 +792,16 @@ function GuardarCotizacionPrendas(){
 			success: (data) => {
 				
 				if(data==1){
-					Swal.fire({
-						icon: 'success',
-						title: 'Cotización Agregada',
-						text: '¡Se ha completado la cotización con éxito!',
-						showConfirmButton: false,
-				        timer: 2000,
-					})
-					location.reload();
+					if(tipoCotizacion!='1'){
+						Swal.fire({
+							icon: 'success',
+							title: 'Cotización Editada',
+							text: '¡Se han editado las prendas con éxito!',
+							showConfirmButton: false,
+					        timer: 2000,
+						})
+						location.reload();
+					}
 				}
 				else{
 					Swal.fire({
@@ -730,39 +923,45 @@ function ValidarRegistroTablita(){
 	
 	console.log(modeloCotizacion);
 	console.log(telaCotizacion);
-	if(coordinadoCotizacion=="" || coordinadoCotizacion==null || coordinadoCotizacion==undefined ||
-	   prendaCotizacion==""     || prendaCotizacion==null     || prendaCotizacion==undefined     ||
-	   modeloCotizacion==""     || modeloCotizacion==null     || modeloCotizacion==undefined     ||
-	   telaCotizacion==""       || telaCotizacion==null       || telaCotizacion==undefined       ||	
-	   cantidadCotizacion==""   || cantidadCotizacion==null   || cantidadCotizacion==undefined){
-		Swal.fire({
-			icon: 'error',
-			title: 'Error',
-			text: '¡Debe agregar un campo válido!',
-			showConfirmButton: false,
-	        timer: 3500
-		  })
-	}
-	
-	else{
-//		table.each(function (value) {
-//			if ($('#idCotizacionTablita'+telaCotizacion+'').val()==telaCotizacion){
-//				validador=1;
-//				
-//				Swal.fire({
-//					icon: 'error',
-//					title: 'Error',
-//					text: 'Ya se agregó esa cotización',
-//					showConfirmButton: false,
-//			        timer: 3500
-//				  })
-//			}
-//		});
-		
-		if(validador==0){
-			AgregarRegistroTablita();
+	if($('#tipoCotizacion').val()==1){
+		if(prendaCotizacion==""     || prendaCotizacion==null     || prendaCotizacion==undefined     ||
+		   modeloCotizacion==""     || modeloCotizacion==null     || modeloCotizacion==undefined     ||
+		   telaCotizacion==""       || telaCotizacion==null       || telaCotizacion==undefined){
+			Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: '¡Debe agregar un campo válido!',
+				showConfirmButton: false,
+		        timer: 3500
+			  })
 		}
-	
+		else{			
+			if(validador==0){
+				 $('#cantidadCotizacion').val(1);
+				 $('#coordinadoCotizacion').val(1);
+				AgregarRegistroTablita();
+			}
+		}
+	}
+	else{
+		if(coordinadoCotizacion=="" || coordinadoCotizacion==null || coordinadoCotizacion==undefined ||
+		   prendaCotizacion==""     || prendaCotizacion==null     || prendaCotizacion==undefined     ||
+		   modeloCotizacion==""     || modeloCotizacion==null     || modeloCotizacion==undefined     ||
+		   telaCotizacion==""       || telaCotizacion==null       || telaCotizacion==undefined       ||	
+		   cantidadCotizacion==""   || cantidadCotizacion==null   || cantidadCotizacion==undefined){
+		   Swal.fire({
+			    icon: 'error',
+				title: 'Error',
+				text: '¡Debe agregar un campo válido!',
+				showConfirmButton: false,
+				timer: 3500
+				})
+		}
+		else{			
+			if(validador==0){
+				AgregarRegistroTablita();
+			}
+		}
 	}
 }
 
