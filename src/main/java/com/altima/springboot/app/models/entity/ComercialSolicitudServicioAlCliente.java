@@ -36,11 +36,11 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 	@Column(name="id_text")
 	private String idText;
 	
-	@Column(name="fecha_solicitud")
-	private String fechaSolicitud;
-	
 	@Column(name="fecha_hora_de_cita")
 	private String fechaHoraDeCita;
+	
+	@Column(name="hora_salida_altima")
+	private String horaSalidaAltima;
 	
 	@Column(name="actividad")
 	private String actividad;
@@ -68,6 +68,17 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	
+	
+
+	public String getHoraSalidaAltima() {
+		return horaSalidaAltima;
+	}
+
+	public void setHoraSalidaAltima(String horaSalidaAltima) {
+		this.horaSalidaAltima = horaSalidaAltima;
+	}
 
 	public Long getIdSolicitudServicioAlCliente() {
 		return idSolicitudServicioAlCliente;
@@ -101,13 +112,6 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 		this.idText = idText;
 	}
 
-	public String getFechaSolicitud() {
-		return fechaSolicitud;
-	}
-
-	public void setFechaSolicitud(String fechaSolicitud) {
-		this.fechaSolicitud = fechaSolicitud;
-	}
 
 	public String getFechaHoraDeCita() {
 		return fechaHoraDeCita;
