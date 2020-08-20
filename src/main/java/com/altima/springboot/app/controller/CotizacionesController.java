@@ -44,8 +44,31 @@ public class CotizacionesController {
 	
 	@GetMapping("/cotizaciones")
 	public String listCotizaciones(Model model) {
-		model.addAttribute("ListarCotizaciones", cotizacionService.findAllWithTotal());
-		return "cotizaciones";
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if(auth.getName().equalsIgnoreCase("ADMIN")) {
+				model.addAttribute("ListarCotizaciones", cotizacionService.findAllWithTotal(null));
+				return "cotizaciones";
+			}
+			else {
+				try {
+					Object[] empleado = usuarioService.findEmpleadoByUserName(auth.getName());
+					model.addAttribute("ListarCotizaciones", cotizacionService.findAllWithTotal(Long.parseLong(empleado[0].toString())));
+					return "cotizaciones";
+				}
+				catch(Exception e) {
+					model.addAttribute("ListarCotizaciones", cotizacionService.findAllWithTotal(null));
+					return "cotizaciones";
+				}
+			}
+		}
+		catch(Exception e) {
+			
+			return "cotizaciones";
+		}
+		finally {
+			
+		}
 	}
 	
 	@GetMapping("/agregar-cotizacion")

@@ -12,6 +12,7 @@ import com.altima.springboot.app.models.entity.ComercialCotizacion;
 import com.altima.springboot.app.repository.ComercialCotizacionRepository;
 
 @Service
+@SuppressWarnings("unchecked")
 public class ComercialCotizacionServiceImpl implements IComercialCotizacionService{
 	
 	@Autowired
@@ -19,6 +20,7 @@ public class ComercialCotizacionServiceImpl implements IComercialCotizacionServi
 	@Autowired
 	EntityManager em;
 
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<ComercialCotizacion> findAll() {
@@ -31,16 +33,24 @@ public class ComercialCotizacionServiceImpl implements IComercialCotizacionServi
 		repository.save(Comercialcotizacion);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<Object> findAllWithTotal() {
-		
-		return em.createNativeQuery("SELECT cc.id_cotizacion, cc.id_text, cc.fecha_creacion, cc.tipo_cotizacion, CONCAT(cliente.nombre, ifnull(cliente.apellido_paterno,''), ifnull(cliente.apellido_materno,'')), ct.total, CONCAT(empleado.nombre_persona,' ', empleado.apellido_paterno,' ', empleado.apellido_materno), cc.estatus FROM alt_comercial_cotizacion AS cc \r\n" + 
-				"INNER JOIN alt_comercial_cotizacion_total ct ON cc.id_cotizacion = ct.id_cotizacion \r\n" +
-				"INNER JOIN alt_comercial_cliente cliente ON cc.id_cliente = cliente.id_cliente \r\n" +
-				"INNER JOIN alt_hr_empleado empleado ON cc.id_agente_ventas = empleado.id_empleado\r\n" + 
-				"ORDER BY cc.id_cotizacion DESC").getResultList();
+	public List<Object> findAllWithTotal(Long idAgente) {
+		if (idAgente==null) {
+			return em.createNativeQuery("SELECT cc.id_cotizacion, cc.id_text, cc.fecha_creacion, cc.tipo_cotizacion, CONCAT(cliente.nombre, ifnull(cliente.apellido_paterno,''), ifnull(cliente.apellido_materno,'')), ct.total, CONCAT(empleado.nombre_persona,' ', empleado.apellido_paterno,' ', empleado.apellido_materno), cc.estatus FROM alt_comercial_cotizacion AS cc \r\n" + 
+					"INNER JOIN alt_comercial_cotizacion_total ct ON cc.id_cotizacion = ct.id_cotizacion \r\n" +
+					"INNER JOIN alt_comercial_cliente cliente ON cc.id_cliente = cliente.id_cliente \r\n" +
+					"INNER JOIN alt_hr_empleado empleado ON cc.id_agente_ventas = empleado.id_empleado\r\n" + 
+					"ORDER BY cc.id_cotizacion DESC").getResultList();
+		}
+		else {
+			return em.createNativeQuery("SELECT cc.id_cotizacion, cc.id_text, cc.fecha_creacion, cc.tipo_cotizacion, CONCAT(cliente.nombre, ifnull(cliente.apellido_paterno,''), ifnull(cliente.apellido_materno,'')), ct.total, CONCAT(empleado.nombre_persona,' ', empleado.apellido_paterno,' ', empleado.apellido_materno), cc.estatus FROM alt_comercial_cotizacion AS cc \r\n" + 
+					"INNER JOIN alt_comercial_cotizacion_total ct ON cc.id_cotizacion = ct.id_cotizacion \r\n" +
+					"INNER JOIN alt_comercial_cliente cliente ON cc.id_cliente = cliente.id_cliente \r\n" +
+					"INNER JOIN alt_hr_empleado empleado ON cc.id_agente_ventas = empleado.id_empleado\r\n" + 
+					"WHERE cc.id_agente_ventas=" +idAgente+ "\r\n" +
+					"ORDER BY cc.id_cotizacion DESC").getResultList();
+		}
 	}
 
 	@Override
@@ -54,8 +64,5 @@ public class ComercialCotizacionServiceImpl implements IComercialCotizacionServi
 	public String findMax() {
 		return em.createNativeQuery("SELECT MAX(id_cotizacion) FROM alt_comercial_cotizacion").getSingleResult().toString();
 	}
-	
-	
-	
-	
+
 }

@@ -10,7 +10,7 @@ public interface IComercialCotizacionService {
 	
 	List<ComercialCotizacion> findAll ();
 	
-	List<Object> findAllWithTotal();
+	List<Object> findAllWithTotal(Long idAgente);
 	
 	ComercialCotizacion findOne(Long id);
 	

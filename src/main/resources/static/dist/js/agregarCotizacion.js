@@ -308,6 +308,8 @@ function cotizacionGeneral(){
 	contador++;
 	})
 	
+	$('.cantidadCotizacion').hide();
+	$('.coordinadoCotizacion').hide();
 	table.columns(':eq(1)').visible(false);
 	table.columns(':eq(0)').visible(false);
 	table.columns(':eq(12)').visible(false);
@@ -423,6 +425,7 @@ function cotizacionGeneral(){
 	 var subtotal = parseFloat($('#SubtotalInicial').val());													//
 	 var Total = parseFloat($('#Subtotal').text());																//
 	 $('#anticipoMontoCotizacion').val((subtotal*(porcentajeAnticipo/100)).toFixed(2));							//
+	 anticipoMontoCotizacion = (parseFloat($('#anticipoMontoCotizacion').val())).toFixed(2);
 	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
@@ -458,6 +461,7 @@ function cotizacionGeneral(){
 	 var subtotal = parseFloat($('#SubtotalInicial').val());													//
 	 var Total = parseFloat($('#Subtotal').text());																//
 	 $('#descuentoMontoCotizacion').val((subtotal*(descuentoCotizacion/100)).toFixed(2));						//
+	 descuentoMontoCotizacion = (parseFloat($('#descuentoMontoCotizacion').val())).toFixed(2);
 	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
