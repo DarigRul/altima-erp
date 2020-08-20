@@ -58,6 +58,8 @@
                                        <th>Folio</th>
                                        <th>Empresa</th>
                                        <th>Fecha de entrega</th>
+                                        <th>Monto Descuento</th>
+                                         <th>Descuento Razon Social</th>
                                        <th>Detalles</th>
                                        <th>Acciones</th>
                                     </tr>
@@ -67,6 +69,12 @@
                                        <td th:text="${pedidos[1]}"></td>
                                        <td th:text="${pedidos[2]}"></td>
                                        <td th:text="${pedidos[3]}"></td>
+                                       
+                                       
+                                     <td th:if="${pedidos[6]==0}"> Sin monto</td>
+                                     <td th:if="${pedidos[6]!=0}"> Monto Existente</td>							
+                                     <td th:if="${pedidos[7]==0}">Sin descuento</td>
+                                     <td th:if="${pedidos[7]!=0}">Descunto Existente </td>
                                        <td class="text-center">
                                           <a data-toggle="modal"
                                              th:attr="data-target='#observacion'+${pedidos[0]}"
