@@ -14,61 +14,83 @@ function agregarEmpresa() {
         cancelButtonText: 'Cancelar',
         confirmButtonText: 'Guardar',
         confirmButtonColor: '#0288d1',
-        preConfirm: (color) => {
+        preConfirm: () => {
+            if (document.getElementById("empresaLookup").value.length < 1) {
+                Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
+            }
+        }
+    }).then((result) => {
+        if (result.value && document.getElementById("empresaLookup").value) {
             var nombreEmpresa = document.getElementById("empresaLookup").value;
             var idLookup = $('#idLookup').val();
             $.ajax({
-                type: "POST",
-                url: "/postEmpresa",
+                type: "GET",
+                url: "/duplicadoEmpresa",
                 data: {
-                    "_csrf": $('#token').val(),
                     "nombreEmpresa": nombreEmpresa,
-                    "idLookup": idLookup
-                },
-                success: (data) => {
-                    console.log(data);
-                    if (data == 1) {
-                        $('#close').click();
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Empresa editada correctamente',
-                            showConfirmButton: false,
-                            timer: 2300,
-                            onClose: () => {
-                                $('#btnEmpresaDetalle').click();
+                }
+            }).done(function (data) {
+                if (data == false) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/postEmpresa",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            "nombreEmpresa": nombreEmpresa,
+                            "idLookup": idLookup
+                        },
+                        success: (data) => {
+                            console.log(data);
+                            if (data == 1) {
+                                $('#close').click();
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Empresa editada correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnEmpresaDetalle').click();
+                                    }
+                                })
+                                $('#idLookup').val("");
                             }
-                        })
-                        $('#idLookup').val("");
-                    }
-                    else if (data == 2) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Empresa agregada correctamente',
-                            showConfirmButton: false,
-                            timer: 2300
-                        })
-                    }
-                    else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: '&iexcl;Intente de nuevo!'
-                        })
-                    }
-                },
-                error: function (data) {
-                    Swal.close();
+                            else if (data == 2) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Empresa agregada correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnEmpresaDetalle').click();
+                                    }
+                                })
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: '&iexcl;Intente de nuevo!'
+                                })
+                            }
+                        }
+                    }).done(function (data) {
+                        listarEmpresa();
+                    });
+                } else {
                     Swal.fire({
+                        position: 'center',
                         icon: 'error',
-                        title: 'Error',
-                        text: '&iexcl;Registro duplicado!'
+                        title: 'registro duplicado no se ha insertado',
+                        showConfirmButton: false,
+                        timer: 1250
                     })
                 }
             });
         }
-    }).then((result) => {
     })
 }
 
@@ -246,7 +268,10 @@ function agregarArea() {
                             icon: 'success',
                             title: '&Aacute;rea agregada correctamente',
                             showConfirmButton: false,
-                            timer: 2300
+                            timer: 2300,
+                            onClose: () => {
+                                $('#btnAreaDetalle').click();
+                            }
                         })
                     }
                     else {
@@ -450,7 +475,10 @@ function agregarDepartamento(idArea) {
                             icon: 'success',
                             title: '&Aacute;rea agregada correctamente',
                             showConfirmButton: false,
-                            timer: 2300
+                            timer: 2300,
+                            onClose: () => {
+                                $('#btnDepartamentoDetalle').click();
+                            }
                         })
                     }
                     else {
@@ -703,7 +731,10 @@ function agregarPuesto(idDepartamento) {
                             icon: 'success',
                             title: 'Puesto agregado correctamente',
                             showConfirmButton: false,
-                            timer: 2300
+                            timer: 2300,
+                            onClose: () => {
+                                $('#btnPuestosDetalle').click();
+                            }
                         })
                     } else {
                         Swal.fire({
@@ -944,7 +975,10 @@ function agregarHorario() {
                             icon: 'success',
                             title: 'Horario agregado correctamente',
                             showConfirmButton: false,
-                            timer: 2300
+                            timer: 2300,
+                            onClose: () => {
+                                $('#btnHorariosDetalle').click();
+                            }
                         })
                     } else {
                         Swal.fire({
@@ -1159,7 +1193,10 @@ function agregarCalendario() {
                             icon: 'success',
                             title: 'Calendario agregado correctamente',
                             showConfirmButton: false,
-                            timer: 2300
+                            timer: 2300,
+                            onClose: () => {
+                                $('#btnCalendarioDetalle').click();
+                            }
                         })
                     } else {
                         Swal.fire({

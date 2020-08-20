@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 
 import com.altima.springboot.app.models.entity.HrLookup;
 import com.altima.springboot.app.repository.HrLookupRepository;
+
 @Service
 public class HrLookupServiceImpl implements IHrLookupService {
 	@Autowired
 	EntityManager em;
 	@Autowired
 	HrLookupRepository repository;
+
 	@Override
 	@Transactional
 	public List<HrLookup> findAll() {
@@ -25,7 +27,7 @@ public class HrLookupServiceImpl implements IHrLookupService {
 
 	@Override
 	@Transactional
-	public void save(HrLookup hrLookup) throws Exception{
+	public void save(HrLookup hrLookup) throws Exception {
 		repository.save(hrLookup);
 		// TODO Auto-generated method stub
 	}
@@ -49,8 +51,22 @@ public class HrLookupServiceImpl implements IHrLookupService {
 	@Override
 	public List<HrLookup> findAllByTipoLookup(String tipo) {
 		// TODO Auto-generated method stub
-		
+
 		return repository.findBytipoLookup(tipo);
 	}
 
+	@Override
+	@Transactional
+	public boolean findDuplicate(String LookupEmpresa) {
+		boolean duplicate;
+		@SuppressWarnings("unchecked")
+		List<HrLookup> result = em.createNativeQuery("SELECT	* FROM	alt_hr_lookup e WHERE	e.nombre_lookup = '"
+				+ LookupEmpresa + "'	AND e.tipo_lookup = 'Empresa'").getResultList();
+		if (result.isEmpty()) {
+			duplicate = false;
+		} else {
+			duplicate = true;
+		}
+		return duplicate;
+	}
 }
