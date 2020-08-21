@@ -24,6 +24,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>Tickets&nbsp;<button  th:onclick="|limpiarForm(${solicitanteEmpleado}, ${auxiliarEmpleado})|" data-toggle="modal" data-target="#nuevoTicket" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo ticket</button>
+                            <a data-toggle="modal" th:onclick="|limpiarForm2(${solicitanteEmpleado}, ${auxiliarEmpleado})|" data-target="#agendarCitaMasiva" id="nueva-cita2" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-danger"></span>A&ntilde;adir ticket recurrente</a>
                             </h1>
                         </div>
                         <div th:insert="ticket-nuevo"></div>
@@ -118,7 +119,7 @@
 	          icon: /*[[${icon}]]*/,
 	          title: /*[[${title}]]*/,
 	          showConfirmButton: false,
-	          timer: 1250
+	          timer: 2500
 	    });
 	</script>
 </body>

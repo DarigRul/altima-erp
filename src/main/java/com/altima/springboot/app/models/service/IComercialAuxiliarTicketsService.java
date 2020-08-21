@@ -44,4 +44,6 @@ public interface IComercialAuxiliarTicketsService {
 	 List<ComercialTicket> findAllTicket();
 	 
 	 Long AleatorioAuxiliar(String fechaInicio , String fechaFin);
+	 
+	 Long AleatorioAuxiliarMasivo(String validacion);
 }

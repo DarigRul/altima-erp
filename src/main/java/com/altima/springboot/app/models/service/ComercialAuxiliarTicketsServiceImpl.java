@@ -360,6 +360,8 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"	AND puesto.nombre_puesto IN ('AYUDANTE DE VENTAS')").getResultList();
 		
 		
+	
+		
 		List<Long> disponibles = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	empleado.id_empleado \r\n" + 
@@ -372,11 +374,11 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"		alt_comercial_ticket AS ticket \r\n" + 
 				"	WHERE\r\n" + 
 				"		1 = 1 \r\n" + 
-				"		AND ticket.fecha_inicio BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' \r\n" + 
-				"		AND ticket.fecha_fin BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' \r\n" + 
+				"		AND ticket.fecha_inicio  BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' \r\n" + 
+				"		AND ticket.fecha_fin  BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' \r\n" + 
 				"	ORDER BY\r\n" + 
 				"		ticket.id_ticket DESC \r\n" + 
-				"		LIMIT 6 \r\n" + 
+				"		LIMIT "+auxuliares.size()+" \r\n" + 
 				"	) AS t ON empleado.id_empleado = t.id_empleado_auxiliar,\r\n" + 
 				"	alt_hr_puesto AS puesto,\r\n" + 
 				"	alt_hr_departamento AS depa \r\n" + 
@@ -388,11 +390,39 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"	AND puesto.nombre_puesto IN ( 'AYUDANTE DE VENTAS' ) \r\n" + 
 				"	AND t.id_empleado_auxiliar IS NULL").getResultList();
 		
+	
+
+		
+		/*List<Long> disponiblesx2 = em.createNativeQuery(""
+				+ "SELECT\r\n" + 
+				"	empleado.id_empleado \r\n" + 
+				"FROM\r\n" + 
+				"	alt_hr_empleado AS empleado,\r\n" + 
+				"	alt_hr_puesto AS puesto,\r\n" + 
+				"	alt_hr_departamento AS depa \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND empleado.id_puesto = puesto.id_puesto \r\n" + 
+				"	AND depa.id_departamento = puesto.id_departamento \r\n" + 
+				"	AND depa.nombre_departamento IN ( 'VENTAS' ) \r\n" + 
+				"	AND puesto.nombre_puesto IN ( 'AYUDANTE DE VENTAS' ) \r\n" + 
+				"	AND NOT EXISTS (\r\n" + 
+				"	SELECT\r\n" + 
+				"		ticket.id_empleado_auxiliar \r\n" + 
+				"	FROM\r\n" + 
+				"		alt_comercial_ticket AS ticket \r\n" + 
+				"	WHERE\r\n" + 
+				"		1 = 1 \r\n" + 
+				"		AND ticket.id_empleado_auxiliar = empleado.id_empleado \r\n" + 
+				"		AND ticket.fecha_inicio NOT BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' \r\n" + 
+				"		AND ticket.fecha_fin NOT BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' )").getResultList();*/
+		
+	
 		
 		if (disponibles.isEmpty() ) {
 			System.out.println("Se acabaron los disponibles");
 			/*int pos=0;
-		    int nCartas = auxuliares.size() ;
+		    int nCartas = disponiblesx2.size() ;
 		    Stack < Integer > pCartas = new Stack < Integer > ();
 		    for (int i = 0; i < nCartas ; i++) {
 		      pos = (int) Math.floor(Math.random() * nCartas );
@@ -400,13 +430,14 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 		        pos = (int) Math.floor(Math.random() * nCartas );
 		      }
 		      pCartas.push(pos);
-		    }*/
+		    }
 			
-			return Long.valueOf(0);
+		    return ((Number) disponiblesx2.get(pos)).longValue();*/
+				return Long.valueOf(0);
 		}else {
 			System.out.println("Continuan disponibles");
 			 	int pos=0;
-			    int nCartas = disponibles.size(); ;
+			    int nCartas = disponibles.size(); 
 			    Stack < Integer > pCartas = new Stack < Integer > ();
 			    for (int i = 0; i < nCartas ; i++) {
 			      pos = (int) Math.floor(Math.random() * nCartas );
@@ -427,6 +458,77 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 			
 			 
 			
+		}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Long AleatorioAuxiliarMasivo(String validacion) {
+	
+		List<Long> auxuliares = em.createNativeQuery("SELECT\r\n" + 
+				"	empleado.id_empleado \r\n" + 
+				"FROM\r\n" + 
+				"	alt_hr_empleado AS empleado,\r\n" + 
+				"	alt_hr_puesto AS puesto,\r\n" + 
+				"	alt_hr_departamento AS depa \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND empleado.id_puesto = puesto.id_puesto \r\n" + 
+				"	AND depa.id_departamento = puesto.id_departamento \r\n" + 
+				"	AND depa.nombre_departamento IN ( 'VENTAS' ) \r\n" + 
+				"	AND puesto.nombre_puesto IN ('AYUDANTE DE VENTAS')").getResultList();
+		
+		
+	
+		
+		List<Long> disponibles = em.createNativeQuery(""
+				+ "SELECT\r\n" + 
+				"	empleado.id_empleado \r\n" + 
+				"FROM\r\n" + 
+				"	alt_hr_empleado AS empleado\r\n" + 
+				"	LEFT OUTER JOIN (\r\n" + 
+				"	SELECT\r\n" + 
+				"		ticket.id_empleado_auxiliar \r\n" + 
+				"	FROM\r\n" + 
+				"		alt_comercial_ticket AS ticket \r\n" + 
+				"	WHERE\r\n" + 
+				"		1 = 1 \r\n" + 
+				"		"+validacion+"" + 
+				"	ORDER BY\r\n" + 
+				"		ticket.id_ticket DESC \r\n" + 
+				"		LIMIT "+auxuliares.size()+" \r\n" + 
+				"	) AS t ON empleado.id_empleado = t.id_empleado_auxiliar,\r\n" + 
+				"	alt_hr_puesto AS puesto,\r\n" + 
+				"	alt_hr_departamento AS depa \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND empleado.id_puesto = puesto.id_puesto \r\n" + 
+				"	AND depa.id_departamento = puesto.id_departamento \r\n" + 
+				"	AND depa.nombre_departamento IN ( 'VENTAS' ) \r\n" + 
+				"	AND puesto.nombre_puesto IN ( 'AYUDANTE DE VENTAS' ) \r\n" + 
+				"	AND t.id_empleado_auxiliar IS NULL").getResultList();
+		
+
+		
+	
+		
+		if (disponibles.isEmpty() ) {
+		
+				return Long.valueOf(0);
+		}else {
+			System.out.println("Continuan disponibles");
+			 	int pos=0;
+			    int nCartas = disponibles.size(); 
+			    Stack < Integer > pCartas = new Stack < Integer > ();
+			    for (int i = 0; i < nCartas ; i++) {
+			      pos = (int) Math.floor(Math.random() * nCartas );
+			      while (pCartas.contains(pos)) {
+			        pos = (int) Math.floor(Math.random() * nCartas );
+			      }
+			      pCartas.push(pos);
+			    }
+			    return ((Number) disponibles.get(pos)).longValue();
+			  }
 		}
 		
 	}

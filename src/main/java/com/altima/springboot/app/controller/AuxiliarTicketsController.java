@@ -2,10 +2,15 @@ package com.altima.springboot.app.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.altima.springboot.app.models.entity.AmpInventario;
 import com.altima.springboot.app.models.entity.ComercialCliente;
+import com.altima.springboot.app.models.entity.ComercialCoordinadoTela;
 import com.altima.springboot.app.models.entity.ComercialTicket;
 import com.altima.springboot.app.models.entity.ComercialTicketEstatus;
 import com.altima.springboot.app.models.entity.HrDireccion;
@@ -99,11 +105,11 @@ public class AuxiliarTicketsController {
 			}
 			
 			else {
-				String idAuxiliar = String.valueOf(TicketService.AleatorioAuxiliar(ticket.getFechaFin(),ticket.getFechaInicio() ));
+				String idAuxiliar = String.valueOf(TicketService.AleatorioAuxiliar(ticket.getFechaInicio(),ticket.getFechaFin() ));
 			
 				if ( idAuxiliar.equals("0")) {
 				redirectAttrs.addFlashAttribute("title", "Lo sentimos no hay auxiliares disponibles en ese horario").addFlashAttribute("icon",
-						"success");
+						"error");
 				return "redirect:tickets";
 				}
 				else {
@@ -120,8 +126,6 @@ public class AuxiliarTicketsController {
     		ticket.setFechaCreacion(hourdateFormat.format(date));
     		ticket.setEstatus("1");
     		if ( ticket.getFechaCalendario() != null ) {
-    			System.out.println(ticket.getFechaFin());
-    			System.out.println(ticket.getFechaInicio());
     			
     		}
     		else {
@@ -216,5 +220,84 @@ public class AuxiliarTicketsController {
 	public  List<Object[]> detalles(Long id) {
     	
 		return  TicketService.detalles_estatus(id);
+	}
+	
+	@RequestMapping(value = "/guardar-ticket-masivo", method = RequestMethod.POST)
+	public String guardar(@RequestParam(name = "fechas") String fechas,
+			Long Categoria,
+			String Descripcion,
+			HttpServletRequest request,
+			RedirectAttributes redirectAttrs) {
+			String validacion = "";
+			JSONArray json2 = new JSONArray(fechas);
+			
+			ArrayList<String> fechasInicio = new ArrayList<String>();
+			ArrayList<String> fechasFin = new ArrayList<String>();
+			
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Integer id_empleado =TicketService.idUsuario(auth.getName());
+			
+		for (int k = 0; k < json2.length(); k++) {
+			//ComercialCoordinadoTela detalleTela = new ComercialCoordinadoTela();
+			JSONObject object = (JSONObject) json2.get(k);
+			String fechaInicio = object.get("fechaInicio").toString();
+			String fechaFin = object.get("fechaFin").toString();
+			//AND ticket.fecha_inicio  BETWEEN '2020-08-21T17:30' AND '2020-08-21T17:32' 
+			
+			fechasInicio.add(fechaInicio);
+			fechasFin.add(fechaFin);
+			validacion+="AND ticket.fecha_inicio  BETWEEN  '"+fechaInicio+"' AND '"+fechaFin+"'"+""
+					+ "	AND ticket.fecha_fin BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' " ;
+			
+			
+
+		}
+		
+		
+		String idAuxiliar = String.valueOf(TicketService.AleatorioAuxiliarMasivo(validacion));
+		
+		if ( idAuxiliar.equals("0")) {
+		redirectAttrs.addFlashAttribute("title", "Lo sentimos no hay auxiliares disponibles en esos horarios").addFlashAttribute("icon",
+				"error");
+		return "redirect:tickets";
+		}
+		else {
+			for (String inicio : fechasInicio) {
+				ComercialTicket ticket = new ComercialTicket();
+	            for (String fin : fechasFin) {
+	            	
+	            	
+	            	ticket.setIdText("ticket");
+	            	ticket.setIdLookup(Categoria);
+	            	ticket.setDescripcion(Descripcion);
+	            	ticket.setFechaInicio(inicio);
+	            	ticket.setFechaFin(fin);
+	            	ticket.setFechaCreacion("1");
+	            	
+	        		ticket.setCreadoPor(auth.getName());
+	        		ticket.setFechaCreacion(hourdateFormat.format(date));
+	        		ticket.setEstatus("1");
+	        		
+	        		ticket.setIdEmpleadoSolicitante(id_empleado.toString());
+	        		ticket.setIdEmpleadoAuxiliar(idAuxiliar.toString());
+	        		
+	        		
+	        		TicketService.save(ticket);
+	        		ticket.setIdText("TICKET"+(1000+ticket.getIdTicket()));
+	        		TicketService.save(ticket);
+	        		
+	            }
+	            
+
+
+	        }
+			redirectAttrs.addFlashAttribute("title", "Ticket guardado correctamente").addFlashAttribute("icon",
+					"success");
+			return "tickets";
+		}
+		
+		
 	}
 }

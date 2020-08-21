@@ -285,21 +285,21 @@ function limpiarForm(solicitud, auxiliar){
 	   	$("#idEmpleadoAuxiliar").val(auxiliar);
 	   	$('#idEmpleadoAuxiliar').selectpicker('refresh');
 	   	
-	   	$("#idLookup").val(null);
+	   	$("#idLookup").val();
  	   	$('#idLookup').selectpicker('refresh');
  	   	
  	   $("#descripcion").val(null);
 	   	
 	   	
 	   	$("#fechaCalendario").prop("checked", false);
-	   document.getElementById('fechaInicio').readOnly = true;
-     	document.getElementById('fechaFin').readOnly = true;
+	   document.getElementById('fechaInicio').readOnly = false;
+     	document.getElementById('fechaFin').readOnly = false;
     	
 	   	
 	 
-	$("#fechaInicio").val(null);
+	$("#fechaInicio").val("2020-08-20T17:30:00");
 	
-	$("#fechaFin").val(null);
+	$("#fechaFin").val("2020-08-20T17:32:00");
 	$("#idTicket").val(null);
 	
 	if (solicitud != null){
@@ -319,8 +319,8 @@ function comprobar(obj)
        	document.getElementById('fechaFin').readOnly = false;
    } else{
 	   
-   	document.getElementById('fechaInicio').readOnly = true;
-	document.getElementById('fechaFin').readOnly = true;
+   	document.getElementById('fechaInicio').readOnly = false;
+	document.getElementById('fechaFin').readOnly = false;
 	$("#fechaInicio").val(null);
 	$("#fechaFin").val(null);
 
@@ -382,7 +382,7 @@ function valida_envia(){
       		return 0;
    	}
    	
-   	if (  $('#fechaCalendario').is(':checked')){
+ 
    		var start = moment(fechaInicio.value);
  		var end = moment(fechaFin.value);
  		
@@ -466,7 +466,7 @@ function valida_envia(){
 			return false;
     	}
    		
-   	}
+   	
 	
    
 	
@@ -515,4 +515,227 @@ $('#nuevoSeguimiento').on('hidden.bs.modal', function () {
      });
      
     
+});
+
+$(document).ready(function(){
+	  var hoy = new Date();
+	  var months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+
+	  for (var i = 0; i < 7; i++) {
+		  if ( i >= hoy.getDay() ){
+			  document.getElementById("d"+i).disabled=false;
+			 
+			  if (hoy.getDate() <10  ){
+				  $('#d'+i).val(hoy.getFullYear()+'-'+months[hoy.getMonth()]+'-0'+hoy.getDate()+'T');
+			  }
+			  else{
+				  $('#d'+i).val(hoy.getFullYear()+'-'+months[hoy.getMonth()]+'-'+hoy.getDate()+'T');
+				 
+			  }
+			  
+			  hoy.setDate(hoy.getDate() + 1);
+		  }
+		   
+		}
+	  
+	  for (var i = 0; i < 7; i++) {
+		 
+			  document.getElementById("dd"+i).disabled=false;
+			 
+			  if (hoy.getDate() <10  ){
+				  $('#dd'+i).val(hoy.getFullYear()+'-'+months[hoy.getMonth()]+'-0'+hoy.getDate()+'T');
+				 // console.log (hoy.getFullYear()+'-'+months[hoy.getMonth()]+'-0'+hoy.getDate()+'T');
+			  }
+			  else{
+				  $('#dd'+i).val(hoy.getFullYear()+'-'+months[hoy.getMonth()]+'-'+hoy.getDate()+'T');
+				  //console.log (hoy.getFullYear()+'-'+months[hoy.getMonth()]+'-'+hoy.getDate()+'T');
+				 
+			  }
+			  
+			  hoy.setDate(hoy.getDate() + 1);
+		  
+		   
+		}
+	  
+  });
+
+
+
+function limpiarForm2(solicitud, auxiliar){
+	
+	console.log("fffffffffff");
+	
+ 	   	
+ 	   $("#descripcion2").val(null);
+	   	
+ 	  $("#idLookup2").val(null);
+	   	$('#idLookup2').selectpicker('refresh');
+	 
+	
+	if (solicitud != null){
+		$("#idEmpleadoSolicitante2").prop('disabled', true);
+		$('#idEmpleadoSolicitante2').selectpicker('refresh');
+	}
+	if (auxiliar != null){
+		$("#idEmpleadoAuxiliar2").prop('disabled', true);
+		$('#idEmpleadoAuxiliar2').selectpicker('refresh');
+	}
+	
+}
+
+
+$("#submit-modal2").click((e) => {
+	
+	e.preventDefault();
+	var validFechas = false;
+	var fechas = [];
+	var valid = true;
+	
+	var valid = true;
+	$("input:checkbox:checked").each(   
+		    function() {
+		    	//fechas.push({ fecha:$(this).val()+'22' });
+		    	validFechas = true;
+		    }
+		    
+		);
+	
+	valid = valid && descripcion2.value;
+	if (valid && document.fvalida2.idLookup2.value.length!=0 && validFechas && document.fvalida2.timestart.value.length!=0 && document.fvalida2.timeend.value.length!=0 )	{
+		
+		$("input:checkbox:checked").each(   
+			    function() {
+			    	fechas.push({ fechaInicio:$(this).val()+$("#timestart").val() , fechaFin:$(this).val()+$("#timeend").val()    });
+			    
+			    }
+			    
+			);
+		console.log (fechas);
+		var Categoria=document.getElementById("idLookup2").value;
+		var Descripcion=document.getElementById("descripcion2").value;
+		$.ajax({
+	        type: "POST",
+	        url:"/guardar-ticket-masivo",
+	        data: { 
+	        	//datosMateriales:datosMateriales,
+	        	
+	        	fechas :JSON.stringify(fechas),
+	           
+	        	 'Categoria':Categoria,
+				'Descripcion':Descripcion,
+	
+	       
+	        	
+	             "_csrf": $('#token').val()
+	        },
+	        beforeSend: function () {
+	        	 Swal.fire({
+	        		 position: 'center',
+	     				icon: 'success',
+	     				title: 'Agregado correctamente',
+	                 allowOutsideClick: false,
+	                 timerProgressBar: true,
+	                 showConfirmButton: false,
+	                 onBeforeOpen: () => {
+	                    
+	                 },
+	             });
+	        	
+	        },
+	    
+	        success: function(data) {
+	       },
+	       complete: function() {   
+	    	   location.reload();
+			
+		    },
+	    })
+		
+		
+		
+	}
+	
+	else{
+		if (!descripcion2.value){
+			 Swal.fire({
+					position: 'center',
+					icon: 'error',
+					title: 'Ingrese una descripcion',
+					showConfirmButton: false,
+					timer: 1250
+				})
+				return false;
+		}
+		
+		
+		if (  !validFechas){
+			 Swal.fire({
+					position: 'center',
+					icon: 'error',
+					title: 'Seleccione un al menos un día',
+					showConfirmButton: false,
+					timer: 1250
+				})
+				return false;
+		}
+		
+		if (document.fvalida2.idLookup2.value.length==0){
+			 Swal.fire({
+					position: 'center',
+					icon: 'error',
+					title: 'Seleccione una categoria',
+					showConfirmButton: false,
+					timer: 1250
+				})
+				return false;
+		}
+		if(timestart.value == null || timestart.value == "" ) {
+    		Swal.fire({
+				position: 'center',
+				icon: 'error',
+				title: 'La hora de inicio no es válida.',
+				showConfirmButton: false,
+				timer: 1250
+			})
+    		
+			return false;
+    	}//dddfff
+		
+		if(timeend.value == null || timeend.value == "" ) {
+    		Swal.fire({
+				position: 'center',
+				icon: 'error',
+				title: 'La hora de finalizacion no es válida.',
+				showConfirmButton: false,
+				timer: 1250
+			})
+    		
+			return false;
+    	}
+		
+		if(timestart.value > timeend.value) {
+	 		Swal.fire({
+				position: 'center',
+				icon: 'error',
+				title: 'La hora de finalización debe ser posterior a la hora de inicio.',
+				showConfirmButton: false,
+				timer: 1250
+			})
+	 		return false; 
+	 	}
+    	
+    	if(timestart.value == timeend.value) {
+    		Swal.fire({
+				position: 'center',
+				icon: 'error',
+				title: 'La hora de finalización debe ser posterior a la hora de inicio.',
+				showConfirmButton: false,
+				timer: 1250
+			})
+    		return false;
+    	}
+		
+		
+	}
+
 });
