@@ -589,12 +589,13 @@ $("#submit-modal2").click((e) => {
 	e.preventDefault();
 	var validFechas = false;
 	var fechas = [];
+	
 	var valid = true;
 	
 	var valid = true;
 	$("input:checkbox:checked").each(   
 		    function() {
-		    	//fechas.push({ fecha:$(this).val()+'22' });
+		    	//fechas.push({ fecha:$(this).val() });
 		    	validFechas = true;
 		    }
 		    

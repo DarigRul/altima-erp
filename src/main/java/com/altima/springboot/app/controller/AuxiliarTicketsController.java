@@ -76,7 +76,7 @@ public class AuxiliarTicketsController {
     
     	m.put("ticket", ticket);
     	
-    	model.addAttribute("view", TicketService.view());
+    	model.addAttribute("view", TicketService.view(Long.valueOf(id_empleado) ));
     	
     	
     
@@ -264,12 +264,12 @@ public class AuxiliarTicketsController {
 		return "redirect:tickets";
 		}
 		else {
-			for (String inicio : fechasInicio) {
-				ComercialTicket ticket = new ComercialTicket();
-	            for (String fin : fechasFin) {
-	            	
-	            	
-	            	ticket.setIdText("ticket");
+			
+			for (int x = 0; x < fechasInicio.size(); x++) {
+				  String inicio = fechasInicio.get(x);
+				  String fin = fechasInicio.get(x);
+				  ComercialTicket ticket = new ComercialTicket();
+				  ticket.setIdText("ticket");
 	            	ticket.setIdLookup(Categoria);
 	            	ticket.setDescripcion(Descripcion);
 	            	ticket.setFechaInicio(inicio);
@@ -287,12 +287,8 @@ public class AuxiliarTicketsController {
 	        		TicketService.save(ticket);
 	        		ticket.setIdText("TICKET"+(1000+ticket.getIdTicket()));
 	        		TicketService.save(ticket);
-	        		
-	            }
-	            
-
-
-	        }
+				}
+	
 			redirectAttrs.addFlashAttribute("title", "Ticket guardado correctamente").addFlashAttribute("icon",
 					"success");
 			return "tickets";

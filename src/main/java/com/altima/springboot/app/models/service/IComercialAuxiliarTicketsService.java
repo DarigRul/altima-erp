@@ -27,7 +27,7 @@ public interface IComercialAuxiliarTicketsService {
 
 		ComercialTicket findOne(Long id);
 		
-	List<Object[]> view ( );
+	List<Object[]> view ( Long id);
 	
 	List<Object[]> viewEstatus ( Long id );
 	
