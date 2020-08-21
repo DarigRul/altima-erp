@@ -267,7 +267,7 @@ public class AuxiliarTicketsController {
 			
 			for (int x = 0; x < fechasInicio.size(); x++) {
 				  String inicio = fechasInicio.get(x);
-				  String fin = fechasInicio.get(x);
+				  String fin = fechasFin.get(x);
 				  ComercialTicket ticket = new ComercialTicket();
 				  ticket.setIdText("ticket");
 	            	ticket.setIdLookup(Categoria);
