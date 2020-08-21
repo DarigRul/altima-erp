@@ -56,7 +56,8 @@
                                         <thead>
                                             <tr>
                                                 <th>Ticket</th>
-                                                <th>Solicitante</th>
+                                                <th th:if="${auxiliarSelected != null}">Solicitante</th>
+                                                <th th:if="${solicitanteSelected != null}" >Auxiliar</th>
                                                 <th>Fecha solicitante</th>
                                                 <th>Categor&iacute;a</th>
                                                 <th>Estatus</th>
@@ -68,11 +69,12 @@
                                         
                                         <tr th:each="view, icli: ${view}">
 												<td th:text="${view[1]}"></td>
-												<td th:text="${view[2]}"></td>
-												<td th:text="${view[3]}"></td>
+												<td th:if="${auxiliarSelected != null}" th:text="${view[2]}"></td>
+												<td th:if="${solicitanteSelected != null}" th:text="${view[3]}"></td>												
 												<td th:text="${view[4]}"></td>
 												<td th:text="${view[5]}"></td>
 												<td th:text="${view[6]}"></td>
+												<td th:text="${view[7]}"></td>
 												 <td class="text-center">
                                                     <a class="btn btn-info btn-circle btn-sm popoverxd" data-toggle="modal" data-target="#infoTicket" onclick="detalles(this)" th:id="${view[0]}" data-placement="top" data-content="Detalles"><i class="fas fa-info text-white"></i></a>
                                                     <a th:if="${solicitanteSelected!=null}" class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editar(this)" th:id="${view[0]}" data-target="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
