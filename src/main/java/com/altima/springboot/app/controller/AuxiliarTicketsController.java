@@ -81,11 +81,6 @@ public class AuxiliarTicketsController {
     
     	m.put("ticket", ticket);
     	
-    	//model.addAttribute("view", TicketService.view(Long.valueOf(id_empleado) ));
-    	
-    	String idAuxiliar = String.valueOf(TicketService.AleatorioAuxiliar(ticket.getFechaInicio(),ticket.getFechaFin() ));
-    
-    	System.out.println("Aleatorio---->"+idAuxiliar);
         return "tickets";
     }
     @RequestMapping(value = "/lista-seguimientos", method = RequestMethod.GET)

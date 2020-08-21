@@ -386,10 +386,12 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"		1 = 1 \r\n" + 
 				"		AND ticket.fecha_inicio  BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' \r\n" + 
 				"		AND ticket.fecha_fin  BETWEEN '"+fechaInicio+"' AND '"+fechaFin+"' \r\n" + 
-				"	GROUP BY	ticket.id_empleado_auxiliar \r\n"+
+				
+			/*	"	GROUP BY	ticket.id_empleado_auxiliar \r\n"+
 				"	ORDER BY\r\n" + 
 				"		ticket.id_ticket DESC \r\n" + 
-				"		LIMIT "+auxuliares.size()+" \r\n" + 
+				"		LIMIT "+auxuliares.size()+" \r\n" + */
+				
 				"	) AS t ON empleado.id_empleado = t.id_empleado_auxiliar,\r\n" + 
 				"	alt_hr_puesto AS puesto,\r\n" + 
 				"	alt_hr_departamento AS depa \r\n" + 
@@ -505,10 +507,10 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"	WHERE\r\n" + 
 				"		1 = 1 \r\n" + 
 				"		"+validacion+" \r\n"+ 
-				"	GROUP BY	ticket.id_empleado_auxiliar \r\n"+
+			/*	"	GROUP BY	ticket.id_empleado_auxiliar \r\n"+
 				"	ORDER BY\r\n" + 
 				"		ticket.id_ticket DESC \r\n" + 
-				"		LIMIT "+auxuliares.size()+" \r\n" + 
+				"		LIMIT "+auxuliares.size()+" \r\n" + */
 				"	) AS t ON empleado.id_empleado = t.id_empleado_auxiliar,\r\n" + 
 				"	alt_hr_puesto AS puesto,\r\n" + 
 				"	alt_hr_departamento AS depa \r\n" + 
