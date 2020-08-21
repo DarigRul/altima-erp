@@ -129,7 +129,11 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<Object[]> Categoria() {
+	public List<Object[]> Categoria(String user) {
+		String condicion ="";
+		if ( user.equals("AYUDANTE DE VENTAS")) {
+			condicion="AND look.atributo_1=1";
+		}
 		
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
@@ -140,7 +144,8 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"WHERE\r\n" + 
 				"	1 = 1\r\n" + 
 				"	and look.tipo_lookup='Categoria'\r\n" + 
-				"	and look.estatus=1").getResultList();
+				"	and look.estatus=1 "+
+				condicion).getResultList();
 		return re;
 		//AND material.nombre_material NOT IN ('Tela principal')
 	}
@@ -165,6 +170,12 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Object[]> view(Long id) {
+		String condicion="";
+		if (id == null) {
+			
+		}else {
+			condicion="	and (ticket.id_empleado_solicitante = "+id+" or ticket.id_empleado_auxiliar="+id+")\r\n" ;
+		}
 		
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
@@ -214,7 +225,7 @@ public class ComercialAuxiliarTicketsServiceImpl implements IComercialAuxiliarTi
 				"	AND ticket.id_empleado_solicitante = empleado.id_empleado \r\n" + 
 				"	AND look.id_lookup = ticket.id_lookup \r\n" + 
 				"	AND ticket.estatus=1\r\n" + 
-				"	and (ticket.id_empleado_solicitante = "+id+" or ticket.id_empleado_auxiliar="+id+")\r\n" + 
+				condicion +
 				"ORDER BY\r\n" + 
 				"	ticket.id_ticket DESC").getResultList();
 		return re;

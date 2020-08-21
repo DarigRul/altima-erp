@@ -19,7 +19,7 @@ public interface IComercialAuxiliarTicketsService {
 	 
 	 boolean Verificar_Solicitante (String puesto);
 	 
-	 List<Object[]> Categoria ();
+	 List<Object[]> Categoria (String user);
 	 
 	 void save(ComercialTicket ticket);
 

@@ -50,33 +50,38 @@ public class AuxiliarTicketsController {
     		model.addAttribute("auxiliar", TicketService.VentasDep("in"));
     		model.addAttribute("auxiliarSelected", 2);
     		model.addAttribute("solicitanteSelected", 2);
+    		model.addAttribute("view", TicketService.view(null));
+    		model.addAttribute("categoria", TicketService.Categoria("ADMIN"));
     	}else {
     		String puesto = TicketService.user(auth.getName());
     		if (puesto.equals("AYUDANTE DE VENTAS")) {
     			model.addAttribute("solicitante", TicketService.VentasDep("not in"));
         		model.addAttribute("auxiliar", TicketService.VentasDep("in"));
         		model.addAttribute("auxiliarSelected", 1);
-        		
         		model.addAttribute("auxiliarEmpleado", id_empleado);
+        		model.addAttribute("categoria", TicketService.Categoria("AYUDANTE DE VENTAS"));
         	}
         	else if (TicketService.Verificar_Solicitante(puesto)) {
         		
+        		model.addAttribute("categoria", TicketService.Categoria("SOLICITANTE"));
         		model.addAttribute("solicitanteEmpleado", id_empleado);
         		model.addAttribute("solicitanteSelected", 1);
         		model.addAttribute("solicitante", TicketService.VentasDep("not in"));
         		model.addAttribute("auxiliar", TicketService.VentasDep("in"));
         		
         	}
+    		
+    		model.addAttribute("view", TicketService.view(Long.valueOf(id_empleado) ));
     	}
     	
     	
-    	model.addAttribute("categoria", TicketService.Categoria());
+    	
     	
     	ComercialTicket ticket = new ComercialTicket ();
     
     	m.put("ticket", ticket);
     	
-    	model.addAttribute("view", TicketService.view(Long.valueOf(id_empleado) ));
+    	//model.addAttribute("view", TicketService.view(Long.valueOf(id_empleado) ));
     	
     	
     
@@ -94,13 +99,19 @@ public class AuxiliarTicketsController {
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Integer id_empleado =TicketService.idUsuario(auth.getName());
-		String puesto = TicketService.user(auth.getName());
+		
 		
 		if ( ticket.getIdEmpleadoSolicitante() == null) {
 			ticket.setIdEmpleadoSolicitante(id_empleado.toString());
 		}
 		if (ticket.getIdEmpleadoAuxiliar()== null) {
-			if (puesto.equals("AYUDANTE DE VENTAS")) {
+			
+			if ( auth.getName().equals("ADMIN") ) {
+				ticket.setIdEmpleadoAuxiliar(id_empleado.toString());
+			}
+			else {
+				String puesto = TicketService.user(auth.getName());
+			if (puesto.equals("AYUDANTE DE VENTAS") ) {
 				ticket.setIdEmpleadoAuxiliar(id_empleado.toString());
 			}
 			
@@ -116,6 +127,7 @@ public class AuxiliarTicketsController {
 					ticket.setIdEmpleadoAuxiliar( idAuxiliar);
 				}
 			}
+		}
 		}
 			
 			
