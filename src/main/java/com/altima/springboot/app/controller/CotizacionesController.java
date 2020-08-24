@@ -122,79 +122,92 @@ public class CotizacionesController {
 
 	@GetMapping("/agregar-cotizacion/{id}")
 	public String EditarCotizaciones(@PathVariable(name = "id") Long id, Model model) {
-		ComercialCotizacion cotizacion = cotizacionService.findOne(id);
-		ComercialCotizacionTotal cotiTotal = cotizacionTotalService.findByCotizacion(id);
-		DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
-		separadoresPersonalizados.setDecimalSeparator('.');
-		DecimalFormat df = new DecimalFormat("0.##", separadoresPersonalizados);
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		//Esto hace referencia a la primera ventrana de agregar cotizacion "Cotizaciones-informacion.html"
-		model.addAttribute("idCotizacion", cotizacion.getIdCotizacion());
-		model.addAttribute("numeroCotizacion",cotizacion.getIdText());
-		model.addAttribute("tituloCotizacion", cotizacion.getTituloCotizacion());
-		model.addAttribute("tipoCotizacion", cotizacion.getTipoCotizacion());
-		model.addAttribute("tipoPrecioVentas", cotizacion.getTipoPrecio());
-		model.addAttribute("Gerente", cotizacion.getIdGerente());
-		
-		if(auth.getName().equalsIgnoreCase("ADMIN")) {
-			model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
-			model.addAttribute("Agente", cotizacion.getIdAgenteVentas());
-		}
-		else {
-			try {
-				HrEmpleado empleado = empleadoService.findOne(cotizacion.getIdAgenteVentas());
-				model.addAttribute("Agente", empleado.getNombrePersona()+ " " + empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno());
-				System.out.println("Es un agente de ventas");
-				model.addAttribute("agente", "1");
-				model.addAttribute("idAgente", cotizacion.getIdAgenteVentas());
-
-				
-			}
-			catch(Exception e) {
-				System.out.println("No es un agente de ventas \n"+e);
-				model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
-				model.addAttribute("Agente", cotizacion.getIdAgenteVentas());
-				
-			}
-		}
-		model.addAttribute("ListarClientes", clienteService.findClientesByAgenteVentas(cotizacion.getIdAgenteVentas()));
-		model.addAttribute("Cliente", cotizacion.getIdCliente());
-		model.addAttribute("prendasDiv", "#prendasDiv");
-		model.addAttribute("pill", "pill");
-		model.addAttribute("preciosDiv", "#preciosDiv");
-		model.addAttribute("ListarGerentes", empleadoService.findAllByPuesto("Gerente de ventas"));
-		model.addAttribute("textArea", cotizacion.getObservaciones());
-		model.addAttribute("iva", cotiTotal.getIva());
-		
-		
-		//Esto hace referencia a la segunda ventana de agregar cotización "Cotizaciones-prendas.html"
-		model.addAttribute("ListarPrendas", CoordinadoService.findAllPrenda());
-		model.addAttribute("idCotizacionToPrendas", cotizacion.getIdCotizacion());
-		model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id));
-		
-		
-		//Esto hace referencia a la tercer ventana de agregar cotización "Cotizaciones-precios.html"
-		model.addAttribute("anticipoCotizacion", cotiTotal.getAnticipoPorcentaje());
-		model.addAttribute("anticipoMontoCotizacion", cotiTotal.getAnticipoMonto());
-		model.addAttribute("descuentoCotizacion", cotiTotal.getDescuentoPorcentaje());
-		model.addAttribute("descuentoMontoCotizacion", cotiTotal.getDescuentoMonto());
 		
 		try {
-			double subtotal=Double.parseDouble(cotiTotal.getAnticipoMonto())+Double.parseDouble(cotiTotal.getDescuentoMonto())+cotizacionPrendaService.findSubtotalCotizacionPrendas(id);
-			model.addAttribute("Subtotal", df.format(subtotal));
-			model.addAttribute("DescuentoCargo", cotiTotal.getDescuentoCargo());
-			double ivamonto = subtotal*(Double.parseDouble(cotiTotal.getIva())/100);
-			model.addAttribute("IVAMonto", df.format(ivamonto));
-			model.addAttribute("Total", df.format(cotizacionPrendaService.findSubtotalCotizacionPrendas(id)+ivamonto));
-		}catch(Exception e) {
-			model.addAttribute("Subtotal", cotiTotal.getSubtotal());
-			model.addAttribute("DescuentoCargo", cotiTotal.getDescuentoCargo());
-			model.addAttribute("IVAMonto", cotiTotal.getIvaMonto());
-			model.addAttribute("Total", cotiTotal.getTotal());
-		}
+			
 		
-		return "agregar-cotizacion";
+			ComercialCotizacion cotizacion = cotizacionService.findOne(id);
+			ComercialCotizacionTotal cotiTotal = cotizacionTotalService.findByCotizacion(id);
+			DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
+			separadoresPersonalizados.setDecimalSeparator('.');
+			DecimalFormat df = new DecimalFormat("0.##", separadoresPersonalizados);
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			
+			//Esto hace referencia a la primera ventrana de agregar cotizacion "Cotizaciones-informacion.html"
+			model.addAttribute("idCotizacion", cotizacion.getIdCotizacion());
+			model.addAttribute("numeroCotizacion",cotizacion.getIdText());
+			model.addAttribute("tituloCotizacion", cotizacion.getTituloCotizacion());
+			model.addAttribute("tipoCotizacion", cotizacion.getTipoCotizacion());
+			model.addAttribute("tipoPrecioVentas", cotizacion.getTipoPrecio());
+			model.addAttribute("Gerente", cotizacion.getIdGerente());
+			
+			if(auth.getName().equalsIgnoreCase("ADMIN")) {
+				model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
+				model.addAttribute("Agente", cotizacion.getIdAgenteVentas());
+			}
+			else {
+				try {
+					HrEmpleado empleado = empleadoService.findOne(cotizacion.getIdAgenteVentas());
+					model.addAttribute("Agente", empleado.getNombrePersona()+ " " + empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno());
+					System.out.println("Es un agente de ventas");
+					model.addAttribute("agente", "1");
+					model.addAttribute("idAgente", cotizacion.getIdAgenteVentas());
+	
+					
+				}
+				catch(Exception e) {
+					System.out.println("No es un agente de ventas \n"+e);
+					model.addAttribute("ListarAgentes", empleadoService.findAllByPuesto("Agente de Ventas"));
+					model.addAttribute("Agente", cotizacion.getIdAgenteVentas());
+					
+				}
+			}
+			model.addAttribute("ListarClientes", clienteService.findClientesByAgenteVentas(cotizacion.getIdAgenteVentas()));
+			model.addAttribute("Cliente", cotizacion.getIdCliente());
+			model.addAttribute("prendasDiv", "#prendasDiv");
+			model.addAttribute("pill", "pill");
+			model.addAttribute("preciosDiv", "#preciosDiv");
+			model.addAttribute("ListarGerentes", empleadoService.findAllByPuesto("Gerente de ventas"));
+			model.addAttribute("textArea", cotizacion.getObservaciones());
+			model.addAttribute("iva", cotiTotal.getIva());
+			
+			
+			//Esto hace referencia a la segunda ventana de agregar cotización "Cotizaciones-prendas.html"
+			model.addAttribute("ListarPrendas", CoordinadoService.findAllPrenda());
+			model.addAttribute("idCotizacionToPrendas", cotizacion.getIdCotizacion());
+			model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id));
+			
+			
+			//Esto hace referencia a la tercer ventana de agregar cotización "Cotizaciones-precios.html"
+			model.addAttribute("anticipoCotizacion", cotiTotal.getAnticipoPorcentaje());
+			model.addAttribute("anticipoMontoCotizacion", cotiTotal.getAnticipoMonto());
+			model.addAttribute("descuentoCotizacion", cotiTotal.getDescuentoPorcentaje());
+			model.addAttribute("descuentoMontoCotizacion", cotiTotal.getDescuentoMonto());
+			
+			if(Double.parseDouble(cotiTotal.getSubtotal())!=0) {			
+				model.addAttribute("Subtotal", cotiTotal.getSubtotal());
+				model.addAttribute("DescuentoCargo", cotiTotal.getDescuentoCargo());
+				model.addAttribute("IVAMonto", cotiTotal.getIvaMonto());
+				model.addAttribute("Total", cotiTotal.getTotal());
+				
+			}else {
+				double subtotal=Double.parseDouble(cotiTotal.getAnticipoMonto())+Double.parseDouble(cotiTotal.getDescuentoMonto())+cotizacionPrendaService.findSubtotalCotizacionPrendas(id);
+				model.addAttribute("Subtotal", df.format(subtotal));
+				model.addAttribute("DescuentoCargo", cotiTotal.getDescuentoCargo());
+				double ivamonto = subtotal*(Double.parseDouble(cotiTotal.getIva())/100);
+				model.addAttribute("IVAMonto", df.format(ivamonto));
+				model.addAttribute("Total", df.format(cotizacionPrendaService.findSubtotalCotizacionPrendas(id)+ivamonto));
+			}
+			
+			return "agregar-cotizacion";
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			return "cotizaciones";
+		}
+		finally {
+			System.out.println("Mapeo de editar una cotización");
+		}
 	}
 
 	@GetMapping("/pedirAutorizacion/{id}")
