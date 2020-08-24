@@ -94,25 +94,9 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 					"	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\r\n" + 
 					"	cliente.id_cliente,\r\n" + 
 					"	informacion.observacion,\r\n" + 
-					"	(\r\n" + 
-					"	SELECT\r\n" + 
-					"		IFNULL( sum( coorpre.monto_adicional ), 0 ) \r\n" + 
-					"	FROM\r\n" + 
-					"		alt_comercial_coordinado_prenda coorpre\r\n" + 
-					"		INNER JOIN alt_comercial_coordinado coor ON coorpre.id_coordinado = coor.id_coordinado\r\n" + 
-					"		INNER JOIN alt_comercial_pedido_informacion pedinf ON coor.id_pedido = pedinf.id_pedido_informacion \r\n" + 
-					"	WHERE\r\n" + 
-					"		pedinf.id_pedido_informacion = informacion.id_pedido_informacion \r\n" + 
-					"	) AS cargoPrecio,\r\n" + 
-					"	(\r\n" + 
-					"	SELECT\r\n" + 
-					"		IFNULL( sum( mtrz.descuento ), 0 ) \r\n" + 
-					"	FROM\r\n" + 
-					"		alt_comercial_total_razon_social mtrz\r\n" + 
-					"		INNER JOIN alt_comercial_pedido_informacion pedinf2 ON mtrz.id_pedido = pedinf2.id_pedido_informacion \r\n" + 
-					"	WHERE\r\n" + 
-					"		pedinf2.id_pedido_informacion = informacion.id_pedido_informacion \r\n" + 
-					"	) AS desceunto \r\n" + 
+					"	montos_razon(informacion.id_pedido_informacion)\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
 					"FROM\r\n" + 
 					"	alt_comercial_pedido_informacion informacion\r\n" + 
 					"	INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente \r\n" + 
