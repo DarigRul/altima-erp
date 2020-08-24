@@ -85,3 +85,57 @@ $('#example_filter input[type=search]').keyup( function () {
         jQuery.fn.DataTable.ext.type.search.html(this.value)
     ).draw();
 } );
+
+function solicitarAutorizacion(id){
+	
+	Swal.fire({
+		  title: '¿Desea solicitar autorización?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+			if (result.value) {
+				
+				Swal.fire({
+				      position: 'center',
+			          icon: 'success',
+			          title: '¡Autorización solicitada!',
+			          showConfirmButton: false,
+			          timer: 1550,
+				      onClose: () => {
+				    	  location.href = "/pedirAutorizacion/"+id;
+				      }
+				})
+			}
+		})
+}
+
+function Autorizar(id){
+	
+	Swal.fire({
+		  title: '¿Desea solicitar autorización?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+			if (result.value) {
+				
+				Swal.fire({
+				      position: 'center',
+			          icon: 'success',
+			          title: '¡Autorización solicitada!',
+			          showConfirmButton: false,
+			          timer: 1550,
+				      onClose: () => {
+				    	  location.href = "/Autorizar/"+id;
+				      }
+				})
+			}
+		})
+}
