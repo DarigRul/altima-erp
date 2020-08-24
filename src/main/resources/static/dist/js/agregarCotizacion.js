@@ -429,6 +429,7 @@ function cotizacionGeneral(){
 	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 $('#DescuentoCargo').text((parseFloat(descuentoMontoCotizacion)+parseFloat(anticipoMontoCotizacion)).toFixed(2));
 	 if($(this).val()==''){ 																					//
 		 $(this).val(0); 																						//
 	 } 																											//
@@ -446,6 +447,7 @@ function cotizacionGeneral(){
 	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 $('#DescuentoCargo').text((parseFloat(descuentoMontoCotizacion)+parseFloat(anticipoMontoCotizacion)).toFixed(2));
 	 if($(this).val()==''){																						//
 		 $(this).val(0);																						//
 	 } 																											//
@@ -465,6 +467,7 @@ function cotizacionGeneral(){
 	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 $('#DescuentoCargo').text((parseFloat(descuentoMontoCotizacion)+parseFloat(anticipoMontoCotizacion)).toFixed(2));
 	 if($(this).val()==''){																						//
 		 $(this).val(0);																						//
 	 }																											//
@@ -482,6 +485,7 @@ function cotizacionGeneral(){
 	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 $('#DescuentoCargo').text((parseFloat(descuentoMontoCotizacion)+parseFloat(anticipoMontoCotizacion)).toFixed(2));
 	 if($(this).val()==''){																						//
 		 $(this).val(0);																						//
 	 }																											//
