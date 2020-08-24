@@ -10,14 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.altima.springboot.app.models.entity.ComercialCoordinadoMaterial;
-import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.ProduccionDetallePedido;
-import com.altima.springboot.app.models.entity.ProduccionDetallePedidoForro;
-import com.altima.springboot.app.models.entity.ProduccionDetallePedidoTela;
 import com.altima.springboot.app.repository.ProduccionDetallePedidoRepository;
-import com.altima.springboot.app.repository.PrudduccionDetallePedidoForroRepository;
-import com.altima.springboot.app.repository.PrudduccionDetallePedidoTelaRepository;
 
 @Service
 public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
@@ -213,8 +207,11 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public String nombreAgente(Long id) {
-		return em.createNativeQuery(
-				"SELECT concat(ahe.nombre_persona,' ',ahe.apellido_paterno,' ',ahe.apellido_materno) FROM alt_comercial_cliente_sucursal accs INNER JOIN alt_hr_empleado ahe on accs.id_agente=ahe.id_empleado where accs.id_cliente_sucursal=2")
+		return em
+				.createNativeQuery("SELECT CONCAT(he.nombre_persona,' ',he.apellido_paterno,' ',he.apellido_materno)\n"
+						+ "FROM `alt_comercial_cliente` cc,alt_hr_usuario hu\n" + "LEFT JOIN alt_hr_empleado he\n"
+						+ "on hu.id_empleado=he.id_empleado\n" + "where cc.id_usuario=hu.id_usuario\n"
+						+ "and cc.id_cliente=" + id + "\n" + "ORDER BY cc.id_cliente DESC")
 				.getSingleResult().toString();
 	}
 
@@ -223,25 +220,17 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Transactional
 	public List<Object[]> materialesPorPrendaExtra(Long id) {
 		System.out.println("vamos a mnodificar la entretela");
-		
-		
-		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + 
-				"	material.id_material,\r\n" + 
-				"	material.nombre_material ,\r\n" + 
-				"	look.nombre_lookup\r\n" + 
-				"FROM\r\n" + 
-				"	alt_disenio_material_prenda AS material_prenda,\r\n" + 
-				"	alt_disenio_material AS material,\r\n" + 
-				"	alt_disenio_lookup adl ,\r\n" + 
-				"	alt_disenio_lookup AS look \r\n" + 
-				"WHERE\r\n" + 
-				"	1 = 1 \r\n" + 
-				"	AND look.id_lookup = material.id_clasificacion\r\n" + 
-				"	AND look.nombre_lookup  IN ( 'Combinación' ) \r\n" + 
-				"	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \r\n" + 
-				"	AND material.id_material = material_prenda.id_material \r\n" + 
-				"	AND material.id_proceso = adl.id_lookup \r\n" + 
-				"	AND material_prenda.id_prenda = "+id).getResultList();
+
+		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + "	material.id_material,\r\n"
+				+ "	material.nombre_material ,\r\n" + "	look.nombre_lookup\r\n" + "FROM\r\n"
+				+ "	alt_disenio_material_prenda AS material_prenda,\r\n" + "	alt_disenio_material AS material,\r\n"
+				+ "	alt_disenio_lookup adl ,\r\n" + "	alt_disenio_lookup AS look \r\n" + "WHERE\r\n" + "	1 = 1 \r\n"
+				+ "	AND look.id_lookup = material.id_clasificacion\r\n"
+				+ "	AND look.nombre_lookup  IN ( 'Combinación' ) \r\n"
+				+ "	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \r\n"
+				+ "	AND material.id_material = material_prenda.id_material \r\n"
+				+ "	AND material.id_proceso = adl.id_lookup \r\n" + "	AND material_prenda.id_prenda = " + id)
+				.getResultList();
 		return re;
 		// AND material.nombre_material NOT IN ('Tela principal')
 	}
@@ -267,8 +256,7 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Transactional
 	public List<Object[]> findAllTela(Long id) {
 		System.out.println("este es el que saca las telas");
-		
-	
+
 		List<Object[]> re = em.createNativeQuery("Select\r\n" + "tela.id_tela,\r\n"
 				+ "CONCAT(tela.id_text,' ', tela.nombre_tela),\r\n" + "tela.codigo_color\r\n" + "\r\n"
 				+ "				from alt_disenio_tela as tela ,alt_disenio_tela_prenda as tela_prenda\r\n"
@@ -296,54 +284,33 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public List<Object[]> findListMatEx(Long id) {
-		
-		System.out.println("entre a este 1227 y el id   " + id);
-		
-	
-		List<Object[]> re = em.createNativeQuery("SELECT\n" + 
-				"	material.id_material,\n" + 
-				"	material.nombre_material,\n" + 
-				"	material_prenda.id_material_prenda \n" + 
-				"FROM\n" + 
-				"	alt_disenio_material_prenda AS material_prenda,\n" + 
-				"	alt_disenio_material AS material,\n" + 
-				"	alt_disenio_lookup adl \n" + 
-				"WHERE\n" + 
-				"	1 = 1 \n" + 
-				"	AND material.nombre_material NOT IN ( 'Tela principal' ) \n" + 
-				"	AND material.nombre_material NOT IN ( 'Forro principal' ) \n" + 
-				"	AND material.nombre_material NOT IN ( 'Tela combinacion' ) \n" + 
-	
-				"	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \n" + 
-				"	AND material.id_material = material_prenda.id_material \n" + 
-				"	AND material.id_proceso = adl.id_lookup \n" + 
-				"	AND material_prenda.id_material_prenda = "+id+"     \n" + 
-				"\n" + 
-				"\n" + 
-				"\n" + 
-				"UNION\n" + 
-				"\n" + 
-				"SELECT\n" + 
-				"	material.id_material,\n" + 
-				"  material.nombre_material,\n" + 
-				"	material_prenda.id_material_prenda \n" + 
-				"FROM\n" + 
-				"	alt_disenio_material_extra_prenda AS material_prenda,\n" + 
-				"	alt_disenio_material AS material,\n" + 
-				"	alt_disenio_lookup adl \n" + 
-				"WHERE\n" + 
-				"	1 = 1 \n" + 
-				"	AND material.nombre_material NOT IN ( 'Tela principal' ) \n" + 
-				"	AND material.nombre_material NOT IN ( 'Forro principal' ) \n" + 
-				"	AND material.nombre_material NOT IN ( 'Tela combinacion' ) \n" + 
 
-				"	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \n" + 
-				"	AND material.id_material = material_prenda.id_material \n" + 
-				"	AND material.id_proceso = adl.id_lookup \n" + 
-				"	AND material_prenda.id_material_prenda = " + id)
+		System.out.println("entre a este 1227 y el id   " + id);
+
+		List<Object[]> re = em.createNativeQuery("SELECT\n" + "	material.id_material,\n"
+				+ "	material.nombre_material,\n" + "	material_prenda.id_material_prenda \n" + "FROM\n"
+				+ "	alt_disenio_material_prenda AS material_prenda,\n" + "	alt_disenio_material AS material,\n"
+				+ "	alt_disenio_lookup adl \n" + "WHERE\n" + "	1 = 1 \n"
+				+ "	AND material.nombre_material NOT IN ( 'Tela principal' ) \n"
+				+ "	AND material.nombre_material NOT IN ( 'Forro principal' ) \n"
+				+ "	AND material.nombre_material NOT IN ( 'Tela combinacion' ) \n" +
+
+				"	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \n"
+				+ "	AND material.id_material = material_prenda.id_material \n"
+				+ "	AND material.id_proceso = adl.id_lookup \n" + "	AND material_prenda.id_material_prenda = " + id
+				+ "     \n" + "\n" + "\n" + "\n" + "UNION\n" + "\n" + "SELECT\n" + "	material.id_material,\n"
+				+ "  material.nombre_material,\n" + "	material_prenda.id_material_prenda \n" + "FROM\n"
+				+ "	alt_disenio_material_extra_prenda AS material_prenda,\n" + "	alt_disenio_material AS material,\n"
+				+ "	alt_disenio_lookup adl \n" + "WHERE\n" + "	1 = 1 \n"
+				+ "	AND material.nombre_material NOT IN ( 'Tela principal' ) \n"
+				+ "	AND material.nombre_material NOT IN ( 'Forro principal' ) \n"
+				+ "	AND material.nombre_material NOT IN ( 'Tela combinacion' ) \n" +
+
+				"	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \n"
+				+ "	AND material.id_material = material_prenda.id_material \n"
+				+ "	AND material.id_proceso = adl.id_lookup \n" + "	AND material_prenda.id_material_prenda = " + id)
 				.getResultList();
-		
-		
+
 		return re;
 
 	}
@@ -352,7 +319,7 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public List<Object[]> findAllTelaPrimera(Long id) {
-		
+
 		System.out.println("este es el bueno para las telas de coordinados");
 		List<Object[]> re = em.createNativeQuery("Select  tela.id_tela, CONCAT(tela.id_text,' ', tela.nombre_tela) \r\n"
 				+ "				from alt_disenio_tela as tela ,alt_disenio_tela_prenda as tela_prenda\r\n"
@@ -422,7 +389,9 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> selectGenero() {
-		return em.createNativeQuery("SELECT nombre_lookup FROM alt_disenio_lookup WHERE `tipo_lookup` = 'Familia Genero'")
+		return em
+				.createNativeQuery(
+						"SELECT nombre_lookup FROM alt_disenio_lookup WHERE `tipo_lookup` = 'Familia Genero'")
 				.getResultList();
 	}
 
