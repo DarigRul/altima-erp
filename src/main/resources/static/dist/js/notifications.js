@@ -4,9 +4,9 @@ function icononotificacion() {
 				url : "/countnotifications"
 			})
 			.done(
-					function(data) {
+					function(data) { 
 						if (data > 0) {
-							document.getElementById('navNotDis').innerHTML += "<span class='badge badge-pill badge-danger'>"
+							document.getElementById('navNotDis').innerHTML += "<span class='badge badge-danger navbar-badge'>"
 									+ data + "</span>";
 						}
 					});
