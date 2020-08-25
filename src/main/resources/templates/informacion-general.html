@@ -273,7 +273,7 @@
 		           if ( r == true){
 		        	   $.ajax({
 		       		    type: $('#formularioaenviar').attr('method'), 
-		       		    url: $('#formularioaenviar').attr('/guardar-informacion-general-pedido2'),
+		       		    url: '/guardar-informacion-general-pedido2',
 		       		    data: $('#formularioaenviar').serialize(),
 		       	        beforeSend: function () {
 		       	        	Swal.fire({

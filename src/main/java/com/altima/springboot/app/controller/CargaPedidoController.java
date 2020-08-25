@@ -175,7 +175,7 @@ public class CargaPedidoController {
 	
 	@PostMapping("/guardar-informacion-general-pedido2")
 	public String guardarCliente2(ComercialPedidoInformacion pedido, RedirectAttributes redirectAttrs) {
-
+		
 		if (pedido.getFechaAnticipo().equals("")) {
 			pedido.setFechaAnticipo(null);
 		}
@@ -195,7 +195,7 @@ public class CargaPedidoController {
 				Float precio_bordado = Float.parseFloat(a[7].toString());
 				Float precio_usar = Float.parseFloat(a[8].toString());
 				
-				//Float monto = Float.parseFloat(a[10].toString());
+				
 				ComercialCoordinadoPrenda prenda = CoordinadoService.findOneCoorPrenda(id_coor);
 				Float preciofinal = precio_bordado + precio_usar ;
 				prenda.setPrecio(Float.toString(precio_usar));
