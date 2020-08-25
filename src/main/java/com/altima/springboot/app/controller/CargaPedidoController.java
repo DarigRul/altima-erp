@@ -140,8 +140,41 @@ public class CargaPedidoController {
 
 	}
 
+	
+	@RequestMapping(value = "/validar-cambio-precio", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean validar(String estatusPrecios, Long id) {
+		ComercialPedidoInformacion aux = cargaPedidoService.findOne(id);
+		if (! aux.getPrecioUsar().equals(estatusPrecios)) {
+			return true ;
+		}
+		else {
+			return false ;
+		}
+		
+	}
+	
 	@PostMapping("/guardar-informacion-general-pedido")
 	public String guardarCliente(ComercialPedidoInformacion pedido, RedirectAttributes redirectAttrs) {
+
+		if (pedido.getFechaAnticipo().equals("")) {
+			pedido.setFechaAnticipo(null);
+		}
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		pedido.setActualizadoPor(auth.getName());
+		pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
+		pedido.setIdUsuario(currentuserid.currentuserid());
+		
+		cargaPedidoService.save(pedido);
+		redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon", "success");
+		return "redirect:/carga-de-pedidos";
+
+	}
+	
+	@PostMapping("/guardar-informacion-general-pedido2")
+	public String guardarCliente2(ComercialPedidoInformacion pedido, RedirectAttributes redirectAttrs) {
 
 		if (pedido.getFechaAnticipo().equals("")) {
 			pedido.setFechaAnticipo(null);
