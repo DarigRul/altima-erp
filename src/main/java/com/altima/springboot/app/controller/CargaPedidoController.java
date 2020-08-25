@@ -26,12 +26,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.altima.springboot.app.component.AuthComponent;
 import com.altima.springboot.app.models.entity.ComercialClienteEmpleado;
+import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialClienteFacturaService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IComercialClienteSucursalService;
+import com.altima.springboot.app.models.service.IComercialCoordinadoService;
+import com.altima.springboot.app.models.service.IComercialPrendaBordadoService;
 import com.altima.springboot.app.models.service.IUsuarioService;
 
 @CrossOrigin(origins = { "*" })
@@ -52,6 +55,13 @@ public class CargaPedidoController {
 
 	@Autowired
 	private IComercialClienteService clienteservice;
+	
+	@Autowired
+	private IComercialPrendaBordadoService bordadoService;
+	
+	@Autowired
+	private IComercialCoordinadoService CoordinadoService;
+
 
 	@Autowired
 	IUsuarioService usuarioService;
@@ -136,14 +146,36 @@ public class CargaPedidoController {
 		if (pedido.getFechaAnticipo().equals("")) {
 			pedido.setFechaAnticipo(null);
 		}
-
+		
+		ComercialPedidoInformacion aux = cargaPedidoService.findOne(pedido.getIdPedidoInformacion());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		pedido.setActualizadoPor(auth.getName());
 		pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
 		pedido.setIdUsuario(currentuserid.currentuserid());
+		if (! aux.getPrecioUsar().equals(pedido.getPrecioUsar())) {
+			List<Object[]> auxlist = bordadoService.CambioPrecio(pedido.getIdPedidoInformacion());
+			for (Object[] a : auxlist) {
+
+				Long id_coor = Long.parseLong(a[0].toString());
+				Float precio_bordado = Float.parseFloat(a[7].toString());
+				Float precio_usar = Float.parseFloat(a[8].toString());
+				
+				//Float monto = Float.parseFloat(a[10].toString());
+				ComercialCoordinadoPrenda prenda = CoordinadoService.findOneCoorPrenda(id_coor);
+				Float preciofinal = precio_bordado + precio_usar ;
+				prenda.setPrecio(Float.toString(precio_usar));
+				prenda.setPrecioFinal(Float.toString(preciofinal));
+				prenda.setMontoAdicional("0.00");
+				prenda.setAdicional("0.00");
+				CoordinadoService.saveCoorPrenda(prenda);
+			}
+		}
+		
 		cargaPedidoService.save(pedido);
+		
+		
 
 		redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon", "success");
 		return "redirect:/carga-de-pedidos";

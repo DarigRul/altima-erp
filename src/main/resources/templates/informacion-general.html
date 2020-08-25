@@ -56,7 +56,7 @@
 										pedido</h3>
 								</div>
 								<div class="card-body">
-									<form class="row" th:method="post"
+									<form class="row" th:method="post" id="formularioaenviar"
 										th:action="@{/guardar-informacion-general-pedido}">
 
 										<div class="form-group col-md-3">
@@ -258,6 +258,44 @@
 		   })
 		   
 		   
+		});
+	
+	
+	$('#formularioaenviar').submit(function (ev) {
+		  $.ajax({
+		    type: $('#formularioaenviar').attr('method'), 
+		    url: $('#formularioaenviar').attr('action'),
+		    data: $('#formularioaenviar').serialize(),
+		    
+	        beforeSend: function () {
+	        	
+	        	Swal.fire({
+	                 title: 'Cargando ',
+	                 html: 'Por favor espere',// add html attribute if you want or remove
+	                 allowOutsideClick: false,
+	                 timerProgressBar: true,
+	                 onBeforeOpen: () => {
+	                     Swal.showLoading()
+	                 },
+	             });
+	        },
+		    success: function (data) { 
+		    	
+		    	
+		    	
+		    	
+		    } ,
+	        complete: function() {
+				Swal.fire({
+	 				title: 'Actualizado',
+	 				showConfirmButton: false,
+	 				timer: 2500
+	 			})
+	 			
+	 			location.reload();
+		    }
+		  });
+		  ev.preventDefault();
 		});
 	</script>
 	<script src="http://momentjs.com/downloads/moment.min.js"></script>

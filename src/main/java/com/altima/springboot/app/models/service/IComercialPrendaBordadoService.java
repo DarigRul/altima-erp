@@ -25,6 +25,8 @@ public interface IComercialPrendaBordadoService {
 	 Float precioBordado(Long id);
 	 
 	 List<Object []>  findAllDescipcion(Long id);
+	 
+	 List<Object []>  CambioPrecio(Long id);
 	
 
 }

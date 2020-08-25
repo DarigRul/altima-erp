@@ -160,6 +160,7 @@ public class CoordinadoController {
 		System.out.println("El id_coordinado_prenda es: " + id_coordinado_prenda);
 
 		if (id_coordinado_prenda == null) {
+			
 			ComercialCoordinadoPrenda prenda = new ComercialCoordinadoPrenda();
 			prenda.setIdFamilaGenero(idPrenda);// es la famila
 			prenda.setIdPrenda(idModelo);
@@ -174,6 +175,7 @@ public class CoordinadoController {
 			prenda.setFechaCreacion(hourdateFormat.format(date));
 			prenda.setUltimaFechaModificacion(null);
 			CoordinadoService.saveCoorPrenda(prenda);
+			
 
 			JSONArray json = new JSONArray(datosMateriales);
 			for (int i = 0; i < json.length(); i++) {
@@ -363,6 +365,7 @@ public class CoordinadoController {
 		objetoCoodinadoPrenda.setCreadoPor(auth.getName());
 		objetoCoodinadoPrenda.setFechaCreacion(hourdateFormat.format(date));
 
+		objetoCoodinadoPrenda.setPrecio(CoordinadoService.precioPrenda(idCoordinado, idModelo));
 		CoordinadoService.saveCoorPrenda(objetoCoodinadoPrenda);
 
 		////// seccion2 TELAS
