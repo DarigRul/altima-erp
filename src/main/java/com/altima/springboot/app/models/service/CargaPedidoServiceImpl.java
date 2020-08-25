@@ -1,5 +1,6 @@
 package com.altima.springboot.app.models.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -120,4 +121,40 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 		return re;
 	}
 
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public String ValidarCantidadEspecial(Long id){
+		String errores = null;
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	prenda.descripcion_prenda,\n" + 
+				"	SUM( concen.cantidad_especial ) AS sum \n" + 
+				"FROM\n" + 
+				"	alt_comercial_pedido_informacion AS pedido,\n" + 
+				"	alt_comercial_coordinado AS coor,\n" + 
+				"	alt_comercial_coordinado_prenda AS coor_pre,\n" + 
+				"	alt_comercial_concetrado_prenda AS concen,\n" + 
+				"	alt_disenio_prenda AS prenda \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND pedido.id_pedido_informacion = coor.id_pedido \n" + 
+				"	AND coor.id_coordinado = coor_pre.id_coordinado \n" + 
+				"	AND coor_pre.id_coordinado_prenda = concen.id_coordinado_prenda \n" + 
+				"	AND concen.estatus = 1 \n" + 
+				"	AND prenda.id_prenda = coor_pre.id_prenda \n" + 
+				"	AND pedido.id_pedido_informacion = "+id+" \n" + 
+				"GROUP BY\n" + 
+				"	concen.id_coordinado_prenda")
+				.getResultList();
+		Float valor;
+		for (Object[] a : re) {
+			valor = Float.parseFloat(a[1].toString());
+			if ( valor >0 && valor <5 ) {
+				errores=(a[0].toString() +"\n");
+			}
+		}
+		return errores;
+	}
 }

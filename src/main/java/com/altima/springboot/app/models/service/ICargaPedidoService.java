@@ -1,5 +1,6 @@
 package com.altima.springboot.app.models.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
@@ -17,5 +18,7 @@ public interface ICargaPedidoService {
 	List<Object []> CargaPedidoVista(Long iduser);
 	
 	List<Object []> PedidosExistenteIdEmpresa(Long id);
+	
+	String ValidarCantidadEspecial(Long id);
 
 }

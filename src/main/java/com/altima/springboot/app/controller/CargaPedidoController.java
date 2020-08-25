@@ -223,6 +223,25 @@ public class CargaPedidoController {
 	    	redirectAttrs.addFlashAttribute("title", "Observaciones guardadas correctamente").addFlashAttribute("icon", "success");
 			return "redirect:/carga-de-pedidos";
 	    }
+	 
+	 @RequestMapping(value = "/cerrar-expediente", method = RequestMethod.GET)
+	@ResponseBody
+		public String  cerrar(Long id) {
+		 
+		 String list =cargaPedidoService.ValidarCantidadEspecial(id);
+		if ( list == null) {
+			
+			System.out.println("nuloooooooooooo");
+			ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+			pedido.setEstatus("2");
+			cargaPedidoService.save(pedido);
+			return null;
+			
+		}else {
+			return list;
+		}
+		
+		}
 }
    
 
