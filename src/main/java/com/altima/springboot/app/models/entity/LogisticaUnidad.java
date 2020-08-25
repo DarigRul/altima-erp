@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,12 +27,15 @@ public class LogisticaUnidad implements Serializable {
 	@GenericGenerator(name="native",strategy="native")
 	private Long idUnidad;
 	
+	
 	@Column(name="id_empleado")
 	private Long idEmpleado;
 	
+	@NotEmpty
 	@Column(name="id_text")
 	private String idText;
 	
+	@NotEmpty
 	@Column(name="modelo")
 	private String modelo;
 	

@@ -1,0 +1,86 @@
+<!-- Modal -->
+<div class="modal fade" id="materiaPrimaAlmacen" tabindex="-1" role="dialog" aria-labelledby="materiaPrimaAlmacen"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title">Stock general</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body modal-rounded-footer">
+                <ul class="list-group list-group-horizontal-md" style="margin-bottom: 20px;">
+                    <li class="list-group-item" style="width: 25%;"><strong>Disponible: </strong><a>1308.8</a></li>
+                    <li class="list-group-item" style="width: 25%;"><strong>Requerido: </strong><a>853.57</a></li>
+                    <li class="list-group-item" style="width: 25%;"><strong>Apartado: </strong><a>853.57</a></li>
+                    <li class="list-group-item" style="width: 25%;"><strong>Restante: </strong><a>0</a></li>
+                </ul>
+                <table class="table tablaGeneral table-striped table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Almac&eacute;n</th>
+                            <th>Existencia</th>
+                            <th>Traspaso</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cortes</td>
+                            <td>20.3</td>
+                            <td>0</td>
+                            <td class="text-center">
+                                <button id="modalTomar" class="btn btn-info btn-sm btn-circle popoverxd"
+                                    data-placement="top" data-content="Detalle"><i
+                                        class="fas fa-info"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="materiaPrimaAlmacenTomar" tabindex="-1" role="dialog"
+    aria-labelledby="materiaPrimaAlmacenTomar" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title">Stock detallado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table tablaGeneral table-striped table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"/></th>
+                            <th>Fecha R:</th>
+                            <th>CU (rollo)</th>
+                            <th>Metro</th>
+                            <th>Lote</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>15/06/2020</td>
+                            <td>nblibb</td>
+                            <td>55</td>
+                            <td>A</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer modal-rounded-footer">
+                <ul class="list-group list-group-horizontal-md float-right" style="margin-right: 40px!important;">
+                    <li class="list-group-item" style="width:100%;"><strong>Total: </strong><a>1308.8</a></li>
+                </ul>
+				<a class="btn icon-btn btn-altima text-white" type="submit"><span class="btn-glyphicon fas fa-hand-pointer img-circle text-altima"></span>Tomar</a>
+            </div>
+        </div>
+    </div>
+</div>

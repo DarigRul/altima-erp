@@ -8,30 +8,33 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="">
+        <form th:action="@{/logistica-catalogos-unidades}" th:object="${unidad}" method="POST">
         <div class="modal-body">
             <div class="row">
                   <div class="form-group col-md-4">
                     <label for="placaUnidad">No. placa</label>
-                    <input type="text" class="form-control" placeholder="WDR-1236" id="placaUnidad">
+                    <input th:field="*{idText}" type="text" class="form-control" placeholder="WDR-1236" id="placaUnidad">
+                    <input th:value="*{idUnidad}" type="hidden" id="idUnidad">
+                    <div th:if="${#fields.hasErrors('idText')}" th:errors="*{idText}" style="color: #ff0000;">El campo no puede estar vac&iacute;o</div>
                   </div>
                   <div class="form-group col-md-4">
                     <label for="modeloUnidad">Modelo</label>
-                    <input type="text" class="form-control" placeholder="Nissan" id="modeloUnidad">
+                    <input th:field="*{modelo}" type="text" class="form-control" placeholder="Nissan" id="modeloUnidad" name="modelo">
+                    <div th:if="${#fields.hasErrors('modelo')}" th:errors="*{modelo}" style="color: #ff0000;">El campo no puede estar vac&iacute;o</div>
                   </div>
                   <div class="form-group col-md-4">
                     <label for="choferUnidad">Chofer asignado</label>
-                    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="choferUnidad">
-                      <option value="1">Chofer 1</option>
-                      <option value="1">Chofer 2</option>
+                    <select th:field="*{idEmpleado}" class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" name="idEmpleado" id="choferUnidad">
+                      <option th:each="puesto:${puestos}" th:value="${puesto[0]}" th:text="${puesto[1]}"></option>
                      </select>
+                     <div th:if="${#fields.hasErrors('idEmpleado')}" th:errors="*{idEmpleado}" style="color: #ff0000;">El campo no puede estar vac&iacute;o</div>
                   </div>
             </div>
         </div>
         <div class="modal-footer modal-rounded-footer">
             <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span
                 class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-        <button type="button" class="btn icon-btn btn-altima text-white float-right"><span
+        <button type="submit" class="btn icon-btn btn-altima text-white float-right"><span
                 class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
         </div>
         </form>

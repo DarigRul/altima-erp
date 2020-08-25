@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Requisici&oacute;n de materiales | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Requisici&oacute;n de materiales
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Compras</li>
+                                <li class="breadcrumb-item active">Requisici&oacute;n de materiales</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de requisiciones&nbsp;
+                                        <button class="btn btn-sm icon-btn btn-success text-white" data-target="#generarOrden" data-toggle="modal">
+                                            <span class="btn-glyphicon fas fa-clipboard img-circle text-success"></span>Generar orden de compra</button></h3>
+                                </div>
+                                <div th:insert="requisicion-de-materiales-modal"></div>
+                                <div class="card-body">
+                                    <table class="table requisicionTabla table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" /></th>
+                                                <th class="select-filter">Clave</th>
+                                                <th class="select-filter">Descripci&oacute;n</th>
+                                                <th class="select-filter">Proveedor</th>
+                                                <th class="select-filter">Clave proveedor</th>
+                                                <th class="select-filter">Color</th>
+                                                <th class="select-filter">Tama&ntilde;o</th>
+                                                <th class="select-filter">UOM</th>
+                                                <th class="select-filter">Total(global)</th>
+                                                <th class="select-filter">Folio O.C</th>
+                                                <th class="select-filter">Fecha O.C</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center"><input type="checkbox" /></td>
+                                                <td>5153</td>
+                                                <td>LS664</td>
+                                                <td>Caja Gonzalo Vega S.C de A.P</td>
+                                                <td>22/10/2020</td>
+                                                <td>Agente 1</td>
+                                                <td>10</td>
+                                                <td>20/08/2020</td>
+                                                <td>OC0001</td>
+                                                <td>30/08/2020</td>
+                                                <td>Pedida</td>
+                                                <td> </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaRequisicion.js"></script>
+</body>
+
+</html>
