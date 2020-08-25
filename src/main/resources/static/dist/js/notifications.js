@@ -1,34 +1,37 @@
+function icononotificacion() {
+			$.ajax({
+				type : "GET",
+				url : "/countnotifications"
+			})
+			.done(
+					function(data) {
+						if (data > 0) {
+							document.getElementById('navNotDis').innerHTML += "<span class='badge badge-pill badge-danger'>"
+									+ data + "</span>";
+						}
+					});
+}
 
-  $( document ).ready(function() {
-	    console.log( "ready!" );
-	});
-  
-function notificacionesdisenio(id){
-	console.log("carloseliosa");
+$(document).ready(function() {
+	icononotificacion();
+
+});
+
+function notificacionesdisenio(id) {
 	$.ajax({
-        type: "POST",
-        url: "/viewnotification",
-        data: {
-            "_csrf": $('#token').val(),
-            'id': id
-
-        }
-
-    }).done(function(data) {
-    	if (data==true) {
-			console.log("true");
-		} else {
-console.log("false");
+		type : "POST",
+		url : "/viewnotification",
+		data : {
+			"_csrf" : $('#token').val(),
+			'id' : id
 		}
-    	console.log(data);
-    	console.log("adios");
-    	Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Insertado correctamente',
-            showConfirmButton: false,
-            timer: 1250
-        })
-    });
-	
+
+	}).done(function(data) {
+		if (data == true) {
+			icononotificacion();
+		} else {
+			icononotificacion();
+		}
+	});
+
 }
