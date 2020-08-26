@@ -3,7 +3,6 @@ package com.altima.springboot.app.models.service;
 import java.util.List;
 
 import com.altima.springboot.app.models.entity.HrCalendario;
-import com.altima.springboot.app.models.entity.HrHorario;
 
 public interface IHrCalendariosService {
 	
@@ -16,4 +15,6 @@ public interface IHrCalendariosService {
 	HrCalendario findOne(Long id);
 	
 	List<HrCalendario> findAllCalendarios();
+
+	boolean duplicateCalendario (String fechaFestivo, String festividad, String estatusFestivo);
 }

@@ -69,4 +69,19 @@ public class HrLookupServiceImpl implements IHrLookupService {
 		}
 		return duplicate;
 	}
+
+	@Override
+	@Transactional
+	public boolean findDuplicateArea(String LookupArea) {
+		boolean duplicate;
+		@SuppressWarnings("unchecked")
+		List<HrLookup> result = em.createNativeQuery("SELECT	* FROM	alt_hr_lookup e WHERE	e.nombre_lookup = '"
+				+ LookupArea + "' AND e.tipo_lookup = 'Area'").getResultList();
+		if (result.isEmpty()) {
+			duplicate = false;
+		} else {
+			duplicate = true;
+		}
+		return duplicate;
+	}
 }

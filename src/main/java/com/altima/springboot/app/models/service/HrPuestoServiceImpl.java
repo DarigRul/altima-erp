@@ -4,13 +4,13 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.altima.springboot.app.models.entity.HrDepartamento;
 import com.altima.springboot.app.models.entity.HrPuesto;
 import com.altima.springboot.app.repository.HrPuestoRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class HrPuestoServiceImpl implements IHrPuestoService {
@@ -74,4 +74,28 @@ public class HrPuestoServiceImpl implements IHrPuestoService {
 				.getSingleResult();
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean duplicatePuesto(String nombrePuesto, String nomPlazas, String sueldos, String perfiles,
+			String departamento, Boolean checkbox, String idPuesto) {
+		boolean d;
+		List<HrPuesto> result = em.createNativeQuery("SELECT" +
+		"	* " +
+		"FROM" +
+		"	alt_hr_puesto p " +
+		"WHERE" +
+		"	p.nombre_puesto = '"+nombrePuesto+"' " +
+		"	AND p.nombre_plaza = '"+nomPlazas+"' " +
+		"	AND p.sueldo = '"+sueldos+"' " +
+		"	AND p.perfil = '"+perfiles+"' " +
+		"	AND p.id_departamento = '"+departamento+"' " +
+		"	AND p.tiempo_extra = '"+checkbox+"' " +
+		"	AND p.id_puesto = '"+idPuesto+"'").getResultList();
+		if (result.isEmpty()) {
+			d = false;
+		} else {
+			d = true;
+		}
+		return d;
+	}
 }

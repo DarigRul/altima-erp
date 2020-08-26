@@ -24,10 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -81,8 +78,7 @@ public class HrCatalogosRestController {
         }
     }
 
-    @RequestMapping(value = "/duplicadoEmpresa", method = RequestMethod.GET)
-	@ResponseBody
+    @GetMapping("/duplicadoEmpresa")
     public boolean duplicadoEmpresa(String nombreEmpresa) {
         boolean duplicado;
         try {
@@ -155,6 +151,17 @@ public class HrCatalogosRestController {
         }
     }
 
+    @GetMapping("/duplicadoArea")
+    public boolean duplicadoArea(String nombreArea) {
+        boolean d;
+        try {
+            d = hrLookupService.findDuplicateArea(nombreArea);
+        } catch (Exception e) {
+            d = hrLookupService.findDuplicateArea(nombreArea);
+        }
+        return d;
+    }
+
     // Método para listar Áreas
     @GetMapping("/rh-listarAreas")
     public List<HrLookup> listarAreas(@RequestParam(name = "tipo") String tipo) {
@@ -221,6 +228,17 @@ public class HrCatalogosRestController {
         }
     }
 
+    @GetMapping("/duplicadoDepartamento")
+    public boolean duplicadoDepartamento(String nombreDepartamento, String nomArea) {
+        boolean d;
+        try {
+            d = hrDepartamentoService.duplicateDepartamento(nombreDepartamento, nomArea);
+        } catch (Exception e) {
+            d = hrDepartamentoService.duplicateDepartamento(nombreDepartamento, nomArea);
+        }
+        return d;
+    }
+
     // Método para listar Departamentos
     @GetMapping("/getListarDepartamentos")
     public List<Object[]> listarDepartamentos(Model model) {
@@ -257,7 +275,7 @@ public class HrCatalogosRestController {
     @PostMapping("/postPuesto")
     public int postPuesto(@RequestParam(name = "nombrePuesto") String nombrePuesto,
             @RequestParam(name = "nomPlazas") String nomPlazas, @RequestParam(name = "sueldos") String sueldos,
-            @RequestParam(name = "perfiles") String perfiles, @RequestParam(name = "departamento") Long departamento,
+            @RequestParam(name = "perfiles") Boolean perfiles, @RequestParam(name = "departamento") Long departamento,
             @RequestParam(name = "checkbox") Boolean checkbox, @RequestParam(name = "idPuesto") Long idPuesto) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -295,6 +313,20 @@ public class HrCatalogosRestController {
                 return 3;
             }
         }
+    }
+
+    @GetMapping("/duplicadoPuesto")
+    public boolean duplicadoPuesto(String nombrePuesto, String nomPlazas, String sueldos, String perfiles,
+            String departamento, Boolean checkbox, String idPuesto) {
+        boolean d;
+        try {
+            d = hrPuestoService.duplicatePuesto(nombrePuesto, nomPlazas, sueldos, perfiles, departamento, checkbox,
+                    idPuesto);
+        } catch (Exception e) {
+            d = hrPuestoService.duplicatePuesto(nombrePuesto, nomPlazas, sueldos, perfiles, departamento, checkbox,
+                    idPuesto);
+        }
+        return d;
     }
 
     // Método para mostrar las opciones de departamentos en puestos
@@ -375,6 +407,17 @@ public class HrCatalogosRestController {
         }
     }
 
+    @GetMapping("/duplicadoHorario")
+    public boolean duplicadoHorario(String horaInicio, String horaSalida, String horaComida, String horaRegresoComida) {
+        boolean d;
+        try {
+            d = hrHorarioService.duplicateHorario(horaInicio, horaSalida, horaComida, horaRegresoComida);
+        } catch (Exception e) {
+            d = hrHorarioService.duplicateHorario(horaInicio, horaSalida, horaComida, horaRegresoComida);
+        }
+        return d;
+    }
+
     // Método para listar horarios insertados
     @GetMapping("/getListarHorarios")
     public List<HrHorario> listarHorariosInsertados() {
@@ -440,6 +483,17 @@ public class HrCatalogosRestController {
                 return 3;
             }
         }
+    }
+
+    @GetMapping("/duplicadoCalendario")
+    public boolean duplicadoCalendario(String fechaFestivo, String festividad, String estatusFestivo) {
+        boolean d;
+        try {
+            d = hrCalendarioService.duplicateCalendario(fechaFestivo, festividad, estatusFestivo);
+        } catch (Exception e) {
+            d = hrCalendarioService.duplicateCalendario(fechaFestivo, festividad, estatusFestivo);
+        }
+        return d;
     }
 
     // Método para listar calendarios insertados

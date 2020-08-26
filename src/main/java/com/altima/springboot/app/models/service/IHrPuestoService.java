@@ -23,4 +23,7 @@ public interface IHrPuestoService {
 
 	public Object obtenerPuesto(Long id);
 
+	public boolean duplicatePuesto(String nombrePuesto, String nomPlazas, String sueldos, String perfiles,
+			String departamento, Boolean checkbox, String idPuesto);
+
 }
