@@ -80,7 +80,12 @@
                                                 <td>OC0001</td>
                                                 <td>30/08/2020</td>
                                                 <td>Pedida</td>
-                                                <td> </td>
+                                                <td class="text-center">
+                                                    <a th:href="${'/requisicion-de-materiales-pedidos'}"
+                                                            class="btn btn-info btn-sm btn-circle popoverxd"
+                                                            data-placement="top" data-content="Detalle de pedidos"><i
+                                                                class="fas fa-info"></i></a>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -99,6 +104,12 @@
     </div>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaRequisicion.js"></script>
+    <script>
+        $('#iCompras').removeClass('text-altima');
+        $('#menuCompras').addClass('menu-open');
+        $('#navCompras').addClass('active-altima');
+        $('#navComMat').addClass('active');
+    </script>
 </body>
 
 </html>

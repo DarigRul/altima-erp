@@ -131,11 +131,23 @@
             }).then((result) => {
                 if (result.value) {
                     Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Cancelaci&oacute;n exitosa',
-                        showConfirmButton: false,
-                        timer: 2500
+                        title: '¿Deseas cancelar las explosiones?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Confirmar',
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        showLoaderOnConfirm: true
+                    }).then((result) => {
+                        if (result.value) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Cancelaci&oacute;n exitosa',
+                                showConfirmButton: false,
+                                timer: 2500
+                            })
+                        }
                     })
                 }
             })

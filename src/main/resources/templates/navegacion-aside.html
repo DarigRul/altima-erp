@@ -673,7 +673,29 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="${'/requisicion-de-compras'}" class="nav-link" id="navComCom">
+                            <a th:href="${'/requisicion-de-materiales'}" class="nav-link" id="navComMat">
+                                <i class="nav-icon flaticon-curling-hair-with-tissue-roll"></i>
+                                <p>Requisici&oacute;n de materiales</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" id="menuRequisiciones">
+                    <a class="nav-link" id="navRequisiciones">
+                        <i class="nav-icon-custom fas fa-clipboard text-altima" id="iRequisiciones"></i>
+                        <p>
+                            Requisiciones <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="${'/requisicion-de-almacen'}" class="nav-link" id="navReqAlm">
+                                <i class="nav-icon fas fa-store"></i>
+                                <p>Requisici&oacute;n de almac&eacute;n</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/requisicion-de-compras'}" class="nav-link" id="navReqCom">
                                 <i class="nav-icon fas fa-dollar-sign"></i>
                                 <p>Requisici&oacute;n de compras</p>
                             </a>

@@ -31,8 +31,7 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item altima">Altima</li>
-                                <li class="breadcrumb-item active">Comercial</li>
-                                <li class="breadcrumb-item active">AMP</li>
+                                <li class="breadcrumb-item active">Requisiciones</li>
                                 <li class="breadcrumb-item active">Requisici&oacute;n de almac&eacute;n</li>
                             </ol>
                         </div>
@@ -79,11 +78,11 @@
                                                             class="fas fa-pen"></i></a>
                                                     <button type="button" onclick="aceptarRequisicionAlmacen()"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Aceptar"><i
+                                                        data-placement="top" data-content="Autorizar"><i
                                                             class="fas fa-check"></i></button>
                                                     <button type="button" onclick="rechazarRequisicionAlmacen()"
                                                         class="btn btn-danger btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Rechazar"><i
+                                                        data-placement="top" data-content="Cancelar"><i
                                                             class="fas fa-times"></i></button>
                                                 </td>
                                             </tr>
@@ -105,17 +104,15 @@
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaGeneral.js"></script>
     <script>
-        $('#iComercial').removeClass('text-altima');
-        $('#navComercial').addClass('active-altima');
-        $('#menuComercial').addClass('menu-open');
-        $('#menuAMP').addClass('menu-open');
-        $('#navAMP').addClass('active');
-        $('#navAMPReq').addClass('active');
+        $('#iRequisiciones').removeClass('text-altima');
+        $('#navRequisiciones').addClass('active-altima');
+        $('#menuRequisiciones').addClass('menu-open');
+        $('#navReqAlm').addClass('active');
     </script>
     <script>
         function rechazarRequisicionAlmacen() {
             Swal.fire({
-                title: '¿Deseas rechazar la requisici&oacute;n?',
+                title: '¿Deseas cancelar la requisici&oacute;n?',
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: '#dc3545',
@@ -127,7 +124,7 @@
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Requisici&oacute;n rechazada correctamente',
+                        title: 'Requisici&oacute;n cancelada correctamente',
                         showConfirmButton: false,
                         timer: 2500
                     })
@@ -136,7 +133,7 @@
         }
         function aceptarRequisicionAlmacen() {
             Swal.fire({
-                title: '¿Deseas aceptar la requisici&oacute;n?',
+                title: '¿Deseas autorizar la requisici&oacute;n?',
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: '#dc3545',
@@ -148,7 +145,7 @@
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Requisici&oacute;n aceptada correctamente',
+                        title: 'Requisici&oacute;n autorizada correctamente',
                         showConfirmButton: false,
                         timer: 2500
                     })

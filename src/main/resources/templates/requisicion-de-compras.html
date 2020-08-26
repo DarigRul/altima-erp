@@ -29,7 +29,7 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item altima">Altima</li>
-                                <li class="breadcrumb-item active">Compras</li>
+                                <li class="breadcrumb-item active">Requisiciones</li>
                                 <li class="breadcrumb-item active">Requisici&oacute;n de compras</li>
                             </ol>
                         </div>
@@ -76,11 +76,11 @@
                                                             class="fas fa-pen"></i></a>
                                                     <button type="button" onclick="aceptarRequisicionCompras()"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Aceptar"><i
+                                                        data-placement="top" data-content="Autorizar"><i
                                                             class="fas fa-check"></i></button>
                                                     <button type="button" onclick="rechazarRequisicionCompras()"
                                                         class="btn btn-danger btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Rechazar"><i
+                                                        data-placement="top" data-content="Cancelar"><i
                                                             class="fas fa-times"></i></button>
                                                     <button type="button"
                                                             class="btn btn-altima btn-sm btn-circle popoverxd"
@@ -108,7 +108,7 @@
     <script>
         function rechazarRequisicionCompras() {
             Swal.fire({
-                title: '¿Deseas rechazar la requisici&oacute;n?',
+                title: '¿Deseas cancelar la requisici&oacute;n?',
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: '#dc3545',
@@ -120,7 +120,7 @@
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Requisici&oacute;n rechazada correctamente',
+                        title: 'Requisici&oacute;n cancelada correctamente',
                         showConfirmButton: false,
                         timer: 2500
                     })
@@ -129,7 +129,7 @@
         }
         function aceptarRequisicionCompras() {
             Swal.fire({
-                title: '¿Deseas aceptar la requisici&oacute;n?',
+                title: '¿Deseas autorizar la requisici&oacute;n?',
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: '#dc3545',
@@ -141,7 +141,7 @@
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'Requisici&oacute;n aceptada correctamente',
+                        title: 'Requisici&oacute;n autorizada correctamente',
                         showConfirmButton: false,
                         timer: 2500
                     })
@@ -150,10 +150,10 @@
         }
     </script>
     <script>
-        $('#iCompras').removeClass('text-altima');
-        $('#menuCompras').addClass('menu-open');
-        $('#navCompras').addClass('active-altima');
-        $('#navComCom').addClass('active');
+        $('#iRequisiciones').removeClass('text-altima');
+        $('#navRequisiciones').addClass('active-altima');
+        $('#menuRequisiciones').addClass('menu-open');
+        $('#navReqCom').addClass('active');
     </script>
 </body>
 

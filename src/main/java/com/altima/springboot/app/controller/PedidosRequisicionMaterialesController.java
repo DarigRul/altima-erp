@@ -9,4 +9,8 @@ public class PedidosRequisicionMaterialesController {
     public String RequisicionMaterialesList(){
         return"requisicion-de-materiales";
     }
+    @GetMapping("/requisicion-de-materiales-pedidos")
+    public String RequisicionMaterialesInfo(){
+        return"requisicion-de-materiales-pedidos";
+    }
 }
