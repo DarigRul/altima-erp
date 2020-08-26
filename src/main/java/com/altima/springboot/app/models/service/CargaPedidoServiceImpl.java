@@ -54,6 +54,8 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 	public List<Object[]> CargaPedidoVista(Long iduser) {
 		List<Object[]> re = null;
 		if (iduser != null) {
+
+			
 			re = em.createNativeQuery("SELECT\r\n" + 
 					"	informacion.id_pedido_informacion,\r\n" + 
 					"	informacion.id_text,\r\n" + 
@@ -79,7 +81,8 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 					"		INNER JOIN alt_comercial_pedido_informacion pedinf2 ON mtrz.id_pedido = pedinf2.id_pedido_informacion \r\n" + 
 					"	WHERE\r\n" + 
 					"		pedinf2.id_pedido_informacion = informacion.id_pedido_informacion \r\n" + 
-					"	) AS desceunto \r\n" + 
+					"	) AS desceunto, \r\n" + 
+					"	informacion.estatus \r\n" + 
 					"FROM\r\n" + 
 					"	alt_comercial_pedido_informacion informacion\r\n" + 
 					"	INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente AND informacion.id_usuario = "+ iduser +" \r\n" + 
@@ -95,7 +98,8 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 					"	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\r\n" + 
 					"	cliente.id_cliente,\r\n" + 
 					"	informacion.observacion,\r\n" + 
-					"	montos_razon(informacion.id_pedido_informacion)\r\n" + 
+					"	montos_razon(informacion.id_pedido_informacion), \r\n" + 
+					"	if (informacion.estatus=1 , '1','2') \r\n" + 
 					"\r\n" + 
 					"\r\n" + 
 					"FROM\r\n" + 

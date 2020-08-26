@@ -115,6 +115,10 @@ public class AgenteVentaController {
 	public String listPedidos(Model model) {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if ( auth.getName().equals("ADMIN")) {
+			model.addAttribute("admin", true);
+		}
+		
 		/* Obtener todos los datos del usuario logeado */
 		Usuario user = usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
 		Long iduser = user.getIdUsuario();

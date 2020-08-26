@@ -242,6 +242,17 @@ public class CargaPedidoController {
 		}
 		
 		}
+	 
+	 @RequestMapping(value = "/abrir-expediente", method = RequestMethod.GET)
+		@ResponseBody
+			public String  abrir(Long id) {
+			 
+				ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+				pedido.setEstatus("1");
+				cargaPedidoService.save(pedido);
+				return null;
+			
+			}
 }
    
 

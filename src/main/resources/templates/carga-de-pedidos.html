@@ -121,8 +121,7 @@
                                           </div>
                                        </td>
                                        <td class="text-center">
-                                          <div th:if="${pedidos[3] != 'Por definir'}"
-                                             class="btn-group" role="group" aria-label="Basic example">
+                                          <div th:if="${pedidos[3]} != 'Por definir' and  ${pedidos[7]} == '1'" class="btn-group" role="group" aria-label="Basic example">
                                              <a th:href="@{/informacion-general/}+ ${pedidos[0]}"
                                                 class="btn btn-info popoverxd" data-container="body"
                                                 data-placement="top"
@@ -157,11 +156,14 @@
                                                 class="btn btn-danger popoverxd" data-container="body"
                                                 data-placement="top"
                                                 data-content="Totales por raz&oacute;n social"><i
-                                                class="fas fa-user"></i></a> <a
+                                                class="fas fa-user"></i></a> 
+                                                
+                                               <!-- <a
                                                 class="btn btn-success text-white popoverxd"
                                                 data-container="body" data-placement="top"
                                                 data-content="Abrir expediente"><i
-                                                class="fas fa-file-upload"></i></a> 
+                                                class="fas fa-file-upload"></i></a> -->
+                                                
                                                 <a
                                                 th:onclick="|cerrar('${pedidos[0]}')|"	
                                                 class="btn btn-danger text-white popoverxd"
@@ -169,7 +171,10 @@
                                                 data-content="Cerrar expediente"><i
                                                 class="fas fa-file-download"></i></a>
                                           </div>
-                                          <div th:if="${pedidos[3] == 'Por definir'}"
+                                          
+                                        
+                                          
+                                          <div th:if="${pedidos[3]} == 'Por definir' and  ${pedidos[7]} =='1'"
                                              class="btn-group" role="group" aria-label="Basic example">
                                              <a th:href="@{/informacion-general/}+ ${pedidos[0]}"
                                                 class="btn btn-info popoverxd" data-container="body"
@@ -192,24 +197,43 @@
                                              <a href="#" class="btn btn-warning popoverxd"
                                                 data-container="body" data-placement="top"
                                                 data-content="Concentrado por tallas"><i
-                                                class="fas fa-ruler-combined"></i></a> <a
+                                                class="fas fa-ruler-combined"></i></a> 
+                                                <a
                                                 class="btn btn-secondary popoverxd" data-container="body"
                                                 data-placement="top" data-content="Toma de tallas"><i
-                                                class="fas fa-ruler-combined"></i></a> <a href="#"
+                                                class="fas fa-ruler-combined"></i></a> 
+                                                <a href="#"
                                                 class="btn btn-danger popoverxd" data-container="body"
                                                 data-placement="top"
                                                 data-content="Totales por raz&oacute;n social"><i
-                                                class="fas fa-user"></i></a> <a
+                                                class="fas fa-user"></i></a> 
+                                               <!-- <a
                                                 class="btn btn-success text-white popoverxd"
                                                 data-container="body" data-placement="top"
                                                 data-content="Abrir expediente"><i
-                                                class="fas fa-file-upload"></i></a> 
+                                                class="fas fa-file-upload"></i></a> -->
                                                 <a
                                                 th:onclick="|cerrar('${pedidos[0]}')|"	
                                                 class="btn btn-danger text-white popoverxd"
                                                 data-container="body" data-placement="top"
-                                                data-content="Cerrarffffff expediente"><i
+                                                data-content="Cerrar expediente"><i
                                                 class="fas fa-file-download"></i></a>
+                                          </div>
+                                          
+                                          <div th:if="${admin} == null and  ${pedidos[7]} =='2'"
+                                             class="btn-group" role="group" aria-label="Basic example">
+                                             <p>Pedido cerrado</p> 
+                                          </div>
+                                          
+                                          <div th:if="${admin} == true and   ${pedidos[7]} =='2'"
+                                             class="btn-group" role="group" aria-label="Basic example">
+                                             <a
+                                             th:onclick="|abrir('${pedidos[0]}')|"	
+                                                class="btn btn-success text-white popoverxd"
+                                                data-container="body" data-placement="top"
+                                                data-content="Abrir expediente"><i
+                                                class="fas fa-file-upload"></i></a> 
+                                                
                                           </div>
                                        </td>
                                     </tr>
@@ -391,6 +415,47 @@
 			                       });
 		                	 }
 
+		                	 console.log ( data)
+		                	 
+		                  }
+		             })
+				  }
+				})
+		}
+      	
+      	
+      	function abrir(e) {
+			Swal.fire({
+				  title: '&iquest;Est&aacute; seguro que desea abrir este pedido?',
+				  text: "",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: 'Cancelar',
+				  confirmButtonText: 'Si, abrir',
+				  reverseButtons: true
+
+				}).then((result) => {
+				  if (result.value) {
+					 //location.href="/delete-cliente/"+e
+					 
+					 $.ajax({
+		                 type: "GET",
+		                 url: "/abrir-expediente",
+		                 data: { 
+		                 	 "id": e
+		                 },
+		                 success: function(data) {
+		                		 Swal.fire({
+		                       	  position: 'center',
+		                             icon: 'success',
+		                             title: 'El pedido fue abierto correctamente',
+		                             showConfirmButton: false,
+		                             timer: 2250
+		                       });
+		                		 location.reload(true);
+		                	
 		                	 console.log ( data)
 		                	 
 		                  }
