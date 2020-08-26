@@ -184,20 +184,12 @@ public class CotizacionesController {
 			model.addAttribute("descuentoCotizacion", cotiTotal.getDescuentoPorcentaje());
 			model.addAttribute("descuentoMontoCotizacion", cotiTotal.getDescuentoMonto());
 			
-			if(Double.parseDouble(cotiTotal.getSubtotal())!=0) {			
-				model.addAttribute("Subtotal", cotiTotal.getSubtotal());
-				model.addAttribute("DescuentoCargo", cotiTotal.getDescuentoCargo());
-				model.addAttribute("IVAMonto", cotiTotal.getIvaMonto());
-				model.addAttribute("Total", cotiTotal.getTotal());
-				
-			}else {
-				double subtotal=Double.parseDouble(cotiTotal.getAnticipoMonto())+Double.parseDouble(cotiTotal.getDescuentoMonto())+cotizacionPrendaService.findSubtotalCotizacionPrendas(id);
-				model.addAttribute("Subtotal", df.format(subtotal));
-				model.addAttribute("DescuentoCargo", cotiTotal.getDescuentoCargo());
-				double ivamonto = subtotal*(Double.parseDouble(cotiTotal.getIva())/100);
-				model.addAttribute("IVAMonto", df.format(ivamonto));
-				model.addAttribute("Total", df.format(cotizacionPrendaService.findSubtotalCotizacionPrendas(id)+ivamonto));
-			}
+			model.addAttribute("Subtotal", cotiTotal.getSubtotal());
+			model.addAttribute("Subtotal2", df.format(Double.parseDouble(cotiTotal.getSubtotal())-Double.parseDouble(cotiTotal.getDescuentoMonto())));
+			model.addAttribute("DescuentoCargo", cotiTotal.getDescuentoCargo());
+			model.addAttribute("IVAMonto", df.format((Double.parseDouble(cotiTotal.getSubtotal())-Double.parseDouble(cotiTotal.getDescuentoMonto()))*0.16));
+			model.addAttribute("Total", cotiTotal.getTotal());
+			model.addAttribute("Total2", df.format(Double.parseDouble(cotiTotal.getTotal())-Double.parseDouble(cotiTotal.getAnticipoMonto())));
 			
 			return "agregar-cotizacion";
 		}

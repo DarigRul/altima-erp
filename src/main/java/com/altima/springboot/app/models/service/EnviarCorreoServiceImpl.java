@@ -4,8 +4,10 @@ import java.io.ByteArrayOutputStream;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.BodyPart;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -43,9 +45,39 @@ public class EnviarCorreoServiceImpl implements IEnviarCorreoService{
 		MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom(From);
-        helper.setTo(To);
+        try {
+        	if(To.indexOf(";")>-1) {
+        		To.replaceAll("\\s","");
+        		String primerCorreo = "";
+            	int indice = 0;
+            	indice = To.indexOf(";");
+            	primerCorreo = To.substring(0, indice-1);
+            	helper.setTo(primerCorreo);
+            	message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(To.substring(indice+1, To.length())));
+        	}
+        	else if(To.indexOf(",")>-1) {
+        		To.replaceAll("\\s","");
+        		String primerCorreo = "";
+            	int indice = 0;
+            	indice = To.indexOf(",");
+            	primerCorreo = To.substring(0, indice-1);
+            	helper.setTo(primerCorreo);
+            	message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(To.substring(indice+1, To.length())));
+        	}
+        	else {
+        		To.replaceAll("\\s","");
+        		helper.setTo(To);
+        	}
+        	
+        	
+        }catch(Exception e) {
+        	
+        }
+        
         helper.setSubject(Subject);
         helper.setText(Text);
+        
+        
         /*
          * Se construye el archivo
          */

@@ -81,7 +81,7 @@
 		                                        	<button th:if="${cotizacion[7]==0}" th:onclick="'solicitarAutorizacion('+${cotizacion[0]}+')'" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Solicitar autorizaci&oacute;n"><i class="fas fa-check"></i></button>
 		                                        	<button th:if="${cotizacion[7]==2}" class="btn btn-primary btn-circle btn-sm popoverxd" th:attr="onclick=|ElegirConfiguracionCotizacion('${cotizacion[0]}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Descargar"><i class="fas fa-download"></i></button>
 		                                      		<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
-		                                      		<button class="btn btn-primary btn-circle btn-sm popoverxd" th:attr="onclick=|EnviarCorreoCotizacionModal('${cotizacion[0]}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Enviar por Correo"><i class="fas fa-paper-plane"></i></button>
+		                                      		<button th:if="${cotizacion[7]==2}" class="btn btn-primary btn-circle btn-sm popoverxd" th:attr="onclick=|EnviarCorreoCotizacionModal('${cotizacion[0]}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Enviar por Correo"><i class="fas fa-paper-plane"></i></button>
 		                                        </td>
 	                                        </tr>
                                         </tbody>
@@ -143,7 +143,7 @@
 		      		<div class="modal-body">
 		        		<div class="custom-control">
 		        		<label for="exampleInputEmail1">Correo de Cliente:</label>
-		        			<input type="email" class="form-control" id="CorreoParaCotizacion" aria-describedby="emailHelp" placeholder="Ingresar Correo">
+		        			<input type="email" class="form-control" id="CorreoParaCotizacion" aria-describedby="emailHelp" onkeypress='event.keyCode == 59' placeholder="Ingresar Correo">
 						</div><br>
 						<div class="custom-control" id="ContenedorBotonParaEnviar">
 				    		<!--  -->
@@ -212,7 +212,8 @@
 			success: (data) => {
 				$('#CorreoParaCotizacion').val(data);
 				$( "#CorreoParaCotizacion" ).prop( "disabled", false );
-				$('#ContenedorBotonParaEnviar').append("<button id='ActuallyBotonEnviar' class='btn btn-success' onclick='EnviarCorreoCotizacion(" + id + ")'>Enviar</button>");
+				$('#ContenedorBotonParaEnviar').append("<button id='ActuallyBotonEnviar' class='btn btn-success' onclick='EnviarCorreoCotizacion(" + id + ")'>Enviar</button><br>"+
+													   "<span style='color:red'>Si desea enviar varios correos, por favor separe por coma simple</span>");
 			},
 			error: (e) => {
 				alert(e);
@@ -245,7 +246,17 @@
 				
 			},
 			error: (e) => {
-				alert(e);
+				Swal.fire({
+					icon: 'error',
+					title: 'Correo no enviado',
+					text: 'No se pudo enviar el correo satisfactoriamente',
+					showConfirmButton: false,
+			        timer: 2000,
+			        onClose: () => {
+			        	$('#ContenedorBotonParaEnviarCargando').css("display", "none");
+						$('#EnviarCorreoCotizacion').modal('toggle');
+				      }
+				})
 			}
 		});
 		
