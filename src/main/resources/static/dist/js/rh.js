@@ -1009,7 +1009,7 @@ function agregarHorario() {
             }
         }
     }).then((result) => {
-        if (result.value && document.getElementById("idHorario").value) {
+        if (result.value && document.getElementById("horarioinicio").value) {
             var idHorario = document.getElementById("idHorario").value;
             var horaInicio = document.getElementById("horarioinicio").value;
             var horaSalida = document.getElementById("horariosalida").value;
@@ -1247,7 +1247,7 @@ function agregarCalendario() {
             }
         }
     }).then((result) => {
-        if (result.value && document.getElementById("idCalendario").value) {
+        if (result.value && document.getElementById("diafestivo").value) {
             var idCalendario = document.getElementById("idCalendario").value;
             var fechaFestivo = document.getElementById("diafestivo").value;
             var festividad = document.getElementById("nombrefecha").value;
