@@ -1,11 +1,11 @@
 <form class="row">
     <div class="form-group col-md-6">
       <label for="generoSastre">G&eacute;nero</label>
+      <div class="spinner-border spinner-border-sm text-primary" role="status" id="CargandoGenerosSastres" style="display: none;">
+  		<span class="sr-only">Loading...</span>
+	  </div>
       <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="generoSastre">
-        <option value="1">1</option>
-        <option value="1">2</option>
-        <option value="1">3</option>
-        <option value="1">4</option>
+        <option th:each="opc : ${selectSastres}" th:value="${opc}" th:text="${opc}"></option>
        </select>
     </div>
     <div class="form-group col-md-6">
@@ -13,13 +13,13 @@
         <div class="input-group mb-3">
             <input type="number" class="form-control" id="cantidadSastre" style="border-radius:.25rem" placeholder="20">
             <div class="input-group-append" style="margin-left:10px;">
-                <button type="button" class="btn icon-btn btn-altima text-white"><span
+                <button type="button" class="btn icon-btn btn-altima text-white" onclick="GuardarSastre()"><span
                     class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
             </div>
           </div>
     </div>
-    <div class="form-group col-md-12">
-        <table class="table tablaGeneral table-striped table-bordered" style="width:100%;">
+    <div class="form-group col-md-12" th:if="${accion == 'crear'}">
+        <table class="table tablaGeneral table-striped table-bordered" style="width:100%;" id="TablaSastre">
             <thead>
                 <tr>
                     <th>G&eacute;nero</th>
@@ -27,15 +27,31 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="CuerpoSastreTabla">
+                <!-- Cuerpo de la tabla -->    
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group col-md-12" th:if="${accion == 'editar'}">
+        <table class="table tablaGeneral table-striped table-bordered" style="width:100%;" id="TablaSastre">
+            <thead>
                 <tr>
-                    <td>Indistinto</td>
-                    <td>2</td>
+                    <th>G&eacute;nero</th>
+                    <th>Cantidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="CuerpoSastreTabla">
+                <tr th:each="sastre : ${sastres}">
+                    <td th:text="${sastre.genero}"></td>
+                    <td th:text="${sastre.cantidad}"></td>
                     <td class="text-center">
-                        <button type="button" class="btn icon-btn btn-danger text-white"><span
-                            class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
+                        <button type="button" class="btn icon-btn btn-danger text-white" th:onclick="'BorrarFilaSastre(this, \'' + ${sastre.idSolicitudServicioAlClienteSastre} + '\');'">
+                        	<span class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>
+                        	Eliminar
+                        </button>
                     </td>
-                </tr>    
+                </tr>
             </tbody>
         </table>
     </div>

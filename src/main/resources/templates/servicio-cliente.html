@@ -63,17 +63,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>SERCL0001</td>
-                                                <td>02/08/2020  04:16 p.m.</td>
-                                                <td>Juanito Pérez</td>
-                                                <td>PED10045</td>
-                                                <td>DTI Consultores</td>
-                                                <td>14/08/2020  09:00 a.m.</td>
-                                                <td>Toma de Tallas</td>
-                                                <td>En espera</td>
+                                            <tr th:each="solicitud : ${solicitudes}">
+                                                <td th:text="${solicitud[1]}"></td>
+                                                <td th:text="${solicitud[2]}"></td>
+                                                <td th:text="${solicitud[3]}"></td>
+                                                <td th:text="${solicitud[4]}"></td>
+                                                <td th:text="${solicitud[5]}"></td>
+                                                <td th:text="${solicitud[6]}"></td>
+                                                <td th:text="${solicitud[7]}"></td>
+                                                <td th:text="${solicitud[8] == 1} ? 'Activa' : 'Cerrada'"></td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-warning btn-sm btn-circle popoverxd" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                    <a th:href="@{'/servicio-cliente-editar-solicitud/'} + ${solicitud[0]}" class="btn btn-warning btn-sm btn-circle popoverxd" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
                                                     <button class="btn btn-altima btn-sm btn-circle popoverxd" data-placement="top" data-content="Enviar solicitud"><i style="margin-left: -2px;" class="fas fa-paper-plane"></i></button>
                                                     <button class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
                                                     <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>

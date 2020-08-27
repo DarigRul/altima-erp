@@ -1,26 +1,28 @@
 <form class="row">
     <div class="form-group col-md-6">
       <label for="generoCorridas">G&eacute;nero</label>
+      <div class="spinner-border spinner-border-sm text-primary" role="status" id="CargandoGenerosCorridas" style="display: none;">
+  		<span class="sr-only">Loading...</span>
+	  </div>
       <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="generoCorridas">
-        <option value="1">Dama</option>
-        <option value="1">Caballero</option>
+        <option th:each="opc : ${selectCorridas}" th:value="${opc}" th:text="${opc}"></option>
        </select>
     </div>
     <div class="form-group col-md-6">
         <label for="tipoCorridas">Tipo</label>
         <div class="input-group mb-3">
             <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="tipoCorridas" style="border-radius: .25rem;">
-                <option value="1">Media corrida</option>
-                <option value="1">Completa</option>
+                <option value="Media corrida">Media corrida</option>
+                <option value="Completa">Completa</option>
                </select>
             <div class="input-group-append" style="margin-left:10px;">
-                <button type="button" class="btn icon-btn btn-altima text-white"><span
+                <button type="button" class="btn icon-btn btn-altima text-white" onclick="GuardarCorridas()"><span
                     class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
             </div>
           </div>
     </div>
-    <div class="form-group col-md-12">
-        <table class="table tablaGeneral table-striped table-bordered" style="width:100%;">
+    <div class="form-group col-md-12" th:if="${accion == 'crear'}">
+        <table class="table tablaGeneral table-striped table-bordered" style="width:100%;" id="TablaCorrida">
             <thead>
                 <tr>
                     <th>G&eacute;nero</th>
@@ -28,12 +30,26 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="CuerpoCorridasTabla">
+                <!-- Cuerpo de la Tabla --> 
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group col-md-12" th:if="${accion == 'editar'}">
+        <table class="table tablaGeneral table-striped table-bordered" style="width:100%;" id="TablaCorrida">
+            <thead>
                 <tr>
-                    <td>Dama</td>
-                    <td>Media corrida</td>
+                    <th>G&eacute;nero</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="CuerpoCorridasTabla">
+                <tr th:each="corrida : ${corridas}">
+                    <td th:text="${corrida.genero}"></td>
+                    <td th:text="${corrida.tipo}"></td>
                     <td class="text-center">
-                        <button type="button" class="btn icon-btn btn-danger text-white"><span
+                        <button type="button" class="btn icon-btn btn-danger text-white" th:onclick="'BorrarFilaCorrida(this, \'' + ${corrida.idSolicitudServicioAlClienteCorrida} + '\');'"><span
                             class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
                     </td>
                 </tr>    
