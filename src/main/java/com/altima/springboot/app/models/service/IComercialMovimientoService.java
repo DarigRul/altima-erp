@@ -22,4 +22,5 @@ public interface IComercialMovimientoService {
 
 	List<Object> findAllHistorico();
 
+	List<Object[]> findAllExpirados();
 }

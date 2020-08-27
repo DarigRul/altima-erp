@@ -56,8 +56,6 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 	@Override
 	@Transactional
 	public List<Object> findAllWithNames(){
-		
-		
 		return em.createNativeQuery("SELECT movimiento.id_movimiento, \n" + 
 											"movimiento.id_text, \n" + 
 											"cliente.nombre,\n" + 
@@ -96,6 +94,7 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 	@Override
 	@Transactional
 	public List<Object> datosMovimiento(Long id) {
+
 		return em.createNativeQuery("SELECT movimiento.empresa, movimiento.vendedor, prenda.descripcion_prenda, movidetalle.codigo_barras, movidetalle.id_detalle_pedido, prenda.id_text AS text, telas.id_text, prenda.id_prenda, telas.id_tela, movidetalle.id_movimiento, movimiento.encargado FROM alt_comercial_movimiento AS movimiento\r\n" + 
 									"\r\n" + 
 									"INNER JOIN alt_comercial_movimiento_muestra_detalle movidetalle ON movimiento.id_movimiento = movidetalle.id_movimiento\r\n" + 
@@ -109,6 +108,48 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 	public List<Object> findAllHistorico() {
 		// TODO Auto-generated method stub
 		return em.createNativeQuery("call alt_pr_historico_muestras()").getResultList();
+	}
+	
+	
+	@Override
+	@Transactional
+	public List<Object []> findAllExpirados() {
+
+		return em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	movi_deta.codigo_barras,\n" + 
+				"	prenda.descripcion_prenda,\n" + 
+				"	look.nombre_lookup,\n" + 
+				"	pedido.talla,\n" + 
+				"	pedido.largo,\n" + 
+				"	tela.id_tela,\n" + 
+				"	DATE_FORMAT(movi_deta.fecha_salida, '%d-%m-%Y %H:%i:%s' ),\r\n" + 
+			
+				"	cliente.nombre,\n" + 
+				"	FLOOR( DATEDIFF( CURDATE(), movi_deta.fecha_salida ) / 7 ) * 5 + least( DATEDIFF( CURDATE(), movi_deta.fecha_salida ) % 7, 5 ) +\n" + 
+				"IF\n" + 
+				"	( weekday( CURDATE()) < weekday( movi_deta.fecha_salida ), - 2, 0 ) AS diasHabiles \n" + 
+				"FROM\n" + 
+				"	alt_comercial_movimiento AS movi,\n" + 
+				"	alt_comercial_movimiento_muestra_detalle AS movi_deta,\n" + 
+				"	alt_produccion_detalle_pedido AS pedido,\n" + 
+				"	alt_disenio_prenda AS prenda,\n" + 
+				"	alt_comercial_cliente AS cliente,\n" + 
+				"	alt_disenio_lookup AS look,\n" + 
+				"	alt_disenio_tela AS tela,\n" + 
+				"	alt_disenio_lookup AS lookG \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND movi.id_movimiento = movi_deta.id_movimiento \n" + 
+				"	AND movi_deta.id_detalle_pedido = pedido.id_detalle_pedido \n" + 
+				"	AND prenda.id_prenda = pedido.id_prenda \n" + 
+				"	AND pedido.estatus = 2 \n" + 
+				"	AND cliente.id_cliente = movi.empresa \n" + 
+				"	AND movi_deta.estatus = 4 \n" + 
+				"	AND look.id_lookup = prenda.id_familia_prenda \n" + 
+				"	AND tela.id_tela = pedido.id_tela \n" + 
+				"GROUP BY\n" + 
+				"	movi_deta.id_detalle_pedido").getResultList();
 	}
 	
 	
