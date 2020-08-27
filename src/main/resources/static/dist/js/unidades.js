@@ -1,40 +1,3 @@
-function addUnity(){
-    var no_placaJS = $('#placaUnidad').val();
-    var modeloJS = $('#modeloUnidad').val();
-    var choferJS = $('#choferUnidad').val();
-    var idJS = $('#idUnidad').val();
-
-    $.ajax({
-      type: "POST",
-      url: "/logistica-catalogos-unidades-editar",
-      data: {
-          no_placaJS:no_placaJS,
-          idJS:idJS,
-          modeloJS:modeloJS,
-          choferJS:choferJS
-      },
-      success: (data) => {
-        console.log(data);
-        if (data == 1) {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Unidad editada correctamente",
-            showConfirmButton: false,
-            timer: 2300
-          });
-        } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Datos erroneos",
-            showConfirmButton: false,
-            timer: 2300
-          });
-        }
-      },
-    }); 
-}
 function editUnity(idJS){
     $('#nuevaUnidad').modal('show');
     $.ajax({
@@ -42,6 +5,7 @@ function editUnity(idJS){
       url: "/logistica-catalogos-unidades-datos",
       data: {
         idJS:idJS,
+        "_csrf": $('#token').val()
       },
       success: (data) => {
         $('#idUnidad').val(data.idUnidad);

@@ -14,7 +14,10 @@
                   <div class="form-group col-md-4">
                     <label for="placaUnidad">No. placa</label>
                     <input th:field="*{idText}" type="text" class="form-control" placeholder="WDR-1236" id="placaUnidad">
-                    <input th:value="*{idUnidad}" type="hidden" id="idUnidad">
+                    <input th:field="*{idUnidad}" type="hidden">
+                    <input th:value="*{creadoPor}" type="hidden" id="creador">
+                    <input th:value="*{fechaCreacion}" type="hidden" id="fechacreacion">
+                    <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
                     <div th:if="${#fields.hasErrors('idText')}" th:errors="*{idText}" style="color: #ff0000;">El campo no puede estar vac&iacute;o</div>
                   </div>
                   <div class="form-group col-md-4">
