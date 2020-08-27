@@ -26,12 +26,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.altima.springboot.app.component.AuthComponent;
 import com.altima.springboot.app.models.entity.ComercialClienteEmpleado;
+import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialClienteFacturaService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IComercialClienteSucursalService;
+import com.altima.springboot.app.models.service.IComercialCoordinadoService;
+import com.altima.springboot.app.models.service.IComercialPrendaBordadoService;
 import com.altima.springboot.app.models.service.IUsuarioService;
 
 @CrossOrigin(origins = { "*" })
@@ -52,6 +55,13 @@ public class CargaPedidoController {
 
 	@Autowired
 	private IComercialClienteService clienteservice;
+	
+	@Autowired
+	private IComercialPrendaBordadoService bordadoService;
+	
+	@Autowired
+	private IComercialCoordinadoService CoordinadoService;
+
 
 	@Autowired
 	IUsuarioService usuarioService;
@@ -130,20 +140,75 @@ public class CargaPedidoController {
 
 	}
 
+	
+	@RequestMapping(value = "/validar-cambio-precio", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean validar(String estatusPrecios, Long id) {
+		ComercialPedidoInformacion aux = cargaPedidoService.findOne(id);
+		if (! aux.getPrecioUsar().equals(estatusPrecios)) {
+			return true ;
+		}
+		else {
+			return false ;
+		}
+		
+	}
+	
 	@PostMapping("/guardar-informacion-general-pedido")
 	public String guardarCliente(ComercialPedidoInformacion pedido, RedirectAttributes redirectAttrs) {
 
 		if (pedido.getFechaAnticipo().equals("")) {
 			pedido.setFechaAnticipo(null);
 		}
-
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		pedido.setActualizadoPor(auth.getName());
 		pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
 		pedido.setIdUsuario(currentuserid.currentuserid());
+		
 		cargaPedidoService.save(pedido);
+		redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon", "success");
+		return "redirect:/carga-de-pedidos";
+
+	}
+	
+	@PostMapping("/guardar-informacion-general-pedido2")
+	public String guardarCliente2(ComercialPedidoInformacion pedido, RedirectAttributes redirectAttrs) {
+		
+		if (pedido.getFechaAnticipo().equals("")) {
+			pedido.setFechaAnticipo(null);
+		}
+		
+		ComercialPedidoInformacion aux = cargaPedidoService.findOne(pedido.getIdPedidoInformacion());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		pedido.setActualizadoPor(auth.getName());
+		pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
+		pedido.setIdUsuario(currentuserid.currentuserid());
+		if (! aux.getPrecioUsar().equals(pedido.getPrecioUsar())) {
+			List<Object[]> auxlist = bordadoService.CambioPrecio(pedido.getIdPedidoInformacion());
+			for (Object[] a : auxlist) {
+
+				Long id_coor = Long.parseLong(a[0].toString());
+				Float precio_bordado = Float.parseFloat(a[7].toString());
+				Float precio_usar = Float.parseFloat(a[8].toString());
+				
+				
+				ComercialCoordinadoPrenda prenda = CoordinadoService.findOneCoorPrenda(id_coor);
+				Float preciofinal = precio_bordado + precio_usar ;
+				prenda.setPrecio(Float.toString(precio_usar));
+				prenda.setPrecioFinal(Float.toString(preciofinal));
+				prenda.setMontoAdicional("0.00");
+				prenda.setAdicional("0.00");
+				CoordinadoService.saveCoorPrenda(prenda);
+			}
+		}
+		
+		cargaPedidoService.save(pedido);
+		
+		
 
 		redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon", "success");
 		return "redirect:/carga-de-pedidos";
@@ -158,6 +223,36 @@ public class CargaPedidoController {
 	    	redirectAttrs.addFlashAttribute("title", "Observaciones guardadas correctamente").addFlashAttribute("icon", "success");
 			return "redirect:/carga-de-pedidos";
 	    }
+	 
+	 @RequestMapping(value = "/cerrar-expediente", method = RequestMethod.GET)
+	@ResponseBody
+		public String  cerrar(Long id) {
+		 
+		 String list =cargaPedidoService.ValidarCantidadEspecial(id);
+		if ( list == null) {
+			
+			System.out.println("nuloooooooooooo");
+			ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+			pedido.setEstatus("2");
+			cargaPedidoService.save(pedido);
+			return null;
+			
+		}else {
+			return list;
+		}
+		
+		}
+	 
+	 @RequestMapping(value = "/abrir-expediente", method = RequestMethod.GET)
+		@ResponseBody
+			public String  abrir(Long id) {
+			 
+				ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+				pedido.setEstatus("1");
+				cargaPedidoService.save(pedido);
+				return null;
+			
+			}
 }
    
 

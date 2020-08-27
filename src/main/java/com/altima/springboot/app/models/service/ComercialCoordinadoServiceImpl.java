@@ -482,4 +482,41 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 			}
 	
 	}
+	
+	@Override
+	 public String precioPrenda(Long idCoor , Long idPrenda) {
+		
+		try {
+			String re = em.createNativeQuery(""
+					+ "SELECT\n" + 
+					"CASE\n" + 
+					"		\n" + 
+					"	WHEN\n" + 
+					"		pedido.precio_usar = 1 THEN\n" + 
+					"			precio.precio_local_nuevo \n" + 
+					"			WHEN pedido.precio_usar = 2 THEN\n" + 
+					"			precio.precio_local_antiguo \n" + 
+					"			WHEN pedido.precio_usar = 3 THEN\n" + 
+					"			precio.precio_foraneo_nuevo \n" + 
+					"			WHEN pedido.precio_usar = 4 THEN\n" + 
+					"			precio.precio_foraneo_antiguo ELSE '000' \n" + 
+					"		END precio \n" + 
+					"FROM\n" + 
+					"	alt_comercial_pedido_informacion AS pedido,\n" + 
+					"	alt_disenio_lista_precio_prenda AS precio,\n" + 
+					"	alt_comercial_coordinado AS coor \n" + 
+					"WHERE\n" + 
+					"	1 = 1 \n" + 
+					"	AND coor.id_coordinado = "+idCoor+" \n" + 
+					"	AND coor.id_pedido = pedido.id_pedido_informacion \n" + 
+					"	AND precio.id_prenda = "+idPrenda).getSingleResult().toString();
+					
+			return re;
+			}
+			catch(Exception e) {
+				
+				return null;
+			}
+	
+	}
 }

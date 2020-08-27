@@ -66,9 +66,20 @@ public class ComercialCoordinadoPrenda implements Serializable{
 	@Column(name="observaciones")
 	private String observaciones;
 	
+	@Column(name="precio")
+	private String precio;
 	
 	
 	
+	
+
+	public String getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(String precio) {
+		this.precio = precio;
+	}
 
 	public Long getIdCoordinadoPrenda() {
 		return idCoordinadoPrenda;

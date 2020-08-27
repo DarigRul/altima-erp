@@ -134,6 +134,21 @@
 		    }
 		});
 		$(document).ready(function() {
+		    if ($("#navRequisiciones").hasClass("active-altima")) {
+		        $("#navRequisiciones").hover(function() {
+		            $("#iRequisiciones").removeClass("text-altima");
+		        }, function() {
+		            $("#iRequisiciones").addClass("text-white");
+		        });
+		    } else {
+		        $("#navRequisiciones").hover(function() {
+		            $("#iRequisiciones").removeClass("text-altima");
+		        }, function() {
+		            $("#iRequisiciones").addClass("text-altima");
+		        });
+		    }
+		});
+		$(document).ready(function() {
 		    if ($("#navProduccion").hasClass("active-altima")) {
 		        $("#navProduccion").hover(function() {
 		            $("#iProduccion").removeClass("text-altima");

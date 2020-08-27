@@ -32,8 +32,11 @@ public class ComercialSolicitudServicioAlClienteCorrida implements Serializable{
 	@Column(name="id_text")
 	private String idText;
 	
-	@Column(name="cantidad")
-	private Long cantidad;
+	@Column(name="genero")
+	private String genero;
+	
+	@Column(name="tipo")
+	private String tipo;
 	
 	@Column(name="creado_por")
 	private String creadoPor;
@@ -49,6 +52,23 @@ public class ComercialSolicitudServicioAlClienteCorrida implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
+
+	
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
 	public Long getIdSolicitudServicioAlClienteCorrida() {
 		return idSolicitudServicioAlClienteCorrida;
@@ -72,14 +92,6 @@ public class ComercialSolicitudServicioAlClienteCorrida implements Serializable{
 
 	public void setIdText(String idText) {
 		this.idText = idText;
-	}
-
-	public Long getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(Long cantidad) {
-		this.cantidad = cantidad;
 	}
 
 	public String getCreadoPor() {

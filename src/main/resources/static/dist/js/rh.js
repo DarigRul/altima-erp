@@ -42,7 +42,6 @@ function agregarEmpresa() {
                             "idLookup": idLookup
                         },
                         success: (data) => {
-                            console.log(data);
                             if (data == 1) {
                                 $('#close').click();
                                 Swal.fire({
@@ -56,8 +55,7 @@ function agregarEmpresa() {
                                     }
                                 })
                                 $('#idLookup').val("");
-                            }
-                            else if (data == 2) {
+                            } else if (data == 2) {
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',
@@ -68,8 +66,7 @@ function agregarEmpresa() {
                                         $('#btnEmpresaDetalle').click();
                                     }
                                 })
-                            }
-                            else {
+                            } else {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Error',
@@ -235,64 +232,84 @@ function agregarArea() {
         cancelButtonText: 'Cancelar',
         confirmButtonText: 'Guardar',
         confirmButtonColor: '#0288d1',
-        preConfirm: (color) => {
+        preConfirm: () => {
+            if (document.getElementById("areaLookup").value.length < 1) {
+                Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
+            }
+        }
+    }).then((result) => {
+        if (result.value && document.getElementById("areaLookup").value) {
             var nombreArea = document.getElementById("areaLookup").value;
             var idLookup = $('#idLookup').val();
             $.ajax({
-                type: "POST",
-                url: "/postArea",
+                type: "GET",
+                url: "/duplicadoArea",
                 data: {
-                    "_csrf": $('#token').val(),
                     "nombreArea": nombreArea,
                     "idLookup": idLookup
-                },
-                success: (data) => {
-                    console.log(data);
-                    if (data == 1) {
-                        $('#closeAreas').click();
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: '&Aacute;rea editada correctamente',
-                            showConfirmButton: false,
-                            timer: 2300,
-                            onClose: () => {
-                                $('#btnAreaDetalle').click();
+                }
+            }).done(function (data) {
+                if (data == false) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/postArea",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            "nombreArea": nombreArea,
+                            "idLookup": idLookup
+                        },
+                        success: (data) => {
+                            console.log(data);
+                            if (data == 1) {
+                                $('#closeAreas').click();
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: '&Aacute;rea editada correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnAreaDetalle').click();
+                                    }
+                                })
+                                $('#idLookup').val("");
                             }
-                        })
-                        $('#idLookup').val("");
-                    }
-                    else if (data == 2) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: '&Aacute;rea agregada correctamente',
-                            showConfirmButton: false,
-                            timer: 2300,
-                            onClose: () => {
-                                $('#btnAreaDetalle').click();
+                            else if (data == 2) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: '&Aacute;rea agregada correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnAreaDetalle').click();
+                                    }
+                                })
                             }
-                        })
-                    }
-                    else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: '&iexcl;Intente de nuevo!'
-                        })
-                    }
-                },
-                error: function (data) {
-                    Swal.close();
+                            else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: '&iexcl;Intente de nuevo!'
+                                })
+                            }
+                        }
+                    }).done(function (data) {
+                        listarAreas();
+                    });
+                } else {
                     Swal.fire({
+                        position: 'center',
                         icon: 'error',
-                        title: 'Error',
-                        text: '&iexcl;Registro duplicado!'
+                        title: 'registro duplicado no se ha insertado',
+                        showConfirmButton: false,
+                        timer: 1250
                     })
                 }
             });
         }
-    }).then((result) => {
     })
 }
 
@@ -440,66 +457,84 @@ function agregarDepartamento(idArea) {
         cancelButtonText: 'Cancelar',
         confirmButtonText: 'Actualizar',
         confirmButtonColor: '#28a745',
-        preConfirm: (color) => {
+        preConfirm: () => {
+            if (document.getElementById("departamento").value.length < 1 || document.getElementById("listarAreasCatalogos").value.length < 1) {
+                Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
+            }
+        }
+    }).then((result) => {
+        if (result.value && document.getElementById("departamento").value) {
             var nombreDepartamento = document.getElementById("departamento").value;
             var nomArea = document.getElementById("listarAreasCatalogos").value;
             var Departamento = $('#idDepartamento').val();
             $.ajax({
-                type: "POST",
-                url: "/postDepartamento",
+                type: "GET",
+                url: "/duplicadoDepartamento",
                 data: {
-                    "_csrf": $('#token').val(),
-                    "idDepartamento": Departamento,
                     "nombreDepartamento": nombreDepartamento,
                     "nomArea": nomArea
-                },
-                success: (data) => {
-                    console.log(data);
-                    if (data == 1) {
-                        $('#closeDep').click();
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: '&Aacute;rea editada correctamente',
-                            showConfirmButton: false,
-                            timer: 2300,
-                            onClose: () => {
-                                $('#btnDepartamentoDetalle').click();
-                            }
-                        })
-                        $('#idDepartamento').val("");
-                    }
-                    else if (data == 2) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: '&Aacute;rea agregada correctamente',
-                            showConfirmButton: false,
-                            timer: 2300,
-                            onClose: () => {
-                                $('#btnDepartamentoDetalle').click();
-                            }
-                        })
-                    }
-                    else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: '&iexcl;Intente de nuevo!'
-                        })
-                    }
-                },
-                error: function (data) {
-                    Swal.close();
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: '&iexcl;Registro duplicado!',
-                    })
                 }
-            });
+            }).done(function (data) {
+                if (data == false) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/postDepartamento",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            "idDepartamento": Departamento,
+                            "nombreDepartamento": nombreDepartamento,
+                            "nomArea": nomArea
+                        },
+                        success: (data) => {
+                            console.log(data);
+                            if (data == 1) {
+                                $('#closeDep').click();
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Departamento editado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnDepartamentoDetalle').click();
+                                    }
+                                })
+                                $('#idDepartamento').val("");
+                            }
+                            else if (data == 2) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Departamento     agregado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnDepartamentoDetalle').click();
+                                    }
+                                })
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: '&iexcl;Intente de nuevo!'
+                                })
+                            }
+                        },
+                        error: function (data) {
+                            Swal.close();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: '&iexcl;Registro duplicado!',
+                            })
+                        }
+                    });
+                }
+            })
         }
-    }).then((result) => {
     })
 }
 
@@ -680,7 +715,7 @@ function agregarPuesto(idDepartamento) {
             '</div>' +
             '<div class="form-group col-md-6">' +
             '<label for="puesto">Perfil</label>' +
-            '<input type="text" class="swal2-input" id="perfil" placeholder="Coordinador">' +
+            '<input type="checkbox" class="swal2-input" value="false" name="perfil" id="perfil" onclick="$(this).val(this.checked ? true : false)">' +
             '</div>' +
             '<input type="hidden" id="idPuesto" value="">' +
             '</div>',
@@ -690,6 +725,16 @@ function agregarPuesto(idDepartamento) {
         confirmButtonText: 'Actualizar',
         confirmButtonColor: '#28a745',
         preConfirm: (color) => {
+            if (document.getElementById("puesto").value.length < 1 || document.getElementById("seleccionarDepa").value.length < 1
+                || document.getElementById("horarioExtra").value.length < 1 || document.getElementById("plaza").value.length < 1
+                || document.getElementById("sueldo").value.length < 1 || document.getElementById("perfil").value.length < 1) {
+                Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
+            }
+        }
+    }).then((result) => {
+        if (result.value && document.getElementById("puesto").value) {
             var nombrePuesto = document.getElementById("puesto").value;
             var nomPlazas = document.getElementById("plaza").value;
             var sueldos = document.getElementById("sueldo").value;
@@ -697,12 +742,10 @@ function agregarPuesto(idDepartamento) {
             var departamento = document.getElementById("seleccionarDepa").value;
             var checkbox = document.getElementById("horarioExtra").value;
             var idPuesto = document.getElementById("idPuesto").value
-            console.log(checkbox);
             $.ajax({
-                type: "POST",
-                url: "/postPuesto",
+                type: "GET",
+                url: "/duplicadoPuesto",
                 data: {
-                    "_csrf": $('#token').val(),
                     "nombrePuesto": nombrePuesto,
                     "nomPlazas": nomPlazas,
                     "sueldos": sueldos,
@@ -710,53 +753,70 @@ function agregarPuesto(idDepartamento) {
                     "departamento": departamento,
                     "checkbox": checkbox,
                     "idPuesto": idPuesto
-                },
-                success: (data) => {
-                    if (data == 1) {
-                        $('#closePuestos').click();
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Puesto editado correctamente',
-                            showConfirmButton: false,
-                            timer: 2300,
-                            onClose: () => {
-                                $('#btnPuestosDetalle').click();
+                }
+            }).done(function (data) {
+                if (data == false) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/postPuesto",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            "nombrePuesto": nombrePuesto,
+                            "nomPlazas": nomPlazas,
+                            "sueldos": sueldos,
+                            "perfiles": perfiles,
+                            "departamento": departamento,
+                            "checkbox": checkbox,
+                            "idPuesto": idPuesto
+                        },
+                        success: (data) => {
+                            if (data == 1) {
+                                $('#closePuestos').click();
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Puesto editado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnPuestosDetalle').click();
+                                    }
+                                })
+                                $('#idPuesto').val("");
+                            } else if (data = 2) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Puesto agregado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnPuestosDetalle').click();
+                                    }
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: '&iexcl;Intente de nuevo!'
+                                })
                             }
-                        })
-                        $('#idPuesto').val("");
-                    } else if (data = 2) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Puesto agregado correctamente',
-                            showConfirmButton: false,
-                            timer: 2300,
-                            onClose: () => {
-                                $('#btnPuestosDetalle').click();
-                            }
-                        })
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: '&iexcl;Intente de nuevo!'
-                        })
-                    }
-                },
-                error: function (data) {
-                    Swal.close();
+                        }
+                    }).done(function (data) {
+                        ListarPuestos();
+                    });
+                } else {
                     Swal.fire({
+                        position: 'center',
                         icon: 'error',
-                        title: 'Error',
-                        text: '&iexcl;Registro duplicado!',
+                        title: 'registro duplicado no se ha insertado',
+                        showConfirmButton: false,
+                        timer: 1250
                     })
                 }
             });
         }
-    }).then((result) => {
     })
-
 }
 
 //Habilitar input que se muestra deshabilitado
@@ -938,67 +998,92 @@ function agregarHorario() {
         cancelButtonText: 'Cancelar',
         confirmButtonText: 'Actualizar',
         confirmButtonColor: '#28a745',
-        preConfirm: (color) => {
+        preConfirm: () => {
+            if (document.getElementById("horarioinicio").value.length < 1
+                || document.getElementById("horariosalida").value.length < 1
+                || document.getElementById("horacomidainicio").value.length < 1
+                || document.getElementById("horacomidafin").value.length < 1) {
+                Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
+            }
+        }
+    }).then((result) => {
+        if (result.value && document.getElementById("horarioinicio").value) {
             var idHorario = document.getElementById("idHorario").value;
             var horaInicio = document.getElementById("horarioinicio").value;
             var horaSalida = document.getElementById("horariosalida").value;
             var horaComida = document.getElementById("horacomidainicio").value;
             var horaRegresoComida = document.getElementById("horacomidafin").value;
             $.ajax({
-                type: "POST",
-                url: "/postHorarioLaboral",
+                type: "GET",
+                url: "/duplicadoHorario",
                 data: {
-                    "_csrf": $('#token').val(),
-                    "idHorario": idHorario,
                     "horaInicio": horaInicio,
                     "horaSalida": horaSalida,
                     "horaComida": horaComida,
                     "horaRegresoComida": horaRegresoComida
-                },
-                success: (data) => {
-                    if (data == 1) {
-                        $('#closeHorario').click();
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Horario editado correctamente',
-                            showConfirmButton: false,
-                            timer: 2300,
-                            onClose: () => {
-                                $('#btnHorariosDetalle').click();
+                }
+            }).done(function (data) {
+                if (data == false) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/postHorarioLaboral",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            "idHorario": idHorario,
+                            "horaInicio": horaInicio,
+                            "horaSalida": horaSalida,
+                            "horaComida": horaComida,
+                            "horaRegresoComida": horaRegresoComida
+                        },
+                        success: (data) => {
+                            if (data == 1) {
+                                $('#closeHorario').click();
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Horario editado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnHorariosDetalle').click();
+                                    }
+                                })
+                                $('#idHorario').val("");
+                            } else if (data = 2) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Horario agregado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnHorariosDetalle').click();
+                                    }
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: '&iexcl;Intente de nuevo!'
+                                })
                             }
-                        })
-                        $('#idHorario').val("");
-                    } else if (data = 2) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Horario agregado correctamente',
-                            showConfirmButton: false,
-                            timer: 2300,
-                            onClose: () => {
-                                $('#btnHorariosDetalle').click();
-                            }
-                        })
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: '&iexcl;Intente de nuevo!'
-                        })
-                    }
-                },
-                error: function (data) {
-                    Swal.close();
+                        }
+                    }).done(function (data) {
+                        ListarHorarios();
+                    });
+                } else {
                     Swal.fire({
+                        position: 'center',
                         icon: 'error',
-                        title: 'Error',
-                        text: '&iexcl;Registro duplicado!',
+                        title: 'registro duplicado no se ha insertado',
+                        showConfirmButton: false,
+                        timer: 1250
                     })
                 }
             });
         }
-    }).then((result) => {
     })
 }
 
@@ -1155,68 +1240,85 @@ function agregarCalendario() {
         confirmButtonText: 'Actualizar',
         confirmButtonColor: '#28a745',
         preConfirm: (color) => {
+            if (document.getElementById("diafestivo").value.length < 1 || document.getElementById("nombrefecha").value.length < 1 || document.getElementById("checkbox").value.length < 1) {
+                Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
+            }
+        }
+    }).then((result) => {
+        if (result.value && document.getElementById("diafestivo").value) {
             var idCalendario = document.getElementById("idCalendario").value;
             var fechaFestivo = document.getElementById("diafestivo").value;
             var festividad = document.getElementById("nombrefecha").value;
             var estatusFestivo = document.getElementById("checkbox").value;
-            console.log(estatusFestivo);
-            console.log(fechaFestivo);
-            console.log(idCalendario);
-
             $.ajax({
-                type: "POST",
-                url: "/postCalendarios",
+                type: "GET",
+                url: "/duplicadoCalendario",
                 data: {
-                    "_csrf": $('#token').val(),
-                    "idCalendario": idCalendario,
                     "fechaFestivo": fechaFestivo,
                     "festividad": festividad,
                     "estatusFestivo": estatusFestivo
-                },
-                success: (data) => {
-                    if (data == 1) {
-                        $('#closeCalendario').click();
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Calendario editado correctamente',
-                            showConfirmButton: false,
-                            timer: 2300,
-                            onClose: () => {
-                                $('#btnCalendarioDetalle').click();
+                }
+            }).done(function (data) {
+                if (data == false) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/postCalendarios",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            "idCalendario": idCalendario,
+                            "fechaFestivo": fechaFestivo,
+                            "festividad": festividad,
+                            "estatusFestivo": estatusFestivo
+                        },
+                        success: (data) => {
+                            if (data == 1) {
+                                $('#closeCalendario').click();
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Calendario editado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnCalendarioDetalle').click();
+                                    }
+                                })
+                                $('#idCalendario').val("");
+                            } else if (data = 2) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Calendario agregado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 2300,
+                                    onClose: () => {
+                                        $('#btnCalendarioDetalle').click();
+                                    }
+                                })
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: '&iexcl;Intente de nuevo!'
+                                })
                             }
-                        })
-                        $('#idCalendario').val("");
-                    } else if (data = 2) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Calendario agregado correctamente',
-                            showConfirmButton: false,
-                            timer: 2300,
-                            onClose: () => {
-                                $('#btnCalendarioDetalle').click();
-                            }
-                        })
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: '&iexcl;Intente de nuevo!'
-                        })
-                    }
-                },
-                error: function (data) {
-                    Swal.close();
+                        }
+                    }).done(function (data) {
+                        ListarCalendarios();
+                    });
+                } else {
                     Swal.fire({
+                        position: 'center',
                         icon: 'error',
-                        title: 'Error',
-                        text: '&iexcl;Registro duplicado!',
+                        title: 'registro duplicado no se ha insertado',
+                        showConfirmButton: false,
+                        timer: 1250
                     })
                 }
             });
         }
-    }).then((result) => {
     })
 }
 

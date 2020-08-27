@@ -52,51 +52,42 @@ public class ComercialPrendaBordadoServiceImpl implements IComercialPrendaBordad
 	@Transactional
 	public List<Object[]> findAllCoordinado(Long id) {
 		
-		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + 
-				"	coor_prenda.id_coordinado_prenda,\r\n" + 
-				"	coor.numero_coordinado,\r\n" + 
-				"	look.nombre_lookup,\r\n" + 
-				"	prenda.descripcion_prenda,\r\n" + 
-				"	tela.nombre_tela,\r\n" + 
-				"	look2.nombre_lookup as look2 ,\r\n" + 
-				"	tela.color,\r\n" + 
-				"	(SELECT  IFNULL(SUM( bordado.precio_bordado ) , 0)  FROM alt_comercial_prenda_bordado AS bordado WHERE bordado.id_coordinado_prenda = coor_prenda.id_coordinado_prenda ),\r\n" + 
-				"CASE\r\n" + 
-				"		WHEN pedido.precio_usar = 1 THEN\r\n" + 
-				"		precio.precio_local_nuevo \r\n" + 
-				"		WHEN pedido.precio_usar = 2 THEN\r\n" + 
-				"		precio.precio_local_antiguo\r\n" + 
-				"		WHEN pedido.precio_usar = 3 THEN\r\n" + 
-				"		precio.precio_foraneo_nuevo\r\n" + 
-				"		WHEN pedido.precio_usar = 4 THEN\r\n" + 
-				"		precio.precio_foraneo_antiguo ELSE '000' \r\n" + 
-				"	END,\r\n" + 
-				"	coor_prenda.adicional,\r\n" + 
-				"	coor_prenda.monto_adicional,\r\n" + 
-				"	coor_prenda.precio_final,\r\n" + 
-				"	coor_prenda.observaciones \r\n" + 
-				"FROM\r\n" + 
-				"	alt_comercial_coordinado_prenda AS coor_prenda,\r\n" + 
-				"	alt_comercial_coordinado AS coor,\r\n" + 
-				"	alt_disenio_prenda AS prenda,\r\n" + 
-				"	alt_disenio_tela AS tela,\r\n" + 
-				"	alt_disenio_lookup AS look,\r\n" + 
-				"	alt_disenio_lookup AS look2,\r\n" + 
-				"	alt_comercial_pedido_informacion AS pedido,\r\n" + 
-				"    alt_disenio_lista_precio_prenda as precio\r\n" + 
-				"WHERE\r\n" + 
-				"	1 = 1 \r\n" + 
-				"	AND coor.id_coordinado = coor_prenda.id_coordinado \r\n" + 
-				"	AND coor_prenda.id_prenda = prenda.id_prenda \r\n" + 
-				"	AND prenda.id_familia_prenda = look.id_lookup \r\n" + 
-				"	AND coor_prenda.id_tela = tela.id_tela \r\n" + 
-				"	AND tela.id_familia_composicion = look2.id_lookup \r\n" + 
-				"	AND pedido.id_pedido_informacion = coor.id_pedido \r\n" + 
-				"    AND precio.id_prenda = coor_prenda.id_prenda \r\n" + 
-				"	AND coor.id_pedido = "+id+" \r\n" + 
-				"	AND coor_prenda.estatus = 1 \r\n" + 
-				"ORDER BY\r\n" + 
-				"	coor.numero_coordinado,prenda.descripcion_prenda").getResultList();
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	coor_prenda.id_coordinado_prenda,\n" + 
+				"	coor.numero_coordinado,\n" + 
+				"	look.nombre_lookup,\n" + 
+				"	prenda.descripcion_prenda,\n" + 
+				"	tela.nombre_tela,\n" + 
+				"	look2.nombre_lookup AS look2,\n" + 
+				"	tela.color,\n" + 
+				"	( SELECT IFNULL( SUM( bordado.precio_bordado ), 0 ) FROM alt_comercial_prenda_bordado AS bordado WHERE bordado.id_coordinado_prenda = coor_prenda.id_coordinado_prenda ),\n" + 
+				"	coor_prenda.precio,\n" + 
+				"	coor_prenda.adicional,\n" + 
+				"	coor_prenda.monto_adicional,\n" + 
+				"	coor_prenda.precio_final,\n" + 
+				"	coor_prenda.observaciones \n" + 
+				"FROM\n" + 
+				"	alt_comercial_coordinado_prenda AS coor_prenda,\n" + 
+				"	alt_comercial_coordinado AS coor,\n" + 
+				"	alt_disenio_prenda AS prenda,\n" + 
+				"	alt_disenio_tela AS tela,\n" + 
+				"	alt_disenio_lookup AS look,\n" + 
+				"	alt_disenio_lookup AS look2,\n" + 
+				"	alt_comercial_pedido_informacion AS pedido \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND coor.id_coordinado = coor_prenda.id_coordinado \n" + 
+				"	AND coor_prenda.id_prenda = prenda.id_prenda \n" + 
+				"	AND prenda.id_familia_prenda = look.id_lookup \n" + 
+				"	AND coor_prenda.id_tela = tela.id_tela \n" + 
+				"	AND tela.id_familia_composicion = look2.id_lookup \n" + 
+				"	AND pedido.id_pedido_informacion = coor.id_pedido \n" + 
+				"	AND coor.id_pedido = "+id+" \n" + 
+				"	AND coor_prenda.estatus = 1 \n" + 
+				"ORDER BY\n" + 
+				"	coor.numero_coordinado,\n" + 
+				"	prenda.descripcion_prenda").getResultList();
 		return re;
 	}
 	
@@ -207,6 +198,60 @@ public class ComercialPrendaBordadoServiceImpl implements IComercialPrendaBordad
 				"	1 = 1 \n" + 
 				"	AND pb.id_bordado = bordado.id_bordado \n" + 
 				"	AND pb.id_coordinado_prenda = "+id).getResultList();
+		return re;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> CambioPrecio(Long id) {
+		
+		
+		List<Object[]> re = em.createNativeQuery("SELECT\n" + 
+				"	coor_prenda.id_coordinado_prenda,\n" + 
+				"	coor.numero_coordinado,\n" + 
+				"	look.nombre_lookup,\n" + 
+				"	prenda.descripcion_prenda,\n" + 
+				"	tela.nombre_tela,\n" + 
+				"	look2.nombre_lookup as look2 ,\n" + 
+				"	tela.color,\n" + 
+				"	(SELECT  IFNULL(SUM( bordado.precio_bordado ) , 0)  FROM alt_comercial_prenda_bordado AS bordado WHERE bordado.id_coordinado_prenda = coor_prenda.id_coordinado_prenda ),\n" + 
+				"CASE\n" + 
+				"		WHEN pedido.precio_usar = 1 THEN\n" + 
+				"		precio.precio_local_nuevo \n" + 
+				"		WHEN pedido.precio_usar = 2 THEN\n" + 
+				"		precio.precio_local_antiguo\n" + 
+				"		WHEN pedido.precio_usar = 3 THEN\n" + 
+				"		precio.precio_foraneo_nuevo\n" + 
+				"		WHEN pedido.precio_usar = 4 THEN\n" + 
+				"		precio.precio_foraneo_antiguo ELSE '000' \n" + 
+				"	END,\n" + 
+				"	coor_prenda.adicional,\n" + 
+				"	coor_prenda.monto_adicional,\n" + 
+				"	coor_prenda.precio_final,\n" + 
+				"	coor_prenda.observaciones \n" + 
+				"FROM\n" + 
+				"	alt_comercial_coordinado_prenda AS coor_prenda,\n" + 
+				"	alt_comercial_coordinado AS coor,\n" + 
+				"	alt_disenio_prenda AS prenda,\n" + 
+				"	alt_disenio_tela AS tela,\n" + 
+				"	alt_disenio_lookup AS look,\n" + 
+				"	alt_disenio_lookup AS look2,\n" + 
+				"	alt_comercial_pedido_informacion AS pedido,\n" + 
+				"    alt_disenio_lista_precio_prenda as precio\n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND coor.id_coordinado = coor_prenda.id_coordinado \n" + 
+				"	AND coor_prenda.id_prenda = prenda.id_prenda \n" + 
+				"	AND prenda.id_familia_prenda = look.id_lookup \n" + 
+				"	AND coor_prenda.id_tela = tela.id_tela \n" + 
+				"	AND tela.id_familia_composicion = look2.id_lookup \n" + 
+				"	AND pedido.id_pedido_informacion = coor.id_pedido \n" + 
+				"    AND precio.id_prenda = coor_prenda.id_prenda \n" + 
+				"	AND coor.id_pedido = "+id+" \n" + 
+				"	AND coor_prenda.estatus = 1 \n" + 
+				"ORDER BY\n" + 
+				"	coor.numero_coordinado,prenda.descripcion_prenda").getResultList();
 		return re;
 	}
 	

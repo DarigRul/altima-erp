@@ -316,7 +316,7 @@ function cotizacionGeneral(){
 	table.draw();
 	$('#Subtotal').text(subtotal);
 	
-	ValidarCotizacionPrendas();
+	ValidarCotizacionPrendas(0);
 }
 
 
@@ -429,6 +429,7 @@ function cotizacionGeneral(){
 	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 $('#DescuentoCargo').text((parseFloat(descuentoMontoCotizacion)+parseFloat(anticipoMontoCotizacion)).toFixed(2));
 	 if($(this).val()==''){ 																					//
 		 $(this).val(0); 																						//
 	 } 																											//
@@ -446,6 +447,7 @@ function cotizacionGeneral(){
 	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 $('#DescuentoCargo').text((parseFloat(descuentoMontoCotizacion)+parseFloat(anticipoMontoCotizacion)).toFixed(2));
 	 if($(this).val()==''){																						//
 		 $(this).val(0);																						//
 	 } 																											//
@@ -465,6 +467,7 @@ function cotizacionGeneral(){
 	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 $('#DescuentoCargo').text((parseFloat(descuentoMontoCotizacion)+parseFloat(anticipoMontoCotizacion)).toFixed(2));
 	 if($(this).val()==''){																						//
 		 $(this).val(0);																						//
 	 }																											//
@@ -482,6 +485,7 @@ function cotizacionGeneral(){
 	 $('#Subtotal').text((subtotal-anticipoMontoCotizacion-descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
 	 $('#Total').text((parseFloat($('#Subtotal').text())+parseFloat($('#IVAMonto').text())).toFixed(2));		//
+	 $('#DescuentoCargo').text((parseFloat(descuentoMontoCotizacion)+parseFloat(anticipoMontoCotizacion)).toFixed(2));
 	 if($(this).val()==''){																						//
 		 $(this).val(0);																						//
 	 }																											//
@@ -658,7 +662,7 @@ function GuardarCotizacionInfo(){
 
 
 
-function GuardarCotizacionPrendas(){
+function GuardarCotizacionPrendas(refEditPrenda){
 	var idCotizacion = $('#idCotizacion').val();
 	var idCotizacionPrendas = $('#idCotizacionToPrendas').val();
 	var tipoCotizacion = $('#tipoCotizacion').val();
@@ -721,14 +725,24 @@ function GuardarCotizacionPrendas(){
 	             });
 	        },
 			success: (data) => {
-				if(tipoCotizacion!='1'){
+				if(data!='0'){
 					Swal.fire({
 						icon: 'success',
 						title: 'Cotización Agregada',
 						text: '¡Se han agregado las prendas con éxito!',
 						showConfirmButton: false,
-				        timer: 2000,
+				        timer: 2000
 					})
+				}
+				else{
+					Swal.fire({
+				          position: 'center',
+				          icon: 'error',
+				          title: 'Error',
+				          html: '¡Algo salió mal al guardar los datos!',
+				          showConfirmButton: false,
+				          timer: 3500
+				      })
 				}
 			}
 		});
@@ -796,13 +810,13 @@ function GuardarCotizacionPrendas(){
 			success: (data) => {
 				
 				if(data==1){
-					if(tipoCotizacion!='1'){
+					if(refEditPrenda!=0){
 						Swal.fire({
 							icon: 'success',
 							title: 'Cotización Editada',
 							text: '¡Se han editado las prendas con éxito!',
 							showConfirmButton: false,
-					        timer: 2000,
+					        timer: 2000
 						})
 						location.reload();
 					}
@@ -969,7 +983,7 @@ function ValidarRegistroTablita(){
 	}
 }
 
-function ValidarCotizacionPrendas(){
+function ValidarCotizacionPrendas(refEditPrenda){
 	var tablita = table.rows().data().toArray();
 	var validador = 0;
 	if (tablita[0]==null){
@@ -982,7 +996,7 @@ function ValidarCotizacionPrendas(){
 		  })
 	}
 	else{
-		GuardarCotizacionPrendas();
+		GuardarCotizacionPrendas(refEditPrenda);
 	}
 }
 
@@ -990,3 +1004,4 @@ function ValidarCotizacionTotal(){
 	
 	GuardarCotizacionTotal();
 }
+

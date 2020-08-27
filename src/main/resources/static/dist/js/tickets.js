@@ -297,9 +297,9 @@ function limpiarForm(solicitud, auxiliar){
     	
 	   	
 	 
-	$("#fechaInicio").val("2020-08-20T17:30:00");
+	$("#fechaInicio").val(null);
 	
-	$("#fechaFin").val("2020-08-20T17:32:00");
+	$("#fechaFin").val(null);
 	$("#idTicket").val(null);
 	
 	if (solicitud != null){

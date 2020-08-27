@@ -379,6 +379,26 @@
                                         <p>Pendiente por recibir</p>
                                     </a>
                                 </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/explosion-de-materiales'}" class="nav-link" id="navAMPExp">
+                                        <i class="nav-icon flaticon-eye-shadow-palette-with-brush"></i>
+                                        <p>Explosi&oacute;n de materiales</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/explosion-de-materiales'}" class="nav-link" id="navAMPReq">
+                                        <i class="nav-icon fas fa-store"></i>
+                                        <p>Requisici&oacute;n de almac&eacute;n</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
@@ -644,6 +664,40 @@
                             <a th:href="${'/compras-proveedores'}" class="nav-link" id="navComPro">
                                 <i class="nav-icon fas fa-user-friends"></i>
                                 <p>Proveedores</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/requisicion-de-telas'}" class="nav-link" id="navComReq">
+                                <i class="nav-icon flaticon-curling-hair-with-tissue-roll"></i>
+                                <p>Requisici&oacute;n de telas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/requisicion-de-materiales'}" class="nav-link" id="navComMat">
+                                <i class="nav-icon flaticon-curling-hair-with-tissue-roll"></i>
+                                <p>Requisici&oacute;n de materiales</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" id="menuRequisiciones">
+                    <a class="nav-link" id="navRequisiciones">
+                        <i class="nav-icon-custom fas fa-clipboard text-altima" id="iRequisiciones"></i>
+                        <p>
+                            Requisiciones <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="${'/requisicion-de-almacen'}" class="nav-link" id="navReqAlm">
+                                <i class="nav-icon fas fa-store"></i>
+                                <p>Requisici&oacute;n de almac&eacute;n</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/requisicion-de-compras'}" class="nav-link" id="navReqCom">
+                                <i class="nav-icon fas fa-dollar-sign"></i>
+                                <p>Requisici&oacute;n de compras</p>
                             </a>
                         </li>
                     </ul>

@@ -23,4 +23,6 @@ public interface IHrDepartamentoService {
 
 	Object obtenerDepartamento(Long id);
 
+	Boolean duplicateDepartamento(String nombreDepartamento, String nomArea);
+
 }

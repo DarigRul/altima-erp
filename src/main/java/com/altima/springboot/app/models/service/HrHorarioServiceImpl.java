@@ -59,8 +59,29 @@ public class HrHorarioServiceImpl implements IHrHorarioService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<HrHorario> obtenerHorario(Long id) {
-		return em.createNativeQuery("SELECT\n" + "	h.id_horario,\n" + "	h.hora_inicial,\n" + "	h.hora_final,\n"
-				+ "	h.inicio_comida,\n" + "	h.final_comida,\n" + "	h.estatus \n" + "FROM\n" + "	alt_hr_horario h \n"
-				+ "WHERE\n" + "	h.id_horario = " + id).getResultList();
+		return em.createNativeQuery("SELECT" + "	h.id_horario," + "	h.hora_inicial," + "	h.hora_final,"
+				+ "	h.inicio_comida," + "	h.final_comida," + "	h.estatus " + "FROM" + "	alt_hr_horario h "
+				+ "WHERE" + "	h.id_horario = " + id).getResultList();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean duplicateHorario(String horaInicio, String horaSalida, String horaComida, String horaRegresoComida) {
+		boolean d;
+		List<HrHorario> result = em.createNativeQuery("SELECT" +
+		"	* " +
+		"FROM" +
+		"	alt_hr_horario h " +
+		"WHERE" +
+		"	h.hora_inicial = '"+horaInicio+"' " +
+		"	AND h.hora_final = '"+horaSalida+"' " +
+		"	AND h.inicio_comida = '"+horaComida+"' " +
+		"	AND h.final_comida = '"+horaRegresoComida+"'").getResultList();
+		if (result.isEmpty()) {
+			d = false;
+		} else {
+			d = true;
+		}
+		return d;
 	}
 }

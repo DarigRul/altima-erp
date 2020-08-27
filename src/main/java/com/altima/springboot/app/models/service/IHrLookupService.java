@@ -18,4 +18,6 @@ public interface IHrLookupService {
 
 	public boolean findDuplicate(String LookupEmpresa);
 
+	public boolean findDuplicateArea(String LookupArea);
+
 }

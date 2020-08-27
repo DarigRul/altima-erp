@@ -24,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.altima.springboot.app.models.entity.ComercialPrendaBordado;
 import com.altima.springboot.app.models.entity.DisenioPrenda;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
+import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
+import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialPrendaBordadoService;
 import com.altima.springboot.app.models.service.IDisenioPrendaService;
@@ -46,24 +48,16 @@ public class DetallePreciosCargaPedidosController {
 
 	@Autowired
 	private IDisenioPrendaService prendaService;
+	@Autowired
+	private ICargaPedidoService cargaPedidoService;
 
 	@PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
 	@GetMapping("/detalle-de-precios/{id}")
 	public String listPrecios(@PathVariable(value = "id") Long id, Model model) {
 
-		List<Object[]> aux = bordadoService.findAllCoordinado(id);
-		for (Object[] a : aux) {
-
-			Long id_coor = Long.parseLong(a[0].toString());
-			Float precio_bordado = Float.parseFloat(a[7].toString());
-			Float precio_usar = Float.parseFloat(a[8].toString());
-			Float monto = Float.parseFloat(a[10].toString());
-			ComercialCoordinadoPrenda prenda = CoordinadoService.findOneCoorPrenda(id_coor);
-			Float preciofinal = precio_bordado + precio_usar + monto;
-			prenda.setPrecioFinal(Float.toString(preciofinal));
-			CoordinadoService.saveCoorPrenda(prenda);
-		}
-
+		
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+		model.addAttribute("numPedido", pedido.getIdText());
 		model.addAttribute("listCoor", bordadoService.findAllCoordinado(id));
 
 		model.addAttribute("selectBordado", bordadoService.BordadosView(id));

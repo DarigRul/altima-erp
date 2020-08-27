@@ -62,17 +62,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>WDR-1236</td>
-                                                <td>Nissan</td>
-                                                <td>Victor Lopez</td>
-                                                <td>Comercial</td>
-                                                <td>En circulacion</td>
+                                            <tr th:each="unidad:${unidades}">
+                                                <td th:text="${unidad[0]}">WDR-1236</td>
+                                                <td th:text="${unidad[1]}">Nissan</td>
+                                                <td th:text="${unidad[2]}">Victor Lopez</td>
+                                                <td th:text="${unidad[3]}">Comercial</td>
+                                                <td th:if="${unidad[6]==0}">Fuera de circulaci&oacute;n</td>
+                                                <td th:if="${unidad[6]==1}">En circulaci&oacute;n</td>
                                                 <td class="text-center">
                                                     <button class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
-                                                    <button data-toggle="modal" data-target="#nuevaUnidad" class="btn btn-warning btn-sm btn-circle popoverxd" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-                                                    <button onclick="activarUnidad()" class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="En circulaci&oacute;n"><i class="fas fa-caret-up"></i></button>
-                                                    <button onclick="inactivaUnidad()" class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Fuera de circulaci&oacute;n"><i class="fas fa-caret-down"></i></button>
+                                                    <button th:onclick="editUnity([[${unidad[7]}]])" class="btn btn-warning btn-sm btn-circle popoverxd" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                    <button th:if="${unidad[6]==0}" onclick="activarUnidad()" class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="En circulaci&oacute;n"><i class="fas fa-caret-up"></i></button>
+                                                    <button th:if="${unidad[6]==1}" onclick="inactivaUnidad()" class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Fuera de circulaci&oacute;n"><i class="fas fa-caret-down"></i></button>
                                                 </td>
                                             </tr>    
                                         </tbody>
@@ -92,50 +93,7 @@
 	</div>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaGeneral.js"></script>
-    <script>
-        function activarUnidad() {
-                Swal.fire({
-                    title: '¿La unidad estar&aacute; en circulaci&oacute;n?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    cancelButtonColor: '#dc3545',
-                    confirmButtonColor: '#0288d1',
-                    confirmButtonText: 'Confirmar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.value) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Unidad en circulaci&oacute;n',
-                            showConfirmButton: false,
-                            timer: 2500
-                        })
-                    }
-                })
-            }
-            function inactivaUnidad() {
-                Swal.fire({
-                    title: '¿La unidad estar&aacute; fuera de circulaci&oacute;n?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    cancelButtonColor: '#dc3545',
-                    confirmButtonColor: '#0288d1',
-                    confirmButtonText: 'Confirmar',
-                    cancelButtonText: 'Cancelar'
-                }).then((result) => {
-                    if (result.value) {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Unidad fuera de circulaci&oacute;n',
-                            showConfirmButton: false,
-                            timer: 2500
-                        })
-                    }
-                })
-            }
-    </script>
+    <script src="/dist/js/unidades.js"></script>
 	<script>
         $('#iLogistica').removeClass('text-altima');
         $('#menuLogistica').addClass('menu-open');

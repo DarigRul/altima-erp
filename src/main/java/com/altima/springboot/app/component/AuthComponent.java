@@ -63,4 +63,13 @@ public class AuthComponent {
 		Long iduser = user.getIdUsuario();
 		return iduser;
 	}
+
+	public long currentemployeeid() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		/* Obtener todos los datos del usuario logeado */
+		Usuario user = usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
+		Long idemployee = user.getIdEmpleado();
+		return idemployee;
+
+	}
 }

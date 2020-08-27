@@ -73,4 +73,34 @@ public class HrDepartamentoServiceImpl implements IHrDepartamentoService {
 						+ " WHERE ar.id_lookup = dp.id_area AND dp.id_departamento = " + id)
 				.getSingleResult();
 	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Boolean duplicateDepartamento(String nombreDepartamento, String nomArea) {
+		boolean d;
+		List<HrLookup> result = em.createNativeQuery("SELECT" +
+		"	d.id_departamento," +
+		"	d.id_area," +
+		"	d.nombre_departamento," +
+		"	d.id_text AS textdep," +
+		"	d.actualizado_por," +
+		"	d.creado_por," +
+		"	d.estatus," +
+		"	d.fecha_creacion," +
+		"	a.nombre_lookup," +
+		"	a.id_lookup," +
+		"	a.id_text AS textarea " +
+		"FROM" +
+		"	alt_hr_departamento d" +
+		"	INNER JOIN alt_hr_lookup a ON d.id_area = a.id_lookup " +
+		"WHERE" +
+		"	d.nombre_departamento = '"+nombreDepartamento+"' " +
+		"	AND a.nombre_lookup = '"+nomArea+"'").getResultList();
+		if (result.isEmpty()) {
+			d = false;
+		} else {
+			d = true;
+		}
+		return d;
+	}
 }

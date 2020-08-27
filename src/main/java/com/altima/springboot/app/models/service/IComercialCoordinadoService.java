@@ -57,6 +57,8 @@ public interface IComercialCoordinadoService {
 		List<Object []> ImagenesRuta(Long id , String tipo1 , String  tipo2);
 		 
 		 String ImagenesRutaTela(Long id);
+		 
+		 String precioPrenda(Long idCoor , Long idPrenda);
 }
 
 
