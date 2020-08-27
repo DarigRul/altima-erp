@@ -141,6 +141,16 @@
 			        	</button>
 			    	</div>
 		      		<div class="modal-body">
+		      			<!--  -->
+		      			<div class="custom-control custom-checkbox">
+				    		<input type="checkbox" class="custom-control-input" id="ImprimirConTotalesCorreo">
+				    		<label class="custom-control-label" for="ImprimirConTotalesCorreo">Imprimir con totales</label>
+						</div><br>
+						<div class="custom-control custom-checkbox">
+				    		<input type="checkbox" class="custom-control-input" id="ImprimirConCVCorreo">
+				    		<label class="custom-control-label" for="ImprimirConCVCorreo">Imprimir con CV</label>
+				    	</div><br>
+		      			<!--  -->
 		        		<div class="custom-control">
 		        		<label for="exampleInputEmail1">Correo de Cliente:</label>
 		        			<input type="email" class="form-control" id="CorreoParaCotizacion" aria-describedby="emailHelp" onkeypress='event.keyCode == 59' placeholder="Ingresar Correo">
@@ -205,6 +215,8 @@
 	}
 	
 	function EnviarCorreoCotizacionModal(id){
+		$('#ImprimirConTotalesCorreo').prop('checked', false);
+		$('#ImprimirConCVCorreo').prop('checked', false);
 		$.ajax({
 			type: "GET",
 			url: "/correo_cliente_cotizacion",
@@ -226,9 +238,11 @@
 	function EnviarCorreoCotizacion(id){
 		$('#ActuallyBotonEnviar').remove();
 		$('#ContenedorBotonParaEnviarCargando').css("display", "block");
+		var ImprimirConTotalesCorreo = $('#ImprimirConTotalesCorreo').is(':checked');
+		var ImprimirConCvCorreo = $('#ImprimirConCVCorreo').is(':checked');
 		$.ajax({
 			type: "GET",
-			url: "/imprimir-cotizacion/" + id + "/" + true + "/" + true + "/" + $('#CorreoParaCotizacion').val(),
+			url: "/imprimir-cotizacion/" + id + "/" + ImprimirConTotalesCorreo + "/" + ImprimirConCvCorreo + "/" + $('#CorreoParaCotizacion').val(),
 			data: {  },
 			success: (data) => {
 				//
