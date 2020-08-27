@@ -41,7 +41,7 @@ public class AuthComponent {
 			ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
 			Long iduserpedido = pedido.getIdUsuario();
 			currentuserid();
-			if (iduserpedido == currentuserid() || auth.getAuthorities().toString().contains("ROLE_ADMINISTRADOR")) {
+			if (iduserpedido == currentuserid() && pedido.getEstatus().equals("1") || auth.getAuthorities().toString().contains("ROLE_ADMINISTRADOR") && pedido.getEstatus().equals("1")) {
 				respuesta = true;
 			} else {
 				respuesta = false;
@@ -54,6 +54,8 @@ public class AuthComponent {
 
 		return respuesta;
 	}
+	
+	
 
 	/* metodo para obtener el id del usuario logeado actualmente */
 	public long currentuserid() {

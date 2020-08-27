@@ -115,16 +115,14 @@ public class AgenteVentaController {
 	public String listPedidos(Model model) {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if ( auth.getName().equals("ADMIN")) {
-			model.addAttribute("admin", true);
-		}
+	
 		
 		/* Obtener todos los datos del usuario logeado */
 		Usuario user = usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
 		Long iduser = user.getIdUsuario();
 		String role = "[ROLE_ADMINISTRADOR]";
 		if (auth.getAuthorities().toString().equals(role)) {
-
+			model.addAttribute("admin", true);
 			model.addAttribute("clientes", clienteservice.findAll(null));
 			model.addAttribute("pedidos", cargaPedidoService.CargaPedidoVista(null));
 		} else {

@@ -224,6 +224,8 @@ public class CargaPedidoController {
 			return "redirect:/carga-de-pedidos";
 	    }
 	 
+	 
+	 @PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
 	 @RequestMapping(value = "/cerrar-expediente", method = RequestMethod.GET)
 	@ResponseBody
 		public String  cerrar(Long id) {
