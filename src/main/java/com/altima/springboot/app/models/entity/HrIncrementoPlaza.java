@@ -29,6 +29,9 @@ public class HrIncrementoPlaza implements Serializable{
 	@Column(name="id_puesto")
 	private Long idPuesto;
 	
+	@Column(name="id_text")
+	private Long idText;
+	
 	@Column(name="numero_plaza")
 	private String numeroPlaza;
 	
@@ -68,6 +71,14 @@ public class HrIncrementoPlaza implements Serializable{
 	
 	
 	
+	public Long getIdText() {
+		return idText;
+	}
+
+	public void setIdText(Long idText) {
+		this.idText = idText;
+	}
+
 	public String getMotivoRechazo() {
 		return motivoRechazo;
 	}
