@@ -7,12 +7,15 @@ public class ComercialTicketDTO {
     private String title;
     private String start;
     private String end;
+    private Long id;
 
     public ComercialTicketDTO(ComercialTicket ticket) {
         super();
+
         this.title = ticket.getDescripcion();
         this.start = ticket.getFechaInicio();
         this.end = ticket.getFechaFin();
+        this.id = ticket.getIdTicket();
 
     }
 
@@ -40,6 +43,13 @@ public class ComercialTicketDTO {
         this.end = end;
     }
 
-    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     
 }
