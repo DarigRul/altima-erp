@@ -23,7 +23,7 @@
 					<div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>Unidades&nbsp;
-                                <a data-toggle="modal" data-target="#nuevaUnidad" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                <a id="agregarUnidad" data-toggle="modal" data-target="#nuevaUnidad" class="btn btn-sm icon-btn btn-altima text-white"><span
                                         class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nueva unidad</a>
                             </h1>
                         </div>
@@ -72,8 +72,8 @@
                                                 <td class="text-center">
                                                     <button class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
                                                     <button th:onclick="editUnity([[${unidad[7]}]])" class="btn btn-warning btn-sm btn-circle popoverxd" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-                                                    <button th:if="${unidad[6]==0}" onclick="activarUnidad()" class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="En circulaci&oacute;n"><i class="fas fa-caret-up"></i></button>
-                                                    <button th:if="${unidad[6]==1}" onclick="inactivaUnidad()" class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Fuera de circulaci&oacute;n"><i class="fas fa-caret-down"></i></button>
+                                                    <button th:if="${unidad[6]==0}" th:onclick="activarUnidad([[${unidad[7]}]])" class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="En circulaci&oacute;n"><i class="fas fa-caret-up"></i></button>
+                                                    <button th:if="${unidad[6]==1}" th:onclick="inactivaUnidad([[${unidad[7]}]])" class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Fuera de circulaci&oacute;n"><i class="fas fa-caret-down"></i></button>
                                                 </td>
                                             </tr>    
                                         </tbody>

@@ -34,19 +34,19 @@ public class CatalogoUnidadesController {
 		return"logistica-catalogos-unidades";
 	}
 	
-	@PostMapping("/logistica-catalogos-unidades")
-	public String SendUnidad(@Valid @ModelAttribute("unidad") LogisticaUnidad unidad, BindingResult result, Model model) {
-		unidad.setEstatus("1");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		unidad.setCreadoPor(auth.getName());
-		DateTimeFormatter fechaConHora = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-		LocalDateTime now = LocalDateTime.now();
-		unidad.setFechaCreacion(fechaConHora.format(now));
-		loguniService.save(unidad);
-		if (result.hasErrors()) {
-			return "logistica-catalogos-unidades";
-		}
-		model.addAttribute("unidad",unidad);
-		return"redirect:/logistica-catalogos-unidades";
-	}
+	// @PostMapping("/logistica-catalogos-unidades")
+	// public String SendUnidad(@Valid @ModelAttribute("unidad") LogisticaUnidad unidad, BindingResult result, Model model) {
+	// 	unidad.setEstatus("1");
+	// 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	// 	unidad.setCreadoPor(auth.getName());
+	// 	DateTimeFormatter fechaConHora = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+	// 	LocalDateTime now = LocalDateTime.now();
+	// 	unidad.setFechaCreacion(fechaConHora.format(now));
+	// 	loguniService.save(unidad);
+	// 	if (result.hasErrors()) {
+	// 		return "logistica-catalogos-unidades";
+	// 	}
+	// 	model.addAttribute("unidad",unidad);
+	// 	return"redirect:/logistica-catalogos-unidades";
+	// }
 }
