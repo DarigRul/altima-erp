@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Configuraci&oacute;n de pedidos | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Configuraci&oacute;n de pedidos&nbsp;
+                                <a data-toggle="modal" data-target="#nuevaTipoPedido"
+                                    class="btn btn-sm icon-btn btn-altima text-white"><span
+                                        class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo
+                                    tipo de pedido</a>
+                            </h1>
+                        </div>
+                        <div th:insert="configuracion-de-pedidos-modal"></div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Administrador</li>
+                                <li class="breadcrumb-item active">Configuraci&oacute;n de pedidos</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de configuraciones de pedidos</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaConfiguracionPedidos table-striped table-bordered"
+                                        style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo de pedido</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Muestra de coleccion</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-info btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Detalles"><i
+                                                            class="fas fa-info"></i></button>
+                                                    <button data-toggle="modal" data-target="#nuevaTipoPedido"
+                                                        class="btn btn-warning btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Editar"><i
+                                                            class="fas fa-pen"></i></button>
+                                                    <button onclick="activarPedido()"
+                                                        class="btn btn-success btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Dar de alta"><i
+                                                            class="fas fa-caret-up"></i></button>
+                                                    <button onclick="bajaPedido()"
+                                                        class="btn btn-danger btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Dar de baja"><i
+                                                            class="fas fa-caret-down"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-footer-->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaConfiguracionPedidos.js"></script>
+    <script>
+        function activarPedido() {
+            Swal.fire({
+                title: "¿Deseas dar de alta el tipo de pedido?",
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonColor: "#dc3545",
+                confirmButtonColor: "#0288d1",
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Tipo de pedido dado de alta correctamente",
+                        showConfirmButton: false,
+                        timer: 2500,
+                    });
+                }
+            });
+        }
+        function bajaPedido() {
+            Swal.fire({
+                title: "¿Deseas dar de baja el tipo de pedido?",
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonColor: "#dc3545",
+                confirmButtonColor: "#0288d1",
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Tipo de pedido dado de baja correctamente",
+                        showConfirmButton: false,
+                        timer: 2500,
+                    });
+                }
+            });
+        }
+    </script>
+    <script>
+        $('#iAdministracion').removeClass('text-altima');
+        $('#menuAdministracion').addClass('menu-open');
+        $('#navAdministracion').addClass('active-altima');
+        $('#navAdmCon').addClass('active');
+    </script>
+    <script>
+        $("#stockPedido").change(function () {
+            if ($(this).val() == "Si") {
+                $("#personasPedido").removeAttr("disabled");
+            } else {
+                $("#personasPedido").attr("disabled", "disabled");
+            }
+        }).trigger("change");
+    </script>
+</body>
+
+</html>

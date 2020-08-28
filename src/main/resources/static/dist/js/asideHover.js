@@ -179,17 +179,17 @@
 		    }
 		});
 		$(document).ready(function() {
-		    if ($("#navUsuario").hasClass("active-altima")) {
-		        $("#navUsuario").hover(function() {
-		            $("#iUsuario").removeClass("text-altima");
+		    if ($("#navAdministracion").hasClass("active-altima")) {
+		        $("#navAdministracion").hover(function() {
+		            $("#iAdministracion").removeClass("text-altima");
 		        }, function() {
-		            $("#iUsuario").addClass("text-white");
+		            $("#iAdministracion").addClass("text-white");
 		        });
 		    } else {
-		        $("#navUsuario").hover(function() {
-		            $("#iUsuario").removeClass("text-altima");
+		        $("#navAdministracion").hover(function() {
+		            $("#iAdministracion").removeClass("text-altima");
 		        }, function() {
-		            $("#iUsuario").addClass("text-altima");
+		            $("#iAdministracion").addClass("text-altima");
 		        });
 		    }
 		});

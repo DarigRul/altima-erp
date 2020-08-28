@@ -1,0 +1,98 @@
+<!-- Modal -->
+<div class="modal fade" id="nuevaTipoPedido" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Nuevo tipo de pedido</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="descripcionPedido">Descripci&oacute;n pedido</label>
+                        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true"
+                            data-live-search-normalize="true" id="descripcionPedido">
+                            <option>Muestras de colección Diseño</option>
+                            <option>Solicitud de muestras Diseño</option>
+                            <option>Solicitud de muestras produccion</option>
+                            <option>Normales</option>
+                            <option>Especiales</option>
+                            <option>Linea Expres</option>
+                            <option>Reposiciones</option>
+                            <option>Resurtidos</option>
+                            <option>Stocks</option>
+                            <option>Licitaciones</option>
+                            <option>Toma de Ajustes</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="nomenclaturaPedido">Nomenclatura</label>
+                        <input type="text" class="form-control" id="nomenclaturaPedido" placeholder="MDC-0001">
+                    </div>
+                    <div class="form-group col-md-12" style="margin-bottom: 0px;">
+                        <hr style="border: 1px solid #8a8d93;">
+                        <h4>Tiempos de entrega</h4>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="cantidadPrendasPedido">Cantidad de prendas</label>
+                        <input type="text" class="form-control" id="cantidadPrendasPedido" placeholder="600">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="minimoDiasPedido">M&iacute;nimo de d&iacute;as</label>
+                        <input type="text" class="form-control" id="minimoDiasPedido" placeholder="45">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="maximoDiasPedido">M&aacute;ximo de d&iacute;as</label>
+                        <input type="text" class="form-control" id="maximoDiasPedido" placeholder="60">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <hr style="border: 1px solid #8a8d93;">
+                        <h4>Monto m&iacute;nimo de pedidos</h4>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="minimoLocalesPedido">Locales</label>
+                        <input type="text" class="form-control" id="minimoLocalesPedido" placeholder="60">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="minimoForaneosPedido">For&aacute;neos</label>
+                        <input type="text" class="form-control" id="minimoForaneosPedido" placeholder="100">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <hr style="border: 1px solid #8a8d93;">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="bordadoPedido">Bordado (d&iacute;as)</label>
+                        <input type="number" class="form-control" id="bordadoPedido" placeholder="9">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="stockPedido">Stock</label>
+                        <select class="form-control selectpicker" id="stockPedido">
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="personasPedido">M&iacute;nimo (personas)</label>
+                        <input type="number" disabled="disabled" class="form-control" id="personasPedido" placeholder="20">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="anticipoPedido">Anticipo</label>
+                        <select class="form-control selectpicker" id="anticipoPedido">
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal-rounded-footer">
+                <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span
+                        class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                <button onclick="addUnity()" type="button" class="btn icon-btn btn-altima text-white float-right"><span
+                        class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

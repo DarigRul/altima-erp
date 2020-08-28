@@ -914,16 +914,6 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_LISTAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_AGREGAR'')')}) or
-              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_EDITAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_ELIMINAR'')')})">
-                    <a th:href="${'/administracion_usuarios'}" class="nav-link" id="navUsuario">
-                        <i class="nav-icon fas fa-users text-altima" id="iUsuario"></i>
-                        <p>Usuarios</p>
-                    </a>
-                </li>
                 <li class="nav-item has-treeview" id="menuRH" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
               (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS'')')})">
                     <a class="nav-link" id="navRH">
@@ -994,6 +984,32 @@
 
 
                             </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" id="menuAdministracion" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_LISTAR'')')}) or 
+                (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_AGREGAR'')')}) or
+                (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_EDITAR'')')}) or 
+                (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_ELIMINAR'')')})">
+                    <a class="nav-link" id="navAdministracion">
+                        <i class="nav-icon-custom fas fa-user-cog text-altima" id="iAdministracion"></i>
+                        <p>
+                            Administrador <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="${'/configuracion-de-pedidos'}" class="nav-link" id="navAdmCon">
+                                <i class="nav-icon fas fa-cogs"></i>
+                                <p>Configuraci&oacute;n de pedidos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" >
+                            <a th:href="${'/administracion_usuarios'}" class="nav-link" id="navAdmUsu">
+                                <i class="nav-icon fas fa-users" id="iUsuario"></i>
+                                <p>Usuarios</p>
+                            </a>
                         </li>
                     </ul>
                 </li>
