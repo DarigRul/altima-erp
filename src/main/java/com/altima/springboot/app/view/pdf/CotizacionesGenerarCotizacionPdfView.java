@@ -360,10 +360,17 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			PdfPCell precioPrendaCabezero = new PdfPCell(new Phrase("Precio", HelveticaBold));
 			nombrePrendaCabezero.setBackgroundColor(fuerte);
 			nombrePrendaCabezero.setBorder(0);
+			nombrePrendaCabezero.setPaddingBottom(8f);
+			nombrePrendaCabezero.setPaddingTop(6f);
+			nombrePrendaCabezero.setHorizontalAlignment(Element.ALIGN_CENTER);
 			precioPrendaCabezero.setBackgroundColor(fuerte);
 			precioPrendaCabezero.setBorder(0);
-			nombrePrendaCabezero.setHorizontalAlignment(Element.ALIGN_CENTER);
+			precioPrendaCabezero.setPaddingBottom(8f);
+			precioPrendaCabezero.setPaddingTop(6f);
 			precioPrendaCabezero.setHorizontalAlignment(Element.ALIGN_CENTER);
+			
+			
+			
 			tablaPrendas.addCell(nombrePrendaCabezero);
 			tablaPrendas.addCell(precioPrendaCabezero);
 			float Total = 0;
@@ -372,8 +379,16 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				Total += Float.valueOf(aux[19].toString());
 				PdfPCell nombrePrenda = new PdfPCell(new Phrase(aux[4].toString(), Helvetica));
 				PdfPCell precioPrenda = new PdfPCell(new Phrase(aux[19].toString(), HelveticaBold));
-				nombrePrenda.setPadding(3f);
-				precioPrenda.setPadding(3f);
+//				nombrePrenda.setPadding(3f);
+//				precioPrenda.setPadding(3f);
+				nombrePrenda.setBorderColorBottom(borderTable);
+				nombrePrenda.setBorderWidthBottom(2);
+				nombrePrenda.setBorder(Rectangle.BOTTOM);
+				nombrePrenda.setPaddingBottom(18f);
+				precioPrenda.setBorderColorBottom(borderTable);
+				precioPrenda.setBorderWidthBottom(2);
+				precioPrenda.setBorder(Rectangle.BOTTOM);
+				precioPrenda.setPaddingBottom(18f);
 				tablaPrendas.addCell(nombrePrenda);
 				tablaPrendas.addCell(precioPrenda);
 			}
@@ -382,8 +397,16 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			if(totales) {
 				PdfPCell totalTitulo = new PdfPCell(new Phrase("Total", HelveticaBold));
 				PdfPCell totalNumero = new PdfPCell(new Phrase("" + Total, HelveticaBold));
-				totalTitulo.setPadding(3f);
-				totalNumero.setPadding(3f);
+//				totalTitulo.setPadding(3f);
+//				totalNumero.setPadding(3f);
+				totalTitulo.setPaddingBottom(18f);
+				totalTitulo.setBorder(0); 
+				totalTitulo.setBorder(Rectangle.BOTTOM);
+				totalTitulo.setBorderColorBottom(borderTable);
+				totalTitulo.setBorderWidthBottom(2);
+				totalNumero.setBorder(Rectangle.BOTTOM);
+				totalNumero.setBorderColorBottom(borderTable);
+				totalNumero.setBorderWidthBottom(2);
 				tablaPrendas.addCell(totalTitulo);
 				tablaPrendas.addCell(totalNumero);
 			}
@@ -530,7 +553,20 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				
 		    	//Primera tabla de numero, nombre y fecha
 		    	PdfPTable tablaFooter1 = new PdfPTable(1);
-		    	PdfPCell leyenda1 = new PdfPCell(new Phrase("Condiciones: ", HelveticaBold));
+		    	tablaFooter1.setWidthPercentage(100);
+		    	PdfPCell tituloTablaFirmas = new PdfPCell(new Phrase("CONDICIONES", Titulos));
+		    	tituloTablaFirmas.setHorizontalAlignment(Element.ALIGN_CENTER);
+		    	tituloTablaFirmas.setVerticalAlignment(Element.ALIGN_CENTER);
+		    	tituloTablaFirmas.setBackgroundColor(BackgroundTitle);
+		    	tituloTablaFirmas.setPadding(5f);
+		    	tituloTablaFirmas.setPaddingBottom(8f);
+		    	tituloTablaFirmas.setBorder(0);
+		    	tituloTablaFirmas.setBorder(Rectangle.BOTTOM | Rectangle.RIGHT);
+		    	tituloTablaFirmas.setBorderWidthBottom(3f);
+		    	tituloTablaFirmas.setBorderWidthRight(3f);
+		    	tituloTablaFirmas.setBorderColor(colorBorderBottom);
+		    	tablaFooter1.addCell(tituloTablaFirmas);
+		    	PdfPCell leyenda1 = new PdfPCell(new Phrase(" "));
 		    	PdfPCell leyenda2 = new PdfPCell(new Phrase("* Estos precios son más I.V.A.", Helvetica));
 		    	PdfPCell leyenda3 = new PdfPCell(new Phrase("* El pago será de 45% días hábiles para un máximo de 50 personas y de 60 días hábiles para un número mayor; a partir del anticipo, toma de tallas, modelos y colores autorizados por uds.", Helvetica));
 		    	PdfPCell leyenda4 = new PdfPCell(new Phrase("* Los uniformes son sobre talla y no sobre medida.", Helvetica));
@@ -567,6 +603,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tablaFooter1.addCell(leyenda7);
 		    	//Segunda tabla de las firmas
 		    	PdfPTable tablaFooter2 = new PdfPTable(3);
+		    	tablaFooter2.setWidthPercentage(90);
 		    	PdfPCell espacioBlanco1 = new PdfPCell(new Phrase(" "));
 		    	PdfPCell leyenda8 = new PdfPCell(new Phrase("Atentamente: ", HelveticaBold));
 		    	PdfPCell espacioBlanco2 = new PdfPCell(new Phrase(" "));
@@ -591,6 +628,15 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tablaFooter2.addCell(espacioBlanco3);
 		    	tablaFooter2.addCell(espacioBlanco2);
 		    	//Firmas ya pro
+		    	Image firmaVentas = Image.getInstance("src/main/resources/static/dist/img/firmaVentas.png");
+		    	firmaVentas.scalePercent(40f);
+		    	
+		    	PdfPCell firmaImgVentas = new PdfPCell(firmaVentas);
+		    	firmaImgVentas.setBorder(0);
+		    	firmaImgVentas.setPadding(3f);
+		    	firmaImgVentas.setHorizontalAlignment(Element.ALIGN_CENTER);
+		    	tablaFooter2.addCell(firmaImgVentas);
+		    	
 		    	PdfPCell firmaActual = new PdfPCell(new Phrase(" "));
 		    	firmaActual.setBorder(0);
 		    	firmaActual.setPadding(3f);
@@ -599,40 +645,44 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	firma.scalePercent(10f);
 		    	
 		    	tablaFooter2.addCell(firmaActual);
-		    	tablaFooter2.addCell(firmaActual);
 		    	PdfPCell firmaImg = new PdfPCell(firma);
 		    	firmaImg.setBorder(0);
 		    	firmaImg.setPadding(3f);
+		    	firmaImg.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	tablaFooter2.addCell(firmaImg);
 		    	//Espacios para firmar
-		    	PdfPCell espacioFirma1 = new PdfPCell(new Phrase("____________________"));
-		    	PdfPCell espacioFirma2 = new PdfPCell(new Phrase("_____________________"));
+		    	PdfPCell espacioFirma1 = new PdfPCell(new Phrase("________________________"));
+		    	PdfPCell espacioFirma2 = new PdfPCell(new Phrase("________________________"));
 		    	espacioFirma1.setBorder(0);
 		    	espacioFirma2.setBorder(0);
 		    	espacioFirma1.setPadding(3f);
 		    	espacioFirma2.setPadding(3f);
-		    	espacioFirma1.setHorizontalAlignment(Element.ALIGN_LEFT);
-		    	espacioFirma2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+		    	espacioFirma1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		    	espacioFirma2.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	tablaFooter2.addCell(espacioFirma1);
 		    	tablaFooter2.addCell(espacioBlanco3);
 		    	tablaFooter2.addCell(espacioFirma2);
 		    	//Nombres de las firmas
-		    	PdfPCell nombreFirma1 = new PdfPCell(new Phrase("              Diana Rodriguez", Helvetica));
-		    	PdfPCell nombreFirma2 = new PdfPCell(new Phrase("    Jorge Armando Cottone Morales", Helvetica));
+		    	PdfPCell nombreFirma1 = new PdfPCell(new Phrase("Diana Rodriguez", Helvetica));
+		    	PdfPCell nombreFirma2 = new PdfPCell(new Phrase("Jorge Armando Cottone Morales", Helvetica));
 		    	nombreFirma1.setBorder(0);
+		    	nombreFirma1.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	nombreFirma2.setBorder(0);
+		    	nombreFirma2.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	tablaFooter2.addCell(nombreFirma1);
 		    	tablaFooter2.addCell(espacioBlanco3);
 		    	tablaFooter2.addCell(nombreFirma2);
 		    	//Puestos firmas
-		    	PdfPCell puestosFirma1 = new PdfPCell(new Phrase("            Ejecutivo de Ventas", Helvetica));
-		    	PdfPCell puestosFirma2 = new PdfPCell(new Phrase("           Gerente Comercial", Helvetica));
-		    	puestosFirma1.setBorder(0);	 
+		    	PdfPCell puestosFirma1 = new PdfPCell(new Phrase("Ejecutivo de Ventas", Helvetica));
+		    	PdfPCell puestosFirma2 = new PdfPCell(new Phrase("Gerente Comercial", Helvetica));
+		    	puestosFirma1.setBorder(0);
+		    	puestosFirma1.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	puestosFirma2.setBorder(0);
+		    	puestosFirma2.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	tablaFooter2.addCell(puestosFirma1);
 		    	tablaFooter2.addCell(espacioBlanco3);
 		    	tablaFooter2.addCell(puestosFirma2);
-		    	tablaFooter2.setWidths(new float[] { 5f, 5f, 5f });
+		    	tablaFooter2.setWidths(new float[] { 6f, 3f, 6f });
 		    	
 		    	
 		//Aqui se hace el merge del CV si es que existe
