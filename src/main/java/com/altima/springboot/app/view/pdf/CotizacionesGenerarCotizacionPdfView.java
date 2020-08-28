@@ -543,14 +543,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				tablaPrendas.addCell(TotalLetra);
 				tablaPrendas.addCell(TotalNumero);
 			}	
-		}
-				//Condiciones
-				//Espacio en blanco xd
-				PdfPTable espacioTabla = new PdfPTable(1);
-				PdfPCell cellUltimo = new PdfPCell(new Phrase(" "));
-				cellUltimo.setBorder(0);
-				espacioTabla.addCell(cell);
-				
+		}				
 		    	//Primera tabla de numero, nombre y fecha
 		    	PdfPTable tablaFooter1 = new PdfPTable(1);
 		    	tablaFooter1.setWidthPercentage(100);
@@ -698,7 +691,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			document.add(tablaHeader3);
 			document.add(espacio);
 			document.add(tablaPrendas);
-			document.newPage();
 			document.add(espacio);
 			document.add(tablaFooter1);
 			document.add(espacio);
@@ -723,7 +715,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			document.add(tablaHeader3);
 			document.add(espacio);
 			document.add(tablaPrendas);
-			document.newPage();
 			document.add(espacio);
 			document.add(tablaFooter1);
 			document.add(espacio);
@@ -746,8 +737,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			document.add(tablaHeader3);
 			document.add(espacio);
 			document.add(tablaPrendas);
-			document.newPage();
-			document.add(espacio);
 			document.add(tablaFooter1);
 			document.add(espacio);
 			document.add(tablaFooter2);
