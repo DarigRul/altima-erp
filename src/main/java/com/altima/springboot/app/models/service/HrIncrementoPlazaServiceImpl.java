@@ -21,7 +21,7 @@ public class HrIncrementoPlazaServiceImpl implements IHrIncrementoPlazaService {
 	HrIncrementoPlazaRepository repository;
 	@Autowired
 	EntityManager em;
-	
+
 	@Override
 	@Transactional
 	public List<HrIncrementoPlaza> findAll() {
@@ -49,51 +49,45 @@ public class HrIncrementoPlazaServiceImpl implements IHrIncrementoPlazaService {
 		// TODO Auto-generated method stub
 		return repository.findById(id).orElse(null);
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> incrementosPlazas() {
-		
 		List<Object[]> mv;
 		mv = em.createNativeQuery("{call  alt_pr_incremento_plazas}").getResultList();
 		return mv;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object editarPlazas(Long id) {
-		
 		List<Object[]> mv;
-		mv = em.createNativeQuery("{call  alt_pr_editar_incrementosPlazas("+id+")}").getResultList();
+		mv = em.createNativeQuery("{call  alt_pr_editar_incrementosPlazas(" + id + ")}").getResultList();
 		return mv;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object listarDepartamentos(Long id) {
-		
 		List<Object[]> mv;
-		mv = em.createNativeQuery("{call  alt_pr_departamentos("+id+")}").getResultList();
+		mv = em.createNativeQuery("{call  alt_pr_departamentos(" + id + ")}").getResultList();
 		return mv;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object listarPuestos(Long id) {
-		
 		List<Object[]> mv;
-		mv = em.createNativeQuery("{call  alt_pr_puestos("+id+")}").getResultList();
+		mv = em.createNativeQuery("{call  alt_pr_puestos(" + id + ")}").getResultList();
 		return mv;
 	}
-	
-	
+
 	@Override
 	public Object findByIdIncrementoPlaza(Long id) {
 		// TODO Auto-generated method stub
-		return em.createNativeQuery("{call  alt_pr_reporteIncrementosPlazas("+id+")}").getSingleResult();
+		return em.createNativeQuery("{call  alt_pr_reporteIncrementosPlazas(" + id + ")}").getSingleResult();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
@@ -101,7 +95,7 @@ public class HrIncrementoPlazaServiceImpl implements IHrIncrementoPlazaService {
 		// TODO Auto-generated method stub
 		return em.createQuery("from HrPuesto").getResultList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
@@ -109,7 +103,7 @@ public class HrIncrementoPlazaServiceImpl implements IHrIncrementoPlazaService {
 		// TODO Auto-generated method stub
 		return em.createQuery("from HrLookup where tipoLookup = 'Area'").getResultList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
@@ -117,9 +111,5 @@ public class HrIncrementoPlazaServiceImpl implements IHrIncrementoPlazaService {
 		// TODO Auto-generated method stub
 		return em.createQuery("from HrDepartamento").getResultList();
 	}
-	
-	
-	
-	
 
 }
