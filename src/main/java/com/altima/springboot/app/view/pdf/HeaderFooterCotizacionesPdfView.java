@@ -78,12 +78,16 @@ public class HeaderFooterCotizacionesPdfView extends PdfPageEventHelper {
 		
 		//Tabla de Raya Roja xd
     	PdfPTable tablaRayaRoja = new PdfPTable(1);
-    	PdfPCell RayaRoja = new PdfPCell(new Phrase("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯", Raya));
-    	RayaRoja.setBorder(PdfPCell.NO_BORDER);
+    	tablaRayaRoja.setWidthPercentage(100);
+    	PdfPCell RayaRoja = new PdfPCell(new Phrase("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯", Raya));
+    	RayaRoja.setPaddingLeft(-65f);
+    	RayaRoja.setBorder(0);
+    	RayaRoja.setHorizontalAlignment(Element.ALIGN_LEFT);
     	tablaRayaRoja.addCell(RayaRoja);
     	
 		//Tabla de Imagen
 		PdfPTable tablaImagen = new PdfPTable(2);
+		tablaImagen.setWidthPercentage(250f);
 		//Imagen
 		Image img = null;
 		try {
@@ -96,11 +100,13 @@ public class HeaderFooterCotizacionesPdfView extends PdfPageEventHelper {
 		PdfPCell imagen = new PdfPCell(img);
 		imagen.setBorder(PdfPCell.NO_BORDER);
 		imagen.setHorizontalAlignment(Element.ALIGN_LEFT);
+		imagen.setPaddingLeft(-65f);
 		tablaImagen.addCell(imagen);
 		//Texto
 		PdfPCell leyenda = new PdfPCell(new Paragraph("www.uniformes-altima.com.mx     Aviso de Privacidad    \n Avenida Primero de Mayo #126 Col. 8 de Agosto  \n  CP: 03820 México D.F. 5272 9626 \n    altima@uniformes-altima.com.mx", Helvetica));
     	leyenda.setBorder(PdfPCell.NO_BORDER);	
     	leyenda.setHorizontalAlignment(Element.ALIGN_RIGHT);
+    	leyenda.setPaddingRight(-40f);
     	tablaImagen.addCell(leyenda);
     	
 		
