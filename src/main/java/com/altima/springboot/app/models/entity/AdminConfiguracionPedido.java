@@ -38,7 +38,7 @@ public class AdminConfiguracionPedido implements Serializable{
 	@Column(name="minimo_dias")
 	private String minimoDias;
 	
-	@Column(name="minimo_dias")
+	@Column(name="maximo_dias")
 	private String maximoDias;
 	
 	@Column(name="locales")
