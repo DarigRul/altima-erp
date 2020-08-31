@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.altima.springboot.app.models.entity.DisenioListaPrecioPrenda;
 import com.altima.springboot.app.models.entity.DisenioPrenda;
 import com.altima.springboot.app.models.service.IDisenioListaPrecioPrendaService;
+import com.altima.springboot.app.models.service.IDisenioLookupService;
 import com.altima.springboot.app.models.service.IDisenioPrendaService;
 
 @Controller
@@ -26,14 +27,17 @@ public class PrecioPrendaController {
 	IDisenioListaPrecioPrendaService disenioListaPrecioPrendaService;
 	@Autowired
 	IDisenioPrendaService prendaService;
+	@Autowired
+	IDisenioLookupService disenioLookupService;
 
-	@GetMapping("/precio-prenda/{id}")
+	@GetMapping("/precios-prenda/{id}")
 	public String infoClothesPrice(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
-		DisenioListaPrecioPrenda precio = disenioListaPrecioPrendaService.findByidPrenda(id);
+		DisenioListaPrecioPrenda precio = new DisenioListaPrecioPrenda();
 		DisenioPrenda prenda = prendaService.findOne(id);
 		precio.setIdPrenda(id);
 		model.addAttribute("idText", prenda.getIdText());
 		model.addAttribute("precio", precio);
+		model.addAttribute("composiciones", disenioLookupService.findByTipoLookup("Familia Composicion"));
 		return "precios-prenda";
 	}
 
@@ -52,7 +56,7 @@ public class PrecioPrendaController {
 		disenioListaPrecioPrendaService.save(precio);
 		redirectAttrs.addFlashAttribute("title", "Precios insertados correctamente").addFlashAttribute("icon",
 				"success");
-		return "redirect:/prendas";
+		return "redirect:/lista-precios/"+precio.getIdPrenda();
 	}
 
 	@GetMapping("costo-prenda/{id}")
@@ -62,5 +66,30 @@ public class PrecioPrendaController {
 		precio.setIdPrenda(id);
 		model.addAttribute("precio", precio);
 		return "costo-prenda";
+	}
+
+	@GetMapping("/lista-precios/{id}")
+	public String listaPrecio(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
+		model.addAttribute("listaPrecios", disenioListaPrecioPrendaService.listaPrecioPrenda(id));
+		model.addAttribute("id", id);
+		
+		return "lista-precios";
+	}
+
+	@GetMapping("/precios-prenda/{id}/{idp}")
+	public String infoClothesPrice(@PathVariable(value = "id") Long id,@PathVariable(value = "idp") Long idp, Model model, Map<String, Object> m) {
+		DisenioListaPrecioPrenda precio = disenioListaPrecioPrendaService.findOne(idp);
+		DisenioPrenda prenda = prendaService.findOne(id);
+		precio.setIdPrenda(id);
+		model.addAttribute("idText", prenda.getIdText());
+		model.addAttribute("precio", precio);
+		model.addAttribute("composiciones", disenioLookupService.findByTipoLookup("Familia Composicion"));
+		return "precios-prenda";
+	}
+	@GetMapping("/eliminar-precios-prenda/{idp}")
+	public String eliminarprecio(@PathVariable(value = "idp") Long idp, Model model, Map<String, Object> m) {
+		DisenioListaPrecioPrenda precio = disenioListaPrecioPrendaService.findOne(idp);
+		disenioListaPrecioPrendaService.delete(idp);
+		return "redirect:/lista-precios/"+precio.getIdPrenda();
 	}
 }

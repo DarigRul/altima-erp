@@ -140,7 +140,7 @@
                   <input th:field="*{precioMaquila}" min="0.00" max="10000.00" step="0.01" type="number" class="form-control" id="exampleInputPassword1">
                 </div>
                  -->
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                   <label for="precioMuestrario">Muestrario</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -150,7 +150,7 @@
                       class="form-control" id="precioMuestrario">
                   </div>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                   <label for="precioInterna">Venta interna</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -158,6 +158,15 @@
                     </div>
                     <input th:field="*{precioVentaInterna}" required min="0.00" max="10000.00" step="0.01" type="number"
                       class="form-control" id="precioInterna">
+                  </div>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="precioMuestrario">Familia de composocion</label>
+                  <div class="input-group mb-3">
+                    <select th:field="*{idFamiliaComposicion}" class="form-control" required>
+                      <option value="">Seleccione uno...</option>
+                      <option th:each=" composicion: ${composiciones}" th:text="${composicion.nombreLookup}" th:value="${composicion.idLookup}"></option>
+                    </select>
                   </div>
                 </div>
                 <input type="hidden" th:field="*{idPrenda}">
