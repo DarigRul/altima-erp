@@ -1,0 +1,45 @@
+<div class="small-box bg-danger">
+    <div class="inner">
+        <h3>Empleado alterno</h3>
+        <button data-toggle="modal" data-target="#empleadosAlternos" onclick="listarDepartamentos()" class="btn btn-link"
+            id="btnDepartamentoDetalle" style="color: #ffffff!important; padding-left: 1px;"><i
+                class="fas fa-info-circle"></i> Detalle</button>
+    </div>
+    <div class="icon">
+        <i class="fas fa-code-branch"></i>
+    </div>
+    <a class="small-box-footer">
+        <button onclick="agregarAlterno()" class="btn btn-link" style="color: #ffffff!important">Agregar <i
+                class="fas fa-plus-circle"></i></button>
+    </a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="empleadosAlternos" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalCuidadoMobile">
+        <div class="modal-content" id="contenedorTabla3">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title" id="exampleModalLongTitle">Departamentos <button onclick="agregarDepartamento()"
+                        class="btn btn-light btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"
+                        data-placement="right" data-content="Agregar"><i class="fas fa-plus text-danger"></i></button>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeDep">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered" id="tableEmpleadoAlterno" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre(s)</th>
+                            <th>Ã�rea</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
