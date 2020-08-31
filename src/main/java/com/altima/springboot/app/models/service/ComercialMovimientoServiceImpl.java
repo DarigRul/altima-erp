@@ -40,7 +40,7 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 		return em.createNativeQuery("select prenda.descripcion_prenda, pedido.talla, telas.nombre_tela, pedido.id_detalle_pedido, prenda.id_text AS text, telas.id_text from alt_produccion_detalle_pedido pedido" + 
 									"	INNER JOIN alt_disenio_prenda prenda ON pedido.id_prenda = prenda.id_prenda" + 
 									"	INNER JOIN alt_disenio_tela telas ON pedido.id_tela = telas.id_tela" +
-									"   INNER JOIN alt_disenio_lista_precio_prenda precio ON prenda.id_prenda = precio.id_prenda" +	
+									"   INNER JOIN alt_disenio_lista_precio_prenda precio ON prenda.id_prenda = precio.id_prenda AND telas.id_familia_composicion = precio.id_familia_composicion" +	
 									"   WHERE pedido.estatus_confeccion=2 AND pedido.estatus=1").getResultList();
 	}
 	
@@ -69,8 +69,10 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 											"movimiento.estatus, \n" + 
 											"(SELECT SUM(precio.precio_muestrario) \n" + 
 											" FROM alt_comercial_movimiento_muestra_detalle as muest\n" + 
-											"	INNER JOIN alt_disenio_prenda prenda ON muest.modelo_prenda = prenda.id_prenda\n" + 
-											"	INNER JOIN alt_disenio_lista_precio_prenda precio ON muest.modelo_prenda = precio.id_prenda\n" + 
+											"	INNER JOIN alt_disenio_prenda prenda ON muest.modelo_prenda = prenda.id_prenda\n" +
+											"   INNER JOIN alt_disenio_tela tela ON muest.codigo_tela = tela.id_tela\n" +
+											"	INNER JOIN alt_disenio_lista_precio_prenda precio ON muest.modelo_prenda = precio.id_prenda " +
+											 													"AND tela.id_familia_composicion = precio.id_familia_composicion\n" + 
 											"	WHERE muest.id_movimiento = movimiento.id_movimiento\n" +
 											"   AND (muest.estatus=1 OR muest.estatus=2 OR muest.estatus=6 OR muest.estatus=7)) AS Total, movimiento.encargado\n" + 
 									"from alt_comercial_movimiento as movimiento\n" + 

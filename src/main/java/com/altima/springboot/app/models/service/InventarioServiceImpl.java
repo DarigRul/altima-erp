@@ -56,7 +56,7 @@ public class InventarioServiceImpl implements IInventarioService {
 				"INNER JOIN alt_disenio_tela dt ON\r\n" + 
 				"    dt.id_tela = po.id_tela\r\n" + 
 				"INNER JOIN alt_disenio_lista_precio_prenda precio ON\r\n" + 
-				"    precio.id_prenda = po.id_prenda\r\n" + 
+				"    precio.id_prenda = po.id_prenda AND dt.id_familia_composicion = precio.id_familia_composicion\r\n" + 
 				"INNER JOIN alt_disenio_lookup dl2 ON\r\n" + 
 				"    dl2.id_lookup = pre3.id_familia_prenda\r\n" + 
 				"INNER JOIN alt_disenio_lookup dl ON\r\n" + 
@@ -126,7 +126,7 @@ public class InventarioServiceImpl implements IInventarioService {
 				"	\n" + 
 				"	INNER JOIN alt_disenio_prenda pre3 ON pre3.id_prenda = po.id_prenda AND estatus_confeccion = '2' AND po.estatus = '1'\n" + 
 				"	INNER JOIN alt_disenio_tela dt ON dt.id_tela = po.id_tela \n" + 
-				"	INNER JOIN alt_disenio_lista_precio_prenda precio ON precio.id_prenda = po.id_prenda \n" + 
+				"	INNER JOIN alt_disenio_lista_precio_prenda precio ON precio.id_prenda = po.id_prenda AND dt.id_familia_composicion = precio.id_familia_composicion\n" + 
 				"	INNER JOIN alt_disenio_lookup dl2 ON dl2.id_lookup = pre3.id_familia_prenda \n" + 
 				"	INNER JOIN alt_disenio_lookup dl ON dl.id_lookup = pre3.id_genero \n" + 
 				"	LEFT JOIN alt_comercial_imagen_inventario imagen ON imagen.id_prenda = po.id_prenda AND imagen.id_tela = dt.id_tela").getResultList();

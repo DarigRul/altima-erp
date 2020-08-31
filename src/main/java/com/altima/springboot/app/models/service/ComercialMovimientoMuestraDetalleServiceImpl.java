@@ -80,8 +80,9 @@ public class ComercialMovimientoMuestraDetalleServiceImpl implements IComercialM
 									"		muest.estatus\r\n" + 
 									"from alt_comercial_movimiento_muestra_detalle as muest\r\n" + 
 									"INNER JOIN alt_disenio_prenda prenda ON muest.modelo_prenda = prenda.id_prenda\r\n" + 
-									"INNER JOIN alt_disenio_lista_precio_prenda precio ON prenda.id_prenda = precio.id_prenda\r\n" + 
 									"INNER JOIN alt_disenio_tela tela ON muest.codigo_tela = tela.id_tela\r\n" + 
+									"INNER JOIN alt_disenio_lista_precio_prenda precio ON prenda.id_prenda = precio.id_prenda " +
+									 												 "AND tela.id_familia_composicion = precio.id_familia_composicion\r\n" + 
 									"\r\n" + 
 									"where muest.id_movimiento = "+id+" \r\n" + 
 									"and (muest.estatus =4 \r\n" + 
