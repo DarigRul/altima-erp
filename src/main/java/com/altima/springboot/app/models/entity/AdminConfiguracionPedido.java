@@ -26,8 +26,8 @@ public class AdminConfiguracionPedido implements Serializable{
 	@GenericGenerator(name="native",strategy="native")
 	private Long idConfiguracionPedido;
 
-	@Column(name="id_pedido_informacion")
-	private Long idPedidoInformacion;
+	@Column(name="tipo_pedido")
+	private Long tipoPedido;
 	
 	@Column(name="nomenclatura")
 	private String nomenclatura;
@@ -82,12 +82,13 @@ public class AdminConfiguracionPedido implements Serializable{
 		this.idConfiguracionPedido = idConfiguracionPedido;
 	}
 
-	public Long getIdPedidoInformacion() {
-		return idPedidoInformacion;
+	
+	public Long getTipoPedido() {
+		return tipoPedido;
 	}
 
-	public void setIdPedidoInformacion(Long idPedidoInformacion) {
-		this.idPedidoInformacion = idPedidoInformacion;
+	public void setTipoPedido(Long tipoPedido) {
+		this.tipoPedido = tipoPedido;
 	}
 
 	public String getNomenclatura() {

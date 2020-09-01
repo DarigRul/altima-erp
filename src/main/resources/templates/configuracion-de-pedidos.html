@@ -23,7 +23,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>Configuraci&oacute;n de pedidos&nbsp;
-                                <a data-toggle="modal" data-target="#nuevaTipoPedido"
+                                <a data-toggle="modal" data-target="#nuevaTipoPedido" onclick="limpiar();"
                                     class="btn btn-sm icon-btn btn-altima text-white"><span
                                         class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo
                                     tipo de pedido</a>
@@ -61,24 +61,26 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Muestra de coleccion</td>
+                                            <tr th:each="pedidos: ${pedidos}">
+                                                <td th:text="${pedidos[1]}"></td> 
+                                                
                                                 <td class="text-center">
                                                     <button class="btn btn-info btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Detalles"><i
                                                             class="fas fa-info"></i></button>
                                                     <button data-toggle="modal" data-target="#nuevaTipoPedido"
                                                         class="btn btn-warning btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Editar"><i
+                                                        data-placement="top" data-content="Editar" onclick="editar(this)" th:id="${pedidos[0]}"  ><i
                                                             class="fas fa-pen"></i></button>
-                                                    <button onclick="activarPedido()"
+                                                            
+                                                    <button th:if="${pedidos[2]} != '0'"  onclick="bajaPedido(this)" th:id="${pedidos[0]}"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Dar de alta"><i
-                                                            class="fas fa-caret-up"></i></button>
-                                                    <button onclick="bajaPedido()"
+                                                            class="fas fa-caret-up"  ></i></button>
+                                                    <button th:if="${pedidos[2]} != '1'" onclick="activarPedido(this)" th:id="${pedidos[0]}"
                                                         class="btn btn-danger btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Dar de baja"><i
-                                                            class="fas fa-caret-down"></i></button>
+                                                            class="fas fa-caret-down"  ></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -98,49 +100,10 @@
     </div>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaConfiguracionPedidos.js"></script>
+    <script src="/dist/js/AdminConfigPedido.js"></script>
     <script>
-        function activarPedido() {
-            Swal.fire({
-                title: "¿Deseas dar de alta el tipo de pedido?",
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonColor: "#dc3545",
-                confirmButtonColor: "#0288d1",
-                confirmButtonText: "Confirmar",
-                cancelButtonText: "Cancelar",
-            }).then((result) => {
-                if (result.value) {
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "Tipo de pedido dado de alta correctamente",
-                        showConfirmButton: false,
-                        timer: 2500,
-                    });
-                }
-            });
-        }
-        function bajaPedido() {
-            Swal.fire({
-                title: "¿Deseas dar de baja el tipo de pedido?",
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonColor: "#dc3545",
-                confirmButtonColor: "#0288d1",
-                confirmButtonText: "Confirmar",
-                cancelButtonText: "Cancelar",
-            }).then((result) => {
-                if (result.value) {
-                    Swal.fire({
-                        position: "center",
-                        icon: "success",
-                        title: "Tipo de pedido dado de baja correctamente",
-                        showConfirmButton: false,
-                        timer: 2500,
-                    });
-                }
-            });
-        }
+       
+        
     </script>
     <script>
         $('#iAdministracion').removeClass('text-altima');
@@ -148,6 +111,17 @@
         $('#navAdministracion').addClass('active-altima');
         $('#navAdmCon').addClass('active');
     </script>
+    <script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+	    	  position: 'center',
+	          icon: /*[[${icon}]]*/,
+	          title: /*[[${title}]]*/,
+	          showConfirmButton: false,
+	          timer: 1250
+	    });
+	</script>
+    
+    
     <script>
         $("#stockPedido").change(function () {
             if ($(this).val() == "Si") {
