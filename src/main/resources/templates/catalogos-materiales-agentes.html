@@ -209,13 +209,13 @@
                         <div class="container" style="max-width: 1800px;">
                             <div class="row" data-jplist-group="group1">
                                 <div th:each="material : ${materiales}" th:if="${material[6] == '1' && material[7] == 1}" class="col-lg-3 col-sm-6 mb-4" data-jplist-item>
-									
+									<h1 th:text="${material[3]}"></h1>
                                     <div th:class="${material[1]}" >
                                         <div class="card box-shadow">
-                                            <div class="food-img" style="text-align: center;">
-												<img th:if="@{material[3]!='Tela' && material[3]!='Forro'}" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1596493418/material/' + ${material[8]}}" alt="" title="">
-												<img th:if="@{material[3]=='Tela'}" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/' + ${material[8]}}" alt="" title="">
-												<img th:if="@{material[3]=='Forro'}" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1596493418/forros/' + ${material[8]}}" alt="" title="">
+                                            <div class="food-img" style="text-align: center;" th:switch="${material[3]}">
+												<img th:case="'Tela'" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/' + ${material[8]}}" alt="" title="">
+												<img th:case="'Forro'" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/forros/' + ${material[8]}}" alt="" title="">
+												<img th:case="*" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1596493418/material/' + ${material[8]}}" alt="" title="">
                                             </div>
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
