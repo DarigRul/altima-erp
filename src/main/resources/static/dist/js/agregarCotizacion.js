@@ -258,36 +258,48 @@ function AgregarRegistroTablita (){
 				precioInicial = data[5];
 			}
 			
-			console.log(data);
-			table.row.add([	
-							
-							 cantidad,
-							 idCoordinadoPrenda,
-							 "<input type='hidden' id='idPrenda"+contadorGeneral+"' class='form-control' value='"+idPrenda+"'>"+
-							 "<input type='hidden' class='form-control' id='idCotizacionPrenda"+contadorGeneral+"' value="+-1+">" +
-							 "<input type='hidden' id='idModelo"+contadorGeneral+"' class='form-control' value='"+idModelo+"'>" +
-							 "<input type='hidden' class='form-control idCoordinadoPrenda' id='idCoordinadoPrenda"+contadorGeneral+"' value="+idCoordinadoPrenda+">" +
-							 "<input type='hidden' class='form-control cantidad' id='cantidad"+contadorGeneral+"' value="+cantidad+">" +
-							 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+idTela  +"'>"+
-							 $('#prendaCotizacion').find('option:selected').text() +
-							 "<input type='hidden' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+precioInicial*cantidad+" disabled>" +
-							 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+precioInicial+" disabled>",
-							 $('#modeloCotizacion').find('option:selected').text(),
-							 $('#telaCotizacion').find('option:selected').text(),
-							 data[0],
-							 data[1] ,
-							 precioInicial,
-							 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"' title='Selecciona uno...' value="+tablaPrendasCotizar[i][15]+">" +
-							 listaBordados+"</select>" ,
-							 "<input type='number' class='form-control porcentajeCotizacion' id='porcentajeCotizacion"+contadorGeneral+"' placeholder='5' value=0>" ,
-							 "<input type='number' class='form-control montoCotizacion' id='montoCotizacion"+contadorGeneral+"' placeholder='15' value=0>" ,
-							 precioInicial,
-							 precioInicial*cantidad,
-							 "<a class='btn btn-danger btn-circle btn-sm text-white popoverxd' id='borrar' data-container='body' data-placement='top'><i class='fas fa-minus'></i></a>"    
-							 ]).node().id ="row"+contadorGeneral;
-			table.draw( false );
-			$('#bordadoPrecioCotizacion'+contadorGeneral).selectpicker("refresh");
-			contadorGeneral++;
+			if(data==null || data=='' || data==undefined || data.length==0){
+				Swal.fire({
+		            position: 'center',
+		            icon: 'error',
+		            title: 'Error',
+		            html: '¡Esta prenda aún no tiene precio!',
+		            showConfirmButton: false,
+		            timer: 3500
+		        })
+			}
+			else{
+				console.log(data);
+				table.row.add([	
+								
+								 cantidad,
+								 idCoordinadoPrenda,
+								 "<input type='hidden' id='idPrenda"+contadorGeneral+"' class='form-control' value='"+idPrenda+"'>"+
+								 "<input type='hidden' class='form-control' id='idCotizacionPrenda"+contadorGeneral+"' value="+-1+">" +
+								 "<input type='hidden' id='idModelo"+contadorGeneral+"' class='form-control' value='"+idModelo+"'>" +
+								 "<input type='hidden' class='form-control idCoordinadoPrenda' id='idCoordinadoPrenda"+contadorGeneral+"' value="+idCoordinadoPrenda+">" +
+								 "<input type='hidden' class='form-control cantidad' id='cantidad"+contadorGeneral+"' value="+cantidad+">" +
+								 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+idTela  +"'>"+
+								 $('#prendaCotizacion').find('option:selected').text() +
+								 "<input type='hidden' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+precioInicial*cantidad+" disabled>" +
+								 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+precioInicial+" disabled>",
+								 $('#modeloCotizacion').find('option:selected').text(),
+								 $('#telaCotizacion').find('option:selected').text(),
+								 data[0],
+								 data[1] ,
+								 precioInicial,
+								 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"' title='Selecciona uno...' value="+tablaPrendasCotizar[i][15]+">" +
+								 listaBordados+"</select>" ,
+								 "<input type='number' class='form-control porcentajeCotizacion' id='porcentajeCotizacion"+contadorGeneral+"' placeholder='5' value=0>" ,
+								 "<input type='number' class='form-control montoCotizacion' id='montoCotizacion"+contadorGeneral+"' placeholder='15' value=0>" ,
+								 precioInicial,
+								 precioInicial*cantidad,
+								 "<a class='btn btn-danger btn-circle btn-sm text-white popoverxd' id='borrar' data-container='body' data-placement='top'><i class='fas fa-minus'></i></a>"    
+								 ]).node().id ="row"+contadorGeneral;
+				table.draw( false );
+				$('#bordadoPrecioCotizacion'+contadorGeneral).selectpicker("refresh");
+				contadorGeneral++;
+			}
 		},
 		error: (e) => {
 		}
@@ -390,7 +402,7 @@ function cotizacionGeneral(){
 	 var porcentajeCotizacion = parseFloat(($(this).val()=='')?0:$(this).val());								//
 	 let fila = $(this).closest('tr');																			//
 	 var array = table.row(fila).data();																		//
-	 var bordadoPrecioCotizacion = parseFloat((fila.find('.bordadoPrecioCotizacion').val()=='')?0:fila.find('.bordadoPrecioCotizacion').val());//
+	 var bordadoPrecioCotizacion = parseFloat((fila.find('select').val()=='')?0:fila.find('select').val());//
 	 var precio = parseFloat(array[7])*(porcentajeCotizacion/100);												//
 	 fila.find('.montoCotizacion').val(precio.toFixed(2));														//
 	 var montoCotizacion = parseFloat(precio);																	//
@@ -420,7 +432,7 @@ function cotizacionGeneral(){
 	 var montoCotizacion = parseFloat(($(this).val()=='')?0:$(this).val());															//
 	 let fila = $(this).closest('tr'); 																								//
 	 var array = table.row(fila).data(); 																							//
-	 var bordadoPrecioCotizacion = parseFloat((fila.find('.bordadoPrecioCotizacion').val()=='')?0:fila.find('.bordadoPrecioCotizacion').val());											//
+	 var bordadoPrecioCotizacion = parseFloat((fila.find('select').val()=='')?0:fila.find('select').val());											//
 	 var precio = parseFloat(montoCotizacion*100/parseFloat(array[7]));																//
 	 fila.find('.porcentajeCotizacion').val((precio>=0)?precio.toFixed(2):0); 														//
 	 fila.find('.precioFinal').val(((parseFloat(array[7])+montoCotizacion+bordadoPrecioCotizacion)>=0)?								//
