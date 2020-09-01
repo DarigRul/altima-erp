@@ -6,7 +6,7 @@ function icononotificacion() {
 			.done(
 					function(data) { 
 						if (data > 0) {
-							document.getElementById('navNotDis').innerHTML += "<span class='badge badge-danger navbar-badge'>"
+							document.getElementById('navNotDis').innerHTML += "<span class='badge badge-danger right'>"
 									+ data + "</span>";
 						}
 					});

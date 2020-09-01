@@ -44,11 +44,9 @@
 	<div class="form-group col-md-3">
 		<label for="IVACotizacion">I.V.A.</label>
 		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="IVACotizacion">
-			<option value='1' th:selected="${iva=='1.0'}">1</option>
-			<option value='2' th:selected="${iva=='2.0'}">2</option>
-			<option value='3' th:selected="${iva=='3.0'}">3</option>
-			<option value='4' th:selected="${iva=='4.0'}">4</option>
-			<option value='5' th:selected="${iva=='5.0'}">5</option>
+			<option value='1' th:selected="${iva=='0.0'}">0%</option>
+			<option value='16' th:selected="${iva=='16.0'}">16%</option>
+			
 		</select>
 	</div>
 	<div class="form-group col-md-12">

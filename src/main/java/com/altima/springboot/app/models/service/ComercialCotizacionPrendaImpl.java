@@ -47,13 +47,21 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 	@Transactional
 	public Object[] FindDatosCotizacionPrenda(Long idTela, Long idPrenda) {
 		// TODO Auto-generated method stub
-		return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup, tela.color, listaprenda.precio_local_nuevo, listaprenda.precio_foraneo_nuevo, listaprenda.precio_local_antiguo, listaprenda.precio_foraneo_antiguo \r\n" + 
-											   "from alt_disenio_tela AS tela, alt_disenio_lookup AS lookup, alt_disenio_prenda AS prenda, alt_disenio_lista_precio_prenda AS listaprenda\r\n" + 
-											   "WHERE 1=1\r\n" + 
-											   "AND tela.id_familia_composicion = lookup.id_lookup\r\n" + 
-											   "AND prenda.id_prenda = listaprenda.id_prenda\r\n" + 
-											   "AND tela.id_tela ="+idTela+" \r\n" + 
-											   "AND prenda.id_prenda ="+idPrenda).getSingleResult();
+		return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup,\n" + 
+											   "	   tela.color,\n" + 
+											   "	   listaprenda.precio_local_nuevo,\n" + 
+											   " 	   listaprenda.precio_foraneo_nuevo,\n" + 
+											   "	   listaprenda.precio_local_antiguo,\n" + 
+											   "	   listaprenda.precio_foraneo_antiguo,\n" + 
+											   "	   listaprenda.id_prenda,\n" + 
+											   "	   listaprenda.id_familia_composicion\n" + 
+											   "FROM alt_disenio_tela AS tela\n" + 
+											   " INNER JOIN alt_disenio_lista_precio_prenda listaprenda ON tela.id_familia_composicion = listaprenda.id_familia_composicion\n" + 
+											   " INNER JOIN alt_disenio_prenda prenda ON listaprenda.id_prenda = prenda.id_prenda\n" + 
+											   " INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = listaprenda.id_familia_composicion\n" + 
+											   " WHERE 1=1 \n" + 
+											   " AND tela.id_tela ="+idTela+"\n" + 
+											   " AND prenda.id_prenda =" +idPrenda).getSingleResult();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -71,4 +79,11 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 		return Double.parseDouble(em.createNativeQuery("SELECT SUM(importe) FROM alt_comercial_cotizacion_prenda\r\n" + 
 									"WHERE id_cotizacion="+id).getSingleResult().toString());
 	}
+	
+	@Override
+	@Transactional
+	public double subtotalPrendas (Long idCotizacion) {
+		return Double.parseDouble(em.createQuery("SELECT SUM(importe) FROM ComercialCotizacionPrenda WHERE idCotizacion="+idCotizacion).getSingleResult().toString());
+	}
+	
 }

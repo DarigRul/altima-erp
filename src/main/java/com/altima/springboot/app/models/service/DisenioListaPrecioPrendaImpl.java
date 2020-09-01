@@ -51,6 +51,7 @@ public class DisenioListaPrecioPrendaImpl implements IDisenioListaPrecioPrendaSe
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public Object BuscarPrecioPrendaById(Long id) {
 		
 		return em.createNativeQuery("SELECT adlpp.id_lista_precio_prenda, adlpp.id_prenda, \r\n" + 
@@ -64,10 +65,20 @@ public class DisenioListaPrecioPrendaImpl implements IDisenioListaPrecioPrendaSe
 	}
 
 	@Override
+	@Transactional
 	public DisenioListaPrecioPrenda findByidPrenda(Long id) {
 		// TODO Auto-generated method stub
 		DisenioListaPrecioPrenda precio=new DisenioListaPrecioPrenda();
 		return repository.findByidPrenda(id)==null?precio : repository.findByidPrenda(id);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object> listaPrecioPrenda(Long id) {
+		
+		return em.createNativeQuery("call alt_pr_lista_precio("+id+")").getResultList();
+		
 	}
 
 	

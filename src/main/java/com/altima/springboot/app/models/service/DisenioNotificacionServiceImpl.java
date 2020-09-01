@@ -80,7 +80,7 @@ public class DisenioNotificacionServiceImpl implements IDisenioNotificacionServi
 						+ "on hu.id_empleado=he.id_empleado\n" + "where s.id_usuario=hu.id_usuario\n"
 						+ "and s.id_cliente=p.id_cliente\n" + "\n" + "and\n"
 						+ "    p.id_cliente = s.id_cliente) as query\n" + "		where query.id_cliente=adn.cliente\n"
-						+ "and query.id_pedido=adn.id_solicitud		\n" + "")
+						+ "and query.id_pedido=adn.id_solicitud order by adn.id_notificacion desc \n" + "")
 				.getResultList();
 	}
 

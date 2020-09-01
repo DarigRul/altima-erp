@@ -118,27 +118,35 @@ public class ComercialMovimientoRestController {
 				ComercialMovimientoMuestraDetalle muestraDetalleEntity = new ComercialMovimientoMuestraDetalle();
 				System.out.println(muestras);
 				JSONObject muestra = muestras.getJSONObject(i);
-				System.out.println(muestra.get("idmuestra").toString());
-				muestraDetalleEntity.setIdDetallePedido(Long.parseLong(muestra.get("idmuestra").toString()));
-				muestraDetalleEntity.setCodigoBarras(muestra.getString("codigoBarras").toString());
-				muestraDetalleEntity.setIdMovimiento(comercialEntity.getIdMovimiento());
-				muestraDetalleEntity.setNombreMuestra(muestra.getString("nombreMuestra").toString());
-				muestraDetalleEntity.setModeloPrenda(muestra.getString("idPrenda").toString());
-				muestraDetalleEntity.setCodigoTela(muestra.getString("idTela").toString());
-				muestraDetalleEntity.setFechaCreacion(dtf.format(now));
-				muestraDetalleEntity.setUltimaFechaModificacion(dtf.format(now));
-				muestraDetalleEntity.setCreadoPor(auth.getName());
-				muestraDetalleEntity.setActualizadoPor(auth.getName());
-				muestraDetalleEntity.setEstatus(1);
 				
-				moviDetalleService.save(muestraDetalleEntity);
+				ProduccionDetallePedido detallePedido = detallePedidoService.findOne(Long.parseLong(muestra.get("idmuestra").toString()));
 				
-				ProduccionDetallePedido detallePedido = detallePedidoService.findOne(muestraDetalleEntity.getIdDetallePedido());
+				if(detallePedido.getEstatus().equalsIgnoreCase("2")) {
+					System.out.println("Muestra apartada justo en el mismo momento por otro agente");
+				}
+				else {
+						
+					detallePedido.setEstatus("2");
+					detallePedido.setActualizadoPor(auth.getName());
+					detallePedido.setUltimaFechaModificacion(dtf.format(now));
+					detallePedidoService.save(detallePedido);
+					
+					System.out.println(muestra.get("idmuestra").toString());
+					muestraDetalleEntity.setIdDetallePedido(Long.parseLong(muestra.get("idmuestra").toString()));
+					muestraDetalleEntity.setCodigoBarras(muestra.getString("codigoBarras").toString());
+					muestraDetalleEntity.setIdMovimiento(comercialEntity.getIdMovimiento());
+					muestraDetalleEntity.setNombreMuestra(muestra.getString("nombreMuestra").toString());
+					muestraDetalleEntity.setModeloPrenda(muestra.getString("idPrenda").toString());
+					muestraDetalleEntity.setCodigoTela(muestra.getString("idTela").toString());
+					muestraDetalleEntity.setFechaCreacion(dtf.format(now));
+					muestraDetalleEntity.setUltimaFechaModificacion(dtf.format(now));
+					muestraDetalleEntity.setCreadoPor(auth.getName());
+					muestraDetalleEntity.setActualizadoPor(auth.getName());
+					muestraDetalleEntity.setEstatus(1);
+					
+					moviDetalleService.save(muestraDetalleEntity);
+				}
 				
-				detallePedido.setEstatus("2");
-				detallePedido.setActualizadoPor(auth.getName());
-				detallePedido.setUltimaFechaModificacion(dtf.format(now));
-				detallePedidoService.save(detallePedido);
 			}
 			return 1;
 		}

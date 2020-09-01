@@ -96,7 +96,7 @@ $(document).ready(function() {
 	                    $(".coorTela").val($("#aux_tela").val());
 	                    $('.coorTela').prop('disabled', false);
 	                    $('.coorTela').selectpicker('refresh');
-	                    $('#coorTela').change();
+	               
 	                },
 	                error: function()
 	                {
@@ -123,6 +123,66 @@ $(document).ready(function() {
 	    
 	    
 	    $("#coorTela").change(function(){
+	    	
+	    	
+	        ///////validacion de precio/////////////////////////////////////////////////
+	    	
+		    var valordetela = $("#coorTela").val();
+		    var prenda= $("#coorModelo").val();
+		    
+		     console.log("idsss en pantalla coordinado  tela  " +  valordetela)
+		     console.log("idsss  idsss en pantalla coordinado   "+prenda)
+		        
+		         $.ajax({
+                data: { idtela : valordetela,
+                idprenda :prenda	},
+                url:   '/validacion-compocision-tela',
+                type:  'GET',
+                beforeSend: function () 
+                {
+                	//prenda.prop('disabled', true);
+                },
+                success:  function (r) 
+                {
+                	
+                	console.log("resultado de rrrrrrrrrrrrrrrrrrrrrrrrr para vali  " + r )
+                	
+                	if(r=="0"){
+                		
+                              Swal.fire({
+							  title: 'Intenta con otra tela :(',
+							  text: "La prenda con la tela seleccionada  no cuenta con un precio establecido",
+							  icon: 'error',
+							 
+							  confirmButtonColor: '#3085d6',
+							
+							  confirmButtonText: 'Entendido'
+							}).then((result) => {
+							  if (result.value) {
+                                  location.reload();
+							  }
+							})
+                			
+                			
+                			
+                		
+                			
+                		
+                	}
+                	
+                	
+                },
+                error: function()
+                {
+                    alert('Ocurrio un error en el servidor ..');
+                    prenda.prop('disabled', false);
+                }
+            });
+		     
+		        
+		    	
+		    	
+		    	
 	    	   
 	    	  $("#elimnar333 select").each(function(index, dato){
 					 

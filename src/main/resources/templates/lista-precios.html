@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+   <head th:include="navegacion-head :: header">
+      <title id="pageTitle">Lista Precios  | Altima</title>
+   </head>
+   <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+      <!-- Site wrapper -->
+      <div class="wrapper">
+         <!-- Navbar -->
+         <div th:insert="navegacion-nav"></div>
+         <!-- /.navbar -->
+         <!-- Modal -->
+         <div th:insert="navegacion-logout"></div>
+         <!-- Main Sidebar Container -->
+         <div th:insert="navegacion-aside"></div>
+         <!-- Content Wrapper. Contains page content -->
+         <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+               <div class="container-fluid">
+                  <div class="row mb-2">
+                     <div class="col-sm-6">
+                        <h1>Lista de precios&nbsp;<a th:href="${'/prendas'}"><button class="btn btn-danger btn-circle btn-sm popoverxd"
+                           data-container="body" data-toggle="popover" data-placement="right" data-content="Regresar"><i
+                             class="fas fa-arrow-left"></i></button></a><a th:href="@{/precios-prenda/}+${id}"  class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo precio</a></h1>
+                       </div>
+                     <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                           <li class="breadcrumb-item altima">Altima</li>
+                           <li class="breadcrumb-item active">Dise&ntilde;o</li>
+                           <li class="breadcrumb-item active">Notificaciones</li>
+                        </ol>
+                     </div>
+                  </div>
+               </div>
+               <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-12">
+                        <!-- Default box -->
+                        <div class="card">
+                           <div class="card-header bg-altima">
+                              <h3 class="card-title">Operaciones</h3>
+                           </div>
+                           <div class="card-body">
+                              <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+                              <table class="table tablaGeneral table-striped table-bordered" style="width:100%">
+                                 <thead>
+                                    <tr>
+                                       <th>Folio</th>
+                                       <th>Precios 1</th>
+                                       <th>Precio 2</th>
+                                       <th>Precio 3</th>
+                                       <th>Fam. Composici&oacute;n</th>
+                                       <th>Acciones</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr th:each="precio : ${listaPrecios}">
+                                       <td th:text="${precio[0]}" />
+                                       <td th:text="${precio[1]}" />
+                                       <td th:text="${precio[2]}" />
+                                       <td th:text="${precio[3]}" />
+                                       <td th:text="${precio[4]}" />
+                                       <td class="text-center">
+                                          <a class="btn btn-danger btn-circle btn-sm popoverxd" th:href="@{/eliminar-precios-prenda/}+${precio[0]}" data-container="body" data-placement="top" data-content="Eliminar"><i class="fas fa-envelope-square"></i></a>
+                                          <a class="btn btn-success btn-circle btn-sm popoverxd" th:href="@{/precios-prenda/}+${id}+'/'+${precio[0]}" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-envelope-open-text"></i></a>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                           <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                     </div>
+                  </div>
+               </div>
+               <!-- Main row -->
+            </section>
+            <!-- /.content -->
+         </div>
+         <!-- /.content-wrapper -->
+         <div th:insert="navegacion-footer"></div>
+      </div>
+      <div th:replace="navegacion-scripts"></div>
+      <script src="dist/js/tablaGeneral.js"></script>
+      <script>
+         $('#iDiseno').removeClass('text-altima');
+         $('#menuDiseno').addClass('menu-open');
+         $('#navDiseno').addClass('active-altima');
+         $('#navNotDis').addClass('active');
+      </script>
+       <script th:if="${icon != null}" th:inline="javascript">
+         Swal.fire({
+   
+            position: 'center',
+            icon: /*[[${icon}]]*/ 'default',
+            title: /*[[${title}]]*/ 'default',
+            showConfirmButton: false,
+            timer: 2500
+         });
+      </script>
+   </body>
+</html>

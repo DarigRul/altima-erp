@@ -58,7 +58,7 @@ public interface IComercialCoordinadoService {
 		 
 		 String ImagenesRutaTela(Long id);
 		 
-		 String precioPrenda(Long idCoor , Long idPrenda);
+		 String precioPrenda(Long idCoor , Long idPrenda , Long idTela);
 }
 
 

@@ -206,7 +206,6 @@ public class ComercialPrendaBordadoServiceImpl implements IComercialPrendaBordad
 	@Transactional
 	public List<Object[]> CambioPrecio(Long id) {
 		
-		
 		List<Object[]> re = em.createNativeQuery("SELECT\n" + 
 				"	coor_prenda.id_coordinado_prenda,\n" + 
 				"	coor.numero_coordinado,\n" + 
@@ -247,7 +246,8 @@ public class ComercialPrendaBordadoServiceImpl implements IComercialPrendaBordad
 				"	AND coor_prenda.id_tela = tela.id_tela \n" + 
 				"	AND tela.id_familia_composicion = look2.id_lookup \n" + 
 				"	AND pedido.id_pedido_informacion = coor.id_pedido \n" + 
-				"    AND precio.id_prenda = coor_prenda.id_prenda \n" + 
+				"   AND precio.id_prenda = coor_prenda.id_prenda \n" +
+				"   AND precio.id_familia_composicion = tela.id_familia_composicion \n" +
 				"	AND coor.id_pedido = "+id+" \n" + 
 				"	AND coor_prenda.estatus = 1 \n" + 
 				"ORDER BY\n" + 

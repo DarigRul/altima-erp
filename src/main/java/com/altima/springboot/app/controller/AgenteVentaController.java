@@ -143,11 +143,6 @@ public class AgenteVentaController {
 		return "agregar-carga";
 	}
 
-	@GetMapping("/catalogos-materiales-agentes")
-	public String listMat() {
-		return "catalogos-materiales-agentes";
-	}
-
 	@GetMapping("/movimientos-agentes")
 	public String listMovi() {
 		return "movimientos-agentes";

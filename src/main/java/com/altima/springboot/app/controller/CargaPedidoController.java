@@ -145,12 +145,20 @@ public class CargaPedidoController {
 	@ResponseBody
 	public boolean validar(String estatusPrecios, Long id) {
 		ComercialPedidoInformacion aux = cargaPedidoService.findOne(id);
-		if (! aux.getPrecioUsar().equals(estatusPrecios)) {
-			return true ;
+		
+		if ( aux.getPrecioUsar() != null) {
+			if (!  aux.getPrecioUsar().equals(estatusPrecios)) {
+				return true ;
+			}
+			else {
+				return false ;
+			}
 		}
 		else {
-			return false ;
+			return false ;	
 		}
+	
+		
 		
 	}
 	

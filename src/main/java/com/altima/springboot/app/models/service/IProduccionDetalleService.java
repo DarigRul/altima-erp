@@ -67,5 +67,10 @@ public interface IProduccionDetalleService {
 	List<Object[]> selectDinamicPrenda();
 
 	List<Object[]> selectGenero();
+	
+	/////////////validacion de ela precio por composicion
+	
+	
+	public String validacion(Long idt, Long idp);
 
 }
