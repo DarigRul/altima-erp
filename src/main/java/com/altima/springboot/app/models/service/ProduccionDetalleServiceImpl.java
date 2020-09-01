@@ -400,6 +400,21 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Transactional
 	public String validacion (Long idp ,Long id) {
 		
+		System.out.println("ando en el service ");
+		System.out.println("id tela    " + id);
+		System.out.println("id prenda   " + idp);
+		System.out.println("SELECT\\r\\n\" + \r\n" + 
+				"					\"	precio.id_prenda \\r\\n\" + \r\n" + 
+				"					\"FROM\\r\\n\" + \r\n" + 
+				"					\"	alt_disenio_lista_precio_prenda AS precio,\\r\\n\" + \r\n" + 
+				"					\"	alt_disenio_tela AS tela \\r\\n\" + \r\n" + 
+				"					\"WHERE\\r\\n\" + \r\n" + 
+				"					\"	1 = 1 \\r\\n\" + \r\n" + 
+				"					\"	AND precio.id_prenda = \"+idp+\" \\r\\n\" + \r\n" + 
+				"					\"	AND tela.id_familia_composicion = precio.id_familia_composicion \\r\\n\" + \r\n" + 
+				"					\"	AND tela.id_tela = ");
+		
+		
 		
 		try {
 			String re = em.createNativeQuery("SELECT\r\n" + 

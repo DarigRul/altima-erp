@@ -29,21 +29,6 @@
 		    }
 		});
 		$(document).ready(function() {
-		    if ($("#navMensajeria").hasClass("active-altima")) {
-		        $("#navMensajeria").hover(function() {
-		            $("#iMensajeria").removeClass("text-altima");
-		        }, function() {
-		            $("#iMensajeria").addClass("text-white");
-		        });
-		    } else {
-		        $("#navMensajeria").hover(function() {
-		            $("#iMensajeria").removeClass("text-altima");
-		        }, function() {
-		            $("#iMensajeria").addClass("text-altima");
-		        });
-		    }
-		});
-		$(document).ready(function() {
 		    if ($("#navReportes").hasClass("active-altima")) {
 		        $("#navReportes").hover(function() {
 		            $("#iReportes").removeClass("text-altima");

@@ -40,16 +40,6 @@
                         <p>Cambio de fecha de pedido</p>
                     </a>
                 </li>
-                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_LISTAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_AGREGAR'')')}) or
-              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_EDITAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_ELIMINAR'')')})">
-                    <a th:href="${'/mensajeria'}" class="nav-link" id="navMensajeria">
-                        <i class="nav-icon fas fa-mail-bulk text-altima" id="iMensajeria"></i>
-                        <p>Mensajer&iacute;a</p>
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a th:href="${'/reporte-catalogo'}" class="nav-link" id="navReportes">
                         <i class="nav-icon fas fa-clipboard text-altima" id="iReportes"></i>

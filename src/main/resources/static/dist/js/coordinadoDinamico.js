@@ -128,9 +128,9 @@ $(document).ready(function() {
 	        ///////validacion de precio/////////////////////////////////////////////////
 	    	
 		    var valordetela = $("#coorTela").val();
-		    var prenda= $("#coorPrenda").val();
+		    var prenda= $("#coorModelo").val();
 		    
-		     console.log("idsss en pantalla coordinado   " +  valordetela)
+		     console.log("idsss en pantalla coordinado  tela  " +  valordetela)
 		     console.log("idsss  idsss en pantalla coordinado   "+prenda)
 		        
 		         $.ajax({
@@ -150,7 +150,7 @@ $(document).ready(function() {
                 	if(r=="0"){
                 		
                               Swal.fire({
-							  title: 'Inenta con otra tela :(',
+							  title: 'Intenta con otra tela :(',
 							  text: "La prenda con la tela seleccionada  no cuenta con un precio establecido",
 							  icon: 'error',
 							 

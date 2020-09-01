@@ -595,11 +595,11 @@ public class GerencialComercialSolicitudController {
 	@RequestMapping(value = "/validacion-compocision-tela", method = RequestMethod.GET)
 	@ResponseBody
 	public String validacion(Long idprenda, Long idtela) {
-		System.out.println("entre a ¿metodo controller de validacion");
+		System.out.println("entre a metodo controller de validacion");
 		
 		String registro;
 		
-		registro = serviceDetallePedido.validacion(idtela, idprenda);
+		registro = serviceDetallePedido.validacion(idprenda, idtela);
 		System.out.println("valor de registro    " + registro);
 		
 		if (registro==null) {
