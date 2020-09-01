@@ -94,5 +94,15 @@
          $('#navDiseno').addClass('active-altima');
          $('#navNotDis').addClass('active');
       </script>
+       <script th:if="${icon != null}" th:inline="javascript">
+         Swal.fire({
+   
+            position: 'center',
+            icon: /*[[${icon}]]*/ 'default',
+            title: /*[[${title}]]*/ 'default',
+            showConfirmButton: false,
+            timer: 2500
+         });
+      </script>
    </body>
 </html>

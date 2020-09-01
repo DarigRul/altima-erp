@@ -54,7 +54,15 @@ public class PrecioPrendaController {
 		} else {
 			precio.setCreadoPor(auth.getName());
 		}
-		disenioListaPrecioPrendaService.save(precio);
+		try {
+			disenioListaPrecioPrendaService.save(precio);
+		} catch (Exception e) {
+			//TODO: handle exception
+			redirectAttrs.addFlashAttribute("title", "Error al insertar precios").addFlashAttribute("icon",
+			"error");
+			return "redirect:/precios-prenda/"+precio.getIdPrenda();
+		}
+		
 		redirectAttrs.addFlashAttribute("title", "Precios insertados correctamente").addFlashAttribute("icon",
 				"success");
 		return "redirect:/lista-precios/"+precio.getIdPrenda();
