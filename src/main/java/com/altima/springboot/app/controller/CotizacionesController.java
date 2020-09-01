@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.altima.springboot.app.models.entity.ComercialCotizacion;
 import com.altima.springboot.app.models.entity.ComercialCotizacionTotal;
 import com.altima.springboot.app.models.entity.HrEmpleado;
+import com.altima.springboot.app.models.service.ComercialBordadoService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialCotizacionPrendaService;
@@ -41,6 +42,8 @@ public class CotizacionesController {
 	private IComercialCotizacionPrendaService cotizacionPrendaService;
 	@Autowired
 	private IUsuarioService usuarioService;
+	@Autowired
+	private ComercialBordadoService bordadoService;
 	
 	@GetMapping("/cotizaciones")
 	public String listCotizaciones(Model model) {
@@ -74,6 +77,7 @@ public class CotizacionesController {
 	@GetMapping("/agregar-cotizacion")
 	public String addCotizaciones(Model model) {
 		try {
+			model.addAttribute("bordados", bordadoService.findListaLookupComercial());
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			try {
 				int cotizacion = Integer.parseInt(cotizacionService.findMax());
@@ -125,7 +129,7 @@ public class CotizacionesController {
 		
 		try {
 			
-		
+			model.addAttribute("bordados", bordadoService.findListaLookupComercial());
 			ComercialCotizacion cotizacion = cotizacionService.findOne(id);
 			ComercialCotizacionTotal cotiTotal = cotizacionTotalService.findByCotizacion(id);
 			DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
@@ -184,12 +188,18 @@ public class CotizacionesController {
 			model.addAttribute("descuentoCotizacion", cotiTotal.getDescuentoPorcentaje());
 			model.addAttribute("descuentoMontoCotizacion", cotiTotal.getDescuentoMonto());
 			
-			model.addAttribute("Subtotal", cotiTotal.getSubtotal());
-			model.addAttribute("Subtotal2", df.format(Double.parseDouble(cotiTotal.getSubtotal())-Double.parseDouble(cotiTotal.getDescuentoMonto())));
+			double subtotal = cotizacionPrendaService.subtotalPrendas(id);
+			double subtotalmasDescuento = Double.parseDouble(df.format(subtotal+Double.parseDouble(cotiTotal.getDescuentoMonto())));
+			double ivaMonto = subtotalmasDescuento*(Double.parseDouble(cotiTotal.getIva())/100);
+			double total = Double.parseDouble(df.format(subtotalmasDescuento+ivaMonto));
+			double total2= total-Double.parseDouble(cotiTotal.getAnticipoMonto());
+			
+			model.addAttribute("Subtotal", subtotal);
+			model.addAttribute("Subtotal2", subtotalmasDescuento);
 			model.addAttribute("DescuentoCargo", cotiTotal.getDescuentoCargo());
-			model.addAttribute("IVAMonto", df.format((Double.parseDouble(cotiTotal.getSubtotal())-Double.parseDouble(cotiTotal.getDescuentoMonto()))*0.16));
-			model.addAttribute("Total", cotiTotal.getTotal());
-			model.addAttribute("Total2", df.format(Double.parseDouble(cotiTotal.getTotal())-Double.parseDouble(cotiTotal.getAnticipoMonto())));
+			model.addAttribute("IVAMonto", ivaMonto);
+			model.addAttribute("Total", total);
+			model.addAttribute("Total2", total2);
 			
 			return "agregar-cotizacion";
 		}
