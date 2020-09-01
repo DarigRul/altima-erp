@@ -394,5 +394,37 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 						"SELECT nombre_lookup FROM alt_disenio_lookup WHERE `tipo_lookup` = 'Familia Genero'")
 				.getResultList();
 	}
-
+	
+	
+	@Override
+	@Transactional
+	public String validacion (Long idp ,Long id) {
+		
+		
+		try {
+			String re = em.createNativeQuery("SELECT\r\n" + 
+					"	precio.id_prenda \r\n" + 
+					"FROM\r\n" + 
+					"	alt_disenio_lista_precio_prenda AS precio,\r\n" + 
+					"	alt_disenio_tela AS tela \r\n" + 
+					"WHERE\r\n" + 
+					"	1 = 1 \r\n" + 
+					"	AND precio.id_prenda = "+idp+" \r\n" + 
+					"	AND tela.id_familia_composicion = precio.id_familia_composicion \r\n" + 
+					"	AND tela.id_tela ="+id).getSingleResult().toString();
+					
+			return re;
+			}
+			catch(Exception e) {
+				
+				return null;
+			}
+	}
+	
+	
+	
 }
+		
+
+
+

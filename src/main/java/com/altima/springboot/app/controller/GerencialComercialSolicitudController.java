@@ -50,8 +50,7 @@ import com.altima.springboot.app.models.service.IProduccionPedidoService;
 @Controller
 public class GerencialComercialSolicitudController {
 
-	@Autowired
-	private IComercialClienteSucursalService serviceSucursal;
+
 
 	@Autowired
 	private IProduccionDetallePedidoMaterialService serviceProduccionDetalleMaterial;
@@ -587,5 +586,31 @@ public class GerencialComercialSolicitudController {
 		redirectAttrs.addFlashAttribute("title", "Actualizado correctamente").addFlashAttribute("icon", "success");
 
 		return "redirect:/solicitud-gerencial";
+	}
+	
+	
+	///////////validacion
+	
+	
+	@RequestMapping(value = "/validacion-compocision-tela", method = RequestMethod.GET)
+	@ResponseBody
+	public String validacion(Long idprenda, Long idtela) {
+		System.out.println("entre a ¿metodo controller de validacion");
+		
+		String registro;
+		
+		registro = serviceDetallePedido.validacion(idtela, idprenda);
+		System.out.println("valor de registro    " + registro);
+		
+		if (registro==null) {
+			
+			registro="0";
+			
+		}
+		
+		
+		return registro;
+		
+		
 	}
 }
