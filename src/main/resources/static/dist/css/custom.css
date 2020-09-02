@@ -25,6 +25,38 @@
   background: #015f92;
 }
 
+.fc-button-danger {
+  color: #fff!important;
+  background-color: #dc3545 !important;
+  border-color:#dc3545 !important;
+}
+.fc-button-secondary {
+  color: #fff!important;
+  background-color: #6c757d !important;
+  border-color:#6c757d !important;
+}
+.active-secondary {
+  color: #fff !important;
+  background-color: #6c757d!important
+}
+.fc-button-success {
+  color: #fff!important;
+  background-color: #28a745 !important;
+  border-color:#28a745 !important;
+}
+.active-success {
+  color: #fff !important;
+  background-color: #28a745!important
+}
+.fc-button-warning {
+  color: #212529!important;
+  background-color: #ffc107!important;
+  border-color:#ffc107 !important;
+}
+.active-warning {
+  color: #212529!important;
+  background-color: #ffc107!important
+}
 .sidebar-mini.layout-fixed .nav.nav-pills.nav-sidebar.flex-column .nav-item>.nav-link{
     width: 93%!important;
 }
@@ -446,12 +478,19 @@ div.dataTables_wrapper {
   color: #fff !important;
   background-color: #0288d1 !important;
 }
+.active-danger {
+    color: #fff !important;
+    background-color: #dc3545!important
+  }
 
 .nav-link:hover {
   background-color: rgba(2, 136, 194, 0.6) !important;
   color: #fff !important;
 }
-
+.nav-link:hover {
+  background-color: rgba(2, 136, 194, 0.6) !important;
+  color: #fff !important;
+}
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
   border-color: #0288d1 !important;
@@ -531,13 +570,12 @@ div.fc-content > span.fc-time {
   background-color: #fff;
   border: 1px solid #dee2e6;
 }
-
 .page-item.active .page-link {
-  z-index: 1;
-  color: #fff !important;
-  background-color: #0288d1 !important;
-  border-color: #0288d1 !important;
-}
+    z-index: 1;
+    color: #fff !important;
+    background-color: #0288d1 !important;
+    border-color: #0288d1 !important;
+  }
 
 .div-rounded {
   border-radius: 15px !important;
