@@ -59,6 +59,7 @@ $(document).ready(function () {
     $.cookie("changeColorYellow2", "text-warning", { expires: 10000 });
     $.cookie("changeColorYellow3", "btn-warning", { expires: 10000 });
     $.cookie("changeCalendarYellow1", "fc-button-warning", { expires: 10000 });
+    $.cookie("changeTextDark", "text-dark", { expires: 10000 });
     $.cookie("changeUserYellow", "userCircleYellow", { expires: 10000 });
     location.reload();
   });
@@ -68,6 +69,8 @@ $(document).ready(function () {
     $("i.text-altima").removeClass("text-altima").addClass($.cookie("changeColor2"));
     $(".breadcrumb-item.altima").removeClass("altima").addClass($.cookie("changeColor2"));
     $("a.altima").removeClass("altima").addClass($.cookie("changeColor2"));
+    $("a.brand-link").removeClass("bg-altima").addClass($.cookie("changeColorRed"));
+    $("nav.main-header.navbar.navbar-expand").removeClass("bg-altima").addClass($.cookie("changeColorRed"));
     $("h1 > a.btn-altima").removeClass("btn-altima").addClass($.cookie("changeColor3"));
     $("h1 > a.btn-danger > span.text-altima").removeClass("text-altima").addClass($.cookie("changeColor2"));
     $(".modal-header").removeClass("bg-altima").addClass($.cookie("changeColorRed"));
@@ -80,6 +83,8 @@ $(document).ready(function () {
     $("i.text-altima").removeClass("text-altima").addClass($.cookie("changeColorGreen2"));
     $(".breadcrumb-item.altima").removeClass("altima").addClass($.cookie("changeColorGreen2"));
     $("a.altima").removeClass("altima").addClass($.cookie("changeColorGreen2"));
+    $("a.brand-link").removeClass("bg-altima").addClass($.cookie("changeColorGreen"));
+    $("nav.main-header.navbar.navbar-expand").removeClass("bg-altima").addClass($.cookie("changeColorGreen"));
     $("h1 > a.btn-altima").removeClass("btn-altima").addClass($.cookie("changeColorGreen3"));
     $("h1 > a.btn-success > span.text-altima").removeClass("text-altima").addClass($.cookie("changeColorGreen2"));
     $(".modal-header").removeClass("bg-altima").addClass($.cookie("changeColorGreen"));
@@ -92,6 +97,11 @@ $(document).ready(function () {
     $("i.text-altima").removeClass("text-altima").addClass($.cookie("changeColorYellow2"));
     $(".breadcrumb-item.altima").removeClass("altima").addClass($.cookie("changeColorYellow2"));
     $("a.altima").removeClass("altima").addClass($.cookie("changeColorYellow2"));
+    $("a.brand-link").removeClass("bg-altima").addClass($.cookie("changeColorYellow"));
+    $("nav.main-header.navbar.navbar-expand").removeClass("bg-altima").addClass($.cookie("changeColorYellow"));
+    $("a.nav-link>i.fas.fa-fill-drip").removeClass("text-white").addClass($.cookie("changeTextDark"));
+    $("a.nav-link>i.fas.fa-bars").removeClass("text-white").addClass($.cookie("changeTextDark"));
+    $("a.nav-link>i.fas.fa-sign-out-alt").removeClass("text-white").addClass($.cookie("changeTextDark"));
     $("h1 > a.btn-altima").removeClass("btn-altima").addClass($.cookie("changeColorYellow3"));
     $("h1 > a.btn-warning > span.text-altima").removeClass("text-altima").addClass($.cookie("changeColorYellow2"));
     $(".modal-header").removeClass("bg-altima").addClass($.cookie("changeColorYellow"));
@@ -104,6 +114,8 @@ $(document).ready(function () {
     $("i.text-altima").removeClass("text-altima").addClass($.cookie("changeColorGray2"));
     $(".breadcrumb-item.altima").removeClass("altima").addClass($.cookie("changeColorGray2"));
     $("a.altima").removeClass("altima").addClass($.cookie("changeColorGray2"));
+    $("a.brand-link").removeClass("bg-altima").addClass($.cookie("changeColorGray"));
+    $("nav.main-header.navbar.navbar-expand").removeClass("bg-altima").addClass($.cookie("changeColorGray"));
     $("h1 > a.btn-altima").removeClass("btn-altima btn-danger").addClass($.cookie("changeColorGray3"));
     $("h1 > a.btn-secondary > span.text-altima").removeClass("text-altima").addClass($.cookie("changeColorGray2"));
     $(".modal-header").removeClass("bg-altima").addClass($.cookie("changeColorGray"));
