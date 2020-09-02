@@ -73,6 +73,20 @@ public class AdminConfiguracionPedido implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	@Column(name="min_adicionales")
+	private String minAdicionales;
+	
+	
+	
+
+	public String getMinAdicionales() {
+		return minAdicionales;
+	}
+
+	public void setMinAdicionales(String minAdicionales) {
+		this.minAdicionales = minAdicionales;
+	}
 
 	public Long getIdConfiguracionPedido() {
 		return idConfiguracionPedido;

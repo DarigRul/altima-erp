@@ -87,6 +87,19 @@ public class ComercialCliente implements Serializable {
 
 	@Column(name = "estatus_cliente")
 	private Integer estatusCliente;
+	
+	@Column(name = "foraneo")
+	private Integer foraneo;
+	
+	
+
+	public Integer getForaneo() {
+		return foraneo;
+	}
+
+	public void setForaneo(Integer foraneo) {
+		this.foraneo = foraneo;
+	}
 
 	public Long getIdUsuario() {
 		return IdUsuario;
