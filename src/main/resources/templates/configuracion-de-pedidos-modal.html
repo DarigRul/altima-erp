@@ -65,18 +65,20 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="stockPedido">Stock</label>
-                        <select class="form-control selectpicker" th:field="*{config.stockTrueFalse}" id="stockTrueFalse" name="stockTrueFalse">
+                        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true"
+                            data-live-search-normalize="true" th:field="*{config.stockTrueFalse}" id="stockTrueFalse" name="stockTrueFalse">
                             <option value="Si">Si</option>
                             <option value="No">No</option>
                         </select>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="personasPedido">M&iacute;nimo (personas)</label>
-                        <input type="number" min="1" class="form-control" th:field="*{config.minimoPersonas}" id="minimoPersonas" name="minimoPersonas" placeholder="20">
+                        <input type="number"  readonly   min="1" class="form-control" th:field="*{config.minimoPersonas}" id="minimoPersonas" name="minimoPersonas" placeholder="20">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="anticipoPedido">Anticipo</label>
-                        <select class="form-control selectpicker" th:field="*{config.anticipoTrueFalse}" id="anticipoTrueFalse" name="anticipoTrueFalse">
+                        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true"
+                            data-live-search-normalize="true" th:field="*{config.anticipoTrueFalse}" id="anticipoTrueFalse" name="anticipoTrueFalse">
                             <option value="Si">Si</option>
                             <option value="No">No</option>
                         </select>

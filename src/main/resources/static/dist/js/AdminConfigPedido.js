@@ -118,17 +118,44 @@ function valida_envia(){
 		})
   		return 0;
 	}
+   	if (document.fvalida.stockTrueFalse.selectedIndex==0 ){
+  	   	 Swal.fire({
+  				position: 'center',
+  				icon: 'error',
+  				title: 'Seleccione un stock',
+  				showConfirmButton: false,
+  				timer: 1250
+  			})
+  	  		return 0;
+  	
+  		
+  	}
+   	 if (document.fvalida.stockTrueFalse.value == "Si"){
+   		if (document.fvalida.minimoPersonas.value.length==0){
+   	   	 Swal.fire({
+   				position: 'center',
+   				icon: 'error',
+   				title: 'Ingrese minimo de personas',
+   				showConfirmButton: false,
+   				timer: 1250
+   			})
+   	  		return 0;
+   		}
+   		
+   	}
    	
-   	if (document.fvalida.minimoPersonas.value.length==0){
-   	 Swal.fire({
-			position: 'center',
-			icon: 'error',
-			title: 'Ingrese minimo de personas',
-			showConfirmButton: false,
-			timer: 1250
-		})
-  		return 0;
-	}
+   	
+   	
+	if (document.fvalida.anticipoTrueFalse.selectedIndex==0){
+	   	 Swal.fire({
+				position: 'center',
+				icon: 'error',
+				title: 'Seleccione un anticipo',
+				showConfirmButton: false,
+				timer: 1250
+			})
+	      		return 0;
+	   	}
  
 	
    	
@@ -170,7 +197,7 @@ function editar(e) {
         	$("#fechaCreacion").val(r.fechaCreacion);
         	$("#ultimaFechaModificacion").val(r.ultimaFechaModificacion);
         	$("#estatus").val(r.estatus);
-        	
+       
         	
         	
         	

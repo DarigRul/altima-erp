@@ -123,13 +123,14 @@
     
     
     <script>
-        $("#stockPedido").change(function () {
+        $("#stockTrueFalse").change(function () {
             if ($(this).val() == "Si") {
-                $("#personasPedido").removeAttr("disabled");
+            	$("#minimoPersonas").attr("readonly",false)
             } else {
-                $("#personasPedido").attr("disabled", "disabled");
+                $("#minimoPersonas").attr("readonly",true);
+                $("#minimoPersonas").val(null);
             }
-        }).trigger("change");
+        })
     </script>
 </body>
 
