@@ -94,6 +94,21 @@ public class CatalogoServiceImpl implements ICatalogoService {
 		}
 		 return duplicate;
 	}
+	
+	@Override
+	@Transactional
+	public boolean findDuplicatePrecioComposicion(Long idPrenda ,Long idFamComposicion){
+		boolean duplicate;
+		@SuppressWarnings("unchecked")
+		List<DisenioLookup> result = em.createQuery("from DisenioPrecioComposicion where id_prenda="+idPrenda+" and idFamiliaComposicion="+idFamComposicion).getResultList();
+		if(result.isEmpty()) {
+			duplicate=false;
+		}
+		else {
+			duplicate=true;
+		}
+		 return duplicate;
+	}
 
 	
 	@SuppressWarnings("unchecked")

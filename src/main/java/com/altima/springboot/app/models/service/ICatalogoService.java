@@ -24,4 +24,7 @@ public interface ICatalogoService {
 	
 	List<Object []> findAllMaterialClasificacion();
 
+	boolean findDuplicatePrecioComposicion(Long idPrenda, Long idFamComposicion);
+
+
 }
