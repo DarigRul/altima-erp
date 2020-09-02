@@ -48,6 +48,9 @@ public class AdministracionConfiguracionPedidosController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		if ( config.getMinimoPersonas().isEmpty()) {
+			config.setMinimoPersonas(null);
+		}
 		
 		if ( config.getIdConfiguracionPedido() == null) {
 			config.setCreadoPor(auth.getName());

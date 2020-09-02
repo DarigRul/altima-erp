@@ -22,6 +22,7 @@ function limpiar(){
 	$("#fechaCreacion").val(null);
 	$("#ultimaFechaModificacion").val(null);
 	$("#estatus").val(null);
+	$("#minimoPersonas").attr("readonly",true);
 }
 
 function valida_envia(){
@@ -183,11 +184,18 @@ function editar(e) {
         	$("#maximoDias").val(r.maximoDias);
         	$("#locales").val(r.locales);
         	$("#foraneo").val(r.foraneo);
-        	$("#diasBordado").val(r.diasBordado);
+        	$("#diasBordado").val(r.diasBordado);        	
         	$("#stockTrueFalse").val(r.stockTrueFalse);
         	$('#stockTrueFalse').selectpicker('refresh');
+        	if (r.stockTrueFalse == "Si" ){
+        			$("#minimoPersonas").attr("readonly",false);
+        			$("#minimoPersonas").val(r.minimoPersonas);
+        	}else{
+        		$("#minimoPersonas").attr("readonly",true);
+        		$("#minimoPersonas").val(null);
+        	}
         	
-        	$("#minimoPersonas").val(r.minimoPersonas);
+        	
         	$("#anticipoTrueFalse").val(r.anticipoTrueFalse);
         	$('#anticipoTrueFalse').selectpicker('refresh');
         	
