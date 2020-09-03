@@ -94,11 +94,11 @@ public class AdminConfiguracionPedidoServiceImpl implements IAdminConfiguracionP
 					"	alt_admin_configuracion_pedido AS con \r\n" + 
 					"WHERE\r\n" + 
 					"	con.tipo_pedido ="+id).getSingleResult().toString();
-					System.out.println("regresa el true");
+					//System.out.println("regresa el true");
 			return true;
 			}
 			catch(Exception e) {
-				System.out.println("regresa el false");
+				//System.out.println("regresa el false");
 				return false;
 			}
 	

@@ -73,16 +73,16 @@
                                                         data-placement="top" data-content="Editar" onclick="editar(this)" th:id="${pedidos[0]}"  ><i
                                                             class="fas fa-pen"></i></button>
                                                             
-                                                    <button th:if="${pedidos[2]} != '0'"  onclick="bajaPedido(this)" th:id="${pedidos[0]}"
+                                                    <button th:if="${pedidos[2]} == 0"  onclick="activarPedido(this)" th:id="${pedidos[0]}"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Dar de alta"><i
                                                             class="fas fa-caret-up"  ></i></button>
-                                                    <button th:if="${pedidos[2]} != '1'" onclick="activarPedido(this)" th:id="${pedidos[0]}"
+                                                    <button th:if="${pedidos[2]} == 1" onclick="bajaPedido(this)" th:id="${pedidos[0]}"
                                                         class="btn btn-danger btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Dar de baja"><i
                                                             class="fas fa-caret-down"  ></i></button>
                                                 </td>
-                                            </tr>
+                                            </tr>  
                                         </tbody>
                                     </table>
                                 </div>

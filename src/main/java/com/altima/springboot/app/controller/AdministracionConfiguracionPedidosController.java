@@ -111,6 +111,7 @@ public class AdministracionConfiguracionPedidosController {
 		config.setActualizadoPor(auth.getName());
 		config.setUltimaFechaModificacion(hourdateFormat.format(date));
 		configService.save(config);
+		System.out.println("ACTIVE");
 		return true;
 	}
     
