@@ -106,7 +106,8 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 										"		 cotizacionPrenda.porcentaje_adicional,\n" + 
 										"		 cotizacionPrenda.monto_adicional,\n" + 
 										"		 cotizacionPrenda.precio_unitario_final,\n" + 
-										"		 cotizacionPrenda.importe\n" + 
+										"		 cotizacionPrenda.importe,\n" + 
+										"		 lookupPrenda.nombre_lookup AS nombreFamPrenda\n" + 
 										"\n" + 
 										"FROM alt_comercial_cotizacion_prenda AS cotizacionPrenda\n" + 
 										"\n" + 

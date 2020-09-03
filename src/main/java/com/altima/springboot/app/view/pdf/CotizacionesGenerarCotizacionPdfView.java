@@ -110,7 +110,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	PdfPTable tablaNotaria = new PdfPTable(2);
     	tablaNotaria.setWidthPercentage(100);
     	PdfPCell numeroCotizacion = new PdfPCell(new Phrase("No. 25895", HelveticaBold));
-    	PdfPCell lugarCotizacion = new PdfPCell(new Phrase("Notaria 33", HelveticaBold));
+    	PdfPCell lugarCotizacion = new PdfPCell(new Phrase("", HelveticaBold));
     	numeroCotizacion.setBorder(0);
     	lugarCotizacion.setBorder(0);
 		numeroCotizacion.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -122,7 +122,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		tableInfo.setWidthPercentage(100);
 		Image logo = Image.getInstance("src/main/resources/static/dist/img/logo.png");
 		logo.scalePercent(25f);
-		PdfPCell logoImg = new PdfPCell(logo);
+		PdfPCell logoImg = new PdfPCell(new Phrase(""));
 		PdfPCell tituloDocumento = new PdfPCell(new Phrase("COTIZACIÓN", TitulosOscuros));
 		PdfPCell fechaCotizacion2 = new PdfPCell(new Phrase(fecha.substring(0, 1).toUpperCase() + fecha.substring(1), Helvetica));
 		logoImg.setPaddingBottom(10f);
@@ -138,6 +138,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	tituloDocumento.setBorderWidthBottom(3f);
 		tituloDocumento.setBorderColor(borderGray);
 		tituloDocumento.setPaddingTop(13f);
+		tituloDocumento.setPaddingBottom(10f);
 		fechaCotizacion2.setBorder(0);
 		fechaCotizacion2.setBorderWidthBottom(3f);
 		fechaCotizacion2.setBorderColor(borderGray);
@@ -154,7 +155,16 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celd.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celd.setVerticalAlignment(Element.ALIGN_CENTER);
     	celd.setBackgroundColor(backgroundWhite);
+    	celd.setPaddingTop(-8f);
 		celd.setBorder(0);
+		tablaHeader1.addCell(celd);
+		
+		celd = new PdfPCell(new Phrase("Nombre del cliente:           Bimbo", HelveticaBold));
+		celd.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	celd.setVerticalAlignment(Element.ALIGN_CENTER);
+    	celd.setBackgroundColor(backgroundWhite);
+		celd.setBorder(0);
+		celd.setPaddingBottom(-4f);
 		tablaHeader1.addCell(celd);
     	/*
     	 * 
@@ -345,18 +355,31 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		PdfPTable tablaPrendas = null;
 		//Si pasa aqui, es 1, es decir una cotizacion General
 		if(tipoCotizacion.equalsIgnoreCase("1")) {
-			tablaPrendas = new PdfPTable(2);
+			tablaPrendas = new PdfPTable(4);
 			tablaPrendas.setWidthPercentage(100);
-			tablaPrendas.setWidths(new float[] { 10f, 5f });
-			PdfPCell nombrePrendaCabezero = new PdfPCell(new Phrase("Descripción", HelveticaBold));
+			tablaPrendas.setWidths(new float[] { 8f, 8f, 4f, 4f });
+			PdfPCell vacio = new PdfPCell(new Phrase(""));
+			vacio.setBorder(0);
+			vacio.setBorderWidthBottom(2f);
+			vacio.setBorderColorBottom(borderGray);
+			PdfPCell nombrePrendaCabezero = new PdfPCell(new Phrase("Prenda", HelveticaBold));
+			PdfPCell nombrePrendaCabezero2 = new PdfPCell(new Phrase("Tela", HelveticaBold));
 			PdfPCell precioPrendaCabezero = new PdfPCell(new Phrase("Precio", HelveticaBold));
-			nombrePrendaCabezero.setBackgroundColor(fuerte);
+			nombrePrendaCabezero.setBorderColor(borderGray);
 			nombrePrendaCabezero.setBorder(0);
+			nombrePrendaCabezero.setBorderWidthBottom(2f);
 			nombrePrendaCabezero.setPaddingBottom(8f);
 			nombrePrendaCabezero.setPaddingTop(6f);
 			nombrePrendaCabezero.setHorizontalAlignment(Element.ALIGN_CENTER);
-			precioPrendaCabezero.setBackgroundColor(fuerte);
+			nombrePrendaCabezero2.setBorderColor(borderGray);
+			nombrePrendaCabezero2.setBorder(0);
+			nombrePrendaCabezero2.setBorderWidthBottom(2f);
+			nombrePrendaCabezero2.setPaddingBottom(8f);
+			nombrePrendaCabezero2.setPaddingTop(6f);
+			nombrePrendaCabezero2.setHorizontalAlignment(Element.ALIGN_CENTER);
+			precioPrendaCabezero.setBorderColor(borderGray);
 			precioPrendaCabezero.setBorder(0);
+			precioPrendaCabezero.setBorderWidthBottom(2f);
 			precioPrendaCabezero.setPaddingBottom(8f);
 			precioPrendaCabezero.setPaddingTop(6f);
 			precioPrendaCabezero.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -364,24 +387,47 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			
 			
 			tablaPrendas.addCell(nombrePrendaCabezero);
+			tablaPrendas.addCell(nombrePrendaCabezero2);
+			tablaPrendas.addCell(vacio);
 			tablaPrendas.addCell(precioPrendaCabezero);
 			float Total = 0;
 			for(int con = 0; con < prendas.size(); con++) {
 				Object[] aux = (Object[]) prendas.get(con);
 				Total += Float.valueOf(aux[19].toString());
-				PdfPCell nombrePrenda = new PdfPCell(new Phrase(aux[4].toString(), Helvetica));
+				PdfPCell nombrePrenda = new PdfPCell(new Phrase(aux[20].toString(), Helvetica));
+				PdfPCell nombreTela = new PdfPCell(new Phrase(aux[6].toString(), Helvetica));
 				PdfPCell precioPrenda = new PdfPCell(new Phrase(aux[19].toString(), HelveticaBold));
 //				nombrePrenda.setPadding(3f);
 //				precioPrenda.setPadding(3f);
+				vacio.setBorderColorBottom(borderTable);
 				nombrePrenda.setBorderColorBottom(borderTable);
 				nombrePrenda.setBorderWidthBottom(2);
 				nombrePrenda.setBorder(Rectangle.BOTTOM);
 				nombrePrenda.setPaddingBottom(18f);
+				nombrePrenda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				nombrePrenda.setBorderColorBottom(borderTable);
+				nombrePrenda.setBorderWidthBottom(2);
+				nombrePrenda.setBorder(Rectangle.BOTTOM);
+				nombrePrenda.setPaddingBottom(18f);
+				nombrePrenda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				nombreTela.setBorderColorBottom(borderTable);
+				nombreTela.setBorderWidthBottom(2);
+				nombreTela.setBorder(Rectangle.BOTTOM);
+				nombreTela.setPaddingBottom(18f);
+				nombreTela.setHorizontalAlignment(Element.ALIGN_CENTER);
+				nombreTela.setBorderColorBottom(borderTable);
+				nombreTela.setBorderWidthBottom(2);
+				nombreTela.setBorder(Rectangle.BOTTOM);
+				nombreTela.setPaddingBottom(18f);
+				nombreTela.setHorizontalAlignment(Element.ALIGN_CENTER);
 				precioPrenda.setBorderColorBottom(borderTable);
 				precioPrenda.setBorderWidthBottom(2);
+				precioPrenda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				precioPrenda.setBorder(Rectangle.BOTTOM);
 				precioPrenda.setPaddingBottom(18f);
 				tablaPrendas.addCell(nombrePrenda);
+				tablaPrendas.addCell(nombreTela);
+				tablaPrendas.addCell(vacio);
 				tablaPrendas.addCell(precioPrenda);
 			}
 			
@@ -391,14 +437,19 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				PdfPCell totalNumero = new PdfPCell(new Phrase("" + Total, HelveticaBold));
 //				totalTitulo.setPadding(3f);
 //				totalNumero.setPadding(3f);
+				vacio.setBorder(0);
 				totalTitulo.setPaddingBottom(18f);
 				totalTitulo.setBorder(0); 
 				totalTitulo.setBorder(Rectangle.BOTTOM);
-				totalTitulo.setBorderColorBottom(borderTable);
+				totalTitulo.setBorderColorBottom(borderGray);
 				totalTitulo.setBorderWidthBottom(2);
+				totalTitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
 				totalNumero.setBorder(Rectangle.BOTTOM);
-				totalNumero.setBorderColorBottom(borderTable);
+				totalNumero.setBorderColorBottom(borderGray);
 				totalNumero.setBorderWidthBottom(2);
+				totalNumero.setHorizontalAlignment(Element.ALIGN_CENTER);
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
 				tablaPrendas.addCell(totalTitulo);
 				tablaPrendas.addCell(totalNumero);
 			}
@@ -706,6 +757,16 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			PdfReader reader = new PdfReader(FILE1);
 			PdfImportedPage page = writer.getImportedPage(reader, 1); 
 			PdfContentByte cb = writer.getDirectContent();
+			cb.addTemplate(page, 0, 0);
+			document.newPage();
+			reader = new PdfReader(FILE1);
+			page = writer.getImportedPage(reader, 2); 
+			cb = writer.getDirectContent();
+			cb.addTemplate(page, 0, 0);
+			document.newPage();
+			reader = new PdfReader(FILE1);
+			page = writer.getImportedPage(reader, 3); 
+			cb = writer.getDirectContent();
 			cb.addTemplate(page, 0, 0);
 			document.close();
 		}
