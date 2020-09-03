@@ -146,7 +146,7 @@ $('#prendaCotizacion').on('change', function () {
           },
 	  });
 	  
-	  if($('#tipoCotizacion').val()=='1'){
+	  if($('#tipoCotizacion').val()=='1' || $('#tipoCotizacion').val()=='3'){
 		  
 		  $.ajax({
 			  method: "GET",
@@ -433,6 +433,22 @@ function cotizacionGeneral(){
 	ValidarCotizacionPrendas(0);
 }
 
+function cotizacionDesglosadaByTipoComposicion(){
+	table.columns(':eq(0)').visible(true);
+	table.columns(':eq(1)').visible(true);
+	table.columns(':eq(12)').visible(true);
+	
+	$('.cantidadCotizacion').show();
+	$('.coordinadoCotizacion').show();
+	$('.modeloCotizacion').hide();
+	$('#GeneralDesglosada').text("Familia de composición");
+	table.columns(':eq(3)').visible(false);
+	table.columns(':eq(4)').visible(false);
+	table.columns(':eq(6)').visible(false);
+	table.draw();
+	
+	ValidarCotizacionPrendas(0);
+}
 
 //=Borrar registro de la tabla de agregar una muestra==//
 //                                                     //
@@ -469,6 +485,11 @@ function cotizacionGeneral(){
 		table.columns(':eq(6)').visible(false);
 		table.columns(':eq(12)').visible(false);												//
 	 }																							//
+	 if($('#tipoCotizacion').val()==3){
+		table.columns(':eq(3)').visible(false);
+		table.columns(':eq(4)').visible(false);
+		table.columns(':eq(6)').visible(false);	 
+	 }
 	 $('.selectpicker').selectpicker("refresh");																		//
 	 table.draw(false);  																		//
  });																							//
@@ -502,6 +523,11 @@ function cotizacionGeneral(){
 		table.columns(':eq(6)').visible(false);
 		table.columns(':eq(12)').visible(false); 																//
 	 } 																											//
+	 if($('#tipoCotizacion').val()==3){
+		table.columns(':eq(3)').visible(false);
+		table.columns(':eq(4)').visible(false);
+		table.columns(':eq(6)').visible(false);	 
+	}
 	 if($(this).val()==''){ 																					//
 		 $(this).val(0); 																						//
 	 } 																											//
@@ -538,6 +564,11 @@ function cotizacionGeneral(){
 		table.columns(':eq(6)').visible(false);
 		table.columns(':eq(12)').visible(false);																					//
 	 }																																//
+	 if($('#tipoCotizacion').val()==3){
+		table.columns(':eq(3)').visible(false);
+		table.columns(':eq(4)').visible(false);
+		table.columns(':eq(6)').visible(false);	 
+	}
 	 if($(this).val()==''){																											//
 		 $(this).val(0);																											//
 	 }																																//
@@ -639,12 +670,16 @@ function GuardarCotizacionInfo(){
 	if(tipoCotizacion=='1'){
 		cotizacionGeneral();
 	}
-	else{
+	else if(tipoCotizacion=='2'){
 		table.columns().visible(true);
 		$('#GeneralDesglosada').text("Tela");
     	$('.cantidadCotizacion').show();
 		$('.coordinadoCotizacion').show();
 		$('.modeloCotizacion').show();
+		table.draw();
+	}
+	else{
+		cotizacionDesglosadaByTipoComposicion();
 	}
 	
 	var tipoPrecioVentas = $('#tipoPrecioVentas').val();
@@ -1147,7 +1182,7 @@ function ValidarRegistroTablita(){
 			}
 		}
 	}
-	else{
+	else if($('#tipoCotizacion').val()==2){
 		if(coordinadoCotizacion=="" || coordinadoCotizacion==null || coordinadoCotizacion==undefined ||
 		   prendaCotizacion==""     || prendaCotizacion==null     || prendaCotizacion==undefined     ||
 		   modeloCotizacion==""     || modeloCotizacion==null     || modeloCotizacion==undefined     ||
@@ -1166,6 +1201,25 @@ function ValidarRegistroTablita(){
 				AgregarRegistroTablita();
 			}
 		}
+	}
+	else{
+		if(coordinadoCotizacion=="" || coordinadoCotizacion==null || coordinadoCotizacion==undefined ||
+				   prendaCotizacion==""     || prendaCotizacion==null     || prendaCotizacion==undefined     ||
+				   telaCotizacion==""       || telaCotizacion==null       || telaCotizacion==undefined       ||	
+				   cantidadCotizacion==""   || cantidadCotizacion==null   || cantidadCotizacion==undefined){
+				   Swal.fire({
+					    icon: 'error',
+						title: 'Error',
+						text: '¡Debe agregar un campo válido!',
+						showConfirmButton: false,
+						timer: 3500
+						})
+				}
+				else{			
+					if(validador==0){
+						AgregarRegistroTablita();
+					}
+				}
 	}
 }
 

@@ -179,7 +179,7 @@ public class CotizacionesController {
 			//Esto hace referencia a la segunda ventana de agregar cotización "Cotizaciones-prendas.html"
 			model.addAttribute("ListarPrendas", CoordinadoService.findAllPrenda());
 			model.addAttribute("idCotizacionToPrendas", cotizacion.getIdCotizacion());
-			if(cotizacion.getTipoCotizacion().equalsIgnoreCase("1")) {
+			if(cotizacion.getTipoCotizacion().equalsIgnoreCase("1") || cotizacion.getTipoCotizacion().equalsIgnoreCase("3")) {
 				model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id, 1));
 			}
 			else if(cotizacion.getTipoCotizacion().equalsIgnoreCase("2")) {
@@ -193,8 +193,13 @@ public class CotizacionesController {
 			model.addAttribute("anticipoMontoCotizacion", cotiTotal.getAnticipoMonto());
 			model.addAttribute("descuentoCotizacion", cotiTotal.getDescuentoPorcentaje());
 			model.addAttribute("descuentoMontoCotizacion", cotiTotal.getDescuentoMonto());
-			
-			double subtotal = cotizacionPrendaService.subtotalPrendas(id);
+			double subtotal;
+			try {
+				subtotal = cotizacionPrendaService.subtotalPrendas(id);
+			}
+			catch(Exception e) {
+				subtotal = 0;
+			}
 			double subtotalmasDescuento = Double.parseDouble(df.format(subtotal+Double.parseDouble(cotiTotal.getDescuentoMonto())));
 			double ivaMonto = subtotalmasDescuento*(Double.parseDouble(cotiTotal.getIva())/100);
 			double total = Double.parseDouble(df.format(subtotalmasDescuento+ivaMonto));
