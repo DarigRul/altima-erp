@@ -83,14 +83,17 @@ $(document).ready(function() {
 	    if($('#tipoCotizacion').val()==1){
 			table.columns(':eq(0)').visible(false);
 			table.columns(':eq(1)').visible(false);
+			table.columns(':eq(3)').visible(false);
 			table.columns(':eq(12)').visible(false);
 			$('.cantidadCotizacion').hide();
 			$('.coordinadoCotizacion').hide();
+			$('.modeloCotizacion').hide();
 		}
 	    else{
 	    	table.columns().visible(true);
 	    	$('.cantidadCotizacion').show();
 			$('.coordinadoCotizacion').show();
+			$('.modeloCotizacion').show();
 	    }
 	  	$('#cotizacionNueva').show();
 	  	 table.draw();

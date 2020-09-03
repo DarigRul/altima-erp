@@ -179,7 +179,13 @@ public class CotizacionesController {
 			//Esto hace referencia a la segunda ventana de agregar cotización "Cotizaciones-prendas.html"
 			model.addAttribute("ListarPrendas", CoordinadoService.findAllPrenda());
 			model.addAttribute("idCotizacionToPrendas", cotizacion.getIdCotizacion());
-			model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id));
+			if(cotizacion.getTipoCotizacion().equalsIgnoreCase("1")) {
+				model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id, 1));
+			}
+			else if(cotizacion.getTipoCotizacion().equalsIgnoreCase("2")) {
+				model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id, 2));
+			}
+			
 			
 			
 			//Esto hace referencia a la tercer ventana de agregar cotización "Cotizaciones-precios.html"
@@ -247,7 +253,7 @@ public class CotizacionesController {
 		model.addAttribute("totales", totales);
 		model.addAttribute("cv", cv);
 		model.addAttribute("mail", mail);
-		model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id));
+		model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id, Integer.parseInt(cotizacionService.findOne(id).getTipoCotizacion())));
 		return "/imprimir-cotizacion";
 	}
 }

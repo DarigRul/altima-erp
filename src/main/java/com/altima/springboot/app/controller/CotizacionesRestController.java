@@ -58,10 +58,12 @@ public class CotizacionesRestController {
 	}
 	
 	@RequestMapping(value="/agregarCotizacionPrendaTablita", method=RequestMethod.POST)
-	public Object[] agregarCotizacionPrendaTablita(@RequestParam (name="idModelo") String idPrenda,
-												   @RequestParam (name="idTela") String idTela){
+	public Object[] agregarCotizacionPrendaTablita(@RequestParam (name="idPrenda")Long idFamPrenda,
+												   @RequestParam (name="idModelo", required=false) Long idModelo,
+												   @RequestParam (name="idTela") Long idTela){
+
 		try {
-		return cotizacionPrendaService.FindDatosCotizacionPrenda(Long.parseLong(idTela), Long.parseLong(idPrenda));
+			return cotizacionPrendaService.FindDatosCotizacionPrenda(idTela, idModelo, idFamPrenda);
 		}
 		catch(Exception e) {
 			System.out.println(e);
@@ -71,6 +73,7 @@ public class CotizacionesRestController {
 			System.out.println("Fin de proceso agregarCotizacionPrendaTablita");
 		}
 	}
+	
 	
 	@RequestMapping(value="/GuardarCotizacionInfo", method=RequestMethod.POST)
 	public int GuardarCotizacionInformacion (@RequestParam(name="lista") String lista) {
@@ -196,7 +199,7 @@ public class CotizacionesRestController {
 	
 	@RequestMapping(value="/EditarCotizacionPrendas", method=RequestMethod.POST)
 	public int EditarCotizacionPrendas (@RequestParam(name="lista") String lista,
-									 	@RequestParam(name="idCotizacionPrendas") String idCotizacionPrendas) {
+									 	@RequestParam(name="idCotizacionPrendas") Long idCotizacionPrendas) {
 		
 		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -207,7 +210,7 @@ public class CotizacionesRestController {
 			
 			//Es para borrar registros eliminados en la tabla del usuario
 			int contadorsillo=0;
-			List<Object[]> AllPrendas = cotizacionPrendaService.FindCotizacionPrendas(Long.parseLong(idCotizacionPrendas));
+			List<Object[]> AllPrendas = cotizacionPrendaService.findPrendasByCotizacion(idCotizacionPrendas);
 			List<ComercialCotizacionPrenda> AllPrendasToDelete = new ArrayList<ComercialCotizacionPrenda>();
 			
 			for (Object[] a: AllPrendas) {
@@ -238,9 +241,14 @@ public class CotizacionesRestController {
 				System.out.println(dato);
 				if(dato.get("idCotizacionPrenda").toString().equals("-1")) {
 					ComercialCotizacionPrenda cotiPrenda = new ComercialCotizacionPrenda();
-					cotiPrenda.setIdCotizacion(Long.parseLong(idCotizacionPrendas));
+					cotiPrenda.setIdCotizacion(idCotizacionPrendas);
 					cotiPrenda.setIdFamiliaPrenda(Long.parseLong(dato.get("idPrenda").toString()));
-					cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
+					if(dato.get("idModelo").toString().equalsIgnoreCase("")) {
+						cotiPrenda.setIdPrenda(null);
+					}
+					else {
+						cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
+					}
 					cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
 					cotiPrenda.setCoordinado(dato.get("coordinado").toString());
 					cotiPrenda.setCantidad(dato.get("cantidad").toString());
@@ -261,9 +269,14 @@ public class CotizacionesRestController {
 				else {
 					
 					ComercialCotizacionPrenda cotiPrenda = cotizacionPrendaService.findOne(dato.getLong("idCotizacionPrenda"));
-					cotiPrenda.setIdCotizacion(Long.parseLong(idCotizacionPrendas));
+					cotiPrenda.setIdCotizacion(idCotizacionPrendas);
 					cotiPrenda.setIdFamiliaPrenda(Long.parseLong(dato.get("idPrenda").toString()));
-					cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
+					if(dato.get("idModelo").toString().equalsIgnoreCase("")) {
+						cotiPrenda.setIdPrenda(null);
+					}
+					else {
+						cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
+					}
 					cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
 					cotiPrenda.setCoordinado(dato.get("coordinado").toString());
 					cotiPrenda.setCantidad(dato.get("cantidad").toString());

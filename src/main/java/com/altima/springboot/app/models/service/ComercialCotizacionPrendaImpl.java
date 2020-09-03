@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.altima.springboot.app.models.entity.ComercialCotizacionPrenda;
 import com.altima.springboot.app.repository.ComercialCotizacionPrendaRepository;
 
+@SuppressWarnings("unchecked")
 @Service
 public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrendaService {
 
@@ -45,31 +46,91 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 
 	@Override
 	@Transactional
-	public Object[] FindDatosCotizacionPrenda(Long idTela, Long idPrenda) {
+	public Object[] FindDatosCotizacionPrenda(Long idTela, Long idModelo, Long idPrenda) {
 		// TODO Auto-generated method stub
-		return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup,\n" + 
-											   "	   tela.color,\n" + 
-											   "	   listaprenda.precio_local_nuevo,\n" + 
-											   " 	   listaprenda.precio_foraneo_nuevo,\n" + 
-											   "	   listaprenda.precio_local_antiguo,\n" + 
-											   "	   listaprenda.precio_foraneo_antiguo,\n" + 
-											   "	   listaprenda.id_prenda,\n" + 
-											   "	   listaprenda.id_familia_composicion\n" + 
-											   "FROM alt_disenio_tela AS tela\n" + 
-											   " INNER JOIN alt_disenio_lista_precio_prenda listaprenda ON tela.id_familia_composicion = listaprenda.id_familia_composicion\n" + 
-											   " INNER JOIN alt_disenio_prenda prenda ON listaprenda.id_prenda = prenda.id_prenda\n" + 
-											   " INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = listaprenda.id_familia_composicion\n" + 
-											   " WHERE 1=1 \n" + 
-											   " AND tela.id_tela ="+idTela+"\n" + 
-											   " AND prenda.id_prenda =" +idPrenda).getSingleResult();
+		if(idModelo==null) {
+			return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup AS nombreComposicion, \n" + 
+												   "	 tela.color, \n" + 
+												   "	 lookupPrenda.nombre_lookup AS nombrePrenda,\n" + 
+												   "	 precio.id_prenda,\n" + 
+												   "	 precio.id_familia_composicion,\n" + 
+												   "	 precio.precio\n" + 
+												   "FROM alt_disenio_tela AS tela  \n" + 
+												   "INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = tela.id_familia_composicion \n" + 
+												   "INNER JOIN alt_disenio_precio_composicion precio ON lookup.id_lookup = precio.id_familia_composicion \n" + 
+												   "INNER JOIN alt_disenio_lookup lookupPrenda ON precio.id_prenda = lookupPrenda.id_lookup\n" + 
+												   "WHERE 1=1  \n" + 
+												   "AND tela.id_tela ="+idTela+"\n" + 
+												   "AND precio.id_prenda ="+idPrenda).getSingleResult();
+		}
+		else {
+	
+			return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup,\n" + 
+												   "	   tela.color,\n" + 
+												   "	   listaprenda.precio_local_nuevo,\n" + 
+												   " 	   listaprenda.precio_foraneo_nuevo,\n" + 
+												   "	   listaprenda.precio_local_antiguo,\n" + 
+												   "	   listaprenda.precio_foraneo_antiguo,\n" + 
+												   "	   listaprenda.id_prenda,\n" + 
+												   "	   listaprenda.id_familia_composicion\n" + 
+												   "FROM alt_disenio_tela AS tela\n" + 
+												   " INNER JOIN alt_disenio_lista_precio_prenda listaprenda ON tela.id_familia_composicion = listaprenda.id_familia_composicion\n" + 
+												   " INNER JOIN alt_disenio_prenda prenda ON listaprenda.id_prenda = prenda.id_prenda\n" + 
+												   " INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = listaprenda.id_familia_composicion\n" + 
+												   " WHERE 1=1 \n" + 
+												   " AND tela.id_tela ="+idTela+"\n" + 
+												   " AND prenda.id_prenda =" +idModelo).getSingleResult();
+			}
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<Object[]> FindCotizacionPrendas(Long id) {
-		
-	return em.createNativeQuery("{call alt_pr_cotizacion_prendas ("+id+")}").getResultList(); 
+	public List<Object[]> FindCotizacionPrendas(Long id, int tipoCotizacion) {
+		if(tipoCotizacion==1) {
+			return em.createNativeQuery("SELECT cotizacionPrenda.id_cotizacion_prenda, \n" + 
+										"  	    cotizacionPrenda.id_familia_prenda, \n" + 
+										"	   lookupPrenda.nombre_lookup AS Familia, \n" + 
+										"	   '' as idPrenda, \n" + 
+										"	   '' as nombrePrenda, \n" + 
+										"	   cotizacionPrenda.id_tela, \n" + 
+										"		 CONCAT(tela.id_text,' ', tela.nombre_tela) AS nombreTela, \n" + 
+										"     lookup.nombre_lookup AS composicion,\n" + 
+										"     tela.color AS color,\n" + 
+										"		 cotizacionPrenda.coordinado,\n" + 
+										"		 cotizacionPrenda.cantidad,\n" + 
+										"		 precio.precio AS precio1,\n" + 
+										"		 precio.precio AS precio2,\n" + 
+										"		 precio.precio AS precio3,\n" + 
+										"		 precio.precio AS precio4,\n" + 
+										"		 cotizacionPrenda.precio_bordado,\n" + 
+										"		 cotizacionPrenda.porcentaje_adicional,\n" + 
+										"		 cotizacionPrenda.monto_adicional,\n" + 
+										"		 cotizacionPrenda.precio_unitario_final,\n" + 
+										"		 cotizacionPrenda.importe\n" + 
+										"\n" + 
+										"FROM alt_comercial_cotizacion_prenda AS cotizacionPrenda\n" + 
+										"\n" + 
+										"INNER JOIN alt_disenio_tela tela ON cotizacionPrenda.id_tela = tela.id_tela\n" + 
+										"INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = tela.id_familia_composicion \n" + 
+										"INNER JOIN alt_disenio_precio_composicion precio ON lookup.id_lookup = precio.id_familia_composicion \n" + 
+										"INNER JOIN alt_disenio_lookup lookupPrenda ON precio.id_prenda = lookupPrenda.id_lookup\n" + 
+										"\n" + 
+										"WHERE 1=1\n" + 
+										"AND cotizacionPrenda.id_cotizacion=1\n" + 
+										"\n" + 
+										"ORDER BY cotizacionPrenda.coordinado ASC").getResultList();
+		}
+		else {
+			return em.createNativeQuery("{call alt_pr_cotizacion_prendas ("+id+")}").getResultList();
+		}
+	}
+	
+	@Override
+	@Transactional
+	public List<Object[]> findPrendasByCotizacion(Long id) {
+
+		return em.createNativeQuery("SELECT * FROM alt_comercial_cotizacion_prenda\r\n" + 
+									"WHERE id_cotizacion="+id).getResultList();
 	}
 	
 	@Override

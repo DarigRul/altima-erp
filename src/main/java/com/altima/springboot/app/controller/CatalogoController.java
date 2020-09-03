@@ -481,6 +481,7 @@ public class CatalogoController {
 
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_AGREGAR"})
 	@RequestMapping(value= "/agregarPrecioComposicion", method = RequestMethod.POST)
 	public String guardarPrecioComposicion (@RequestParam("idPrenda")Long idPrenda, @RequestParam("idFamComposicion")Long idFamComposicion, @RequestParam("precio")String precio) {
 		
@@ -509,6 +510,7 @@ public class CatalogoController {
 		}
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_EDITAR"})
 	@RequestMapping(value= "/editarPrecioComposicion", method = RequestMethod.POST)
 	public String editarPrecioComposicion (@RequestParam("idPrenda")Long idPrenda, 
 										   @RequestParam("idFamComposicion")Long idFamComposicion, 
@@ -537,6 +539,7 @@ public class CatalogoController {
 		}
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR"})
 	@RequestMapping(value= "/reactivarPrecioComposicion", method = RequestMethod.POST)
 	public String reactivarPrecioComposicion (@RequestParam("idPrecioComposicion")Long idPrecioComposicion) {
 		
@@ -560,6 +563,7 @@ public class CatalogoController {
 		}
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_ELIMINAR"})
 	@RequestMapping(value= "/bajarPrecioComposicion", method = RequestMethod.POST)
 	public String bajarPrecioComposicion (@RequestParam("idPrecioComposicion")Long idPrecioComposicion) {
 		
