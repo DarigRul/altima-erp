@@ -83,5 +83,25 @@ public class AdminConfiguracionPedidoServiceImpl implements IAdminConfiguracionP
 		return re;
 		//AND material.nombre_material NOT IN ('Tela principal')
 	}
+	
+	@Override
+	public  boolean validarPedido (Long id ) {
+		try {
+			String re = em.createNativeQuery(""
+					+ "SELECT\r\n" + 
+					"	con.tipo_pedido \r\n" + 
+					"FROM\r\n" + 
+					"	alt_admin_configuracion_pedido AS con \r\n" + 
+					"WHERE\r\n" + 
+					"	con.tipo_pedido ="+id).getSingleResult().toString();
+					System.out.println("regresa el true");
+			return true;
+			}
+			catch(Exception e) {
+				System.out.println("regresa el false");
+				return false;
+			}
+	
+	}
 
 }

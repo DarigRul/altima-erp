@@ -244,13 +244,22 @@
 										</div>
 
 										<div th:if="${cliente.estatusCliente == 0}"
-											class="form-group col-sm-8">
+											class="form-group col-sm-6">
 											<label for="correoEmpresa">Obervación:</label> <input
 												type="text" th:field="*{cliente.Observacion}"
 												onkeyup="capitalizarPrimeraLetra(this);"
 												class="form-control" id="observacionEmpresa"
 												placeholder="Observación...">
 										</div>
+										<div  class="form-group col-md-2">
+                        					<label for="anticipoPedido">Tipo</label>
+                        					<select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true"
+                            					data-live-search-normalize="true" th:field="*{cliente.foraneo}"  id="foraneo" name="foraneo" required>
+                            					<option value="">Seleccione uno..</option>
+                            					<option value="0">Local</option>
+                            					<option value="1">Foráneo</option>
+                        					</select>
+                   		 				</div>
 
 										<div class="form-group col-sm-6">
 											<label for="correoEmpresa">Contacto:</label> <input
@@ -516,6 +525,16 @@
 												class="form-control" id="observacionEmpresa"
 												placeholder="Observación...">
 										</div>
+										<div  class="form-group col-md-2">
+                        					<label for="anticipoPedido">Tipo</label>
+                        					<select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true"
+                            					data-live-search-normalize="true" th:field="*{cliente.foraneo}"  id="foraneo" name="foraneo" required>
+                            					<option value="">Seleccione uno..</option>
+                            					<option value="0">Local</option>
+                            					<option value="1">Foráneo</option>
+                        					</select>
+                   		 				</div>
+										
 										<div class="form-group col-sm-6">
 											<label for="correoEmpresa">Contacto:</label> <input
 												type="text" th:field="*{cliente.nombreContacto}"

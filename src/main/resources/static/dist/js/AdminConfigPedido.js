@@ -6,6 +6,8 @@ function limpiar(){
 	$("#cantidadPrenda").val(null);
 	$("#minimoDias").val(null);
 	$("#maximoDias").val(null);
+	$("#minAdicionales").val(null);
+	
 	$("#locales").val(null);
 	$("#foraneo").val(null);
 	$("#diasBordado").val(null);
@@ -25,8 +27,37 @@ function limpiar(){
 	$("#minimoPersonas").attr("readonly",true);
 }
 
+$('#tipoPedido').change(function() {
+	  $.ajax({
+	        data: {id:$(this).val()},
+	        url:   '/validar-tipo',
+	        type:  'GET',
+	        success:  function (r) 
+	        {
+	        	if ( r == true ){
+	        		
+	        		   	 Swal.fire({
+	        					position: 'center',
+	        					icon: 'error',
+	        					title: 'Este tipo ya fue registrado',
+	        					showConfirmButton: false,
+	        					timer: 1250
+	        				})
+	        		     
+	        		   	$("#tipoPedido").val(null);
+	        			$('#tipoPedido').selectpicker('refresh');
+	        	}
+	        	//console.log ("la repuesta es:"+ r)
+	        },
+	        error: function(){
+	            alert('Ocurrio un error en el servidor de modelo ..');
+	            select.prop('disabled', false);
+	        }
+	    });
+	  
+	})
+
 function valida_envia(){
-	
 	//valido el interés
    	if (document.fvalida.tipoPedido.selectedIndex==0){
    	 Swal.fire({
@@ -85,6 +116,16 @@ function valida_envia(){
   		return 0;
 	}
 
+   	if (document.fvalida.minAdicionales.value.length==0){
+      	 Swal.fire({
+   			position: 'center',
+   			icon: 'error',
+   			title: 'Ingrese minimo de adiccionales',
+   			showConfirmButton: false,
+   			timer: 1250
+   		})
+     		return 0;
+   	}
    	
    	if (document.fvalida.locales.value.length==0 ){
    	 Swal.fire({
@@ -182,20 +223,21 @@ function editar(e) {
         	$("#cantidadPrenda").val(r.cantidadPrenda);
         	$("#minimoDias").val(r.minimoDias);
         	$("#maximoDias").val(r.maximoDias);
+        	$("#minAdicionales").val(r.minAdicionales);	
         	$("#locales").val(r.locales);
         	$("#foraneo").val(r.foraneo);
-        	$("#diasBordado").val(r.diasBordado);        	
+        	$("#diasBordado").val(r.diasBordado);
+        	
         	$("#stockTrueFalse").val(r.stockTrueFalse);
-        	$('#stockTrueFalse').selectpicker('refresh');
-        	if (r.stockTrueFalse == "Si" ){
+        	$('#stockTrueFalse').selectpicker('refresh');        	if (r.stockTrueFalse == "Si" ){
         			$("#minimoPersonas").attr("readonly",false);
         			$("#minimoPersonas").val(r.minimoPersonas);
         	}else{
         		$("#minimoPersonas").attr("readonly",true);
         		$("#minimoPersonas").val(null);
         	}
-        	
-        	
+        		
+        ;
         	$("#anticipoTrueFalse").val(r.anticipoTrueFalse);
         	$('#anticipoTrueFalse').selectpicker('refresh');
         	
