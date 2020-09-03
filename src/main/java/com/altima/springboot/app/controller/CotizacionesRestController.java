@@ -176,7 +176,12 @@ public class CotizacionesRestController {
 				System.out.println(dato);
 				cotiPrenda.setIdCotizacion(Long.parseLong(idCotizacion));
 				cotiPrenda.setIdFamiliaPrenda(Long.parseLong(dato.get("idPrenda").toString()));
-				cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
+				if(dato.get("idModelo").toString().equalsIgnoreCase("")) {
+					cotiPrenda.setIdPrenda(null);
+				}
+				else {
+					cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
+				}
 				cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
 				cotiPrenda.setCoordinado(dato.get("coordinado").toString());
 				cotiPrenda.setCantidad(dato.get("cantidad").toString());

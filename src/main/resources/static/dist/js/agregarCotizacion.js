@@ -799,6 +799,9 @@ function GuardarCotizacionPrendas(refEditPrenda){
 				console.log("no existe datos");
 			}
 		}
+		
+		$('#descuentoMontoCotizacion').val(0);
+		$('#anticipoMontoCotizacion').val(0);
 		$('#Subtotal').text(subtotal);
 		$('#Subtotal2').text((parseFloat($('#Subtotal').text())+parseFloat($('#descuentoMontoCotizacion').val())).toFixed(2));
 		$('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));
@@ -842,6 +845,8 @@ function GuardarCotizacionPrendas(refEditPrenda){
 						showConfirmButton: false,
 				        timer: 2000,
 				        onClose: () => {
+				        	$('#custom-precios').attr("href","#preciosDiv");
+				        	$('#custom-precios').attr("data-toggle","pill");
 				        	$('#custom-precios').click();
 				        }
 					})
