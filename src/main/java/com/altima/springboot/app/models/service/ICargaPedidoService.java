@@ -19,6 +19,6 @@ public interface ICargaPedidoService {
 	
 	List<Object []> PedidosExistenteIdEmpresa(Long id);
 	
-	String ValidarCantidadEspecial(Long id);
+	List<String> ValidarCantidadEspecial(Long id);
 
 }

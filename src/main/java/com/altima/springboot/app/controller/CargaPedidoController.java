@@ -236,9 +236,9 @@ public class CargaPedidoController {
 	 @PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
 	 @RequestMapping(value = "/cerrar-expediente", method = RequestMethod.GET)
 	@ResponseBody
-		public String  cerrar(Long id) {
+		public List<String>  cerrar(Long id) {
 		 
-		 String list =cargaPedidoService.ValidarCantidadEspecial(id);
+		 List<String> list =cargaPedidoService.ValidarCantidadEspecial(id);
 		if ( list == null) {
 			
 			System.out.println("nuloooooooooooo");
@@ -248,6 +248,7 @@ public class CargaPedidoController {
 			return null;
 			
 		}else {
+			System.out.println(list);
 			return list;
 		}
 		

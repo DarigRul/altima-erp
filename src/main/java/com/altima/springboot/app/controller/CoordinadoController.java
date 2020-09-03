@@ -366,6 +366,7 @@ public class CoordinadoController {
 		objetoCoodinadoPrenda.setFechaCreacion(hourdateFormat.format(date));
 
 		objetoCoodinadoPrenda.setPrecio(CoordinadoService.precioPrenda(idCoordinado, idModelo, idTela));
+		objetoCoodinadoPrenda.setPrecioFinal(CoordinadoService.precioPrenda(idCoordinado, idModelo, idTela));
 		CoordinadoService.saveCoorPrenda(objetoCoodinadoPrenda);
 
 		////// seccion2 TELAS
