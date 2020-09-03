@@ -51,6 +51,11 @@ public class CotizacionesRestController {
 		return CoordinadoService.findAllTela(idFamPrenda);
 	}
 	
+	@RequestMapping(value="/ExtraerFamiliaComposicion", method=RequestMethod.GET)
+	public List<Object []> ExtraerFamiliaComposicion (@RequestParam (name="idFamPrenda") Long idFamPrenda){
+		return CoordinadoService.findAllComposicion(idFamPrenda);
+	}
+	
 	@RequestMapping(value="/ListarClientesporAgente", method=RequestMethod.GET)
 	public List<Object[]> ListarClientesporAgente (@RequestParam(name="idAgente")Long idAgente) {
 		return ClienteService.findClientesByAgenteVentas(idAgente);

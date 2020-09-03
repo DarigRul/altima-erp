@@ -59,6 +59,8 @@ public interface IComercialCoordinadoService {
 		 String ImagenesRutaTela(Long id);
 		 
 		 String precioPrenda(Long idCoor , Long idPrenda , Long idTela);
+		 
+		List<Object[]> findAllComposicion(Long id);
 }
 
 

@@ -49,18 +49,17 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 	public Object[] FindDatosCotizacionPrenda(Long idTela, Long idModelo, Long idPrenda) {
 		// TODO Auto-generated method stub
 		if(idModelo==null) {
-			return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup AS nombreComposicion, \n" + 
-												   "	 tela.color, \n" + 
-												   "	 lookupPrenda.nombre_lookup AS nombrePrenda,\n" + 
-												   "	 precio.id_prenda,\n" + 
-												   "	 precio.id_familia_composicion,\n" + 
-												   "	 precio.precio\n" + 
-												   "FROM alt_disenio_tela AS tela  \n" + 
-												   "INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = tela.id_familia_composicion \n" + 
-												   "INNER JOIN alt_disenio_precio_composicion precio ON lookup.id_lookup = precio.id_familia_composicion \n" + 
-												   "INNER JOIN alt_disenio_lookup lookupPrenda ON precio.id_prenda = lookupPrenda.id_lookup\n" + 
+			return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup AS nombreComposicion,\n" + 
+												   "	\"\" AS color,\n" + 
+												   "	lookupPrenda.nombre_lookup AS nombrePrenda,\n" + 
+												   "	precio.id_prenda,\n" + 
+												   "	precio.id_familia_composicion,\n" + 
+												   "	precio.precio\n" + 
+												   "FROM alt_disenio_precio_composicion AS precio\n" + 
+												   "INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = precio.id_familia_composicion \n" + 
+												   "INNER JOIN alt_disenio_lookup lookupPrenda ON precio.id_prenda = lookupPrenda.id_lookup \n" + 
 												   "WHERE 1=1  \n" + 
-												   "AND tela.id_tela ="+idTela+"\n" + 
+												   "AND precio.id_familia_composicion ="+idTela+"\n" + 
 												   "AND precio.id_prenda ="+idPrenda).getSingleResult();
 		}
 		else {
@@ -87,37 +86,36 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 	@Transactional
 	public List<Object[]> FindCotizacionPrendas(Long id, int tipoCotizacion) {
 		if(tipoCotizacion==1) {
-			return em.createNativeQuery("SELECT cotizacionPrenda.id_cotizacion_prenda, \n" + 
-										"  	    cotizacionPrenda.id_familia_prenda, \n" + 
-										"	   lookupPrenda.nombre_lookup AS Familia, \n" + 
-										"	   '' as idPrenda, \n" + 
-										"	   '' as nombrePrenda, \n" + 
-										"	   cotizacionPrenda.id_tela, \n" + 
-										"		 CONCAT(tela.id_text,' ', tela.nombre_tela) AS nombreTela, \n" + 
-										"     lookup.nombre_lookup AS composicion,\n" + 
-										"     tela.color AS color,\n" + 
-										"		 cotizacionPrenda.coordinado,\n" + 
-										"		 cotizacionPrenda.cantidad,\n" + 
-										"		 precio.precio AS precio1,\n" + 
-										"		 precio.precio AS precio2,\n" + 
-										"		 precio.precio AS precio3,\n" + 
-										"		 precio.precio AS precio4,\n" + 
-										"		 cotizacionPrenda.precio_bordado,\n" + 
-										"		 cotizacionPrenda.porcentaje_adicional,\n" + 
-										"		 cotizacionPrenda.monto_adicional,\n" + 
-										"		 cotizacionPrenda.precio_unitario_final,\n" + 
-										"		 cotizacionPrenda.importe,\n" + 
-										"		 lookupPrenda.nombre_lookup AS nombreFamPrenda\n" + 
+			return em.createNativeQuery("SELECT cotizacionPrenda.id_cotizacion_prenda,  \n" + 
+										"		cotizacionPrenda.id_familia_prenda,  \n" + 
+										"		lookupPrenda.nombre_lookup AS Familia,  \n" + 
+										"		'' as idPrenda,  \n" + 
+										"		'' as nombrePrenda,  \n" + 
+										"		lookup.id_lookup,  \n" + 
+										"		'' AS nombreTela,  \n" + 
+										"		lookup.nombre_lookup AS composicion, \n" + 
+										"		'' AS color, \n" + 
+										"		cotizacionPrenda.coordinado, \n" + 
+										"		cotizacionPrenda.cantidad, \n" + 
+										"		precio.precio AS precio1, \n" + 
+										"		precio.precio AS precio2, \n" + 
+										"		precio.precio AS precio3, \n" + 
+										"		precio.precio AS precio4, \n" + 
+										"		cotizacionPrenda.precio_bordado, \n" + 
+										"		cotizacionPrenda.porcentaje_adicional, \n" + 
+										"		cotizacionPrenda.monto_adicional, \n" + 
+										"		cotizacionPrenda.precio_unitario_final, \n" + 
+										"		cotizacionPrenda.importe, \n" + 
+										"		lookupPrenda.nombre_lookup AS nombreFamPrenda \n" + 
+										"FROM alt_comercial_cotizacion_prenda AS cotizacionPrenda \n" + 
 										"\n" + 
-										"FROM alt_comercial_cotizacion_prenda AS cotizacionPrenda\n" + 
-										"\n" + 
-										"INNER JOIN alt_disenio_tela tela ON cotizacionPrenda.id_tela = tela.id_tela\n" + 
-										"INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = tela.id_familia_composicion \n" + 
+										"INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = cotizacionPrenda.id_tela \n" + 
 										"INNER JOIN alt_disenio_precio_composicion precio ON lookup.id_lookup = precio.id_familia_composicion \n" + 
-										"INNER JOIN alt_disenio_lookup lookupPrenda ON precio.id_prenda = lookupPrenda.id_lookup\n" + 
+										"																								AND cotizacionPrenda.id_familia_prenda = precio.id_prenda\n" + 
+										"INNER JOIN alt_disenio_lookup lookupPrenda ON cotizacionPrenda.id_familia_prenda = lookupPrenda.id_lookup \n" + 
 										"\n" + 
-										"WHERE 1=1\n" + 
-										"AND cotizacionPrenda.id_cotizacion=1\n" + 
+										"WHERE 1=1 \n" + 
+										"AND cotizacionPrenda.id_cotizacion="+id+" \n" + 
 										"\n" + 
 										"ORDER BY cotizacionPrenda.coordinado ASC").getResultList();
 		}

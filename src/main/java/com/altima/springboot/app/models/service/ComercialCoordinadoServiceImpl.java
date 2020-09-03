@@ -121,6 +121,19 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
+	public List<Object[]> findAllComposicion(Long id) {
+		System.out.println("si corrio el metodo de la composicion");
+		List<Object[]> re = em.createNativeQuery("SELECT famComposicion.id_lookup,\n" + 
+												 "		 famComposicion.nombre_lookup\n" + 
+												 "FROM alt_disenio_lookup AS famComposicion\n" + 
+												 "INNER JOIN alt_disenio_precio_composicion precio ON famComposicion.id_lookup = precio.id_familia_composicion\n" + 
+												 "WHERE precio.id_prenda ="+ id).getResultList();
+		return re;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
 	public List<Object[]> materialesPorPrenda(Long id) {
 		
 		List<Object[]> re = em.createNativeQuery("SELECT\n" + 

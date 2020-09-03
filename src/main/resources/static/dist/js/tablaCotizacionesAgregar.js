@@ -84,13 +84,17 @@ $(document).ready(function() {
 			table.columns(':eq(0)').visible(false);
 			table.columns(':eq(1)').visible(false);
 			table.columns(':eq(3)').visible(false);
+			table.columns(':eq(4)').visible(false);
+			table.columns(':eq(6)').visible(false);
 			table.columns(':eq(12)').visible(false);
+			$('#GeneralDesglosada').text("Familia de composición");
 			$('.cantidadCotizacion').hide();
 			$('.coordinadoCotizacion').hide();
 			$('.modeloCotizacion').hide();
 		}
 	    else{
 	    	table.columns().visible(true);
+	    	$('#GeneralDesglosada').text("Tela");
 	    	$('.cantidadCotizacion').show();
 			$('.coordinadoCotizacion').show();
 			$('.modeloCotizacion').show();

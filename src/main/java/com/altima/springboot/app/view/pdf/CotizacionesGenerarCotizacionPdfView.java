@@ -363,7 +363,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			vacio.setBorderWidthBottom(2f);
 			vacio.setBorderColorBottom(borderGray);
 			PdfPCell nombrePrendaCabezero = new PdfPCell(new Phrase("Prenda", HelveticaBold));
-			PdfPCell nombrePrendaCabezero2 = new PdfPCell(new Phrase("Tela", HelveticaBold));
+			PdfPCell nombrePrendaCabezero2 = new PdfPCell(new Phrase("Composición", HelveticaBold));
 			PdfPCell precioPrendaCabezero = new PdfPCell(new Phrase("Precio", HelveticaBold));
 			nombrePrendaCabezero.setBorderColor(borderGray);
 			nombrePrendaCabezero.setBorder(0);
@@ -760,12 +760,12 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			cb.addTemplate(page, 0, 0);
 			document.newPage();
 			reader = new PdfReader(FILE1);
-			page = writer.getImportedPage(reader, 2); 
+			page = writer.getImportedPage(reader, 3); 
 			cb = writer.getDirectContent();
 			cb.addTemplate(page, 0, 0);
 			document.newPage();
 			reader = new PdfReader(FILE1);
-			page = writer.getImportedPage(reader, 3); 
+			page = writer.getImportedPage(reader, 2); 
 			cb = writer.getDirectContent();
 			cb.addTemplate(page, 0, 0);
 			document.close();

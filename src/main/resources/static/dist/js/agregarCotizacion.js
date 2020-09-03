@@ -146,32 +146,63 @@ $('#prendaCotizacion').on('change', function () {
           },
 	  });
 	  
-	  $.ajax({
-		  method: "GET",
-		    url: "/ExtraerTelas",
-		    data: {idFamPrenda : idPrenda},
-		    beforeSend: function () {
-		    	$('#modeloCotizacion').prop("disabled", true);
-          },
-		    success: function (r) {
-		    	$('#modeloCotizacion').prop("disabled", false);
+	  if($('#tipoCotizacion').val()=='1'){
+		  
+		  $.ajax({
+			  method: "GET",
+			    url: "/ExtraerFamiliaComposicion",
+			    data: {idFamPrenda : idPrenda},
+			    beforeSend: function () {
+			    	$('#modeloCotizacion').prop("disabled", true);
+	          },
+			    success: function (r) {
+			    	$('#modeloCotizacion').prop("disabled", false);
+	
+	              // Limpiamos el select
+			    	$("#telaCotizacion").find("option").remove();
+	              $("#telaCotizacion").selectpicker("refresh");
+	              $(r).each(function (i, v) {
+	                  // indice, valor
+	              	$("#telaCotizacion").append('<option value="' + v[0] + '">' + v[1] + "</option>");
+	              });
+	
+	              $("#telaCotizacion").prop("disabled", false);
+	              $("#telaCotizacion").selectpicker("refresh");
+	          },
+	          error: function () {
+	              alert("Ocurrio un error en el servidor de modelo ..");
+	              $('#modeloCotizacion').prop("disabled", false);
+	          },
+		  });
+	  }
+	  else{
+		  $.ajax({
+			  method: "GET",
+			    url: "/ExtraerTelas",
+			    data: {idFamPrenda : idPrenda},
+			    beforeSend: function () {
+			    	$('#modeloCotizacion').prop("disabled", true);
+	          },
+			    success: function (r) {
+			    	$('#modeloCotizacion').prop("disabled", false);
 
-              // Limpiamos el select
-		    	$("#telaCotizacion").find("option").remove();
-              $("#telaCotizacion").selectpicker("refresh");
-              $(r).each(function (i, v) {
-                  // indice, valor
-              	$("#telaCotizacion").append('<option value="' + v[0] + '">' + v[1] + "</option>");
-              });
+	              // Limpiamos el select
+			    	$("#telaCotizacion").find("option").remove();
+	              $("#telaCotizacion").selectpicker("refresh");
+	              $(r).each(function (i, v) {
+	                  // indice, valor
+	              	$("#telaCotizacion").append('<option value="' + v[0] + '">' + v[1] + "</option>");
+	              });
 
-              $("#telaCotizacion").prop("disabled", false);
-              $("#telaCotizacion").selectpicker("refresh");
-          },
-          error: function () {
-              alert("Ocurrio un error en el servidor de modelo ..");
-              $('#modeloCotizacion').prop("disabled", false);
-          },
-	  });
+	              $("#telaCotizacion").prop("disabled", false);
+	              $("#telaCotizacion").selectpicker("refresh");
+	          },
+	          error: function () {
+	              alert("Ocurrio un error en el servidor de modelo ..");
+	              $('#modeloCotizacion').prop("disabled", false);
+	          },
+		  });
+	  }
 });
 
 function mapearTablita(){
@@ -287,7 +318,7 @@ function AgregarRegistroTablita (){
 					 "<input type='hidden' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+data[5]*cantidad+" disabled>" +
 					 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+data[5]+" disabled>",
 					 $('#modeloCotizacion').find('option:selected').text(),
-					 $('#telaCotizacion').find('option:selected').text(),
+					 "",
 					 data[0],
 					 data[1] ,
 					 data[5],
@@ -346,6 +377,8 @@ function cotizacionGeneral(){
 	table.columns(':eq(1)').visible(true);
 	table.columns(':eq(0)').visible(true);
 	table.columns(':eq(3)').visible(true);
+	table.columns(':eq(4)').visible(true);
+	table.columns(':eq(6)').visible(true);
 	table.columns(':eq(12)').visible(true);
 	var tablita = table.rows().nodes();
 	var contador=0
@@ -387,9 +420,12 @@ function cotizacionGeneral(){
 	$('.cantidadCotizacion').hide();
 	$('.coordinadoCotizacion').hide();
 	$('.modeloCotizacion').hide();
+	$('#GeneralDesglosada').text("Familia de composición");
 	table.columns(':eq(1)').visible(false);
 	table.columns(':eq(0)').visible(false);
 	table.columns(':eq(3)').visible(false);
+	table.columns(':eq(4)').visible(false);
+	table.columns(':eq(6)').visible(false);
 	table.columns(':eq(12)').visible(false);
 	table.draw();
 	$('#Subtotal').text(subtotal);
@@ -413,6 +449,8 @@ function cotizacionGeneral(){
 		table.columns(':eq(1)').visible(true);													//
 		table.columns(':eq(0)').visible(true);													//
 		table.columns(':eq(3)').visible(true);
+		table.columns(':eq(4)').visible(true);
+		table.columns(':eq(6)').visible(true);
 		table.columns(':eq(12)').visible(true);	
 		let fila = $(this).closest('tr');														//
 	 var bordadoPrecioCotizacion = parseFloat((fila.find('select').val()=='')?0:fila.find('select').val());				//
@@ -427,6 +465,8 @@ function cotizacionGeneral(){
 		table.columns(':eq(1)').visible(false);													//
 		table.columns(':eq(0)').visible(false);													//
 		table.columns(':eq(3)').visible(false);
+		table.columns(':eq(4)').visible(false);
+		table.columns(':eq(6)').visible(false);
 		table.columns(':eq(12)').visible(false);												//
 	 }																							//
 	 $('.selectpicker').selectpicker("refresh");																		//
@@ -440,6 +480,8 @@ function cotizacionGeneral(){
 		table.columns(':eq(1)').visible(true); 																	//
 		table.columns(':eq(0)').visible(true); 																	//
 		table.columns(':eq(3)').visible(true);
+		table.columns(':eq(4)').visible(true);
+		table.columns(':eq(6)').visible(true);
 		table.columns(':eq(12)').visible(true); 																//
 	 var porcentajeCotizacion = parseFloat(($(this).val()=='')?0:$(this).val());								//
 	 let fila = $(this).closest('tr');																			//
@@ -456,6 +498,8 @@ function cotizacionGeneral(){
 		table.columns(':eq(1)').visible(false); 																//
 		table.columns(':eq(0)').visible(false); 																//
 		table.columns(':eq(3)').visible(false);
+		table.columns(':eq(4)').visible(false);
+		table.columns(':eq(6)').visible(false);
 		table.columns(':eq(12)').visible(false); 																//
 	 } 																											//
 	 if($(this).val()==''){ 																					//
@@ -472,6 +516,8 @@ function cotizacionGeneral(){
 		table.columns(':eq(1)').visible(true);																						//
 		table.columns(':eq(0)').visible(true);																						//
 		table.columns(':eq(3)').visible(true);
+		table.columns(':eq(4)').visible(true);
+		table.columns(':eq(6)').visible(true);
 		table.columns(':eq(12)').visible(true);																						//
 	 var montoCotizacion = parseFloat(($(this).val()=='')?0:$(this).val());															//
 	 let fila = $(this).closest('tr'); 																								//
@@ -488,6 +534,8 @@ function cotizacionGeneral(){
 		table.columns(':eq(1)').visible(false);																						//
 		table.columns(':eq(0)').visible(false);																						//
 		table.columns(':eq(3)').visible(false);
+		table.columns(':eq(4)').visible(false);
+		table.columns(':eq(6)').visible(false);
 		table.columns(':eq(12)').visible(false);																					//
 	 }																																//
 	 if($(this).val()==''){																											//
@@ -593,6 +641,7 @@ function GuardarCotizacionInfo(){
 	}
 	else{
 		table.columns().visible(true);
+		$('#GeneralDesglosada').text("Tela");
     	$('.cantidadCotizacion').show();
 		$('.coordinadoCotizacion').show();
 		$('.modeloCotizacion').show();
@@ -812,7 +861,7 @@ function GuardarCotizacionPrendas(refEditPrenda){
 			Swal.fire({
 				icon: 'error',
 				title: 'Error al guardar la cotización',
-				text: '¡Asegúrese de seleccionar un modelo por cada registro!',
+				text: '¡Asegúrese de seleccionar un modelo y una tela por cada registro!',
 				showConfirmButton: false,
 		        timer: 4500
 			})
