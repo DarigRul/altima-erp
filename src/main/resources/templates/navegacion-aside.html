@@ -127,6 +127,12 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item has-treeview">
+                            <a th:href="${'/catalogos-comercial'}" class="nav-link" id="navComCat">
+                                <i class="nav-icon fas fa-book-open" id="iComCat"></i>
+                                <p>Cat&aacute;logos</p>
+                            </a>
+                        </li>
                         <li class="nav-item has-treeview" id="menuMuestrario" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                     (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO'')')})">
                             <a class="nav-link" id="navMuestrario">
