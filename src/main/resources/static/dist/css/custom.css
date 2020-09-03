@@ -487,10 +487,6 @@ div.dataTables_wrapper {
   background-color: rgba(2, 136, 194, 0.6) !important;
   color: #fff !important;
 }
-.nav-link:hover {
-  background-color: rgba(2, 136, 194, 0.6) !important;
-  color: #fff !important;
-}
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
   border-color: #0288d1 !important;

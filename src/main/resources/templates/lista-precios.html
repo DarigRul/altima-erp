@@ -20,9 +20,7 @@
                <div class="container-fluid">
                   <div class="row mb-2">
                      <div class="col-sm-6">
-                        <h1>Lista de precios&nbsp;<a th:href="${'/prendas'}"><button class="btn btn-danger btn-circle btn-sm popoverxd"
-                           data-container="body" data-toggle="popover" data-placement="right" data-content="Regresar"><i
-                             class="fas fa-arrow-left"></i></button></a><a th:href="@{/precios-prenda/}+${id}"  class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo precio</a></h1>
+                        <h1>Lista de precios&nbsp;<a th:href="@{/prendas}"  class="btn btn-sm icon-btn btn-danger text-white"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>&nbsp;<a th:href="@{/precios-prenda/}+${id}"  class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo precio</a></h1>
                        </div>
                      <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -60,14 +58,14 @@
                                  </thead>
                                  <tbody>
                                     <tr th:each="precio : ${listaPrecios}">
-                                       <td th:text="${precio[0]}" />
-                                       <td th:text="${precio[1]}" />
-                                       <td th:text="${precio[2]}" />
-                                       <td th:text="${precio[3]}" />
-                                       <td th:text="${precio[4]}" />
+                                       <td th:text="${precio[0]}"></td>
+                                       <td th:text="${precio[1]}"></td>
+                                       <td th:text="${precio[2]}"></td>
+                                       <td th:text="${precio[3]}"></td>
+                                       <td th:text="${precio[4]}"></td>
                                        <td class="text-center">
-                                          <a class="btn btn-danger btn-circle btn-sm popoverxd" th:href="@{/eliminar-precios-prenda/}+${precio[0]}" data-container="body" data-placement="top" data-content="Eliminar"><i class="fas fa-envelope-square"></i></a>
-                                          <a class="btn btn-success btn-circle btn-sm popoverxd" th:href="@{/precios-prenda/}+${id}+'/'+${precio[0]}" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-envelope-open-text"></i></a>
+                                          <a class="btn btn-danger btn-circle btn-sm popoverxd" th:href="@{/eliminar-precios-prenda/}+${precio[0]}" data-container="body" data-placement="top" data-content="Eliminar"><i class="fas fa-times"></i></a>
+                                          <a class="btn btn-warning btn-circle btn-sm popoverxd" th:href="@{/precios-prenda/}+${id}+'/'+${precio[0]}" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
                                        </td>
                                     </tr>
                                  </tbody>
