@@ -25,6 +25,8 @@
   background: #015f92;
 }
 
+
+
 .fc-button-danger {
   color: #fff!important;
   background-color: #dc3545 !important;
@@ -310,6 +312,9 @@ div.dataTables_wrapper {
 
 .swal-wide {
   width: 850px !important;
+}
+.swal-modelo{
+  width: 35em!important;
 }
 
 .navImage {

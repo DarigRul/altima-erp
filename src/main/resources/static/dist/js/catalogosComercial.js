@@ -5,12 +5,39 @@ $("#detalleAgente").on("shown.bs.modal", function () {
 function agregarAgente() {
   Swal.fire({
     title: "Nuevo agente",
-    html: "<label>Form Agente</label>",
+    html: '<div class="row">'+
+                '<div class="form-group col-md-12">'+
+                '<label for="nombreAgente">Nombre</label>'+
+                  '<select class="form-control" id="nombreAgente">'+
+                    '<option value="1">Agente 1</option>'+
+                    '<option value="1">Agente 2</option>'+
+                  '</select>'+
+                '</div>'+
+                '<div class="form-group col-md-12">'+
+                  '<h4>Caracter&iacute;stica de venta</h4>'+
+                '</div>'+
+                '<div class="form-group col-md-6">'+
+                  '<div class="form-check">'+
+                  '<input class="form-check-input" type="checkbox" value="" id="foraneoAgente">'+
+                    '<label class="form-check-label" for="foraneoAgente">'+
+                      'For&aacute;neos'+
+                    '</label>'+
+                  '</div>'+
+                '</div>'+
+                '<div class="form-group col-md-6">'+
+                  '<div class="form-check">'+
+                  '<input class="form-check-input" type="checkbox" value="" id="licitacionAgente">'+
+                    '<label class="form-check-label" for="licitacionAgente">'+
+                      'Licitaciones'+
+                    '</label>'+
+                  '</div>'+
+                '</div>'+
+            '</div>',
     showCancelButton: true,
     confirmButtonText: "Confirmar",
     cancelButtonText: "Cancelar",
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
+    confirmButtonColor: "#0288d1",
+    cancelButtonColor: "#dc3545",
   }).then((result) => {
     if (result.value) {
       Swal.fire({
@@ -26,12 +53,39 @@ function agregarAgente() {
 function editarAgente() {
   Swal.fire({
     title: "Editar agente",
-    html: "<label>Form Agente</label>",
+    html: '<div class="row">'+
+                '<div class="form-group col-md-12">'+
+                '<label for="nombreAgenteE">Nombre</label>'+
+                  '<select class="form-control" id="nombreAgenteE">'+
+                    '<option value="1">Agente 1</option>'+
+                    '<option value="1">Agente 2</option>'+
+                  '</select>'+
+                '</div>'+
+                '<div class="form-group col-md-12">'+
+                  '<h4>Caracter&iacute;stica de venta</h4>'+
+                '</div>'+
+                '<div class="form-group col-md-6">'+
+                  '<div class="form-check">'+
+                  '<input class="form-check-input" type="checkbox" value="" id="foraneoAgenteE">'+
+                    '<label class="form-check-label" for="foraneoAgenteE">'+
+                      'For&aacute;neos'+
+                    '</label>'+
+                  '</div>'+
+                '</div>'+
+                '<div class="form-group col-md-6">'+
+                  '<div class="form-check">'+
+                  '<input class="form-check-input" type="checkbox" value="" id="licitacionAgenteE">'+
+                    '<label class="form-check-label" for="licitacionAgenteE">'+
+                      'Licitaciones'+
+                    '</label>'+
+                  '</div>'+
+                '</div>'+
+            '</div>',
     showCancelButton: true,
     confirmButtonText: "Confirmar",
     cancelButtonText: "Cancelar",
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
+    confirmButtonColor: "#0288d1",
+    cancelButtonColor: "#dc3545",
   }).then((result) => {
     if (result.value) {
       Swal.fire({
@@ -51,8 +105,8 @@ function bajarAgente() {
     showCancelButton: true,
     confirmButtonText: "Confirmar",
     cancelButtonText: "Cancelar",
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
+    confirmButtonColor: "#0288d1",
+    cancelButtonColor: "#dc3545",
   }).then((result) => {
     if (result.value) {
       Swal.fire({
@@ -72,8 +126,8 @@ function altaAgente() {
     showCancelButton: true,
     confirmButtonText: "Confirmar",
     cancelButtonText: "Cancelar",
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
+    confirmButtonColor: "#0288d1",
+    cancelButtonColor: "#dc3545",
   }).then((result) => {
     if (result.value) {
       Swal.fire({
@@ -93,12 +147,26 @@ $("#detalleModelo").on("shown.bs.modal", function () {
   function agregarModelo() {
     Swal.fire({
       title: "Nuevo modelo",
-      html: "<label>Form Modelo</label>",
+      html: '<div class="row">'+
+                '<div class="form-group col-md-4">'+
+                  '<label for="nombreModelo">Nombre</label>'+
+                  '<input type="text" class="form-control" id="nombreModelo" placeholder="Mariela">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                  '<label for="telefonoModelo">Tel&eacute;fono</label>'+
+                  '<input type="text" class="form-control" id="telefonoModelo" placeholder="55 123 43 12">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                  '<label for="precioModelo">Precio presentaci&oacute;n</label>'+
+                  '<input type="number" class="form-control" id="precioModelo" placeholder="10000">'+
+                '</div>'+
+            '</div>',
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      customClass: 'swal-modelo',
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -114,12 +182,26 @@ $("#detalleModelo").on("shown.bs.modal", function () {
   function editarModelo() {
     Swal.fire({
       title: "Editar modelo",
-      html: "<label>Form Modelo</label>",
+      html: '<div class="row">'+
+                '<div class="form-group col-md-4">'+
+                  '<label for="nombreModeloE">Nombre</label>'+
+                  '<input type="text" class="form-control" id="nombreModeloE" placeholder="Mariela">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                  '<label for="telefonoModeloE">Tel&eacute;fono</label>'+
+                  '<input type="text" class="form-control" id="telefonoModeloE" placeholder="55 123 43 12">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                  '<label for="precioModeloE">Precio presentaci&oacute;n</label>'+
+                  '<input type="number" class="form-control" id="precioModeloE" placeholder="10000">'+
+                '</div>'+
+            '</div>',
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
+      customClass: 'swal-modelo',
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -139,8 +221,8 @@ $("#detalleModelo").on("shown.bs.modal", function () {
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -160,8 +242,8 @@ $("#detalleModelo").on("shown.bs.modal", function () {
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -182,12 +264,21 @@ $("#detallePrecio").on("shown.bs.modal", function () {
   function agregarPrecio() {
     Swal.fire({
       title: "Nuevo precio",
-      html: "<label>Form Precio</label>",
+      html: '<div class="row">'+
+              '<div class="form-group col-md-6">'+
+                '<label for="descripcionPrecio">Descripci&oacute;n</label>'+
+                '<input type="text" class="form-control" id="descripcionPrecio" placeholder="Especificar">'+
+              '</div>'+
+              '<div class="form-group col-md-6">'+
+                '<label for="numeroPrecio">Precio</label>'+
+                '<input type="number" class="form-control" id="numeroPrecio" placeholder="30">'+
+              '</div>'+
+          '</div>',
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -203,12 +294,21 @@ $("#detallePrecio").on("shown.bs.modal", function () {
   function editarPrecio() {
     Swal.fire({
       title: "Editar precio",
-      html: "<label>Form Precio</label>",
+      html: '<div class="row">'+
+              '<div class="form-group col-md-6">'+
+                '<label for="descripcionPrecioE">Descripci&oacute;n</label>'+
+                '<input type="text" class="form-control" id="descripcionPrecioE" placeholder="Especificar">'+
+              '</div>'+
+              '<div class="form-group col-md-6">'+
+                '<label for="numeroPrecioE">Precio</label>'+
+                '<input type="number" class="form-control" id="numeroPrecioE" placeholder="30">'+
+              '</div>'+
+          '</div>',
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -228,8 +328,8 @@ $("#detallePrecio").on("shown.bs.modal", function () {
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -249,8 +349,8 @@ $("#detallePrecio").on("shown.bs.modal", function () {
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -271,12 +371,17 @@ $("#detalleIVA").on("shown.bs.modal", function () {
   function agregarIVA() {
     Swal.fire({
       title: "Nuevo IVA",
-      html: "<label>Form IVA</label>",
+      html: '<div class="row">'+
+              '<div class="form-group col-md-12">'+
+                '<label for="numeroPorcentaje">Porcentaje</label>'+
+                '<input type="number" class="form-control" id="numeroPorcentaje" placeholder="16">'+
+              '</div>'+
+          '</div>',
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -292,12 +397,17 @@ $("#detalleIVA").on("shown.bs.modal", function () {
   function editarIVA() {
     Swal.fire({
       title: "Editar IVA",
-      html: "<label>Form IVA</label>",
+      html: '<div class="row">'+
+              '<div class="form-group col-md-12">'+
+                '<label for="numeroPorcentajeE">Porcentaje</label>'+
+                '<input type="number" class="form-control" id="numeroPorcentajeE" placeholder="16">'+
+              '</div>'+
+          '</div>',
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -317,8 +427,8 @@ $("#detalleIVA").on("shown.bs.modal", function () {
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -338,8 +448,8 @@ $("#detalleIVA").on("shown.bs.modal", function () {
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -362,12 +472,36 @@ $("#detalleTicket").on("shown.bs.modal", function () {
   function agregarTicket() {
     Swal.fire({
       title: "Nuevo ticket",
-      html: "<label>Form Ticket</label>",
+      html: '<div class="row">'+
+                '<div class="form-group col-md-12">'+
+                '<label for="descripcionTicket">Descripci&oacute;n</label>'+
+                  '<input type="text" placeholder="Especificar" class="form-control" id="descripcionTicket">'+
+                '</div>'+
+                '<div class="form-group col-md-12">'+
+                  '<h4>¿Qui&eacute;n puede agregar?</h4>'+
+                '</div>'+
+                '<div class="form-group col-md-6">'+
+                  '<div class="form-check">'+
+                  '<input class="form-check-input" type="checkbox" value="" id="auxiliarTicket">'+
+                    '<label class="form-check-label" for="auxiliarTicket">'+
+                      'Auxiliar'+
+                    '</label>'+
+                  '</div>'+
+                '</div>'+
+                '<div class="form-group col-md-6">'+
+                  '<div class="form-check">'+
+                  '<input class="form-check-input" type="checkbox" value="" id="solicitanteTicket">'+
+                    '<label class="form-check-label" for="solicitanteTicket">'+
+                      'Solicitante'+
+                    '</label>'+
+                  '</div>'+
+                '</div>'+
+            '</div>',
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -383,12 +517,36 @@ $("#detalleTicket").on("shown.bs.modal", function () {
   function editarTicket() {
     Swal.fire({
       title: "Editar ticket",
-      html: "<label>Form Ticket</label>",
+      html: '<div class="row">'+
+                '<div class="form-group col-md-12">'+
+                '<label for="descripcionTicketE">Descripci&oacute;n</label>'+
+                  '<input type="text" placeholder="Especificar" class="form-control" id="descripcionTicketE">'+
+                '</div>'+
+                '<div class="form-group col-md-12">'+
+                  '<h4>¿Qui&eacute;n puede agregar?</h4>'+
+                '</div>'+
+                '<div class="form-group col-md-6">'+
+                  '<div class="form-check">'+
+                  '<input class="form-check-input" type="checkbox" value="" id="auxiliarTicketE">'+
+                    '<label class="form-check-label" for="auxiliarTicketE">'+
+                      'Auxiliar'+
+                    '</label>'+
+                  '</div>'+
+                '</div>'+
+                '<div class="form-group col-md-6">'+
+                  '<div class="form-check">'+
+                  '<input class="form-check-input" type="checkbox" value="" id="solicitanteTicketE">'+
+                    '<label class="form-check-label" for="solicitanteTicketE">'+
+                      'Solicitante'+
+                    '</label>'+
+                  '</div>'+
+                '</div>'+
+            '</div>',
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -408,8 +566,8 @@ $("#detalleTicket").on("shown.bs.modal", function () {
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
@@ -429,8 +587,8 @@ $("#detalleTicket").on("shown.bs.modal", function () {
       showCancelButton: true,
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
     }).then((result) => {
       if (result.value) {
         Swal.fire({
