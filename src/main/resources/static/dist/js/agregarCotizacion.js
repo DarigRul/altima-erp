@@ -913,6 +913,7 @@ function GuardarCotizacionPrendas(refEditPrenda){
 		
 		$('#descuentoMontoCotizacion').val(0);
 		$('#anticipoMontoCotizacion').val(0);
+		$('#SubtotalInicial').val(subtotal);
 		$('#Subtotal').text(subtotal);
 		$('#Subtotal2').text((parseFloat($('#Subtotal').text())+parseFloat($('#descuentoMontoCotizacion').val())).toFixed(2));
 		$('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));
@@ -1020,6 +1021,7 @@ function GuardarCotizacionPrendas(refEditPrenda){
 		}
 		table.draw();
 		$('#Subtotal').text(subtotal);
+		$('#SubtotalInicial').val(subtotal);
 		$('#Subtotal2').text((parseFloat($('#Subtotal').text())+parseFloat($('#descuentoMontoCotizacion').val())).toFixed(2));
 		$('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));
 		$('#Total').text((parseFloat($('#Subtotal2').text())+parseFloat($('#IVAMonto').text())).toFixed(2));

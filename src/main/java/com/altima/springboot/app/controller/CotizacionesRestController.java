@@ -152,10 +152,14 @@ public class CotizacionesRestController {
 			cotizacion.setIdAgenteVentas(Long.parseLong(datos[5]));
 			cotizacion.setIdCliente(Long.parseLong(datos[6]));
 			cotizacion.setObservaciones(datos[7]);
-			
 			cotizacion.setActualizadoPor(auth.getName());
 			cotizacion.setUltimaFechaModificacion(dtf.format(now));
 			cotizacionService.save(cotizacion);
+			
+			ComercialCotizacionTotal cotiTotal = cotizacionTotalService.findByCotizacion(Long.parseLong(datos[8]));
+			cotiTotal.setIva(datos[9]);
+			
+			cotizacionTotalService.save(cotiTotal);
 			
 			
 			return 1;
