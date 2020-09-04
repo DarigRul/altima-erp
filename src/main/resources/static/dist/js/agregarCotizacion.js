@@ -25,6 +25,7 @@ var listaBordados = "";
 function optionsBordados(valueBordado) {
 		console.log(bordados);
 		listaBordados = "";
+		listaBordados += "<option value='0'>Seleccione uno...</option>";
 		for(i in bordados){
 			console.log(bordados[i].atributo1);
 			console.log(bordados[i].nombreLookup);
@@ -241,7 +242,7 @@ function mapearTablita(){
 			 tablaPrendasCotizar[i][7] ,
 			 tablaPrendasCotizar[i][8] ,
 			 precioInicial,
-			 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"' title='Selecciona uno...' value="+tablaPrendasCotizar[i][15]+">" +
+			 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"' value="+tablaPrendasCotizar[i][15]+">" +
 			 listaBordados+"</select>",
 			 "<input type='number' class='form-control porcentajeCotizacion' id='porcentajeCotizacion"+contadorGeneral+"' placeholder='5' value="+tablaPrendasCotizar[i][16]+">" ,
 			 "<input type='number' class='form-control montoCotizacion' id='montoCotizacion"+contadorGeneral+"' placeholder='15' value="+tablaPrendasCotizar[i][17]+">" ,
@@ -303,7 +304,7 @@ function AgregarRegistroTablita (){
 			}
 			else{
 				console.log(data);
-				if(tipoCotizacion=='1'){
+				if(tipoCotizacion=='1' || tipoCotizacion=='3'){
 					table.row.add([	
 						
 					 cantidad,
@@ -322,7 +323,7 @@ function AgregarRegistroTablita (){
 					 data[0],
 					 data[1] ,
 					 data[5],
-					 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"' title='Selecciona uno...'>" +
+					 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"'>" +
 					 listaBordados+"</select>" ,
 					 "<input type='number' class='form-control porcentajeCotizacion' id='porcentajeCotizacion"+contadorGeneral+"' placeholder='5' value=0>" ,
 					 "<input type='number' class='form-control montoCotizacion' id='montoCotizacion"+contadorGeneral+"' placeholder='15' value=0>" ,
@@ -353,7 +354,7 @@ function AgregarRegistroTablita (){
 					 data[0],
 					 data[1] ,
 					 precioInicial,
-					 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"' title='Selecciona uno...'>" +
+					 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"'>" +
 					 listaBordados+"</select>" ,
 					 "<input type='number' class='form-control porcentajeCotizacion' id='porcentajeCotizacion"+contadorGeneral+"' placeholder='5' value=0>" ,
 					 "<input type='number' class='form-control montoCotizacion' id='montoCotizacion"+contadorGeneral+"' placeholder='15' value=0>" ,
@@ -404,6 +405,8 @@ function cotizacionGeneral(){
 		$('.coordinadoCotizacion').hide();
 		$('.modeloCotizacion').hide();
 		$('#GeneralDesglosada').text("Familia de composición");
+		$('#tipoPrecioVentas').prop("disabled", true);
+		$('#tipoPrecioVentas').selectpicker("refresh");
 		
 		table.columns(':eq(1)').visible(false);
 		table.columns(':eq(0)').visible(false);
@@ -439,6 +442,8 @@ function cotizacionDesglosada(){
 		$('.cantidadCotizacion').show();
 		$('.coordinadoCotizacion').show();
 		$('.modeloCotizacion').show();
+		$('#tipoPrecioVentas').prop("disabled", false);
+		$('#tipoPrecioVentas').selectpicker("refresh");
 		table.draw();
 		
 		if($('#idCotizacion').val()){
@@ -475,6 +480,8 @@ function cotizacionDesglosadaByTipoComposicion(){
 		table.columns(':eq(6)').visible(false);
 		table.draw();
 		table.draw();
+		$('#tipoPrecioVentas').prop("disabled", true);
+		$('#tipoPrecioVentas').selectpicker("refresh");
 		if($('#idCotizacion').val()){
 			ValidarCotizacionInfo();
 		}
@@ -1157,14 +1164,15 @@ function GuardarCotizacionTotal(){
 
 function ValidarCotizacionInfo(){
 	var tipoCotizacion = $('#tipoCotizacion').val();
-	if(($('#numeroCotizacion').val()==null  || $('#numeroCotizacion').val()==''  || $('#numeroCotizacion').val()==undefined)  ||
+	if((($('#numeroCotizacion').val()==null  || $('#numeroCotizacion').val()==''  || $('#numeroCotizacion').val()==undefined)  ||
 	   ($('#tituloCotizacion').val()==null  || $('#tituloCotizacion').val()==''  || $('#tituloCotizacion').val()==undefined)  ||
 	   ($('#tipoCotizacion').val()==null    || $('#tipoCotizacion').val()==''    || $('#tipoCotizacion').val()==undefined)    ||
 	   ($('#gerenteVentas').val()==null     || $('#gerenteVentas').val()==''     || $('#gerenteVentas').val()==undefined)     ||
 	   ($('#clienteCotizacion').val()==null || $('#clienteCotizacion').val()=='' || $('#clienteCotizacion').val()==undefined) ||
 	   ($('#agenteCotizacion').val()==null  || $('#agenteCotizacion').val()==''  || $('#agenteCotizacion').val()==undefined)  ||
 	   ($('#IVACotizacion').val()==null     || $('#IVACotizacion').val()==''     || $('#IVACotizacion').val()==undefined)     ||
-	   ($('#tipoPrecioVentas').val()==null  || $('#tipoPrecioVentas').val()==''  || $('#tipoPrecioVentas').val()==undefined)){
+	   ($('#tipoPrecioVentas').val()==null  || $('#tipoPrecioVentas').val()==''  || $('#tipoPrecioVentas').val()==undefined)) &&
+	   	tipoCotizacion=='2'){
 		
 		Swal.fire({
             position: 'center',
@@ -1176,7 +1184,28 @@ function ValidarCotizacionInfo(){
         })
 	}
 	else{
-		GuardarCotizacionInfo();
+		if((($('#numeroCotizacion').val()==null  || $('#numeroCotizacion').val()==''  || $('#numeroCotizacion').val()==undefined)  ||
+				   ($('#tituloCotizacion').val()==null  || $('#tituloCotizacion').val()==''  || $('#tituloCotizacion').val()==undefined)  ||
+				   ($('#tipoCotizacion').val()==null    || $('#tipoCotizacion').val()==''    || $('#tipoCotizacion').val()==undefined)    ||
+				   ($('#gerenteVentas').val()==null     || $('#gerenteVentas').val()==''     || $('#gerenteVentas').val()==undefined)     ||
+				   ($('#clienteCotizacion').val()==null || $('#clienteCotizacion').val()=='' || $('#clienteCotizacion').val()==undefined) ||
+				   ($('#agenteCotizacion').val()==null  || $('#agenteCotizacion').val()==''  || $('#agenteCotizacion').val()==undefined)  ||
+				   ($('#IVACotizacion').val()==null     || $('#IVACotizacion').val()==''     || $('#IVACotizacion').val()==undefined))    &&
+				   	tipoCotizacion!='2'){
+			Swal.fire({
+	            position: 'center',
+	            icon: 'error',
+	            title: 'Error',
+	            html: 'Debe llenar correctamente todos los campos',
+	            showConfirmButton: false,
+	            timer: 3500,
+	        })
+			
+		}
+		else{
+			GuardarCotizacionInfo();
+		}
+		
 	
 	}
 }

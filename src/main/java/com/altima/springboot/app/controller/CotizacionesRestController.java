@@ -95,7 +95,7 @@ public class CotizacionesRestController {
 			cotizacion.setIdText(datos[0]);
 			cotizacion.setTituloCotizacion(datos[1]);
 			cotizacion.setTipoCotizacion(datos[2]);
-			cotizacion.setTipoPrecio(datos[3]);
+			cotizacion.setTipoPrecio((datos[3].equalsIgnoreCase(""))?"0":datos[3]);
 			cotizacion.setIdGerente(Long.parseLong(datos[4]));
 			cotizacion.setIdAgenteVentas(Long.parseLong(datos[5]));
 			cotizacion.setIdCliente(Long.parseLong(datos[6]));
@@ -147,7 +147,7 @@ public class CotizacionesRestController {
 			System.out.println(lista);
 			cotizacion.setTituloCotizacion(datos[1]);
 			cotizacion.setTipoCotizacion(datos[2]);
-			cotizacion.setTipoPrecio(datos[3]);
+			cotizacion.setTipoPrecio((datos[3].equalsIgnoreCase(""))?"0":datos[3]);
 			cotizacion.setIdGerente(Long.parseLong(datos[4]));
 			cotizacion.setIdAgenteVentas(Long.parseLong(datos[5]));
 			cotizacion.setIdCliente(Long.parseLong(datos[6]));

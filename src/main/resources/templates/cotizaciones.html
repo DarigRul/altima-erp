@@ -66,9 +66,9 @@
 	                                        	<td th:text="${cotizacion[1]}"></td><!-- id_text -->
 		                                        <td th:text="${cotizacion[2]}"></td><!-- fecha_creacion -->
 		                                        <!-- tipo_cotizacion -->
-		                                        <td th:if="${cotizacion[3]==1}">General</td>
-		                                        <td th:if="${cotizacion[3]==2}">Desglosada</td>
-		                                        <td th:if="${cotizacion[3]==3}">Desglosada por Composici&oacute;n</td>
+		                                        <td th:if="${cotizacion[3]==1}">Lista de precios</td>
+		                                        <td th:if="${cotizacion[3]==2}">Desglosada por tipo de prenda</td>
+		                                        <td th:if="${cotizacion[3]==3}">Desglosada</td>
 		                                        <td th:text="${cotizacion[4]}"></td><!-- cliente -->
 		                                        <td th:text="${cotizacion[5]==0.0}?'Aún sin cotizar':'$ '+${cotizacion[5]}"></td><!-- total -->
 		                                        <td th:text="${cotizacion[6]}"></td><!-- agente de ventas -->
