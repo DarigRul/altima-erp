@@ -15,7 +15,7 @@
 	</div>
 	<div class="form-group col-md-3">
 		<label for="tipoPrecioVentas">Tipo de precio</label>
-		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="tipoPrecioVentas">
+		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="tipoPrecioVentas" th:disabled="${ tipoPrecioVentasDisabled }">
 			<option value='1' th:selected="${tipoPrecioVentas=='1'}" >Precio nuevo local</option>
 			<option value='2' th:selected="${tipoPrecioVentas=='2'}" >Precio nuevo for&aacute;neo</option>
 			<option value='3' th:selected="${tipoPrecioVentas=='3'}" >Precio antiguo local</option>

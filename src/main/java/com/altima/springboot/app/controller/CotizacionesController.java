@@ -182,9 +182,11 @@ public class CotizacionesController {
 			model.addAttribute("idCotizacionToPrendas", cotizacion.getIdCotizacion());
 			if(cotizacion.getTipoCotizacion().equalsIgnoreCase("1") || cotizacion.getTipoCotizacion().equalsIgnoreCase("3")) {
 				model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id, 1));
+				model.addAttribute("tipoPrecioVentasDisabled", true);
 			}
 			else if(cotizacion.getTipoCotizacion().equalsIgnoreCase("2")) {
 				model.addAttribute("ListaCotizacionPrendas", cotizacionPrendaService.FindCotizacionPrendas(id, 2));
+				model.addAttribute("tipoPrecioVentasDisabled", false);
 			}
 			
 			
