@@ -373,81 +373,123 @@ function AgregarRegistroTablita (){
 	});
 }
 
-function cotizacionGeneral(){
-	table.columns(':eq(1)').visible(true);
-	table.columns(':eq(0)').visible(true);
-	table.columns(':eq(3)').visible(true);
-	table.columns(':eq(4)').visible(true);
-	table.columns(':eq(6)').visible(true);
-	table.columns(':eq(12)').visible(true);
-	var tablita = table.rows().nodes();
-	var contador=0
-	var contadorsito = 0;
-	var subtotal=0;
-	table.draw();
-	
-	tablita.each(function () {
-		console.log(contador);
-	$.trim($(this).closest('tr').find('td:eq(0)').text("1"));
-	$.trim($(this).closest('tr').find('td:eq(1)').text("1"));
+$('#tipoCotizacion').on('change', function(){
 
-	if(table.rows('#row'+contador).any()){
-		fila=$('#precioFinal'+contador).closest('tr');
-		$('#precioFinal'+contador).val((parseFloat(fila.find('td:eq(7)').text())+
-									   parseFloat($('#bordadoPrecioCotizacion'+contador).val())+
-									   parseFloat($('#montoCotizacion'+contador).val())).toFixed(2));
-		fila.find('td:eq(11)').text((parseFloat($('#precioFinal'+contador).val())).toFixed(2));
-		fila.find('td:eq(12)').text((parseFloat($('#precioFinal'+contador).val())).toFixed(2));
-		$('#importeFinal'+contador).val((parseFloat($('#precioFinal'+contador).val())).toFixed(2));
-		$('#cantidad'+contador).val(1);
-		$('#idModelo'+contador).val("");
-		console.log("si quiera entra?");
-		subtotal += parseFloat($('#precioFinal'+contador).val());
-		
-		if(contadorsito==4){
-			contadorsito=-1;
-			table.page( 'next' ).draw( 'page' );
-		}
-		contadorsito++;
+	if($(this).val()=='1'){
+		cotizacionGeneral();
+	}
+	else if($(this).val()=='2'){
+		cotizacionDesglosada();
 	}
 	else{
-		console.log("no existe datos");
+		cotizacionDesglosadaByTipoComposicion();
 	}
 	
-	contador++;
-	})
+})
+
+
+function cotizacionGeneral(){
+	var tablita = table.rows().data().toArray();
+
+	console.log(tablita[0]==null);
+	if (tablita[0]==null){
+		table.columns(':eq(1)').visible(true);
+		table.columns(':eq(0)').visible(true);
+		table.columns(':eq(3)').visible(true);
+		table.columns(':eq(4)').visible(true);
+		table.columns(':eq(6)').visible(true);
+		table.columns(':eq(12)').visible(true);
+		
+		$('.cantidadCotizacion').hide();
+		$('.coordinadoCotizacion').hide();
+		$('.modeloCotizacion').hide();
+		$('#GeneralDesglosada').text("Familia de composición");
+		
+		table.columns(':eq(1)').visible(false);
+		table.columns(':eq(0)').visible(false);
+		table.columns(':eq(3)').visible(false);
+		table.columns(':eq(4)').visible(false);
+		table.columns(':eq(6)').visible(false);
+		table.columns(':eq(12)').visible(false);
+		table.draw();
+		if($('#idCotizacion').val()){
+			ValidarCotizacionInfo();
+		}
+	}
+	else{
+		$('#tipoCotizacion').val("");
+		$('#tipoCotizacion').selectpicker("refresh");
+		Swal.fire({
+			icon: 'error',
+			title: 'Error',
+			text: 'Para cambiar de cotización, debe borrar todos los registros de la tabla en la pestaña de prendas',
+			showConfirmButton: false,
+	        timer: 5500
+		  })
+	}
+}
+
+function cotizacionDesglosada(){
+	var tablita = table.rows().data().toArray();
+
+	if (tablita[0]==null){
 	
-	$('.cantidadCotizacion').hide();
-	$('.coordinadoCotizacion').hide();
-	$('.modeloCotizacion').hide();
-	$('#GeneralDesglosada').text("Familia de composición");
-	table.columns(':eq(1)').visible(false);
-	table.columns(':eq(0)').visible(false);
-	table.columns(':eq(3)').visible(false);
-	table.columns(':eq(4)').visible(false);
-	table.columns(':eq(6)').visible(false);
-	table.columns(':eq(12)').visible(false);
-	table.draw();
-	$('#Subtotal').text(subtotal);
-	
-	ValidarCotizacionPrendas(0);
+		table.columns().visible(true);
+		$('#GeneralDesglosada').text("Tela");
+		$('.cantidadCotizacion').show();
+		$('.coordinadoCotizacion').show();
+		$('.modeloCotizacion').show();
+		table.draw();
+		
+		if($('#idCotizacion').val()){
+			ValidarCotizacionInfo();
+		}
+	}
+	else{
+		$('#tipoCotizacion').val("");
+		$('#tipoCotizacion').selectpicker("refresh");
+		Swal.fire({
+			icon: 'error',
+			title: 'Error',
+			text: 'Para cambiar de cotización, debe borrar todos los registros de la tabla en la pestaña de prendas',
+			showConfirmButton: false,
+	        timer: 5500
+		  })
+	}
 }
 
 function cotizacionDesglosadaByTipoComposicion(){
-	table.columns(':eq(0)').visible(true);
-	table.columns(':eq(1)').visible(true);
-	table.columns(':eq(12)').visible(true);
-	
-	$('.cantidadCotizacion').show();
-	$('.coordinadoCotizacion').show();
-	$('.modeloCotizacion').hide();
-	$('#GeneralDesglosada').text("Familia de composición");
-	table.columns(':eq(3)').visible(false);
-	table.columns(':eq(4)').visible(false);
-	table.columns(':eq(6)').visible(false);
-	table.draw();
-	
-	ValidarCotizacionPrendas(0);
+	var tablita = table.rows().data().toArray();
+
+	if (tablita[0]==null){
+		table.columns(':eq(0)').visible(true);
+		table.columns(':eq(1)').visible(true);
+		table.columns(':eq(12)').visible(true);
+		
+		$('.cantidadCotizacion').show();
+		$('.coordinadoCotizacion').show();
+		$('.modeloCotizacion').hide();
+		$('#GeneralDesglosada').text("Familia de composición");
+		table.columns(':eq(3)').visible(false);
+		table.columns(':eq(4)').visible(false);
+		table.columns(':eq(6)').visible(false);
+		table.draw();
+		table.draw();
+		if($('#idCotizacion').val()){
+			ValidarCotizacionInfo();
+		}
+	}
+	else{
+		$('#tipoCotizacion').val("");
+		$('#tipoCotizacion').selectpicker("refresh");
+		Swal.fire({
+			icon: 'error',
+			title: 'Error',
+			text: 'Para cambiar de cotización, debe borrar todos los registros de la tabla en la pestaña de prendas',
+			showConfirmButton: false,
+	        timer: 5500
+		  })
+	}
 }
 
 //=Borrar registro de la tabla de agregar una muestra==//
@@ -667,21 +709,6 @@ function GuardarCotizacionInfo(){
 	var tipoCotizacion = $('#tipoCotizacion').val();
 	
 	
-	if(tipoCotizacion=='1'){
-		cotizacionGeneral();
-	}
-	else if(tipoCotizacion=='2'){
-		table.columns().visible(true);
-		$('#GeneralDesglosada').text("Tela");
-    	$('.cantidadCotizacion').show();
-		$('.coordinadoCotizacion').show();
-		$('.modeloCotizacion').show();
-		table.draw();
-	}
-	else{
-		cotizacionDesglosadaByTipoComposicion();
-	}
-	
 	var tipoPrecioVentas = $('#tipoPrecioVentas').val();
 	var gerenteVentas = $('#gerenteVentas').val();
 	var clienteCotizacion = $('#clienteCotizacion').val();
@@ -891,6 +918,7 @@ function GuardarCotizacionPrendas(refEditPrenda){
 		$('#IVAMonto').text((parseFloat($('#Subtotal').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));
 		$('#Total').text((parseFloat($('#Subtotal2').text())+parseFloat($('#IVAMonto').text())).toFixed(2));
 		$('#Total2').text((parseFloat($('#Total').text())-parseFloat($('#anticipoMontoCotizacion').val())).toFixed(2));
+		$('#tipoCotizacion').attr("disabled", true);
 		
 		if(validadorModelo==1){
 			Swal.fire({
@@ -1126,6 +1154,7 @@ function GuardarCotizacionTotal(){
 }
 
 function ValidarCotizacionInfo(){
+	var tipoCotizacion = $('#tipoCotizacion').val();
 	if(($('#numeroCotizacion').val()==null  || $('#numeroCotizacion').val()==''  || $('#numeroCotizacion').val()==undefined)  ||
 	   ($('#tituloCotizacion').val()==null  || $('#tituloCotizacion').val()==''  || $('#tituloCotizacion').val()==undefined)  ||
 	   ($('#tipoCotizacion').val()==null    || $('#tipoCotizacion').val()==''    || $('#tipoCotizacion').val()==undefined)    ||
@@ -1146,6 +1175,7 @@ function ValidarCotizacionInfo(){
 	}
 	else{
 		GuardarCotizacionInfo();
+	
 	}
 }
 

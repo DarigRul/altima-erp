@@ -173,6 +173,7 @@ public class CotizacionesController {
 			model.addAttribute("preciosDiv", "#preciosDiv");
 			model.addAttribute("ListarGerentes", empleadoService.findAllByPuesto("Gerente de ventas"));
 			model.addAttribute("textArea", cotizacion.getObservaciones());
+			model.addAttribute("tipoCotizacionDisable", true);
 			model.addAttribute("iva", cotiTotal.getIva());
 			
 			
