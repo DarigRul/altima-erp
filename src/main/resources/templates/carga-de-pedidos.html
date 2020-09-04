@@ -396,16 +396,32 @@
 		                 	 "id": e
 		                 },
 		                 success: function(data) {
-		                	 if ( data == null || data==''){
+		                	 if ( data == null || data==''   ){
 		                		 Swal.fire({
 		                       	  position: 'center',
 		                             icon: 'success',
 		                             title: 'El pedido fue cerrado correctamente',
 		                             showConfirmButton: false,
 		                             timer: 2250
+		                             
+		                             
 		                       });
 		                		 location.reload(true);
-		                	 } else{
+		                	 } 
+		                	 else if(data=='No cumple el monto total') {
+		                		 Swal.fire({
+			                       	  position: 'center',
+			                             icon: 'warning',
+			                             title: 'El pedido fue cerrado correctamente',
+			                             text: 'No cumple con el monto minimo establecido ',
+			                             showConfirmButton: false,
+			                             timer: 2250
+			                             
+			                             
+			                       });
+			                		 location.reload(true);
+		                	 }
+		                	 else{
 		                		 Swal.fire({
 			                       	  position: 'center',
 			                             icon: 'error',

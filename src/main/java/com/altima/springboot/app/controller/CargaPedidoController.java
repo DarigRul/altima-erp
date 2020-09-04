@@ -238,7 +238,7 @@ public class CargaPedidoController {
 	 @PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
 	 @RequestMapping(value = "/cerrar-expediente", method = RequestMethod.GET)
 	@ResponseBody
-		public List<String>  cerrar(Long id) {
+		public String  cerrar(Long id) {
 		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			Date date = new Date();
 			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -246,7 +246,7 @@ public class CargaPedidoController {
 		 AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(pedido.getTipoPedido());
 		 Integer CantidadPiezas =cargaPedidoService.validarPiezas(id);
 		 String CantidadMonto =cargaPedidoService.validarMonto(id);
-		 List<String> list =cargaPedidoService.ValidarCantidadEspecial(id);
+		 String list =cargaPedidoService.ValidarCantidadEspecial(id);
 		if ( list == null) {
 			Integer sumaDias =0;
 			if ( cargaPedidoService.validarBordado(id) == true ) {
@@ -259,6 +259,8 @@ public class CargaPedidoController {
 				sumaDias +=  Integer.parseInt(config.getMaximoDias());
 			}
 			
+			
+			
 
 			pedido.setEstatus("2");
 			pedido.setFechaCierre(hourdateFormat.format(date));
@@ -266,7 +268,9 @@ public class CargaPedidoController {
 			pedido.setActualizadoPor(auth.getName());
 			pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
 			cargaPedidoService.save(pedido);
-			return null;
+			
+			
+			return CantidadMonto;
 			
 		}else {
 			System.out.println(list);
