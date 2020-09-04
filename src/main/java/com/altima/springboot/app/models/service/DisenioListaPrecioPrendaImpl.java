@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.bytebuddy.asm.Advice.Return;
+
 import com.altima.springboot.app.models.entity.DisenioListaPrecioPrenda;
 import com.altima.springboot.app.repository.DisenioListaPrecioPrendaRepository;
 
@@ -79,6 +81,14 @@ public class DisenioListaPrecioPrendaImpl implements IDisenioListaPrecioPrendaSe
 		
 		return em.createNativeQuery("call alt_pr_lista_precio("+id+")").getResultList();
 		
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Object> listaFamPrendaByidPrenda(Long id) {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT DISTINCT adlfamcomp.nombre_lookup,adlfamcomp.id_lookup FROM alt_disenio_prenda adp INNER JOIN alt_disenio_tela_prenda adtp ON adp.id_familia_prenda=adtp.id_prenda INNER JOIN alt_disenio_tela adt ON adt.id_tela=adtp.id_tela INNER JOIN alt_disenio_lookup adlfamcomp ON adlfamcomp.id_lookup=adt.id_familia_composicion WHERE adp.id_prenda="+id).getResultList();
 	}
 
 	

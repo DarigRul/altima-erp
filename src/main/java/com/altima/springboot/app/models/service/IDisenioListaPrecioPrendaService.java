@@ -19,4 +19,6 @@ public interface IDisenioListaPrecioPrendaService {
 	DisenioListaPrecioPrenda findByidPrenda(Long id);
 
 	List<Object> listaPrecioPrenda(Long id);
+
+	List<Object> listaFamPrendaByidPrenda(Long id);
 }

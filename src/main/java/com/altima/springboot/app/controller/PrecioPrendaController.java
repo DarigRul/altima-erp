@@ -38,7 +38,7 @@ public class PrecioPrendaController {
 		model.addAttribute("idText", prenda.getIdText());
 		model.addAttribute("precio", precio);
 		model.addAttribute("id", id);
-		model.addAttribute("composiciones", disenioLookupService.findByTipoLookup("Familia Composicion"));
+		model.addAttribute("composiciones",disenioListaPrecioPrendaService.listaFamPrendaByidPrenda(id));
 		return "precios-prenda";
 	}
 
@@ -92,7 +92,7 @@ public class PrecioPrendaController {
 		precio.setIdPrenda(id);
 		model.addAttribute("idText", prenda.getIdText());
 		model.addAttribute("precio", precio);
-		model.addAttribute("composiciones", disenioLookupService.findByTipoLookup("Familia Composicion"));
+		model.addAttribute("composiciones",disenioListaPrecioPrendaService.listaFamPrendaByidPrenda(id));
 		return "precios-prenda";
 	}
 	@GetMapping("/eliminar-precios-prenda/{idp}")
