@@ -85,7 +85,7 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 	@Override
 	@Transactional
 	public List<Object[]> FindCotizacionPrendas(Long id, int tipoCotizacion) {
-		if(tipoCotizacion==1) {
+		if(tipoCotizacion==1 || tipoCotizacion==3) {
 			return em.createNativeQuery("SELECT cotizacionPrenda.id_cotizacion_prenda,  \n" + 
 										"		cotizacionPrenda.id_familia_prenda,  \n" + 
 										"		lookupPrenda.nombre_lookup AS Familia,  \n" + 

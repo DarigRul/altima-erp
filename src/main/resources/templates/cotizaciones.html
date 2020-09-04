@@ -68,6 +68,7 @@
 		                                        <!-- tipo_cotizacion -->
 		                                        <td th:if="${cotizacion[3]==1}">General</td>
 		                                        <td th:if="${cotizacion[3]==2}">Desglosada</td>
+		                                        <td th:if="${cotizacion[3]==3}">Desglosada por Composici&oacute;n</td>
 		                                        <td th:text="${cotizacion[4]}"></td><!-- cliente -->
 		                                        <td th:text="${cotizacion[5]==0.0}?'Aún sin cotizar':'$ '+${cotizacion[5]}"></td><!-- total -->
 		                                        <td th:text="${cotizacion[6]}"></td><!-- agente de ventas -->
