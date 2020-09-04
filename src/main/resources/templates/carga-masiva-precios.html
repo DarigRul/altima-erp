@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle"> Carga masiva de precios | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Carga masiva de precios</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Administrador</li>
+                                <li class="breadcrumb-item active">Carga masiva de precios</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="card">
+                        <div class="card-header bg-altima">
+                            <h5 class="card-title">Carga masiva de precios</h5>
+                        </div>
+                        <div class="card-body">
+                            <form class="row">
+                                <div class="form-group col-md-3">
+                                    <label for="precioLocalNuevo">Local actual</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00" max="10000.00"
+                                            step="0.01" type="number" class="form-control" id="precioLocalNuevo">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="precioLocalAntiguo">Local anterior</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00" max="10000.00"
+                                            step="0.01" type="number" class="form-control" id="precioLocalAntiguo">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="precioForaneNuevo">For&aacute;neo actual</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00" max="10000.00"
+                                            step="0.01" type="number" class="form-control" id="precioForaneNuevo">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="precioForaneoAntiguo">For&aacute;neo anterior</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00" max="10000.00"
+                                            step="0.01" type="number" class="form-control" id="precioForaneoAntiguo">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="precioLineaExpressLocalNuevo">L&iacute;nea express local actual</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00"
+                                            max="10000.00" step="0.01" type="number" class="form-control"
+                                            id="precioLineaExpressLocalNuevo">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="precioLocalAntiguo">L&iacute;nea express local anterior</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00"
+                                            max="10000.00" step="0.01" type="number" class="form-control"
+                                            id="precioLineaExpressLocalAnterior">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="precioForaneNuevo">L&iacute;nea express for&aacute;neo actual</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00"
+                                            max="10000.00" step="0.01" type="number" class="form-control"
+                                            id="precioLineaExpressForaneoNuevo">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="precioForaneoAntiguo">L&iacute;nea express for&aacute;neo
+                                        anterior</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00"
+                                            max="10000.00" step="0.01" type="number" class="form-control"
+                                            id="precioLineaExpressForaneoAnterior">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="precioMuestrario">Muestrario</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00" max="10000.00"
+                                            step="0.01" type="number" class="form-control" id="precioMuestrario">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="precioInterna">Venta interna</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00" max="10000.00"
+                                            step="0.01" type="number" class="form-control" id="precioInterna">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="precioMuestrario">Familia de composición</label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" required>
+                                            <option>Hola</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="precioMuestrario">Familia de prenda</label>
+                                    <div class="input-group mb-3">
+                                        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" required>
+                                            <option>Hola</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="precioEcommerce">Precio e-commerce</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00" max="10000.00"
+                                            step="0.01" type="number" class="form-control" id="precioEcommerce">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="precioExtra1">Precio extra 1</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00" max="10000.00" step="0.01"
+                                            type="number" class="form-control" id="precioExtra1">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="precioExtra2">Precio extra 2</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00" max="10000.00" step="0.01"
+                                            type="number" class="form-control" id="precioExtra2">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="precioExtra3">Precio extra 3</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input required min="0.00" max="10000.00" step="0.01"
+                                            type="number" class="form-control" id="precioExtra3">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <button type="reset" class="btn icon-btn btn-danger text-white mr-auto"><span
+                                            class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+                                    <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span
+                                            class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </section>
+        </div>
+        <!-- /.content -->
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script>
+        $('#iAdministracion').removeClass('text-altima');
+        $('#menuAdministracion').addClass('menu-open');
+        $('#navAdministracion').addClass('active-altima');
+        $('#navAdmCar').addClass('active');
+    </script>
+</body>
+
+</html>
