@@ -21,11 +21,8 @@
 						<label for="cargaEmpresa">Tipo de pedido</label>
 						<select class="form-control selectpicker" data-live-search="true" name="cargaTipopedido" id="cargaTipopedido">
 							<option value='' selected>Seleccione uno...</option>
-							<option value='1'>Pedido General</option>
-							<option value='2'>Pedido Especial</option>
-							<option value='2'>Stock</option>
-							<option value='3'>Resurtido</option>
-							<option value='3'>Reajustes</option>
+							<option th:each="lisp: ${lisp}" th:value="${lisp[0]}"
+								th:text="${lisp[1]}"></option>
 						</select>
 					</div>
 					

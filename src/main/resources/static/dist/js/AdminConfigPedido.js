@@ -11,6 +11,7 @@ function limpiar(){
 	$("#locales").val(null);
 	$("#foraneo").val(null);
 	$("#diasBordado").val(null);
+	$("#nombre").val(null);
 	$("#stockTrueFalse").val(null);
 	$('#stockTrueFalse').selectpicker('refresh');
 	
@@ -27,9 +28,10 @@ function limpiar(){
 	$("#minimoPersonas").attr("readonly",true);
 }
 
-$('#tipoPedido').change(function() {
+$('#nombre').change(function() {
+	
 	  $.ajax({
-	        data: {id:$(this).val()},
+	        data: {id:$("#tipoPedido").val() , nombre:$("#nombre").val()},
 	        url:   '/validar-tipo',
 	        type:  'GET',
 	        success:  function (r) 
@@ -46,6 +48,7 @@ $('#tipoPedido').change(function() {
 	        		     
 	        		   	$("#tipoPedido").val(null);
 	        			$('#tipoPedido').selectpicker('refresh');
+	        			$("#nombre").val(null)
 	        	}
 	        	//console.log ("la repuesta es:"+ r)
 	        },
@@ -80,8 +83,18 @@ function valida_envia(){
 		})
       		return 0;
    	}
+   	if (document.fvalida.nombre.value.length==0){
+      	 Swal.fire({
+   			position: 'center',
+   			icon: 'error',
+   			title: 'Ingrese un nombre',
+   			showConfirmButton: false,
+   			timer: 1250
+   		})
+         		return 0;
+      	}
 	
-   	if (document.fvalida.cantidadPrenda.value.length==0 || document.fvalida.cantidadPrenda.value==0 ){
+   	if (document.fvalida.cantidadPrenda.value.length==0 || document.fvalida.cantidadPrenda.value<=0 ){
    	 Swal.fire({
 			position: 'center',
 			icon: 'error',
@@ -93,7 +106,7 @@ function valida_envia(){
 	}
 
    	
-   	if (document.fvalida.minimoDias.value.length==0 || document.fvalida.minimoDias.value==0 ){
+   	if (document.fvalida.minimoDias.value.length==0 || document.fvalida.minimoDias.value<=0 ){
    	 Swal.fire({
 			position: 'center',
 			icon: 'error',
@@ -105,7 +118,7 @@ function valida_envia(){
 	}
 
    	
-   	if (document.fvalida.maximoDias.value.length==0  || document.fvalida.maximoDias.value==0 ){
+   	if (document.fvalida.maximoDias.value.length==0  || document.fvalida.maximoDias.value<=0 ){
    	 Swal.fire({
 			position: 'center',
 			icon: 'error',
@@ -116,7 +129,7 @@ function valida_envia(){
   		return 0;
 	}
 
-   	if (document.fvalida.minAdicionales.value.length==0){
+   	if (document.fvalida.minAdicionales.value.length==0  || document.fvalida.minAdicionales.value<=0 ){
       	 Swal.fire({
    			position: 'center',
    			icon: 'error',
@@ -127,7 +140,7 @@ function valida_envia(){
      		return 0;
    	}
    	
-   	if (document.fvalida.locales.value.length==0 ){
+   	if (document.fvalida.locales.value.length==0  || document.fvalida.locales.value<=0 ){
    	 Swal.fire({
 			position: 'center',
 			icon: 'error',
@@ -139,7 +152,7 @@ function valida_envia(){
 	}
    	
    	
-   	if (document.fvalida.foraneo.value.length==0){
+   	if (document.fvalida.foraneo.value.length==0  || document.fvalida.foraneo.value<=0){
    	 Swal.fire({
 			position: 'center',
 			icon: 'error',
@@ -150,7 +163,7 @@ function valida_envia(){
   		return 0;
 	}
    	
-   	if (document.fvalida.diasBordado.value.length==0  ){
+   	if (document.fvalida.diasBordado.value.length==0  || document.fvalida.diasBordado.value<0 ){
    	 Swal.fire({
 			position: 'center',
 			icon: 'error',
@@ -220,6 +233,7 @@ function editar(e) {
         	$('#tipoPedido').selectpicker('refresh');
         	
         	$("#nomenclatura").val(r.nomenclatura);
+        	$("#nombre").val(r.nombre);
         	$("#cantidadPrenda").val(r.cantidadPrenda);
         	$("#minimoDias").val(r.minimoDias);
         	$("#maximoDias").val(r.maximoDias);

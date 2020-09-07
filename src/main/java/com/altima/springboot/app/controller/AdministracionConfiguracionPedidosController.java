@@ -117,7 +117,7 @@ public class AdministracionConfiguracionPedidosController {
     
 	@RequestMapping(value = "/validar-tipo", method = RequestMethod.GET)
 	@ResponseBody
-	public boolean validar(Long id ) {
-		return configService.validarPedido(id);
+	public boolean validar(Long id , String nombre ) {
+		return configService.validarPedido(id, nombre);
 	}
 }

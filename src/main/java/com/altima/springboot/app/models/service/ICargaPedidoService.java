@@ -34,4 +34,6 @@ public interface ICargaPedidoService {
 	
 	String CalcularFecha(String fecha, Integer dias);
 
+	
+	List<Object []> listPedidos();
 }

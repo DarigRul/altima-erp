@@ -245,7 +245,7 @@ public class CargaPedidoController {
 		 ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
 		 AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(pedido.getTipoPedido());
 		 Integer CantidadPiezas =cargaPedidoService.validarPiezas(id);
-		 String CantidadMonto =cargaPedidoService.validarMonto(id);
+		 
 		 String list =cargaPedidoService.ValidarCantidadEspecial(id);
 		if ( list == null) {
 			Integer sumaDias =0;
@@ -270,7 +270,7 @@ public class CargaPedidoController {
 			cargaPedidoService.save(pedido);
 			
 			
-			return CantidadMonto;
+			return null;
 			
 		}else {
 			System.out.println(list);
@@ -289,6 +289,22 @@ public class CargaPedidoController {
 				cargaPedidoService.save(pedido);
 				return null;
 			
+			}
+	 
+	 
+	 @RequestMapping(value = "/validar-monto-pedido", method = RequestMethod.GET)
+		@ResponseBody
+			public String  validarMontoPedio(Long id) {
+				String CantidadMonto =cargaPedidoService.validarMonto(id);
+				
+				if (CantidadMonto.equals("No cumple el monto total") || CantidadMonto.equals("Error , no es posible calcular el monto") ) {
+					return  CantidadMonto;
+				}
+				else {
+					return null;
+					
+				}
+				
 			}
 }
    

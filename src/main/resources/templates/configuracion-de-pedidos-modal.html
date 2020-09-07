@@ -28,25 +28,29 @@
                         <label for="nomenclaturaPedido">Nomenclatura</label>
                         <input type="text" class="form-control" th:field="*{config.nomenclatura}" id="nomenclatura" name="nomenclatura" placeholder="MDC-0001">
                     </div>
+                    <div class="form-group col-md-12">
+                        <label for="nomenclaturaPedido">Nombre</label>
+                        <input type="text" class="form-control" th:field="*{config.nombre}" id="nombre" name="nombre" placeholder="Nombre">
+                    </div>
                     <div class="form-group col-md-12" style="margin-bottom: 0px;">
                         <hr style="border: 1px solid #8a8d93;">
                         <h4>Tiempos de entrega</h4>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="cantidadPrendasPedido">Cantidad de prendas</label>
-                        <input type="number" min="1" class="form-control" th:field="*{config.cantidadPrenda}"  id="cantidadPrenda" name="cantidadPrenda" placeholder="600">
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.cantidadPrenda}"  id="cantidadPrenda" name="cantidadPrenda" placeholder="600">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="minimoDiasPedido">M&iacute;nimo de d&iacute;as</label>
-                        <input type="number" min="1" class="form-control" th:field="*{config.minimoDias}"  id="minimoDias" name="minimoDias" placeholder="45">
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.minimoDias}"  id="minimoDias" name="minimoDias" placeholder="45">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="maximoDiasPedido">M&aacute;ximo de d&iacute;as</label>
-                        <input type="number" min="1" class="form-control" th:field="*{config.maximoDias}" id="maximoDias" name="maximoDias" placeholder="60">
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.maximoDias}" id="maximoDias" name="maximoDias" placeholder="60">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="maximoDiasPedido">M&iacute;nimo  de adiccionales</label>
-                        <input type="number" min="1" class="form-control" th:field="*{config.minAdicionales}" id="minAdicionales" name="minAdicionales" placeholder="60">
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.minAdicionales}" id="minAdicionales" name="minAdicionales" placeholder="60">
                     </div>
                     <div class="form-group col-md-12">
                         <hr style="border: 1px solid #8a8d93;">
@@ -54,18 +58,18 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="minimoLocalesPedido">Locales</label>
-                        <input type="number" min="1"class="form-control" th:field="*{config.locales}" id="locales" name="locales" placeholder="60">
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.locales}" id="locales" name="locales" placeholder="60">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="minimoForaneosPedido">For&aacute;neos</label>
-                        <input type="number" min="1"class="form-control" id="foraneo" th:field="*{config.foraneo}" name="foraneo" placeholder="100">
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" id="foraneo" th:field="*{config.foraneo}" name="foraneo" placeholder="100">
                     </div>
                     <div class="form-group col-md-12">
                         <hr style="border: 1px solid #8a8d93;">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="bordadoPedido">Bordado (d&iacute;as)</label>
-                        <input type="number" min="1" class="form-control" th:field="*{config.diasBordado}" id="diasBordado" name="diasBordado" placeholder="9">
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.diasBordado}" id="diasBordado" name="diasBordado" placeholder="9">
                     </div>
                     <div class="form-group col-md-3">
                         <label for="stockPedido">Stock</label>

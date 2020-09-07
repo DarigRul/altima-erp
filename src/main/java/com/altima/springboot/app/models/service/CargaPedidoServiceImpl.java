@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialCliente;
+import com.altima.springboot.app.models.entity.ComercialCoordinadoMaterial;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.repository.CargaPedidoRepository;
 
@@ -232,43 +233,53 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 	@Override
 	@Transactional
 	public String validarMonto(Long id){
-		String re = em.createNativeQuery(""
-				+ "SELECT\n" + 
-				"CASE\n" + 
-				"		\n" + 
-				"	WHEN\n" + 
-				"		cliente.foraneo = 0 THEN\n" + 
-				"		IF\n" + 
-				"			( SUM( concen.cantidad * coor_pre.precio_final ) > c.locales, NULL, 'No cumple el monto total' ) \n" + 
-				"			WHEN cliente.foraneo = 1 THEN\n" + 
-				"		IF\n" + 
-				"			( SUM( concen.cantidad * coor_pre.precio_final ) > c.foraneo, NULL, 'No cumple el monto total' ) ELSE ''\n" + 
-				"		END \n" + 
-				"		END \n" + 
-				"		FROM\n" + 
-				"			alt_comercial_pedido_informacion AS pedido,\n" + 
-				"			alt_comercial_coordinado AS coor,\n" + 
-				"			alt_comercial_coordinado_prenda AS coor_pre,\n" + 
-				"			alt_comercial_concetrado_prenda AS concen,\n" + 
-				"			alt_disenio_prenda AS prenda,\n" + 
-				"			alt_admin_configuracion_pedido AS c,\n" + 
-				"			alt_comercial_cliente AS cliente \n" + 
-				"		WHERE\n" + 
-				"			1 = 1 \n" + 
-				"			AND pedido.id_pedido_informacion = coor.id_pedido \n" + 
-				"			AND coor.id_coordinado = coor_pre.id_coordinado \n" + 
-				"			AND coor_pre.id_coordinado_prenda = concen.id_coordinado_prenda \n" + 
-				"			AND concen.estatus = 1 \n" + 
-				"			AND prenda.id_prenda = coor_pre.id_prenda \n" + 
-				"			AND c.tipo_pedido = pedido.tipo_pedido \n" + 
-				"			AND cliente.id_cliente = pedido.id_empresa \n" + 
-				"			AND pedido.id_pedido_informacion = 40 \n" + 
-				"	GROUP BY\n" + 
-				"	pedido.id_pedido_informacion")
-				.getSingleResult().toString();
 	
-		return re;
 		
+
+		
+
+		try {
+			String re = em.createNativeQuery("SELECT\n" + 
+					"CASE\n" + 
+					"		\n" + 
+					"	WHEN\n" + 
+					"		cliente.foraneo = 0 THEN\n" + 
+					"		IF\n" + 
+					"			( SUM( concen.cantidad * coor_pre.precio_final ) > c.locales, 'Todo bien', 'No cumple el monto total' ) \n" + 
+					"			WHEN cliente.foraneo = 1 THEN\n" + 
+					"		IF\n" + 
+					"			( SUM( concen.cantidad * coor_pre.precio_final ) > c.foraneo, 'Todo bien', 'No cumple el monto total' ) ELSE 'Error'\n" + 
+					"		END \n" + 
+					"		END \n" + 
+					"		FROM\n" + 
+					"			alt_comercial_pedido_informacion AS pedido,\n" + 
+					"			alt_comercial_coordinado AS coor,\n" + 
+					"			alt_comercial_coordinado_prenda AS coor_pre,\n" + 
+					"			alt_comercial_concetrado_prenda AS concen,\n" + 
+					"			alt_disenio_prenda AS prenda,\n" + 
+					"			alt_admin_configuracion_pedido AS c,\n" + 
+					"			alt_comercial_cliente AS cliente \n" + 
+					"		WHERE\n" + 
+					"			1 = 1 \n" + 
+					"			AND pedido.id_pedido_informacion = coor.id_pedido \n" + 
+					"			AND coor.id_coordinado = coor_pre.id_coordinado \n" + 
+					"			AND coor_pre.id_coordinado_prenda = concen.id_coordinado_prenda \n" + 
+					"			AND concen.estatus = 1 \n" + 
+					"			AND prenda.id_prenda = coor_pre.id_prenda \n" + 
+					"			AND c.tipo_pedido = pedido.tipo_pedido \n" + 
+					"			AND cliente.id_cliente = pedido.id_empresa \n" + 
+					"			AND pedido.id_pedido_informacion = "+id+" \n" + 
+					"	GROUP BY\n" + 
+					"	pedido.id_pedido_informacion")
+					.getSingleResult().toString();
+			return  re;
+			}
+			catch(Exception e) {
+				
+				return "Error , no es posible calcular el monto";
+			}
+		
+
 		
 		
 	}
@@ -292,5 +303,26 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 		return re;
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object []> listPedidos(){
+		List<Object[]> re = null;
+
+			 
+			
+			re = em.createNativeQuery(""
+					+ "SELECT\n" + 
+					"	con.id_configuracion_pedido,\n" + 
+					"	con.nombre\n" + 
+					"FROM\n" + 
+					"	alt_admin_configuracion_pedido AS con\n" + 
+					"	where 1=1\n" + 
+					"	and con.estatus =1 ").getResultList();
+
+			
+		return re;
+	}
 	
 }

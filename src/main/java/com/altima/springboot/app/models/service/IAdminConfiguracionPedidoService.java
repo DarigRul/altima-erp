@@ -16,7 +16,7 @@ public interface IAdminConfiguracionPedidoService {
 	
 	List<Object []> pedidos();
 	
-	boolean validarPedido (Long id );
+	boolean validarPedido (Long id , String nombre );
 	
 
 }

@@ -85,7 +85,7 @@ public class AdminConfiguracionPedidoServiceImpl implements IAdminConfiguracionP
 	}
 	
 	@Override
-	public  boolean validarPedido (Long id ) {
+	public  boolean validarPedido (Long id , String nombre ) {
 		try {
 			String re = em.createNativeQuery(""
 					+ "SELECT\r\n" + 
@@ -93,7 +93,9 @@ public class AdminConfiguracionPedidoServiceImpl implements IAdminConfiguracionP
 					"FROM\r\n" + 
 					"	alt_admin_configuracion_pedido AS con \r\n" + 
 					"WHERE\r\n" + 
-					"	con.tipo_pedido ="+id).getSingleResult().toString();
+					"	1=1\r\n" + 
+					"	AND con.tipo_pedido = "+id+" \r\n" + 
+					"	AND con.nombre = '"+nombre+"'").getSingleResult().toString();
 					//System.out.println("regresa el true");
 			return true;
 			}

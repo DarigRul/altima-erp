@@ -130,6 +130,7 @@ public class AgenteVentaController {
 			model.addAttribute("pedidos", cargaPedidoService.CargaPedidoVista(iduser));
 
 		}
+		model.addAttribute("lisp", cargaPedidoService.listPedidos());
 		return "carga-de-pedidos";
 	}// le movio erik
 
