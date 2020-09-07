@@ -166,8 +166,9 @@
                                 <div class="form-group col-md-3">
                                     <label for="precioMuestrario">Familia de prenda</label>
                                     <div class="input-group mb-3">
-                                        <select class="form-control selectpicker" title="Selecciona uno..." name="famPrenda"
-                                            data-live-search="true" data-live-search-normalize="true" required>
+                                        <select class="form-control selectpicker" title="Selecciona uno..."
+                                            name="famPrenda" data-live-search="true" data-live-search-normalize="true"
+                                            required>
                                             <option value="">Seleccione uno...</option>
                                             <option th:each=" prenda: ${tipoPrendas}" th:text="${prenda.nombreLookup}"
                                                 th:value="${prenda.idLookup}"></option>
@@ -179,7 +180,8 @@
                                     <div class="input-group mb-3">
                                         <select th:field="*{idFamiliaComposicion}" class="form-control" required>
                                             <option value="">Seleccione uno...</option>
-                                            <option th:each=" composicion: ${composiciones}" th:text="${composicion.nombreLookup}"
+                                            <option th:each=" composicion: ${composiciones}"
+                                                th:text="${composicion.nombreLookup}"
                                                 th:value="${composicion.idLookup}"></option>
                                         </select>
                                     </div>
@@ -251,16 +253,16 @@
         $('#navAdministracion').addClass('active-altima');
         $('#navAdmCar').addClass('active');
     </script>
-     <script th:if="${icon != null}" th:inline="javascript">
+    <script th:if="${icon != null}" th:inline="javascript">
         Swal.fire({
-      
-          position: 'center',
-          icon: /*[[${icon}]]*/ 'default',
-          title: /*[[${title}]]*/ 'default',
-          showConfirmButton: false,
-          timer: 2500
+
+            position: 'center',
+            icon: /*[[${icon}]]*/ 'default',
+            title: /*[[${title}]]*/ 'default',
+            showConfirmButton: false,
+            timer: 2500
         });
-      </script>
+    </script>
 </body>
 
 </html>
