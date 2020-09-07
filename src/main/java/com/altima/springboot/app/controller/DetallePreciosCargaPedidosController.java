@@ -123,10 +123,10 @@ public class DetallePreciosCargaPedidosController {
 		bordado.setFechaCreacion(hourdateFormat.format(date));
 		bordado.setUltimaFechaModificacion(hourdateFormat.format(date));
 		bordadoService.save(bordado);
-		
-		Float precioBordado =bordadoService.sumBordados(id_coor_prenda) ;
-		Float precioPrenda = bordadoService.precio_coor_prenda(id_coor_prenda);
+
 		ComercialCoordinadoPrenda  prenda 	=CoordinadoService.findOneCoorPrenda(id_coor_prenda);
+		Float precioBordado =bordadoService.sumBordados(id_coor_prenda) ;
+		Float precioPrenda = Float.parseFloat(prenda.getPrecio());
 		Float preciofinal= precioBordado+ Float.parseFloat(prenda.getMontoAdicional()) +  precioPrenda;
 		prenda.setPrecioFinal( String.valueOf(preciofinal)  );
 		
@@ -150,12 +150,13 @@ public class DetallePreciosCargaPedidosController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		
+
+		ComercialCoordinadoPrenda  prenda 	=CoordinadoService.findOneCoorPrenda(id_coor_prenda);
 		
 		Float precioBordado =bordadoService.sumBordados(id_coor_prenda) ;
-		Float precioPrenda = bordadoService.precio_coor_prenda(id_coor_prenda);
-		ComercialCoordinadoPrenda  prenda 	=CoordinadoService.findOneCoorPrenda(id_coor_prenda);
+		Float precioPrenda = Float.parseFloat(prenda.getPrecio());
 		Float preciofinal= precioBordado+ Float.parseFloat(prenda.getMontoAdicional()) +  precioPrenda;
+		System.out.println("precio final de elimanar es :"+ preciofinal);
 		prenda.setPrecioFinal( String.valueOf(preciofinal)  );
 		
 		prenda.setActualizadoPor(auth.getName());

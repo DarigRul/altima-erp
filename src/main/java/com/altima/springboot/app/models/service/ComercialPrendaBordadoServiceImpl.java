@@ -51,7 +51,7 @@ public class ComercialPrendaBordadoServiceImpl implements IComercialPrendaBordad
 	@Override
 	@Transactional
 	public List<Object[]> findAllCoordinado(Long id) {
-		
+	
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\n" + 
 				"	coor_prenda.id_coordinado_prenda,\n" + 

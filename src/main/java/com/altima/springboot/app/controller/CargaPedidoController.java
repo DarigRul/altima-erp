@@ -25,10 +25,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.altima.springboot.app.component.AuthComponent;
+import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialClienteEmpleado;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
+import com.altima.springboot.app.models.service.IAdminConfiguracionPedidoService;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialClienteFacturaService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
@@ -236,16 +238,39 @@ public class CargaPedidoController {
 	 @PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
 	 @RequestMapping(value = "/cerrar-expediente", method = RequestMethod.GET)
 	@ResponseBody
-		public List<String>  cerrar(Long id) {
-		 
-		 List<String> list =cargaPedidoService.ValidarCantidadEspecial(id);
+		public String  cerrar(Long id) {
+		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		 ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+		 AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(pedido.getTipoPedido());
+		 Integer CantidadPiezas =cargaPedidoService.validarPiezas(id);
+		 String CantidadMonto =cargaPedidoService.validarMonto(id);
+		 String list =cargaPedidoService.ValidarCantidadEspecial(id);
 		if ( list == null) {
+			Integer sumaDias =0;
+			if ( cargaPedidoService.validarBordado(id) == true ) {
+				sumaDias +=  Integer.parseInt(config.getDiasBordado());
+			}
 			
-			System.out.println("nuloooooooooooo");
-			ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+			if ( CantidadPiezas <=  Integer.parseInt(config.getCantidadPrenda())   ) {
+				sumaDias +=  Integer.parseInt(config.getMinimoDias());
+			}else {
+				sumaDias +=  Integer.parseInt(config.getMaximoDias());
+			}
+			
+			
+			
+
 			pedido.setEstatus("2");
+			pedido.setFechaCierre(hourdateFormat.format(date));
+			pedido.setFechaEntrega(cargaPedidoService.CalcularFecha(pedido.getFechaCierre(), sumaDias));
+			pedido.setActualizadoPor(auth.getName());
+			pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
 			cargaPedidoService.save(pedido);
-			return null;
+			
+			
+			return CantidadMonto;
 			
 		}else {
 			System.out.println(list);
@@ -259,6 +284,7 @@ public class CargaPedidoController {
 			public String  abrir(Long id) {
 			 
 				ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+				
 				pedido.setEstatus("1");
 				cargaPedidoService.save(pedido);
 				return null;
