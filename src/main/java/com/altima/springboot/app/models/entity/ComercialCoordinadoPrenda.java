@@ -35,8 +35,29 @@ public class ComercialCoordinadoPrenda implements Serializable{
 	@Column(name="id_tela")
 	private Long idTela;
 	
+	@Column(name="id_familia_composicion")
+	private Long idFamiliaComposicion;
+	
+	@Column(name="tipo_precio_cotizacion")
+	private String tipoPrecioCotizacion;
+	
 	@Column(name="id_coordinado")
 	private Long idCoordinado;
+	
+	@Column(name="adicional")
+	private String adicional;
+	
+	@Column(name="monto_adicional")
+	private String montoAdicional;
+	
+	@Column(name="precio_final")
+	private String precioFinal;
+	
+	@Column(name="observaciones")
+	private String observaciones;
+	
+	@Column(name="precio")
+	private String precio;
 	
 	@Column(name="creado_por")
 	private String creadoPor;
@@ -54,24 +75,26 @@ public class ComercialCoordinadoPrenda implements Serializable{
 	private String estatus;
 	
 	
-	@Column(name="adicional")
-	private String adicional;
-	
-	@Column(name="monto_adicional")
-	private String montoAdicional;
-	
-	@Column(name="precio_final")
-	private String precioFinal;
-	
-	@Column(name="observaciones")
-	private String observaciones;
-	
-	@Column(name="precio")
-	private String precio;
+
 	
 	
 	
-	
+
+	public Long getIdFamiliaComposicion() {
+		return idFamiliaComposicion;
+	}
+
+	public void setIdFamiliaComposicion(Long idFamiliaComposicion) {
+		this.idFamiliaComposicion = idFamiliaComposicion;
+	}
+
+	public String getTipoPrecioCotizacion() {
+		return tipoPrecioCotizacion;
+	}
+
+	public void setTipoPrecioCotizacion(String tipoPrecioCotizacion) {
+		this.tipoPrecioCotizacion = tipoPrecioCotizacion;
+	}
 
 	public String getPrecio() {
 		return precio;
