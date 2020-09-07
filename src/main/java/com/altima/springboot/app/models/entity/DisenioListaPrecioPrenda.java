@@ -293,9 +293,21 @@ public class DisenioListaPrecioPrenda implements Serializable{
 	public void setPrecioLineaExpressForaneoAnterior(float precioLineaExpressForaneoAnterior) {
 		this.precioLineaExpressForaneoAnterior = precioLineaExpressForaneoAnterior;
 	}
-	
-	
-		
 
-
+	@Override
+	public String toString() {
+		return "DisenioListaPrecioPrenda [actualizadoPor=" + actualizadoPor + ", costoMaquila=" + costoMaquila
+				+ ", costoMaquilaMuestra=" + costoMaquilaMuestra + ", creadoPor=" + creadoPor + ", fechaCreacion="
+				+ fechaCreacion + ", idFamiliaComposicion=" + idFamiliaComposicion + ", idListaPrecioPrenda="
+				+ idListaPrecioPrenda + ", idPrenda=" + idPrenda + ", precioEcommerce=" + precioEcommerce
+				+ ", precioExtra1=" + precioExtra1 + ", precioExtra2=" + precioExtra2 + ", precioExtra3=" + precioExtra3
+				+ ", precioExtra4=" + precioExtra4 + ", precioForaneoAntiguo=" + precioForaneoAntiguo
+				+ ", precioForaneoNuevo=" + precioForaneoNuevo + ", precioLineaExpressForaneoAnterior="
+				+ precioLineaExpressForaneoAnterior + ", precioLineaExpressForaneoNuevo="
+				+ precioLineaExpressForaneoNuevo + ", precioLineaExpressLocalAnterior="
+				+ precioLineaExpressLocalAnterior + ", precioLineaExpressLocalNuevo=" + precioLineaExpressLocalNuevo
+				+ ", precioLocalAntiguo=" + precioLocalAntiguo + ", precioLocalNuevo=" + precioLocalNuevo
+				+ ", precioMuestrario=" + precioMuestrario + ", precioVentaInterna=" + precioVentaInterna
+				+ ", ultimaFechaModificacion=" + ultimaFechaModificacion + "]";
+	}
 }

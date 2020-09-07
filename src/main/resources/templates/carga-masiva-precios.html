@@ -43,14 +43,16 @@
                             <h5 class="card-title">Carga masiva de precios</h5>
                         </div>
                         <div class="card-body">
-                            <form class="row">
+                            <form class="row" th:object="${precio}" method="POST"
+                                th:action="@{/guardar-precios-masivos}">
+
                                 <div class="form-group col-md-3">
                                     <label for="precioLocalNuevo">Local actual</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00" max="10000.00"
+                                        <input th:field="*{precioLocalNuevo}" required min="0.00" max="10000.00"
                                             step="0.01" type="number" class="form-control" id="precioLocalNuevo">
                                     </div>
                                 </div>
@@ -61,7 +63,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00" max="10000.00"
+                                        <input th:field="*{precioLocalAntiguo}" required min="0.00" max="10000.00"
                                             step="0.01" type="number" class="form-control" id="precioLocalAntiguo">
                                     </div>
                                 </div>
@@ -72,7 +74,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00" max="10000.00"
+                                        <input th:field="*{precioForaneoNuevo}" required min="0.00" max="10000.00"
                                             step="0.01" type="number" class="form-control" id="precioForaneNuevo">
                                     </div>
                                 </div>
@@ -83,7 +85,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00" max="10000.00"
+                                        <input th:field="*{precioForaneoAntiguo}" required min="0.00" max="10000.00"
                                             step="0.01" type="number" class="form-control" id="precioForaneoAntiguo">
                                     </div>
                                 </div>
@@ -94,7 +96,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00"
+                                        <input th:field="*{precioLineaExpressLocalNuevo}" required min="0.00"
                                             max="10000.00" step="0.01" type="number" class="form-control"
                                             id="precioLineaExpressLocalNuevo">
                                     </div>
@@ -106,7 +108,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00"
+                                        <input th:field="*{precioLineaExpressLocalAnterior}" required min="0.00"
                                             max="10000.00" step="0.01" type="number" class="form-control"
                                             id="precioLineaExpressLocalAnterior">
                                     </div>
@@ -118,7 +120,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00"
+                                        <input th:field="*{precioLineaExpressForaneoNuevo}" required min="0.00"
                                             max="10000.00" step="0.01" type="number" class="form-control"
                                             id="precioLineaExpressForaneoNuevo">
                                     </div>
@@ -131,18 +133,23 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00"
+                                        <input th:field="*{precioLineaExpressForaneoAnterior}" required min="0.00"
                                             max="10000.00" step="0.01" type="number" class="form-control"
                                             id="precioLineaExpressForaneoAnterior">
                                     </div>
                                 </div>
+                                <!-- <div class="form-group col-md-3">
+                  <label for="exampleInputPassword1">Precio maquila</label>
+                  <input th:field="*{precioMaquila}" min="0.00" max="10000.00" step="0.01" type="number" class="form-control" id="exampleInputPassword1">
+                </div>
+                 -->
                                 <div class="form-group col-md-3">
                                     <label for="precioMuestrario">Muestrario</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00" max="10000.00"
+                                        <input th:field="*{precioMuestrario}" required min="0.00" max="10000.00"
                                             step="0.01" type="number" class="form-control" id="precioMuestrario">
                                     </div>
                                 </div>
@@ -152,69 +159,77 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00" max="10000.00"
+                                        <input th:field="*{precioVentaInterna}" required min="0.00" max="10000.00"
                                             step="0.01" type="number" class="form-control" id="precioInterna">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label for="precioMuestrario">Familia de composición</label>
-                                    <div class="input-group mb-3">
-                                        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" required>
-                                            <option>Hola</option>
-                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="precioMuestrario">Familia de prenda</label>
                                     <div class="input-group mb-3">
-                                        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" required>
-                                            <option>Hola</option>
+                                        <select class="form-control selectpicker" title="Selecciona uno..." name="famPrenda"
+                                            data-live-search="true" data-live-search-normalize="true" required>
+                                            <option value="">Seleccione uno...</option>
+                                            <option th:each=" prenda: ${tipoPrendas}" th:text="${prenda.nombreLookup}"
+                                                th:value="${prenda.idLookup}"></option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="precioEcommerce">Precio e-commerce</label>
+                                    <label for="precioMuestrario">Familia de composición</label>
                                     <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">$</span>
-                                        </div>
-                                        <input required min="0.00" max="10000.00"
-                                            step="0.01" type="number" class="form-control" id="precioEcommerce">
+                                        <select th:field="*{idFamiliaComposicion}" class="form-control" required>
+                                            <option value="">Seleccione uno...</option>
+                                            <option th:each=" composicion: ${composiciones}" th:text="${composicion.nombreLookup}"
+                                                th:value="${composicion.idLookup}"></option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="precioExtra1">Precio extra 1</label>
+                                    <label for="precioInterna">Precio e-commerce</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00" max="10000.00" step="0.01"
-                                            type="number" class="form-control" id="precioExtra1">
+                                        <input th:field="*{precioEcommerce}" required min="0.00" max="10000.00"
+                                            step="0.01" type="number" class="form-control" id="precioInterna">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="precioExtra2">Precio extra 2</label>
+                                    <label for="precioInterna">Precio extra 1</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00" max="10000.00" step="0.01"
-                                            type="number" class="form-control" id="precioExtra2">
+                                        <input th:field="*{precioExtra1}" required min="0.00" max="10000.00" step="0.01"
+                                            type="number" class="form-control" id="precioInterna">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <label for="precioExtra3">Precio extra 3</label>
+                                    <label for="precioInterna">Precio extra 2</label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">$</span>
                                         </div>
-                                        <input required min="0.00" max="10000.00" step="0.01"
-                                            type="number" class="form-control" id="precioExtra3">
+                                        <input th:field="*{precioExtra2}" required min="0.00" max="10000.00" step="0.01"
+                                            type="number" class="form-control" id="precioInterna">
                                     </div>
                                 </div>
+                                <div class="form-group col-md-3">
+                                    <label for="precioInterna">Precio extra 3</label>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input th:field="*{precioExtra3}" required min="0.00" max="10000.00" step="0.01"
+                                            type="number" class="form-control" id="precioInterna">
+                                    </div>
+                                </div>
+                                <input type="hidden" th:field="*{creadoPor}">
+                                <input type="hidden" th:field="*{costoMaquila}">
+                                <input type="hidden" th:field="*{costoMaquilaMuestra}">
                                 <div class="form-group col-sm-12">
-                                    <button type="reset" class="btn icon-btn btn-danger text-white mr-auto"><span
-                                            class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+                                    <a th:href="@{'/prendas'}" class="btn icon-btn btn-danger text-white mr-auto"><span
+                                            class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
                                     <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span
                                             class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
                                 </div>
@@ -236,6 +251,16 @@
         $('#navAdministracion').addClass('active-altima');
         $('#navAdmCar').addClass('active');
     </script>
+     <script th:if="${icon != null}" th:inline="javascript">
+        Swal.fire({
+      
+          position: 'center',
+          icon: /*[[${icon}]]*/ 'default',
+          title: /*[[${title}]]*/ 'default',
+          showConfirmButton: false,
+          timer: 2500
+        });
+      </script>
 </body>
 
 </html>

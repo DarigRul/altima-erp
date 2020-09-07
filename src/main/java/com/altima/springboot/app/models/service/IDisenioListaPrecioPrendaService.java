@@ -10,6 +10,8 @@ public interface IDisenioListaPrecioPrendaService {
 
 	void save(DisenioListaPrecioPrenda disenioprenda);
 
+	void saveAll(List<DisenioListaPrecioPrenda> disenioprenda);
+
 	void delete(Long id);
 
 	DisenioListaPrecioPrenda findOne(Long id);
@@ -21,4 +23,6 @@ public interface IDisenioListaPrecioPrendaService {
 	List<Object> listaPrecioPrenda(Long id);
 
 	List<Object> listaFamPrendaByidPrenda(Long id);
+
+	List<Object[]> prMasivo(Long id1,Long id2);
 }
