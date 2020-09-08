@@ -383,56 +383,71 @@
                 },
                 success: function(data) {
                	
+                	if (data != "Error , no es posible calcular el monto"){
+                		Swal.fire({
+          				  title: '&iquest;Est&aacute; seguro que desea cerrar este pedido?',
+          				  text: data,
+          				  icon: 'warning',
+          				  showCancelButton: true,
+          				  confirmButtonColor: '#3085d6',
+          				  cancelButtonColor: '#d33',
+          				  cancelButtonText: 'Cancelar',
+          				  confirmButtonText: 'Si, cerrar',
+          				  reverseButtons: true
 
-        			Swal.fire({
-        				  title: '&iquest;Est&aacute; seguro que desea cerrar este pedido?',
-        				  text: data,
-        				  icon: 'warning',
-        				  showCancelButton: true,
-        				  confirmButtonColor: '#3085d6',
-        				  cancelButtonColor: '#d33',
-        				  cancelButtonText: 'Cancelar',
-        				  confirmButtonText: 'Si, cerrar',
-        				  reverseButtons: true
+          				}).then((result) => {
+          				  if (result.value) {
+          					 
+          					 $.ajax({
+          		                 type: "GET",
+          		                 url: "/cerrar-expediente",
+          		                 data: { 
+          		                 	 "id": e
+          		                 },
+          		                 success: function(data) {
+          		                	 if ( data == null || data==''   ){
+          		                		 Swal.fire({
+          		                       	  position: 'center',
+          		                             icon: 'success',
+          		                             title: 'El pedido fue cerrado correctamente',
+          		                             showConfirmButton: false,
+          		                             timer: 2250
+          		                             
+          		                             
+          		                       });
+          		                		 location.reload(true);
+          		                	 }
+          		                	 else{
+          		                		 Swal.fire({
+          			                       	  position: 'center',
+          			                             icon: 'error',
+          			                             title: 'No cumple con el minimo de piezas requerido.',
+          			                             text: data,
+          			                             showConfirmButton: true
+          			                       });
+          		                	 }
 
-        				}).then((result) => {
-        				  if (result.value) {
-        					 
-        					 $.ajax({
-        		                 type: "GET",
-        		                 url: "/cerrar-expediente",
-        		                 data: { 
-        		                 	 "id": e
-        		                 },
-        		                 success: function(data) {
-        		                	 if ( data == null || data==''   ){
-        		                		 Swal.fire({
-        		                       	  position: 'center',
-        		                             icon: 'success',
-        		                             title: 'El pedido fue cerrado correctamente',
-        		                             showConfirmButton: false,
-        		                             timer: 2250
-        		                             
-        		                             
-        		                       });
-        		                		 location.reload(true);
-        		                	 }
-        		                	 else{
-        		                		 Swal.fire({
-        			                       	  position: 'center',
-        			                             icon: 'error',
-        			                             title: 'No cumple con el minimo de piezas requerido.',
-        			                             text: data,
-        			                             showConfirmButton: true
-        			                       });
-        		                	 }
+          		                	 console.log ( data)
+          		                	 
+          		                  }
+          		             })
+          				  }
+          				})
+                	}
+                	else{
+                		Swal.fire({
+	                       	  position: 'center',
+	                             icon: 'error',
+	                             title: 'No se puedo cerrar el pedido',
+	                             showConfirmButton: false,
+	                             timer: 2250
+	                             
+	                             
+	                       });
+                		
+                	}
 
-        		                	 console.log ( data)
-        		                	 
-        		                  }
-        		             })
-        				  }
-        				})
+        			
                	 
                  }
             })
