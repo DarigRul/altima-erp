@@ -29,5 +29,18 @@ public interface ComercialClienteEmpleadoService {
 	ComercialClienteEmpleado findOne(Long id);
 	
 	ComercialClienteEmpleado findUno(Long id);
+	
+	public int countdeempleados(Long id);
+	
+	public String max(Long id);
+	
+	public ComercialClienteEmpleado findByidText(String idText, Long idPedidoInformacion);
+	
+	public String findMaxByidText( Long idPedidoInformacion);
+	
+	
+	
+	
+	
 
 }

@@ -35,6 +35,9 @@ public class ComercialCotizacionPrenda implements Serializable{
 	@Column(name="id_tela")
 	private Long idTela;
 	
+	@Column(name="id_familia_composicion")
+	private Long idFamiliaComposicion;
+	
 	@Column(name="id_familia_prenda")
 	private Long idFamiliaPrenda;
 	
@@ -101,6 +104,14 @@ public class ComercialCotizacionPrenda implements Serializable{
 
 	public void setIdTela(Long idTela) {
 		this.idTela = idTela;
+	}
+
+	public Long getIdFamiliaComposicion() {
+		return idFamiliaComposicion;
+	}
+
+	public void setIdFamiliaComposicion(Long idFamiliaComposicion) {
+		this.idFamiliaComposicion = idFamiliaComposicion;
 	}
 
 	public Long getIdFamiliaPrenda() {

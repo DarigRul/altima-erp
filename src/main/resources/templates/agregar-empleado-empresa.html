@@ -4,46 +4,9 @@
 <head th:include="navegacion-head :: header">
 	<title id="pageTitle">Carga de pedidos | Altima</title>
 </head>
-<style>
-	@charset "UTF-8";
-
-	#loading {
-		display: block;
-		position: absolute;
-		top: 0;
-		left: 0;
-		z-index: 100;
-		width: 100vw;
-		height: 100vh;
-		background-color: rgba(192, 192, 192, 0.5);
-		background-image: url("https://i.stack.imgur.com/MnyxU.gif");
-		background-repeat: no-repeat;
-		background-position: center;
-	}
-
-	#page {
-		display: none;
-	}
-
-	#loading {
-		display: block;
-	}
-
-	.bd-example-modal-lg .modal-dialog {
-		display: table;
-		position: relative;
-		margin: 0 auto;
-		top: calc(50% - 24px);
-	}
-
-	.bd-example-modal-lg .modal-dialog .modal-content {
-		background-color: transparent;
-		border: none;
-	}
-</style>
 <div th:insert="modal-empleado-editarnombre"></div>
 
-<body onload="iniciarCarga()" class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
 
 	<div id="loading"></div>
 
@@ -65,16 +28,10 @@
 					<div class="row mb-2">
 						<div class="col-sm-6">
 							<h1>
-								Empleados de clientes <a th:href="@{/carga-de-pedidos}"><button
-										class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
-										data-toggle="popover" data-placement="right" data-content="Regresar">
-										<i class="fas fa-arrow-left"></i>
-									</button></a>
-								<button class="btn btn-primary btn-circle btn-sm popoverxd" data-target="#addEmpleados"
-									data-container="body" data-toggle="modal" data-placement="right"
-									data-content="Agregar">
-									<i class="fas fa-plus"></i>
-								</button>
+								Empleados de clientes&nbsp;<a th:href="@{/carga-de-pedidos}" class="btn btn-sm icon-btn btn-danger text-white"><span
+										class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>&nbsp;
+								<a data-toggle="modal" data-target="#addEmpleados" class="btn btn-sm icon-btn btn-altima text-white"><span
+									class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar empleados</a>
 							</h1>
 						</div>
 						<div th:insert="modal-empleados-create"></div>
@@ -96,14 +53,12 @@
 						<div class="col-12">
 							<!-- Default box -->
 							<div class="card">
-								<div class="card-header bg-dark">
+								<div class="card-header bg-altima">
 									<h3 class="card-title">
 										&nbsp;
-										<button data-toggle="modal" data-target="#eliminarEmpleados"
-											class="btn btn-danger btn-sm">Eliminar</button>
+										<button class="btn btn-sm icon-btn btn-danger text-white mr-auto" data-toggle="modal" data-target="#eliminarEmpleados" type="button"><span class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
 										&nbsp;
-										<button data-toggle="modal" data-target="#editarEmpleados"
-											class="btn btn-primary btn-sm" onclick="seleccionados()">Cambiar</button>
+										<button onclick="seleccionados()" class="btn btn-sm icon-btn btn-warning mr-auto" data-toggle="modal" data-target="#editarEmpleados" type="button"><span class="btn-glyphicon fas fa-pen img-circle text-dark"></span>Cambiar</button>
 									</h3>
 								</div>
 								<div th:insert="modal-empleados"></div>
@@ -118,7 +73,9 @@
 													<tr>
 														<th class="text-center"><input type="checkbox" id="checkBoxAll"
 																th:value="0"
-																th:disabled="${isPreviewView}" />&nbsp;Seleccionar todo</th>
+																th:disabled="${isPreviewView}" />&nbsp;Seleccionar todo
+														</th>
+														<th>Folio</th>
 														<th>Nombre del empleado</th>
 														<th>Sucursal</th>
 														<th>Raz&oacute;n social</th>
@@ -128,10 +85,13 @@
 												</thead>
 												<tbody>
 													<tr th:each="data, iterstat: ${empleadosEmpresa}">
+
 														<td class="text-center"><input type="checkbox"
 																th:disabled="${isPreviewView}" class="chkCheckBoxId"
 																th:value="${data.idEmpleado}"
 																name="getdeletenombre_empleado" /></td>
+
+														<td th:text="${data.idText}"></td>
 														<td th:text="${data.nombre_empleado}"></td>
 														<td class="text-center"><select disabled
 																class="form-control selectpicker"
@@ -172,15 +132,29 @@
 												</tbody>
 											</table>
 										</div>
-										<div class="form-group col-sm-12">
-											<a th:href="@{'/carga-de-pedidos'}"
-												class="btn btn-danger">Cancelar</a> <a
-												th:href="@{'/cargarregistroempleado/'+${idPedido}+'/'+${idcliente}}"
-												class="btn btn-primary next-step float-right">Guardar</a>
+									</form>
+									<form  action="#" th:action="@{'/cargarregistroempleado/'+${idPedido}+'/'+${idcliente}}"  method="post">
+								
+											<div class="form-group col-sm-12">
+											<a th:href="@{'/carga-de-pedidos'}" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+											<button id="submitButton" type="submit" class="btn btn-sm icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
 											<!-- <input type="submit" class="btn btn-primary next-step float-right"  value="Guardarprueba2">-->
 										</div>
+											<table>
+												<tbody>
+													<tr th:each="empleado, itemStat : *{empleadosEmpresa}">
+														<td><input type="hidden" name="idText[]" th:value="${empleado.idText}"></td>
+														<td><input type="hidden" name="nombreEmpleado[]" th:value="${empleado.nombre_empleado}"></td>
+														<td><input type="hidden" name="idClienteFactura[]" th:value="${empleado.idClienteFactura}"></td>
+														<td><input type="hidden" name="idClienteSucursal[]" th:value="${empleado.idClienteSucursal}"></td>
+														<td><input type="hidden" name="creadoPor[]" th:value="${empleado.creadoPor}"></td>
+														<td><input type="hidden" name="actualizadoPor[]" th:value="${empleado.actualizadoPor}"></td>
+														<td><input type="hidden" name="idPedidoInformacion[]" th:value="${empleado.idPedidoInformacion}"></td>
+													</tr>
+												</tbody>
+											</table>
+									
 									</form>
-									<div></div>
 								</div>
 								<!-- /.card-body -->
 							</div>
@@ -196,27 +170,12 @@
 	</div>
 	<!-- ./wrapper -->
 	<div th:replace="navegacion-scripts"></div>
-	<script src="/dist/js/bootstrap-select.min.js"></script>
-	<script src="/dist/js/sweetalert.js"></script>
 	<script src="/dist/js/tablaEmpleadoEmpresa.js"></script>
 	<!--  --<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script> -->
 	<script>
-		function iniciarCarga() {
-			document.getElementById("page").style.display = "block";
-			document.getElementById("loading").style.display = "none";
-		}
-	</script>
-	<script>
-		$(document).ready(function () {
-			$('.selectpicker').selectpicker({
-				style: 'border border-bootstrap'
-			});
-		});
-	</script>
-	<script>
-		$('#iComercial').removeClass('text-primary');
+		$('#iComercial').removeClass('text-altima');
 		$('#menuComercial').addClass('menu-open');
-		$('#navComercial').addClass('active');
+		$('#navComercial').addClass('active-altima');
 		$('#menuVenta').addClass('menu-open');
 		$('#navVenta').addClass('active');
 		$('#navVenta4').addClass('active');

@@ -15,52 +15,49 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "alt_disenio_notificacion")
 public class DisenioNotificacion implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@Column(name="id_notificacion")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
-	private Long idNotificacion;
-	
-	@Column(name="id_solicitud")
-	private Long idSolicitud;
-	
-	@Column(name="id_solicitante")
-	private Long idSolicitante;
-	
-	@Column(name="folio")
-	private String folio;
-	
-	@Column(name="referencia")
-	private String Referencia;
 
-	@Column(name="fecha")
+	@Id
+	@Column(name = "id_notificacion")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
+	private Long idNotificacion;
+
+	@Column(name = "id_solicitud")
+	private Long idSolicitud;
+
+	@Column(name = "id_solicitante")
+	private Long idSolicitante;
+
+	@Column(name = "folio")
+	private String folio;
+
+	@Column(name = "cliente")
+	private String Cliente;
+
+	@Column(name = "fecha")
 	private String fecha;
-	
-	@Column(name="asunto")
+
+	@Column(name = "asunto")
 	private String asunto;
-	
-	@Column(name="tipo_solicitud")
+
+	@Column(name = "tipo_solicitud")
 	private String tipoSolicitud;
-	
-	@Column(name="creado_por")
+
+	@Column(name = "creado_por")
 	private String creadoPor;
-	
-	@Column(name="actualizado_por")
+
+	@Column(name = "actualizado_por")
 	private String actualizadoPor;
-	
-	@Column(name="fecha_creacion")
+
+	@Column(name = "fecha_creacion")
 	private String fechaCreacion;
-	
-	@Column(name="ultima_fecha_modificacion")
+
+	@Column(name = "ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
-	
-	@Column(name="estatus")
-	private String estatus;
+
+	@Column(name = "estatus")
+	private int estatus;
 
 	public Long getIdNotificacion() {
 		return idNotificacion;
@@ -69,8 +66,6 @@ public class DisenioNotificacion implements Serializable {
 	public void setIdNotificacion(Long idNotificacion) {
 		this.idNotificacion = idNotificacion;
 	}
-	
-	
 
 	public Long getIdSolicitud() {
 		return idSolicitud;
@@ -96,12 +91,12 @@ public class DisenioNotificacion implements Serializable {
 		this.folio = folio;
 	}
 
-	public String getReferencia() {
-		return Referencia;
+	public String getCliente() {
+		return Cliente;
 	}
 
-	public void setReferencia(String referencia) {
-		Referencia = referencia;
+	public void setCliente(String cliente) {
+		Cliente = cliente;
 	}
 
 	public String getFecha() {
@@ -160,17 +155,16 @@ public class DisenioNotificacion implements Serializable {
 		this.ultimaFechaModificacion = ultimaFechaModificacion;
 	}
 
-	public String getEstatus() {
+	public int getEstatus() {
 		return estatus;
 	}
 
-	public void setEstatus(String estatus) {
-		this.estatus = estatus;
+	public void setEstatus(int i) {
+		this.estatus = i;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
+
 }

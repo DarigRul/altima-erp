@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Bordados | Altima</title>
+</head>
+<style>
+#form1{width:auto}.alert{text-align:center}#blah{max-height:150px;height:auto;width:auto;display:block;margin-left:auto;margin-right:auto;padding:5px}#img_contain{border-radius:5px;width:auto}.input-group1{margin-left:calc(calc(100vw - 450px)/ 2);margin-top:20px;width:320px}.imgInp{width:150px;padding:10px;background-color:#d3d3d3}.loading{animation:blinkingText ease 2.5s infinite}@keyframes blinkingText{0%{color:#000}50%{color:#transparent}99%{color:transparent}100%{color:#000}}.custom-file-label{cursor:pointer}
+</style>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse"    onload="cargar_pagina()">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Bordados&nbsp;
+                                <a th:href="@{/bordados}" class="btn btn-sm icon-btn btn-danger text-white"><span
+                                        class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">Agentes de venta</li>
+                                <li class="breadcrumb-item active">Bordados</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Nuevo bordado</h3>
+                                </div>
+                                <div class="card-body">
+                              <form class="row" id="bordadoForm" th:object="${objetoBordado}" th:action="@{/guardar_bordado}" enctype="multipart/form-data" method="post" >
+
+                                        <div class="form-group col-md-4">
+                                            <label for="clienteBordado">Cliente</label>
+                                            <select class="form-control selectpicker" data-live-search="true" th:field="*{idCliente}" data-live-search-normalize="true" title="Selecciona uno..." id="clienteBordado">
+                                                     <option th:each="listaCli:${listaCli}" th:value="${listaCli.idCliente}"
+                                                 th:text="${listaCli.nombre}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="tipoBordado">Bordado</label>
+                                            <select class="form-control selectpicker" data-live-search="true" th:field="*{idLookup}" data-live-search-normalize="true" title="Selecciona uno..." id="coorLookup">
+                                             <option th:each="listLookup:${listLookup}" th:value="${listLookup.idLookup}"
+                                                 th:text="${listLookup.nombreLookup}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="archivoBordado">Solicitud de ponchado</label>
+                                            <div class="custom-file mb-3">
+                                                <input type="file" name="inputFileBordado" class="custom-file-input input2" id="inputFileBordado" th:value="${objetoBordado.rutaBordado}" aria-describedby="inputFileBordado">
+                                                <label class="custom-file-label label2" for="customFile" th:text="*{rutaPonchado}">Choose file</label>
+                                              </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="contain animated bounce">
+                                                <div id="img_contain"><img id="blah" align="middle" th:src="@{'/uploads/bordadoParte/' + *{rutaBordado}}"
+															th:onerror="this.src='/dist/img/preview.png'" alt="your image" title=""></div>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" name="inputGroupFile01" id="inputGroupFile01" class="imgInp custom-file-input" aria-describedby="inputGroupFileAddon01">
+                                                        <label class="custom-file-label label1" for="inputGroupFile01" th:text="*{rutaBordado}"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="tamanoBordado">Tama&ntilde;o</label>
+                                            <input  type="number" class="form-control" id="tamanoBordado" placeholder="4" th:field="*{tamano}" >
+                                        </div>
+                                        
+                                          <div class="form-group col-md-4">
+                                            <label for="tamanoBordado">Descripcion</label>
+                                            <input  type="text" class="form-control" id="tamanoBordado" placeholder="Descripcion" th:field="*{descripcion}" >
+                                        </div>
+                                        <div  class="form-group col-md-4">
+                                            <label for="precioBordado">Precio</label>
+                                            
+                                            
+                                            <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">$</span>
+                                                              </div>
+                                                            <input  type="number" class="form-control" id="precioBordado" placeholder="25" th:field="*{precio}"  style="border-radius: .25rem;">
+                                                            <div class="input-group-append" style="margin-left: 10px;">
+                                                                <input type="hidden" class="form-control" id="idBordado" th:field="*{idBordado}">
+                                                                <input type="hidden" class="form-control" id="idBordado" th:field="*{estatus_bordado}">
+                                                                <input type="hidden" class="form-control" id="idBordado" th:field="*{rutaBordado}">
+                                                                <input type="hidden" class="form-control" id="idBordado" th:field="*{rutaPonchado}">
+                                                                <button type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                                                           class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                                                            </div>
+                                                          </div>
+                                        </div>
+                                        
+                                 </form>
+                                 
+                                  <div class="form-group col-md-12" id="test">
+                                  
+                                   
+                                              
+                                        <form class="row" id="bordadoParteForm" th:object="${objetoBordadoParte}" th:action="@{/guardar_bordado_parte}" enctype="multipart/form-data" method="post" >  
+                                               
+                                        <div class="form-group col-md-4">
+                                        
+                                        <input type="hidden" class="form-control" id="idBordadoParte" th:field="*{idBordado}"  >
+                                        
+                                        
+                                            <label for="parteBordado">Parte del bordado</label>
+                                            <input type="text" class="form-control" id="parteBordado" placeholder="Arriba" th:field="*{partesBordado}"  >
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="hiloBordado">No. hilo</label>
+                                            <input type="text" class="form-control" id="hiloBordado" placeholder="Hilo" th:field="*{numeroHilo}"  >
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="colorBordado">Color</label>
+                                            <div class="input-group mb-3">
+                                                      <input type="text" class="form-control" id="color" placeholder="Color" th:field="*{color}"  >
+                                        </div>
+                               
+                                                <div class="input-group-append" style="margin-left: 10px;">
+                                                    <button type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                                        class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                                                </div>
+                                              </div>
+                                        </div>
+                                        
+                                 </form>
+                                  
+                                      </div>
+                                 
+                                        <div class="form-group col-md-12">
+                                            <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Partes del bordado</th>
+                                                        <th>No. hilo</th>
+                                                        <th>Color</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="mt:${listaParteBordadoList}">
+                                                         <td th:text="${mt[0]}"></td>
+                                                         <td th:text="${mt[1]}"></td>
+                                                         <td th:text="${mt[2]}"></td>
+                                                        <td class="text-center">
+                                                        
+
+                                                        <a th:href="@{/eliminar_bordado/}+${mt[3]}"><button type="button" class="btn btn-sm icon-btn btn-danger text-white"><span
+                                                                    class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    
+                                        <div class="form-group col-md-12">
+                                            <a th:href="@{/bordados}" class="btn icon-btn btn-danger text-white mr-auto"><span
+                                                    class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                                           
+                                        </div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active-altima');
+        $('#menuVenta').addClass('menu-open');
+        $('#navVenta').addClass('active');
+        $('#navVenFlu').addClass('active');
+    </script>
+    
+          <script th:if="${icon != null}" th:inline="javascript">
+            Swal.fire({
+
+                position: 'center',
+                icon: /*[[${icon}]]*/ 'default',
+                title: /*[[${title}]]*/ 'default',
+                showConfirmButton: false,
+                timer: 2500
+            });
+        </script>
+    	
+       <script th:inline="javascript">
+	/*<![CDATA[*/
+
+	var chekedFront = /*[[${checked}]]*/ 'default';
+	
+	
+	
+	
+	/*]]>*/
+	</script>
+    <script>
+
+$(".input2").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".label2").addClass("selected").html(fileName);
+  });
+
+        $("#inputGroupFile01").change(function(event) {
+            RecurFadeIn();
+            readURL(this);
+        });
+        $("#inputGroupFile01").on('click', function(event) {
+            RecurFadeIn();
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var filename = $("#inputGroupFile01").val();
+                filename = filename.substring(filename.lastIndexOf('\\') + 1);
+                reader.onload = function(e) {
+                    debugger;
+                    $('#blah').attr('src', e.target.result);
+                    $('#blah').hide();
+                    $('#blah').fadeIn(500);
+                    $('.label1').text(filename);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            $(".alert").removeClass("loading").hide();
+        }
+
+        function RecurFadeIn() {
+            console.log('ran');
+            FadeInAlert("Wait for it...");
+        }
+
+        function FadeInAlert(text) {
+            $(".alert").show();
+            $(".alert").text(text).addClass("loading");
+        }
+        
+        
+        //para obtener el valor del imput
+      function cargar_pagina() {
+        	
+	  console.log("aqui esta la variable para la validacion    " + chekedFront);
+    	  
+    	  if(chekedFront=="nuevo"){
+    		  console.log("entre al if  checked front")
+    		  
+    		  document.getElementById("test").style.display="none";
+    		  
+    	  }else{
+    		  
+    		  console.log("me la pele y entre al ese de fronted cheked")
+    		  
+    		  document.getElementById("test").style.display="block";
+    		  
+    	  }
+        	
+        	console.log("entre a la function ready");
+        	
+        	var idBordado = document.getElementById('idBordado').value;
+        		
+
+        	console.log("aqui esta el que queremos asignar" + idBordado);
+        	
+            document.getElementById('idBordadoParte').value = idBordado;
+        	
+        	//console.log("aqui esta ala que le queremos dar valor" + $("#idBordadoParte").val());
+        }
+        
+        
+        
+        
+    </script>
+    <script type="text/javascript">
+    
+    
+    $("#coorLookup").change(function(){
+    	
+	     console.log("estoy etrandfo al change")  
+	     
+	       var texto=document.getElementById("coorLookup");
+	  var valordeltexto=texto.options[texto.selectedIndex].text;
+	  console.log("aqui esta el valor del select");
+	  console.log(valordeltexto);
+	     
+	  
+	     
+	     console.log("aqui esta el valor de lokkup   " + valordeltexto )
+	     $.ajax({
+             data: { lookup : valordeltexto },
+             url:   '/precio_bordado',
+             type:  'GET',
+           
+             success:  function (r) 
+             {
+             	
+
+            
+              console.log("aqui esta la  r   " +r)
+              
+              var result = r;
+              
+              console.log("el result   " +result)
+              document.getElementById('precioBordado').value = result;
+              
+              
+              
+            
+                 
+                
+             },
+             error: function()
+             {
+                 alert('Ocurrio un error en el servidor de modelo ..');
+                 prenda.prop('disabled', false);
+             }
+         });
+    	
+    })
+    
+    </script>
+    
+</body>
+
+</html>

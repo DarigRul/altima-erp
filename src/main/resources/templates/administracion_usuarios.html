@@ -94,13 +94,10 @@
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
    	<script>
-		function changeClassById() {
-			document.getElementById("menuDiseno").className = "nav-item has-treeview menu-open";
-			document.getElementById("navDiseno").className = "nav-link active";
-			document.getElementById("navDiseno2").className = "nav-link active";
-		}
-		window.onload = changeClassById();
-		
+		$('#iAdministracion').removeClass('text-altima');
+        $('#menuAdministracion').addClass('menu-open');
+        $('#navAdministracion').addClass('active-altima');
+        $('#navAdmUsu').addClass('active');
 	</script>
 	<script>
 	$(document).ready(function() {

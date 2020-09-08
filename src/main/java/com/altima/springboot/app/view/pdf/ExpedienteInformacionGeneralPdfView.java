@@ -3,14 +3,11 @@ package com.altima.springboot.app.view.pdf;
 import java.awt.Color;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
-
 import com.altima.springboot.app.models.entity.ComercialCliente;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.lowagie.text.Document;
@@ -24,6 +21,8 @@ public class ExpedienteInformacionGeneralPdfView extends AbstractPdfView {
 	
 	@Autowired
 	HeaderFooterPdfView headerFooter;
+	
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -76,7 +75,12 @@ public class ExpedienteInformacionGeneralPdfView extends AbstractPdfView {
 		cell = new PdfPCell(new Phrase(" "));
 		cell.setBorder(0);
 		tablaTomaTallasAnticipo.addCell(cell);
-		cell = new PdfPCell(new Phrase(pedido.getFechaAnticipo().toString()));
+		if(pedido.getFechaAnticipo() != null) {
+			cell = new PdfPCell(new Phrase(pedido.getFechaAnticipo().toString()));
+		}
+		else {
+			cell = new PdfPCell(new Phrase("Sin Fecha"));
+		}
 		cell.setPadding(2f);
 		tablaTomaTallasAnticipo.addCell(cell);
 		tablaTomaTallasAnticipo.setWidths(new float[] { 6f, 1f, 6f });
@@ -126,6 +130,7 @@ public class ExpedienteInformacionGeneralPdfView extends AbstractPdfView {
 		document.add(tablaFechaEntregaDiasEstimados);
 		document.add(espacio);
 		document.add(Observaciones);
+		document.add(espacio);
 		document.close();
 	}
 

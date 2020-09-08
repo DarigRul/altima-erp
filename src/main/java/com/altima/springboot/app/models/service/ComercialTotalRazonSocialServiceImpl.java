@@ -41,9 +41,7 @@ public class ComercialTotalRazonSocialServiceImpl implements IComercialTotalRazo
 	
 	public List<Object []> consultaX(Long id) {
 		
-	
-		
-		
+
 		// se consulta los totales por razon social:
 		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + 
 				"		factura.id_cliente_factura,\r\n" + 

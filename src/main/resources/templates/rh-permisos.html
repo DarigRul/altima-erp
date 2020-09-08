@@ -29,8 +29,9 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>Permisos&nbsp;<a th:href="@{/rh-agregar-permisos}"><button
-                    class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"
-                    data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></a></h1>
+                                        class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body"
+                                        data-toggle="popover" data-placement="right" data-content="Agregar"><i
+                                            class="fas fa-plus"></i></button></a></h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -61,13 +62,9 @@
                                     <th>Fecha Aplicaci&oacute;n</th>
                                     <th>Hora inicial</th>
                                     <th>Hora Final</th>
-                                    <th>Tipo</th>
                                     <th>Evento</th>
-                                    <th>Estatus</th>
-                                    <th>Utilizado</th>
-                                    <th>Condiciones</th>
-                                    <th>Observaciones</th>
-                                    <td style="font-weight: bold;">Acciones</td>
+                                    <th style="width: 5%;">Estatus</th>
+                                    <th style="width: 10%; font-weight: bold;">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,52 +77,61 @@
                                     <td th:text="${mt[2]}"></td>
                                     <td th:text="${mt[3]}"></td>
                                     <td th:text="${mt[4]}"></td>
-                                    <td th:text="${mt[5]}"></td>
                                     <td th:text="${mt[6]}"></td>
                                     <td th:text="${mt[7]}"></td>
-                                    <td th:text="${mt[8]}"></td>
-                                    <td th:text="${mt[9]}"></td>
-                                    <td th:text="${mt[10]}"></td>
+
                                     <td class="tdcenter">
                                         <!-- EDITAR -->
                                         <a th:href="@{/rh-editar-permisos/} + ${mt[11]}">
-                                            <button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Editar"><i
-                        class="fas fa-pen"></i></button>
+                                            <button class="btn btn-warning btn-circle btn-sm popoverxd"
+                                                data-container="body" data-toggle="popover" data-placement="left"
+                                                data-content="Editar"><i class="fas fa-pen"></i></button>
                                         </a>
 
                                         <!-- MÁS DETALLE -->
                                         <a th:href="@{/rh-editar-permisos} + ${mt[11]}">
-                                            <button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="M&aacute;s detalles"><i
-                        class="fas fa-info"></i></button>
+                                            <button class="btn btn-warning btn-circle btn-sm popoverxd"
+                                                data-container="body" data-toggle="popover" data-placement="left"
+                                                data-html="true"
+                                                th:attr="data-content='<strong>Tipo: </strong>'+ ${mt[5]}+'<br>'+ '<strong>Utilizado: </strong>'+ ${mt[8]}+'<br>'+
+                                                '<strong>Condiciones: </strong>' + ${mt[9]} +'<br>'+'<strong>Observaciones: </strong>'+ ${mt[10]} +'<br>'"><i
+                                                    class="fas fa-info"></i></button>
                                         </a>
 
                                         <!-- RECHAZAR -->
-                                        <a th:href="@{/rechazar-permiso/} + ${mt[11]}" method="post" th:if="${mt[7] == 1}">
+                                        <a th:href="@{/rechazar-permiso/} + ${mt[11]}" method="post"
+                                            th:if="${mt[7] == 1}">
                                             <!-- form th:action="@{/rechazar-permiso/} + ${mt[11]}" method="post" th:if="${mt[7] == 1}"-->
-                                            <button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Rechazar" type="submit">
-                    <i class="fas fa-caret-down"></i>
-                  </button>
+                                            <button class="btn btn-danger btn-circle btn-sm popoverxd"
+                                                data-container="body" data-toggle="popover" data-placement="left"
+                                                data-content="Rechazar" type="submit">
+                                                <i class="fas fa-caret-down"></i>
+                                            </button>
                                             <!--/form -->
                                         </a>
 
                                         <!-- ELIMINAR -->
                                         <a th:href="@{/rh-darBaja-permisos/} + ${mt[11]}">
-                                            <button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Eliminar">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
+                                            <button class="btn btn-danger btn-circle btn-sm popoverxd"
+                                                data-container="body" data-toggle="popover" data-placement="left"
+                                                data-content="Eliminar">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                         </a>
 
                                         <!-- ACTIVAR -->
-                                        <a th:href="@{/activar-permiso/} + ${mt[11]}" method="post" th:if="${mt[7] == 0}">
+                                        <a th:href="@{/activar-permiso/} + ${mt[11]}" method="post"
+                                            th:if="${mt[7] == 0}">
                                             <!--form th:action="@{/activar-permiso/} + ${mt[11]}" method="post" th:if="${mt[7] == 0}"-->
-                                            <button class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Aprobar" type="submit">
-                    <i class="fas fa-sort-up"></i>
-                  </button>
+                                            <button class="btn btn-success btn-circle btn-sm popoverxd"
+                                                data-container="body" data-toggle="popover" data-placement="left"
+                                                data-content="Aprobar" type="submit">
+                                                <i class="fas fa-sort-up"></i>
+                                            </button>
                                             <!--/form-->
                                         </a>
                                     </td>
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -140,6 +146,8 @@
 
     <script src="dist/js/tablaPermisos.js"></script>
 
+    <script src="/dist/js/sweetalert.js"></script>
+
     <script>
         $('#iRH').removeClass('text-altima');
         $('#menuRH').addClass('menu-open');
@@ -151,13 +159,12 @@
         Swal.fire({
 
             position: 'center',
-            icon: 'success',
+            icon: /*[[${icon}]]*/ 'default',
             title: /*[[${title}]]*/ 'default',
             showConfirmButton: false,
             timer: 2500
         });
     </script>
-
 </body>
 
 </html>

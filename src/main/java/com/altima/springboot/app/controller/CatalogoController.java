@@ -28,10 +28,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.altima.springboot.app.models.entity.ComprasProveedores;
 import com.altima.springboot.app.models.entity.DisenioComposicionIcuidado;
 import com.altima.springboot.app.models.entity.DisenioLookup;
+import com.altima.springboot.app.models.entity.DisenioPrecioComposicion;
 import com.altima.springboot.app.models.service.ICatalogoService;
+import com.altima.springboot.app.models.service.IComprasProveedorService;
 import com.altima.springboot.app.models.service.IDisenioComposicionCuidadoService;
+import com.altima.springboot.app.models.service.IDisenioPrecioComposicionService;
 import com.altima.springboot.app.models.service.IUploadService;
 
 @CrossOrigin(origins = { "*" })
@@ -47,6 +52,12 @@ public class CatalogoController {
 
 	@Autowired
 	private IUploadService uploadFileService;
+	
+	@Autowired
+	private IComprasProveedorService proveedorService;
+	
+	@Autowired
+	private IDisenioPrecioComposicionService disenioComposicion;
 
 	@GetMapping(value = "/uploads/cuidados/{filename:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String filename) {
@@ -64,6 +75,24 @@ public class CatalogoController {
 				.body(recurso);
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
+	@RequestMapping(value = "/listarProveedoresColores", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ComprasProveedores> listarProveedoresColores() {
+		
+		return  proveedorService.findAll();
+
+	}
+
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
+	@RequestMapping(value = "/listarPrecioComposiciones", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> listarPrecioComposiciones() {
+		
+		return  disenioComposicion.findAll();
+
+	}
+	
 	@RequestMapping(value = "/verifduplicado", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean verificaduplicado(String Lookup, String Tipo,@RequestParam(required=false) String atributo) {
@@ -74,6 +103,19 @@ public class CatalogoController {
 			resp=catalogo.findDuplicate(Lookup, Tipo);
 		}
 		return  resp;
+	}
+	
+	@RequestMapping(value = "/verifduplicadoPrecioComposicion", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean verifduplicadoPrecioComposicion(@RequestParam(name="idPrenda") Long idPrenda, @RequestParam(name="idFamComposicion") Long idFamPrenda) {
+		boolean resp;
+		try {
+			resp=catalogo.findDuplicatePrecioComposicion(idPrenda, idFamPrenda);
+		} catch (Exception e) {
+			System.out.println(e);
+			resp = false;
+		}
+		return  resp;
 
 	}
 
@@ -81,8 +123,17 @@ public class CatalogoController {
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	@ResponseBody
 	public List<DisenioLookup> listarlookup(String Tipo) {
-
+		
 		return catalogo.findAllLookup(Tipo);
+		
+	}
+	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
+	@RequestMapping(value = "/listar-material-clasificacion", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object []> listarlookup2() {
+		return catalogo.findAllMaterialClasificacion();
+	
 	}
 
 	@RequestMapping(value = { "/catalogos" }, method = RequestMethod.GET)
@@ -139,9 +190,9 @@ public class CatalogoController {
 	@PostMapping("/guardarcatalogo")
 	public String guardacatalogo(String Descripcion, String Color, String PiezaTrazo, String FamiliaPrenda,
 			String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado, String UnidadMedida,
-			String Material, HttpServletRequest request, String Marcador, String CodigoColor, String Posicion,
-			@RequestParam(required = false) MultipartFile iconocuidado, Long Idcuidado, String Simbolo,
-			String Composicion, String TipoMaterial) {
+			String proveedorColor, String Material, HttpServletRequest request, String Marcador, String CodigoColor, 
+			String Posicion, @RequestParam(required = false) MultipartFile iconocuidado, Long Idcuidado, String Simbolo,
+			String Composicion, String TipoMaterial, String CategoriaMaterial) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -172,6 +223,7 @@ public class CatalogoController {
 			color.setFechaCreacion(dateFormat.format(date));
 			color.setEstatus(1);
 			color.setAtributo1(CodigoColor);
+			color.setAtributo2(proveedorColor);
 			catalogo.save(color);
 			return "catalogos";
 		}
@@ -362,6 +414,7 @@ public class CatalogoController {
 			material.setFechaCreacion(dateFormat.format(date));
 			material.setEstatus(1);
 			material.setAtributo1(TipoMaterial);
+			material.setAtributo2(CategoriaMaterial);
 			catalogo.save(material);
 			return "catalogos";
 		}
@@ -427,7 +480,114 @@ public class CatalogoController {
 		return "redirect:catalogos";
 
 	}
+	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_AGREGAR"})
+	@RequestMapping(value= "/agregarPrecioComposicion", method = RequestMethod.POST)
+	public String guardarPrecioComposicion (@RequestParam("idPrenda")Long idPrenda, @RequestParam("idFamComposicion")Long idFamComposicion, @RequestParam("precio")String precio) {
+		
+		try {
+			DisenioPrecioComposicion precioComposicion = new DisenioPrecioComposicion();
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date = new Date();
+			
+			precioComposicion.setIdPrenda(idPrenda);
+			precioComposicion.setIdFamiliaComposicion(idFamComposicion);
+			precioComposicion.setPrecio(precio);
+			precioComposicion.setCreadoPor(auth.getName());
+			precioComposicion.setActualizadoPor(auth.getName());
+			precioComposicion.setFechaCreacion(dateFormat.format(date));
+			precioComposicion.setUltimaFechaModificacion(dateFormat.format(date));
+			precioComposicion.setEstatus("1");
+			
+			disenioComposicion.save(precioComposicion);
+			
+			return "catalogos";
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			return "redirect:catalogos";
+		}
+	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_EDITAR"})
+	@RequestMapping(value= "/editarPrecioComposicion", method = RequestMethod.POST)
+	public String editarPrecioComposicion (@RequestParam("idPrenda")Long idPrenda, 
+										   @RequestParam("idFamComposicion")Long idFamComposicion, 
+										   @RequestParam("precio")String precio,
+										   @RequestParam("idPrecioComposicion")Long idPrecioComposicion) {
+		
+		try {
+			DisenioPrecioComposicion precioComposicion = disenioComposicion.findOne(idPrecioComposicion);
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date = new Date();
+			
+			precioComposicion.setIdPrenda(idPrenda);
+			precioComposicion.setIdFamiliaComposicion(idFamComposicion);
+			precioComposicion.setPrecio(precio);
+			precioComposicion.setActualizadoPor(auth.getName());
+			precioComposicion.setUltimaFechaModificacion(dateFormat.format(date));
+			
+			disenioComposicion.save(precioComposicion);
+			
+			return "catalogos";
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			return "redirect:catalogos";
+		}
+	}
+	
+	@Secured({"ROLE_ADMINISTRADOR"})
+	@RequestMapping(value= "/reactivarPrecioComposicion", method = RequestMethod.POST)
+	public String reactivarPrecioComposicion (@RequestParam("idPrecioComposicion")Long idPrecioComposicion) {
+		
+		try {
+			DisenioPrecioComposicion precioComposicion = disenioComposicion.findOne(idPrecioComposicion);
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date = new Date();
+			
+			precioComposicion.setActualizadoPor(auth.getName());
+			precioComposicion.setUltimaFechaModificacion(dateFormat.format(date));
+			precioComposicion.setEstatus("1");
+			
+			disenioComposicion.save(precioComposicion);
+			
+			return "catalogos";
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			return "redirect:catalogos";
+		}
+	}
+	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_ELIMINAR"})
+	@RequestMapping(value= "/bajarPrecioComposicion", method = RequestMethod.POST)
+	public String bajarPrecioComposicion (@RequestParam("idPrecioComposicion")Long idPrecioComposicion) {
+		
+		try {
+			DisenioPrecioComposicion precioComposicion = disenioComposicion.findOne(idPrecioComposicion);
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date = new Date();
+			
+			precioComposicion.setActualizadoPor(auth.getName());
+			precioComposicion.setUltimaFechaModificacion(dateFormat.format(date));
+			precioComposicion.setEstatus("0");
+			
+			disenioComposicion.save(precioComposicion);
+			
+			return "catalogos";
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			return "redirect:catalogos";
+		}
+	}
+	
+	
 	@RequestMapping(value = "/composicioncuidadorest", method = RequestMethod.POST)
 	@ResponseBody
 	public String[] composicioncuidado(Long idcuidado, String FamiliaComposicion, Long idcomposicion) {
@@ -497,8 +657,8 @@ public class CatalogoController {
 	@PostMapping("/editarcatalogo")
 	public String editacatalogo(Model model, final Long idLookup, String Color, String PiezaTrazo, String FamiliaPrenda,
 			String Descripcion, String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado,
-			String UnidadMedida, String Material, String Marcador, String CodigoColor, String Posicion, String Simbolo,
-			String Composicion, String TipoMaterial,@RequestParam(required = false) MultipartFile iconocuidado) {
+			String UnidadMedida, String Material, String proveedor, String Marcador, String CodigoColor, String Posicion, String Simbolo,
+			String Composicion, String TipoMaterial, String CategoriaMaterial, @RequestParam(required = false) MultipartFile iconocuidado) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -516,6 +676,7 @@ public class CatalogoController {
 			color = catalogo.findOne(idLookup);
 			color.setNombreLookup(StringUtils.capitalize(Color));
 			color.setAtributo1(CodigoColor);
+			color.setAtributo2(proveedor);
 			color.setUltimaFechaModificacion(dateFormat.format(date));
 			color.setActualizadoPor(auth.getName());
 			catalogo.save(color);
@@ -586,6 +747,8 @@ public class CatalogoController {
 			material.setUltimaFechaModificacion(dateFormat.format(date));
 			material.setActualizadoPor(auth.getName());
 			material.setAtributo1(TipoMaterial);
+			System.out.println("Esta es la categoria:"+ CategoriaMaterial);
+			material.setAtributo2(CategoriaMaterial);
 			catalogo.save(material);
 			return "redirect:catalogos";
 		}

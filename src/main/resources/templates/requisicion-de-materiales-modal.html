@@ -1,0 +1,57 @@
+<!-- Modal -->
+<div class="modal fade" id="generarOrden" tabindex="-1" role="dialog" aria-labelledby="materiaPrimaAlmacen"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 55%;" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title">Orden de compra</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="">
+            <div class="modal-body">
+                <ul class="list-group list-group-horizontal-md" style="margin-bottom: 20px;">
+                    <li class="list-group-item" style="width: 33%;"><strong>Proveedor: </strong><a>ALTIMATEX</a></li>
+                    <li class="list-group-item" style="width: 34%;"><strong>Fecha: </strong><a>20/08/2020</a></li>
+                    <li class="list-group-item" style="width: 33%;"><strong>Documento: </strong><a>OC0001</a></li>
+                </ul>
+                <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Clave tela</th>
+                            <th>Descripci&oacute;n</th>
+                            <th>Precio U.</th>
+                            <th>IVA</th>
+                            <th>Descuento/Cargo</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>150</td>
+                            <td>LS664</td>
+                            <td>Oxford</td>
+                            <td>50</td>
+                            <td>16</td>
+                            <td></td>
+                            <td>1200</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="6"></th>
+                            <th>Total: <a>1200</a></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar</button>
+                <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon fas fa-check img-circle text-altima"></span>Generar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

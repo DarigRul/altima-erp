@@ -10,16 +10,25 @@
 				
 				<div class="modal-body">
 					<div class="row">
+					 <div class="form-group col-md-6">
+              <label for="solicitante">Bordado</label>
+              <select class="form-control selectpicker" onchange="bordado_precio(this.value)" data-live-search="true" data-live-search-normalize="true"
+                title="Selecciona uno..." id="idBordado" name="idBordado" >
+                
+               
+               
+              </select>
+            </div>
 						<div class="form-group col-md-6">
 							<label for="bordadoNombre">Precio</label> 
-							<input type="number" required step="any"  	class="form-control two-decimals" id="bordadoPrecio" name="bordadoPrecio" placeholder="50">
+							<input type="number" required step="any" readonly  	class="form-control two-decimals" id="bordadoPrecio" name="bordadoPrecio" placeholder="50">
 							
 						</div>
 							<input type="hidden" class="form-control" id="id_coor_prenda" name="id_coor_prenda">
 							<input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
 
-						<div class="form-group col-md-6">
-							<label for="exampleInputFile">Archivo bordado</label>
+						<div class="form-group col-md-12">
+							<label for="exampleInputFile">Subir ubicaci&oacute;n del bordado</label>
 							<div class="input-group">
 								<div class="custom-file">
 									<input type="file" required name="imagenTela" class="form-control border p-1" id="imagenTela" />
@@ -41,6 +50,7 @@
 								<thead>
 									<tr>
 										<th>Precio</th>
+										<th>Descripcion</th>
 										<th>Archivo</th>
 										<th>Eliminar</th>
 									</tr>
@@ -49,6 +59,7 @@
 									<tr>
 										<td>50</td>
 										<td>Nombre del archivo</td>
+										<td>Ruta</td>
 										<td class="text-center">
 											<button class="btn btn-danger">Eliminar</button>
 										</td>

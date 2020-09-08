@@ -33,6 +33,7 @@ import com.altima.springboot.app.models.entity.DisenioTelaForro;
 import com.altima.springboot.app.models.entity.DisenioTelaPrenda;
 import com.altima.springboot.app.models.service.IDisenioFamiliaComposicionTelaService;
 import com.altima.springboot.app.models.service.IDisenioForroService;
+import com.altima.springboot.app.models.service.IDisenioLookupService;
 import com.altima.springboot.app.models.service.IDisenioMaterialService;
 import com.altima.springboot.app.models.service.IDisenioMaterialTelaService;
 import com.altima.springboot.app.models.service.IDisenioTelaForroService;
@@ -45,7 +46,8 @@ import com.cloudinary.utils.ObjectUtils;
 public class TelaController {
 	@Autowired
 	private IDisenioMaterialService disenioMaterialService;
-	
+	@Autowired
+	private IDisenioLookupService lookupService; 
 	@Autowired
 	private IDisenioForroService forroService;
 	@Autowired
@@ -318,6 +320,7 @@ public class TelaController {
 
 		model.addAttribute("listForroSelec", disenioTelaService.ForrosSeleccionados(id));
 		model.addAttribute("listForro",forroService.ForrosSelect(id)); 
+		model.addAttribute("colores", lookupService.findByTipoLookup("Color"));
 		// Consulta para telas auxiliares (telas autorizadas)
 		model.addAttribute("listTela", disenioTelaService.TelasAutorizadas());//telas autorizadas		
 		// prendas

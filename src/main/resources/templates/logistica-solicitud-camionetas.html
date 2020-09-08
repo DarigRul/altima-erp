@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Solicitud de camioneta | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Solicitud de camioneta
+                            </h1>
+                        </div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item altima">Altima</li>
+								<li class="breadcrumb-item active">Log&iacute;stica</li>
+								<li class="breadcrumb-item active">Solicitud de camioneta</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de solicitudes</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2">Folio</th>
+                                                <th rowspan="2">Solicitante</th>
+                                                <th rowspan="2">Lugar</th>
+                                                <th rowspan="2">Fecha</th>
+                                                <th colspan="2" class="text-center">Hora planeada</th>
+                                                <th colspan="2" class="text-center">Hora real</th>
+                                                <th rowspan="2">Chofer asignado</th>
+                                                <th rowspan="2">Acciones</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Hora inicio</th>
+                                                <th>Hora fin</th>
+                                                <th>Hora inicio</th>
+                                                <th>Hora fin</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>SOL8343</td>
+                                                <td>Victor Lopez</td>
+                                                <td>Tlalpan</td>
+                                                <td>12/05/2020</td>
+                                                <td>10:00:00 am</td>
+                                                <td>12:00:00 pm</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Chofer asignado 1   </td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+                                                    <button data-toggle="modal" data-target="#asignarChofer" class="btn btn-warning btn-sm btn-circle popoverxd" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                    <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Activar"><i class="fas fa-caret-up"></i></button>
+                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Inactivo"><i class="fas fa-caret-down"></i></button>
+                                                </td>
+                                            </tr>    
+                                        </tbody>
+                                    </table>
+                                    <div th:insert="logistica-solicitud-camionetas-modal"></div>
+                                </div>
+                                <!-- /.card-footer-->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<div th:insert="navegacion-footer"></div>
+	</div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+	<script>
+        $('#iLogistica').removeClass('text-altima');
+        $('#menuLogistica').addClass('menu-open');
+        $('#navLogistica').addClass('active-altima');
+        $('#navLogCam').addClass('active');
+    </script>
+</body>
+
+</html>

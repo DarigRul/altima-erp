@@ -21,4 +21,7 @@ public interface IAmpLoookupService {
 
 	boolean findDuplicate(String Lookup, String Tipo, String atributo);
 
+	List<Object []> listarLinea(Long id);
+	
+	String nombreCategoria(Long id);
 }

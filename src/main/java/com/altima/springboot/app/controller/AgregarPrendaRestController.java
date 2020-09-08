@@ -88,19 +88,14 @@ public class AgregarPrendaRestController {
 	IDisenioLookupService disenioLookupService;
 	@Autowired
 	IComercialClienteService clienteService;
-	
 	@Autowired
 	IProduccionDetalleService serviceDetallePedido;
-	
-	
 	@Autowired
 	IComercialImagenInventarioService serviceInvetarioImg;
 
 	public String file1;
 
 	public String file2;
-
-	public DisenioPrenda dp = new DisenioPrenda();
 
 	@RequestMapping(value = "/detalle_material", method = RequestMethod.GET)
 	public Object detalleMaterial(@RequestParam Long id) {
@@ -142,13 +137,14 @@ public class AgregarPrendaRestController {
 	}
 
 	@RequestMapping(value = "/guardar_prenda", method = RequestMethod.POST)
-	public DisenioPrenda guardarPrenda(@RequestParam(name = "disenioprenda") String disenioprenda) {
+	public String guardarPrenda(@RequestParam(name = "disenioprenda") String disenioprenda) {
 		// Coso del auth
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		JSONObject prenda = new JSONObject(disenioprenda.toString());
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
-
+		
+		DisenioPrenda dp = new DisenioPrenda();
 		dp.setIdFamiliaPrenda(Long.valueOf((String) prenda.get("idFamiliaPrenda")));
 		dp.setCreadoPor(auth.getName());
 		dp.setActualizadoPor(auth.getName());
@@ -168,7 +164,6 @@ public class AgregarPrendaRestController {
 		dp.setEstatus(1L);
 		dp.setPrendaLocal("1");
 		dp.setIdGenero(prenda.get("generoPrenda").toString());
-
 		prendaService.save(dp);
 
 		// Ides
@@ -180,17 +175,17 @@ public class AgregarPrendaRestController {
 		dp.setEstatusRecepcionMuestra("Prospecto");
 		prendaService.save(dp);
 
-		return dp;
+		return dp.getIdPrenda().toString();
 	}
 
 	@RequestMapping(value = "/editar_prenda", method = RequestMethod.POST)
-	public DisenioPrenda editarPrenda(@RequestParam(name = "disenioprenda") String disenioprenda) {
+	public String editarPrenda(@RequestParam(name = "disenioprenda") String disenioprenda) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		JSONObject prenda = new JSONObject(disenioprenda.toString());
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 
-		dp = prendaService.findOne(Long.valueOf(prenda.get("idPrenda").toString()));
+		DisenioPrenda dp = prendaService.findOne(Long.valueOf(prenda.get("idPrenda").toString()));
 		dp.setIdFamiliaPrenda(Long.valueOf((String) prenda.get("idFamiliaPrenda")));
 		dp.setActualizadoPor(auth.getName());
 		dp.setUltimaFechaModificacion(dtf.format(now));
@@ -208,16 +203,18 @@ public class AgregarPrendaRestController {
 		dp.setCategoria(prenda.get("categoria").toString());
 		dp.setIdGenero(prenda.get("generoPrenda").toString());
 		prendaService.save(dp);
-		return dp;
+		
+		return dp.getIdPrenda().toString();
 	}
 
 	@RequestMapping(value = "/copiar_prenda", method = RequestMethod.POST)
-	public DisenioPrenda copiarPrenda(@RequestParam(name = "disenioprenda") String disenioprenda) {
+	public String copiarPrenda(@RequestParam(name = "disenioprenda") String disenioprenda) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		JSONObject prenda = new JSONObject(disenioprenda.toString());
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
-
+		
+		DisenioPrenda dp = new DisenioPrenda();
 		dp.setIdFamiliaPrenda(Long.valueOf((String) prenda.get("idFamiliaPrenda")));
 		dp.setCreadoPor(auth.getName());
 		dp.setActualizadoPor(auth.getName());
@@ -247,7 +244,7 @@ public class AgregarPrendaRestController {
 		dp.setIdTextProspecto("PROSP" + res[1].toUpperCase().substring(0, 3) + (10000 + (Long.valueOf(res[0]))));
 		dp.setEstatusRecepcionMuestra("Prospecto");
 		prendaService.save(dp);
-		return dp;
+		return dp.getIdPrenda().toString();
 	}
 
 	@SuppressWarnings("null")
@@ -255,7 +252,8 @@ public class AgregarPrendaRestController {
 	public void guardarFinal(@RequestParam(name = "objeto_materiales") String objeto_materiales,
 			@RequestParam(name = "objeto_marcadores") String objeto_marcadores,
 			@RequestParam(name = "objeto_patronajes") String objeto_patronaje,
-			@RequestParam(name = "clientes") String clientes, @RequestParam(name = "accion") String accion)
+			@RequestParam(name = "clientes") String clientes, @RequestParam(name = "accion") String accion,
+			@RequestParam(name = "idPrenda") Long idPrenda)
 			throws NoSuchFieldException, SecurityException {
 
 		// Coso del auth
@@ -272,7 +270,7 @@ public class AgregarPrendaRestController {
 				int num1 = Integer.parseInt(marcador_split.replaceAll("^\"|\"$", ""));
 				Long num = new Long(num1);
 				dpm.setIdMarcador(num);
-				dpm.setIdPrenda(dp.getIdPrenda());
+				dpm.setIdPrenda(idPrenda);
 				dpm.setActualizadoPor(auth.getName());
 				dpm.setCreadoPor(auth.getName());
 				dpm.setFechaCreacion(dtf.format(now));
@@ -283,7 +281,7 @@ public class AgregarPrendaRestController {
 			}
 
 			// Se eliminan los registros que se borraron del html
-			disenioPrendaMarcadorService.delete(IdMarcadores, Long.valueOf(dp.getIdPrenda()));
+			disenioPrendaMarcadorService.delete(IdMarcadores, Long.valueOf(idPrenda));
 		}
 
 		// Se guardan Muchos a Muchos de Materiales
@@ -294,7 +292,7 @@ public class AgregarPrendaRestController {
 			JSONObject material = materiales.getJSONObject(i);
 			DisenioMaterialPrenda mdp = new DisenioMaterialPrenda();
 			mdp.setIdMaterial(Long.valueOf(material.get("id").toString()));
-			mdp.setIdPrenda(Long.valueOf(dp.getIdPrenda()));
+			mdp.setIdPrenda(Long.valueOf(idPrenda));
 			mdp.setCreadoPor(auth.getName());
 			mdp.setActualizadoPor(auth.getName());
 			mdp.setCantidad(material.get("cantidad").toString());
@@ -306,7 +304,7 @@ public class AgregarPrendaRestController {
 		}
 
 		// Ahora se eliminan los registros que se borraron desde el html.
-		materialPrendaService.delete(IdMateriales, Long.valueOf(dp.getIdPrenda()));
+		materialPrendaService.delete(IdMateriales, Long.valueOf(idPrenda));
 
 		// Se guardan Muchos a Muchos de Patronaje
 		JSONArray patronajes = new JSONArray(objeto_patronaje);
@@ -316,7 +314,7 @@ public class AgregarPrendaRestController {
 		for (int i = 0; i < patronajes.length(); i++) {
 			JSONObject patronaje = patronajes.getJSONObject(i);
 			DisenioPrendaPatronaje dpp = new DisenioPrendaPatronaje();
-			dpp.setIdPrenda(Long.valueOf(dp.getIdPrenda()));
+			dpp.setIdPrenda(Long.valueOf(idPrenda));
 			dpp.setIdPatronaje(patronaje.get("id").toString());
 			dpp.setCantidadTela(patronaje.get("cantidadTela").toString());
 			dpp.setCantidadTelaSecundaria(patronaje.get("cantidadTelaSecundaria").toString());
@@ -334,7 +332,7 @@ public class AgregarPrendaRestController {
 		}
 
 		// Se eliminan los registros que se eliminaron desde el html
-		prendaPatronajeService.delete(IdPatronajes, Long.valueOf(dp.getIdPrenda()));
+		prendaPatronajeService.delete(IdPatronajes, Long.valueOf(idPrenda));
 
 		// Lo de clientes
 		Long IdClientes[] = new Long[clientes.split(",").length];
@@ -343,7 +341,7 @@ public class AgregarPrendaRestController {
 			DisenioPrendaCliente dpc = new DisenioPrendaCliente();
 			dpc.setIdCliente(
 					Long.valueOf(cliente_split.replaceAll("\\[", "").replaceAll("\\]", "").replaceAll("\"", "")));
-			dpc.setIdPrenda(Long.valueOf(dp.getIdPrenda()));
+			dpc.setIdPrenda(Long.valueOf(idPrenda));
 			dpc.setCreadoPor(auth.getName());
 			dpc.setActualizadoPor(auth.getName());
 			dpc.setFechaCreacion(dtf.format(now));
@@ -356,10 +354,7 @@ public class AgregarPrendaRestController {
 		}
 
 		// Ahora se eliminan los registros que no se usan.
-		disenioPrendaClienteService.delete(IdClientes, Long.valueOf(dp.getIdPrenda()));
-
-		dp = null;
-		this.dp = new DisenioPrenda();
+		disenioPrendaClienteService.delete(IdClientes, Long.valueOf(idPrenda));
 	}
 
 	@RequestMapping(value = "/prendas", method = RequestMethod.POST)
@@ -440,12 +435,6 @@ public class AgregarPrendaRestController {
 		return listaMaestra;
 	}
 
-	// @GetMapping(value = "/cargar-familias/{term}", produces = {
-	// "application/json" })
-	// public @ResponseBody List<DisenioLookup> cargarProductos(@PathVariable String
-	// term) {
-	// return disenioMaterialService.findAllFamiliaPrendaByName(term);
-	// }
 
 	// Este es cuando se agrega
 	@RequestMapping(value = "/imagenes_prendas", method = RequestMethod.POST)

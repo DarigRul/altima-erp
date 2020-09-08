@@ -60,14 +60,37 @@
 				<a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span
 						class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Cancelar</a>
 				<a id="btn-tallas" name="btn-tallas" class="btn icon-btn btn-altima text-white float-right"
-					onclick="agregar('Tela')"><span
+					th:onclick="'agregar(' + ${action} + ');'" ><span
 						class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</a>
 			</div>
 		</div>
-		<div class="row">
+		
+	  </div>
+	    <input type="hidden" th:value="${id_prenda}" id="id_prenda">
+	  </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalConsumoPorPrendas2" name="modalConsumoPorPrendas2"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content modal-rounded-body">
+      <div class="modal-header bg-altima modal-rounded-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Consumo por prendas</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form>
+      <div class="modal-body">
+	      <div class="row">
 			<div class="form-group col-md-6">
 			  <label>Talla</label>
-			  <select class="form-control selectpicker" required data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+			  <select class="form-control selectpicker tallaConsumo2" id="tallaConsumo2" name="tallaConsumo2" required data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
 				<option value="1">1</option>
 				<option value="1">2</option>
 				<option value="1">3</option>
@@ -77,7 +100,7 @@
 			</div>
 			<div class="form-group col-md-6">
 				<label>Largo</label>
-				<select class="form-control selectpicker" required data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+				<select class="form-control selectpicker largoConsumo2" id="largoConsumo2" name="largoConsumo2" required data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
 				  <option value="1">1</option>
 				  <option value="1">2</option>
 				  <option value="1">3</option>
@@ -87,21 +110,24 @@
 			  </div>
 			<div class="form-group col-md-6">
 				<label>Consumo ancho</label>
-			  <input type="number" class="form-control" placeholder="1.25">
+			  <input type="number" class="form-control" placeholder="1.25" id="ancho" name="ancho">
 			</div>
 			<div class="form-group col-md-6">
 				<label>Consumo largo</label>
-			  <input type="number" class="form-control" placeholder="1.3">
+			  <input type="number" class="form-control" placeholder="1.3" id="largo" name="largo">
 			</div>
 		  <div class="form-group col-md-12">
 			  <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span
 					  class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Cancelar</a>
 			  <a class="btn icon-btn btn-altima text-white float-right"><span
-					  class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</a>
+					  class="btn-glyphicon spancircle fas fa-save img-circle text-altima" th:onclick="'agregar(' + ${action} + ');'"></span>Guardar</a>
 		  </div>
 	  </div>
+		
 	  </div>
 	    <input type="hidden" th:value="${id_prenda}" id="id_prenda">
+	    <input type="hidden" th:value="${id_tela_combinacion}" id="id_tela_combinacion">
+	    <input type="hidden" th:value="${action}" id="aux-tipo">
 	  </form>
     </div>
   </div>

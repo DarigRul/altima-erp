@@ -192,11 +192,11 @@ public class ExpedienteConcentradoPrendaPdfView extends AbstractPdfView{
 			}
 			//Se pinta cantidad y especial de cabezero
 			for(int p = 0; p < modeloPosicionArray.length(); p++) {
-				cell = new PdfPCell(new Phrase("Cantidad", font2));
+				cell = new PdfPCell(new Phrase("Cant.", font2));
 				cell.setBackgroundColor(fuerte);
 				cell.setPadding(3f);
 				tabla3.addCell(cell);
-				cell = new PdfPCell(new Phrase("Especial", font2));
+				cell = new PdfPCell(new Phrase("Espec.", font2));
 				cell.setBackgroundColor(fuerte);
 				cell.setPadding(3f);
 				tabla3.addCell(cell);

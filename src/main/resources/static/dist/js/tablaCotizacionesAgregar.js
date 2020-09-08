@@ -81,13 +81,37 @@ $(document).ready(function() {
 
 
 	    if($('#tipoCotizacion').val()==1){
-			table.columns(':eq(5)').visible(false);
+			table.columns(':eq(0)').visible(false);
+			table.columns(':eq(1)').visible(false);
+			table.columns(':eq(3)').visible(false);
+			table.columns(':eq(4)').visible(false);
 			table.columns(':eq(6)').visible(false);
 			table.columns(':eq(12)').visible(false);
+			$('#GeneralDesglosada').text("Familia de composición");
+			$('.cantidadCotizacion').hide();
+			$('.coordinadoCotizacion').hide();
+			$('.modeloCotizacion').hide();
 		}
-	    else{
+	    else if($('#tipoCotizacion').val()==2){
 	    	table.columns().visible(true);
+	    	$('#GeneralDesglosada').text("Tela");
+	    	$('.cantidadCotizacion').show();
+			$('.coordinadoCotizacion').show();
+			$('.modeloCotizacion').show();
 	    }
+	    else{
+	    	table.columns(':eq(0)').visible(true);
+	    	table.columns(':eq(1)').visible(true);
+	    	table.columns(':eq(12)').visible(true);
+	    	$('.cantidadCotizacion').show();
+	    	$('.coordinadoCotizacion').show();
+	    	$('.modeloCotizacion').hide();
+	    	$('#GeneralDesglosada').text("Familia de composición");
+	    	table.columns(':eq(3)').visible(false);
+	    	table.columns(':eq(4)').visible(false);
+	    	table.columns(':eq(6)').visible(false);
+	    }
+	    
 	  	$('#cotizacionNueva').show();
 	  	 table.draw();
 	  	$('#tablaCotizacionesAgregar_wrapper').css('width', '100%');
@@ -100,18 +124,4 @@ $('#example_filter input[type=search]').keyup( function () {
         jQuery.fn.DataTable.ext.type.search.html(this.value)
     ).draw();
 } );
-
-// OCULTAR COLUMNAS DE LA TABLA
-$('#tipoCotizacion').on('change', function () {	  
-	  if($(this).val()==1){
-			table.columns(':eq(5)').visible(false);
-			table.columns(':eq(6)').visible(false);
-			table.columns(':eq(12)').visible(false);
-		}
-	  else{
-		  table.columns().visible(true);
-	  }
-	  table.draw();
-	  $('#tablaCotizacionesAgregar_wrapper').css('width', '100%');
-	});
 

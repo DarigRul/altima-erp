@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Explosi&oacute;n de materiales | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Materiales&nbsp;<a th:href="${'/explosion-de-materiales'}" class="btn btn-sm icon-btn btn-danger text-white"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">AMP</li>
+                                <li class="breadcrumb-item active">Explosi&oacute;n de materiales</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de materiales</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Proceso</th>
+                                                <th>Clave material</th>
+                                                <th>Material</th>
+                                                <th>Tipo</th>
+                                                <th>Tama&ntilde;o</th>
+                                                <th>UOM</th>
+                                                <th>Clasificaci&oacute;n</th>
+                                                <th>Color</th>
+                                                <th>Surtir</th>
+                                                <th>Disponible</th>
+                                                <th>Apartado</th>
+                                                <th>Faltante</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Confeccion</td>
+                                                <td>BOT10003</td>
+                                                <td>Boton dorado</td>
+                                                <td>Principal</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Independiente</td>
+                                                <td>Oro viejo</td>
+                                                <td>85</td>
+                                                <td>0</td>
+                                                <td>70</td>
+                                                <td>15</td>
+                                                <td>Faltante</td>
+                                                <td class="text-center">
+                                                    <button id="modalAlmacenMaterial"
+                                                        class="btn btn-success btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Stock general"><i
+                                                        class="fas fa-store-alt" style="margin-left: -3px;"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div th:insert="materiales-explosionar-almacen"></div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#navComercial').addClass('active-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#menuAMP').addClass('menu-open');
+        $('#navAMP').addClass('active');
+        $('#navAMPExp').addClass('active');
+        $(document).on('click', '#modalAlmacenMaterial', function () {
+            $('#materialesAlmacen').modal('show');
+        });
+    </script>
+</body>
+
+</html>

@@ -77,5 +77,19 @@ public class ComercialClienteSucursalServiceImpl implements IComercialClienteSuc
 	}
 	
 	
+	@Transactional(readOnly = true)
+	@Override
+	public Integer IdScursal(String id) {
+		String re = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	COUNT( sucur.id_cliente_sucursal ) \n" + 
+				"FROM\n" + 
+				"	alt_comercial_cliente_sucursal AS sucur \n" + 
+				"WHERE\n" + 
+				"	1 = 1\n" + 
+				"	AND sucur.id_cliente = "+id).getSingleResult().toString();
 	
+		return Integer.parseInt(re);
+		
+	}
 }

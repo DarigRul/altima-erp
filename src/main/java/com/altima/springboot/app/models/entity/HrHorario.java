@@ -26,6 +26,9 @@ public class HrHorario  implements Serializable{
 	@GenericGenerator(name="native",strategy="native")
 	private Long idHorario;
 	
+	@Column(name = "id_text")
+	private String idText;
+	
 	@Column(name="hora_inicial")
 	private String horaInicial;
 	
@@ -52,6 +55,16 @@ public class HrHorario  implements Serializable{
 	
 	@Column(name="estatus")
 	private String Estatus;
+
+	
+	
+	public String getIdText() {
+		return idText;
+	}
+
+	public void setIdText(String idText) {
+		this.idText = idText;
+	}
 
 	public Long getIdHorario() {
 		return idHorario;

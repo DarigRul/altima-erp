@@ -13,61 +13,69 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "alt_hr_incremento_plaza")
-public class HrIncrementoPlaza implements Serializable{
+public class HrIncrementoPlaza implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="id_incremento_plaza")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
+	@Column(name = "id_incremento_plaza")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
 	private Long idIncrementoPlaza;
-	
-	@Column(name="id_puesto")
+
+	@Column(name = "id_puesto")
 	private Long idPuesto;
-	
-	@Column(name="numero_plaza")
+
+	@Column(name = "id_text")
+	private String idText;
+
+	@Column(name = "numero_plaza")
 	private String numeroPlaza;
-	
-	@Column(name="creado_por")
+
+	@Column(name = "creado_por")
 	private String creadoPor;
-	
-	@Column(name="actualizado_por")
+
+	@Column(name = "actualizado_por")
 	private String actualizadoPor;
 
-	@Column(name="fecha_creacion")
+	@Column(name = "fecha_creacion")
 	private String fechaCreacion;
-	
-	@Column(name="ultima_fecha_modificacion")
+
+	@Column(name = "ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
-	
-	@Column(name="sueldo")
+
+	@Column(name = "sueldo")
 	private String sueldo;
-	
-	@Column(name="fecha_solicitud")
+
+	@Column(name = "fecha_solicitud")
 	private String fechaSolicitud;
-	
-	@Column(name="fecha_autorizacion")
+
+	@Column(name = "fecha_autorizacion")
 	private String fechaAutorizacion;
-	
-	@Column(name="motivo_rechazo")
+
+	@Column(name = "motivo_rechazo")
 	private String motivoRechazo;
-	
-	@Column(name="observaciones")
+
+	@Column(name = "observaciones")
 	private String observaciones;
-	
-	@Column(name="estatus")
+
+	@Column(name = "estatus")
 	private String estatus;
 
-	@Column(name="estatus_plaza")
+	@Column(name = "estatus_plaza")
 	private String estatusPlaza;
 
-	
-	
-	
+	public String getIdText() {
+		return idText;
+	}
+
+	public void setIdText(String idText) {
+		this.idText = idText;
+	}
+
 	public String getMotivoRechazo() {
 		return motivoRechazo;
 	}
@@ -75,7 +83,7 @@ public class HrIncrementoPlaza implements Serializable{
 	public void setMotivoRechazo(String motivoRechazo) {
 		this.motivoRechazo = motivoRechazo;
 	}
-	
+
 	public Long getIdIncrementoPlaza() {
 		return idIncrementoPlaza;
 	}
@@ -183,8 +191,4 @@ public class HrIncrementoPlaza implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-
-
 }

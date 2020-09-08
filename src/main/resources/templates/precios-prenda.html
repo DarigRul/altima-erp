@@ -22,7 +22,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Prendas&nbsp;<a th:href="${'/prendas'}"><button class="btn btn-danger btn-circle btn-sm popoverxd"
+              <h1>Prendas&nbsp;<a th:href="${'/lista-precios/'}+${id}"><button class="btn btn-danger btn-circle btn-sm popoverxd"
                     data-container="body" data-toggle="popover" data-placement="right" data-content="Regresar"><i
                       class="fas fa-arrow-left"></i></button></a></h1>
             </div>
@@ -43,7 +43,7 @@
           <div class="card">
             <div class="card-header bg-altima">
 
-              <h5 class="card-title">Precios de prenda</h5>
+              <h5 class="card-title" th:text="'Precio prenda '+${idText}"></h5>
 
             </div>
             <div class="card-body">
@@ -140,7 +140,7 @@
                   <input th:field="*{precioMaquila}" min="0.00" max="10000.00" step="0.01" type="number" class="form-control" id="exampleInputPassword1">
                 </div>
                  -->
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                   <label for="precioMuestrario">Muestrario</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -150,13 +150,62 @@
                       class="form-control" id="precioMuestrario">
                   </div>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                   <label for="precioInterna">Venta interna</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text">$</span>
                     </div>
                     <input th:field="*{precioVentaInterna}" required min="0.00" max="10000.00" step="0.01" type="number"
+                      class="form-control" id="precioInterna">
+                  </div>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="precioMuestrario">Familia de composición</label>
+                  <div class="input-group mb-3">
+                    <select th:field="*{idFamiliaComposicion}" class="form-control" required>
+                      <option value="">Seleccione uno...</option>
+                      <option th:each=" composicion: ${composiciones}" th:text="${composicion[0]}" th:value="${composicion[1]}"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="precioInterna">Precio e-commerce</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input th:field="*{precioEcommerce}" required min="0.00" max="10000.00" step="0.01" type="number"
+                      class="form-control" id="precioInterna">
+                  </div>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="precioInterna">Precio extra 1</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input th:field="*{precioExtra1}" required min="0.00" max="10000.00" step="0.01" type="number"
+                      class="form-control" id="precioInterna">
+                  </div>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="precioInterna">Precio extra 2</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input th:field="*{precioExtra2}" required min="0.00" max="10000.00" step="0.01" type="number"
+                      class="form-control" id="precioInterna">
+                  </div>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="precioInterna">Precio extra 3</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input th:field="*{precioExtra3}" required min="0.00" max="10000.00" step="0.01" type="number"
                       class="form-control" id="precioInterna">
                   </div>
                 </div>
@@ -205,7 +254,16 @@
     /*]]>*/
     console.log(message);
   </script>
+ <script th:if="${icon != null}" th:inline="javascript">
+  Swal.fire({
 
+    position: 'center',
+    icon: /*[[${icon}]]*/ 'default',
+    title: /*[[${title}]]*/ 'default',
+    showConfirmButton: false,
+    timer: 2500
+  });
+</script>
 </body>
 
 </html>

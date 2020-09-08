@@ -22,4 +22,6 @@ public interface IDisenioNotificacionService {
 
 	List<ProduccionPedido> findOneNotification(Long solicitud);
 
+	Integer notificationnumber();
+
 }

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Requisici&oacute;n de compras | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Requisici&oacute;n de compras&nbsp;<a th:href="${'/requisicion-de-compras-nueva'}" class="btn btn-sm icon-btn btn-altima text-white">
+                                <span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nueva requisici&oacute;n</a>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Requisiciones</li>
+                                <li class="breadcrumb-item active">Requisici&oacute;n de compras</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de requisiciones</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Fecha</th>
+                                                <th>Solicitante</th>
+                                                <th>Departamento</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>REQ100045</td>
+                                                <td>20/08/2020</td>
+                                                <td>Adan Gomez</td>
+                                                <td>Direcci&oacute;n general</td>
+                                                <td>Parcial</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-info btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Detalles"><i
+                                                            class="fas fa-info"></i></button>
+                                                            <a th:href="${'/requisicion-de-compras-nueva'}"
+                                                        class="btn btn-warning btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Editar"><i
+                                                            class="fas fa-pen"></i></a>
+                                                    <button type="button" onclick="aceptarRequisicionCompras()"
+                                                        class="btn btn-success btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Autorizar"><i
+                                                            class="fas fa-check"></i></button>
+                                                    <button type="button" onclick="rechazarRequisicionCompras()"
+                                                        class="btn btn-danger btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Cancelar"><i
+                                                            class="fas fa-times"></i></button>
+                                                    <button type="button"
+                                                            class="btn btn-altima btn-sm btn-circle popoverxd"
+                                                            data-placement="top" data-content="Descargar orden de compra"><i
+                                                                class="fas fa-download"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+    <script>
+        function rechazarRequisicionCompras() {
+            Swal.fire({
+                title: '¿Deseas cancelar la requisici&oacute;n?',
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: '#dc3545',
+                confirmButtonColor: '#0288d1',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Requisici&oacute;n cancelada correctamente',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                }
+            })
+        }
+        function aceptarRequisicionCompras() {
+            Swal.fire({
+                title: '¿Deseas autorizar la requisici&oacute;n?',
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: '#dc3545',
+                confirmButtonColor: '#0288d1',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Requisici&oacute;n autorizada correctamente',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                }
+            })
+        }
+    </script>
+    <script>
+        $('#iRequisiciones').removeClass('text-altima');
+        $('#navRequisiciones').addClass('active-altima');
+        $('#menuRequisiciones').addClass('menu-open');
+        $('#navReqCom').addClass('active');
+    </script>
+</body>
+
+</html>

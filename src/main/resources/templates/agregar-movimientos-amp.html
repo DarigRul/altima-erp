@@ -48,14 +48,14 @@
 								<div class="card-body">
 								<form class="row">
 								
-									  <div class="form-group col-md-4">
+									  <div class="form-group col-md-6">
 									    <label for="tipoMovimiento">Movimiento</label>
 									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="tipoMovimiento">
 									      <option>Entrada</option>
 									      <option>Salida</option>
 									    </select>
 									  </div>
-									  <div class="form-group col-md-4">
+									  <div class="form-group col-md-6">
 									    <label for="conceptoMovimiento">Concepto</label>
 									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="conceptoMovimiento">
 									      <option>1</option>
@@ -63,35 +63,47 @@
 									    </select>
 									  </div>
 									  <div class="form-group col-md-4">
-									    <label for="almacenMovimiento">Almac&eacute;n</label>
-									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="almacenMovimiento">
+									    <label for="almacenLogicoMovimiento">Almac&eacute;n l&oacute;gico</label>
+										<select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="almacenLogicoMovimiento">
 									      <option>Almac&eacute;n 126</option>
 									      <option>Almac&eacute;n 213</option>
-									      <option>Preapartados</option>
-									      <option>Apartados</option>
 									    </select>
 									  </div>
-									  <div class="form-group col-md-3">
-									    <label for="articuloMovimiento">Art&iacute;culo</label>
-									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="articuloMovimiento">
-									      <option>1</option>
-									      <option>2</option>
-									    </select>
+									  <div class="form-group col-md-4">
+									    <label for="almacenFisicoMovimiento">Almac&eacute;n f&iacute;sico</label>
+										<input type="text" disabled="disabled" class="form-control" id="almacenFisicoMovimiento">
+									  </div>
+									  <div class="form-group col-md-4">
+									    <label for="referenciaMovimiento">Referencia</label>
+										<div class="input-group mb-3">
+											<div class="input-group-prepend">
+											  <div class="input-group-text">
+												<input type="checkbox">
+											  </div>
+											</div>
+											<select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="referenciaMovimiento">
+												<option>1</option>
+											  </select>
+										  </div>
+									  </div>
+									  <div class="form-group col-md-12">
+										<a th:href="@{/movimientos-amp}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+										<button type="submit" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+										  <hr style="border:1px solid #e9ecef">
 									  </div>
 									 <div class="form-group col-md-3">
 									    <label for="cantidadMovimiento">Cantidad</label>
 									    <input type="number" class="form-control" id="cantidadMovimiento" placeholder="4">
 									  </div>
-									  <div class="form-group col-md-3">
-									    <label for="referenciaMovimiento">Referencia</label>
-									    <input type="text" class="form-control" id="referenciaMovimiento" placeholder="4">
-									  </div>
-									  <div class="form-group col-md-3">
-									    <label for="pedidoMovimiento" style="margin-left:2px">Pedido</label>
+									  <div class="form-group col-md-9">
+									    <label for="articuloMovimiento" style="margin-left:2px">Articulo</label>
 										<div class="input-group mb-3">
-										  <input type="text" class="form-control" id="pedidoMovimiento" placeholder="4">
-										  <div class="input-group-append">
-										    <button class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Agregar" type="button"><i class="fas fa-plus"></i></button>
+											<select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="articuloMovimiento">
+												<option>1</option>
+												<option>2</option>
+											  </select>
+										  <div class="input-group-append" style="margin-left: 10px;">
+											<button class="btn icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
 										  </div>
 										</div>
 									  </div>
@@ -99,43 +111,27 @@
 										<table class="table tablaAgregarMovimientosAMP table-striped table-bordered" style="width:100%">
 											<thead>
 												<tr>
-													<th>Art&iacute;culo</th>
 													<th>Cantidad</th>
-													<th>Referencias</th>
-													<th>Pedido</th>
+													<th>Clave art&iacute;culo</th>
+													<th>Descripci&oacute;n</th>
+													<th>UOM</th>
 													<th>Acciones</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>Tela Oxford</td>
-													<td>589</td>
-													<td>REQ125</td>
-													<td></td>
+													<td>45</td>
+													<td>CIE00034</td>
+													<td>Cierre Nylo #20</td>
+													<td>Pieza</td>
 													<td class="text-center">
-														<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-minus img-circle text-danger"></span>Eliminar</a>
-													</td>
-												</tr>
-												<tr>
-													<td>Tela California</td>
-													<td>830</td>
-													<td>Stock</td>
-													<td></td>
-													<td class="text-center">
-														<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-minus img-circle text-danger"></span>Eliminar</a>
-													</td>
-												</tr>
-												<tr>
-													<td>Tela Crepe</td>
-													<td>158</td>
-													<td>REQ789</td>
-													<td></td>
-													<td class="text-center">
-														<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-minus img-circle text-danger"></span>Eliminar</a>
+														<a class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Eliminar"><i class="fas fa-times text-white"></i></a>
+														<a data-toggle="modal" data-target="#cambioProveedor" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Proveedor"><i class="fas fa-store text-white" style="margin-left: -2px;"></i></a>
 													</td>
 												</tr>
 											</tbody>
 										</table>
+										<div th:insert="agregar-movimientos-amp-modal"></div>
 										</div>
 								</form>
 								</div>

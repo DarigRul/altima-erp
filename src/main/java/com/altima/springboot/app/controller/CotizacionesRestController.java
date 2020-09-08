@@ -3,6 +3,7 @@ package com.altima.springboot.app.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.altima.springboot.app.models.entity.ComercialCotizacion;
 import com.altima.springboot.app.models.entity.ComercialCotizacionPrenda;
 import com.altima.springboot.app.models.entity.ComercialCotizacionTotal;
+import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialCotizacionPrendaService;
 import com.altima.springboot.app.models.service.IComercialCotizacionService;
 import com.altima.springboot.app.models.service.IComercialCotizacionTotalService;
+import com.altima.springboot.app.models.service.IDisenioListaPrecioPrendaService;
 
 @RestController
 public class CotizacionesRestController {
@@ -32,9 +35,13 @@ public class CotizacionesRestController {
 	@Autowired
 	private IComercialCotizacionTotalService cotizacionTotalService;
 	@Autowired
+	IDisenioListaPrecioPrendaService disenioListaPrecioPrendaService;
+	@Autowired
 	private  IComercialCoordinadoService CoordinadoService;
 	@Autowired
 	private IComercialCotizacionPrendaService cotizacionPrendaService;
+	@Autowired
+	private IComercialClienteService ClienteService;
 
 	
 	@RequestMapping(value="/ExtraerModelos", method=RequestMethod.GET)
@@ -47,11 +54,41 @@ public class CotizacionesRestController {
 		return CoordinadoService.findAllTela(idFamPrenda);
 	}
 	
-	@RequestMapping(value="/agregarCotizacionPrendaTablita", method=RequestMethod.POST)
-	public Object[] agregarCotizacionPrendaTablita(@RequestParam (name="idModelo") String idPrenda,
-												   @RequestParam (name="idTela") String idTela){
-		return cotizacionPrendaService.FindDatosCotizacionPrenda(Long.parseLong(idTela), Long.parseLong(idPrenda));
+	@RequestMapping(value="/ExtraerFamiliaComposicion", method=RequestMethod.GET)
+	public List<Object []> ExtraerFamiliaComposicion (@RequestParam (name="idFamPrenda") Long idFamPrenda){
+		return CoordinadoService.findAllComposicion(idFamPrenda);
 	}
+	
+	@RequestMapping(value="/ExtraerFamiliaComposicionPorTela", method=RequestMethod.GET)
+	public List<Object> ExtraerFamiliaComposicionPorTela (@RequestParam (name="idPrenda") Long idPrenda){
+		System.out.println(idPrenda);
+		return disenioListaPrecioPrendaService.listaFamPrendaByidPrenda(idPrenda);
+	}
+	
+	@RequestMapping(value="/ListarClientesporAgente", method=RequestMethod.GET)
+	public List<Object[]> ListarClientesporAgente (@RequestParam(name="idAgente")Long idAgente) {
+		return ClienteService.findClientesByAgenteVentas(idAgente);
+		
+	}
+	
+	@RequestMapping(value="/agregarCotizacionPrendaTablita", method=RequestMethod.POST)
+	public Object[] agregarCotizacionPrendaTablita(@RequestParam (name="idPrenda")Long idFamPrenda,
+												   @RequestParam (name="idModelo", required=false) Long idModelo,
+												   @RequestParam (name="idTela", required = false) Long idTela,
+												   @RequestParam (name="idFamComposicion", required = false) Long idFamComposicion){
+
+		try {
+			return cotizacionPrendaService.FindDatosCotizacionPrenda(idTela, idModelo, idFamPrenda, idFamComposicion);
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			return null;
+		}
+		finally {
+			System.out.println("Fin de proceso agregarCotizacionPrendaTablita");
+		}
+	}
+	
 	
 	@RequestMapping(value="/GuardarCotizacionInfo", method=RequestMethod.POST)
 	public int GuardarCotizacionInformacion (@RequestParam(name="lista") String lista) {
@@ -68,7 +105,7 @@ public class CotizacionesRestController {
 			cotizacion.setIdText(datos[0]);
 			cotizacion.setTituloCotizacion(datos[1]);
 			cotizacion.setTipoCotizacion(datos[2]);
-			cotizacion.setTipoPrecio(datos[3]);
+			cotizacion.setTipoPrecio((datos[3].equalsIgnoreCase(""))?"0":datos[3]);
 			cotizacion.setIdGerente(Long.parseLong(datos[4]));
 			cotizacion.setIdAgenteVentas(Long.parseLong(datos[5]));
 			cotizacion.setIdCliente(Long.parseLong(datos[6]));
@@ -118,18 +155,21 @@ public class CotizacionesRestController {
 			ComercialCotizacion cotizacion = cotizacionService.findOne(Long.parseLong(datos[8]));
 
 			System.out.println(lista);
-			cotizacion.setIdText("CAL"+(cotizacion.getIdCotizacion() + 10000));
 			cotizacion.setTituloCotizacion(datos[1]);
 			cotizacion.setTipoCotizacion(datos[2]);
-			cotizacion.setTipoPrecio(datos[3]);
+			cotizacion.setTipoPrecio((datos[3].equalsIgnoreCase(""))?"0":datos[3]);
 			cotizacion.setIdGerente(Long.parseLong(datos[4]));
 			cotizacion.setIdAgenteVentas(Long.parseLong(datos[5]));
 			cotizacion.setIdCliente(Long.parseLong(datos[6]));
 			cotizacion.setObservaciones(datos[7]);
-			
 			cotizacion.setActualizadoPor(auth.getName());
 			cotizacion.setUltimaFechaModificacion(dtf.format(now));
 			cotizacionService.save(cotizacion);
+			
+			ComercialCotizacionTotal cotiTotal = cotizacionTotalService.findByCotizacion(Long.parseLong(datos[8]));
+			cotiTotal.setIva(datos[9]);
+			
+			cotizacionTotalService.save(cotiTotal);
 			
 			
 			return 1;
@@ -155,8 +195,18 @@ public class CotizacionesRestController {
 				System.out.println(dato);
 				cotiPrenda.setIdCotizacion(Long.parseLong(idCotizacion));
 				cotiPrenda.setIdFamiliaPrenda(Long.parseLong(dato.get("idPrenda").toString()));
-				cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
-				cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+				if(dato.get("idModelo").toString().equalsIgnoreCase("")) {
+					cotiPrenda.setIdPrenda(null);
+				}
+				else {
+					cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
+				}
+				try {
+					cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+				}
+				catch(Exception e) {
+					cotiPrenda.setIdFamiliaComposicion(Long.parseLong(dato.getString("idFamComposicion")));
+				}
 				cotiPrenda.setCoordinado(dato.get("coordinado").toString());
 				cotiPrenda.setCantidad(dato.get("cantidad").toString());
 				cotiPrenda.setPrecioBordado(dato.get("precioBordado").toString());
@@ -178,7 +228,7 @@ public class CotizacionesRestController {
 	
 	@RequestMapping(value="/EditarCotizacionPrendas", method=RequestMethod.POST)
 	public int EditarCotizacionPrendas (@RequestParam(name="lista") String lista,
-									 	@RequestParam(name="idCotizacionPrendas") String idCotizacionPrendas) {
+									 	@RequestParam(name="idCotizacionPrendas") Long idCotizacionPrendas) {
 		
 		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -187,15 +237,53 @@ public class CotizacionesRestController {
 			
 			JSONArray datos = new JSONArray(lista);
 			
+			//Es para borrar registros eliminados en la tabla del usuario
+			int contadorsillo=0;
+			List<Object[]> AllPrendas = cotizacionPrendaService.findPrendasByCotizacion(idCotizacionPrendas);
+			List<ComercialCotizacionPrenda> AllPrendasToDelete = new ArrayList<ComercialCotizacionPrenda>();
+			
+			for (Object[] a: AllPrendas) {
+				for (int i=0;i<datos.length();i++) {
+					JSONObject dato = datos.getJSONObject(i);
+					if(dato.getInt("idCotizacionPrenda")==Integer.parseInt(a[0].toString())) {
+						contadorsillo=1;
+					}
+				}
+				if(contadorsillo==0){
+					AllPrendasToDelete.add(cotizacionPrendaService.findOne(Long.parseLong(a[0].toString())));
+				}
+				else {
+					contadorsillo=0;
+				}
+			}
+			try {
+			cotizacionPrendaService.removePrendas(AllPrendasToDelete);
+			System.out.println("Prendas eliminadas");
+			}
+			catch (Exception e) {
+				System.out.println("No hay prendas a eliminar");
+			}
+			
+			//Es para agregar los nuevos registros creados en la tabla del usuario
 			for (int i=0;i<datos.length();i++) {
 				JSONObject dato = datos.getJSONObject(i);
 				System.out.println(dato);
 				if(dato.get("idCotizacionPrenda").toString().equals("-1")) {
 					ComercialCotizacionPrenda cotiPrenda = new ComercialCotizacionPrenda();
-					cotiPrenda.setIdCotizacion(Long.parseLong(idCotizacionPrendas));
+					cotiPrenda.setIdCotizacion(idCotizacionPrendas);
 					cotiPrenda.setIdFamiliaPrenda(Long.parseLong(dato.get("idPrenda").toString()));
-					cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
-					cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+					if(dato.get("idModelo").toString().equalsIgnoreCase("")) {
+						cotiPrenda.setIdPrenda(null);
+					}
+					else {
+						cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
+					}
+					try {
+						cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+					}
+					catch(Exception e) {
+						cotiPrenda.setIdFamiliaComposicion(Long.parseLong(dato.getString("idFamComposicion")));
+					}
 					cotiPrenda.setCoordinado(dato.get("coordinado").toString());
 					cotiPrenda.setCantidad(dato.get("cantidad").toString());
 					cotiPrenda.setPrecioBordado(dato.get("precioBordado").toString());
@@ -210,13 +298,26 @@ public class CotizacionesRestController {
 					
 					cotizacionPrendaService.save(cotiPrenda);
 				}
+				
+				//Es para editar los registros existentes en la tabla del usuario
 				else {
 					
 					ComercialCotizacionPrenda cotiPrenda = cotizacionPrendaService.findOne(dato.getLong("idCotizacionPrenda"));
-					cotiPrenda.setIdCotizacion(Long.parseLong(idCotizacionPrendas));
+					cotiPrenda.setIdCotizacion(idCotizacionPrendas);
 					cotiPrenda.setIdFamiliaPrenda(Long.parseLong(dato.get("idPrenda").toString()));
-					cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
-					cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+					if(dato.get("idModelo").toString().equalsIgnoreCase("")) {
+						cotiPrenda.setIdPrenda(null);
+					}
+					else {
+						cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
+					}
+					try {
+						cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+					}
+					catch(Exception e) {
+						cotiPrenda.setIdFamiliaComposicion(Long.parseLong(dato.getString("idFamComposicion")));
+					}
+					
 					cotiPrenda.setCoordinado(dato.get("coordinado").toString());
 					cotiPrenda.setCantidad(dato.get("cantidad").toString());
 					cotiPrenda.setPrecioBordado(dato.get("precioBordado").toString());
@@ -229,7 +330,9 @@ public class CotizacionesRestController {
 					
 					cotizacionPrendaService.save(cotiPrenda);
 				}
+				System.out.println(dato.getInt("idCotizacionPrenda"));
 			}
+			
 			return 1;
 		}catch(Exception e) {
 			System.out.println(e);
@@ -270,5 +373,11 @@ public class CotizacionesRestController {
 		}finally {
 			
 		}
+	}
+	
+	//Metodo para obtener el correo de una cotizacion
+	@RequestMapping(value = "/correo_cliente_cotizacion", method = RequestMethod.GET)
+	public String validarDescripcionPrenda(@RequestParam(name = "id") Long idCotizacion) {
+		return ClienteService.findOne(Long.valueOf(cotizacionService.findOne(idCotizacion).getIdCliente().longValue())).getCorreo();
 	}
 }

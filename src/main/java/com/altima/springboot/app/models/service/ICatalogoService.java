@@ -21,5 +21,10 @@ public interface ICatalogoService {
 	DisenioLookup findLastLookupByType(String Tipo);
 
 	boolean findDuplicate(String Lookup, String Tipo, String atributo);
+	
+	List<Object []> findAllMaterialClasificacion();
+
+	boolean findDuplicatePrecioComposicion(Long idPrenda, Long idFamComposicion);
+
 
 }

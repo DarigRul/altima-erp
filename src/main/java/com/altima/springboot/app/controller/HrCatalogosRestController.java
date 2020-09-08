@@ -52,15 +52,6 @@ public class HrCatalogosRestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        String estatus = "";
-        HrLookup empresa = new HrLookup();
-        empresa.setNombreLookup(nombreEmpresa);
-        empresa.setTipoLookup("Empresa");
-        empresa.setCreadoPor(auth.getName());
-        empresa.setEstatus("1");
-        empresa.setIdText("EMP");
-        empresa.setFechaCreacion(dtf.format(now));
-        // empresa.setIdText("EMP" + (1000 + empresa.getIdLookup()));
         try {
             HrLookup hr = hrLookupService.findOne(idLookup);
             hr.setNombreLookup(nombreEmpresa);
@@ -68,22 +59,58 @@ public class HrCatalogosRestController {
             return 1;
         } catch (Exception e) {
             try {
+                HrLookup empresa = new HrLookup();
+                empresa.setNombreLookup(nombreEmpresa);
+                empresa.setTipoLookup("Empresa");
+                empresa.setCreadoPor(auth.getName());
+                empresa.setFechaCreacion(dtf.format(now));
+                empresa.setEstatus("1");
+                empresa.setIdText("EMP");
                 hrLookupService.save(empresa);
-                estatus = "Success";
+                empresa.setIdText("EMP" + (10000 + empresa.getIdLookup()));
+                hrLookupService.save(empresa);
                 return 2;
             } catch (Exception p) {
                 p.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         } finally {
         }
     }
 
+    @GetMapping("/duplicadoEmpresa")
+    public boolean duplicadoEmpresa(String nombreEmpresa) {
+        boolean duplicado;
+        try {
+            duplicado = hrLookupService.findDuplicate(nombreEmpresa);
+        } catch (Exception e) {
+            duplicado = hrLookupService.findDuplicate(nombreEmpresa);
+        }
+        return duplicado;
+    }
+
     // Método para listar Empresas
     @GetMapping("/getLookupHR")
     public List<HrLookup> getEmpresa(@RequestParam(name = "tipo") String tipo) {
         return hrLookupService.findAllByTipoLookup(tipo);
+    }
+
+    // Método para dar de baja empresa
+    @GetMapping("/darBajaEmpresa")
+    public Object darBajaEmpresa(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrLookup EhrE = hrLookupService.findOne(idLookup);
+        EhrE.setEstatus("0");
+        hrLookupService.save(EhrE);
+        return hrLookupService.findOne(idLookup);
+    }
+
+    // Método para dar de alta empresa
+    @GetMapping("/darAltaEmpresa")
+    public Object darAltaEmpresa(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrLookup EhrE = hrLookupService.findOne(idLookup);
+        EhrE.setEstatus("1");
+        hrLookupService.save(EhrE);
+        return hrLookupService.findOne(idLookup);
     }
 
     // Método para editar Empresas
@@ -99,14 +126,6 @@ public class HrCatalogosRestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        String estatus = "";
-        HrLookup area = new HrLookup();
-        area.setNombreLookup(nombreArea);
-        area.setTipoLookup("Area");
-        area.setCreadoPor(auth.getName());
-        area.setEstatus("1");
-        area.setIdText("AREA");
-        area.setFechaCreacion(dtf.format(now));
         try {
             HrLookup hr = hrLookupService.findOne(idLookup);
             hr.setNombreLookup(nombreArea);
@@ -114,21 +133,57 @@ public class HrCatalogosRestController {
             return 1;
         } catch (Exception e) {
             try {
+                HrLookup area = new HrLookup();
+                area.setNombreLookup(nombreArea);
+                area.setTipoLookup("Area");
+                area.setCreadoPor(auth.getName());
+                area.setEstatus("1");
+                area.setFechaCreacion(dtf.format(now));
+                area.setIdText("AREA");
                 hrLookupService.save(area);
-                estatus = "Success";
+                area.setIdText("AREA" + (10000 + area.getIdLookup()));
+                hrLookupService.save(area);
                 return 2;
             } catch (Exception p) {
                 p.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         }
+    }
+
+    @GetMapping("/duplicadoArea")
+    public boolean duplicadoArea(String nombreArea) {
+        boolean d;
+        try {
+            d = hrLookupService.findDuplicateArea(nombreArea);
+        } catch (Exception e) {
+            d = hrLookupService.findDuplicateArea(nombreArea);
+        }
+        return d;
     }
 
     // Método para listar Áreas
     @GetMapping("/rh-listarAreas")
     public List<HrLookup> listarAreas(@RequestParam(name = "tipo") String tipo) {
         return hrDepartamentoService.findAllEmpresas(tipo);
+    }
+
+    // Método para dar de baja area
+    @GetMapping("/darBajaArea")
+    public Object darBajaArea(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrLookup EhrA = hrLookupService.findOne(idLookup);
+        EhrA.setEstatus("0");
+        hrLookupService.save(EhrA);
+        return hrLookupService.findOne(idLookup);
+    }
+
+    // Método para dar de alta area
+    @GetMapping("/darAltaArea")
+    public Object darAltaArea(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrLookup EhrA = hrLookupService.findOne(idLookup);
+        EhrA.setEstatus("1");
+        hrLookupService.save(EhrA);
+        return hrLookupService.findOne(idLookup);
     }
 
     // Método para editar Áreas
@@ -145,7 +200,6 @@ public class HrCatalogosRestController {
         Authentication authDepa = SecurityContextHolder.getContext().getAuthentication();
         Date date1 = new Date();
         DateFormat fechaCreacion = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        String estatus = "";
         try {
             HrDepartamento hrD = hrDepartamentoService.findOne(idDepartamento);
             hrD.setNombreDepartamento(nombreDepartamento);
@@ -155,23 +209,34 @@ public class HrCatalogosRestController {
         } catch (Exception e) {
             try {
                 HrDepartamento departamento = new HrDepartamento();
-                departamento.setNombreDepartamento(nombreDepartamento);
-                departamento.setIdArea(nomArea);
                 departamento.setEstatus("1");
                 departamento.setCreado_por(authDepa.getName());
                 departamento.setFechaCreacion(fechaCreacion.format(date1));
                 departamento.setActualizadoPor(authDepa.getName());
-                departamento.setIdText("DEPA");
+                departamento.setIdText("DEP");
+                departamento.setNombreDepartamento(nombreDepartamento);
+                departamento.setIdArea(nomArea);
                 hrDepartamentoService.save(departamento);
-                estatus = "Success";
+                departamento.setIdText("DEP" + (10000 + departamento.getIdDepartamento()));
+                hrDepartamentoService.save(departamento);
                 return 2;
             } catch (Exception p) {
                 p.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         } finally {
         }
+    }
+
+    @GetMapping("/duplicadoDepartamento")
+    public boolean duplicadoDepartamento(String nombreDepartamento, String nomArea) {
+        boolean d;
+        try {
+            d = hrDepartamentoService.duplicateDepartamento(nombreDepartamento, nomArea);
+        } catch (Exception e) {
+            d = hrDepartamentoService.duplicateDepartamento(nombreDepartamento, nomArea);
+        }
+        return d;
     }
 
     // Método para listar Departamentos
@@ -180,6 +245,24 @@ public class HrCatalogosRestController {
         List<Object[]> listarDepartamentos = hrDepartamentoService.listarDepartamentos();
         model.addAttribute("listarDepartamentos", listarDepartamentos);
         return hrDepartamentoService.listarDepartamentos();
+    }
+
+    // Método para dar de baja departamento
+    @GetMapping("/darBajaDepartamento")
+    public Object darBajaDepartamento(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrDepartamento EhrD = hrDepartamentoService.findOne(idLookup);
+        EhrD.setEstatus("0");
+        hrDepartamentoService.save(EhrD);
+        return hrDepartamentoService.findOne(idLookup);
+    }
+
+    // Método para dar de alta departamento
+    @GetMapping("/darAltaDepartamento")
+    public Object darAltaDepartamento(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrDepartamento EhrD = hrDepartamentoService.findOne(idLookup);
+        EhrD.setEstatus("1");
+        hrDepartamentoService.save(EhrD);
+        return hrDepartamentoService.findOne(idLookup);
     }
 
     // Método para editar Departamento
@@ -192,12 +275,11 @@ public class HrCatalogosRestController {
     @PostMapping("/postPuesto")
     public int postPuesto(@RequestParam(name = "nombrePuesto") String nombrePuesto,
             @RequestParam(name = "nomPlazas") String nomPlazas, @RequestParam(name = "sueldos") String sueldos,
-            @RequestParam(name = "perfiles") String perfiles, @RequestParam(name = "departamento") Long departamento,
+            @RequestParam(name = "perfiles") Boolean perfiles, @RequestParam(name = "departamento") Long departamento,
             @RequestParam(name = "checkbox") Boolean checkbox, @RequestParam(name = "idPuesto") Long idPuesto) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        String estatus = "";
         try {
             HrPuesto hrP = hrPuestoService.findOne(idPuesto);
             hrP.setNombrePuesto(nombrePuesto);
@@ -211,24 +293,40 @@ public class HrCatalogosRestController {
         } catch (Exception e) {
             try {
                 HrPuesto nuevoPuesto = new HrPuesto();
+                nuevoPuesto.setCreadoPor(auth.getName());
+                nuevoPuesto.setFechaCreacion(dtf.format(now));
+                nuevoPuesto.setEstatus("1");
+                nuevoPuesto.setCreadoPor(auth.getName());
                 nuevoPuesto.setIdText("PTO");
                 nuevoPuesto.setNombrePuesto(nombrePuesto);
                 nuevoPuesto.setNombrePlaza(nomPlazas);
                 nuevoPuesto.setSueldo(sueldos);
                 nuevoPuesto.setPerfil(perfiles);
-                nuevoPuesto.setEstatus("1");
                 nuevoPuesto.setIdDepartamento(departamento);
-                nuevoPuesto.setCreadoPor(auth.getName());
                 nuevoPuesto.setTiempoExtra(checkbox);
                 hrPuestoService.save(nuevoPuesto);
-                estatus = "Success";
+                nuevoPuesto.setIdText("PTO" + (10000 + nuevoPuesto.getIdPuesto()));
+                hrPuestoService.save(nuevoPuesto);
                 return 2;
             } catch (Exception p) {
                 e.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         }
+    }
+
+    @GetMapping("/duplicadoPuesto")
+    public boolean duplicadoPuesto(String nombrePuesto, String nomPlazas, String sueldos, String perfiles,
+            String departamento, Boolean checkbox, String idPuesto) {
+        boolean d;
+        try {
+            d = hrPuestoService.duplicatePuesto(nombrePuesto, nomPlazas, sueldos, perfiles, departamento, checkbox,
+                    idPuesto);
+        } catch (Exception e) {
+            d = hrPuestoService.duplicatePuesto(nombrePuesto, nomPlazas, sueldos, perfiles, departamento, checkbox,
+                    idPuesto);
+        }
+        return d;
     }
 
     // Método para mostrar las opciones de departamentos en puestos
@@ -243,6 +341,24 @@ public class HrCatalogosRestController {
         List<Object[]> listarPuestos = hrDepartamentoService.listarDepartamentos();
         model.addAttribute("listarPuestos", listarPuestos);
         return hrPuestoService.listarPuestos();
+    }
+
+    // Método para dar de baja puesto
+    @GetMapping("/darBajaPuesto")
+    public Object darBajaPuesto(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrPuesto EhrP = hrPuestoService.findOne(idLookup);
+        EhrP.setEstatus("0");
+        hrPuestoService.save(EhrP);
+        return hrPuestoService.findOne(idLookup);
+    }
+
+    // Método para dar de alta puesto
+    @GetMapping("/darAltaPuesto")
+    public Object darAltaPuesto(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrPuesto EhrP = hrPuestoService.findOne(idLookup);
+        EhrP.setEstatus("1");
+        hrPuestoService.save(EhrP);
+        return hrPuestoService.findOne(idLookup);
     }
 
     // Método para editar puestos
@@ -260,7 +376,6 @@ public class HrCatalogosRestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        String estatus = "";
         try {
             HrHorario hrH = hrHorarioService.findOne(idHorario);
             hrH.setHoraInicial(horaInicio);
@@ -280,21 +395,51 @@ public class HrCatalogosRestController {
                 horarioLaboral.setFechaCreacion(dtf.format(now));
                 horarioLaboral.setActualizadoPor(auth.getName());
                 horarioLaboral.setEstatus("1");
+                horarioLaboral.setIdText("HRO");
                 hrHorarioService.save(horarioLaboral);
-                estatus = "Success";
+                horarioLaboral.setIdText("HRO" + (10000 + horarioLaboral.getIdHorario()));
+                hrHorarioService.save(horarioLaboral);
                 return 2;
             } catch (Exception p) {
                 e.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         }
+    }
+
+    @GetMapping("/duplicadoHorario")
+    public boolean duplicadoHorario(String horaInicio, String horaSalida, String horaComida, String horaRegresoComida) {
+        boolean d;
+        try {
+            d = hrHorarioService.duplicateHorario(horaInicio, horaSalida, horaComida, horaRegresoComida);
+        } catch (Exception e) {
+            d = hrHorarioService.duplicateHorario(horaInicio, horaSalida, horaComida, horaRegresoComida);
+        }
+        return d;
     }
 
     // Método para listar horarios insertados
     @GetMapping("/getListarHorarios")
     public List<HrHorario> listarHorariosInsertados() {
         return hrHorarioService.findAllHorarios();
+    }
+
+    // Método para dar de baja horario
+    @GetMapping("/darBajaHorario")
+    public Object darBajaHorario(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrHorario EhrH = hrHorarioService.findOne(idLookup);
+        EhrH.setEstatus("0");
+        hrHorarioService.save(EhrH);
+        return hrHorarioService.findOne(idLookup);
+    }
+
+    // Método para dar de alta horario
+    @GetMapping("/darAltaHorario")
+    public Object darAltaHorario(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
+        HrHorario EhrH = hrHorarioService.findOne(idLookup);
+        EhrH.setEstatus("1");
+        hrHorarioService.save(EhrH);
+        return hrHorarioService.findOne(idLookup);
     }
 
     // Método para editar horarios
@@ -308,11 +453,10 @@ public class HrCatalogosRestController {
     public int postPuesto(@RequestParam(name = "idCalendario") Long idCalendario,
             @RequestParam(name = "fechaFestivo") String fechaFestivo,
             @RequestParam(name = "festividad") String festividad,
-            @RequestParam(name = "estatusFestivo") Boolean estatusFestivo) {
+            @RequestParam(name = "estatusFestivo") String estatusFestivo) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        String estatus = "";
         try {
             HrCalendario hrC = hrCalendarioService.findOne(idCalendario);
             hrC.setFecha(fechaFestivo);
@@ -329,22 +473,51 @@ public class HrCatalogosRestController {
                 nuevosFestivos.setFechaCreacion(dtf.format(now));
                 nuevosFestivos.setEstatus(estatusFestivo);
                 nuevosFestivos.setActualizadoPor(auth.getName());
-                System.out.println("prueba " + fechaFestivo);
+                nuevosFestivos.setIdText("CAL");
                 hrCalendarioService.save(nuevosFestivos);
-                estatus = "Success";
+                nuevosFestivos.setIdText("CAL" + (10000 + nuevosFestivos.getIdCalendario()));
+                hrCalendarioService.save(nuevosFestivos);
                 return 2;
             } catch (Exception p) {
                 e.printStackTrace();
-                estatus = "Error";
                 return 3;
             }
         }
+    }
+
+    @GetMapping("/duplicadoCalendario")
+    public boolean duplicadoCalendario(String fechaFestivo, String festividad, String estatusFestivo) {
+        boolean d;
+        try {
+            d = hrCalendarioService.duplicateCalendario(fechaFestivo, festividad, estatusFestivo);
+        } catch (Exception e) {
+            d = hrCalendarioService.duplicateCalendario(fechaFestivo, festividad, estatusFestivo);
+        }
+        return d;
     }
 
     // Método para listar calendarios insertados
     @GetMapping("/getListarCalendarios")
     public List<HrCalendario> listarCalendariosInsertados() {
         return hrCalendarioService.findAllCalendarios();
+    }
+
+    // Método para dar de baja Calendario
+    @GetMapping("/darBajaCalendario")
+    public Object darBajaCalendario(@RequestParam(name = "idCalendario") Long idCalendario) throws Exception {
+        HrCalendario EhrC = hrCalendarioService.findOne(idCalendario);
+        EhrC.setEstatus("0");
+        hrCalendarioService.save(EhrC);
+        return hrCalendarioService.findOne(idCalendario);
+    }
+
+    // Método para dar de alta Calendario
+    @GetMapping("/darAltaCalendario")
+    public Object darAltaCalendario(@RequestParam(name = "idCalendario") Long idCalendario) throws Exception {
+        HrCalendario EhrC = hrCalendarioService.findOne(idCalendario);
+        EhrC.setEstatus("1");
+        hrCalendarioService.save(EhrC);
+        return hrCalendarioService.findOne(idCalendario);
     }
 
     // Método para editar calendarios

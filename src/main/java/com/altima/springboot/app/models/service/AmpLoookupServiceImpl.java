@@ -52,7 +52,7 @@ public class AmpLoookupServiceImpl implements IAmpLoookupService {
 	@Transactional
 	@OrderBy("idLookup ASC")
 	public List<AmpLookup> findAllLookup(String Tipo) {
-		return em.createQuery("from AmpLookup where tipo_lookup='"+Tipo+"'").getResultList();
+		return em.createQuery("from AmpLookup where tipo_lookup='"+Tipo+"' and estatus=1").getResultList();
 	}
 	
 	@Override
@@ -95,4 +95,38 @@ public class AmpLoookupServiceImpl implements IAmpLoookupService {
 		 return duplicate;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	@OrderBy("idLookup ASC")
+	public List<Object []> listarLinea(Long id) {
+		return em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	linea.id_lookup,\n" + 
+				"	linea.nombre_lookup \n" + 
+				"FROM\n" + 
+				"	alt_amp_lookup AS linea,\n" + 
+				"	alt_amp_lookup AS cate \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND linea.tipo_lookup = 'Linea' \n" + 
+				"	AND linea.descripcion_lookup = cate.id_lookup \n" + 
+				"	AND linea.estatus = 1 \n" + 
+				"	AND cate.id_lookup = "+id).getResultList();
+	}
+	
+	@Override
+	@Transactional
+	public String nombreCategoria(Long id) {
+
+		return em.createNativeQuery(""
+				+ "SELECT DISTINCT\n" + 
+				"	nombre_lookup \n" + 
+				"FROM\n" + 
+				"	alt_amp_lookup as look\n" + 
+				"WHERE\n" + 
+				"	look.id_lookup="+id).getResultList().toString();
+
+	}
+	
 }

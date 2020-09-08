@@ -52,6 +52,8 @@
                         <div th:insert="rh-horarios" class="col-lg-6 col-6" id="horarios"></div>
                         <!-- CALENDARIOS -->
                         <div th:insert="rh-calendarios" class="col-lg-6 col-6" id="calendarios"></div>
+                                 <!-- EMPLEADOS ALTERNOS -->
+                        <div th:insert="rh-empleados-alternos" class="col-lg-6 col-6" id="empleados"></div>
 
                         <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
                     </div>
@@ -69,6 +71,7 @@
     <div th:insert="navegacion-scripts"></div>
     <script src="dist/js/rh-tablas.js"></script>
     <script src="dist/js/rh.js"></script>
+        <script src="dist/js/rh-alternos.js"></script>
 
     <script>
         $('#iRH').removeClass('text-altima');

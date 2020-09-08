@@ -1,9 +1,15 @@
 package com.altima.springboot.app.controller;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -11,16 +17,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
+import com.altima.springboot.app.models.entity.ComercialTotalRazonSocial;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialCalendarioService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IComercialConcentradoPrendasService;
+import com.altima.springboot.app.models.service.IComercialConcentradoTallaService;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialPrendaBordadoService;
+import com.altima.springboot.app.models.service.IComercialTotalRazonSocialService;
 
 @CrossOrigin(origins = { "*" })
 @Controller
@@ -40,6 +48,10 @@ public class ExpedienteController {
 	private IComercialCoordinadoService CoordinadoService;
 	@Autowired
 	private IComercialConcentradoPrendasService concentradoPrendasService;
+	@Autowired
+	private IComercialConcentradoTallaService ConcentradoTallaService;
+	@Autowired
+	private IComercialTotalRazonSocialService totalService;
 
 	// Metodo de Listar
 	@GetMapping("/expediente")
@@ -123,7 +135,53 @@ public class ExpedienteController {
 		model.addAttribute("empleados", concentradoPrendasService.findEmpleadosParaExpediente(id));
 		return "/imprimir-expediente-concentrado-prenda-individual";
 	}
+	
+	//Metodo para imprimir un concetrado de tallas 
+	@GetMapping("/expediente-imprimir-concentrado-por-tallas/{id}")
+	public String imprimirTallas(Model model, @PathVariable("id") Long idpedido, Model m) {
+		List<String> list = new ArrayList<>();
 
+		for (Object[] d : ConcentradoTallaService.findPrendaCliente(idpedido)) {
+
+			list.add((String) d[1]);
+		}
+		ConcentradoTallaService.genpivot(list);
+		List<String> list2 = new ArrayList<>();
+		list2.add("Empleado");
+		list2.addAll(list);
+		model.addAttribute("head", list2);
+		model.addAttribute("prendastallas", ConcentradoTallaService.findPrendaTalla2(ConcentradoTallaService.genpivot(list), idpedido));
+		model.addAttribute("empleados10", ConcentradoTallaService.findPrendaTalla3(idpedido));
+		model.addAttribute("idpedido", idpedido);
+		
+		//mio
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(idpedido);
+		m.addAttribute("clientes", clienteservice.findAll(null));
+		model.addAttribute("pedido", pedido);
+		return "/imprimir-expediente-concentrado-de-tallas";
+	}
+	
+	
+	//Metodo para imprimir un concetrado de tallas 
+	@GetMapping("/expediente-imprimir-totales-por-razon-social/{id}")
+	public String imprimirTotalesPorRazonSocial(@PathVariable(value = "id") Long id, Map<String, Object> model) {
+		model.put("lisTotal", totalService.totalRazon(id));
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+		model.put("clientes", clienteservice.findAll(null));
+		model.put("pedido", pedido);
+		return "/imprimir-expediente-totales-por-razon-social";
+	}
+	
+	public static double redondearDecimales(float valorInicial, int numeroDecimales) {
+        double parteEntera, resultado;
+        resultado = valorInicial;
+        parteEntera = Math.floor(resultado);
+        resultado=(resultado-parteEntera)*Math.pow(10, numeroDecimales);
+        resultado=Math.round(resultado);
+        resultado=(resultado/Math.pow(10, numeroDecimales))+parteEntera;
+        return resultado;
+    }
+	
 	@GetMapping("/agregar-expediente")
 	public String agregarExpediente() {
 		return "agregar-expediente";

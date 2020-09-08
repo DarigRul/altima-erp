@@ -55,7 +55,7 @@ public class ComercialClienteEmpleadoServiceImpl implements ComercialClienteEmpl
 		@Transactional
 		public List<ComercialClienteEmpleado> findAllEmpleadosEmpresa(Long id ) {
 			
-			return em.createQuery("from ComercialClienteEmpleado  where idPedidoInformacion = "+id).getResultList();
+			return em.createQuery("from ComercialClienteEmpleado  where idPedidoInformacion = "+id+" order by idText Desc ").getResultList();
 			//return (List<ComercialCoordinadoMaterial>) repositoryMaterial.findAll();
 		}
 
@@ -87,5 +87,57 @@ public class ComercialClienteEmpleadoServiceImpl implements ComercialClienteEmpl
 										"INNER JOIN alt_comercial_cliente_factura AS CF ON CE.id_cliente_factura = CF.id_cliente_factura\r\n" + 
 										"WHERE CE.id_pedido_informacion = " + id + ";").getResultList();
 		}
+		
+		
+		@Override
+		@Transactional
+		public int countdeempleados(Long id) {
+			// TODO Auto-generated method stub
+			String auxs = em.createNativeQuery ("SELECT COUNT(*) FROM alt_comercial_cliente_empleado where  id_pedido_informacion= "+ id).getSingleResult().toString();
+			int aux = Integer.parseInt(auxs);	
+			return aux + 1;
+	}
+		
+		
+		
+		@Override
+		@Transactional
+		public String max(Long id) {
+			// TODO Auto-generated method stub
+			String auxs = em.createNativeQuery ("SELECT MAX(id_Text) as maximo\n" + 
+					"from alt_comercial_cliente_empleado WHERE id_pedido_informacion= "+ id).getSingleResult().toString();
+			
+			return auxs ;
+	}
+		
+		
+		
+		
+		
+		@Override
+		@Transactional
+		public ComercialClienteEmpleado findByidText(String idText, Long idPedidoInformacion) {
+			// TODO Auto-generated method stub		
+			return  (ComercialClienteEmpleado) em.createQuery(" from ComercialClienteEmpleado where idText='"+idText+"' and idPedidoInformacion="+idPedidoInformacion).getSingleResult();
+		
+		}
+		
+
+		@Override
+		@Transactional
+		public String findMaxByidText( Long idPedidoInformacion) {
+			// TODO Auto-generated method stub		
+			return  (String) em.createNativeQuery("select max(id_text) from alt_comercial_cliente_empleado where  id_pedido_informacion="+idPedidoInformacion).getSingleResult();
+		
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 }

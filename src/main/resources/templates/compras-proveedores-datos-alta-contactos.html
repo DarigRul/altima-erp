@@ -1,0 +1,63 @@
+<form method="post" action="javascript:validarTablaContactos()">
+    <div class="row">
+        <div class="form-group col-md-2">
+            <label for="altaNombre">Nombre<strong style="color:red">*</strong></label>
+            <input type="text" placeholder="Jose Manuel Lopez Martinez" class="form-control" id="altaNombreContacto">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="altaCargo">Cargo<strong style="color:red">*</strong></label>
+            <input type="text" placeholder="Gerente de ventas" class="form-control" id="altaCargoContacto">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="altaCorreo">Correo<strong style="color:red">*</strong></label>
+            <input type="email" placeholder="proveedor@correo.com" class="form-control" id="altaCorreoContacto">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="altaTelefono">Tel&eacute;fono<strong style="color:red">*</strong></label>
+            <input type="tel" pattern="[0-9]{10}" placeholder="2222631408" class="form-control" id="altaTelefonoContacto">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="altaExtension">Extensi&oacute;n<strong style="color:red">*</strong></label>
+            <div class="input-group mb-3">
+            	<input type="hidden" id="datoContacto" th:value="${datoContacto}">
+                <input type="number" placeholder="252" class="form-control" id="altaExtensionContacto" style="border-radius: .25rem; margin-right: 10px;">
+                <div class="input-group-append">
+                    <button class="btn icon-btn btn-altima text-white" onclick="validarContacto()" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <table class="table tablaGeneral table-striped table-bordered" id="tablitaContactos" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Cargo</th>
+                        <th>Correo</th>
+                        <th>Tel&eacute;fono</th>
+                        <th>Extensi&oacute;n</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="contacto: ${contactos}">
+                        <td th:text="${contacto.nombreContacto}">Jose Manuel Hernandez Lopez</td>
+                        <td th:text="${contacto.cargoContacto}">Gerente de ventas</td>
+                        <td th:text="${contacto.correoContacto}">proveedor@correo.com</td>
+                        <td th:text="${contacto.telefonoContacto}">2222346432</td>
+                        <td th:text="${contacto.extensionContacto}">245</td>
+                        <td class="text-center">
+                        	<input type="hidden" th:value="${contacto.idProveedorContacto==null}?-1:${contacto.idProveedorContacto}">
+                            <button class="btn btn-danger btn-circle btn-sm popoverxd borrar"><i class="fas fa-times"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <a th:href="@{'/compras-proveedores'}" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+            <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+        </div>
+    </div>
+</form>

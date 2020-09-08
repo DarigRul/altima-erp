@@ -62,6 +62,8 @@
                         <div th:insert="catalogos-marcador" class="col-lg-6 col-6" id="marcadoresCatalogo"></div>
                         <!-- COMPOSICION -->
                         <div th:insert="catalogos-composicion" class="col-lg-6 col-6" id="composicionCatalogo"></div>
+                        <!-- PRECIO COMPOSICION -->
+                        <div th:insert="catalogos-precio-composicion" class="col-lg-4 col-6" id="precioComposicionCatalogo"></div>
                         <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
                     </div>
                     <!-- /.row -->
@@ -95,7 +97,6 @@
         var rolAgregar = $('#rolAgregar').val();
         var rolEditar = $('#rolEditar').val();
         var rolEliminar = $('#rolEliminar').val();
-
         console.log(rolAdmin);
     </script>
     <script>

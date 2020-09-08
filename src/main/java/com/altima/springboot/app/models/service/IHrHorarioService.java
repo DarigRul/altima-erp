@@ -4,9 +4,8 @@ import java.util.List;
 
 import com.altima.springboot.app.models.entity.HrHorario;
 
-
 public interface IHrHorarioService {
-	
+
 	List<HrHorario> findAll();
 
 	void save(HrHorario hrhorario);
@@ -14,8 +13,10 @@ public interface IHrHorarioService {
 	void delete(Long id);
 
 	HrHorario findOne(Long id);
-	
+
 	List<HrHorario> findAllHorarios();
 
 	List<HrHorario> obtenerHorario(Long id);
+
+	public boolean duplicateHorario(String horaInicio, String horaSalida, String horaComida, String horaRegresoComida);
 }

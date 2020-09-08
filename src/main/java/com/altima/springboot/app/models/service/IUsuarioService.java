@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.altima.springboot.app.dto.ChangePasswordForm;
-import com.altima.springboot.app.models.entity.Rol;
+import com.altima.springboot.app.models.entity.HrEmpleado;
 import com.altima.springboot.app.models.entity.Usuario;
 
 public interface IUsuarioService {
@@ -30,5 +30,11 @@ public interface IUsuarioService {
 	List<Object[]> FindPermisosByUserId(Long id);
 
 	Usuario FindAllUserAttributes(String username, Collection<? extends GrantedAuthority> rol);
+
+	List<Object[]> FindClienteProspecto(Long idcliente);
+
+	 List<Object[]> FindClienteProspectoAgente(Long idagente);
+
+	Object[] findEmpleadoByUserName(String userName);
 
 }

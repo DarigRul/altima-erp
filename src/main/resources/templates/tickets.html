@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Tickets | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Tickets&nbsp;<button  th:onclick="|limpiarForm(${solicitanteEmpleado}, ${auxiliarEmpleado})|" data-toggle="modal" data-target="#nuevoTicket" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo ticket</button>
+                            <a data-toggle="modal" th:onclick="|limpiarForm2(${solicitanteEmpleado}, ${auxiliarEmpleado})|" data-target="#agendarCitaMasiva" id="nueva-cita2" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-danger"></span>A&ntilde;adir ticket recurrente</a>
+                            </h1>
+                        </div>
+                        <div th:insert="ticket-nuevo"></div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">Auxiliar de ventas</li>
+                                <li class="breadcrumb-item active">Tickets</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de tickets</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered" id="table-ticket">
+                                        <thead>
+                                            <tr>
+                                                <th>Ticket</th>
+                                                <th th:if="${auxiliarSelected != null}">Solicitante</th>
+                                                <th th:if="${solicitanteSelected != null}" >Auxiliar</th>
+                                                <th>Fecha solicitante</th>
+                                                <th>Categor&iacute;a</th>
+                                                <th>Estatus</th>
+                                                <th>Fecha de soluci&oacute;n</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        
+                                        <tr th:each="view, icli: ${view}">
+												<td th:text="${view[1]}"></td>
+												<td th:if="${auxiliarSelected != null}" th:text="${view[2]}"></td>
+												<td th:if="${solicitanteSelected != null}" th:text="${view[3]}"></td>												
+												<td th:text="${view[4]}"></td>
+												<td th:text="${view[5]}"></td>
+												<td th:text="${view[6]}"></td>
+												<td th:text="${view[7]}"></td>
+												 <td class="text-center">
+                                                    <a class="btn btn-info btn-circle btn-sm popoverxd" data-toggle="modal" data-target="#infoTicket" onclick="detalles(this)" th:id="${view[0]}" data-placement="top" data-content="Detalles"><i class="fas fa-info text-white"></i></a>
+                                                    <a th:if="${solicitanteSelected!=null}" class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editar(this)" th:id="${view[0]}" data-target="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
+                                                    <a  onclick="seguimiento(this)" th:id="${view[0]}" data-toggle="modal" data-target="#nuevoSeguimiento" class="btn btn-success btn-circle btn-sm popoverxd" data-placement="top" data-content="Nuevo seguimiento"><i class="fas fa-search text-white"></i></a>
+                                                </td>
+												
+											</tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                    <div th:insert="ticket-seguimiento"></div>
+                                    <div th:insert="ticket-detalle"></div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/ComprasProveedores.js"></script>
+    <script src="plugins/moment/moment.min.js"></script>
+     <script src="/dist/js/tickets.js"></script>
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#navComercial').addClass('active-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#menuAuxiliar').addClass('menu-open');
+        $('#navAuxiliar').addClass('active');
+        $('#navAuxTic').addClass('active');
+    </script>
+    <script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+	    	  position: 'center',
+	          icon: /*[[${icon}]]*/,
+	          title: /*[[${title}]]*/,
+	          showConfirmButton: false,
+	          timer: 2500
+	    });
+	</script>
+</body>
+
+</html>

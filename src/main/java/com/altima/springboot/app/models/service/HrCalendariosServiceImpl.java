@@ -9,19 +9,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.models.entity.HrCalendario;
-import com.altima.springboot.app.models.entity.HrHorario;
 import com.altima.springboot.app.repository.HrCalendariosRepository;
 
-
 @Service
-public class HrCalendariosServiceImpl implements IHrCalendariosService{
+public class HrCalendariosServiceImpl implements IHrCalendariosService {
 	@Autowired
 	HrCalendariosRepository repository;
 	@Autowired
 	EntityManager em;
-	
+
 	@Override
-    @Transactional
+	@Transactional
 	public List<HrCalendario> findAll() {
 		// TODO Auto-generated method stub
 		return (List<HrCalendario>) repository.findAll();
@@ -48,12 +46,33 @@ public class HrCalendariosServiceImpl implements IHrCalendariosService{
 		// TODO Auto-generated method stub
 		return repository.findById(id).orElse(null);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<HrCalendario> findAllCalendarios() {
 		// TODO Auto-generated method stub
-		return em.createQuery("from HrCalendario ORDER BY fechaCreacion DESC").getResultList();
+		return em.createNativeQuery("SELECT * from alt_hr_calendario cl ORDER BY cl.fecha_creacion DESC")
+				.getResultList();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean duplicateCalendario(String fechaFestivo, String festividad, String estatusFestivo) {
+		boolean d;
+		List<HrCalendario> result = em.createNativeQuery("SELECT" +
+		"	* " +
+		"FROM" +
+		"	alt_hr_calendario c " +
+		"WHERE" +
+		"	c.fecha = '"+fechaFestivo+"'AND" +
+		"	c.nombre_calendario = '"+festividad+"'AND" +
+		"	c.estatus = '"+estatusFestivo+"'").getResultList();
+		if (result.isEmpty()) {
+			d = false;
+		} else {
+			d = true;
+		}
+		return d;
 	}
 }

@@ -1,99 +1,98 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
-<head th:include="navegacion-head :: header">
-    <title id="pageTitle">Notificaciones | Altima</title>
-</head>
-
-<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-    <!-- Site wrapper -->
-    <div class="wrapper">
-        <!-- Navbar -->
-        <div th:insert="navegacion-nav"></div>
-        <!-- /.navbar -->
-        <!-- Modal -->
-        <div th:insert="navegacion-logout"></div>
-        <!-- Main Sidebar Container -->
-        <div th:insert="navegacion-aside"></div>
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+   <head th:include="navegacion-head :: header">
+      <title id="pageTitle">Notificaciones | Altima</title>
+   </head>
+   <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+      <!-- Site wrapper -->
+      <div class="wrapper">
+         <!-- Navbar -->
+         <div th:insert="navegacion-nav"></div>
+         <!-- /.navbar -->
+         <!-- Modal -->
+         <div th:insert="navegacion-logout"></div>
+         <!-- Main Sidebar Container -->
+         <div th:insert="navegacion-aside"></div>
+         <!-- Content Wrapper. Contains page content -->
+         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Notificaciones</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item altima">Altima</li>
-                                <li class="breadcrumb-item active">Dise&ntilde;o</li>
-                                <li class="breadcrumb-item active">Notificaciones</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.container-fluid -->
+               <div class="container-fluid">
+                  <div class="row mb-2">
+                     <div class="col-sm-6">
+                        <h1>Notificaciones</h1>
+                     </div>
+                     <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                           <li class="breadcrumb-item altima">Altima</li>
+                           <li class="breadcrumb-item active">Dise&ntilde;o</li>
+                           <li class="breadcrumb-item active">Notificaciones</li>
+                        </ol>
+                     </div>
+                  </div>
+               </div>
+               <!-- /.container-fluid -->
             </section>
             <!-- Main content -->
             <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- Default box -->
-                            <div class="card">
-                                <div class="card-header bg-altima">
-                                    <h3 class="card-title">Operaciones</h3>
-                                </div>
-                                <div class="card-body">
-                                    <table class="table tablaGeneral table-striped table-bordered" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Folio</th>
-                                                <th>Asunto</th>
-                                                <th>Fecha</th>
-                                                <th>Referencia</th>
-                                                <th>Solicitante</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr th:each="notificacion, inotificacion : ${notificaciones}">
-                                                <td th:text="${notificacion[3]}" />
-                                                <td th:text="${notificacion[6]}" />
-                                               <td th:text="${notificacion[5]}" />
-                                               <td th:text="${notificacion[4]}" />
-                                               <td th:text="${notificacion[13]}" />
-                                                <td class="text-center">
-                                                    <a th:href="@{'/notificaciones/solicitud-gerencial/' + ${notificacion[1]}}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>
-                                                       
-                                                </td>
-                                            </tr>
-                                           
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-12">
+                        <!-- Default box -->
+                        <div class="card">
+                           <div class="card-header bg-altima">
+                              <h3 class="card-title">Notificaciones</h3>
+                           </div>
+                           <div class="card-body">
+                              <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+                              <table class="table tablaGeneral table-striped table-bordered" style="width:100%">
+                                 <thead>
+                                    <tr>
+                                       <th>Folio</th>
+                                       <th>Asunto</th>
+                                       <th>Fecha</th>
+                                       <th>Cliente</th>
+                                       <th>Solicitante</th>
+                                       <th>Acciones</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr th:each="notificacion, inotificacion : ${notificaciones}">
+                                       <td th:text="${notificacion[1]}" />
+                                       <td th:text="${notificacion[2]}" />
+                                       <td th:text="${notificacion[3]}" />
+                                       <td th:text="${notificacion[4]}" />
+                                       <td th:text="${notificacion[5]}" />
+                                       <td  th:if="${notificacion[7] == 0}" class="text-center">
+                                          <a th:onclick="|notificacionesdisenio(${notificacion[0]})|" th:href="@{'/notificaciones/solicitud-gerencial/' + ${notificacion[6]}}" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-envelope-square"></i></a>
+                                       </td>
+                                       <td  th:if="${notificacion[7] == 1}" class="text-center">
+                                          <a th:href="@{'/notificaciones/solicitud-gerencial/' + ${notificacion[6]}}" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-envelope-open-text"></i></a>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                           <!-- /.card-body -->
                         </div>
-                    </div>
-                </div>
-                <!-- Main row -->
+                        <!-- /.card -->
+                     </div>
+                  </div>
+               </div>
+               <!-- Main row -->
             </section>
             <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
-        <div th:insert="navegacion-footer"></div>
-    </div>
-    <div th:replace="navegacion-scripts"></div>
-    <script src="dist/js/tablaGeneral.js"></script>
-    <script>
-        $('#iDiseno').removeClass('text-altima');
-        $('#menuDiseno').addClass('menu-open');
-        $('#navDiseno').addClass('active-altima');
-        $('#navNotDis').addClass('active');
-    </script>
-</body>
-
+         </div>
+         <!-- /.content-wrapper -->
+         <div th:insert="navegacion-footer"></div>
+      </div>
+      <div th:replace="navegacion-scripts"></div>
+      <script src="dist/js/tablaGeneral.js"></script>
+      <script>
+         $('#iDiseno').removeClass('text-altima');
+         $('#menuDiseno').addClass('menu-open');
+         $('#navDiseno').addClass('active-altima');
+         $('#navNotDis').addClass('active');
+      </script>
+   </body>
 </html>

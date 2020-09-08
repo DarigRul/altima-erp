@@ -24,6 +24,11 @@
 						<div class="col-sm-6">
 							<h1>
 								Hist&oacute;rico De Muestras
+								
+								<a onclick="expirados()" data-toggle="modal" data-target="#nuevoSeguimiento"  data-placement="top" data-content="Nuevo seguimiento"  class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-danger"></span>Movimientos expirados</a>
+							
+							 
+							
 							</h1>
 						</div>
 						<div class="col-sm-6">
@@ -76,7 +81,7 @@
 												<td th:text="${historico[10]}">28/01/2020 11:00</td>
 												<td th:text="${historico[11]}">Juan Manuel Hernández</td>
 												<td th:text="${historico[12]}">Juan Manuel Hernández</td>
-												<td th:text="${historico[14]}">Estatus</td>
+												<td th:text="${historico[13]}">Estatus</td>
 											</tr>
 										</tbody>
 									</table>
@@ -93,12 +98,15 @@
 		<!-- /.content-wrapper -->
 
 		<div th:insert="navegacion-footer"></div>
+		
+		<div th:insert="historico-de-muestras-modal"></div>
 	</div>
 	<!-- ./wrapper -->
 
 	<div th:replace="navegacion-scripts"></div>
 	<script src="/dist/js/tablaInventario.js"></script>
 	<script src="/dist/js/UploadImage.js"></script>
+	<script src="/dist/js/historico-de-muestras-modal.js"></script>
 
 	<script>
 		$('#iComercial').removeClass('text-primary');
@@ -110,4 +118,14 @@
 	</script>
 
 </body>
+
+
+
 </html>
+
+
+
+
+
+
+

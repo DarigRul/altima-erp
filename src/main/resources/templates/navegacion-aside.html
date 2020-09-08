@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-light-primary elevation-4">
     <!-- Brand Logo -->
-    <a th:href="${'/'}" class="brand-link">
+    <a th:href="${'/'}" class="brand-link bg-altima">
         <img src="/dist/img/AltimaLogo.png" alt="Altima Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8;" />
         <span class="brand-text font-weight-light">Altima</span>
     </a>
@@ -9,7 +9,7 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="/dist/img/userCircle.png" class="img-circle elevation-2" alt="User Image">
+                <img src="/dist/img/userCircle.png" id="userCircle" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info" sec:authorize="isAuthenticated()">
                 <a class="d-block" sec:authentication="name">
@@ -28,14 +28,16 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_LISTAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_AGREGAR'')')}) or
-              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_EDITAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_MENSAJERIA_MENSAJERIA_ELIMINAR'')')})">
-                    <a th:href="${'/mensajeria'}" class="nav-link" id="navMensajeria">
-                        <i class="nav-icon fas fa-mail-bulk text-altima" id="iMensajeria"></i>
-                        <p>Mensajer&iacute;a</p>
+                <li class="nav-item">
+                    <a th:href="${'/calendario'}" class="nav-link" id="navCalendario">
+                        <i class="nav-icon fas fa-calendar text-altima" id="iCalendario"></i>
+                        <p>Calendario</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="${'/cambio-fecha-pedido'}" class="nav-link" id="navCal">
+                        <i class="nav-icon fas fa-calendar text-altima" id="iCal"></i>
+                        <p>Cambio de fecha de pedido</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -125,6 +127,12 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item has-treeview">
+                            <a th:href="${'/catalogos-comercial'}" class="nav-link" id="navComCat">
+                                <i class="nav-icon fas fa-book-open" id="iComCat"></i>
+                                <p>Cat&aacute;logos</p>
+                            </a>
+                        </li>
                         <li class="nav-item has-treeview" id="menuMuestrario" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                     (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO'')')})">
                             <a class="nav-link" id="navMuestrario">
@@ -246,6 +254,16 @@
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_ELIMINAR'')')})">
+                                    <a th:href="${'/bordados'}" class="nav-link" id="navVenFlu">
+                                        <i class="nav-icon flaticon-needle-with-thread-to-sew-clothes"></i>
+                                        <p>Bordados</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOPRENDAS_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOPRENDAS_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOPRENDAS_EDITAR'')')}) or 
@@ -357,7 +375,33 @@
                                         <p>Pendiente por recibir</p>
                                     </a>
                                 </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/explosion-de-materiales'}" class="nav-link" id="navAMPExp">
+                                        <i class="nav-icon flaticon-eye-shadow-palette-with-brush"></i>
+                                        <p>Explosi&oacute;n de materiales</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/explosion-de-materiales'}" class="nav-link" id="navAMPReq">
+                                        <i class="nav-icon fas fa-store"></i>
+                                        <p>Requisici&oacute;n de almac&eacute;n</p>
+                                    </a>
+                                </li>
                             </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a th:href="${'/servicio-cliente'}" class="nav-link" id="navSer">
+                                <i class="nav-icon fas fa-user" id="iSer"></i>
+                                <p>Servicio al cliente</p>
+                            </a>
                         </li>
                         <li class="nav-item has-treeview" id="menuMuestrario" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                     (${#authorization.expression('hasRole(''ROLE_COMERCIAL_RECEPCION'')')})">
@@ -474,6 +518,29 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item has-treeview" id="menuAuxiliar">
+                                <a class="nav-link" id="navAuxiliar">
+                                    <i class="nav-icon fas fa-user-alt"></i>
+                                    <p>
+                                        Auxiliar de Ventas <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a th:href="${'/calendario-auxiliar'}" class="nav-link" id="navAuxCal">
+                                            <i class="nav-icon fas fa-calendar"></i>
+                                            <p>Calendario</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a th:href="${'/tickets'}" class="nav-link" id="navAuxTic">
+                                            <i class="nav-icon fas fa-ticket-alt"></i>
+                                            <p>Tickets</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
                         <li class="nav-item has-treeview" id="menuMuestrario" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                     (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING'')')})">
                             <a class="nav-link" id="navMuestrario">
@@ -527,15 +594,31 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_LISTAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_AGREGAR'')')}) or
-              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_EDITAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_ELIMINAR'')')})">
-                    <a th:href="${'/rutas'}" class="nav-link" id="navLogistica">
+                <li class="nav-item has-treeview" id="menuLogistica" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_LISTAR'')')}) or 
+                (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_AGREGAR'')')}) or
+                (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_EDITAR'')')}) or 
+                (${#authorization.expression('hasRole(''ROLE_LOGISTICA_LOGISTICA_ELIMINAR'')')})">
+                    <a class="nav-link" id="navLogistica">
                         <i class="nav-icon fas fa-truck text-altima" id="iLogistica"></i>
-                        <p>Log&iacute;stica</p>
+                        <p>
+                            Log&iacute;stica <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="${'/logistica-catalogos-unidades'}" class="nav-link" id="navLogUni">
+                                <i class="nav-icon fas fa-truck-moving"></i>
+                                <p>Cat&aacute;logo de unidades </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/logistica-solicitud-camionetas'}" class="nav-link" id="navLogCam">
+                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <p>Solicitud de camioneta</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item has-treeview" id="menuMaquila">
                     <a class="nav-link" id="navMaquila">
@@ -577,6 +660,40 @@
                             <a th:href="${'/compras-proveedores'}" class="nav-link" id="navComPro">
                                 <i class="nav-icon fas fa-user-friends"></i>
                                 <p>Proveedores</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/requisicion-de-telas'}" class="nav-link" id="navComReq">
+                                <i class="nav-icon flaticon-curling-hair-with-tissue-roll"></i>
+                                <p>Requisici&oacute;n de telas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/requisicion-de-materiales'}" class="nav-link" id="navComMat">
+                                <i class="nav-icon flaticon-curling-hair-with-tissue-roll"></i>
+                                <p>Requisici&oacute;n de materiales</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" id="menuRequisiciones">
+                    <a class="nav-link" id="navRequisiciones">
+                        <i class="nav-icon-custom fas fa-clipboard text-altima" id="iRequisiciones"></i>
+                        <p>
+                            Requisiciones <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="${'/requisicion-de-almacen'}" class="nav-link" id="navReqAlm">
+                                <i class="nav-icon fas fa-store"></i>
+                                <p>Requisici&oacute;n de almac&eacute;n</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/requisicion-de-compras'}" class="nav-link" id="navReqCom">
+                                <i class="nav-icon fas fa-dollar-sign"></i>
+                                <p>Requisici&oacute;n de compras</p>
                             </a>
                         </li>
                     </ul>
@@ -725,7 +842,7 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_ELIMINAR'')')})">
-                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                            <a th:href="${'/rutas'}" class="nav-link" id="navProRut">
                                 <i class="nav-icon fas fa-route"></i>
                                 <p>Rutas de procesos</p>
                             </a>
@@ -735,7 +852,7 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_ELIMINAR'')')})">
-                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                            <a th:href="${'/'}" class="nav-link" id="navProPre">
                                 <i class="nav-icon flaticon-005-dress"></i>
                                 <p>Prendas faltantes</p>
                             </a>
@@ -745,7 +862,7 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_ELIMINAR'')')})">
-                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion11">
                                 <i class="nav-icon fas fa-box"></i>
                                 <p>Pedidos entregados</p>
                             </a>
@@ -755,7 +872,7 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_ELIMINAR'')')})">
-                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion11">
                                 <i class="nav-icon fas fa-ticket-alt"></i>
                                 <p>Impresi&oacute;n de etiquetas</p>
                             </a>
@@ -765,7 +882,7 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_ELIMINAR'')')})">
-                            <a th:href="${'/rutas'}" class="nav-link" id="navProduccion11">
+                            <a th:href="${'/'}" class="nav-link" id="navProduccion11">
                                 <i class="nav-icon fas fa-tint"></i>
                                 <p>Hojas de tonos</p>
                             </a>
@@ -792,16 +909,6 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li class="nav-item has-treeview" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_LISTAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_AGREGAR'')')}) or
-              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_EDITAR'')')}) or 
-              (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_ELIMINAR'')')})">
-                    <a th:href="${'/administracion_usuarios'}" class="nav-link" id="navUsuario">
-                        <i class="nav-icon fas fa-users text-altima" id="iUsuario"></i>
-                        <p>Usuarios</p>
-                    </a>
                 </li>
                 <li class="nav-item has-treeview" id="menuRH" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
               (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS'')')})">
@@ -873,6 +980,44 @@
 
 
                             </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview" id="menuAdministracion" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_LISTAR'')')}) or 
+                (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_AGREGAR'')')}) or
+                (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_EDITAR'')')}) or 
+                (${#authorization.expression('hasRole(''ROLE_USUARIOS_USUARIOS_ELIMINAR'')')})">
+                    <a class="nav-link" id="navAdministracion">
+                        <i class="nav-icon-custom fas fa-user-cog text-altima" id="iAdministracion"></i>
+                        <p>
+                            Administrador <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="${'/catalogos-administrador'}" class="nav-link" id="navAdmCat">
+                                <i class="nav-icon fas fa-book-open"></i>
+                                <p>Cat&aacute;logos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/carga-masiva-precios'}" class="nav-link" id="navAdmCar">
+                                <i class="nav-icon fas fa-upload"></i>
+                                <p>Carga masiva de precios</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/configuracion-de-pedidos'}" class="nav-link" id="navAdmCon">
+                                <i class="nav-icon fas fa-cogs"></i>
+                                <p>Configuraci&oacute;n de pedidos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" >
+                            <a th:href="${'/administracion_usuarios'}" class="nav-link" id="navAdmUsu">
+                                <i class="nav-icon fas fa-users" id="iUsuario"></i>
+                                <p>Usuarios</p>
+                            </a>
                         </li>
                     </ul>
                 </li>

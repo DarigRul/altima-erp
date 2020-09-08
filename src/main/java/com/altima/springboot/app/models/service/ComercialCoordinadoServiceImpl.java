@@ -108,13 +108,26 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Override
 	@Transactional
 	public List<Object[]> findAllTela(Long id) {
-		List<Object[]> re = em.createNativeQuery("Select  tela.id_tela, CONCAT(tela.id_text,' ', tela.nombre_tela) \r\n" + 
-				"from alt_disenio_tela as tela ,alt_disenio_tela_prenda as tela_prenda\r\n" + 
-				"WHERE 1=1 \r\n" + 
-				"and tela.estatus=1\r\n" + 
-				"and tela.estatus_tela=1\r\n" + 
-				"and tela.id_tela = tela_prenda.id_tela\r\n" + 
-				"and tela_prenda.id_prenda="+id).getResultList();
+		System.out.println("si corrio el metodo de la tela");
+		List<Object[]> re = em.createNativeQuery("Select  tela.id_tela, CONCAT(tela.id_text,' ', tela.nombre_tela) \n" + 
+				"							from alt_disenio_tela as tela ,alt_disenio_tela_prenda as tela_prenda\n" + 
+				"								WHERE 1=1 and tela.estatus_tela=1\n" + 
+				"								and tela.estatus=1\n" + 
+				"								and tela.id_tela = tela_prenda.id_tela \n" + 
+				"								and tela_prenda.id_prenda="+ id).getResultList();
+		return re;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> findAllComposicion(Long id) {
+		System.out.println("si corrio el metodo de la composicion");
+		List<Object[]> re = em.createNativeQuery("SELECT famComposicion.id_lookup,\n" + 
+												 "		 famComposicion.nombre_lookup\n" + 
+												 "FROM alt_disenio_lookup AS famComposicion\n" + 
+												 "INNER JOIN alt_disenio_precio_composicion precio ON famComposicion.id_lookup = precio.id_familia_composicion\n" + 
+												 "WHERE precio.id_prenda ="+ id).getResultList();
 		return re;
 	}
 	
@@ -123,26 +136,26 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Transactional
 	public List<Object[]> materialesPorPrenda(Long id) {
 		
-		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + 
-				"	material.id_material,\r\n" + 
-				"	material.nombre_material,\r\n" + 
-				"	material_prenda.id_material_prenda ,\r\n" + 
-				"	look.nombre_lookup\r\n" + 
-				"FROM\r\n" + 
-				"	alt_disenio_material_prenda AS material_prenda,\r\n" + 
-				"	alt_disenio_material AS material,\r\n" + 
-				"	alt_disenio_lookup adl,\r\n" + 
-				"	alt_disenio_lookup AS look \r\n" + 
-				"WHERE\r\n" + 
-				"	1 = 1 \r\n" + 
-				"	\r\n" + 
-				"	AND look.id_lookup = material.id_tipo_material \r\n" + 
-				"	AND look.nombre_lookup NOT IN ( 'Tela Material' ) \r\n" + 
-				"	AND look.nombre_lookup NOT IN ( 'Forro Material' ) \r\n" + 
-				"	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \r\n" + 
-				"	AND material.id_material = material_prenda.id_material \r\n" + 
-				"	AND material.id_proceso = adl.id_lookup \r\n" + 
-				"	AND material_prenda.id_prenda = "+id).getResultList();
+		List<Object[]> re = em.createNativeQuery("SELECT\n" + 
+				"					material.id_material, \n" + 
+				"					material.nombre_material, \n" + 
+				"					material_prenda.id_material_prenda , \n" + 
+				"					look.nombre_lookup\n" + 
+				"				FROM\n" + 
+				"					alt_disenio_material_prenda AS material_prenda,\n" + 
+				"					alt_disenio_material AS material,\n" + 
+				"					alt_disenio_lookup adl,\n" + 
+				"					alt_disenio_lookup AS look \n" + 
+				"				WHERE\n" + 
+				"					1 = 1\n" + 
+				"					AND look.id_lookup = material.id_tipo_material \n" + 
+				"					AND look.nombre_lookup NOT IN ( 'Tela Material' ) \n" + 
+				"					AND look.nombre_lookup NOT IN ( 'Forro Material' )  \n" + 
+			
+				"					AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' )  \n" + 
+				"					AND material.id_material = material_prenda.id_material \n" + 
+				"					AND material.id_proceso = adl.id_lookup \n" + 
+				"					AND material_prenda.id_prenda = "+id).getResultList();
 		return re;
 		//AND material.nombre_material NOT IN ('Tela principal')
 	}
@@ -473,6 +486,45 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 					"WHERE\r\n" + 
 					"	1 = 1 \r\n" + 
 					"	AND tela.id_tela = "+id).getSingleResult().toString();
+					
+			return re;
+			}
+			catch(Exception e) {
+				
+				return null;
+			}
+	
+	}
+	
+	@Override
+	 public String precioPrenda(Long idCoor , Long idPrenda, Long idTela) {
+		
+		try {
+			String re = em.createNativeQuery(""
+					+ "SELECT\n" + 
+					"CASE\n" + 
+					"	WHEN\n" + 
+					"			pedido.precio_usar = 1 THEN\n" + 
+					"			precio.precio_local_nuevo \n" + 
+					"			WHEN pedido.precio_usar = 2 THEN\n" + 
+					"			precio.precio_local_antiguo \n" + 
+					"			WHEN pedido.precio_usar = 3 THEN\n" + 
+					"			precio.precio_foraneo_nuevo \n" + 
+					"			WHEN pedido.precio_usar = 4 THEN\n" + 
+					"			precio.precio_foraneo_antiguo ELSE '000' \n" + 
+					"		END precio \n" + 
+					"FROM\n" + 
+					"	alt_comercial_pedido_informacion AS pedido,\n" + 
+					"	alt_disenio_lista_precio_prenda AS precio,\n" + 
+					"	alt_comercial_coordinado AS coor, \n" + 
+					"	alt_disenio_tela as tela\n" + 
+					"WHERE\n" + 
+					"	1 = 1 \n" + 
+					"	AND coor.id_coordinado = "+idCoor+" \n" + 
+					"	AND coor.id_pedido = pedido.id_pedido_informacion \n" + 
+					"	AND precio.id_prenda = "+idPrenda+"\n" + 
+					"	AND tela.id_familia_composicion = precio.id_familia_composicion\n" + 
+					"	and tela.id_tela="+idTela).getSingleResult().toString();
 					
 			return re;
 			}

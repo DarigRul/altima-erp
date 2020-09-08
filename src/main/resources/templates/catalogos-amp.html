@@ -39,10 +39,11 @@
                 <div class="container-fluid">
                     <!-- Small boxes (Stat box) -->
                     <div class="row">
-                      	<div th:insert="amp-catalogos-almacenes" class="col-lg-6 col-6"></div> 
-                      	<div th:insert="amp-catalogos-clasificacion" class="col-lg-6 col-6"></div>  
-                      	<div th:insert="amp-catalogos-linea" class="col-lg-6 col-6"></div> 
-                      	<div th:insert="amp-catalogos-movimientos" class="col-lg-6 col-6"></div> 
+                      	<div th:insert="amp-catalogos-almacenes-fisicos" class="col-lg-6 col-6"></div> 
+                      	<div th:insert="amp-catalogos-almacenes-logicos" class="col-lg-6 col-6"></div> 
+                      	<div th:insert="amp-catalogos-clasificacion" class="col-lg-4 col-6"></div>  
+                      	<div th:insert="amp-catalogos-linea" class="col-lg-4 col-6"></div> 
+                      	<div th:insert="amp-catalogos-movimientos" class="col-lg-4 col-6"></div> 
                       	<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
                     </div>
                     <!-- /.row -->
@@ -64,8 +65,8 @@
     <script src="dist/js/tablaCatalogosAMP.js"></script>
     <script src="dist/js/ampCRUD.js"></script>
 	<script>
-		$('#iComercial').removeClass('text-primary');
-		$('#navComercial').addClass('active');
+		$('#iComercial').removeClass('text-altima');
+		$('#navComercial').addClass('active-altima');
 		$('#menuComercial').addClass('menu-open');
 		$('#menuAMP').addClass('menu-open');
 		$('#navAMP').addClass('active');

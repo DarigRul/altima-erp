@@ -29,6 +29,9 @@ public class DisenioListaPrecioPrenda implements Serializable{
 	@Column(name="id_prenda")
 	private Long idPrenda;
 	
+	@Column(name="id_familia_composicion")
+	private Long idFamiliaComposicion;
+	
 	@Column(name="precio_local_nuevo")
 	private float precioLocalNuevo;
 	
@@ -76,6 +79,76 @@ public class DisenioListaPrecioPrenda implements Serializable{
 	
 	@Column(name="ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
+	
+	@Column(name="precio_extra_1")
+	private float precioExtra1;
+	
+	@Column(name="precio_extra_2")
+	private float precioExtra2;
+	
+	@Column(name="precio_extra_3")
+	private float precioExtra3;
+	
+	@Column(name="precio_extra_4")
+	private float precioExtra4;
+	
+	@Column(name="precio_e_commerce")
+	private float precioEcommerce;
+
+	
+	
+	
+	public Long getIdFamiliaComposicion() {
+		return idFamiliaComposicion;
+	}
+
+	public void setIdFamiliaComposicion(Long idFamiliaComposicion) {
+		this.idFamiliaComposicion = idFamiliaComposicion;
+	}
+
+	public float getPrecioExtra1() {
+		return precioExtra1;
+	}
+
+	public void setPrecioExtra1(float precioExtra1) {
+		this.precioExtra1 = precioExtra1;
+	}
+
+	public float getPrecioExtra2() {
+		return precioExtra2;
+	}
+
+	public void setPrecioExtra2(float precioExtra2) {
+		this.precioExtra2 = precioExtra2;
+	}
+
+	public float getPrecioExtra3() {
+		return precioExtra3;
+	}
+
+	public void setPrecioExtra3(float precioExtra3) {
+		this.precioExtra3 = precioExtra3;
+	}
+
+	public float getPrecioExtra4() {
+		return precioExtra4;
+	}
+
+	public void setPrecioExtra4(float precioExtra4) {
+		this.precioExtra4 = precioExtra4;
+	}
+
+	public float getPrecioEcommerce() {
+		return precioEcommerce;
+	}
+
+	public void setPrecioEcommerce(float precioEcommerce) {
+		this.precioEcommerce = precioEcommerce;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public Long getIdListaPrecioPrenda() {
 		return idListaPrecioPrenda;
@@ -220,9 +293,21 @@ public class DisenioListaPrecioPrenda implements Serializable{
 	public void setPrecioLineaExpressForaneoAnterior(float precioLineaExpressForaneoAnterior) {
 		this.precioLineaExpressForaneoAnterior = precioLineaExpressForaneoAnterior;
 	}
-	
-	
-		
 
-
+	@Override
+	public String toString() {
+		return "DisenioListaPrecioPrenda [actualizadoPor=" + actualizadoPor + ", costoMaquila=" + costoMaquila
+				+ ", costoMaquilaMuestra=" + costoMaquilaMuestra + ", creadoPor=" + creadoPor + ", fechaCreacion="
+				+ fechaCreacion + ", idFamiliaComposicion=" + idFamiliaComposicion + ", idListaPrecioPrenda="
+				+ idListaPrecioPrenda + ", idPrenda=" + idPrenda + ", precioEcommerce=" + precioEcommerce
+				+ ", precioExtra1=" + precioExtra1 + ", precioExtra2=" + precioExtra2 + ", precioExtra3=" + precioExtra3
+				+ ", precioExtra4=" + precioExtra4 + ", precioForaneoAntiguo=" + precioForaneoAntiguo
+				+ ", precioForaneoNuevo=" + precioForaneoNuevo + ", precioLineaExpressForaneoAnterior="
+				+ precioLineaExpressForaneoAnterior + ", precioLineaExpressForaneoNuevo="
+				+ precioLineaExpressForaneoNuevo + ", precioLineaExpressLocalAnterior="
+				+ precioLineaExpressLocalAnterior + ", precioLineaExpressLocalNuevo=" + precioLineaExpressLocalNuevo
+				+ ", precioLocalAntiguo=" + precioLocalAntiguo + ", precioLocalNuevo=" + precioLocalNuevo
+				+ ", precioMuestrario=" + precioMuestrario + ", precioVentaInterna=" + precioVentaInterna
+				+ ", ultimaFechaModificacion=" + ultimaFechaModificacion + "]";
+	}
 }

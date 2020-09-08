@@ -10,7 +10,7 @@ $(document).ready(function() {
     listarMateriales();
     listarMarcadores();
     listarComposiciones1();
-
+    listarPreciosComposicion();
 });
 
 function listarcuidadosjson() {
@@ -87,7 +87,7 @@ function listarcuidadosjson2(idcomposicion) {
 
 // /////////////////////////////
 function listarColores() {
-
+	var Proveedores=[];
     $.ajax({
         method: "GET",
         url: "/listar",
@@ -95,6 +95,12 @@ function listarColores() {
             "Tipo": "Color"
         },
         success: (data) => {
+        	$.ajax({
+                type: "GET",
+                url: "/listarProveedoresColores",
+                success: (datitos) => {
+               	Proveedores=datitos;
+                
             $('#quitar2').remove();
             $('#contenedorTabla2').append("<div class='modal-body' id='quitar2'>" +
                 "<table class='table table-striped table-bordered' id='idtable2' style='width:100%'>" +
@@ -103,24 +109,27 @@ function listarColores() {
                 "<th>Clave</th>" +
                 "<th>Nombre</th>" +
                 "<th>Color</th>" +
+                "<th>Proveedor</th>" +
                 "<th>Acciones</th>" +
                 "</tr>" +
                 "</thead>" +
                 "</table>" + "</div>");
             var a;
+            var idProveedor;
             var b = [];
             if (rolAdmin == 1) {
                 for (i in data) {
                     var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
-
+                    idProveedor=parseInt(data[i].atributo2)-1;
                     a = [
                         "<tr>" +
                         "<td>" + data[i].idText + "</td>",
                         "<td>" + data[i].nombreLookup + "</td>",
                         "<td> <input type='color' value=" + data[i].atributo1 + " disabled> </td>",
+                        "<td>" + Proveedores[idProveedor].nombreProveedor + "</td>",
                         "<td style='text-align: center'>" +
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                        " <button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        " <button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' proveedorColor='" + data[i].atributo2 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
                         (data[i].estatus == 1 ? "<button onclick='bajarColor(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
                         (data[i].estatus == 0 ? "<button onclick='reactivar(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
                         "</td>" +
@@ -206,6 +215,8 @@ function listarColores() {
                 }
             });
             new $.fn.dataTable.FixedHeader(tablaColores);
+                }	 
+            })
         },
         error: (e) => {
 
@@ -947,7 +958,7 @@ function listarMedidas() {
                     }
                 }
             });
-            new $.fn.dataTable.FixedHeader(table);
+            new $.fn.dataTable.FixedHeader(tabla);
         },
         error: (e) => {
 
@@ -960,9 +971,8 @@ function listarMateriales() {
 
     $.ajax({
         method: "GET",
-        url: "/listar",
+        url: "/listar-material-clasificacion",
         data: {
-            "Tipo": "Material"
         },
         success: (data) => {
             $('#quitar9').remove();
@@ -973,6 +983,7 @@ function listarMateriales() {
                 "<th>Clave</th>" +
                 "<th>Nombre</th>" +
                 "<th>Tipo</th>" +
+                "<th>Clasificacion</th>" +
                 "<th>Acciones</th>" +
                 "</tr>" +
                 "</thead>" +
@@ -981,17 +992,18 @@ function listarMateriales() {
             var b = [];
             if (rolAdmin == 1) {
                 for (i in data) {
-                    var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
+                    var creacion = data[i][9] == null ? "" : data[i][9];
                     a = [
                         "<tr>" +
-                        "<td>" + data[i].idText + "</td>",
-                        "<td>" + data[i].nombreLookup + "</td>",
-                        (data[i].atributo1 == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
+                        "<td>" + data[i][1] + "</td>",
+                        "<td>" + data[i][2] + "</td>",
+                        (data[i][3] == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
+                        "<td>" + data[i][4] + "</td>",
                         "<td style='text-align: center;'>" +
-                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                        "<button onclick='editarMaterial(this);' atributo1='" + data[i].atributo1 + "' idlookup='" + data[i].idLookup + "' nombre='" + data[i].nombreLookup + "'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
-                        (data[i].estatus == 1 ? "<button onclick='bajarMaterial(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
-                        (data[i].estatus == 0 ? "<button onclick='reactivar(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][7] + " <br /><strong>Fecha de creación:</strong> " + data[i][8] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
+                        "<button onclick='editarMaterial(this);' atributo1='" + data[i][3] + "' atributo2='" + data[i][5] + "' idlookup='" + data[i][0] + "' nombre='" + data[i][2] + "'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        (data[i][6] == 1 ? "<button onclick='bajarMaterial(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                        (data[i][6] == 0 ? "<button onclick='reactivar(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
                         "</td>" +
 
                         "<tr>"
@@ -1000,20 +1012,24 @@ function listarMateriales() {
                 }
             } else {
                 for (i in data) {
-                    var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
-                    if (data[i].estatus == 1) {
+                	 var creacion = data[i][9] == null ? "" : data[i][9];
+                    if (data[i][6] == 1) {
                         a = [
-                            "<tr>" +
-                            "<td>" + data[i].idText + "</td>",
-                            "<td>" + data[i].nombreLookup + "</td>",
-                            (data[i].atributo1 == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
-                            "<td style='text-align: center;'>" +
-                            "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                            (rolEditar == 1 ? "<button onclick='editarMaterial(this);' atributo1='" + data[i].atributo1 + "' idlookup='" + data[i].idLookup + "' nombre='" + data[i].nombreLookup + "'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" : " ") +
-                            (rolEliminar == 1 ? "<button onclick='bajarMaterial(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
-                            "</td>" +
+                        	 "<tr>" +
+                             "<td>" + data[i][1] + "</td>",
+                             "<td>" + data[i][2] + "</td>",
+                             (data[i][3] == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
+                             "<td>" + data[i][4] + "</td>",
+                             "<td style='text-align: center;'>" +
+                             "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][7] + " <br /><strong>Fecha de creación:</strong> " + data[i][8] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
+                            
+                             (rolEditar == 1 ? "<button onclick='bajarMaterial(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                             (rolEliminar == 1 ? "<button onclick='reactivar(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
+                             "</td>" +
 
-                            "<tr>"
+                             "<tr>"
+                        	
+                        
                         ];
                         b.push(a);
                     }
@@ -1323,6 +1339,399 @@ function listarComposiciones1() {
         }
     })
 }
+
+function listarPreciosComposicion(){
+	
+    	$.ajax({
+            type: "GET",
+            url: "/listarPrecioComposiciones",
+            success: (data) => {
+            
+        $('#quitar12').remove();
+        $('#contenedorTabla12').append("<div class='modal-body' id='quitar12'>" +
+            "<table class='table table-striped table-bordered' id='idtable12' style='width:100%'>" +
+            "<thead>" +
+            "<tr>" +
+            "<th>Prenda</th>" +
+            "<th>Familia de Composicion</th>" +
+            "<th>Precio</th>" +
+            "<th>Acciones</th>" +
+            "</tr>" +
+            "</thead>" +
+            "</table>" + "</div>");
+        var a;
+        var b = [];
+        if (rolAdmin == 1) {
+        	console.log(data);
+            for (i in data) {
+                var creacion = data[i][5] == null ? "" : data[i][5];
+                
+                a = [
+                    "<tr>" +
+                    "<td>" + data[i][1] + "</td>",
+                    "<td>" + data[i][2] + "</td>",
+                    "<td>" + data[i][3] + "</td>"+
+                    "<td> <input type='hidden' value=" + data[i][0] + " disabled> </td>",
+                    "<td style='text-align: center'>" +
+                    "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][4] + " <br /><strong>Fecha de creación:</strong> " + data[i][6] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][7] + "'><i class='fas fa-info'></i></button> " +
+                    " <button onclick='editarPrecioFamComposicion("+ data[i][0] +","+data[i][9]+","+ data[i][10] +", "+ data[i][3] +")' id='" + data[i][0] + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_precio_composicion' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                    (data[i][8] == 1 ? "<button onclick='bajarPrecioComposicion(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                    (data[i][8] == 0 ? "<button onclick='reactivarPrecioComposicion(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
+                    "</td>" +
+
+                    "<tr>"
+                ];
+                b.push(a);
+            }
+        } else {
+            for (i in data) {
+                var creacion = data[i][5] == null ? "" : data[i][5];
+                if (data[i][8] == 1) {
+                    a = [
+                        "<tr>" +
+                        "<td>" + data[i][1] + "</td>",
+                        "<td>" + data[i][2] + "</td>",
+                        "<td>$ " + data[i][3] + "</td>"+
+                        "<td> <input type='hidden' value=" + data[i][0] + " disabled> </td>",
+                        "<td style='text-align: center'>" +
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][4] + " <br /><strong>Fecha de creación:</strong> " + data[i][6] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][7] + "'><i class='fas fa-info'></i></button> " +
+                        (rolEditar == 1 ? " <button onclick='editarPrecioFamComposicion("+ data[i][0] +","+data[i][9]+","+ data[i][10] +", "+ data[i][3] +")' id='" + data[i][0] + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_precio_composicion' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " : " ") +
+                        (rolEliminar == 1 ? "<button onclick='bajarPrecioComposicion(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                        "</td>" +
+
+                        "<tr>"
+                    ];
+                    b.push(a);
+
+                }
+            }
+        }
+        var tablaPrecioComposicion = $('#idtable12').DataTable({
+            "data": b,
+            "ordering": false,
+            "pageLength": 5,
+            "responsive": true,
+            "stateSave": true,
+            "drawCallback": function() {
+                $('.popoverxd').popover({
+                    container: 'body',
+                    trigger: 'hover'
+                });
+            },
+            "columnDefs": [{
+                    "type": "html",
+                    "targets": '_all'
+                },
+                {
+                    targets: 3,
+                    className: 'dt-body-center'
+                }
+            ],
+            "lengthMenu": [
+                [5, 10, 25, 50, 100],
+                [5, 10, 25, 50, 100]
+            ],
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                "buttons": {
+                    "copy": "Copiar",
+                    "colvis": "Visibilidad"
+                }
+            }
+        });
+        new $.fn.dataTable.FixedHeader(tablaPrecioComposicion);
+         
+    	
+    },
+    error: (e) => {
+
+    }
+})
+}
+
+function agregarPrecioComposicion(){
+	Swal.fire({
+        title: 'Agregar precio a una composición',
+        html: '<div class="row">' +
+            '<div class="form-group col-sm-12">' +
+            '<label for="prenda">Prenda</label>' +
+            '<select class="form-control" id="selectPrenda" data-live-search="true">' +listarPrendasSelect()+ "</select>" +
+            '<label for="famComposicion">Familia de composici&oacute;n</label>' +
+            '<select class="form-control" data-live-search="true" id="famComposicion">'+listarFamiliaComposicion()+'</select>' +
+            '<label for="precioFamComposicion">Precio </label><br>' +
+            '<input type="number" class="swal2-input" id="precioFamComposicion" placeholder="120.50">' +
+            '</div>' +
+            '</div>',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Agregar',
+        confirmButtonColor: '#0288d1',
+        preConfirm: (color) => {
+            if ($('#selectPrenda').val()=="" || $('#famComposicion').val()=="" || $('#precioFamComposicion').val()=="") {
+                Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
+            }
+        }
+    }).then((result) => {
+        if (result.value){
+        	var prenda = $('#selectPrenda').val();
+        	var famComposicion = $('#famComposicion').val();
+        	var precio = $('#precioFamComposicion').val();
+        	$.ajax({
+        		method:"GET",
+        		url:"/verifduplicadoPrecioComposicion",
+        		data:{
+        			idPrenda: prenda,
+        			idFamComposicion: famComposicion},
+        		success: (data) => {
+        			console.log(data);
+        			if(data==false){
+    		        	$.ajax({
+    		        		method:"POST",
+    		        		url:"/agregarPrecioComposicion",
+    		        		data:{"_csrf": $('#token').val(),
+    		        			idPrenda: prenda,
+    		        			idFamComposicion: famComposicion,
+    		        			precio: precio},
+    		        			
+    		        		success: (data) => {
+    		        			 listarPreciosComposicion();
+    		        			 Swal.fire({
+    		                         position: 'center',
+    		                         icon: 'success',
+    		                         title: 'Insertado correctamente',
+    		                         showConfirmButton: false,
+    		                         timer: 1250
+    		                     })
+    		        		},
+    		        		error:(e) =>{
+    		        			 Swal.fire({
+    		                         position: 'center',
+    		                         icon: 'error',
+    		                         title: 'Algo salión mal, intente más tarde',
+    		                         showConfirmButton: false,
+    		                         timer: 1250
+    		                     })        		
+    		        		}
+    		        	})
+        			}
+        			else{
+        				Swal.fire({
+	                         position: 'center',
+	                         icon: 'error',
+	                         title: 'Registro duplicado',
+	                         showConfirmButton: false,
+	                         timer: 1250
+	                     }) 
+        			}
+        		},
+        		error: (e) => {
+        		}
+	        	})
+        }
+    });
+}
+
+function editarPrecioFamComposicion(idPrecioComposicion, idPrenda, idFamComposicion, precio){
+	Swal.fire({
+        title: 'Agregar precio a una composición',
+        html: '<div class="row">' +
+            '<div class="form-group col-sm-12">' +
+            '<label for="prenda">Prenda</label>' +
+            '<select class="form-control" id="selectPrenda" data-live-search="true">' +listarPrendasSelect(idPrenda)+ "</select>" +
+            '<label for="famComposicion">Familia de composici&oacute;n</label>' +
+            '<select class="form-control" data-live-search="true" id="famComposicion">'+listarFamiliaComposicion(idFamComposicion)+'</select>' +
+            '<label for="precioFamComposicion">Precio </label><br>' +
+            '<input type="number" class="swal2-input" name="precioComposiciones" id="precioFamComposicion" placeholder="120.50" value='+precio+'>' +
+            '</div>' +
+            '</div>',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Agregar',
+        confirmButtonColor: '#0288d1',
+        preConfirm: (color) => {
+            if ($('#selectPrenda').val()=="" || $('#famComposicion').val()=="" || $('#precioFamComposicion').val()=="") {
+                Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
+            }
+        }
+    }).then((result) => {
+        if (result.value){
+        	var prenda = $('#selectPrenda').val();
+        	var famComposicion = $('#famComposicion').val();
+        	var precio = $('#precioFamComposicion').val();
+        	var idPrecioCompos = idPrecioComposicion;
+        	
+        	$.ajax({
+        		method:"POST",
+        		url:"/editarPrecioComposicion",
+        		data:{"_csrf": $('#token').val(),
+        			idPrenda: prenda,
+        			idFamComposicion: famComposicion,
+        			precio: precio,
+        			idPrecioComposicion: idPrecioCompos},
+        			
+        		success: (data) => {
+        			 listarPreciosComposicion();
+        			 Swal.fire({
+                         position: 'center',
+                         icon: 'success',
+                         title: 'Editado correctamente',
+                         showConfirmButton: false,
+                         timer: 1250
+                     })
+        		},
+        		error:(e) =>{
+        			 Swal.fire({
+                         position: 'center',
+                         icon: 'error',
+                         title: 'Algo salión mal, intente más tarde',
+                         showConfirmButton: false,
+                         timer: 1250
+                     })        		
+        		}
+        	})
+		}
+		else{
+			Swal.fire({
+                 position: 'center',
+                 icon: 'error',
+                 title: 'Registro duplicado',
+                 showConfirmButton: false,
+                 timer: 1250
+             }) 
+		}
+	})
+}
+
+function bajarPrecioComposicion(idPrecioCompos){
+	$.ajax({
+		method:"POST",
+		url:"/bajarPrecioComposicion",
+		data:{"_csrf": $('#token').val(),
+			idPrecioComposicion: idPrecioCompos},
+			
+		success: (data) => {
+			 listarPreciosComposicion();
+			 Swal.fire({
+                 position: 'center',
+                 icon: 'success',
+                 title: 'Se dió de baja correctamente',
+                 showConfirmButton: false,
+                 timer: 1250
+             })
+		},
+		error:(e) =>{
+			 Swal.fire({
+                 position: 'center',
+                 icon: 'error',
+                 title: 'Algo salión mal, intente más tarde',
+                 showConfirmButton: false,
+                 timer: 1250
+             })        		
+		}
+	});
+}
+	
+function reactivarPrecioComposicion(idPrecioCompos){
+	$.ajax({
+		method:"POST",
+	url:"/reactivarPrecioComposicion",
+	data:{"_csrf": $('#token').val(),
+		idPrecioComposicion: idPrecioCompos},
+		
+	success: (data) => {
+		 listarPreciosComposicion();
+		 Swal.fire({
+             position: 'center',
+             icon: 'success',
+             title: 'Se dió de alta correctamente',
+             showConfirmButton: false,
+             timer: 1250
+         })
+	},
+	error:(e) =>{
+		 Swal.fire({
+             position: 'center',
+             icon: 'error',
+             title: 'Algo salión mal, intente más tarde',
+                 showConfirmButton: false,
+                 timer: 1250
+             })        		
+		}
+	});
+}
+
+function listarPrendasSelect(idPrenda) {
+	$('#selectPrenda').find("option").remove();
+	$.ajax({
+        type: "GET",
+        url: "/listar",
+        data:{ "Tipo": "Familia Prenda"},
+        success: (data) => {
+        	var listaPrendas = "";
+        	for(i in data){
+        		listaPrendas+= "<option value="+data[i].idLookup+">"+data[i].nombreLookup+"</option>";
+        	}
+        	$('#selectPrenda').append(listaPrendas);
+        	if(idPrenda!=null){
+        		$('#selectPrenda option[value='+idPrenda+']').attr("selected", true);
+        	}
+        },
+        error: (e) => {
+        	
+        }
+	});
+}
+
+function listarFamiliaComposicion(idFamComposicion) {
+	$('#famComposicion').find("option").remove();
+	$.ajax({
+        type: "GET",
+        url: "/listar",
+        data:{ "Tipo": "Familia Composicion"},
+        success: (data) => {
+        	var listaPrendas = "";
+        	for(i in data){
+        		listaPrendas+= "<option value="+data[i].idLookup+">"+data[i].nombreLookup+"</option>";
+        	}
+        	$('#famComposicion').append(listaPrendas);
+        	if(idFamComposicion!=null){
+        		$('#famComposicion option[value='+idFamComposicion+']').attr("selected", true);
+        	}
+        },
+        error: (e) => {
+        	
+        }
+	});
+}
+
+
 // Habilitar form de SweetAlert2
 $('#detalleMarcas').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
@@ -1332,6 +1741,23 @@ $('#detalleMarcas').on('shown.bs.modal', function() {
 $('#detalleColores').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
+
+
+function listarProveedores(proveedor){
+	 $.ajax({
+         type: "GET",
+         url: "/listarProveedoresColores",
+         success: (data) => {
+        	 
+    		 for (i in data){
+        	 $('#proveedorColor').append("<option value="+data[i].idProveedor+" name"+data[i].nombreProveedor+">"+data[i].nombreProveedor+"</option>");
+        	 }
+	    	 if(proveedor!=1){
+	    		 $('#proveedorColor option[value="'+proveedor+'"]').attr("selected", true);
+        	 }
+         }	 
+         })
+}
 // Agregar Color
 function agregarColor() {
     Swal.fire({
@@ -1340,8 +1766,10 @@ function agregarColor() {
             '<div class="form-group col-sm-12">' +
             '<label for="pedidonom">Nombre del color</label>' +
             '<input type="text" class="swal2-input" name="color" id="color" placeholder="Rojo">' +
-            '<label for="pedidonom">Codigo del color</label>' +
+            '<label for="pedidonom">Código del color</label>' +
             '<input type="color" class="swal2-input" id="codigocolor" placeholder="Rojo">' +
+            '<label for="proveedorColor">Proveedor</label>' +
+            '<select class="form-control" data-live-search="true" id="proveedorColor"><option value="error">Seleccione uno...</option>'+listarProveedores(1)+'</select>' +
             '</div>' +
             '</div>',
         showCancelButton: true,
@@ -1350,7 +1778,7 @@ function agregarColor() {
         confirmButtonText: 'Agregar',
         confirmButtonColor: '#0288d1',
         preConfirm: (color) => {
-            if (document.getElementById("color").value.length < 1) {
+            if (document.getElementById("color").value.length < 1 || $('#proveedorColor').val()=="error") {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
                 )
@@ -1360,6 +1788,7 @@ function agregarColor() {
         if (result.value && document.getElementById("color").value) {
             var Color = document.getElementById("color").value;
             var CodigoColor = document.getElementById("codigocolor").value;
+            var proveedorColor = document.getElementById("proveedorColor").value;
 
 
             $.ajax({
@@ -1373,15 +1802,18 @@ function agregarColor() {
                 }
 
             }).done(function(data) {
+            	console.log($('#proveedorColor').val());
                 if (data == false) {
-
+                	
+                
                     $.ajax({
                         type: "POST",
                         url: "/guardarcatalogo",
                         data: {
                             "_csrf": $('#token').val(),
                             'Color': Color,
-                            'CodigoColor': CodigoColor
+                            'CodigoColor': CodigoColor,
+                            'proveedorColor': proveedorColor
 
                         }
 
@@ -1419,6 +1851,8 @@ $(document).on('click', '.edit_data_color', function() {
         var color_id = $(this).attr("id");
         var color_nombre = $(this).attr("value");
         var color_repr = $(this).attr("color");
+        var provee = $(this).attr("proveedorColor");
+        console.log(provee);
         Swal.fire({
             title: 'Editar color',
             html: '<div class="row">' +
@@ -1427,7 +1861,9 @@ $(document).on('click', '.edit_data_color', function() {
                 '<input type="text" class="form-control" name="color" id="color" value="' + color_nombre + '" placeholder="Rojo">' +
                 '<label for="pedidonom">Codigo del color</label>' +
                 '<input type="color" class="form-control" id="color_repr" value="' + color_repr + '" placeholder="Rojo">' +
-                '<input type="hidden" value=" ' + color_id + ' ">' +
+                '<label for="proveedorColor">Proveedor</label>' +
+                '<select class="form-control" id="proveedorColor" value='+ provee +'><option value="error">Seleccione uno...</option>'+listarProveedores(provee)+'</select>' +
+
                 '</div>' +
                 '</div>',
             inputAttributes: {
@@ -1439,24 +1875,25 @@ $(document).on('click', '.edit_data_color', function() {
             confirmButtonText: 'Actualizar',
             confirmButtonColor: '#0288d1',
             preConfirm: (color) => {
-                if (document.getElementById("color").value.length < 1) {
+                if (document.getElementById("color").value.length < 1 || $('#proveedorColor').val()=="error") {
                     Swal.showValidationMessage(
                         `Complete todos los campos`
                     )
                 }
+                
+                
             }
         }).then((result) => {
             if (result.value && document.getElementById("color").value) {
                 var Color = document.getElementById("color").value;
                 var ColorRepr = document.getElementById("color_repr").value;
+                var proveedorr = document.getElementById("proveedorColor").value;
                 $.ajax({
                     type: "GET",
                     url: "/verifduplicado",
                     data: {
                         'Lookup': Color,
                         'Tipo': "Color"
-
-
                     }
 
                 }).done(function(data) {
@@ -1468,7 +1905,8 @@ $(document).on('click', '.edit_data_color', function() {
                                 "_csrf": $('#token').val(),
                                 'Color': Color,
                                 'idLookup': color_id,
-                                'CodigoColor': ColorRepr
+                                'CodigoColor': ColorRepr,
+                        		'proveedor': proveedorr
                                     // ,'Descripcion':Descripcion
                             }
 
@@ -1975,6 +2413,7 @@ function editarPrenda(e) {
         } // //fin if
     })
 }
+
 // Dar de baja prenda
 function bajarPrenda(idbaja) {
     var id = idbaja;
@@ -3150,6 +3589,12 @@ function agregarMaterial() {
             '<option value="1">Material Principal</option>' +
             '</select>' +
             '</div>' +
+            '<div class="form-group col-sm-12">'+
+		  	'<label for="ubicacionTalla">Clasificaci&oacute;n</label>'+
+		  	'<select class="form-control" id="clasificacion" name="clasificacion" >'+
+		  	'<option value="0">Seleccione clasificaci&oacute;n</option>' +
+		   '</select>'+
+		  '</div>'+
             '</div>',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
@@ -3157,18 +3602,27 @@ function agregarMaterial() {
         confirmButtonText: 'Agregar',
         confirmButtonColor: '#0288d1',
         preConfirm: (tipomaterial, material) => {
-            if (document.getElementById("tipomaterial").value.length != 1 || document.getElementById("material").value.length < 1) {
+            if (document.getElementById("tipomaterial").value.length != 1 
+            		|| document.getElementById("material").value.length < 1 
+            		|| document.getElementById("clasificacion").value == 0
+            		) {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
+                	
+                	
                 )
+                console.log("ggg")
             }
         }
     }).then((result) => {
-        if (result.value && document.getElementById("material").value && document.getElementById("tipomaterial").value.length == 1) {
+        if (result.value && document.getElementById("material").value 
+        		&& document.getElementById("tipomaterial").value.length == 1
+        		&&  document.getElementById("clasificacion").value ) {
             var Material = document.getElementById("material").value;
             var TipoMaterial = document.getElementById("tipomaterial").value;
-            console.log(TipoMaterial)
-                // //////////
+            var CategoriaMaterial = document.getElementById("clasificacion").value;
+           // console.log(TipoMaterial)
+            console.log(CategoriaMaterial)
             $.ajax({
                 type: "GET",
                 url: "/verifduplicado",
@@ -3188,7 +3642,8 @@ function agregarMaterial() {
                         data: {
                             "_csrf": $('#token').val(),
                             'Material': Material,
-                            'TipoMaterial': TipoMaterial
+                            'TipoMaterial': TipoMaterial,
+                            'CategoriaMaterial': CategoriaMaterial
                                 // ,'Descripcion':Descripcion
                         }
 
@@ -3218,6 +3673,21 @@ function agregarMaterial() {
             // window.setTimeout(function(){location.reload()}, 2000);
         }
     })
+    	$.ajax({
+		method: "GET",
+		url: "/listar-amp",
+		data:{
+			"Tipo":"Clasificacion"
+		} ,
+		success: (data) => {
+			$.each(data, function(key, val) {
+	    		$('#clasificacion').append('<option value="' + val.idLookup + '">'+val.nombreLookup+'</option>');})
+	    		//$('.selectpicker').selectpicker(["refresh"]);
+		},
+		error: (e) => {
+
+		}
+	})
 }
 
 // Editar genero
@@ -3225,6 +3695,8 @@ function agregarMaterial() {
 
 function editarMaterial(e) {
     var descr = e.getAttribute("descripcion");
+    
+    var idClasificacion = e.getAttribute("atributo2");
     // / var atributo1= e.getAttribute("atributo1");
 
     Swal.fire({
@@ -3241,6 +3713,12 @@ function editarMaterial(e) {
             (e.getAttribute("atributo1") == 1 ? "<option value='0'>Material General</option>" : "<option value='1'>Material Principal</option>") +
             '</select>' +
             '</div>' +
+            '<div class="form-group col-sm-12">'+
+		  	'<label for="ubicacionTalla">Clasificaci&oacute;n</label>'+
+		  	'<select class="form-control" id="clasificacion" name="clasificacion" >'+
+		  
+		   '</select>'+
+		  '</div>'+
             '<input type="hidden" value=" ' + e.getAttribute("idlookup") + ' " class="swal2-input" id="idlookup" placeholder="Parisina">' +
             '</div>',
         showCancelButton: true,
@@ -3261,6 +3739,7 @@ function editarMaterial(e) {
 
             var idLookup = document.getElementById("idlookup").value;
             var TipoMaterial = document.getElementById("tipomaterial").value;
+            var CategoriaMaterial = document.getElementById("clasificacion").value;
             $.ajax({
                 type: "GET",
                 url: "/verifduplicado",
@@ -3280,7 +3759,8 @@ function editarMaterial(e) {
                             "_csrf": $('#token').val(),
                             'Material': Material,
                             'idLookup': idLookup,
-                            'TipoMaterial': TipoMaterial
+                            'TipoMaterial': TipoMaterial,
+                            'CategoriaMaterial':CategoriaMaterial
                                 // ,'Descripcion':Descripcion
                         }
 
@@ -3309,6 +3789,29 @@ function editarMaterial(e) {
 
         } // /fin if
     })
+    $.ajax({
+		method: "GET",
+		url: "/listar-amp",
+		data:{
+			"Tipo":"Clasificacion"
+		} ,
+		success: (data) => {
+			$.each(data, function(key, val) {
+				
+				if ( val.idLookup == idClasificacion  ){
+					$('#clasificacion').append('<option selected value="' + val.idLookup + '">'+val.nombreLookup+'</option>');
+				}
+			else{
+				$('#clasificacion').append('<option value="' + val.idLookup + '">'+val.nombreLookup+'</option>');
+			}
+				
+			})
+	    		//$('.selectpicker').selectpicker(["refresh"]);
+		},
+		error: (e) => {
+
+		}
+	})
 }
 // Dar de baja familia de genero
 function bajarMaterial(idbaja) {

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.altima.springboot.app.models.entity.ComercialPrendaBordado;
 import com.altima.springboot.app.models.entity.DisenioPrenda;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
+import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
+import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialPrendaBordadoService;
 import com.altima.springboot.app.models.service.IDisenioPrendaService;
@@ -31,50 +34,50 @@ import com.altima.springboot.app.models.service.IUploadService;
 @CrossOrigin(origins = { "*" })
 @Controller
 public class DetallePreciosCargaPedidosController {
-	
-	// tome esta service para no generar mas, ya que este va relacionado con la pantalla
+
+	// tome esta service para no generar mas, ya que este va relacionado con la
+	// pantalla
 	@Autowired
-	private IComercialPrendaBordadoService  bordadoService;
-	
+	private IComercialPrendaBordadoService bordadoService;
+
 	@Autowired
 	private IUploadService UploadService;
-	
+
 	@Autowired
-	private  IComercialCoordinadoService CoordinadoService;
-	
+	private IComercialCoordinadoService CoordinadoService;
+
 	@Autowired
-	private  IDisenioPrendaService prendaService;
-	
-	
+	private IDisenioPrendaService prendaService;
+	@Autowired
+	private ICargaPedidoService cargaPedidoService;
+
+	@PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
 	@GetMapping("/detalle-de-precios/{id}")
 	public String listPrecios(@PathVariable(value = "id") Long id, Model model) {
+
 		
-		
-		List<Object[]> aux = bordadoService.findAllCoordinado(id);
-		for (Object[] a : aux) {
-			
-			Long id_coor = Long.parseLong(a[0].toString());
-			Float precio_bordado =Float.parseFloat(a[7].toString());
-			Float precio_usar =Float.parseFloat(a[8].toString());
-			Float monto =Float.parseFloat(a[10].toString());
-			ComercialCoordinadoPrenda  prenda 	=CoordinadoService.findOneCoorPrenda(id_coor);
-			Float  preciofinal= precio_bordado+precio_usar+monto;
-			prenda.setPrecioFinal(Float.toString(preciofinal));
-			CoordinadoService.saveCoorPrenda(prenda);
-		}
-		
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+		model.addAttribute("numPedido", pedido.getIdText());
 		model.addAttribute("listCoor", bordadoService.findAllCoordinado(id));
+
+		model.addAttribute("selectBordado", bordadoService.BordadosView(id));
 		return "detalle-de-precios";
 	}
-	
+
 	@RequestMapping(value = "/mostrar-bordados", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ComercialPrendaBordado> modelo(Long id) {
+	public List<Object []> modelo(Long id) {
 		System.out.println("I am a label");
-		return  bordadoService.findAll(id);
+		return  bordadoService.findAllDescipcion(id);
 	}
 	
 	
+	@RequestMapping(value = "/select-bordados", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object []>  select_bordados(Long id) {
+		System.out.println("I am a select_bordados");
+		return bordadoService.BordadosView(id);
+	}
 
 	
 	
@@ -83,6 +86,7 @@ public class DetallePreciosCargaPedidosController {
 	public String guardar_bor( 
 			@RequestParam("bordadoPrecio") String bordadoPrecio,
 			@RequestParam("id_coor_prenda") Long id_coor_prenda,
+			@RequestParam("idBordado") Long idBordado,
 			@RequestParam(value="imagenTela") MultipartFile imagenTela ) throws Exception {
 		
 		System.out.println("I am a save" +id_coor_prenda );
@@ -94,6 +98,7 @@ public class DetallePreciosCargaPedidosController {
 		ComercialPrendaBordado bordado = new ComercialPrendaBordado();
 		bordado.setIdCoordinadoPrenda( id_coor_prenda );
 		bordado.setPrecioBordado(bordadoPrecio);
+		bordado.setIdBordado(idBordado);
 		
 		if (!imagenTela.isEmpty()){
 			if ( bordado.getArchivoBordado() != null && bordado.getArchivoBordado() .length() > 0) {
@@ -118,10 +123,10 @@ public class DetallePreciosCargaPedidosController {
 		bordado.setFechaCreacion(hourdateFormat.format(date));
 		bordado.setUltimaFechaModificacion(hourdateFormat.format(date));
 		bordadoService.save(bordado);
-		
-		Float precioBordado =bordadoService.sumBordados(id_coor_prenda) ;
-		Float precioPrenda = bordadoService.precio_coor_prenda(id_coor_prenda);
+
 		ComercialCoordinadoPrenda  prenda 	=CoordinadoService.findOneCoorPrenda(id_coor_prenda);
+		Float precioBordado =bordadoService.sumBordados(id_coor_prenda) ;
+		Float precioPrenda = Float.parseFloat(prenda.getPrecio());
 		Float preciofinal= precioBordado+ Float.parseFloat(prenda.getMontoAdicional()) +  precioPrenda;
 		prenda.setPrecioFinal( String.valueOf(preciofinal)  );
 		
@@ -145,12 +150,13 @@ public class DetallePreciosCargaPedidosController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		
+
+		ComercialCoordinadoPrenda  prenda 	=CoordinadoService.findOneCoorPrenda(id_coor_prenda);
 		
 		Float precioBordado =bordadoService.sumBordados(id_coor_prenda) ;
-		Float precioPrenda = bordadoService.precio_coor_prenda(id_coor_prenda);
-		ComercialCoordinadoPrenda  prenda 	=CoordinadoService.findOneCoorPrenda(id_coor_prenda);
+		Float precioPrenda = Float.parseFloat(prenda.getPrecio());
 		Float preciofinal= precioBordado+ Float.parseFloat(prenda.getMontoAdicional()) +  precioPrenda;
+		System.out.println("precio final de elimanar es :"+ preciofinal);
 		prenda.setPrecioFinal( String.valueOf(preciofinal)  );
 		
 		prenda.setActualizadoPor(auth.getName());
@@ -206,6 +212,14 @@ public class DetallePreciosCargaPedidosController {
 		 
 		return"agregar-material";  
 	
+	}
+	
+
+	@RequestMapping(value = "/precio-bordado", method = RequestMethod.GET)
+	@ResponseBody
+	public Float precio(Long id) {
+		
+		return  bordadoService.precioBordado(id);
 	}
 	
 }

@@ -12,27 +12,33 @@
                 <div class="modal-body row">
                     <div class="form-group col-md-6">
                         <label for="proveedorModal">Proveedor</label>
-                        <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="proveedorModal">
+                        <select class="form-control selectpicker proveedorModal" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="proveedorModal">
                 <option>Bimbo</option>
             </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="proveedorClave">Clave proveedor</label>
+                        <label for="proveedorClave">Clave proveedor interna</label>
                         <input type="text" class="form-control" placeholder="BIM273" id="proveedorClave">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="proveedorCosto">Costo</label>
-                        <input type="number" class="form-control" placeholder="60" id="proveedorCosto">
+                        <input type="number" min="1"  class="form-control" placeholder="60" id="proveedorCosto">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="proveedorSurtido">Tiempo de surtido(d&iacute;as)</label>
-                        <input type="number" class="form-control" placeholder="9" id="proveedorSurtido">
+                        <input type="number" min="1" class="form-control" placeholder="9" id="proveedorSurtido">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Cancelar</a>
-                    <a class="btn icon-btn btn-altima text-white" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</a>
+                    <a class="btn icon-btn btn-altima text-white" type="submit" onclick="guardarProveedor()" ><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</a>
                 </div>
+                <input type="hidden" id="id" name="id">
+                
+                <input type="hidden" id="tipo" name="tipo"  th:value="${tipo}">
+                <input type="hidden" id="idInventario" name="idInventario"  th:value="${idInventario}">
+                <input type="hidden" name="_csrf" id="token"
+                                    th:value="${_csrf.token}" />
             </form>
         </div>
     </div>

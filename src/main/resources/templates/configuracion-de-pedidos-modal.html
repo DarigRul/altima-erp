@@ -1,0 +1,113 @@
+<!-- Modal -->
+<div class="modal fade" id="nuevaTipoPedido" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Nuevo tipo de pedido</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <form name="fvalida"  th:method="post" th:action="@{/guardar-config-pedido}">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="descripcionPedido">Tipo pedido</label>
+                        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" 
+                            data-live-search-normalize="true" th:field="*{config.tipoPedido}" id="tipoPedido" name="tipoPedido">
+                            <option value='1'>Pedido General</option>
+							<option value='2'>Pedido Especial</option>
+							<option value='3'>Stock</option>
+							<option value='4'>Resurtido</option>
+							<option value='5'>Reajustes</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="nomenclaturaPedido">Nomenclatura</label>
+                        <input type="text" class="form-control" th:field="*{config.nomenclatura}" id="nomenclatura" name="nomenclatura" placeholder="MDC-0001">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="nomenclaturaPedido">Nombre</label>
+                        <input type="text" class="form-control" th:field="*{config.nombre}" id="nombre" name="nombre" placeholder="Nombre">
+                    </div>
+                    <div class="form-group col-md-12" style="margin-bottom: 0px;">
+                        <hr style="border: 1px solid #8a8d93;">
+                        <h4>Tiempos de entrega</h4>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="cantidadPrendasPedido">Cantidad de prendas</label>
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.cantidadPrenda}"  id="cantidadPrenda" name="cantidadPrenda" placeholder="600">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="minimoDiasPedido">M&iacute;nimo de d&iacute;as</label>
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.minimoDias}"  id="minimoDias" name="minimoDias" placeholder="45">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="maximoDiasPedido">M&aacute;ximo de d&iacute;as</label>
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.maximoDias}" id="maximoDias" name="maximoDias" placeholder="60">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="maximoDiasPedido">M&iacute;nimo  de adiccionales</label>
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.minAdicionales}" id="minAdicionales" name="minAdicionales" placeholder="60">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <hr style="border: 1px solid #8a8d93;">
+                        <h4>Monto m&iacute;nimo de pedidos</h4>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="minimoLocalesPedido">Locales</label>
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.locales}" id="locales" name="locales" placeholder="60">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="minimoForaneosPedido">For&aacute;neos</label>
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" id="foraneo" th:field="*{config.foraneo}" name="foraneo" placeholder="100">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <hr style="border: 1px solid #8a8d93;">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="bordadoPedido">Bordado (d&iacute;as)</label>
+                        <input type="number" min="1" pattern="^[0-9]+" class="form-control" th:field="*{config.diasBordado}" id="diasBordado" name="diasBordado" placeholder="9">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="stockPedido">Stock</label>
+                        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true"
+                            data-live-search-normalize="true" th:field="*{config.stockTrueFalse}" id="stockTrueFalse" name="stockTrueFalse">
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="personasPedido">M&iacute;nimo (personas)</label>
+                        <input type="number"  readonly   min="1" class="form-control" th:field="*{config.minimoPersonas}" id="minimoPersonas" name="minimoPersonas" placeholder="20">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="anticipoPedido">Anticipo</label>
+                        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true"
+                            data-live-search-normalize="true" th:field="*{config.anticipoTrueFalse}" id="anticipoTrueFalse" name="anticipoTrueFalse">
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal-rounded-footer">
+                <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span
+                        class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                <button type="button" onclick="valida_envia()"  class="btn icon-btn btn-altima text-white float-right"><span
+                        class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+            </div>
+            	<input type="hidden" th:field="*{config.idConfiguracionPedido}">
+            	<input type="hidden" th:field="*{config.creadoPor}">
+            	<input type="hidden" th:field="*{config.actualizadoPor}">
+            	<input type="hidden" th:field="*{config.fechaCreacion}">
+            	<input type="hidden" th:field="*{config.ultimaFechaModificacion}">
+            	<input type="hidden" th:field="*{config.estatus}">
+            	
+            
+            </form>
+        </div>
+    </div>
+</div>

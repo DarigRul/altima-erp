@@ -2,7 +2,20 @@
     background-color: #111 !important;
     color: #eee;
 }
-
+[data-theme="dark"] a.nav-link>i.fas.fa-sign-out-alt{
+    color: #8a8d93!important;
+}
+[data-theme="dark"] a.nav-link>i.fas.fa-bars{
+    color: #8a8d93!important;
+}
+[data-theme="dark"] a.nav-link>i.fas.fa-fill-drip{
+    color: #8a8d93!important;
+}
+[data-theme="dark"] a.brand-link
+{
+    background-color: #2d3035 !important;
+    color:#8a8d93!important;
+}
 [data-theme="dark"] .bg-light {
     background-color: #2d3035 !important;
 }
@@ -468,7 +481,7 @@ table.dataTable thead td {
 }
 
 [data-theme="dark"] .input-group .form-control {
-    width: 85%!important;
+    width: 50%!important;
 }
 
 [data-theme="dark"] hr {

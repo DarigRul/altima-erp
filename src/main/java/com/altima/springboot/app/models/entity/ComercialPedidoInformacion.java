@@ -103,6 +103,18 @@ public class ComercialPedidoInformacion implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	@Column(name="fecha_cierre")
+	private String fechaCierre;
+	
+
+	public String getFechaCierre() {
+		return fechaCierre;
+	}
+
+	public void setFechaCierre(String fechaCierre) {
+		this.fechaCierre = fechaCierre;
+	}
 
 	public Long getIdPedidoInformacion() {
 		return idPedidoInformacion;

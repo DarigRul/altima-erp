@@ -96,6 +96,7 @@
 																	<label style="font-size: 15px;">Descripci&oacute;n de la prenda</label>&nbsp;<label id="WarningNombrePrenda" style="font-size: 13px; color: red; display: none;">(Ya existe una prenda asi.)</label>
 																		<input type="text" class="form-control" placeholder="Descripcion de Prenda" th:if="${accion == 'copiar'}" value="" id="DescripcionPrenda">
 																		<input type="text" class="form-control" placeholder="Descripcion de Prenda" th:if="${accion == 'editar' || accion == 'agregar'}" th:value="*{descripcionPrenda}" id="DescripcionPrenda">
+																		<input type="hidden" th:value="${nombreOriginal}" id="NombreOriginalPrenda"/>
 																</div>
 															</div>
 															<div class="col-sm-4">

@@ -2,6 +2,8 @@ package com.altima.springboot.app.models.service;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.OrderBy;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +26,8 @@ public class DisenioLookupServiceImpl implements IDisenioLookupService {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional()
+	@Transactional
+	@OrderBy("idLookup ASC")
 	public List<DisenioLookup> findByTipoLookup(String tipo) {
 		// TODO Auto-generated method stub
 		return em.createQuery("from DisenioLookup where tipoLookup='" + tipo + "' and Estatus=1").getResultList();

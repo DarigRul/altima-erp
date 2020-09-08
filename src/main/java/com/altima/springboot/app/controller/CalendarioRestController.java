@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.altima.springboot.app.dto.ComercialTicketDTO;
 import com.altima.springboot.app.models.entity.ComercialCalendario;
 import com.altima.springboot.app.models.entity.Usuario;
+import com.altima.springboot.app.models.service.IComercialAuxiliarTicketsService;
 import com.altima.springboot.app.models.service.IComercialCalendarioService;
 import com.altima.springboot.app.models.service.IUsuarioService;
 
@@ -20,12 +23,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class CalendarioRestController {
 	@Autowired
 	IComercialCalendarioService calendarioService;
 	
+	@Autowired
+	IComercialAuxiliarTicketsService ticketService;
+
 	@Autowired
 	IUsuarioService usuarioService;
 	
@@ -141,6 +148,23 @@ public class CalendarioRestController {
 	    }
 	}
 	
-	
+	@RequestMapping(value="/ticket/allevents/", method=RequestMethod.GET)
+	public List<ComercialTicketDTO> allEventsTicket() {
+		List<ComercialCalendario> respuesta = null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		/*Obtener todos los datos del usuario logeado*/
+		Usuario user=usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
+		Long iduser=user.getIdUsuario();
+		String role="[ROLE_ADMINISTRADOR]";
+		if(auth.getAuthorities().toString().equals(role)) {
+			
+			respuesta=calendarioService.findAllUser(null);
+		}else {
+			
+			respuesta=calendarioService.findAllUser(iduser);
+		}
+		
+		return ticketService.findAllTicket().stream().map(ComercialTicketDTO::new).collect(Collectors.toList());
+	}
 	
 }

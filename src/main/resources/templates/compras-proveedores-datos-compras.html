@@ -1,36 +1,37 @@
-<form>
+<form th:object="${credito}" method="post" action="javascript:validarDatosCredito()">
     <h5>Informaci&oacute;n del cr&eacute;dito</h5>
     <div class="row">
         <div class="form-group col-md-2">
             <div class="form-group-lg">
                 <div class="column_2" style="margin-top: 38px;">
                     <span>
-                    <input type="checkbox" id="manejoCredito"/>
+                    <input type="checkbox" id="manejoCredito" th:checked="${manejoCredito}"/>
                   <label class="checkbox-inline" for="manejoCredito">Manejo de cr&eacute;dito</label>
                   </span>
                 </div>
             </div>
         </div>
-        <div class="form-group col-md-3">
-            <label for="diasCredito">D&iacute;as de cr&eacute;dito</label>
-            <input type="number" class="form-control" id="diasCredito" placeholder="2">
+        <div class="form-group col-md-3 checkCredito">
+            <label for="diasCredito">D&iacute;as de cr&eacute;dito<strong style="color:red">*</strong></label>
+            <input type="number" class="form-control" id="diasCredito" th:value="${diasCredito}" placeholder="2">
         </div>
-        <div class="form-group col-md-3">
-            <label for="limiteCredito">L&iacute;mite de cr&eacute;dito</label>
+        <div class="form-group col-md-3 checkCredito">
+            <label for="limiteCredito">L&iacute;mite de cr&eacute;dito<strong style="color:red">*</strong></label>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text">$</span>
                 </div>
-                <input type="number" class="form-control" id="limiteCredito">
+                <input type="number" class="form-control" id="limiteCredito" th:value="${ limiteCredito }">
             </div>
         </div>
-        <div class="form-group col-md-4">
-            <label for="saldoCredito">Saldo</label>
+        <div class="form-group col-md-4 checkCredito">
+        	<input type="hidden" id="datoCredito" th:value="${datoCredito}">
+            <label for="saldoCredito">Saldo<strong style="color:red">*</strong></label>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text">$</span>
                 </div>
-                <input type="number" class="form-control" id="saldoCredito">
+                <input type="number" class="form-control" id="saldoCredito" th:value="${ saldo }">
             </div>
         </div>
     </div>
@@ -38,40 +39,15 @@
     <h5>Forma de pago</h5>
     <div class="row">
         <div class="form-group col-md-3">
-            <label for="formaPago">Forma de pago</label>
-            <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="formaPago">
-                <option>Efectivo</option>
-                <option>Tarjeta</option>
+            <label for="formaPago">Forma de pago<strong style="color:red">*</strong></label>
+            <select class="form-control selectpicker" data-live-search="true" title="Seleccione uno..." data-live-search-normalize="true" id="formaPago">
+                <option th:selected="${ formaPago =='Efectivo'}?selected:false" value="Efectivo">Efectivo</option>
+                <option th:selected="${ formaPago =='Tarjeta'}?selected:false" value="Tarjeta">Tarjeta</option>
               </select>
         </div>
         <div class="form-group col-md-9">
             <label for="pagoObservacion">Observaci&oacute;n</label>
-            <input type="text" class="form-control" id="pagoObservacion" placeholder="Especificar...">
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label for="descuentoContable">Observaci&oacute;n</label>
-            <input type="text" class="form-control" id="cuentaContable" placeholder="Especificar...">
-        </div>
-        <div class="form-group col-md-4">
-            <label for="saldoCredito">Descuento</label>
-            <div class="input-group mb-3">
-                <input type="number" class="form-control" id="descuentoContable" placeholder="15">
-                <div class="input-group-append">
-                    <span class="input-group-text">%</span>
-                </div>
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-            <label for="documentoContable">Documento modelo</label>
-            <div class="input-group mb-3">
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="documentoContable">
-                    <label class="custom-file-label" for="documentoContable">Selecciona un archivo</label>
-                </div>
-            </div>
+            <input type="text" class="form-control" id="pagoObservacion" th:value="${ observaciones }" placeholder="Especificar...">
         </div>
     </div>
     <div class="row">

@@ -10,6 +10,7 @@ if( /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.u
 		document.getElementById("composicionesCatalogo").className = "col-lg-4 col-12";
 		document.getElementById("marcadoresCatalogo").className = "col-lg-4 col-12";
 		document.getElementById("composicionCatalogo").className = "col-lg-4 col-12";
+		document.getElementById("precioComposicionCatalogo").className = "col-lg-4 col-12";
 		$('#idtable3 tbody tr').addClass('text-center');
 	}
 	window.onload = changeClassById();

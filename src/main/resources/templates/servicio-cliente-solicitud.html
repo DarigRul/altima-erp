@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Servicio al cliente | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Servicio al cliente&nbsp;
+                                <a th:href="@{'/servicio-cliente'}" class="btn btn-sm icon-btn btn-danger text-white"><span
+                                        class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                            </h1>
+                        </div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item altima">Altima</li>
+								<li class="breadcrumb-item active">Servicio al cliente</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<input type="hidden" th:value="${solicitud.idSolicitudServicioAlCliente}" id="idSolicitudServicioAlCliente"/>
+				<div class="container-fluid">
+					<div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card card-tabs">
+                                <div class="card-header bg-altima p-0 pt-1">
+                                  <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                    <li class="nav-item">
+                                      <a class="nav-link active text-white modal-rounded-header" onclick="ValidarTabs('datos-generales')">Datos generales</a>
+                                      <button type="hidden" id="datos-generales-tab-boton" data-toggle="pill" href="#datos-generales" role="tab" aria-controls="datos-generales" aria-selected="true" style="display: none;"></button>
+                                    </li>
+                                    <li class="nav-item">
+                                      <a class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('sastre')">Sastre</a>
+                                      <button type="hidden" id="sastre-tab-boton" data-toggle="pill" href="#sastre" role="tab" aria-controls="sastre" style="display: none;"></button>
+                                    </li>
+                                    <li class="nav-item">
+                                      <a class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('auxiliar-ventas')">Auxiliar de ventas</a>
+                                      <button type="hidden" id="auxiliar-ventas-tab-boton" data-toggle="pill" href="#auxiliar-ventas" role="tab" aria-controls="auxiliar-ventas" style="display: none;"></button>
+                                    </li>
+                                    <li class="nav-item">
+                                      	<a class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('material')">Material</a>
+                                      	<button type="hidden" id="material-tab-boton" data-toggle="pill" href="#material" role="tab" aria-controls="material" style="display: none;"></button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('corridas')">Corridas</a>
+                                        <button type="hidden" id="corridas-tab-boton" data-toggle="pill" href="#corridas" role="tab" aria-controls="corridas" style="display: none;"></button>
+                                      </li>
+                                  </ul>
+                                </div>
+                                <div class="card-body">
+                                  <div class="tab-content" id="custom-tabs-one-tabContent">
+                                    <div class="tab-pane fade show active" id="datos-generales" role="tabpanel" aria-labelledby="datos-generales-tab">
+                                       <div th:insert="servicio-cliente-datos-generales"></div>
+                                    </div>
+                                    <div class="tab-pane fade" id="sastre" role="tabpanel" aria-labelledby="sastre-tab">
+                                       <div th:insert="servicio-cliente-sastre"></div>
+                                    </div>
+                                    <div class="tab-pane fade" id="auxiliar-ventas" role="tabpanel" aria-labelledby="auxiliar-ventas-tab">
+                                        <div th:insert="servicio-cliente-auxiliar-ventas"></div>
+                                    </div>
+                                    <div class="tab-pane fade" id="material" role="tabpanel" aria-labelledby="material-tab">
+                                        <div th:insert="servicio-cliente-material"></div>
+                                    </div>
+                                    <div class="tab-pane fade" id="corridas" role="tabpanel" aria-labelledby="corridas-tab">
+                                        <div th:insert="servicio-cliente-corridas"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- /.card -->
+                              </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<div th:insert="navegacion-footer"></div>
+	</div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/TablasSolicitudServicioAlCliente.js"></script>
+    <script src="/dist/js/SolicitudServicioCliente.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <script>
+      $('#iComercial').removeClass('text-altima');
+      $('#menuComercial').addClass('menu-open');
+      $('#navComercial').addClass('active-altima');
+      $('#navSer').addClass('active');
+    </script>
+</body>
+
+</html>

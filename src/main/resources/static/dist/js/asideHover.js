@@ -14,17 +14,17 @@
 		    }
 		});
 		$(document).ready(function() {
-		    if ($("#navMensajeria").hasClass("active-altima")) {
-		        $("#navMensajeria").hover(function() {
-		            $("#iMensajeria").removeClass("text-altima");
+		    if ($("#navCalendario").hasClass("active-altima")) {
+		        $("#navCalendario").hover(function() {
+		            $("#iCalendario").removeClass("text-altima");
 		        }, function() {
-		            $("#iMensajeria").addClass("text-white");
+		            $("#iCalendario").addClass("text-white");
 		        });
 		    } else {
-		        $("#navMensajeria").hover(function() {
-		            $("#iMensajeria").removeClass("text-altima");
+		        $("#navCalendario").hover(function() {
+		            $("#iCalendario").removeClass("text-altima");
 		        }, function() {
-		            $("#iMensajeria").addClass("text-altima");
+		            $("#iCalendario").addClass("text-altima");
 		        });
 		    }
 		});
@@ -119,6 +119,21 @@
 		    }
 		});
 		$(document).ready(function() {
+		    if ($("#navRequisiciones").hasClass("active-altima")) {
+		        $("#navRequisiciones").hover(function() {
+		            $("#iRequisiciones").removeClass("text-altima");
+		        }, function() {
+		            $("#iRequisiciones").addClass("text-white");
+		        });
+		    } else {
+		        $("#navRequisiciones").hover(function() {
+		            $("#iRequisiciones").removeClass("text-altima");
+		        }, function() {
+		            $("#iRequisiciones").addClass("text-altima");
+		        });
+		    }
+		});
+		$(document).ready(function() {
 		    if ($("#navProduccion").hasClass("active-altima")) {
 		        $("#navProduccion").hover(function() {
 		            $("#iProduccion").removeClass("text-altima");
@@ -149,17 +164,17 @@
 		    }
 		});
 		$(document).ready(function() {
-		    if ($("#navUsuario").hasClass("active-altima")) {
-		        $("#navUsuario").hover(function() {
-		            $("#iUsuario").removeClass("text-altima");
+		    if ($("#navAdministracion").hasClass("active-altima")) {
+		        $("#navAdministracion").hover(function() {
+		            $("#iAdministracion").removeClass("text-altima");
 		        }, function() {
-		            $("#iUsuario").addClass("text-white");
+		            $("#iAdministracion").addClass("text-white");
 		        });
 		    } else {
-		        $("#navUsuario").hover(function() {
-		            $("#iUsuario").removeClass("text-altima");
+		        $("#navAdministracion").hover(function() {
+		            $("#iAdministracion").removeClass("text-altima");
 		        }, function() {
-		            $("#iUsuario").addClass("text-altima");
+		            $("#iAdministracion").addClass("text-altima");
 		        });
 		    }
 		});

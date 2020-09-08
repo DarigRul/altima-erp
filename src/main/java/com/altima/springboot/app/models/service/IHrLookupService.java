@@ -16,4 +16,8 @@ public interface IHrLookupService {
 
 	List<HrLookup> findAllByTipoLookup(String tipo);
 
+	public boolean findDuplicate(String LookupEmpresa);
+
+	public boolean findDuplicateArea(String LookupArea);
+
 }

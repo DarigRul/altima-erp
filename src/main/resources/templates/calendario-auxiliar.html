@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<div th:replace="navegacion-head"></div>
+    <title id="pageTitle">Calendario | Altima</title>
+    <link rel="stylesheet" href="/plugins/fullcalendar/main.min.css">
+    <link rel="stylesheet" href="/plugins/fullcalendar-daygrid/main.min.css">
+    <link rel="stylesheet" href="/plugins/fullcalendar-timegrid/main.min.css">
+    <link rel="stylesheet" href="/plugins/fullcalendar-bootstrap/main.min.css">
+    <link rel="stylesheet" href="/plugins/fullcalendar-list/main.css" />
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Calendario</h1> 
+							<a  onclick="imprimir()" class="btn btn-sm icon-btn btn-altima text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-print img-circle text-altima"></span>Imprimir</a></div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item altima">Altima</li>
+								<li class="breadcrumb-item active">Comercial</li>
+								<li class="breadcrumb-item active">Auxiliar de ventas</li>
+								<li class="breadcrumb-item active">Calendario</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-body">
+                                    <!-- THE CALENDAR -->
+                                    <div id="calendar" style="width: 98%;margin-left: 1%;"></div>
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<div th:insert="ticket-detalle"></div>	
+		<!-- /.content-wrapper -->
+		<div th:insert="navegacion-footer"></div>
+	</div>
+    <div th:replace="navegacion-scripts"></div>
+    <!-- fullCalendar 2.2.5 -->
+    <script src="plugins/moment/moment.min.js"></script>
+    <script src="plugins/fullcalendar/main.min.js"></script>
+    <script src="plugins/fullcalendar-daygrid/main.min.js"></script>
+    <script src="plugins/fullcalendar-timegrid/main.min.js"></script>
+    <script src="plugins/fullcalendar-interaction/main.min.js"></script>
+    <script src="plugins/fullcalendar/locales-all.min.js"></script>
+    <script src="plugins/fullcalendar-bootstrap/main.min.js"></script>
+    <script src="plugins/fullcalendar-list/main.min.js"></script>
+    <script>
+         var Calendar = FullCalendar.Calendar;
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new Calendar(calendarEl, {
+      locale:"es-us",
+      height: 600,
+      plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid','list'],
+      header    : {
+        left  : 'prev,next today',
+        center: 'title',
+        right : 'dayGridMonth,timeGridWeek,listMonth'
+	  },
+	  events: {
+	        url: '/ticket/allevents/',
+	        type: 'GET',
+	        error: function() {
+	            alert('Error en el servidor');
+			},
+		},
+		eventClick: function(info) {
+			//info.jsEvent.preventDefault(); 
+			detalles(info.event.id);
+			$('#infoTicket').modal('toggle');
+			
+	       //$('#calendar').fullCalendar('updateEvent', event);
+ 	    },	
+	  	
+// 		loading: function(bool) {
+// 			$('#loading').toggle(bool);
+// 		}
+      	allDaySlot:false,
+		defaultDate: moment().format("YYYY-MM-DD"),
+		editable: false,
+		slotLabelInterval : '00:15:00',
+		slotDuration : '00:15:00',
+		viewSubSlotLabel : true,
+		minTime:'06:00:00',
+		maxTime:'22:00:00',
+		contentHeight: 'auto',
+		selectable: true,
+		selectHelper: true,
+		selectMirror: true,
+		timeFormat: 'h(:mm)'	
+    });
+
+	calendar.render();
+	
+	function imprimir() {
+	  $(".fc-listMonth-button").click();
+		window.print();
+	}
+	function detalles(e) {
+
+	
+	$.ajax({
+        data: {id:e},
+        url:   '/detalles-ticket',
+        type:  'GET',
+        success:  function (r) 
+        {	
+        	$(r).each(function(i, v){ // indice, valor
+                
+            	$('#text-solicita').html(v[0]); 
+            	$('#text-auxiliar').html(v[1]); 
+            	$('#text-categoria').html(v[2]); 
+            	$('#text-descripcion').html(v[3]); 
+            	$('#text-inicio').html(v[4]); 
+            	$('#text-fin').html(v[5]); 
+            	$('#text-estatus').html(v[6]); 
+        	})
+        	
+        	
+        },
+        error: function(){
+        }
+    });
+	
+}
+    </script>
+	<script>
+		$('#iComercial').removeClass('text-altima');
+        $('#navComercial').addClass('active-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#menuAuxiliar').addClass('menu-open');
+        $('#navAuxiliar').addClass('active');
+        $('#navAuxCal').addClass('active');
+	</script>
+</body>
+
+</html>

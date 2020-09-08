@@ -48,50 +48,50 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="card">
-                        <div class="card-header bg-dark">
+                        <div class="card-header bg-altima">
                             <h5 class="card-title">Detalle de incremento</h5>
                         </div>
                         <div class="card-body">
                             <div class="form-group col-sm-12">
                                 <table id="datos" class="table table-hover">
-                                    <thead class="thead-dark">
-                                        <tr>
+                                    <thead>
+                                        <tr class="bg-altima">
                                             <th>&Aacute;rea</th>
                                             <th>Departamento</th>
                                             <th>Puesto</th>
                                             <th>Núm. Plazas</th>
                                         </tr>
-                                        <tr>
-                                            <td th:text="${incrementos[12]}"></td>
-                                            <td th:text="${incrementos[2]}"></td>
-                                            <td th:text="${incrementos[3]}"></td>
-                                            <td th:text="${incrementos[8]}"></td>
-                                        </tr>
                                     </thead>
+                                    <tr>
+                                        <td th:text="${incrementos[12]}"></td>
+                                        <td th:text="${incrementos[2]}"></td>
+                                        <td th:text="${incrementos[3]}"></td>
+                                        <td th:text="${incrementos[8]}"></td>
+                                    </tr>
                                 </table>
                             </div>
                             <br>
-
                             <div class="form-group col-sm-12">
                                 <table id="datos" class="table table-hover">
-                                    <thead class="thead-dark">
+                                    <thead class="bg-altima">
                                         <tr>
                                             <th>Sueldo</th>
                                             <th>Fecha de solicitud</th>
                                             <th>Fecha de Autorizaci&oacute;n/Rechazo
-                                            <th th:if ="${incrementos[10] == 3}">Motivo de rechazo</th>
-                                        </tr>
-                                        <tr>
-                                            <td th:text="${incrementos[4]}"></td>
-                                            <td th:text="${incrementos[5]}"></td>
-                                            <td th:text="${incrementos[6]}"></td>
-                                            <td>
-                                                <span th:if="${incrementos[10] == 3}"
-                                                    th:text="${incrementos[11]}"></span>
-                                                <span th:unless="${incrementos[11]}"></span>
-                                            </td>
+                                            <th>Motivo de rechazo</th>
                                         </tr>
                                     </thead>
+                                    <tr>
+                                        <td style="width:25%;">$<a th:text="${incrementos[4]}"></a>.00</td>
+                                        <td style="width:25%;" th:text="${incrementos[5]}"></td>
+                                        <td style="width:25%;" th:text="${incrementos[6]}"></td>
+                                        <td style="width:25%;">
+                                            <span th:if="${incrementos[10] == 3}" th:text="${incrementos[11]}"></span>
+                                            <span th:if="${incrementos[10] == 2}">El incremento fue aprobado</span>
+                                            <span th:if="${incrementos[10] == null}">El incremento aún no ha sido
+                                                evaluado</span>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>

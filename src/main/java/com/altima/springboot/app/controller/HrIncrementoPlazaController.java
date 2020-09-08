@@ -5,9 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.validator.internal.util.privilegedactions.GetInstancesFromServiceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -27,68 +25,60 @@ import com.altima.springboot.app.models.service.IHrIncrementoPlazaService;
 @Controller
 public class HrIncrementoPlazaController {
 
-	
 	@Autowired
 	private IHrIncrementoPlazaService incrementoPlazaService;
-	
-	//Método para listar datos de la bd en la pantalla y para mostrar combo box
+
+	// Método para listar datos de la bd en la pantalla y para mostrar combo box
 	@GetMapping("/rh-incrementos")
 	public String listIncrementosPlazas(Model model) {
-		//Listar Empresas
-		
+
+		// Listar Empresas
 		List<HrLookup> empresas = incrementoPlazaService.findAllEmpresas();
 		model.addAttribute("listEmpresas", incrementoPlazaService.findAllEmpresas());
-	    System.out.println("Lista de empresas " + empresas);
-	    
-		//Listar Departamentos
-	    
-	    List<HrDepartamento> deparmentos = incrementoPlazaService.findAllDepartamentos();
+
+		// Listar Departamentos
+		List<HrDepartamento> deparmentos = incrementoPlazaService.findAllDepartamentos();
 		model.addAttribute("listarDepas", incrementoPlazaService.findAllDepartamentos());
-		
-		//Listar puestos
-		
+
+		// Listar puestos
 		List<HrPuesto> puestos = incrementoPlazaService.findAllPuestos();
 		model.addAttribute("lisPuestos", incrementoPlazaService.findAllPuestos());
-		System.out.println("Listar puestos" + puestos);
-		
-		//Listar plazas agregadas
-		HrIncrementoPlaza plaza = new HrIncrementoPlaza ();
+
+		// Listar plazas agregadas
+		HrIncrementoPlaza plaza = new HrIncrementoPlaza();
 		List<Object[]> listarPlazas = incrementoPlazaService.incrementosPlazas();
 		model.addAttribute("plaza", plaza);
 		model.addAttribute("listarIncrementos", listarPlazas);
-		System.out.println("listar plazas insertadas" + listarPlazas);
 		return "rh-incrementos";
 	}
-	
-	//Método para mostrar detalles de la plaza
+
+	// Método para mostrar detalles de la plaza
 	@GetMapping("rh-incrementos-detalle/{id}")
 	public String infoMaterials(@PathVariable("id") Long id, Model model) {
-		
-			model.addAttribute("incrementos", incrementoPlazaService.findByIdIncrementoPlaza(id));	
-			return "rh-incrementos-detalle";
+		model.addAttribute("incrementos", incrementoPlazaService.findByIdIncrementoPlaza(id));
+		return "rh-incrementos-detalle";
 	}
-	
-	//Método para guardar
+
+	// Método para guardar
 	@PostMapping("/rh-incrementos")
-	public String agregarIncrementosPlazas(HrIncrementoPlaza plaza)  {
+	public String agregarIncrementosPlazas(HrIncrementoPlaza plaza) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		plaza.setIdText("INC");
 		plaza.setCreadoPor(auth.getName());
 		plaza.setEstatus("1");
 		plaza.setActualizadoPor(auth.getName());
 		plaza.setMotivoRechazo("Aprobación en proceso");
-		
 		if (plaza.getSueldo().equals("") || plaza.getNumeroPlaza().equals("")) {
-			
 			System.out.println("Campos vacíos");
-		}
-		else {
+		} else {
 			incrementoPlazaService.save(plaza);
-			
+			plaza.setIdText("INC" + (10000 + plaza.getIdIncrementoPlaza()));
+			incrementoPlazaService.save(plaza);
 		}
 		return "redirect:/rh-incrementos";
 	}
-	
-	//Método para aprobar plazas
+
+	// Método para aprobar plazas
 	@GetMapping("/rh-incrementos-aprobar/{id}")
 	public String Approved(@PathVariable(name = "id") Long id, Model model) {
 		try {
@@ -105,18 +95,15 @@ public class HrIncrementoPlazaController {
 			incrementosAprobados.setActualizadoPor(authAprobados.getName());
 			incrementoPlazaService.save(incrementosAprobados);
 			return "redirect:/rh-incrementos";
-		}
-		catch (Exception e) {
-			System.out.println("Error:   "+e);
+		} catch (Exception e) {
+			System.out.println("Error:   " + e);
 			return "redirect:/rh-incrementos";
-		}
-		finally {
+		} finally {
 			System.out.println("Terminó el proceso aprobado para incrementos");
 		}
-		
 	}
-	
-	//Método para rechazar plazas
+
+	// Método para rechazar plazas
 	@GetMapping("/rh-incrementos-rechazar/{id}")
 	public String Rejected(@PathVariable(name = "id") Long id, Model model) {
 		try {
@@ -132,46 +119,11 @@ public class HrIncrementoPlazaController {
 			incrementosRechazados.setActualizadoPor(authRechazados.getName());
 			incrementoPlazaService.save(incrementosRechazados);
 			return "redirect:/rh-incrementos";
-		}
-		catch (Exception e) {
-			System.out.println("Error:   "+e);
+		} catch (Exception e) {
+			System.out.println("Error:   " + e);
 			return "redirect:/rh-incrementos";
-		}
-		finally {
+		} finally {
 			System.out.println("Terminó el proceso rechazo de incrementos");
 		}
 	}
-	
-	@GetMapping("/motivos-rechazos")
-	public String motivosRechazos(@RequestParam(name = "descripcion2") String descripcion,
-			@RequestParam(name = "motivosRechazos") Long id, Model model) {
-		try {
-			
-			Date date2 = new Date();
-			Authentication authMotivos = SecurityContextHolder.getContext().getAuthentication();
-			DateFormat ultimaActualizacionRechazados = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			HrIncrementoPlaza motivos = incrementoPlazaService.findOne(id);
-			motivos.setMotivoRechazo(descripcion);
-			motivos.setEstatus("3");
-			motivos.setEstatusPlaza("3");
-			motivos.setFechaAutorizacion(ultimaActualizacionRechazados.format(date2));
-			motivos.setUltimaFechaModificacion(ultimaActualizacionRechazados.format(date2));
-			motivos.setActualizadoPor(authMotivos.getName());
-			incrementoPlazaService.save(motivos);
-			System.out.println(id+descripcion);
-			return "redirect:/rh-incrementos";
-		}
-		catch (Exception e) {
-			System.out.println("Error:   "+e);
-			return "redirect:/rh-incrementos";
-		}
-		finally {
-			System.out.println("Terminó el proceso de motivos");
-		}
-	}
-	
-	
-	
-	
-
 }

@@ -19,33 +19,47 @@ public class HrCalendario implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="id_calendario")
+	@Column(name = "id_calendario")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GenericGenerator(name="native",strategy="native")
+	@GenericGenerator(name = "native", strategy = "native")
 	private Long idCalendario;
-	
-	@Column(name="fecha")
+
+	@Column(name = "fecha")
 	private String fecha;
 	
-	@Column(name="nombre_calendario")
+	@Column(name = "id_text")
+	private String idText;
+
+	@Column(name = "nombre_calendario")
 	private String nombreCalendario;
-	
-	@Column(name="creado_por")
+
+	@Column(name = "creado_por")
 	private String creadoPor;
-	
-	@Column(name="actualizado_por")
+
+	@Column(name = "actualizado_por")
 	private String actualizadoPor;
-	
-	@Column(name="fecha_creacion")
+
+	@Column(name = "fecha_creacion")
 	private String fechaCreacion;
-	
-	@Column(name="ultima_fecha_modificacion")
+
+	@Column(name = "ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
+
+	@Column(name = "estatus")
+	private String Estatus;
 	
-	@Column(name="estatus")
-	private Boolean Estatus;
+	
+	
+
+	public String getIdText() {
+		return idText;
+	}
+
+	public void setIdText(String idText) {
+		this.idText = idText;
+	}
 
 	public Long getIdCalendario() {
 		return idCalendario;
@@ -103,19 +117,15 @@ public class HrCalendario implements Serializable {
 		this.ultimaFechaModificacion = ultimaFechaModificacion;
 	}
 
-	public Boolean getEstatus() {
+	public String getEstatus() {
 		return Estatus;
 	}
 
-	public void setEstatus(Boolean estatus) {
+	public void setEstatus(String estatus) {
 		Estatus = estatus;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
-
 }

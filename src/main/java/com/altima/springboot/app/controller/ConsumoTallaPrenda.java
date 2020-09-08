@@ -26,8 +26,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoMaterial;
 import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.ProduccionConsumoTalla;
+import com.altima.springboot.app.models.entity.ProduccionConsumoTallaCombinacionTela;
+import com.altima.springboot.app.models.entity.ProduccionConsumoTallaEntretela;
 import com.altima.springboot.app.models.entity.ProduccionConsumoTallaForro;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
+import com.altima.springboot.app.models.service.IProduccionConsumoTallaCombinacionTelaService;
+import com.altima.springboot.app.models.service.IProduccionConsumoTallaEntretelaService;
 import com.altima.springboot.app.models.service.IProduccionConsumoTallaForroService;
 import com.altima.springboot.app.models.service.IProduccionConsumoTallaService;
 
@@ -39,38 +43,131 @@ public class ConsumoTallaPrenda {
 	private IProduccionConsumoTallaService ConsumoService;
 	@Autowired
 	private IProduccionConsumoTallaForroService ConsumoForroService;
+	@Autowired
+	private IProduccionConsumoTallaCombinacionTelaService ConsumocombinacionService;
+	
+	@Autowired
+	private IProduccionConsumoTallaEntretelaService EntretelaService;
 
 	@GetMapping("/consumo-talla-prenda/{id}")
-	public String editar(@PathVariable(value = "id") Long id, Model model) {
+	public String vista (@PathVariable(value = "id") Long id, Model model) {
+		
+		model.addAttribute("materiales", ConsumoService.Materiales_Prenda(id));
 
 		model.addAttribute("id_prenda", id);
-		List<String> list = new ArrayList<>();
-
-		for (String d : ConsumoService.largo()) {
-			list.add(d);
-		}
-		model.addAttribute("head", list);
-		model.addAttribute("headTam", list.size());
-		model.addAttribute("listConsumo", ConsumoService.Consumo_Talla(id, ConsumoService.genpivot(list)));
-		model.addAttribute("listConsumo_id", ConsumoService.Consumo_Talla_id(id));
-		// C O M I E N Z A L A P A R T E D E F O R R O
-		
-		model.addAttribute("listConsumoForro", ConsumoForroService.Consumo_Talla(id, ConsumoForroService.genpivot(list)));
-		model.addAttribute("listConsumo_idForro", ConsumoForroService.Consumo_Talla_id(id));
-		
 		return "consumo-talla-prenda";
+	}
+	
+	
+	@GetMapping("/consumo-talla-prenda/{id}/{tipo}/{idExtra}")
+	public String vistas (@PathVariable(value = "id") Long id, Model model, @PathVariable(value = "tipo") String tipo,@PathVariable(value = "idExtra") Long idExtra) {
+		
+		model.addAttribute("materiales", ConsumoService.Materiales_Prenda(id));
+		model.addAttribute("id_prenda", id);
+		
+		model.addAttribute("id_tela_combinacion", idExtra);
+		
+		if ( tipo.equals("Tela")) {
+			List<String> list = new ArrayList<>();
+
+			for (String d : ConsumoService.largo()) {
+				list.add(d);
+			}
+			model.addAttribute("head", list);
+			model.addAttribute("headTam", list.size());
+			model.addAttribute("listConsumo", ConsumoService.Consumo_Talla(id, ConsumoService.genpivot(list)));
+			model.addAttribute("listConsumo_id", ConsumoService.Consumo_Talla_id(id));
+			model.addAttribute("action",1);  
+			return "consumo-talla-prenda";
+		}
+		if ( tipo.equals("Forro")) {
+			List<String> list = new ArrayList<>();
+
+			for (String d : ConsumoService.largo()) {
+				list.add(d);
+			}
+			model.addAttribute("head", list);
+			model.addAttribute("headTam", list.size());
+			model.addAttribute("listConsumo", ConsumoForroService.Consumo_Talla(id, ConsumoForroService.genpivot(list)));
+			model.addAttribute("listConsumo_id", ConsumoForroService.Consumo_Talla_id(id));
+			model.addAttribute("action",2);  
+			return "consumo-talla-prenda";
+			
+		}
+		if ( tipo.equals("tela-combinacion")) {
+			model.addAttribute("action",3);
+			
+			model.addAttribute("listLargo", ConsumoService.largo());
+			List<String> list = new ArrayList<>();
+			List<String> list2 = new ArrayList<>();
+			for (String d : ConsumoService.largo()) {
+				
+				list.add(d);
+				list2.add("Ancho");
+				list2.add("Largo");
+			}
+			model.addAttribute("numTallas", list2);
+			model.addAttribute("listConsumoExtras_id", ConsumocombinacionService.Consumo_Talla_id(id,idExtra));
+			model.addAttribute("listConsumoExtras", ConsumocombinacionService.Consumo_Talla(id, ConsumocombinacionService.genpivot(list), idExtra));
+			return "consumo-talla-prenda";
+		}
+		if ( tipo.equals("tela-entretela")) {
+			model.addAttribute("action",4);
+			
+			model.addAttribute("listLargo", ConsumoService.largo());
+			List<String> list = new ArrayList<>();
+			List<String> list2 = new ArrayList<>();
+			for (String d : ConsumoService.largo()) {
+				
+				list.add(d);
+				list2.add("Ancho");
+				list2.add("Largo");
+			}
+			model.addAttribute("numTallas", list2);
+			model.addAttribute("listConsumoExtras_id", EntretelaService.Consumo_Talla_id(id,idExtra));
+			model.addAttribute("listConsumoExtras", EntretelaService.Consumo_Talla(id, ConsumocombinacionService.genpivot(list), idExtra));
+			return "consumo-talla-prenda";
+		}
+		return null;
 	}
 
 	@RequestMapping(value = "/listar-tallas-prenda", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object[]> listar(Long id, String tipo) {
 		
-		if ( tipo .equals("Tela")) {
+		if ( tipo .equals("tela")) {
 		return ConsumoService.tallas(id);
 		}
-		else if ( tipo .equals("Forro")) {
+		else if ( tipo .equals("forro")) {
 			return ConsumoForroService.tallas(id);
 		}
+		
+		else if ( tipo .equals("tela-combinacion")) {
+			
+			return ConsumocombinacionService.tallas(id);
+		}
+		else if ( tipo .equals("tela-entretela")) {
+			return EntretelaService.tallas(id);
+		}
+		else {
+			return null;
+		}
+	
+	}
+	
+	@RequestMapping(value = "/listar-largos-prenda", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> listar_Largo(String tipo) {
+		
+		
+		 if ( tipo .equals("tela-combinacion")) {
+			
+			return ConsumocombinacionService.largos();
+		}
+		 else if  ( tipo .equals("tela-entretela")) {
+				
+				return ConsumocombinacionService.largos();
+			}
 		else {
 			return null;
 		}
@@ -91,7 +188,68 @@ public class ConsumoTallaPrenda {
 			}
 		
 	}
+	
+	@PostMapping("/guardar-largo-prenda-extras")
+	public String guardar(Long idPrenda, Long idTalla,Long idLargo , String tipo , String largo, String ancho , Long idMaterial) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		if (tipo.equals("tela-combinacion")) {
+			ProduccionConsumoTallaCombinacionTela aux = ConsumocombinacionService.buscar_consumo(idTalla, idPrenda, idLargo, idMaterial);
+			if ( aux == null) {
+				ProduccionConsumoTallaCombinacionTela tela = new ProduccionConsumoTallaCombinacionTela();
+				tela.setIdPrenda(idPrenda);
+				tela.setConsumoLargo(largo);
+				tela.setConsumoAncho(ancho);
+				tela.setCreadoPor(auth.getName());
+				tela.setFechaCreacion(hourdateFormat.format(date));
+				tela.setEstatus("1");
+				tela.setIdTalla(idTalla);
+				tela.setIdMaterial(idMaterial);
+				tela.setIdTipoLargo(idLargo);
+				ConsumocombinacionService.save(tela);
+			}
+			else {
+				aux.setConsumoLargo(largo);
+				aux.setConsumoAncho(ancho);
+				aux.setUltimaFechaModificacion(hourdateFormat.format(date));
+				aux.setActualizadoPor(auth.getName());
+				ConsumocombinacionService.save(aux);
 
+			}
+			
+		}
+		
+		if (tipo.equals("tela-entretela")) {
+			ProduccionConsumoTallaCombinacionTela aux = ConsumocombinacionService.buscar_consumo(idTalla, idPrenda, idLargo, idMaterial);
+			if ( aux == null) {
+				ProduccionConsumoTallaEntretela entre = new ProduccionConsumoTallaEntretela();
+				entre.setIdPrenda(idPrenda);
+				entre.setConsumoLargo(largo);
+				entre.setConsumoAncho(ancho);
+				entre.setCreadoPor(auth.getName());
+				entre.setFechaCreacion(hourdateFormat.format(date));
+				entre.setEstatus("1");
+				entre.setIdTalla(idTalla);
+				entre.setIdMaterial(idMaterial);
+				entre.setIdTipoLargo(idLargo);
+				EntretelaService.save(entre);
+			}
+			else {
+				aux.setConsumoLargo(largo);
+				aux.setConsumoAncho(ancho);
+				aux.setUltimaFechaModificacion(hourdateFormat.format(date));
+				aux.setActualizadoPor(auth.getName());
+				ConsumocombinacionService.save(aux);
+
+			}
+			
+		}
+		
+		
+		return "redirect:/consumo-talla-prenda/"+idPrenda;
+	}
+	
 	@PostMapping("/guardar-largo-prenda")
 	public String guardar(@RequestParam(name = "datos") String datos, Long idPrenda, Long idTalla, String tipo) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -175,6 +333,47 @@ public class ConsumoTallaPrenda {
 			}
 		}
 		 return "redirect:/consumo-talla-prenda/"+idPrenda;
+		
+	}
+	
+	
+	@RequestMapping(value = "/buscar-largos-anchos", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> buscar_tallas(Long idTalla , Long idPrenda , Long idLargo, Long idMaterial, String tipo) {
+		
+		if (tipo.equals("tela-entretela")) {
+			ProduccionConsumoTallaEntretela aux = EntretelaService.buscar_consumo(idTalla, idPrenda, idLargo,
+					idMaterial);
+			List<String> list = new ArrayList<>();
+			if (aux == null) {
+				list.add(null);
+				list.add(null);
+			} else {
+				list.add(aux.getConsumoAncho());
+				list.add(aux.getConsumoLargo());
+			}
+
+			return list;
+		}
+		
+		if (tipo.equals("tela-combinacion")) {
+			ProduccionConsumoTallaCombinacionTela aux = ConsumocombinacionService.buscar_consumo(idTalla, idPrenda, idLargo,
+					idMaterial);
+			List<String> list = new ArrayList<>();
+			if (aux == null) {
+				list.add(null);
+				list.add(null);
+			} else {
+				list.add(aux.getConsumoAncho());
+				list.add(aux.getConsumoLargo());
+			}
+
+			return list;
+		}
+			
+			else {
+				return null;
+			}
 		
 	}
 

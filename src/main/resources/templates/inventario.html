@@ -62,12 +62,12 @@
 												<th>Precio</th>
 												<th>Imagen</th>
 												<th>Estatus</th>
-												<th></th>
+												<th>Acciones</th>
 
 											</tr>
 										</thead>
 										<tbody>
-								 <tr th:each="mt:${listInventario}"  th:if="${mt[10]==1}">
+								 <tr th:each="mt:${listInventario}">
 								 
 								
 											
@@ -84,9 +84,9 @@
 												<td class="tdcenter">
 														<button data-toggle="modal"  th:attr="onclick=|mostrarImgModal('${mt[9]}','${mt[11]}')|" data-target="#infoInventario" class="btn btn-info btn-circle btn-sm"><i class="fas fa-image"></i></button>
 												</td>
-												<td th:text="${mt[10]}==1?'Activo':'Inactivo'"></td>
-											
-												
+												<td th:if="${mt[10]==0}">Inactivo</td>
+												<td th:if="${mt[10]==1}">Activo</td>
+												<td th:if="${mt[10]==2}">Prestado</td>
 												
 												<td class="tdcenter">
 												<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>

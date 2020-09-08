@@ -56,7 +56,7 @@
 										pedido</h3>
 								</div>
 								<div class="card-body">
-									<form class="row" th:method="post"
+									<form class="row" th:method="post" id="formularioaenviar"
 										th:action="@{/guardar-informacion-general-pedido}">
 
 										<div class="form-group col-md-3">
@@ -114,8 +114,7 @@
 										<div class="form-group col-md-4">
 											<label for="cargaEmpresa">Precio a usar</label> <select
 												th:field="*{pedido.precioUsar}"
-												class="form-control selectpicker" data-live-search="true"
-												name="cargaTipopedido" id="cargaTipopedido" required>
+												class="form-control selectpicker" data-live-search="true" required>
 												<option value=''>Selecione</option>
 												<option value='1'>Precio local nuevo</option>
 												<option value='2'>Precio local antiguo</option>
@@ -125,7 +124,7 @@
 										</div>
 										<div class="form-group col-sm-3">
 											<label for="generalIVA">IVA %</label> <input
-												th:field="*{pedido.iva}" type="number" class="form-control"
+												th:field="*{pedido.iva}" type="number" step="any" class="form-control"
 												id="generalIVA" required placeholder="16">
 										</div>
 
@@ -146,14 +145,6 @@
 											</div>
 										</div>
 
-
-
-
-										<div class="form-group col-sm-12">
-											<label for="generalObservaciones">Observaciones</label>
-											<textarea th:field="*{pedido.observacion}"
-												class="form-control" id="generalObservaciones" rows="3"></textarea>
-										</div>
 										<div class="form-group col-sm-12">
 											<a th:href="@{/carga-de-pedidos}" class="btn btn-danger">Cancelar</a>
 											<input type="submit"
@@ -266,6 +257,84 @@
 		   })
 		   
 		   
+		});
+	
+	
+	$('#formularioaenviar').submit(function (ev) {
+		var select = document.getElementById("precioUsar");
+		 $.ajax({
+		        data: {'estatusPrecios':select.value,
+		            'id':$("#idPedidoInformacion").val()},
+		        url:   '/validar-cambio-precio',
+		        type:  'GET',
+		        success:  function (r) 
+		        {
+		            
+		           if ( r == true){
+		        	   $.ajax({
+		       		    type: $('#formularioaenviar').attr('method'), 
+		       		    url: '/guardar-informacion-general-pedido2',
+		       		    data: $('#formularioaenviar').serialize(),
+		       	        beforeSend: function () {
+		       	        	Swal.fire({
+		       	                 title: 'Actualizando los precios correspondientes del pedido  ',
+		       	                 html: 'Por favor espere',// add html attribute if you want or remove
+		       	                 allowOutsideClick: false,
+		       	                 timerProgressBar: true,
+		       	                 onBeforeOpen: () => {
+		       	                     Swal.showLoading()
+		       	                 },
+		       	             });
+		       	        },
+		       		    success: function (data) { 
+		       		    	
+		       		    } ,
+		       	        complete: function() {
+		       	        	Swal.fire({
+		                  	  position: 'center',
+		                        icon:'success',
+		                        title: "Pedido guardado correctamente",
+		                        showConfirmButton: false,
+		                        timer: 1250
+		                  });
+		       	 			
+		       	 			$(location).attr('href','/carga-de-pedidos');
+		       		    }
+		       		  });
+		           }
+		           
+		           else{
+		        	   
+		        	   $.ajax({
+			       		    type: $('#formularioaenviar').attr('method'), 
+			       		    url: $('#formularioaenviar').attr('action'),
+			       		    data: $('#formularioaenviar').serialize(),
+			       		    
+			       			 success: function (data) { 
+			       		    	
+			       		    } ,
+			       	        complete: function() {
+			       	        	Swal.fire({
+			                  	  position: 'center',
+			                        icon: 'success',
+			                        title: "Pedido guardado correctamente",
+			                        showConfirmButton: false,
+			                        timer: 1250
+			                  });
+			       	 			
+			       	 			$(location).attr('href','/carga-de-pedidos');
+			       		    }
+			       	      
+			       		  });
+		           }
+		        },
+		        error: function(){
+		            alert('Ocurrio un error en el servidor de modelo ..');
+		            select.prop('disabled', false);
+		        }
+		    });
+
+		  ev.preventDefault();
 		});
 	</script>
 	<script src="http://momentjs.com/downloads/moment.min.js"></script>

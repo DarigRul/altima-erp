@@ -41,14 +41,6 @@ public class ComercialClienteEmpleado implements Serializable{
 	@Column(name="creado_por")
 	private String creadoPor;
 	
-	public String getNombre_empleado() {
-		return nombre_empleado;
-	}
-
-	public void setNombre_empleado(String nombre_empleado) {
-		this.nombre_empleado = nombre_empleado;
-	}
-
 	@Column(name="actualizado_por")
 	private String actualizadoPor;
 	
@@ -57,9 +49,27 @@ public class ComercialClienteEmpleado implements Serializable{
 	
 	@Column(name="ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
+	
+	@Column(name="id_text")
+	private String idText;
+	
 
 	
-	
+	public String getIdText() {
+		return idText;
+	}
+
+	public void setIdText(String idText) {
+		this.idText = idText;
+	}
+
+	public String getNombre_empleado() {
+		return nombre_empleado;
+	}
+
+	public void setNombre_empleado(String nombre_empleado) {
+		this.nombre_empleado = nombre_empleado;
+	}
 	
 	public Long getIdPedidoInformacion() {
 		return idPedidoInformacion;

@@ -12,9 +12,15 @@ public interface IComercialCotizacionPrendaService {
 	
 	List<ComercialCotizacionPrenda> findAll (Long id);
 	
-	Object[] FindDatosCotizacionPrenda (Long idTela, Long idPrenda);
+	Object[] FindDatosCotizacionPrenda (Long idTela, Long idModelo, Long idPrenda, Long idFamComposicion);
 	
-	List<Object[]> FindCotizacionPrendas(Long id);
+	List<Object[]> FindCotizacionPrendas(Long id, int tipoCotizacion);
 	
 	double findSubtotalCotizacionPrendas(Long id);
+	
+	void removePrendas (List<ComercialCotizacionPrenda> comercialCotizacionPrenda);
+
+	double subtotalPrendas(Long idCotizacion);
+
+	List<Object[]> findPrendasByCotizacion(Long id);
 }

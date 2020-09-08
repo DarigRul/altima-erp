@@ -52,11 +52,11 @@ public class InventarioServiceImpl implements IInventarioService {
 				"FROM\r\n" + 
 				"    alt_produccion_detalle_pedido po\r\n" + 
 				"INNER JOIN alt_disenio_prenda pre3 ON\r\n" + 
-				"    pre3.id_prenda = po.id_prenda AND estatus_confeccion = '2'\r\n" + 
+				"    pre3.id_prenda = po.id_prenda AND estatus_confeccion = '2' AND (po.estatus = '1' OR po.estatus = '2')\r\n" + 
 				"INNER JOIN alt_disenio_tela dt ON\r\n" + 
 				"    dt.id_tela = po.id_tela\r\n" + 
 				"INNER JOIN alt_disenio_lista_precio_prenda precio ON\r\n" + 
-				"    precio.id_prenda = po.id_prenda\r\n" + 
+				"    precio.id_prenda = po.id_prenda AND dt.id_familia_composicion = precio.id_familia_composicion\r\n" + 
 				"INNER JOIN alt_disenio_lookup dl2 ON\r\n" + 
 				"    dl2.id_lookup = pre3.id_familia_prenda\r\n" + 
 				"INNER JOIN alt_disenio_lookup dl ON\r\n" + 
@@ -94,7 +94,8 @@ public class InventarioServiceImpl implements IInventarioService {
 	@Override	
 	public String Exist(Long id) {
 		
-		String val =em.createNativeQuery("SELECT if ((SELECT COUNT(*) FROM alt_disenio_prenda_imagen WHERE id_prenda="+id+" and nombre_prenda='Inventario')>0, 1 , 0);").getSingleResult().toString();
+		String val =em.createNativeQuery("SELECT if ((SELECT COUNT(*) FROM alt_disenio_prenda_imagen " +
+				 					  	"	WHERE id_prenda="+id+" and nombre_prenda='Inventario')>0, 1 , 0);").getSingleResult().toString();
 		return val;
 	}
 
@@ -103,7 +104,32 @@ public class InventarioServiceImpl implements IInventarioService {
 	@Transactional
 	public List<ProduccionDetallePedido> listCatalogoInventario() {
 		// TODO Auto-generated method stub
-		return em.createNativeQuery("SELECT 'stock' AS stock, po.id_detalle_pedido AS Id, po.id_text AS codigo, dl2.nombre_lookup AS Prenda, po.talla AS talla, po.largo AS largo, dt.nombre_tela AS tela, dl.nombre_lookup AS Genero, po.costo AS price, po.estatus_confeccion AS estatus_confeccion, pre3.id_prenda, po.estatus AS estatus, dt.id_tela AS idTela, imagen.ruta_prenda AS imagen, precio.precio_muestrario, IF ( pre3.estatus_recepcion_muestra = 'Definitivo', pre3.id_text, pre3.id_text_prospecto ) AS modelote, pre3.descripcion_prenda FROM alt_produccion_detalle_pedido po INNER JOIN alt_disenio_prenda pre3 ON pre3.id_prenda = po.id_prenda AND estatus_confeccion = '2' AND po.estatus = '1' INNER JOIN alt_disenio_tela dt ON dt.id_tela = po.id_tela INNER JOIN alt_disenio_lista_precio_prenda precio ON precio.id_prenda = po.id_prenda INNER JOIN alt_disenio_lookup dl2 ON dl2.id_lookup = pre3.id_familia_prenda INNER JOIN alt_disenio_lookup dl ON dl.id_lookup = pre3.id_genero LEFT JOIN alt_comercial_imagen_inventario imagen ON imagen.id_prenda = po.id_prenda AND imagen.id_tela = dt.id_tela").getResultList();
+		return em.createNativeQuery("SELECT 'stock' AS stock, \n" + 
+				"		po.id_detalle_pedido AS Id, \n" + 
+				"		po.id_text AS codigo, \n" + 
+				"		dl2.nombre_lookup AS Prenda, \n" + 
+				"		po.talla AS talla, \n" + 
+				"		po.largo AS largo, \n" + 
+				"		dt.nombre_tela AS tela, \n" + 
+				"		dl.nombre_lookup AS Genero, \n" + 
+				"		po.costo AS price, \n" + 
+				"		po.estatus_confeccion AS estatus_confeccion, \n" + 
+				"		pre3.id_prenda, \n" + 
+				"		po.estatus AS estatus, \n" + 
+				"		dt.id_tela AS idTela, \n" + 
+				"		imagen.ruta_prenda AS imagen, \n" + 
+				"		precio.precio_muestrario, \n" + 
+				"		IF ( pre3.estatus_recepcion_muestra = 'Definitivo', pre3.id_text, pre3.id_text_prospecto ) AS modelote, \n" + 
+				"		pre3.descripcion_prenda \n" + 
+				"		\n" + 
+				"	FROM alt_produccion_detalle_pedido po \n" + 
+				"	\n" + 
+				"	INNER JOIN alt_disenio_prenda pre3 ON pre3.id_prenda = po.id_prenda AND estatus_confeccion = '2' AND po.estatus = '1'\n" + 
+				"	INNER JOIN alt_disenio_tela dt ON dt.id_tela = po.id_tela \n" + 
+				"	INNER JOIN alt_disenio_lista_precio_prenda precio ON precio.id_prenda = po.id_prenda AND dt.id_familia_composicion = precio.id_familia_composicion\n" + 
+				"	INNER JOIN alt_disenio_lookup dl2 ON dl2.id_lookup = pre3.id_familia_prenda \n" + 
+				"	INNER JOIN alt_disenio_lookup dl ON dl.id_lookup = pre3.id_genero \n" + 
+				"	LEFT JOIN alt_comercial_imagen_inventario imagen ON imagen.id_prenda = po.id_prenda AND imagen.id_tela = dt.id_tela").getResultList();
 	}
 
 

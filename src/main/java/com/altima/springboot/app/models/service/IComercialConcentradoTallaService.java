@@ -19,9 +19,9 @@ public interface IComercialConcentradoTallaService {
 	List<Object[]> findTallasPrendaEspecificacion(Long idpedido, Long idempleado, Long idprenda);
 
 	List<ComercialConcentradoTalla> findDuplicates(String Empleado, String Largo, String PrendaCliente, String Talla,
-			String Pulgadas, String especificacion);
+			String Pulgadas, String especificacion, String pedido);
 
-	List<ComercialConcentradoTalla> findDuplicates(String Empleado, String PrendaCliente, String especificacion);
+	List<ComercialConcentradoTalla> findDuplicates(String Empleado, String PrendaCliente, String especificacion, String pedido);
 
 	List<Object[]> findPrenda(Long idpedido, Long idempleado);
 

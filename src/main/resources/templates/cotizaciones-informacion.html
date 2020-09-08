@@ -7,14 +7,15 @@
 		<input type="text" class="form-control" id="tituloCotizacion" placeholder="Especificar" th:value="${tituloCotizacion}"> </div>
 	<div class="form-group col-md-3">
 		<label for="tipoCotizacion">Cotizaci&oacute;n</label>
-		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="tipoCotizacion">
-			<option value='1' th:selected="${tipoCotizacion=='1'}">Cotizaci&oacute;n general</option>
-			<option value='2' th:selected="${tipoCotizacion=='2'}">Cotizaci&oacute;n desglozada</option>
+		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="tipoCotizacion" th:disabled="${ tipoCotizacionDisable }">
+			<option value='1' th:selected="${tipoCotizacion=='1'}">Lista de precios</option>
+			<option value='2' th:selected="${tipoCotizacion=='2'}">Cotizaci&oacute;n desglosada por tipo de prenda</option>
+			<option value='3' th:selected="${tipoCotizacion=='3'}">Cotizaci&oacute;n desglosada</option>
 		</select>
 	</div>
 	<div class="form-group col-md-3">
 		<label for="tipoPrecioVentas">Tipo de precio</label>
-		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="tipoPrecioVentas">
+		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="tipoPrecioVentas" th:disabled="${ tipoPrecioVentasDisabled }">
 			<option value='1' th:selected="${tipoPrecioVentas=='1'}" >Precio nuevo local</option>
 			<option value='2' th:selected="${tipoPrecioVentas=='2'}" >Precio nuevo for&aacute;neo</option>
 			<option value='3' th:selected="${tipoPrecioVentas=='3'}" >Precio antiguo local</option>
@@ -30,25 +31,23 @@
 	</div>
 	<div class="form-group col-md-3">
 		<label for="agenteCotizacion">Agente de ventas</label>
-		<select th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}" class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="agenteCotizacion">
+		<select th:style="${paraNoAgentes}" class="form-control selectpicker agenteCotizacionSelect" data-live-search="true" title="Selecciona uno..." th:id="${agente=='1'}?'':agenteCotizacion">
 			<option th:each="agente:${ListarAgentes}" th:value="${agente[0]}" th:text="${agente[1]+' '}+${agente[2]+' '}+${agente[3]+' '}">1</option>
 		</select>
-		<input th:unless="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}" type="text" class="form-control" id="agenteCotizacion" disabled value="Jose Manuel Morelos"> 
+		<input th:style="${paraAgentes}" type="text" class="form-control agenteCotizacionInput" th:id="${agente=='1'}?agenteCotizacion:''" disabled th:data-agente="${idAgente}" th:value="${Agente}"> 
 	</div>
 	<div class="form-group col-md-3">
 		<label for="clienteCotizacion">Cliente a cotizar</label>
 		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="clienteCotizacion">
-			<option th:each="cliente:${ListarClientes}" th:value="${cliente.idCliente}" th:text="${cliente.apellidoPaterno==null || cliente.apellidoMaterno==null}?${cliente.nombre}:${cliente.nombre+' '+cliente.apellidoPaterno+' '+cliente.apellidoMaterno}">1</option>
+			<option th:each="cliente:${ListarClientes}" th:value="${cliente[0]}" th:text="${cliente[1]}">1</option>
 		</select>
 	</div>
 	<div class="form-group col-md-3">
 		<label for="IVACotizacion">I.V.A.</label>
 		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="IVACotizacion">
-			<option value='1' th:selected="${iva=='1.0'}">1</option>
-			<option value='2' th:selected="${iva=='2.0'}">2</option>
-			<option value='3' th:selected="${iva=='3.0'}">3</option>
-			<option value='4' th:selected="${iva=='4.0'}">4</option>
-			<option value='5' th:selected="${iva=='5.0'}">5</option>
+			<option value='0' th:selected="${iva=='0.0'}">0%</option>
+			<option value='16' th:selected="${iva=='16.0'}">16%</option>
+			
 		</select>
 	</div>
 	<div class="form-group col-md-12">

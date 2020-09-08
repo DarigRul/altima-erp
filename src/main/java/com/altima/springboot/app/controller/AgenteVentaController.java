@@ -115,12 +115,14 @@ public class AgenteVentaController {
 	public String listPedidos(Model model) {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	
+		
 		/* Obtener todos los datos del usuario logeado */
 		Usuario user = usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
 		Long iduser = user.getIdUsuario();
 		String role = "[ROLE_ADMINISTRADOR]";
 		if (auth.getAuthorities().toString().equals(role)) {
-
+			model.addAttribute("admin", true);
 			model.addAttribute("clientes", clienteservice.findAll(null));
 			model.addAttribute("pedidos", cargaPedidoService.CargaPedidoVista(null));
 		} else {
@@ -128,6 +130,7 @@ public class AgenteVentaController {
 			model.addAttribute("pedidos", cargaPedidoService.CargaPedidoVista(iduser));
 
 		}
+		model.addAttribute("lisp", cargaPedidoService.listPedidos());
 		return "carga-de-pedidos";
 	}// le movio erik
 
@@ -139,11 +142,6 @@ public class AgenteVentaController {
 	@GetMapping("/agregar-carga")
 	public String addCarga() {
 		return "agregar-carga";
-	}
-
-	@GetMapping("/catalogos-materiales-agentes")
-	public String listMat() {
-		return "catalogos-materiales-agentes";
 	}
 
 	@GetMapping("/movimientos-agentes")

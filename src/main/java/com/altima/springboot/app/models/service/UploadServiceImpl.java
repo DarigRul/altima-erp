@@ -35,6 +35,10 @@ public class UploadServiceImpl implements IUploadService {
 
 	private final static String folderInventarioAMP = "uploads/InventarioAMP";
 
+	private final static String folderEmpleados = "uploads/empleados";
+	
+	private final static String folderBordados = "uploads/bordadoParte";
+
 	@Override
 	public Resource load(String filename) throws MalformedURLException {
 		Path pathFoto = getPath(filename);
@@ -107,12 +111,14 @@ public class UploadServiceImpl implements IUploadService {
 		Files.copy(file.getInputStream(), rootPath);
 		return uniqueFilename;
 	}
+
 	@Override
 	public File fileTela(String filename) {
 		Path rootPath = getPathTela(filename);
 		File archivo = rootPath.toFile();
 		return archivo;
 	}
+
 	@Override
 	public boolean deleteTela(String filename) {
 		Path rootPath = getPathTela(filename);
@@ -137,6 +143,7 @@ public class UploadServiceImpl implements IUploadService {
 
 		return img;
 	}
+
 	public boolean deletePrenda(String filename) {
 		Path rootPath = getPath(filename);
 		File archivo = rootPath.toFile();
@@ -485,4 +492,82 @@ public class UploadServiceImpl implements IUploadService {
 		// TODO Auto-generated method stub
 		return new Cloudinary("cloudinary://919683995354796:L5_KG7l-5yZN0a_zZEJIvi6DERI@dti-consultores");
 	}
+
+	/* EMPLEADOS */
+	public Path getPathEmpleado(String filename) {
+		return Paths.get(folderEmpleados).resolve(filename).toAbsolutePath();
+	}
+
+	@Override
+	public Resource loadEmpleado(String filename) throws MalformedURLException {
+		Path pathFotografia = getPathEmpleado(filename);
+		Resource recurso = null;
+		recurso = new UrlResource(pathFotografia.toUri());
+		if (!recurso.exists() || !recurso.isReadable()) {
+			throw new RuntimeException("Error: No se puede cargar la imagen " + pathFotografia.toString());
+		}
+		return recurso;
+	}
+
+	@Override
+	public String copyEmpleado(MultipartFile fotografia) throws IOException {
+		String uniqueFname = UUID.randomUUID().toString() + "_" + fotografia.getOriginalFilename();
+		Path pathFotografia = getPathEmpleado(uniqueFname);
+		Files.copy(fotografia.getInputStream(), pathFotografia);
+		return uniqueFname;
+	}
+
+	@Override
+	public boolean deleteEmpleado(String filename) {
+		Path pathFotografia = getPathEmpleado(filename);
+		File archivo = pathFotografia.toFile();
+
+		if (archivo.exists() && archivo.canRead()) {
+			archivo.delete();
+		}
+		return true;
+	}
+	
+	
+	
+	/* bordado  parte*/
+
+	public Path getPathBordadoParte(String filename) {
+		return Paths.get(folderBordados).resolve(filename).toAbsolutePath();
+
+	}
+
+	@Override
+	public Resource loadBordadoParte(String filename) throws MalformedURLException {
+		Path pathFoto = getPathBordadoParte(filename);
+		Resource recurso = null;
+
+		recurso = new UrlResource(pathFoto.toUri());
+		if (!recurso.exists() && !recurso.isReadable()) {
+			throw new RuntimeException("Error: No se puede cargar la imagen " + pathFoto.toString());
+		}
+
+		return recurso;
+	}
+
+	@Override
+	public String copyBordadoParte(MultipartFile file) throws IOException {
+		String uniqueFilename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+		Path rootPath = getPathBordadoParte(uniqueFilename);
+		Files.copy(file.getInputStream(), rootPath);
+		return uniqueFilename;
+	}
+
+	@Override
+	public boolean deleteBordadoParte(String filename) {
+		Path rootPath = getPathBordadoParte(filename);
+		File archivo = rootPath.toFile();
+
+		if (archivo.exists() && archivo.canRead()) {
+			if (archivo.delete()) {
+			}
+		}
+		return true;
+	}
+
 }

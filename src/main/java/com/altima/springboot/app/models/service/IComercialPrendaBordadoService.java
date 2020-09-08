@@ -19,5 +19,14 @@ public interface IComercialPrendaBordadoService {
 	public Float sumBordados (Long id);
 	
 	public Float precio_coor_prenda (Long id);
+	
+	List<Object []> BordadosView(Long id);
+	
+	 Float precioBordado(Long id);
+	 
+	 List<Object []>  findAllDescipcion(Long id);
+	 
+	 List<Object []>  CambioPrecio(Long id);
+	
 
 }

@@ -47,6 +47,11 @@ public class ComercialPrendaBordado implements Serializable{
 	@Column(name="ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
 
+	
+	@Column(name="id_bordado")
+	private Long idBordado;
+	
+	
 	public Long getIdPrendaBordado() {
 		return idPrendaBordado;
 	}
@@ -113,6 +118,14 @@ public class ComercialPrendaBordado implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Long getIdBordado() {
+		return idBordado;
+	}
+
+	public void setIdBordado(Long idBordado) {
+		this.idBordado = idBordado;
 	}
 	
 	

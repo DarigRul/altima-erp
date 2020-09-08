@@ -27,4 +27,6 @@ public interface IProduccionConsumoTallaService {
 	List<Object[]> ConsumoTalla_Tallas(Long idTalla , Long idPrenda );
 	
 	ProduccionConsumoTalla buscar_consumo(Long idTalla , Long idPrenda , Long idLargo);
+	
+	List<Object[]> Materiales_Prenda(Long idPrenda );
 }

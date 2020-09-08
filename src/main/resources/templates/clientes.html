@@ -1,116 +1,161 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-    <title id="pageTitle">Clientes | Altima</title>
-    </head>
-<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse" >
-    <!-- Site wrapper -->
-    <div class="wrapper">
-        <!-- Navbar -->
-        <div th:insert="navegacion-nav"></div>
-        <!-- /.navbar -->
-        <!-- Modal -->
-        <div th:insert="navegacion-logout"></div>
-        <!-- Main Sidebar Container -->
-        <div th:insert="navegacion-aside"></div>
+<title id="pageTitle">Clientes | Altima</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Clientes&nbsp;<a th:href="@{/agregar-cliente}" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo cliente</a></h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item altima">Altima</li>
-                                <li class="breadcrumb-item active">Comercial</li>
-                                <li class="breadcrumb-item active">Agentes de Venta</li>
-                                <li class="breadcrumb-item active">Clientes</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.container-fluid -->
-            </section>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>
+								Clientes&nbsp;<a th:href="@{/agregar-cliente}"
+									class="btn btn-sm icon-btn btn-altima text-white"><span
+									class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo
+									cliente</a>
+							</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item altima">Altima</li>
+								<li class="breadcrumb-item active">Comercial</li>
+								<li class="breadcrumb-item active">Agentes de Venta</li>
+								<li class="breadcrumb-item active">Clientes</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
 
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- Default box -->
-                            <div class="card">
-                                <div class="card-header bg-altima">
-                                    <h3 class="card-title">Listado de clientes</h3>
-                                </div>
-                                <div class="card-body">
-                                   <table class="table tablaGeneral table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>No. Cliente</th>
-                                                <th>Cliente</th>
-                                                <th>Teléfono</th>
-                                                <th>Tipo</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr th:each="cliente: ${clientes}">
-                                                <td th:text="${cliente.CidText}"></td>
-                                                <td th:text="${cliente.Nombre}"></td>
-                                                <td th:text="${cliente.Telefono}"></td>
-                                                <td th:if="${cliente.TipoCliente == '1'}" th:text="Moral"></td>
-                                                <td th:if="${cliente.TipoCliente == '2'}" th:text="Fisica"></td>
-                                                <td class="tdcenter"> 
-                                                <a th:href="@{/sucursales/}+ ${cliente.idCliente}" 
-                                                 		class="btn btn-info btn-circle btn-sm popoverxd" 
-                                                 		data-container="body" data-placement="top" 
-                                                 		data-content="Sucursales"><i class="fas fa-building"></i></a>
-                                                <a
-                                                 		th:href="@{/facturacion-clientes/}+ ${cliente.idCliente}"  class="btn btn-primary btn-circle btn-sm text-white popoverxd" 
-                                                 		data-container="body" data-placement="top" 
-                                                 		data-content="Datos de facturaci&oacute;n"><i class="fas fa-file-alt"></i></a>
-                                                    <a th:href="@{/editar-cliente/}+ ${cliente.idCliente}" class="btn btn-warning btn-circle btn-sm popoverxd" 
-                                                         data-container="body" data-toggle="popover"
-                                                          data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
-                                                    <a data-toggle="modal" data-target="#asignacionAgente" class="btn btn-secondary text-white btn-circle btn-sm popoverxd"
-                                                          data-container="body" data-placement="top"
-                                                           data-content="Asignaci&oacute;n de agente">  <i class="fas fa-user"></i> </a>  
-                                                          
-                                                    <a  th:if="${cliente.estatusC  == 1}"  th:href="@{/delete-cliente/}+ ${cliente.idCliente}" class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
-                                                         data-container="body" data-toggle="popover" data-placement="top"
-                                                          data-content="Dar de baja">  <i class="fas fa-caret-down"></i> </a>
-                                                          
-                                                    <a  th:if="${cliente.estatusC  == 0}"  th:href="@{/alta-cliente/}+ ${cliente.idCliente}"  class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" 
-                                                         data-container="body" data-toggle="popover" data-placement="top"
-                                                          data-content="Dar de alta"> <i class="fas fa-sort-up"></i> </a>
-                                                </td>
-                                               
-                                            </tr>     
-                                        </tbody>
-                                    </table>
-                                    <div th:insert="modal-asignacion-agente"></div>
-	                                </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card">
+								<div class="card-header bg-altima">
+									<h3 class="card-title">Listado de clientes</h3>
+								</div>
+								<input type="hidden" name="_csrf" id="token"
+									th:value="${_csrf.token}" />
 
-        <div th:insert="navegacion-footer"></div>
-    </div>
-    <!-- ./wrapper -->
-    <div th:replace="navegacion-scripts"></div>
-    <script src="/dist/js/tablaGeneral.js"></script>
+								<div class="card-body">
+									<table class="table tablaGeneral table-striped table-bordered">
+										<thead>
+											<tr>
+												<th>No. Cliente</th>
+												<th>Cliente</th>
+												<th>Teléfono</th>
+												<th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')">Fecha
+													creación</th>
+												<th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')">Asignado
+													a:</th>
+												<th>Acciones</th>
+
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="cliente, icli: ${clientes}">
+												<td th:text="${cliente.CidText}"></td>
+												<td th:text="${cliente.Nombre}"></td>
+												<td th:text="${cliente.Telefono}"></td>
+												<td sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')"
+													th:text="${cliente.CfechaCreacion}"></td>
+												<!-- <td th:if="${cliente.TipoCliente == '1'}" th:text="Moral"></td>
+												<td th:if="${cliente.TipoCliente == '2'}" th:text="Fisica"></td> -->
+												</td>
+												<td sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')"
+													th:text="${agentes[icli.index][1]} ? ${agentes[icli.index][1]} + ' ' + ${agentes[icli.index][2]} + ' ' + ${agentes[icli.index][3]}:'Sin asignar creado por administrador'"></td>
+												<td class="tdcenter"><a
+													th:if="${cliente.estatusCliente == 0}"
+													th:href="@{/sucursales/}+ ${cliente.idCliente}"
+													class="btn btn-info btn-circle btn-sm popoverxd"
+													data-container="body" data-placement="top"
+													data-content="Sucursales"><i class="fas fa-building"></i></a>
+													<a th:if="${cliente.estatusCliente == 0}"
+													th:href="@{/facturacion-clientes/}+ ${cliente.idCliente}"
+													class="btn btn-primary btn-circle btn-sm text-white popoverxd"
+													data-container="body" data-placement="top"
+													data-content="Datos de facturaci&oacute;n"><i
+														class="fas fa-file-alt"></i></a> <a
+													sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')"
+													class="btn btn-info btn-circle btn-sm popoverxd text-white"
+													data-container="body" data-placement="top" data-html="true"
+													th:attr="data-content='<strong>Creado por: </strong>'+ ${cliente.CcreadoPor}  + '<br>'+
+													   '<strong>Fecha de creación: </strong>'+ ${cliente.CfechaCreacion}  + '<br>'+
+													   '<strong>Modificado por: </strong>'+ ${cliente.CactualizadoPor}  + '<br>'+
+																		  	 '<strong>Fecha de modicación: </strong>'+ ${cliente.CultimaFechaModificacion} + '<br>'"><i
+														class="fas fa-info fa-sm"></i> </a>&nbsp; <a
+													th:href="@{/editar-cliente/}+ ${cliente.idCliente}"
+													class="btn btn-warning btn-circle btn-sm popoverxd"
+													data-container="body" data-toggle="popover"
+													data-placement="top" data-content="Editar"><i
+														class="fas fa-pen"></i></a> <a
+													th:onclick="|modalagente('${cliente.idCliente}')|"
+													sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')"
+													data-toggle="modal" data-target="#asignacionAgente"
+													class="btn btn-secondary text-white btn-circle btn-sm popoverxd"
+													data-container="body" data-placement="top"
+													data-content="Asignaci&oacute;n de agente"> <i
+														class="fas fa-user"></i>
+												</a> <a th:if="${cliente.estatusC  == 1}"
+												th:onclick="|bajacliente('${cliente.idCliente}')|"	
+													class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
+													data-container="body" data-toggle="popover"
+													data-placement="top" data-content="Dar de baja"> <i
+														class="fas fa-caret-down"></i>
+												</a> <a th:if="${cliente.estatusC  == 0}"
+													th:onclick="|altacliente('${cliente.idCliente}')|"	
+													class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd"
+													data-container="body" data-toggle="popover"
+													data-placement="top" data-content="Dar de alta"> <i
+														class="fas fa-sort-up"></i>
+												</a>
+											</tr>
+
+
+
+										</tbody>
+									</table>
+									<div th:insert="modal-asignacion-agente"></div>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<div th:insert="navegacion-footer"></div>
+	</div>
+	<!-- ./wrapper -->
+	<div th:replace="navegacion-scripts"></div>
+	
+	
+
+</body>
+<script src="/dist/js/tablaGeneral.js"></script>
 	<script>
 		$('#iComercial').removeClass('text-altima');
 		$('#menuComercial').addClass('menu-open');
@@ -129,61 +174,46 @@
 	          timer: 1250
 	    });
 	</script>
-	
+
 	<script>
-		$('.btn-delete').on('click', function (e) {
-		    e.preventDefault();
-		    var href =$(this).attr('href');
-		    $('#bajaClienteModal #btnDelteYes').attr('href',href);
-		    $('#bajaClienteModal').modal();
-		});
+	function bajacliente(e) {
+			Swal.fire({
+				  title: '&iquest;Est&aacute; seguro que desea dar de baja a este cliente?',
+				  text: "Puede cambiarlo en otro momento",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  cancelButtonText: 'Cancelar',
+				  confirmButtonText: 'Si, dar de baja',
+				  reverseButtons: true
+
+				}).then((result) => {
+				  if (result.value) {
+					 location.href="/delete-cliente/"+e
+				  }
+				})
+		}
+	
+	function altacliente(e) {
+		Swal.fire({
+			  title: '&iquest;Est&aacute; seguro que desea dar de alta a este cliente?',
+			  text: "Puede cambiarlo en otro momento",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  cancelButtonText: 'Cancelar',
+			  confirmButtonText: 'Si, dar de alta',
+			  reverseButtons: true
+
+			}).then((result) => {
+			  if (result.value) {
+				 location.href="/alta-cliente/"+e
+			  }
+			})
+	}
 		</script>
-		
-		<script>
-		$('.btn-alta').on('click', function (e) {
-		    e.preventDefault();
-		    var href =$(this).attr('href');
-		    $('#altaClienteModal #btnDelteYes').attr('href',href);
-		    $('#altaClienteModal').modal();
-		});
-		</script>
 
-
-<div class="modal fade" id="bajaClienteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        ¿Deseas dar de baja al cliente?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
-        <a id="btnDelteYes" class="btn btn-primary">Confirmar</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="altaClienteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        ¿Deseas dar de alta al cliente?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
-        <a id="btnDelteYes" class="btn btn-primary">Confirmar</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-</body>
 
 </html>

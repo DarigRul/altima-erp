@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Unidades | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Unidades&nbsp;
+                                <a id="agregarUnidad" data-toggle="modal" data-target="#nuevaUnidad" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                        class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nueva unidad</a>
+                            </h1>
+                        </div>
+                        <div th:insert="logistica-catalogos-unidades-modal"></div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item altima">Altima</li>
+								<li class="breadcrumb-item active">Log&iacute;stica</li>
+								<li class="breadcrumb-item active">Cat&aacute;logo de unidades</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de unidades</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>No. placa</th>
+                                                <th>Modelo</th>
+                                                <th>Chofer asignado</th>
+                                                <th>&Aacute;rea</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="unidad:${unidades}">
+                                                <td th:text="${unidad[0]}">WDR-1236</td>
+                                                <td th:text="${unidad[1]}">Nissan</td>
+                                                <td th:text="${unidad[2]}">Victor Lopez</td>
+                                                <td th:text="${unidad[3]}">Comercial</td>
+                                                <td th:if="${unidad[6]==0}">Fuera de circulaci&oacute;n</td>
+                                                <td th:if="${unidad[6]==1}">En circulaci&oacute;n</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+                                                    <button th:onclick="editUnity([[${unidad[7]}]])" class="btn btn-warning btn-sm btn-circle popoverxd" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                    <button th:if="${unidad[6]==0}" th:onclick="activarUnidad([[${unidad[7]}]])" class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="En circulaci&oacute;n"><i class="fas fa-caret-up"></i></button>
+                                                    <button th:if="${unidad[6]==1}" th:onclick="inactivaUnidad([[${unidad[7]}]])" class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Fuera de circulaci&oacute;n"><i class="fas fa-caret-down"></i></button>
+                                                </td>
+                                            </tr>    
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-footer-->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<div th:insert="navegacion-footer"></div>
+	</div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/unidades.js"></script>
+	<script>
+        $('#iLogistica').removeClass('text-altima');
+        $('#menuLogistica').addClass('menu-open');
+        $('#navLogistica').addClass('active-altima');
+        $('#navLogUni').addClass('active');
+    </script>
+</body>
+
+</html>

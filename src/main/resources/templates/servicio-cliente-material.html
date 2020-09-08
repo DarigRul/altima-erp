@@ -1,0 +1,57 @@
+<form class="row">
+    <div class="form-group col-md-6">
+      <label for="materialMaterial">Material</label>
+      <div class="spinner-border spinner-border-sm text-primary" role="status" id="CargandoMaterialesMaterial" style="display: none;">
+  		<span class="sr-only">Loading...</span>
+	  </div>
+      <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="materialMaterial">
+        <option th:each="opc : ${selectMateriales}" th:value="${opc[0]}" th:text="${opc[1]}"></option>
+       </select>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="cantidadMaterial">Cantidad</label>
+        <div class="input-group mb-3">
+            <input type="number" class="form-control" id="cantidadMaterial" style="border-radius:.25rem" placeholder="20">
+            <div class="input-group-append" style="margin-left:10px;">
+                <button type="button" class="btn icon-btn btn-altima text-white" onclick="GuardarMaterial()"><span
+                    class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+            </div>
+          </div>
+    </div>
+    <div class="form-group col-md-12" th:if="${accion == 'crear'}">
+        <table class="table tablaGeneral table-striped table-bordered" style="width:100%;" id="TablaMaterial">
+            <thead>
+                <tr>
+                    <th>Material</th>
+                    <th>Cantidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="CuerpoMaterialesTabla">
+            	<!-- Cuerpo de la Tabla -->  
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group col-md-12" th:if="${accion == 'editar'}">
+        <table class="table tablaGeneral table-striped table-bordered" style="width:100%;" id="TablaMaterial">
+            <thead>
+                <tr>
+                    <th>Material</th>
+                    <th>Cantidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="CuerpoMaterialesTabla">
+            	<!-- Cuerpo de la Tabla -->
+                <tr th:each="material : ${materiales}">
+                    <td th:text="${material.idLookup}"></td>
+                    <td th:text="${material.cantidad}"></td>
+                    <td class="text-center">
+                        <button type="button" class="btn icon-btn btn-danger text-white" th:onclick="'BorrarFilaMaterial(this, \'' + ${material.idSolicitudServicioAlClienteMaterial} + '\');'"><span
+                            class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
+                    </td>
+                </tr>    
+            </tbody>
+        </table>
+    </div>
+  </form>

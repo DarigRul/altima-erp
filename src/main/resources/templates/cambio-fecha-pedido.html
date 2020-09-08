@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Cambio de fecha de pedido | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Cambio de fecha de pedido&nbsp;
+                                <a data-toggle="modal" data-target="#cambioFecha" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                        class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo cambio</a>
+                            </h1>
+                        </div>
+                        <div th:insert="cambio-fecha-pedido-modal"></div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item altima">Altima</li>
+								<li class="breadcrumb-item active">Cambio de fecha de pedido</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de solicitudes</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Solicitante</th>
+                                                <th>Fecha de solicitud</th>
+                                                <th>Cliente</th>
+                                                <th>Pedido</th>
+                                                <th>Fecha entrega de pedido</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>CAMFE0001</td>
+                                                <td>Agente 1</td>
+                                                <td>14/08/2020  09:00 a.m.</td>
+                                                <td>DTI Consultores</td>
+                                                <td>PED100045</td>
+                                                <td>17/10/2020</td>
+                                                <td>En espera</td>
+                                                <td class="text-center">
+                                                    <button data-toggle="modal" data-target="#cambioFecha" class="btn btn-warning btn-sm btn-circle popoverxd" data-placement="top" data-content="Cambiar fecha"><i class="fas fa-calendar"></i></button>
+                                                    <button class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
+                                                </td>
+                                            </tr>    
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-footer-->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<div th:insert="navegacion-footer"></div>
+	</div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+	<script>
+		$('#iCal').removeClass('text-altima');
+		$('#navCal').addClass('active-altima');
+	</script>
+</body>
+
+</html>

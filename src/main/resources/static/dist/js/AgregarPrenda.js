@@ -7,14 +7,20 @@ $(document).ready(function () {
 				url: "/validacion_descripcion_prenda",
 				data: { valor: this.value },
 				success: (data) => {
-					  if(data){
-						  $('#WarningNombrePrenda').css("display", "none");
-						  BanderaDescripcionRepetida = true;
-					  }
-					  else{
-						  $('#WarningNombrePrenda').css("display", "inline");
-						  BanderaDescripcionRepetida = false;
-					  }
+console.log($('#NombreOriginalPrenda').val());
+					if($('#NombreOriginalPrenda').val() == this.value){
+						//
+					}
+					else{
+						  if(data){
+							  $('#WarningNombrePrenda').css("display", "none");
+							  BanderaDescripcionRepetida = true;
+						  }
+						  else{
+							  $('#WarningNombrePrenda').css("display", "inline");
+							  BanderaDescripcionRepetida = false;
+						  }
+					}
 				},
 				error: (e) => {
 					console.log(e);
@@ -182,30 +188,14 @@ function Guardar() {
 	
 	$('#ElDeGuardar').remove();
 	$('#Guardando').css('display', 'block');
-	console.log(objeto_patronajes);
-	/*
-	if (CambiarImgFrente == true && CambiarImgEspalda == true) {
-		$('#FormImagenes').click();
-	}
-	if (CambiarImgFrente != true && CambiarImgEspalda != true) {
-		console.log("ninguna imagen cambio");
-	}
-	if (CambiarImgFrente == true && CambiarImgEspalda != true) {
-		$('#FormImagenFrente').click();
-	}
-	if (CambiarImgFrente != true && CambiarImgEspalda == true) {
-		$('#FormImagenEspalda').click();
-	}*/
 	
 	RecogerDatosPrimeraParte();
 	RecogerDatosSegundaParte();
 	var token = $('#token').val();
 	var header = $('#token').val();
-	console.log($('#ClientePrenda').val(),);
 	
 	if(accion == "editar")
 	{
-		console.log(objeto_prenda);
 		//Solicitud Ajax
 		$.ajax({
 			type: "POST",
@@ -227,7 +217,8 @@ function Guardar() {
 						"objeto_patronajes": JSON.stringify(objeto_patronajes),
 						"objeto_marcadores": RecogerDatosTerceraParte(),
 						"clientes": JSON.stringify($('#ClientePrenda').val()),
-						"accion": accion
+						"accion": accion,
+						"idPrenda" : data
 					},
 					success: (data) => {
 						$('#BotonBloquearGuardar').prop('disabled', false);
@@ -255,10 +246,8 @@ function Guardar() {
 				"disenioprenda": JSON.stringify(objeto_prenda)
 			},
 			success: (data) => {
-				console.log(data);
-				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='idPrenda' id='idPrenda' value='" + data.idPrenda + "'/>");
+				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='idPrenda' id='idPrenda' value='" + data + "'/>");
 				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='accion' id='accion' value='agregar'/>");
-				console.log(RecogerDatosTerceraParte());
 				$.ajax({
 					type: "POST",
 					url: "/guardar_final",
@@ -268,7 +257,8 @@ function Guardar() {
 						"objeto_patronajes": JSON.stringify(objeto_patronajes),
 						"objeto_marcadores": RecogerDatosTerceraParte(),
 						"clientes": JSON.stringify($('#ClientePrenda').val()),
-						"accion": $('#accionPag').val()
+						"accion": $('#accionPag').val(),
+						"idPrenda" : data
 					},
 					success: (data) => {
 						$('#BotonBloquearGuardar').prop('disabled', false);
@@ -299,9 +289,7 @@ function Guardar() {
 				"disenioprenda": JSON.stringify(objeto_prenda)
 			},
 			success: (data) => {
-				console.log(data);
-				console.log(prendasmarcadores);
-				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='idPrenda' id='idPrenda' value='" + data.idPrenda + "'/>");
+				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='idPrenda' id='idPrenda' value='" + data + "'/>");
 				$('#ContenedorBotonAgregarOtro').append("<input type='hidden' name='accion' id='accion' value='copiar'/>");
 				$.ajax({
 					type: "POST",
@@ -312,7 +300,8 @@ function Guardar() {
 						"objeto_patronajes": JSON.stringify(objeto_patronajes),
 						"objeto_marcadores": RecogerDatosTerceraParte(),
 						"clientes": JSON.stringify($('#ClientePrenda').val()),
-						"accion": accion
+						"accion": accion,
+						"idPrenda" : data
 					},
 					success: (data) => {
 						$('#BotonBloquearGuardar').prop('disabled', false);
@@ -347,7 +336,7 @@ function ValidarPrimerPestana() {
 					nombres[i] = $('#name-edit-' + i).val();
 					idContenedores[i] = i;
 				}
-			}	
+			}
 		}
 		else{
 			//Se obtienen los divs visibles
@@ -356,7 +345,7 @@ function ValidarPrimerPestana() {
 					nombres[i] = $('#name-' + i).val();
 					idContenedores[i] = i;
 				}
-			}	
+			}
 		}
 		
 		//Se ordena el array
@@ -896,30 +885,52 @@ function QuitarImagen(id)
 
 function PreviewImage(input, id)
 {
-	 if (input.files && input.files[0]) {
-		    var reader = new FileReader();
-
-		    reader.onload = function(e) {
-		      $('#img-' + id).attr('src', e.target.result);
-		    }
-
-		 reader.readAsDataURL(input.files[0]); 
-	 }
+	var nombre = input.value;
+	if (/\s/.test(nombre.substring(12))) {
+		 Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Por seguridad, no deben haber espacios en las imagenes que subas'
+			  })
+	}
+	else{
+		 if (input.files && input.files[0]) {
+			    var reader = new FileReader();
+	
+			    reader.onload = function(e) {
+			      $('#img-' + id).attr('src', e.target.result);
+			    }
+	
+			 reader.readAsDataURL(input.files[0]); 
+		 }
+	}
+		 
 }
 
 function PreviewImageEdit(input, id)
 {
-	$('#status-input-edit-' + id).val("Alter");
+	var nombre = input.value;
+	if (/\s/.test(nombre.substring(12))) {
+		 Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Por seguridad, no deben haber espacios en las imagenes que subas'
+			  })
+	}
+	else{
+		
+		$('#status-input-edit-' + id).val("Alter");
+		
+		 if (input.files && input.files[0]) {
+			    var reader = new FileReader();
 	
-	 if (input.files && input.files[0]) {
-		    var reader = new FileReader();
-
-		    reader.onload = function(e) {
-		      $('#img-edit-' + id).attr('src', e.target.result);
-		    }
-
-		 reader.readAsDataURL(input.files[0]); 
-	 }
+			    reader.onload = function(e) {
+			      $('#img-edit-' + id).attr('src', e.target.result);
+			    }
+	
+			 reader.readAsDataURL(input.files[0]); 
+		 }
+	}
 }
 
 

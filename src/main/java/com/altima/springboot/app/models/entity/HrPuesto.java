@@ -13,53 +13,53 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "alt_hr_puesto")
-public class HrPuesto implements Serializable{
+public class HrPuesto implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="id_puesto")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
+	@Column(name = "id_puesto")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
 	private Long idPuesto;
 
-	@Column(name="id_departamento")
+	@Column(name = "id_departamento")
 	private Long idDepartamento;
-	
-	@Column(name="id_text")
+
+	@Column(name = "id_text")
 	private String idText;
-	
-	@Column(name="nombre_puesto")
+
+	@Column(name = "nombre_puesto")
 	private String nombrePuesto;
-	
-	@Column(name="tiempo_extra")
+
+	@Column(name = "tiempo_extra")
 	private Boolean tiempoExtra;
-	
-	@Column(name="estatus")
+
+	@Column(name = "estatus")
 	private String estatus;
-	
-	@Column(name="nombre_plaza")
+
+	@Column(name = "nombre_plaza")
 	private String nombrePlaza;
-	
-	@Column(name="perfil")
-	private String perfil;
-	
-	@Column(name="sueldo")
+
+	@Column(name = "perfil")
+	private Boolean perfil;
+
+	@Column(name = "sueldo")
 	private String sueldo;
-	
-	@Column(name="creado_por")
+
+	@Column(name = "creado_por")
 	private String creadoPor;
-	
-	@Column(name="actualizado_por")
+
+	@Column(name = "actualizado_por")
 	private String actualizadoPor;
-	
-	@Column(name="fecha_creacion")
+
+	@Column(name = "fecha_creacion")
 	private String fechaCreacion;
-	
-	@Column(name="ultima_fecha_modificacion")
+
+	@Column(name = "ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
 
 	public Long getIdPuesto() {
@@ -118,11 +118,11 @@ public class HrPuesto implements Serializable{
 		this.nombrePlaza = nombrePlaza;
 	}
 
-	public String getPerfil() {
+	public Boolean getPerfil() {
 		return perfil;
 	}
 
-	public void setPerfil(String perfil) {
+	public void setPerfil(Boolean perfil) {
 		this.perfil = perfil;
 	}
 
@@ -266,12 +266,4 @@ public class HrPuesto implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
-	
 }
-	
-	

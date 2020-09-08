@@ -1,30 +1,166 @@
-<div class="modal fade" id="asignacionAgente" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content modal-rounded-body">
-        <div class="modal-header modal-rounded-header bg-altima">
-          <h5 class="modal-title" id="exampleModalLongTitle">Asignaci&oacute;n de agente: nombre del cliente</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="form-group col-md-12">
-                <label for="asignacionAgenteSelect">Asignar a</label>
-                <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="asignacionAgenteSelect">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-          </div>
-        </div>
-        <div class="modal-footer modal-rounded-footer">
-            <button type="button" data-dismiss="modal" class="btn  icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
-            <button type="button" class="btn icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-check img-circle text-altima"></span>Asignar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="modal fade" id="asignacionAgente" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalCenterTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-rounded-body">
+			<div class="modal-header modal-rounded-header bg-altima">
+				<h5 class="modal-title" id="exampleModalLongTitle">Asignaci&oacute;n
+					de agente</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="form-group col-md-12">
+						<input type="hidden" value="" id="idcliente"> <label
+							for="asignacionAgenteSelect">Asignar a</label> <select required
+							class="form-control " title="dfsaf" id="asignacionAgenteSelect">
+
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer modal-rounded-footer">
+				<button type="button" data-dismiss="modal"
+					class="btn  icon-btn btn-danger text-white mr-auto">
+					<span
+						class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar
+				</button>
+				<button type="button" onclick="asignaragente()"
+					class="btn icon-btn btn-altima text-white">
+					<span
+						class="btn-glyphicon spancircle fas fa-check img-circle text-altima"></span>Asignar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+  function modalagente(idclienteparam){
+	  console.log(idcliente);
+	  var dropdown =document.getElementById("asignacionAgenteSelect");
+	  var idclienteparam=idclienteparam;
+	  var idcliente = document.getElementById("idcliente");
+		idcliente.setAttribute("value",idclienteparam);
+	  console.log("holacarlos");
+	  $.ajax({
+			method: "GET",
+			url: "/agentes-clientes",
+			data:{
+				
+					"Idcliente":idclienteparam,
+						
+			} ,
+			success: (data2) => {
+				console.log(data2);
+				$("#asignacionAgenteSelect").empty();
+                for (i in data2) {
+                	if(data2[i][3]===null && data2[i][2]===null && data2[i][4]===null){
+                		data2[i][2]='Sin asignar';
+                		data2[i][3]='creado por';
+                		data2[i][4]='administrador';
+                		
+                	}
+                $('#asignacionAgenteSelect').append(
+
+                    "<option  value=" + data2[i][1] + " >" + data2[i][2]+ ' ' +data2[i][3] + ' '+data2[i][4] + "</option>"
+
+                );
+            }
+				
+				var id=data2[0][1];
+				console.log(id);
+				$.ajax({
+		method: "GET",
+		url: "/agentes-clientes1",
+		data:{
+			"idagente":id,
+		} ,
+		success: (data3) => {
+			
+
+			
+				    for (i in data3) {
+		                $('#asignacionAgenteSelect').append(
+
+		                    "<option  value=" + data3[i][0] + " >" + data3[i][1]+ ' ' +data3[i][2] + ' '+data3[i][3] + "</option>"
+
+		                );
+		            }
+		},
+		error: (e) => {
+
+		}
+	})
+				
+				
+			},
+			error: (e) => {
+
+			}
+		})
+  }
+  function asignaragente(){
+	  
+	  Swal.fire({
+  title: '&iquest;Est&aacute; seguro que desea asignar a este agente?',
+  text: "Puede cambiarlo en otro momento",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  cancelButtonText: 'Cancelar',
+  confirmButtonText: 'Si, asignar',
+  reverseButtons: true
+
+ 
+}).then((result) => {
+  if (result.value) {
+	  console.log( $('#idagente').val());
+	  console.log($('#asignacionAgenteSelect').val());
+	  $.ajax({
+          type: "POST",
+          url: "/asignar-agente",
+          data: {
+              "_csrf": $('#token').val(),
+              'idcliente':  $('#idcliente').val(),
+              'idagente': $('#asignacionAgenteSelect').val()
+
+          }
+
+      }).done(function(data) {
+    	  $.ajax({
+    	         type: "POST",
+    	         url: "/convertir-cliente",
+    	         data: {
+    	             "_csrf": $('#token').val(),
+    	             'idcliente': $('#idcliente').val()
+
+    	         }
+
+    	     }).done(function(data) {
+    	    	 Swal.fire({
+    	             position: 'center',
+    	             icon: 'success',
+    	             title: 'Cliente asignado correctamente',
+    	             showConfirmButton: false,
+    	             timer: 3000
+    	         })
+    	         location.href="/clientes"
+    	        
+    	     });
+    	    
+      });
+	  
+  }
+})
+	  //////////////////////////////
+	 
+     
+	  
+  }
+
+  </script>
+

@@ -1,62 +1,43 @@
 <div class="modal fade" id="nuevaSolicitudMuestra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Nueva solicitud</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-			</div>
-			<div class="modal-body col-md">
-				<form class="row"  id="pedidoFormulario" th:object="${formpedido}" th:action="@{/guardar-pedido-solicitud}" enctype="multipart/form-data"
-    method="post" >
-					<div class="form-group col-md-6">
-						<label for="tipoPedido">Tipo de pedido</label>
-						<select class="form-control selectpicker" th:field="*{tipoPedido}" data-live-search="true"  id="Tipopedido">
-							<option value='' selected>Seleccione uno...</option>
-							<option value='1'>Muestras</option>
-							<option value='2'>Muestras Colecci&oacute;n</option>
-						</select>
-					</div>
-					
-					<div class="form-group col-md-6">
-						<label for="fechaEntrega">Fecha de entrega</label>
-						<input type="datetime-local"  th:field="*{fechaEntrega}" class="form-control">
-					</div>
-					
-				
-					<div class="form-group col-md-6">
-						<label for="idSucursal">Cliente</label>
-					
-						<select class="form-control selectpicker" th:field="*{idSucursal}" data-live-search="true"  id="sucursal">
-						  	<option value='' selected>Seleccione uno...</option>
-						 <option th:each="listssucursales:${listSucur}" th:value="${listssucursales[0]}"
-                        th:text="${listssucursales[1]}" />
-						</select>
-					</div>
-					
-					
-						<div class="form-group col-md-6">
-						<label for="cargaEmpresa">Agente de ventas que solicita</label>
-						
-						<div id="padre">
-						
-						 
-						  
-						</div>
-						
-							
-						
-					     </div>
-					
-					
-					
-					<div class="form-group col-sm-12"> <button class="btn btn-danger"  data-dismiss="modal">Cancelar</button>
-						<input type="submit" class="btn btn-primary next-step float-right" value="Guardar">
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Nueva solicitud</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+         </div>
+         <div class="modal-body col-md">
+            <form class="row"  id="pedidoFormulario" th:object="${formpedido}" th:action="@{/guardar-pedido-solicitud}" onsubmit="icononotificacion()" enctype="multipart/form-data"
+               method="post" >
+               <div class="form-group col-md-6">
+                  <label for="tipoPedido">Tipo de pedido</label>
+                  <select class="form-control selectpicker" th:field="*{tipoPedido}" data-live-search="true"  id="Tipopedido">
+                     <option value='' selected>Seleccione uno...</option>
+                     <option value='1'>Pedido Gerencial</option>
+                     <option value='2'>Pedido Colecci&oacute;n</option>
+                  </select>
+               </div>
+               <div class="form-group col-md-6">
+                  <label for="fechaEntrega">Fecha de entrega</label>
+                  <input type="datetime-local"  th:field="*{fechaEntrega}" class="form-control">
+               </div>
+               <div class="form-group col-md-6">
+                  <label for="idSucursal">Cliente</label>
+                  <select class="form-control selectpicker" th:field="*{idCliente}" data-live-search="true"  id="sucursal">
+                     <option value='' selected>Seleccione uno...</option>
+                     <option th:each="listssucursales:${listSucur}" th:value="${listssucursales.idCliente}"
+                        th:text="${listssucursales.Nombre}" />
+                  </select>
+               </div>
+               <div class="form-group col-md-6">
+                  <label for="cargaEmpresa">Agente de ventas que solicita</label>
+                  <div id="padre">
+                  </div>
+               </div>
+               <div class="form-group col-sm-12"> <button class="btn btn-danger"  data-dismiss="modal">Cancelar</button>
+                  <input type="submit" class="btn btn-primary next-step float-right" value="Guardar">
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
 </div>
-
-
-
