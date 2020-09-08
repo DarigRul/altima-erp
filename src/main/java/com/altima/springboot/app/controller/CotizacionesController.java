@@ -229,10 +229,16 @@ public class CotizacionesController {
 	@GetMapping("/pedirAutorizacion/{id}")
 	public String pedirAutorizacion(@PathVariable(name = "id") Long id) {
 		try {
-			ComercialCotizacion cotizacion = cotizacionService.findOne(id);
-			cotizacion.setEstatus(1);
-			cotizacionService.save(cotizacion);
-			return "redirect:/cotizaciones";
+			if(cotizacionTotalService.findByCotizacion(id).getTotal().equals("0.0")) {
+				return "redirect:/cotizaciones";
+			}
+			else {
+				ComercialCotizacion cotizacion = cotizacionService.findOne(id);
+				cotizacion.setEstatus(1);
+				cotizacionService.save(cotizacion);
+				return "redirect:/cotizaciones";
+			}
+			
 		}catch(Exception e) {
 			System.out.println(e);
 			return "redirect:/cotizaciones";
@@ -242,10 +248,16 @@ public class CotizacionesController {
 	@GetMapping("/Autorizar/{id}")
 	public String autorizar(@PathVariable(name = "id") Long id) {
 		try {
-			ComercialCotizacion cotizacion = cotizacionService.findOne(id);
-			cotizacion.setEstatus(2);
-			cotizacionService.save(cotizacion);
-			return "redirect:/cotizaciones";
+			if(cotizacionTotalService.findByCotizacion(id).getTotal().equals("0.0")) {
+				
+				return "redirect:/cotizaciones";
+			}
+			else {
+				ComercialCotizacion cotizacion = cotizacionService.findOne(id);
+				cotizacion.setEstatus(2);
+				cotizacionService.save(cotizacion);
+				return "redirect:/cotizaciones";
+			}
 		}catch(Exception e) {
 			System.out.println(e);
 			return "redirect:/cotizaciones";

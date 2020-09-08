@@ -98,7 +98,7 @@ function solicitarAutorizacion(id){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 			if (result.value) {
-				
+				console.log(result.value);
 				Swal.fire({
 				      position: 'center',
 			          icon: 'success',
@@ -125,7 +125,7 @@ function Autorizar(id){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 			if (result.value) {
-				
+				console.log(result.value);
 				Swal.fire({
 				      position: 'center',
 			          icon: 'success',
