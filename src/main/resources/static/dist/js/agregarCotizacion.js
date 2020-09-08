@@ -284,6 +284,30 @@ function mapearTablita(){
 		if(tipoPrecio==4){
 			precioInicial = tablaPrendasCotizar[i][14];
 		}
+		if(tipoPrecio==5){
+			precioInicial = tablaPrendasCotizar[i][15];
+		}
+		if(tipoPrecio==6){
+			precioInicial = tablaPrendasCotizar[i][16];
+		}
+		if(tipoPrecio==7){
+			precioInicial = tablaPrendasCotizar[i][17];
+		}
+		if(tipoPrecio==8){
+			precioInicial = tablaPrendasCotizar[i][18];
+		}
+		if(tipoPrecio==9){
+			precioInicial = tablaPrendasCotizar[i][19];
+		}
+		if(tipoPrecio==10){
+			precioInicial = tablaPrendasCotizar[i][20];
+		}
+		if(tipoPrecio==11){
+			precioInicial = tablaPrendasCotizar[i][21];
+		}
+		if(tipoPrecio==12){
+			precioInicial = tablaPrendasCotizar[i][22];
+		}
 		
 		table.row.add([	
 			
@@ -295,25 +319,25 @@ function mapearTablita(){
 			 "<input type='hidden' class='form-control idCoordinadoPrenda' id='idCoordinadoPrenda"+contadorGeneral+"' value="+tablaPrendasCotizar[i][9]+">" +
 			 "<input type='hidden' class='form-control cantidad' id='cantidad"+contadorGeneral+"' value="+tablaPrendasCotizar[i][10]+">" +
 			 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+tablaPrendasCotizar[i][5]+"'>" +
-			 "<input type='hidden' id='idFamComposicion"+contadorGeneral+"' class='form-control' value='"+tablaPrendasCotizar[i][20]+"'>" +
+			 "<input type='hidden' id='idFamComposicion"+contadorGeneral+"' class='form-control' value='"+tablaPrendasCotizar[i][28]+"'>" +
 			 tablaPrendasCotizar[i][2] +
-			 "<input type='hidden' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+tablaPrendasCotizar[i][19]+" disabled>" +
-			 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+tablaPrendasCotizar[i][18]+" disabled>",
+			 "<input type='hidden' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+tablaPrendasCotizar[i][27]+" disabled>" +
+			 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+tablaPrendasCotizar[i][26]+" disabled>",
 			 (tablaPrendasCotizar[i][4]==null || tablaPrendasCotizar[i][4]=="" || tablaPrendasCotizar[i][4]==undefined)?'':tablaPrendasCotizar[i][4],
 			 (tablaPrendasCotizar[i][5]==null || tablaPrendasCotizar[i][5]=="null" || tablaPrendasCotizar[i][5]=="" || tablaPrendasCotizar[i][5]==undefined)?'Por definir':tablaPrendasCotizar[i][6],
 			 tablaPrendasCotizar[i][7] ,
 			 (tablaPrendasCotizar[i][8]==null || tablaPrendasCotizar[i][8]=="null" || tablaPrendasCotizar[i][8]=="" || tablaPrendasCotizar[i][8]==undefined)?'Por definir':tablaPrendasCotizar[i][8],
 			 precioInicial,
-			 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"' value="+tablaPrendasCotizar[i][15]+">" +
+			 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"' value="+tablaPrendasCotizar[i][23]+">" +
 			 listaBordados+"</select>",
-			 "<input type='number' class='form-control porcentajeCotizacion' id='porcentajeCotizacion"+contadorGeneral+"' placeholder='5' value="+tablaPrendasCotizar[i][16]+">" ,
-			 "<input type='number' class='form-control montoCotizacion' id='montoCotizacion"+contadorGeneral+"' placeholder='15' value="+tablaPrendasCotizar[i][17]+">" ,
-			 tablaPrendasCotizar[i][18],
-			 tablaPrendasCotizar[i][19],
+			 "<input type='number' class='form-control porcentajeCotizacion' id='porcentajeCotizacion"+contadorGeneral+"' placeholder='5' value="+tablaPrendasCotizar[i][24]+">" ,
+			 "<input type='number' class='form-control montoCotizacion' id='montoCotizacion"+contadorGeneral+"' placeholder='15' value="+tablaPrendasCotizar[i][25]+">" ,
+			 tablaPrendasCotizar[i][26],
+			 tablaPrendasCotizar[i][27],
 			 "<a class='btn btn-danger btn-circle btn-sm text-white popoverxd' id='borrar' data-container='body' data-placement='top'><i class='fas fa-minus'></i></a>"    
 			 ]).node().id ="row"+contadorGeneral;
 		table.draw( false );
-		$('#bordadoPrecioCotizacion'+contadorGeneral+' option[value="'+tablaPrendasCotizar[i][15]+'"]').attr("selected", true);
+		$('#bordadoPrecioCotizacion'+contadorGeneral+' option[value="'+tablaPrendasCotizar[i][23]+'"]').attr("selected", true);
 		$('#bordadoPrecioCotizacion'+contadorGeneral).selectpicker("refresh");
 		contadorGeneral++;
 	}
@@ -341,20 +365,7 @@ function AgregarRegistroTablita (){
 				idFamComposicion: idFamComposicion
 			  },
 		success: (data) => {
-			var precioInicial = 0;
 			
-			if(tipoPrecio==1){
-				precioInicial = data[2];
-			}
-			if(tipoPrecio==2){
-				precioInicial = data[3];
-			}
-			if(tipoPrecio==3){
-				precioInicial = data[4];
-			}
-			if(tipoPrecio==4){
-				precioInicial = data[5];
-			}
 			
 			if(data==null || data=='' || data==undefined || data.length==0){
 				Swal.fire({
@@ -406,6 +417,45 @@ function AgregarRegistroTablita (){
 					contadorGeneral++;
 				}
 				else{
+					var precioInicial = 0;
+					
+					if(tipoPrecio==1){
+						precioInicial = data[2];
+					}
+					if(tipoPrecio==2){
+						precioInicial = data[3];
+					}
+					if(tipoPrecio==3){
+						precioInicial = data[4];
+					}
+					if(tipoPrecio==4){
+						precioInicial = data[5];
+					}
+					if(tipoPrecio==5){
+						precioInicial = data[6];
+					}
+					if(tipoPrecio==6){
+						precioInicial = data[7];
+					}
+					if(tipoPrecio==7){
+						precioInicial = data[8];
+					}
+					if(tipoPrecio==8){
+						precioInicial = data[9];
+					}
+					if(tipoPrecio==9){
+						precioInicial = data[10];
+					}
+					if(tipoPrecio==10){
+						precioInicial = data[11];
+					}
+					if(tipoPrecio==11){
+						precioInicial = data[12];
+					}
+					if(tipoPrecio==12){
+						precioInicial = data[13];
+					}
+					
 					table.row.add([	
 									
 					 cantidad,

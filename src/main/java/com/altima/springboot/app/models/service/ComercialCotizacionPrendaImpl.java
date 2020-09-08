@@ -67,10 +67,18 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 				return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup, \n" + 
 						   "		 'Por definir', \n" + 
 						   "		 listaprenda.precio_local_nuevo, \n" + 
-						   "			 listaprenda.precio_foraneo_nuevo, \n" + 
+						   "		 listaprenda.precio_foraneo_nuevo, \n" + 
 						   "		 listaprenda.precio_local_antiguo, \n" + 
 						   "		 listaprenda.precio_foraneo_antiguo, \n" + 
-						   "		 listaprenda.id_prenda, \n" + 
+						   "		 listaprenda.listaprenda.precio_linea_express_local_nuevo, \n" +
+						   "		 listaprenda.listaprenda.precio_linea_express_local_anterior, \n" +
+						   "		 listaprenda.listaprenda.precio_linea_express_foraneo_nuevo, \n" +
+						   "		 listaprenda.listaprenda.precio_linea_express_foraneo_anterior, \n" +
+						   "		 listaprenda.listaprenda.precio_e_commerce, \n" +
+						   "		 listaprenda.listaprenda.precio_extra_1, \n" +
+						   "		 listaprenda.listaprenda.precio_extra_2, \n" +
+						   "		 listaprenda.listaprenda.precio_extra_3, \n" +
+						   "		 listaprenda.id_prenda, \n" +
 						   "		 listaprenda.id_familia_composicion \n" + 
 						   " FROM alt_disenio_lista_precio_prenda AS listaprenda \n" + 
 						   "	INNER JOIN alt_disenio_tela tela ON tela.id_familia_composicion = listaprenda.id_familia_composicion \n" + 
@@ -84,9 +92,17 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 				return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup, \n" + 
 						   "		 tela.color, \n" + 
 						   "		 listaprenda.precio_local_nuevo, \n" + 
-						   "			 listaprenda.precio_foraneo_nuevo, \n" + 
+						   "		 listaprenda.precio_foraneo_nuevo, \n" + 
 						   "		 listaprenda.precio_local_antiguo, \n" + 
-						   "		 listaprenda.precio_foraneo_antiguo, \n" + 
+						   "		 listaprenda.precio_foraneo_antiguo, \n" +
+						   "		 listaprenda.listaprenda.precio_linea_express_local_nuevo, \n" +
+						   "		 listaprenda.listaprenda.precio_linea_express_local_anterior, \n" +
+						   "		 listaprenda.listaprenda.precio_linea_express_foraneo_nuevo, \n" +
+						   "		 listaprenda.listaprenda.precio_linea_express_foraneo_anterior, \n" +
+						   "		 listaprenda.listaprenda.precio_e_commerce, \n" +
+						   "		 listaprenda.listaprenda.precio_extra_1, \n" +
+						   "		 listaprenda.listaprenda.precio_extra_2, \n" +
+						   "		 listaprenda.listaprenda.precio_extra_3, \n" +
 						   "		 listaprenda.id_prenda, \n" + 
 						   "		 listaprenda.id_familia_composicion \n" + 
 						   " FROM alt_disenio_lista_precio_prenda AS listaprenda \n" + 
@@ -118,7 +134,15 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 										"		precio.precio AS precio1, \n" + 
 										"		precio.precio AS precio2, \n" + 
 										"		precio.precio AS precio3, \n" + 
-										"		precio.precio AS precio4, \n" + 
+										"		precio.precio AS precio4, \n" +
+										"		precio.precio AS precio5, \n" +
+										"		precio.precio AS precio6, \n" +
+										"		precio.precio AS precio7, \n" +
+										"		precio.precio AS precio8, \n" +
+										"		precio.precio AS precio9, \n" +
+										"		precio.precio AS precio10, \n" +
+										"		precio.precio AS precio11, \n" +
+										"		precio.precio AS precio12, \n" +
 										"		cotizacionPrenda.precio_bordado, \n" + 
 										"		cotizacionPrenda.porcentaje_adicional, \n" + 
 										"		cotizacionPrenda.monto_adicional, \n" + 
@@ -195,7 +219,71 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 					"AND prenda.id_prenda = listaprenda.id_prenda\n" + 
 					"INNER JOIN alt_disenio_lookup lookup ON listaprenda.id_familia_composicion = lookup.id_lookup\n" + 
 					"where cotiPrenda.id_cotizacion_prenda=cotizacionPrenda.id_cotizacion_prenda GROUP BY cotiPrenda.id_tela) AS precio_foraneo_antiguo,\n" + 
-					"\n" + 
+					"\n" +
+					"(SELECT listaprenda.precio_linea_express_local_nuevo FROM alt_comercial_cotizacion_prenda AS cotiPrenda\n" + 
+					"INNER JOIN alt_disenio_tela tela ON cotiPrenda.id_tela = tela.id_tela OR cotiPrenda.id_familia_composicion = tela.id_familia_composicion\n" + 
+					"INNER JOIN alt_disenio_prenda prenda ON cotiPrenda.id_prenda = prenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lista_precio_prenda listaprenda ON tela.id_familia_composicion = listaprenda.id_familia_composicion\n" + 
+					"AND prenda.id_prenda = listaprenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lookup lookup ON listaprenda.id_familia_composicion = lookup.id_lookup\n" + 
+					"where cotiPrenda.id_cotizacion_prenda=cotizacionPrenda.id_cotizacion_prenda GROUP BY cotiPrenda.id_tela) AS precio_linea_express_local_nuevo,\n" + 
+					"\n" +
+					"(SELECT listaprenda.precio_linea_express_local_anterior FROM alt_comercial_cotizacion_prenda AS cotiPrenda\n" + 
+					"INNER JOIN alt_disenio_tela tela ON cotiPrenda.id_tela = tela.id_tela OR cotiPrenda.id_familia_composicion = tela.id_familia_composicion\n" + 
+					"INNER JOIN alt_disenio_prenda prenda ON cotiPrenda.id_prenda = prenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lista_precio_prenda listaprenda ON tela.id_familia_composicion = listaprenda.id_familia_composicion\n" + 
+					"AND prenda.id_prenda = listaprenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lookup lookup ON listaprenda.id_familia_composicion = lookup.id_lookup\n" + 
+					"where cotiPrenda.id_cotizacion_prenda=cotizacionPrenda.id_cotizacion_prenda GROUP BY cotiPrenda.id_tela) AS precio_linea_express_local_anterior,\n" + 
+					"\n" +
+					"(SELECT listaprenda.precio_linea_express_foraneo_nuevo FROM alt_comercial_cotizacion_prenda AS cotiPrenda\n" + 
+					"INNER JOIN alt_disenio_tela tela ON cotiPrenda.id_tela = tela.id_tela OR cotiPrenda.id_familia_composicion = tela.id_familia_composicion\n" + 
+					"INNER JOIN alt_disenio_prenda prenda ON cotiPrenda.id_prenda = prenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lista_precio_prenda listaprenda ON tela.id_familia_composicion = listaprenda.id_familia_composicion\n" + 
+					"AND prenda.id_prenda = listaprenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lookup lookup ON listaprenda.id_familia_composicion = lookup.id_lookup\n" + 
+					"where cotiPrenda.id_cotizacion_prenda=cotizacionPrenda.id_cotizacion_prenda GROUP BY cotiPrenda.id_tela) AS precio_linea_express_foraneo_nuevo,\n" + 
+					"\n" +
+					"(SELECT listaprenda.precio_linea_express_foraneo_anterior FROM alt_comercial_cotizacion_prenda AS cotiPrenda\n" + 
+					"INNER JOIN alt_disenio_tela tela ON cotiPrenda.id_tela = tela.id_tela OR cotiPrenda.id_familia_composicion = tela.id_familia_composicion\n" + 
+					"INNER JOIN alt_disenio_prenda prenda ON cotiPrenda.id_prenda = prenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lista_precio_prenda listaprenda ON tela.id_familia_composicion = listaprenda.id_familia_composicion\n" + 
+					"AND prenda.id_prenda = listaprenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lookup lookup ON listaprenda.id_familia_composicion = lookup.id_lookup\n" + 
+					"where cotiPrenda.id_cotizacion_prenda=cotizacionPrenda.id_cotizacion_prenda GROUP BY cotiPrenda.id_tela) AS precio_linea_express_foraneo_anterior,\n" + 
+					"\n" +
+					"(SELECT listaprenda.precio_e_commerce FROM alt_comercial_cotizacion_prenda AS cotiPrenda\n" + 
+					"INNER JOIN alt_disenio_tela tela ON cotiPrenda.id_tela = tela.id_tela OR cotiPrenda.id_familia_composicion = tela.id_familia_composicion\n" + 
+					"INNER JOIN alt_disenio_prenda prenda ON cotiPrenda.id_prenda = prenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lista_precio_prenda listaprenda ON tela.id_familia_composicion = listaprenda.id_familia_composicion\n" + 
+					"AND prenda.id_prenda = listaprenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lookup lookup ON listaprenda.id_familia_composicion = lookup.id_lookup\n" + 
+					"where cotiPrenda.id_cotizacion_prenda=cotizacionPrenda.id_cotizacion_prenda GROUP BY cotiPrenda.id_tela) AS precio_e_commerce,\n" + 
+					"\n" +
+					"(SELECT listaprenda.precio_extra_1 FROM alt_comercial_cotizacion_prenda AS cotiPrenda\n" + 
+					"INNER JOIN alt_disenio_tela tela ON cotiPrenda.id_tela = tela.id_tela OR cotiPrenda.id_familia_composicion = tela.id_familia_composicion\n" + 
+					"INNER JOIN alt_disenio_prenda prenda ON cotiPrenda.id_prenda = prenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lista_precio_prenda listaprenda ON tela.id_familia_composicion = listaprenda.id_familia_composicion\n" + 
+					"AND prenda.id_prenda = listaprenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lookup lookup ON listaprenda.id_familia_composicion = lookup.id_lookup\n" + 
+					"where cotiPrenda.id_cotizacion_prenda=cotizacionPrenda.id_cotizacion_prenda GROUP BY cotiPrenda.id_tela) AS precio_extra_1,\n" + 
+					"\n" +
+					"(SELECT listaprenda.precio_extra_2 FROM alt_comercial_cotizacion_prenda AS cotiPrenda\n" + 
+					"INNER JOIN alt_disenio_tela tela ON cotiPrenda.id_tela = tela.id_tela OR cotiPrenda.id_familia_composicion = tela.id_familia_composicion\n" + 
+					"INNER JOIN alt_disenio_prenda prenda ON cotiPrenda.id_prenda = prenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lista_precio_prenda listaprenda ON tela.id_familia_composicion = listaprenda.id_familia_composicion\n" + 
+					"AND prenda.id_prenda = listaprenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lookup lookup ON listaprenda.id_familia_composicion = lookup.id_lookup\n" + 
+					"where cotiPrenda.id_cotizacion_prenda=cotizacionPrenda.id_cotizacion_prenda GROUP BY cotiPrenda.id_tela) AS precio_extra_2,\n" + 
+					"\n" +
+					"(SELECT listaprenda.precio_extra_3 FROM alt_comercial_cotizacion_prenda AS cotiPrenda\n" + 
+					"INNER JOIN alt_disenio_tela tela ON cotiPrenda.id_tela = tela.id_tela OR cotiPrenda.id_familia_composicion = tela.id_familia_composicion\n" + 
+					"INNER JOIN alt_disenio_prenda prenda ON cotiPrenda.id_prenda = prenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lista_precio_prenda listaprenda ON tela.id_familia_composicion = listaprenda.id_familia_composicion\n" + 
+					"AND prenda.id_prenda = listaprenda.id_prenda\n" + 
+					"INNER JOIN alt_disenio_lookup lookup ON listaprenda.id_familia_composicion = lookup.id_lookup\n" + 
+					"where cotiPrenda.id_cotizacion_prenda=cotizacionPrenda.id_cotizacion_prenda GROUP BY cotiPrenda.id_tela) AS precio_extra_3,\n" + 
+					"\n" +
 					"cotizacionPrenda.precio_bordado,\n" + 
 					"cotizacionPrenda.porcentaje_adicional,\n" + 
 					"cotizacionPrenda.monto_adicional,\n" + 
