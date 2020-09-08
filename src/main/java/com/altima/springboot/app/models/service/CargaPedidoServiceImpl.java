@@ -139,7 +139,7 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 				"	AND concen.cantidad_especial > 0 \n" + 
 				"	AND concen.estatus = 1 \n" + 
 				"	AND prenda.id_prenda = coor_pre.id_prenda \n" + 
-				"	AND c.tipo_pedido = pedido.tipo_pedido \n" + 
+				"	AND c.id_configuracion_pedido = pedido.tipo_pedido \n" + 
 				"	AND pedido.id_pedido_informacion = "+id+" \n" + 
 				"GROUP BY\n" + 
 				"	concen.id_coordinado_prenda \n" + 
@@ -152,7 +152,7 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 				"		alt_comercial_pedido_informacion AS pedido \n" + 
 				"	WHERE\n" + 
 				"		1 = 1 \n" + 
-				"		AND pedido.tipo_pedido = c.tipo_pedido \n" + 
+				"		AND pedido.tipo_pedido = c.id_configuracion_pedido \n" + 
 				"	AND pedido.id_pedido_informacion = "+id+" \n" + 
 				"	)")
 				.getResultList();
@@ -198,6 +198,7 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 	@Override
 	@Transactional
 	public Integer validarPiezas(Long id){
+		
 		String re = em.createNativeQuery(""
 				+ "SELECT\n" + 
 				"\n" + 
@@ -218,7 +219,7 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 				"\n" + 
 				"	AND concen.estatus = 1 \n" + 
 				"	AND prenda.id_prenda = coor_pre.id_prenda \n" + 
-				"	AND c.tipo_pedido = pedido.tipo_pedido \n" + 
+				"	AND c.id_configuracion_pedido = pedido.tipo_pedido \n" + 
 				"	AND pedido.id_pedido_informacion = "+id+" \n" + 
 				"GROUP BY\n" + 
 				"	pedido.id_pedido_informacion")
@@ -266,7 +267,7 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 					"			AND coor_pre.id_coordinado_prenda = concen.id_coordinado_prenda \n" + 
 					"			AND concen.estatus = 1 \n" + 
 					"			AND prenda.id_prenda = coor_pre.id_prenda \n" + 
-					"			AND c.tipo_pedido = pedido.tipo_pedido \n" + 
+					"			AND c.id_configuracion_pedido = pedido.tipo_pedido \n" + 
 					"			AND cliente.id_cliente = pedido.id_empresa \n" + 
 					"			AND pedido.id_pedido_informacion = "+id+" \n" + 
 					"	GROUP BY\n" + 
