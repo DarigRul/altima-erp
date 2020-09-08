@@ -109,7 +109,7 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 										"		lookupPrenda.nombre_lookup AS Familia,  \n" + 
 										"		'' as idPrenda,  \n" + 
 										"		'' as nombrePrenda,  \n" + 
-										"		lookup.id_lookup,  \n" + 
+										"		cotizacionPrenda.id_tela,  \n" + 
 										"		'' AS nombreTela,  \n" + 
 										"		lookup.nombre_lookup AS composicion, \n" + 
 										"		'' AS color, \n" + 
@@ -124,7 +124,7 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 										"		cotizacionPrenda.monto_adicional, \n" + 
 										"		cotizacionPrenda.precio_unitario_final, \n" + 
 										"		cotizacionPrenda.importe, \n" + 
-										"		lookupPrenda.nombre_lookup AS nombreFamPrenda \n" + 
+										"		cotizacionPrenda.id_familia_composicion \n" + 
 										"FROM alt_comercial_cotizacion_prenda AS cotizacionPrenda \n" + 
 										"\n" + 
 										"INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = cotizacionPrenda.id_familia_composicion \n" + 

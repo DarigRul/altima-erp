@@ -90,14 +90,20 @@ $(document).ready(function() {
 			$('#GeneralDesglosada').text("Familia de composición");
 			$('.cantidadCotizacion').hide();
 			$('.coordinadoCotizacion').hide();
+			$('#tamanoSelect').removeClass('form-group col-md-3');
+			$('#tamanoSelect').addClass('form-group col-md-1');
 			$('.modeloCotizacion').hide();
+			
 		}
 	    else if($('#tipoCotizacion').val()==2){
 	    	table.columns().visible(true);
 	    	$('#GeneralDesglosada').text("Tela");
 	    	$('.cantidadCotizacion').show();
 			$('.coordinadoCotizacion').show();
+			$('#tamanoSelect').addClass('form-group col-md-1');
+			$('#tamanoSelect').addClass('form-group col-md-3');
 			$('.modeloCotizacion').show();
+			
 	    }
 	    else{
 	    	table.columns(':eq(0)').visible(true);
@@ -106,6 +112,8 @@ $(document).ready(function() {
 	    	$('.cantidadCotizacion').show();
 	    	$('.coordinadoCotizacion').show();
 	    	$('.modeloCotizacion').hide();
+	    	$('#tamanoSelect').removeClass('form-group col-md-3');
+	    	$('#tamanoSelect').addClass('form-group col-md-1');
 	    	$('#GeneralDesglosada').text("Familia de composición");
 	    	table.columns(':eq(3)').visible(false);
 	    	table.columns(':eq(4)').visible(false);

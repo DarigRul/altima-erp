@@ -272,7 +272,7 @@ function mapearTablita(){
 	for(i in tablaPrendasCotizar){
 		var precioInicial = 0;
 		
-		if(tipoPrecio==1){
+		if(tipoPrecio==1 || tipoPrecio==null || tipoPrecio== '' || tipoPrecio==undefined){
 			precioInicial = tablaPrendasCotizar[i][11];
 		}
 		if(tipoPrecio==2){
@@ -383,15 +383,15 @@ function AgregarRegistroTablita (){
 					 "<input type='hidden' id='idModelo"+contadorGeneral+"' class='form-control' value='"+idModelo+"'>" +
 					 "<input type='hidden' class='form-control idCoordinadoPrenda' id='idCoordinadoPrenda"+contadorGeneral+"' value="+idCoordinadoPrenda+">" +
 					 "<input type='hidden' class='form-control cantidad' id='cantidad"+contadorGeneral+"' value="+cantidad+">" +
-					 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+idTela  +"'>"+
+					 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value=''>"+
 					 "<input type='hidden' id='idFamComposicion"+contadorGeneral+"' class='form-control' value='"+idFamComposicion+"'>"+
 					 $('#prendaCotizacion').find('option:selected').text() +
 					 "<input type='hidden' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+data[5]*cantidad+" disabled>" +
 					 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+data[5]+" disabled>",
-					 $('#modeloCotizacion').find('option:selected').text(),
-					 "",
+					 "Por definir",
+					 "Por definir",
 					 data[0],
-					 data[1] ,
+					 data[1],
 					 data[5],
 					 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"'>" +
 					 listaBordados+"</select>" ,
@@ -475,6 +475,8 @@ function cotizacionGeneral(){
 		$('.cantidadCotizacion').hide();
 		$('.coordinadoCotizacion').hide();
 		$('.modeloCotizacion').hide();
+		$('#tamanoSelect').addClass('form-group col-md-3');
+		$('#tamanoSelect').addClass('form-group col-md-1');
 		$('#GeneralDesglosada').text("Familia de composición");
 		$('#tipoPrecioVentas').prop("disabled", true);
 		$('#tipoPrecioVentas').selectpicker("refresh");
@@ -513,6 +515,8 @@ function cotizacionDesglosada(){
 		$('.cantidadCotizacion').show();
 		$('.coordinadoCotizacion').show();
 		$('.modeloCotizacion').show();
+		$('#tamanoSelect').addClass('form-group col-md-1');
+		$('#tamanoSelect').addClass('form-group col-md-3');
 		$('#tipoPrecioVentas').prop("disabled", false);
 		$('#tipoPrecioVentas').selectpicker("refresh");
 		table.draw();
@@ -545,6 +549,8 @@ function cotizacionDesglosadaByTipoComposicion(){
 		$('.cantidadCotizacion').show();
 		$('.coordinadoCotizacion').show();
 		$('.modeloCotizacion').hide();
+		$('#tamanoSelect').addClass('form-group col-md-3');
+		$('#tamanoSelect').addClass('form-group col-md-1');
 		$('#GeneralDesglosada').text("Familia de composición");
 		table.columns(':eq(3)').visible(false);
 		table.columns(':eq(4)').visible(false);
@@ -704,8 +710,8 @@ function cotizacionDesglosadaByTipoComposicion(){
 	 var descuentoMontoCotizacion = parseFloat(($('#descuentoMontoCotizacion').val()=='')?0:$('#descuentoMontoCotizacion').val());//
 	 var anticipoMontoCotizacion = parseFloat(($('#anticipoMontoCotizacion').val()=='')?0:$('#anticipoMontoCotizacion').val());//
 	 var subtotal = parseFloat($('#SubtotalInicial').val());													//
-	 var Total = parseFloat($('#Subtotal').text());																//
-	 $('#anticipoMontoCotizacion').val((subtotal*(porcentajeAnticipo/100)).toFixed(2));							//
+	 var Total = parseFloat($('#Total').text());																//
+	 $('#anticipoMontoCotizacion').val((Total*(porcentajeAnticipo/100)).toFixed(2));							//
 	 anticipoMontoCotizacion = (parseFloat($('#anticipoMontoCotizacion').val())).toFixed(2);
 	 $('#Subtotal2').text((subtotal+descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal2').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
@@ -725,7 +731,7 @@ function cotizacionDesglosadaByTipoComposicion(){
 	 var anticipoMontoCotizacion = parseFloat(($(this).val()=='')?0:$(this).val());								//
 	 var descuentoMontoCotizacion = parseFloat(($('#descuentoMontoCotizacion').val()=='')?0:$('#descuentoMontoCotizacion').val());//
 	 var subtotal = parseFloat($('#SubtotalInicial').val());													//
-	 var Total = parseFloat($('#Subtotal').text());																//
+	 var Total = parseFloat($('#Total').text());																//
 	 $('#anticipoCotizacion').val(((anticipoMontoCotizacion*100)/subtotal).toFixed(2));							//
 	 $('#Subtotal2').text((subtotal+descuentoMontoCotizacion).toFixed(2));				//
 	 $('#IVAMonto').text((parseFloat($('#Subtotal2').text())*(parseFloat($('#IVACotizacion').val())/100)).toFixed(2));//
