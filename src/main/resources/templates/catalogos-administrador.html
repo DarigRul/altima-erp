@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-	<title id="pageTitle">Catal&oacute;gos AMP | Altima</title>
+	<title id="pageTitle">Catal&oacute;gos | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
@@ -26,7 +26,8 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item altima">Dashboard</li>
+                                <li class="breadcrumb-item active">Administrador</li>
                                 <li class="breadcrumb-item active">Cat&oacute;logos</li>
                             </ol>
                         </div>
@@ -39,12 +40,7 @@
                 <div class="container-fluid">
                     <!-- Small boxes (Stat box) -->
                     <div class="row">
-                      	<div th:insert="amp-catalogos-almacenes-fisicos" class="col-lg-6 col-6"></div> 
-                      	<div th:insert="amp-catalogos-almacenes-logicos" class="col-lg-6 col-6"></div> 
-                      	<div th:insert="amp-catalogos-clasificacion" class="col-lg-4 col-6"></div>  
-                      	<div th:insert="amp-catalogos-linea" class="col-lg-4 col-6"></div> 
-                      	<div th:insert="amp-catalogos-movimientos" class="col-lg-4 col-6"></div> 
-                      	<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+                      	<div th:insert="administrador-catalogos-firma" class="col-lg-6 col-6"></div> 
                     </div>
                     <!-- /.row -->
                 </div>
@@ -54,23 +50,16 @@
         </div>
         <!-- /.content-wrapper -->
         <div th:insert="navegacion-footer"></div>
-        <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
-        <input type="hidden" id="rolListar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_LISTAR'')')}? 1:0">
-        <input type="hidden" id="rolAgregar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_AGREGAR'')')}? 1:0">
-        <input type="hidden" id="rolEditar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_EDITAR'')')}? 1:0">
-        <input type="hidden" id="rolEliminar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_ELIMINAR'')')}? 1:0">
     </div>
     <div th:replace="navegacion-scripts"></div>
     <!-- Funcionalidad-->
-    <script src="dist/js/tablaCatalogosAMP.js"></script>
-    <script src="dist/js/ampCRUD.js"></script>
+    <script src="dist/js/tablaGeneral.js"></script>
+    <script src="dist/js/CatalogosAdministrador.js"></script>
 	<script>
-		$('#iComercial').removeClass('text-altima');
-		$('#navComercial').addClass('active-altima');
-		$('#menuComercial').addClass('menu-open');
-		$('#menuAMP').addClass('menu-open');
-		$('#navAMP').addClass('active');
-		$('#navAMPCat').addClass('active');
+		$('#iAdministracion').removeClass('text-altima');
+		$('#navAdministracion').addClass('active-altima');
+		$('#menuAdministracion').addClass('menu-open');
+		$('#navAdmCat').addClass('active');
 	</script>
 </body>
 

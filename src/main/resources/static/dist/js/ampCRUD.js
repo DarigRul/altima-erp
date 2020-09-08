@@ -659,3 +659,251 @@ function reactiveMovimiento(){
 		  }
 		});
 }
+// ALMACEN LOGICO
+$('#detalleAlmacenesLogicos').on('shown.bs.modal', function () {
+	$(document).off('focusin.modal');
+});
+function agregarAlmacenLogico(){
+	Swal.fire({
+		  title: 'Nuevo almac&eacute;n l&oacute;gico',
+		  html:
+			  '<div class="row">'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="nombreLogico">Nombre del almac&eacute;n l&oacute;gico</label>'+
+				  	'<input type="text" class="form-control" id="nombreLogico" name="nombreLogico" placeholder="Almac&eacute;n 126">'+
+				  '</div>'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="almacenFisicoLogico">Encargado</label>'+
+				  	'<select class="form-control" id="almacenFisicoLogico" name="almacenFisicoLogico">'+
+				  	'<option>Listar todos los empleados de almacen</option>'+
+				  	'</select>'+
+				  '</div>'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="entradaLogico">Movimiento Entrada</label>'+
+				  	'<select class="form-control" id="entradaLogico" name="entradaLogico">'+
+				  	'<option>Listar todas las entradas</option>'+
+				  	'</select>'+
+				  '</div>'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="salidaLogico">Movimiento Salida</label>'+
+				  	'<select class="form-control" id="salidaLogico" name="salidaLogico">'+
+				  	'<option>Listar todas las salidas</option>'+
+				  	'</select>'+
+				  '</div>'+
+			  '</div>',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Almac&eacute;n l&oacute;gico agregado correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function editarAlmacenLogico(){
+	Swal.fire({
+		  title: 'Editar almac&eacute;n l&oacute;gico',
+		  html:
+			  '<div class="row">'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="nombreLogicoE">Nombre del almac&eacute;n l&oacute;gico</label>'+
+				  	'<input type="text" class="form-control" id="nombreLogicoE" name="nombreLogicoE" placeholder="Almac&eacute;n 126">'+
+				  '</div>'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="almacenFisicoLogicoE">Encargado</label>'+
+				  	'<select class="form-control" id="almacenFisicoLogicoE" name="almacenFisicoLogicoE">'+
+				  	'<option>Listar todos los empleados de almacen</option>'+
+				  	'</select>'+
+				  '</div>'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="entradaLogicoE">Movimiento Entrada</label>'+
+				  	'<select class="form-control" id="entradaLogicoE" name="entradaLogicoE">'+
+				  	'<option>Listar todas las entradas</option>'+
+				  	'</select>'+
+				  '</div>'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="salidaLogicoE">Movimiento Salida</label>'+
+				  	'<select class="form-control" id="salidaLogicoE" name="salidaLogicoE">'+
+				  	'<option>Listar todas las salidas</option>'+
+				  	'</select>'+
+				  '</div>'+
+			  '</div>',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Almac&eacute;n l&oacute;gico editado correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function bajaAlmacenLogico(){
+	Swal.fire({
+		  title: '¿Deseas dar de baja el almac&eacute;n l&oacute;gico?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Almac&eacute;n l&oacute;gico dado de baja correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function altaAlmacenLogico(){
+	Swal.fire({
+		  title: '¿Deseas dar de alta el almac&eacute;n l&oacute;gico?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Almac&eacute;n l&oacute;gico dado de alta correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+// ALMACEN LOGICO
+$('#detalleAlmacenesFisicos').on('shown.bs.modal', function () {
+	$(document).off('focusin.modal');
+});
+function agregarAlmacenFisico(){
+	Swal.fire({
+		  title: 'Nuevo almac&eacute;n f&iacute;sico',
+		  html:
+			  '<div class="row">'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="nombreFisico">Nombre del almac&eacute;n f&iacute;sico</label>'+
+				  	'<input type="text" class="form-control" id="nombreFisico" name="nombreFisico" placeholder="Almac&eacute;n 126">'+
+				  '</div>'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="encargadoFisico">Encargado</label>'+
+				  	'<select class="form-control" id="encargadoFisico" name="encargadoFisico">'+
+				  	'<option>Listar todos los empleados de almacen</option>'+
+				  	'</select>'+
+				  '</div>'+
+			  '</div>',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Almac&eacute;n f&iacute;sico agregado correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function editarAlmacenFisico(){
+	Swal.fire({
+		  title: 'Editar almac&eacute;n f&iacute;sico',
+		  html:
+			  '<div class="row">'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="nombreFisicoE">Nombre del almac&eacute;n f&iacute;sico</label>'+
+				  	'<input type="text" class="form-control" id="nombreFisicoE" name="nombreFisicoE" placeholder="Almac&eacute;n 126">'+
+				  '</div>'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="encargadoFisicoE">Encargado</label>'+
+				  	'<select class="form-control" id="encargadoFisicoE" name="encargadoFisicoE">'+
+				  	'<option>Listar todos los empleados de almacen</option>'+
+				  	'</select>'+
+				  '</div>'+
+			  '</div>',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Almac&eacute;n f&iacute;sico editado correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function bajaAlmacenFisico(){
+	Swal.fire({
+		  title: '¿Deseas dar de baja el almac&eacute;n f&iacute;sico?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Almac&eacute;n f&iacute;sico dado de baja correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function altaAlmacenFisico(){
+	Swal.fire({
+		  title: '¿Deseas dar de alta el almac&eacute;n f&iacute;sico?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Almac&eacute;n f&iacute;sico dado de alta correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
