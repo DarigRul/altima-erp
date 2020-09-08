@@ -140,7 +140,7 @@ function AgregarElementoListaMateriales() {
 				};
 				objeto_materiales.push(temp);
 				console.log(temp);
-				$('#CuerpoTablaMateriales').append("<tr id='RemoverElemento-" + identidad + "'>" +
+				$('#CuerpoTablaMateriales').prepend("<tr id='RemoverElemento-" + identidad + "'>" +
 					"<td>" + data[0][1] + "</td>" +
 					"<td>" + data[0][2] + "</td>" +
 					"<td>" + data[0][3] + "</td>" +
@@ -625,7 +625,7 @@ function guardarPatronaje() {
 	}
 	var btn = document.createElement("TR");
 	btn.innerHTML = fila;
-	document.getElementById("CuerpoPatronaje").appendChild(btn);
+	document.getElementById("CuerpoPatronaje").prepend(btn);
 }
 function eliminarPatronaje(t) {
 	var td = t.parentNode;
