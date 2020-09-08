@@ -47,7 +47,8 @@ public class ComercialCotizacionServiceImpl implements IComercialCotizacionServi
 										"			WHERE id_cotizacion=cc.id_cotizacion), \n" + 
 										"		CONCAT(empleado.nombre_persona,' ', empleado.apellido_paterno,' ', empleado.apellido_materno), \n" + 
 										"		cc.estatus, \n" + 
-										"		ct.anticipo_porcentaje \n" + 
+										"		ct.anticipo_porcentaje, \n" +
+										"		ct.descuento_porcentaje \n" + 
 										"		\n" + 
 										"	FROM alt_comercial_cotizacion AS cc\n" + 
 										"INNER JOIN alt_comercial_cotizacion_total ct ON cc.id_cotizacion = ct.id_cotizacion\n" + 
@@ -66,7 +67,8 @@ public class ComercialCotizacionServiceImpl implements IComercialCotizacionServi
 										"			WHERE id_cotizacion=cc.id_cotizacion), \n" + 
 										"		CONCAT(empleado.nombre_persona,' ', empleado.apellido_paterno,' ', empleado.apellido_materno), \n" + 
 										"		cc.estatus, \n" + 
-										"		ct.anticipo_porcentaje \n" + 
+										"		ct.anticipo_porcentaje, \n" + 
+										"		ct.descuento_porcentaje \n" + 
 										"		\n" + 
 										"	FROM alt_comercial_cotizacion AS cc\n" + 
 										"INNER JOIN alt_comercial_cotizacion_total ct ON cc.id_cotizacion = ct.id_cotizacion\n" + 
