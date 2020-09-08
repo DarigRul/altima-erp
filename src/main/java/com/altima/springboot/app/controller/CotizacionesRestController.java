@@ -24,6 +24,7 @@ import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialCotizacionPrendaService;
 import com.altima.springboot.app.models.service.IComercialCotizacionService;
 import com.altima.springboot.app.models.service.IComercialCotizacionTotalService;
+import com.altima.springboot.app.models.service.IDisenioListaPrecioPrendaService;
 
 @RestController
 public class CotizacionesRestController {
@@ -33,6 +34,8 @@ public class CotizacionesRestController {
 	private IComercialCotizacionService cotizacionService;
 	@Autowired
 	private IComercialCotizacionTotalService cotizacionTotalService;
+	@Autowired
+	IDisenioListaPrecioPrendaService disenioListaPrecioPrendaService;
 	@Autowired
 	private  IComercialCoordinadoService CoordinadoService;
 	@Autowired
@@ -56,6 +59,12 @@ public class CotizacionesRestController {
 		return CoordinadoService.findAllComposicion(idFamPrenda);
 	}
 	
+	@RequestMapping(value="/ExtraerFamiliaComposicionPorTela", method=RequestMethod.GET)
+	public List<Object> ExtraerFamiliaComposicionPorTela (@RequestParam (name="idPrenda") Long idPrenda){
+		System.out.println(idPrenda);
+		return disenioListaPrecioPrendaService.listaFamPrendaByidPrenda(idPrenda);
+	}
+	
 	@RequestMapping(value="/ListarClientesporAgente", method=RequestMethod.GET)
 	public List<Object[]> ListarClientesporAgente (@RequestParam(name="idAgente")Long idAgente) {
 		return ClienteService.findClientesByAgenteVentas(idAgente);
@@ -65,10 +74,11 @@ public class CotizacionesRestController {
 	@RequestMapping(value="/agregarCotizacionPrendaTablita", method=RequestMethod.POST)
 	public Object[] agregarCotizacionPrendaTablita(@RequestParam (name="idPrenda")Long idFamPrenda,
 												   @RequestParam (name="idModelo", required=false) Long idModelo,
-												   @RequestParam (name="idTela") Long idTela){
+												   @RequestParam (name="idTela", required = false) Long idTela,
+												   @RequestParam (name="idFamComposicion", required = false) Long idFamComposicion){
 
 		try {
-			return cotizacionPrendaService.FindDatosCotizacionPrenda(idTela, idModelo, idFamPrenda);
+			return cotizacionPrendaService.FindDatosCotizacionPrenda(idTela, idModelo, idFamPrenda, idFamComposicion);
 		}
 		catch(Exception e) {
 			System.out.println(e);
@@ -191,7 +201,12 @@ public class CotizacionesRestController {
 				else {
 					cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
 				}
-				cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+				try {
+					cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+				}
+				catch(Exception e) {
+					cotiPrenda.setIdFamiliaComposicion(Long.parseLong(dato.getString("idFamComposicion")));
+				}
 				cotiPrenda.setCoordinado(dato.get("coordinado").toString());
 				cotiPrenda.setCantidad(dato.get("cantidad").toString());
 				cotiPrenda.setPrecioBordado(dato.get("precioBordado").toString());
@@ -263,7 +278,12 @@ public class CotizacionesRestController {
 					else {
 						cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
 					}
-					cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+					try {
+						cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+					}
+					catch(Exception e) {
+						cotiPrenda.setIdFamiliaComposicion(Long.parseLong(dato.getString("idFamComposicion")));
+					}
 					cotiPrenda.setCoordinado(dato.get("coordinado").toString());
 					cotiPrenda.setCantidad(dato.get("cantidad").toString());
 					cotiPrenda.setPrecioBordado(dato.get("precioBordado").toString());
@@ -291,7 +311,13 @@ public class CotizacionesRestController {
 					else {
 						cotiPrenda.setIdPrenda(Long.parseLong(dato.get("idModelo").toString()));
 					}
-					cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+					try {
+						cotiPrenda.setIdTela(Long.parseLong(dato.get("idTela").toString()));
+					}
+					catch(Exception e) {
+						cotiPrenda.setIdFamiliaComposicion(Long.parseLong(dato.getString("idFamComposicion")));
+					}
+					
 					cotiPrenda.setCoordinado(dato.get("coordinado").toString());
 					cotiPrenda.setCantidad(dato.get("cantidad").toString());
 					cotiPrenda.setPrecioBordado(dato.get("precioBordado").toString());

@@ -168,7 +168,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		celd.setBorder(0);
 		tablaHeader1.addCell(celd);
 		
-		celd = new PdfPCell(new Phrase("Nombre del cliente:           Bimbo", HelveticaBold));
+		celd = new PdfPCell(new Phrase("Cliente:           Bimbo", HelveticaBold));
 		celd.setHorizontalAlignment(Element.ALIGN_CENTER);
     	celd.setVerticalAlignment(Element.ALIGN_CENTER);
     	celd.setBackgroundColor(backgroundWhite);

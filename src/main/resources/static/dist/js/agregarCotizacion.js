@@ -119,33 +119,6 @@ function marcarSelects(){
 $('#prendaCotizacion').on('change', function () {
 	  var idPrenda = $('#prendaCotizacion').val();
 	  console.log(idPrenda);
-	  $.ajax({
-		  method: "GET",
-		    url: "/ExtraerModelos",
-		    data: {idFamPrenda : idPrenda},
-		    beforeSend: function () {
-		    	$('#prendaCotizacion').prop("disabled", true);
-          },
-		    success: function (r) {
-              
-		    	$('#prendaCotizacion').prop("disabled", false);
-
-              // Limpiamos el select
-		    	$("#modeloCotizacion").find("option").remove();
-              $(".selectpicker").selectpicker("refresh");
-              $(r).each(function (i, v) {
-                  // indice, valor
-              	$("#modeloCotizacion").append('<option value="' + v[0] + '">' + v[1] + "</option>");
-              });
-
-              $("#modeloCotizacion").prop("disabled", false);
-              $("#modeloCotizacion").selectpicker("refresh");
-          },
-          error: function () {
-              alert("Ocurrio un error en el servidor de modelo ..");
-              $('#prendaCotizacion').prop("disabled", false);
-          },
-	  });
 	  
 	  if($('#tipoCotizacion').val()=='1' || $('#tipoCotizacion').val()=='3'){
 		  
@@ -189,6 +162,7 @@ $('#prendaCotizacion').on('change', function () {
 
 	              // Limpiamos el select
 			    	$("#telaCotizacion").find("option").remove();
+			    	$("#telaCotizacion").append('<option value="">Seleccione uno...</option>');
 	              $("#telaCotizacion").selectpicker("refresh");
 	              $(r).each(function (i, v) {
 	                  // indice, valor
@@ -203,8 +177,95 @@ $('#prendaCotizacion').on('change', function () {
 	              $('#modeloCotizacion').prop("disabled", false);
 	          },
 		  });
+		  $.ajax({
+			  method: "GET",
+			    url: "/ExtraerModelos",
+			    data: {idFamPrenda : idPrenda},
+			    beforeSend: function () {
+			    	$('#prendaCotizacion').prop("disabled", true);
+	          },
+			    success: function (r) {
+	              
+			    	$('#prendaCotizacion').prop("disabled", false);
+
+	              // Limpiamos el select
+			    	$("#modeloCotizacion").find("option").remove();
+	              $(".selectpicker").selectpicker("refresh");
+	              $(r).each(function (i, v) {
+	                  // indice, valor
+	              	$("#modeloCotizacion").append('<option value="' + v[0] + '">' + v[1] + "</option>");
+	              });
+
+	              $("#modeloCotizacion").prop("disabled", false);
+	              $("#modeloCotizacion").selectpicker("refresh");
+	          },
+	          error: function () {
+	              alert("Ocurrio un error en el servidor de modelo ..");
+	              $('#prendaCotizacion').prop("disabled", false);
+	          },
+		  });
+		  $("#composicionCotizacion").find("option").remove();
+          $("#composicionCotizacion").selectpicker("refresh");
 	  }
 });
+
+$('#modeloCotizacion').on('change', function (){
+ var idPrenda = $(this).val();
+	
+	$.ajax({
+		  method: "GET",
+		    url: "/ExtraerFamiliaComposicionPorTela",
+		    data: {idPrenda : idPrenda},
+		    success: function (r) {
+            // Limpiamos el select
+		    	$("#composicionCotizacion").find("option").remove();
+            $("#composicionCotizacion").selectpicker("refresh");
+            $("#composicionCotizacion").append('<option value="">Seleccione uno...</option>');
+            $(r).each(function (i, v) {
+                // indice, valor
+            	$("#composicionCotizacion").append('<option value="' + v[1] + '">' + v[0] + "</option>");
+            });
+            
+            if($("#telaCotizacion").val()=='' || $("#telaCotizacion").val()==null || $("#telaCotizacion").val()==undefined){
+        		$("#composicionCotizacion").prop("disabled", false);
+        		$("#composicionCotizacion").selectpicker("refresh");
+        	}
+        	else{
+        		$("#composicionCotizacion").prop("disabled", true);
+        		$("#composicionCotizacion").selectpicker("refresh");
+        	}
+        },
+        error: function () {
+            alert("Ocurrio un error en el servidor de modelo ..");
+        },
+	  });
+	
+})
+
+$('#composicionCotizacion').on('change', function (){
+	
+	if($(this).val()=='' || $(this).val()==null || $(this).val()==undefined){
+		$("#telaCotizacion").prop("disabled", false);
+		$("#telaCotizacion").selectpicker("refresh");
+	}
+	else{
+		$("#telaCotizacion").prop("disabled", true);
+		$("#telaCotizacion").selectpicker("refresh");
+	}
+})
+
+$('#telaCotizacion').on('change', function (){
+	
+	if($(this).val()=='' || $(this).val()==null || $(this).val()==undefined){
+		$("#composicionCotizacion").prop("disabled", false);
+		$("#composicionCotizacion").selectpicker("refresh");
+	}
+	else{
+		$("#composicionCotizacion").prop("disabled", true);
+		$("#composicionCotizacion").selectpicker("refresh");
+	}
+})
+
 
 function mapearTablita(){
 	var tipoPrecio = $('#tipoPrecioVentas').val();
@@ -234,13 +295,14 @@ function mapearTablita(){
 			 "<input type='hidden' class='form-control idCoordinadoPrenda' id='idCoordinadoPrenda"+contadorGeneral+"' value="+tablaPrendasCotizar[i][9]+">" +
 			 "<input type='hidden' class='form-control cantidad' id='cantidad"+contadorGeneral+"' value="+tablaPrendasCotizar[i][10]+">" +
 			 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+tablaPrendasCotizar[i][5]+"'>" +
+			 "<input type='hidden' id='idFamComposicion"+contadorGeneral+"' class='form-control' value='"+tablaPrendasCotizar[i][20]+"'>" +
 			 tablaPrendasCotizar[i][2] +
 			 "<input type='hidden' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+tablaPrendasCotizar[i][19]+" disabled>" +
 			 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+tablaPrendasCotizar[i][18]+" disabled>",
 			 (tablaPrendasCotizar[i][4]==null || tablaPrendasCotizar[i][4]=="" || tablaPrendasCotizar[i][4]==undefined)?'':tablaPrendasCotizar[i][4],
-			 tablaPrendasCotizar[i][6] ,
+			 (tablaPrendasCotizar[i][5]==null || tablaPrendasCotizar[i][5]=="null" || tablaPrendasCotizar[i][5]=="" || tablaPrendasCotizar[i][5]==undefined)?'Por definir':tablaPrendasCotizar[i][6],
 			 tablaPrendasCotizar[i][7] ,
-			 tablaPrendasCotizar[i][8] ,
+			 (tablaPrendasCotizar[i][8]==null || tablaPrendasCotizar[i][8]=="null" || tablaPrendasCotizar[i][8]=="" || tablaPrendasCotizar[i][8]==undefined)?'Por definir':tablaPrendasCotizar[i][8],
 			 precioInicial,
 			 "<select class='form-control selectpicker bordadoPrecioCotizacion' id='bordadoPrecioCotizacion"+contadorGeneral+"' value="+tablaPrendasCotizar[i][15]+">" +
 			 listaBordados+"</select>",
@@ -264,6 +326,7 @@ function AgregarRegistroTablita (){
 	var idPrenda = $('#prendaCotizacion').val();
 	var idModelo = $('#modeloCotizacion').val();
 	var idTela = $('#telaCotizacion').val();
+	var idFamComposicion = $('#composicionCotizacion').val();
 	var tipoPrecio = $('#tipoPrecioVentas').val();
 	
 	
@@ -274,7 +337,8 @@ function AgregarRegistroTablita (){
 		data: { "_csrf": $('#token').val(),
 				idPrenda: idPrenda,
 				idModelo: idModelo,
-				idTela: idTela
+				idTela: idTela,
+				idFamComposicion: idFamComposicion
 			  },
 		success: (data) => {
 			var precioInicial = 0;
@@ -303,6 +367,11 @@ function AgregarRegistroTablita (){
 		        })
 			}
 			else{
+				var nombreTela = ($('#telaCotizacion').val()=='' ||
+								  $('#telaCotizacion').val()==null || 
+								  $('#telaCotizacion').val()==undefined)?
+										  'Por definir':$('#telaCotizacion').find('option:selected').text();
+				
 				console.log(data);
 				if(tipoCotizacion=='1' || tipoCotizacion=='3'){
 					table.row.add([	
@@ -315,6 +384,7 @@ function AgregarRegistroTablita (){
 					 "<input type='hidden' class='form-control idCoordinadoPrenda' id='idCoordinadoPrenda"+contadorGeneral+"' value="+idCoordinadoPrenda+">" +
 					 "<input type='hidden' class='form-control cantidad' id='cantidad"+contadorGeneral+"' value="+cantidad+">" +
 					 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+idTela  +"'>"+
+					 "<input type='hidden' id='idFamComposicion"+contadorGeneral+"' class='form-control' value='"+idFamComposicion+"'>"+
 					 $('#prendaCotizacion').find('option:selected').text() +
 					 "<input type='hidden' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+data[5]*cantidad+" disabled>" +
 					 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+data[5]+" disabled>",
@@ -345,12 +415,13 @@ function AgregarRegistroTablita (){
 					 "<input type='hidden' id='idModelo"+contadorGeneral+"' class='form-control' value='"+idModelo+"'>" +
 					 "<input type='hidden' class='form-control idCoordinadoPrenda' id='idCoordinadoPrenda"+contadorGeneral+"' value="+idCoordinadoPrenda+">" +
 					 "<input type='hidden' class='form-control cantidad' id='cantidad"+contadorGeneral+"' value="+cantidad+">" +
-					 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+idTela  +"'>"+
-					 $('#prendaCotizacion').find('option:selected').text() +
+					 "<input type='hidden' id='idTela"+contadorGeneral+"' class='form-control' value='"+idTela+"'>"+
+					 "<input type='hidden' id='idFamComposicion"+contadorGeneral+"' class='form-control' value='"+idFamComposicion+"'>"+
 					 "<input type='hidden' class='form-control importeFinal' id='importeFinal"+contadorGeneral+"' value="+precioInicial*cantidad+" disabled>" +
-					 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+precioInicial+" disabled>",
+					 "<input type='hidden' class='form-control precioFinal' id='precioFinal"+contadorGeneral+"' value="+precioInicial+" disabled>" +
+					 $('#prendaCotizacion').find('option:selected').text(),
 					 $('#modeloCotizacion').find('option:selected').text(),
-					 $('#telaCotizacion').find('option:selected').text(),
+					 nombreTela,
 					 data[0],
 					 data[1] ,
 					 precioInicial,
@@ -893,6 +964,7 @@ function GuardarCotizacionPrendas(refEditPrenda){
 				record["idPrenda"] = $('#idPrenda'+contador).val();
 				record["idModelo"] = $('#idModelo'+contador).val();
 				record["idTela"] = $('#idTela'+contador).val();
+				record["idFamComposicion"] = $('#idFamComposicion'+contador).val();
 				record["coordinado"] = $('#idCoordinadoPrenda'+contador).val();
 				record["cantidad"] = $('#cantidad'+contador).val();
 				record["precioBordado"] = $('#bordadoPrecioCotizacion'+contador).val();
@@ -999,6 +1071,7 @@ function GuardarCotizacionPrendas(refEditPrenda){
 				record["idPrenda"] = $('#idPrenda'+contador).val();
 				record["idModelo"] = $('#idModelo'+contador).val();
 				record["idTela"] = $('#idTela'+contador).val();
+				record["idFamComposicion"] = $('#idFamComposicion'+contador).val();
 				record["coordinado"] = $('#idCoordinadoPrenda'+contador).val();
 				record["cantidad"] = $('#cantidad'+contador).val();
 				record["precioBordado"] = $('#bordadoPrecioCotizacion'+contador).val();
@@ -1218,6 +1291,7 @@ function ValidarRegistroTablita(){
 	var prendaCotizacion = $('#prendaCotizacion').val();
 	var modeloCotizacion = $('#modeloCotizacion').val();
 	var telaCotizacion = $('#telaCotizacion').val();
+	var composicion = $('#composicionCotizacion').val();
 	var cantidadCotizacion = $('#cantidadCotizacion').val();
 	var table = $('#tablaCotizacionesAgregar').DataTable().rows().data();
 	var validador = 0;
@@ -1247,7 +1321,8 @@ function ValidarRegistroTablita(){
 		if(coordinadoCotizacion=="" || coordinadoCotizacion==null || coordinadoCotizacion==undefined ||
 		   prendaCotizacion==""     || prendaCotizacion==null     || prendaCotizacion==undefined     ||
 		   modeloCotizacion==""     || modeloCotizacion==null     || modeloCotizacion==undefined     ||
-		   telaCotizacion==""       || telaCotizacion==null       || telaCotizacion==undefined       ||	
+		   ((telaCotizacion==""       || telaCotizacion==null       || telaCotizacion==undefined) &&
+			(composicionCotizacion=="" || composicionCotizacion==null || composicionCotizacion==undefined))||	
 		   cantidadCotizacion==""   || cantidadCotizacion==null   || cantidadCotizacion==undefined){
 		   Swal.fire({
 			    icon: 'error',
