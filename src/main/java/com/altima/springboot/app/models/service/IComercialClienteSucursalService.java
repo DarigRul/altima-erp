@@ -20,5 +20,7 @@ public interface IComercialClienteSucursalService {
 	List<ComercialClienteSucursal> findListaSucrusales();
 
 	List<ComercialClienteSucursal> findListaSucrusalesCliente(long id);
+	
+	Integer IdScursal(String id);
 
 }

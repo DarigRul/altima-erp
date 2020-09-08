@@ -90,7 +90,7 @@ public class ClienteSucursalController {
 			sucursal.setSFechaCreacion(hourdateFormat.format(date));
 			sucursal.setSUltimaFechaModificacion(hourdateFormat.format(date));
 			SucursalService.save(sucursal);
-			sucursal.setSIdText("SUC" + sucursal.getNoSucursal());
+			sucursal.setSIdText("SUC" + (SucursalService.IdScursal(sucursal.getIdCliente())) );
 			sucursal.setSCreadoPor(auth.getName());
 			sucursal.setIdDireccion(direccion.getIdDireccion());
 			redirectAttrs.addFlashAttribute("title", "Sucursal guardada correctamente").addFlashAttribute("icon", "success");
