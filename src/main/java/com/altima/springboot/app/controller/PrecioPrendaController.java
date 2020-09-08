@@ -122,6 +122,7 @@ public class PrecioPrendaController {
 		for(Object[] pr:prPrecios){
 			DisenioListaPrecioPrenda preciothis= new DisenioListaPrecioPrenda();
 			if(!pr[0].toString().isEmpty()){
+				System.out.println("entra");
 				preciothis.setIdListaPrecioPrenda(Long.parseLong(pr[0].toString()));
 			}
 			preciothis.setPrecioVentaInterna(precio.getPrecioVentaInterna());
