@@ -26,6 +26,9 @@ public class AmpMultialmacen implements Serializable{
 	@GenericGenerator(name="native",strategy="native")
 	private Long idAMultialmacen;
 	
+	@Column(name="id_articulo")
+	private Long idArticulo;
+	
 	@Column(name="id_almacen_logico")
 	private Long idAlmacenLogico;
 	
