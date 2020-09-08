@@ -125,13 +125,13 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		PdfPCell logoImg = new PdfPCell(new Phrase(""));
 		PdfPCell tituloDocumento = new PdfPCell();
 		if(tipoCotizacion.equalsIgnoreCase("1")) {
-			tituloDocumento = new PdfPCell(new Phrase("COTIZACIÓN GENERAL", TitulosOscuros));
+			tituloDocumento = new PdfPCell(new Phrase("LISTA DE PRECIOS", TitulosOscuros));
 		}
 		else if(tipoCotizacion.equalsIgnoreCase("2")) {
-			tituloDocumento = new PdfPCell(new Phrase("COTIZACIÓN DESGLOSADA", TitulosOscuros));
+			tituloDocumento = new PdfPCell(new Phrase("COTIZACIÓN DESGLOSADA POR TIPO DE PRENDA", TitulosOscuros));
 		}
 		else {
-			tituloDocumento = new PdfPCell(new Phrase("COTIZACIÓN DESGLOSADA POR COMPOSICIÓN", TitulosOscuros));
+			tituloDocumento = new PdfPCell(new Phrase("COTIZACIÓN DESGLOSADA", TitulosOscuros));
 		}
 		PdfPCell fechaCotizacion2 = new PdfPCell(new Phrase(fecha.substring(0, 1).toUpperCase() + fecha.substring(1), Helvetica));
 		logoImg.setPaddingBottom(10f);
@@ -404,9 +404,9 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			for(int con = 0; con < prendas.size(); con++) {
 				Object[] aux = (Object[]) prendas.get(con);
 				Total += Float.valueOf(aux[19].toString());
-				PdfPCell nombrePrenda = new PdfPCell(new Phrase(aux[20].toString(), Helvetica));
+				PdfPCell nombrePrenda = new PdfPCell(new Phrase(aux[2].toString(), Helvetica));
 				PdfPCell nombreTela = new PdfPCell(new Phrase(aux[7].toString(), Helvetica));
-				PdfPCell precioPrenda = new PdfPCell(new Phrase(aux[19].toString(), HelveticaBold));
+				PdfPCell precioPrenda = new PdfPCell(new Phrase(aux[17].toString(), HelveticaBold));
 //				nombrePrenda.setPadding(3f);
 //				precioPrenda.setPadding(3f);
 				vacio.setBorderColorBottom(borderTable);
@@ -516,12 +516,12 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			float Total = 0;
 			for(int con = 0; con < prendas.size(); con++) {
 				Object[] aux = (Object[]) prendas.get(con);
-				Subtotal += Float.valueOf(aux[19].toString());
+				Subtotal += Float.valueOf(aux[27].toString());
 				PdfPCell cuerpo1 = new PdfPCell(new Phrase(aux[9].toString(), Helvetica));
 				PdfPCell cuerpo2 = new PdfPCell(new Phrase(aux[4].toString() + "-" + aux[7].toString(), Helvetica));
 				PdfPCell cuerpo3 = new PdfPCell(new Phrase(aux[10].toString(), Helvetica));
-				PdfPCell cuerpo4 = new PdfPCell(new Phrase("$" + aux[18].toString(), Helvetica));
-				PdfPCell cuerpo5 = new PdfPCell(new Phrase("$" + aux[19].toString(), HelveticaBold));
+				PdfPCell cuerpo4 = new PdfPCell(new Phrase("$" + aux[26].toString(), Helvetica));
+				PdfPCell cuerpo5 = new PdfPCell(new Phrase("$" + aux[27].toString(), HelveticaBold));
 				cuerpo1.setBorderColorBottom(borderTable);
 				cuerpo1.setBorderWidthBottom(2);
 				cuerpo1.setBorder(Rectangle.BOTTOM);
@@ -667,12 +667,12 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			float Total = 0;
 			for(int con = 0; con < prendas.size(); con++) {
 				Object[] aux = (Object[]) prendas.get(con);
-				Subtotal += Float.valueOf(aux[19].toString());
+				Subtotal += Float.valueOf(aux[27].toString());
 				PdfPCell cuerpo1 = new PdfPCell(new Phrase(aux[9].toString(), Helvetica));
-				PdfPCell cuerpo2 = new PdfPCell(new Phrase(aux[20].toString() + "-" + aux[7].toString(), Helvetica));
+				PdfPCell cuerpo2 = new PdfPCell(new Phrase(aux[2].toString() + "-" + aux[7].toString(), Helvetica));
 				PdfPCell cuerpo3 = new PdfPCell(new Phrase(aux[7].toString(), Helvetica));
 				PdfPCell cuerpo4 = new PdfPCell(new Phrase(aux[10].toString(), Helvetica));
-				PdfPCell cuerpo5 = new PdfPCell(new Phrase("$" + aux[19].toString(), HelveticaBold));
+				PdfPCell cuerpo5 = new PdfPCell(new Phrase("$" + aux[27].toString(), HelveticaBold));
 				cuerpo1.setBorderColorBottom(borderTable);
 				cuerpo1.setBorderWidthBottom(2);
 				cuerpo1.setBorder(Rectangle.BOTTOM);
