@@ -183,9 +183,7 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 				"	AND pedido.id_pedido_informacion = coor.id_pedido \n" + 
 				"	AND coor.id_pedido = "+id+" \n" + 
 				"	AND coor_prenda.estatus = 1 \n" + 
-				"	and bordado.id_coordinado_prenda = coor_prenda.id_coordinado_prenda")
-				.getResultList().toString();
-		
+				"	and bordado.id_coordinado_prenda = coor_prenda.id_coordinado_prenda").getSingleResult().toString();
 		if ( re.equals("0")) {
 			return false;
 		}else {
@@ -246,10 +244,10 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 					"	WHEN\n" + 
 					"		cliente.foraneo = 0 THEN\n" + 
 					"		IF\n" + 
-					"			( SUM( concen.cantidad * coor_pre.precio_final ) > c.locales, 'Todo bien', 'No cumple el monto total' ) \n" + 
+					"			( SUM( concen.cantidad * coor_pre.precio_final ) >= c.locales, 'Todo bien', 'No cumple el monto total' ) \n" + 
 					"			WHEN cliente.foraneo = 1 THEN\n" + 
 					"		IF\n" + 
-					"			( SUM( concen.cantidad * coor_pre.precio_final ) > c.foraneo, 'Todo bien', 'No cumple el monto total' ) ELSE 'Error'\n" + 
+					"			( SUM( concen.cantidad * coor_pre.precio_final ) >= c.foraneo, 'Todo bien', 'No cumple el monto total' ) ELSE 'Error'\n" + 
 					"		END \n" + 
 					"		END \n" + 
 					"		FROM\n" + 
@@ -290,7 +288,7 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 		AdminConfiguracionPedido result = null;
 		result =  (AdminConfiguracionPedido) em
 				.createQuery(
-						"from AdminConfiguracionPedido where tipo_pedido=" + tipo ).getSingleResult();
+						"from AdminConfiguracionPedido where id_configuracion_pedido=" + tipo ).getSingleResult();
 		
 		return result;
 	}

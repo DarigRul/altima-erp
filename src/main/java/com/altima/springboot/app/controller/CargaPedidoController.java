@@ -85,6 +85,7 @@ public class CargaPedidoController {
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		ComercialPedidoInformacion pedido = new ComercialPedidoInformacion();
+		AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(cargaTipopedido);
 		System.out.println("eL ID de pedido es: " + id_pedido);
 		pedido.setIdEmpresa(cargaEmpresa);
 		pedido.setTipoPedido(cargaTipopedido);
@@ -95,7 +96,7 @@ public class CargaPedidoController {
 		pedido.setEstatus("1");
 		pedido.setIdUsuario(currentuserid.currentuserid());
 		cargaPedidoService.save(pedido);
-		pedido.setIdText("VENT" + (pedido.getIdPedidoInformacion() + 10000));
+		pedido.setIdText(config.getNomenclatura() + (pedido.getIdPedidoInformacion() + 10000));
 		cargaPedidoService.save(pedido);
 
 		redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon", "success");
@@ -107,6 +108,11 @@ public class CargaPedidoController {
 	@GetMapping("/informacion-general/{id}")
 	public String listGeneral(@PathVariable(value = "id") Long id, Map<String, Object> model, Model m) {
 		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+		AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(pedido.getTipoPedido());
+		
+		if ( config.getAnticipoTrueFalse().equals("Si")) {
+			model.put("anticipo", true);
+		}
 		m.addAttribute("clientes", clienteservice.findAll(null));
 		model.put("pedido", pedido);
 		return "informacion-general";
