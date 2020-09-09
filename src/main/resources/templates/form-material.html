@@ -92,12 +92,7 @@
     <div class="form-group col-sm-6">
         <label for="proveedor">Proveedores</label>
         <select class="form-control selectpicker " id="proveedor" th:field="*{proveedor}" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
-           <option value="TELAS CONTNELTAL">PRO1001 TELAS CONTNELTAL</option>
-			<option value="CORDUROY">PRO1002 CORDUROY</option>
-			<option value="DYEXSA">PRO1003 DYEXSA</option>
-			<option value="FABRICA DE SAN MARTIN">PRO1004 FABRICA DE SAN MARTIN</option>
-			<option value="FABRICA MARIA">PRO1005 FABRICA MARIA</option>
-			<option value="FABRICA MARIA">PRO1006 FABRICAS DE TELAS DE MORELIA</option>
+           <option th:each="proveedor: ${proveedor}" th:value="${proveedor[0]}" th:text="${proveedor[1]}"></option>y
         </select>
     </div>
 

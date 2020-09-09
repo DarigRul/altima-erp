@@ -323,4 +323,22 @@ public class DisenioForro implements Serializable{
 			return false;
 		return true;
 	}
+
+	public String getIdProveedor() {
+		return idProveedor;
+	}
+
+	public void setIdProveedor(String idProveedor) {
+		this.idProveedor = idProveedor;
+	}
+
+	public String getClaveProveedor() {
+		return claveProveedor;
+	}
+
+	public void setClaveProveedor(String claveProveedor) {
+		this.claveProveedor = claveProveedor;
+	}
+	
+	
 }

@@ -72,6 +72,21 @@
         <label for="status">C&oacute;digo Color</label>
         <input required th:field="*{codigo_coolor}" type="color"  class="form-control" placeholder="Codigo Color">
     </div>
+    <div class="form-group col-sm-6">
+		<label for="status">Proveedor</label>
+		<select required class="form-control selectpicker" th:field="*{idProveedor}" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+		
+			<option th:each="proveedor: ${proveedor}" th:value="${proveedor[0]}" th:text="${proveedor[1]}"></option>
+			
+			
+		</select>
+	</div>
+
+	<div class="form-group col-sm-6">
+		<label for="status">Clave Proveedor</label>
+		<input required type="text" th:field="*{claveProveedor}" class="form-control" placeholder="Clave proveedor">
+	</div>
+    
     
     <div th:if="${EstatusCalidadForro == '2'}" class="form-group col-sm-6">      
         <label for="status">Unidad de medida</label>

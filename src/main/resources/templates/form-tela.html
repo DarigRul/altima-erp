@@ -153,19 +153,20 @@
 		<input required type="color" th:field="*{tela.codigoColor}" class="form-control" placeholder="Codigo Color">
 	</div>
 
-	<div class="form-group col-sm-12" id="ProveedorMaterialDiv">
+	<div class="form-group col-sm-6" id="ProveedorMaterialDiv">
 		<label for="status">Proveedor</label>
 		<select required class="form-control selectpicker" th:field="*{tela.idProveedor}" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
-			<option value="1">PRO1001 TELAS CONTNELTAL</option>
-			<option value="2">PRO1002 CORDUROY</option>
-			<option value="3">PRO1003 DYEXSA</option>
-			<option value="4">PRO1004 FABRICA DE SAN MARTIN</option>
-			<option value="5">PRO1005 FABRICA MARIA</option>
-			<option value="6">PRO1006 FABRICAS DE TELAS DE MORELIA</option>
+		
+			<option th:each="proveedor: ${proveedor}" th:value="${proveedor[0]}" th:text="${proveedor[1]}"></option>
+			
+			
 		</select>
 	</div>
 
-
+	<div class="form-group col-sm-12" id="ProveedorMaterialDiv">
+		<label for="status">Clave Proveedor</label>
+		<input required type="text" th:field="*{tela.claveProveedor}" class="form-control" placeholder="Clave proveedor">
+	</div>
 
 	<div th:if="${EstatusCalidadTela == '2'}" class="form-group col-sm-12">
 		<label for="status">Forro</label>

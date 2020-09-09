@@ -308,6 +308,14 @@ public class DisenioTela implements Serializable{
 		return serialVersionUID;
 	}
 
+	public String getClaveProveedor() {
+		return claveProveedor;
+	}
+
+	public void setClaveProveedor(String claveProveedor) {
+		this.claveProveedor = claveProveedor;
+	}
+
 
 	
 }
