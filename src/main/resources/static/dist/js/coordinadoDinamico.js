@@ -187,7 +187,7 @@ $(document).ready(function() {
 	    	  $("#elimnar333 select").each(function(index, dato){
 					 
 					 if ( $(dato).val() == null || $(dato).val() == ""  ){
-						 alert("Hello! I am an alert box!!");
+						
 						 return;
 					 }
 					 else{
@@ -828,7 +828,7 @@ function selected(id){
 	 $("#elimnar select").each(function(index, dato){
 		 
 		 if ( $(dato).val() == null || $(dato).val() == ""  ){
-			 alert("Hello! I am an alert box!!");
+		
 			 return;
 		 }
 		 else{
@@ -845,7 +845,7 @@ function selected(id){
     	 console.log('entro al for 22');
     			 
     			 if ( $(dato1).val() == null || $(dato1).val() == ""  ){
-    				 alert("Hello! I am an alert box!!");
+    				 
     				 return;
     			 }
     			 else{
@@ -865,7 +865,7 @@ function selected(id){
     	     console.log('entro al for 222');
     			 
     			 if ( $(dat).val() == null || $(dat).val() == ""  ){
-    				 alert("Hello! I am an alert box!!");
+    				 
     				 return;
     			 }
     			 else{
