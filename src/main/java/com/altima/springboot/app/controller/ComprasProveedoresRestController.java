@@ -67,7 +67,6 @@ public class ComprasProveedoresRestController {
 			proveedor.setPaginaWebProveedor(datos.getString("paginaWebProveedor"));
 			proveedor.setCreadoPor(auth.getName());
 			proveedor.setActualizadoPor(auth.getName());
-			proveedor.setFechaCreacion(dtf.format(now));
 			proveedor.setUltimaFechaModificacion(dtf.format(now));
 			proveedor.setEstatus("1");
 			proveedorService.save(proveedor);
