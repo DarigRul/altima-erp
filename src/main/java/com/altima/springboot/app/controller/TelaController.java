@@ -337,6 +337,9 @@ public class TelaController {
 		
 	}
 	
+	
+	
+	
 	@GetMapping(value = "/uploads/telas/{filename:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String filename) {
 
