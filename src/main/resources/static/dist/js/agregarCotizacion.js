@@ -385,6 +385,7 @@ function AgregarRegistroTablita (){
 				
 				console.log(data);
 				if(tipoCotizacion=='1' || tipoCotizacion=='3'){
+					idFamComposicion = idTela;
 					table.row.add([	
 						
 					 cantidad,
