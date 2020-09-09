@@ -74,8 +74,11 @@ public class DisenioForro implements Serializable{
 	@Column(name="estatus_forro")
 	private String estatusForro;
 	
+	@Column(name="id_proveedor")
+	private String idProveedor ;
 	
-
+	@Column(name="clave_proveedor")
+	private String claveProveedor ;
 	
 	
 	public String getColor() {

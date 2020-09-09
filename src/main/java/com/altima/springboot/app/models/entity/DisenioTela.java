@@ -77,6 +77,9 @@ public class DisenioTela implements Serializable{
 	@Column(name="id_proveedor")
 	private Long idProveedor;
 	
+	@Column(name="clave_proveedor")
+	private String claveProveedor ;
+	
 	@Column(name="foto")
 	private String foto;
 	
