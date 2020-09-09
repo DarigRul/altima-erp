@@ -86,9 +86,6 @@ public class ComprasProveedores implements Serializable {
 	@Column(name="actualizado_por")
 	private String actualizadoPor;
 	
-	@Column(name="fecha_creacion")
-	private String fechaCreacion;
-	
 	@Column(name="ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
 	
@@ -120,14 +117,6 @@ public class ComprasProveedores implements Serializable {
 
 	public void setActualizadoPor(String actualizadoPor) {
 		this.actualizadoPor = actualizadoPor;
-	}
-
-	public String getFechaCreacion() {
-		return fechaCreacion;
-	}
-
-	public void setFechaCreacion(String fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
 	}
 
 	public String getUltimaFechaModificacion() {
