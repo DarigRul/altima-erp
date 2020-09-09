@@ -26,6 +26,10 @@ public class DisenioTela implements Serializable{
 	@Column(name="id_familia_composicion")
 	private Long idFamiliaComposicion;
 	
+	
+	
+	
+	
 	@Column(name="id_text")
 	private String idText;
 	

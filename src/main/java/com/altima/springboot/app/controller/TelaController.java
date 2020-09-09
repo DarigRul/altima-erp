@@ -333,6 +333,8 @@ public class TelaController {
 		model.addAttribute("tela", tela);
 		model.addAttribute("proveedor", ProveedorSerivice.Proveedores());
 		return"agregar-material";   
+		
+		
 	}
 	
 	@GetMapping(value = "/uploads/telas/{filename:.+}")
