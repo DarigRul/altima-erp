@@ -76,7 +76,7 @@ public class CatalogoController {
 	}
 
 	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
-	@RequestMapping(value = "/listarProveedoresColores", method = RequestMethod.GET)
+	@RequestMapping(value = "listarProveedoresColores", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ComprasProveedores> listarProveedoresColores() {
 		
