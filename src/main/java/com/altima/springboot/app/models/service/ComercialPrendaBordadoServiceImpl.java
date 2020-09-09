@@ -216,15 +216,36 @@ public class ComercialPrendaBordadoServiceImpl implements IComercialPrendaBordad
 				"	tela.color,\n" + 
 				"	(SELECT  IFNULL(SUM( bordado.precio_bordado ) , 0)  FROM alt_comercial_prenda_bordado AS bordado WHERE bordado.id_coordinado_prenda = coor_prenda.id_coordinado_prenda ),\n" + 
 				"CASE\n" + 
-				"		WHEN pedido.precio_usar = 1 THEN\n" + 
-				"		precio.precio_local_nuevo \n" + 
-				"		WHEN pedido.precio_usar = 2 THEN\n" + 
-				"		precio.precio_local_antiguo\n" + 
-				"		WHEN pedido.precio_usar = 3 THEN\n" + 
-				"		precio.precio_foraneo_nuevo\n" + 
-				"		WHEN pedido.precio_usar = 4 THEN\n" + 
-				"		precio.precio_foraneo_antiguo ELSE '000' \n" + 
-				"	END,\n" + 
+				"	WHEN\n" + 
+				"		pedido.precio_usar = 1 THEN\n" + 
+				"			precio.precio_local_nuevo \n" + 
+				"			WHEN pedido.precio_usar = 2 THEN\n" + 
+				"			precio.precio_local_antiguo \n" + 
+				"			WHEN pedido.precio_usar = 3 THEN\n" + 
+				"			precio.precio_foraneo_nuevo \n" + 
+				"			WHEN pedido.precio_usar = 4 THEN\n" + 
+				"			precio.precio_foraneo_antiguo \n" + 
+				"			WHEN pedido.precio_usar = 5 THEN\n" + 
+				"			precio.precio_linea_express_local_nuevo \n" + 
+				"			WHEN pedido.precio_usar = 6 THEN\n" + 
+				"			precio.precio_linea_express_local_anterior \n" + 
+				"			WHEN pedido.precio_usar = 7 THEN\n" + 
+				"			precio.precio_linea_express_foraneo_nuevo \n" + 
+				"			WHEN pedido.precio_usar = 8 THEN\n" + 
+				"			precio.precio_linea_express_foraneo_anterior \n" + 
+				"			WHEN pedido.precio_usar = 9 THEN\n" + 
+				"			precio.precio_muestrario \n" + 
+				"			WHEN pedido.precio_usar = 10 THEN\n" + 
+				"			precio.precio_venta_interna \n" + 
+				"			WHEN pedido.precio_usar = 11 THEN\n" + 
+				"			precio.precio_e_commerce \n" + 
+				"			WHEN pedido.precio_usar = 12 THEN\n" + 
+				"			precio.precio_extra_1 \n" + 
+				"			WHEN pedido.precio_usar = 13 THEN\n" + 
+				"			precio.precio_extra_2 \n" + 
+				"			WHEN pedido.precio_usar = 14 THEN\n" + 
+				"			precio.precio_extra_3 ELSE '000' \n" + 
+				"		END precio ,"+
 				"	coor_prenda.adicional,\n" + 
 				"	coor_prenda.monto_adicional,\n" + 
 				"	coor_prenda.precio_final,\n" + 

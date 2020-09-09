@@ -37,43 +37,57 @@ public class ComercialCotizacionServiceImpl implements IComercialCotizacionServi
 	@Transactional
 	public List<Object> findAllWithTotal(Long idAgente) {
 		if (idAgente==null) {
-			return em.createNativeQuery("SELECT cc.id_cotizacion, \n" + 
-										"		cc.id_text, \n" + 
-										"		cc.fecha_creacion, \n" + 
-										"		cc.tipo_cotizacion, \n" + 
-										"		CONCAT(cliente.nombre, ifnull(cliente.apellido_paterno,''), \n" + 
-										"		ifnull(cliente.apellido_materno,'')), \n" + 
-										"		(SELECT SUM(subtotal+descuento_monto+iva_monto) FROM alt_comercial_cotizacion_total\n" + 
-										"			WHERE id_cotizacion=cc.id_cotizacion), \n" + 
-										"		CONCAT(empleado.nombre_persona,' ', empleado.apellido_paterno,' ', empleado.apellido_materno), \n" + 
-										"		cc.estatus, \n" + 
-										"		ct.anticipo_porcentaje, \n" +
-										"		ct.descuento_porcentaje \n" + 
-										"		\n" + 
-										"	FROM alt_comercial_cotizacion AS cc\n" + 
-										"INNER JOIN alt_comercial_cotizacion_total ct ON cc.id_cotizacion = ct.id_cotizacion\n" + 
-										"INNER JOIN alt_comercial_cliente cliente ON cc.id_cliente = cliente.id_cliente \n" + 
-										"INNER JOIN alt_hr_empleado empleado ON cc.id_agente_ventas = empleado.id_empleado\n" + 
+			return em.createNativeQuery("SELECT cc.id_cotizacion,  \n" + 
+										"		cc.id_text,  \n" + 
+										"		cc.fecha_creacion,  \n" + 
+										"		cc.tipo_cotizacion,  \n" + 
+										"		CONCAT(cliente.nombre, ifnull(cliente.apellido_paterno,''),  \n" + 
+										"			ifnull(cliente.apellido_materno,'')) AS cliente,  \n" + 
+										"		(SELECT SUM(subtotal+descuento_monto+iva_monto) FROM alt_comercial_cotizacion_total \n" + 
+										"				WHERE id_cotizacion=cc.id_cotizacion) AS total,  \n" + 
+										"		CONCAT(empleado.nombre_persona,' ', empleado.apellido_paterno,' ', empleado.apellido_materno) AS vendedor,  \n" + 
+										"		cc.estatus,\n" + 
+										"		ct.anticipo_porcentaje,\n" + 
+										"		ct.descuento_porcentaje,\n" + 
+										"		(SELECT IF((SELECT COUNT(*)\n" + 
+										"			FROM alt_comercial_cotizacion_prenda\n" + 
+										"			WHERE \n" + 
+										"			(precio_bordado != 0\n" + 
+										"			OR porcentaje_adicional != 0\n" + 
+										"			OR monto_adicional != 0)\n" + 
+										"			AND id_cotizacion = cc.id_cotizacion)>0, 1 , 0)) AS variacion_precio\n" + 
+										"											  \n" + 
+										"FROM alt_comercial_cotizacion AS cc \n" + 
+										"INNER JOIN alt_comercial_cotizacion_total ct ON cc.id_cotizacion = ct.id_cotizacion \n" + 
+										"INNER JOIN alt_comercial_cliente cliente ON cc.id_cliente = cliente.id_cliente  \n" + 
+										"INNER JOIN alt_hr_empleado empleado ON cc.id_agente_ventas = empleado.id_empleado \n" + 
 										"ORDER BY cc.id_cotizacion DESC").getResultList();
 		}
 		else {
-			return em.createNativeQuery("SELECT cc.id_cotizacion, \n" + 
-										"		cc.id_text, \n" + 
-										"		cc.fecha_creacion, \n" + 
-										"		cc.tipo_cotizacion, \n" + 
-										"		CONCAT(cliente.nombre, ifnull(cliente.apellido_paterno,''), \n" + 
-										"		ifnull(cliente.apellido_materno,'')), \n" + 
-										"		(SELECT SUM(subtotal+descuento_monto+iva_monto) FROM alt_comercial_cotizacion_total\n" + 
-										"			WHERE id_cotizacion=cc.id_cotizacion), \n" + 
-										"		CONCAT(empleado.nombre_persona,' ', empleado.apellido_paterno,' ', empleado.apellido_materno), \n" + 
-										"		cc.estatus, \n" + 
-										"		ct.anticipo_porcentaje, \n" + 
-										"		ct.descuento_porcentaje \n" + 
-										"		\n" + 
-										"	FROM alt_comercial_cotizacion AS cc\n" + 
-										"INNER JOIN alt_comercial_cotizacion_total ct ON cc.id_cotizacion = ct.id_cotizacion\n" + 
-										"INNER JOIN alt_comercial_cliente cliente ON cc.id_cliente = cliente.id_cliente \n" + 
-										"INNER JOIN alt_hr_empleado empleado ON cc.id_agente_ventas = empleado.id_empleado\n" + 
+			return em.createNativeQuery("SELECT cc.id_cotizacion,  \n" + 
+										"		cc.id_text,  \n" + 
+										"		cc.fecha_creacion,  \n" + 
+										"		cc.tipo_cotizacion,  \n" + 
+										"		CONCAT(cliente.nombre, ifnull(cliente.apellido_paterno,''),  \n" + 
+										"			ifnull(cliente.apellido_materno,'')) AS cliente,  \n" + 
+										"		(SELECT SUM(subtotal+descuento_monto+iva_monto) FROM alt_comercial_cotizacion_total \n" + 
+										"				WHERE id_cotizacion=cc.id_cotizacion) AS total,  \n" + 
+										"		CONCAT(empleado.nombre_persona,' ', empleado.apellido_paterno,' ', empleado.apellido_materno) AS vendedor,  \n" + 
+										"		cc.estatus,\n" + 
+										"		ct.anticipo_porcentaje,\n" + 
+										"		ct.descuento_porcentaje,\n" + 
+										"		(SELECT IF((SELECT COUNT(*)\n" + 
+										"			FROM alt_comercial_cotizacion_prenda\n" + 
+										"			WHERE \n" + 
+										"			(precio_bordado != 0\n" + 
+										"			OR porcentaje_adicional != 0\n" + 
+										"			OR monto_adicional != 0)\n" + 
+										"			AND id_cotizacion = cc.id_cotizacion)>0, 1 , 0)) AS variacion_precio\n" + 
+										"\n" + 
+										"FROM alt_comercial_cotizacion AS cc \n" + 
+										"INNER JOIN alt_comercial_cotizacion_total ct ON cc.id_cotizacion = ct.id_cotizacion \n" + 
+										"INNER JOIN alt_comercial_cliente cliente ON cc.id_cliente = cliente.id_cliente  \n" + 
+										"INNER JOIN alt_hr_empleado empleado ON cc.id_agente_ventas = empleado.id_empleado \n" + 
 										"WHERE cc.id_agente_ventas=" +idAgente+ "\r\n" +
 										"ORDER BY cc.id_cotizacion DESC").getResultList();
 		}

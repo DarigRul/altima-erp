@@ -273,6 +273,7 @@ public class CargaPedidoController {
 			pedido.setFechaEntrega(cargaPedidoService.CalcularFecha(pedido.getFechaCierre(), sumaDias));
 			pedido.setActualizadoPor(auth.getName());
 			pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
+			pedido.setDiaEstimados(Integer.toString(sumaDias));
 			cargaPedidoService.save(pedido);
 			
 			

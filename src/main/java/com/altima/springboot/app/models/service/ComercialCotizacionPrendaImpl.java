@@ -64,29 +64,29 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 		}
 		else {
 			if(idTela==null) {
-				return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup, \n" + 
-						   "		 'Por definir', \n" + 
-						   "		 listaprenda.precio_local_nuevo, \n" + 
-						   "		 listaprenda.precio_foraneo_nuevo, \n" + 
-						   "		 listaprenda.precio_local_antiguo, \n" + 
-						   "		 listaprenda.precio_foraneo_antiguo, \n" + 
-						   "		 listaprenda.listaprenda.precio_linea_express_local_nuevo, \n" +
-						   "		 listaprenda.listaprenda.precio_linea_express_local_anterior, \n" +
-						   "		 listaprenda.listaprenda.precio_linea_express_foraneo_nuevo, \n" +
-						   "		 listaprenda.listaprenda.precio_linea_express_foraneo_anterior, \n" +
-						   "		 listaprenda.listaprenda.precio_e_commerce, \n" +
-						   "		 listaprenda.listaprenda.precio_extra_1, \n" +
-						   "		 listaprenda.listaprenda.precio_extra_2, \n" +
-						   "		 listaprenda.listaprenda.precio_extra_3, \n" +
-						   "		 listaprenda.id_prenda, \n" +
-						   "		 listaprenda.id_familia_composicion \n" + 
-						   " FROM alt_disenio_lista_precio_prenda AS listaprenda \n" + 
-						   "	INNER JOIN alt_disenio_tela tela ON tela.id_familia_composicion = listaprenda.id_familia_composicion \n" + 
-						   "	INNER JOIN alt_disenio_prenda prenda ON listaprenda.id_prenda = prenda.id_prenda \n" + 
-						   "	INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = listaprenda.id_familia_composicion \n" + 
-						   "	WHERE 1=1 \n" +
-						   " AND listaprenda.id_familia_composicion ="+idFamComposicion+" AND prenda.id_prenda =" +idModelo+"\n" +
-						   "GROUP BY prenda.id_prenda").getSingleResult();
+				return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup,  \n" + 
+														"		'Por definir',  \n" + 
+														"		listaprenda.precio_local_nuevo,  \n" + 
+														"		listaprenda.precio_foraneo_nuevo,  \n" + 
+														"		listaprenda.precio_local_antiguo,  \n" + 
+														"		listaprenda.precio_foraneo_antiguo,  \n" + 
+														"		listaprenda.precio_linea_express_local_nuevo, \n" + 
+														"		listaprenda.precio_linea_express_local_anterior, \n" + 
+														"		listaprenda.precio_linea_express_foraneo_nuevo, \n" + 
+														"		listaprenda.precio_linea_express_foraneo_anterior, \n" + 
+														"		listaprenda.precio_e_commerce, \n" + 
+														"		listaprenda.precio_extra_1, \n" + 
+														"		listaprenda.precio_extra_2, \n" + 
+														"		listaprenda.precio_extra_3, \n" + 
+														"		listaprenda.id_prenda, \n" + 
+														"		listaprenda.id_familia_composicion  \n" + 
+														"	FROM alt_disenio_lista_precio_prenda AS listaprenda  \n" + 
+														"	INNER JOIN alt_disenio_tela tela ON tela.id_familia_composicion = listaprenda.id_familia_composicion  \n" + 
+														"	INNER JOIN alt_disenio_prenda prenda ON listaprenda.id_prenda = prenda.id_prenda  \n" + 
+														"	INNER JOIN alt_disenio_lookup lookup ON lookup.id_lookup = listaprenda.id_familia_composicion  \n" + 
+														"	WHERE 1=1 " +
+														" AND listaprenda.id_familia_composicion ="+idFamComposicion+" AND prenda.id_prenda =" +idModelo+"\n" +
+						   								"GROUP BY prenda.id_prenda").getSingleResult();
 			}
 			else {
 				return (Object[]) em.createNativeQuery("SELECT lookup.nombre_lookup, \n" + 
@@ -95,14 +95,14 @@ public class ComercialCotizacionPrendaImpl implements IComercialCotizacionPrenda
 						   "		 listaprenda.precio_foraneo_nuevo, \n" + 
 						   "		 listaprenda.precio_local_antiguo, \n" + 
 						   "		 listaprenda.precio_foraneo_antiguo, \n" +
-						   "		 listaprenda.listaprenda.precio_linea_express_local_nuevo, \n" +
-						   "		 listaprenda.listaprenda.precio_linea_express_local_anterior, \n" +
-						   "		 listaprenda.listaprenda.precio_linea_express_foraneo_nuevo, \n" +
-						   "		 listaprenda.listaprenda.precio_linea_express_foraneo_anterior, \n" +
-						   "		 listaprenda.listaprenda.precio_e_commerce, \n" +
-						   "		 listaprenda.listaprenda.precio_extra_1, \n" +
-						   "		 listaprenda.listaprenda.precio_extra_2, \n" +
-						   "		 listaprenda.listaprenda.precio_extra_3, \n" +
+						   "		 listaprenda.precio_linea_express_local_nuevo, \n" +
+						   "		 listaprenda.precio_linea_express_local_anterior, \n" +
+						   "		 listaprenda.precio_linea_express_foraneo_nuevo, \n" +
+						   "		 listaprenda.precio_linea_express_foraneo_anterior, \n" +
+						   "		 listaprenda.precio_e_commerce, \n" +
+						   "		 listaprenda.precio_extra_1, \n" +
+						   "		 listaprenda.precio_extra_2, \n" +
+						   "		 listaprenda.precio_extra_3, \n" +
 						   "		 listaprenda.id_prenda, \n" + 
 						   "		 listaprenda.id_familia_composicion \n" + 
 						   " FROM alt_disenio_lista_precio_prenda AS listaprenda \n" + 
