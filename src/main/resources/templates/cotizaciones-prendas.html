@@ -13,14 +13,14 @@
 		<option th:each="prenda : ${ ListarPrendas }" th:value="${ prenda.idLookup }" th:text="${ prenda.nombreLookup }"></option>
 		</select>
 	</div>
-	<div class="form-group col-md-3">
-		<label for="telaCotizacion" id="GeneralDesglosada">Tela</label>
-		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="telaCotizacion">
+	<div class="form-group col-md-3" id="tamanoSelect">
+		<label for="modeloCotizacion" class="modeloCotizacion">Modelo</label>
+		<select class="form-control selectpicker modeloCotizacion" data-live-search="true" title="Selecciona uno..." id="modeloCotizacion">
 		</select>
 	</div>
 	<div class="form-group col-md-3">
-		<label for="modeloCotizacion" class="modeloCotizacion">Modelo</label>
-		<select class="form-control selectpicker modeloCotizacion" data-live-search="true" title="Selecciona uno..." id="modeloCotizacion">
+		<label for="telaCotizacion" id="GeneralDesglosada">Tela</label>
+		<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="telaCotizacion">
 		</select>
 		<label for="composicionCotizacion" class="modeloCotizacion">Composici&oacute;n</label>
 		<select class="form-control selectpicker modeloCotizacion" data-live-search="true" title="Selecciona uno..." id="composicionCotizacion">
@@ -41,8 +41,8 @@
 				<th>Color</th>
 				<th>Precio Unitario Inicial</th>
 				<th>Precio Bordado</th>
-				<th>% DescuentoCargo</th>
-				<th>DescuentoCargo</th>
+				<th>Descuento/Cargo %</th>
+				<th>Descuento/Cargo monto</th>
 				<th>Precio Unitario Final</th>
 				<th class="choice desglozada">Importe</th>
 				<th>Eliminar</th>

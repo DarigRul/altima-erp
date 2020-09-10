@@ -26,6 +26,10 @@ public class DisenioTela implements Serializable{
 	@Column(name="id_familia_composicion")
 	private Long idFamiliaComposicion;
 	
+	
+	
+	
+	
 	@Column(name="id_text")
 	private String idText;
 	
@@ -76,6 +80,9 @@ public class DisenioTela implements Serializable{
 	
 	@Column(name="id_proveedor")
 	private Long idProveedor;
+	
+	@Column(name="clave_proveedor")
+	private String claveProveedor ;
 	
 	@Column(name="foto")
 	private String foto;
@@ -303,6 +310,14 @@ public class DisenioTela implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getClaveProveedor() {
+		return claveProveedor;
+	}
+
+	public void setClaveProveedor(String claveProveedor) {
+		this.claveProveedor = claveProveedor;
 	}
 
 

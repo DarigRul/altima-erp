@@ -673,9 +673,9 @@ function agregarAlmacenLogico(){
 				  	'<input type="text" class="form-control" id="nombreLogico" name="nombreLogico" placeholder="Almac&eacute;n 126">'+
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
-				  	'<label for="almacenFisicoLogico">Encargado</label>'+
+				  	'<label for="almacenFisicoLogico">Almac&eacute;n f&iacute;sico</label>'+
 				  	'<select class="form-control" id="almacenFisicoLogico" name="almacenFisicoLogico">'+
-				  	'<option>Listar todos los empleados de almacen</option>'+
+				  	'<option>Listar todos los almacenes fisicos</option>'+
 				  	'</select>'+
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
@@ -718,9 +718,9 @@ function editarAlmacenLogico(){
 				  	'<input type="text" class="form-control" id="nombreLogicoE" name="nombreLogicoE" placeholder="Almac&eacute;n 126">'+
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
-				  	'<label for="almacenFisicoLogicoE">Encargado</label>'+
+				  	'<label for="almacenFisicoLogicoE">Almac&eacute;n f&iacute;sico</label>'+
 				  	'<select class="form-control" id="almacenFisicoLogicoE" name="almacenFisicoLogicoE">'+
-				  	'<option>Listar todos los empleados de almacen</option>'+
+				  	'<option>Listar todos los almacenes fisicos</option>'+
 				  	'</select>'+
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
@@ -906,4 +906,7 @@ function altaAlmacenFisico(){
 				})
 		  }
 		});
+}
+function abrirMapeo(){
+	$('#detalleMapeo').modal('show');
 }

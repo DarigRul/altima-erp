@@ -76,42 +76,25 @@
 												class="form-control" id="generalToma" required  min="2019-12-31" max="2025-12-31" >
 										</div>
 										
-										<div class="form-inline col-md-2">
-											<div class="form-check mb-2 mr-sm-2"
-												style="margin-top: 1rem !important;">
-												<input class="form-check-input" type="checkbox" value="1" onChange="habilitar(this);"
-													name="pagoAnticipo" id="pagoAnticipo"
-													th:checked="${pedido.pagoAnticipo}"> <label
-													class="form-check-label" for="generalAnticipo">
-													Pago de anticipo </label>
-											</div>
-										</div>
-										<div th:if="${pedido.fechaAnticipo == null}" class="form-group col-sm-3">
-											<label for="generalAnticipo">Fecha anticipo</label> <input
-												type="date" th:field="*{pedido.fechaAnticipo}"
-												class="form-control" id="generalAnticipo" readOnly   min="2019-12-31" max="2025-12-31" >
-										</div>
+										
+									
 										
 										
-										<div th:if="${pedido.fechaAnticipo != null}" class="form-group col-sm-3">
-											<label for="generalAnticipo">Fecha anticipo</label> <input
-												type="date" th:field="*{pedido.fechaAnticipo}"
-												class="form-control" id="generalAnticipo"    min="2019-12-31" max="2025-12-31" >
-										</div>
 										
 										
-										<div class="form-group col-sm-3">
+										
+										<!-- <div class="form-group col-sm-3">
 											<label for="generalEntrega">Fecha de entrega</label> <input
 												type="date" th:field="*{pedido.fechaEntrega}"
 												class="form-control" id="generalEntrega" required  min="2019-12-31" max="2025-12-31">
 										</div>
-										<div class="form-group col-sm-4">
+									 	<div class="form-group col-sm-4">
 											<label for="generalEstimados">Dias estimados de
 												entrega</label> <input type="number"
 												th:field="*{pedido.diaEstimados}" readonly
 												class="form-control" id="diaEstimados" required>
-										</div>
-										<div class="form-group col-md-4">
+										</div>-->
+										<div class="form-group col-md-3">
 											<label for="cargaEmpresa">Precio a usar</label> <select
 												th:field="*{pedido.precioUsar}"
 												class="form-control selectpicker" data-live-search="true" required>
@@ -120,6 +103,17 @@
 												<option value='2'>Precio local antiguo</option>
 												<option value='3'>Precio foraneo nuevo</option>
 												<option value='4'>Precio foraneo antiguo</option>
+												<option value='5'>Línea express local actual</option>
+												<option value='6'>Línea express local anterior</option>
+												<option value='7'>Línea express foráneo actual</option>
+												<option value='8'>Línea express foráneo anterior</option>
+												<option value='9'>Muestrario</option>
+												<option value='10'>Venta interna</option>
+												<option value='11'>Precio e-commerce</option>
+												<option value='12'>Precio extra 1</option>
+												<option value='13'>Precio extra 2</option>
+												<option value='14'>Precio extra 3</option>
+												
 											</select>
 										</div>
 										<div class="form-group col-sm-3">
@@ -143,6 +137,11 @@
 													class="form-check-label" for="generalIVACheck">
 													Adicionales con IVA </label>
 											</div>
+										</div>
+										<div th:if="${anticipo != null}" class="form-group col-sm-3">
+											<label for="generalAnticipo">Fecha anticipo</label> <input
+												type="date" th:field="*{pedido.fechaAnticipo}"
+												class="form-control" required  id="generalAnticipo"    min="2019-12-31" max="2025-12-31" >
 										</div>
 
 										<div class="form-group col-sm-12">

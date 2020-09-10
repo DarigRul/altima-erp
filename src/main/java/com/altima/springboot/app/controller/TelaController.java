@@ -31,6 +31,7 @@ import com.altima.springboot.app.models.entity.DisenioMaterialTela;
 import com.altima.springboot.app.models.entity.DisenioTela;
 import com.altima.springboot.app.models.entity.DisenioTelaForro;
 import com.altima.springboot.app.models.entity.DisenioTelaPrenda;
+import com.altima.springboot.app.models.service.IAmpInventarioProovedorService;
 import com.altima.springboot.app.models.service.IDisenioFamiliaComposicionTelaService;
 import com.altima.springboot.app.models.service.IDisenioForroService;
 import com.altima.springboot.app.models.service.IDisenioLookupService;
@@ -64,6 +65,8 @@ public class TelaController {
 	@Autowired
 	private IDisenioMaterialTelaService MaterialService;
 	
+	@Autowired
+	private IAmpInventarioProovedorService ProveedorSerivice;
 	
 	protected final Log logger = LogFactory.getLog(this.getClass());
 	
@@ -328,9 +331,14 @@ public class TelaController {
 		model.addAttribute("listVistaTelaPrenda", disenioTelaService.VistaTelaPrenda(id));// telas seleccionadas
 		model.addAttribute("EstatusCalidadTela", disenioTelaService.EstatusCalidadTela(id));
 		model.addAttribute("tela", tela);
-		
+		model.addAttribute("proveedor", ProveedorSerivice.Proveedores());
 		return"agregar-material";   
+		
+		
 	}
+	
+	
+	
 	
 	@GetMapping(value = "/uploads/telas/{filename:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String filename) {

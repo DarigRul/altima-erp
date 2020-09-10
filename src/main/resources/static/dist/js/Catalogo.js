@@ -118,15 +118,26 @@ function listarColores() {
             var idProveedor;
             var b = [];
             if (rolAdmin == 1) {
+            	var nombreProveedor='';
                 for (i in data) {
+                	nombreProveedor='';
                     var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
-                    idProveedor=parseInt(data[i].atributo2)-1;
+                    
+                    if(data[i].atributo2==null || data[i].atributo2=='' || data[i].atributo2==undefined){
+                    	idProveedor='';
+                    	nombreProveedor=='';
+                    }
+                    else{
+                    	idProveedor=parseInt(data[i].atributo2);
+                    	nombreProveedor=Proveedores[idProveedor-1].nombreProveedor;
+                    }
+                    
                     a = [
                         "<tr>" +
                         "<td>" + data[i].idText + "</td>",
                         "<td>" + data[i].nombreLookup + "</td>",
                         "<td> <input type='color' value=" + data[i].atributo1 + " disabled> </td>",
-                        "<td>" + Proveedores[idProveedor].nombreProveedor + "</td>",
+                        "<td>" + nombreProveedor + "</td>",
                         "<td style='text-align: center'>" +
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
                         " <button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' proveedorColor='" + data[i].atributo2 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
@@ -1862,7 +1873,7 @@ $(document).on('click', '.edit_data_color', function() {
                 '<label for="pedidonom">Codigo del color</label>' +
                 '<input type="color" class="form-control" id="color_repr" value="' + color_repr + '" placeholder="Rojo">' +
                 '<label for="proveedorColor">Proveedor</label>' +
-                '<select class="form-control" id="proveedorColor" value='+ provee +'><option value="error">Seleccione uno...</option>'+listarProveedores(provee)+'</select>' +
+                '<select class="form-control" id="proveedorColor" value='+ provee +'><option value="">Seleccione uno...</option>'+listarProveedores(provee)+'</select>' +
 
                 '</div>' +
                 '</div>',
@@ -1875,7 +1886,7 @@ $(document).on('click', '.edit_data_color', function() {
             confirmButtonText: 'Actualizar',
             confirmButtonColor: '#0288d1',
             preConfirm: (color) => {
-                if (document.getElementById("color").value.length < 1 || $('#proveedorColor').val()=="error") {
+                if (document.getElementById("color").value.length < 1) {
                     Swal.showValidationMessage(
                         `Complete todos los campos`
                     )

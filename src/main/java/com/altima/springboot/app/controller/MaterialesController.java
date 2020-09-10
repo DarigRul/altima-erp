@@ -35,7 +35,7 @@ import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.DisenioMaterial;
 //import com.altima.springboot.app.models.entity.DisenioProceso;
 import com.altima.springboot.app.models.entity.DisenioTela;
-
+import com.altima.springboot.app.models.service.IAmpInventarioProovedorService;
 import com.altima.springboot.app.models.service.IDisenioForroService;
 import com.altima.springboot.app.models.service.IDisenioMaterialService;
 //import com.altima.springboot.app.models.service.IDisenioProcesoService;
@@ -60,6 +60,9 @@ public class MaterialesController {
 
 	@Autowired
 	private IDisenioMaterialTelaService MaterialService;
+	
+	@Autowired
+	private IAmpInventarioProovedorService ProveedorSerivice;
 
 	@GetMapping("/materiales")
 	public String listMateriales(Model model) {
@@ -81,6 +84,8 @@ public class MaterialesController {
 			dm = disenioMaterialService.findOne(id);
 			model.addAttribute("h2", dm.getNombreMaterial());
 			model.addAttribute("material", disenioMaterialService.findByIdMaterial(id));
+			model.addAttribute("proveedor", ProveedorSerivice.Proveedores());
+			
 
 		} else if (tipo.equals("tela")) {
 			model.addAttribute("listVistaTelaPrenda", disenioTelaService.VistaTelaPrenda(id));
@@ -92,6 +97,7 @@ public class MaterialesController {
 			model.addAttribute("listForroSelec", disenioTelaService.ForrosSeleccionados(id));
 			model.addAttribute("EstatusCalidadTela", disenioTelaService.EstatusCalidadTela(id));
 			model.addAttribute("listPrendas", disenioTelaService.findAllPrenda());
+			model.addAttribute("proveedor", ProveedorSerivice.Proveedores());
 		} else if (tipo.equals("forro")) {
 			model.addAttribute("h3", "Consulta de Forro");
 			DisenioForro forro;
@@ -102,6 +108,7 @@ public class MaterialesController {
 			model.addAttribute("ForroUnidadMedida", forroService.ForroUnidadMedida(id));
 			model.addAttribute("EstatusCalidadForro", forroService.EstatusCalidadForro(id));
 			model.addAttribute("tipo", "forro");
+			model.addAttribute("proveedor", ProveedorSerivice.Proveedores());
 
 		} else {
 			return "redirect:/materiales";
@@ -173,6 +180,7 @@ public class MaterialesController {
 			model.addAttribute("listLookupsMat", listLookupsMat);
 			model.addAttribute("listLookupsCol", listLookupsCol);
 			model.addAttribute("form", "material");
+			model.addAttribute("proveedor", ProveedorSerivice.Proveedores());
 		} else if (tipo.equals("forro")) {
 
 			DisenioForro forro = new DisenioForro();
@@ -180,6 +188,7 @@ public class MaterialesController {
 			model.addAttribute("lisFam", disenioTelaService.findAllFamilaComposicion());
 			model.addAttribute("lisCom", disenioTelaService.findAllComposicion());
 			model.addAttribute("form", "forro");
+			model.addAttribute("proveedor", ProveedorSerivice.Proveedores());
 		} else if (tipo.equals("tela")) {
 
 			DisenioTela tela = new DisenioTela();
@@ -190,10 +199,14 @@ public class MaterialesController {
 			model.addAttribute("lisCom", disenioTelaService.findAllComposicion());
 			model.addAttribute("tela", tela);
 			model.addAttribute("form", "tela");
+			model.addAttribute("proveedor", ProveedorSerivice.Proveedores());
 		} else {
 			return ("redirect:materiales");
 		}
 
+		
+		
+		
 		return "agregar-material";
 
 	}
@@ -389,6 +402,7 @@ public class MaterialesController {
 		model.addAttribute("listClaveProceso", listClaveProceso);
 		model.addAttribute("listLookupsMat", listLookupsMat);
 		model.addAttribute("listLookupsCol", listLookupsCol);
+		model.addAttribute("proveedor", ProveedorSerivice.Proveedores());
 		return "agregar-material";
 
 	}

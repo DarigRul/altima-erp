@@ -74,8 +74,11 @@ public class DisenioForro implements Serializable{
 	@Column(name="estatus_forro")
 	private String estatusForro;
 	
+	@Column(name="id_proveedor")
+	private String idProveedor ;
 	
-
+	@Column(name="clave_proveedor")
+	private String claveProveedor ;
 	
 	
 	public String getColor() {
@@ -320,4 +323,24 @@ public class DisenioForro implements Serializable{
 			return false;
 		return true;
 	}
+
+	public String getIdProveedor() {
+		return idProveedor;
+	}
+
+	public void setIdProveedor(String idProveedor) {
+		this.idProveedor = idProveedor;
+	}
+
+	public String getClaveProveedor() {
+		return claveProveedor;
+	}
+
+	public void setClaveProveedor(String claveProveedor) {
+		this.claveProveedor = claveProveedor;
+	}
+	
+	
+	
+	
 }
