@@ -72,7 +72,7 @@
 		                                        <td th:if="${cotizacion[3]==3}">Desglosada</td>
 		                                        <td th:text="${cotizacion[4]}"></td><!-- cliente -->
 		                                        <td th:text="${cotizacion[5]==0.0}?'Aún sin cotizar':'$ '+${cotizacion[5]}"></td><!-- total -->
-		                                        <td th:text="${cotizacion[8]==0.0 and cotizacion[9]==0.0 and cotizacion[10]==0}?'No tiene variaci&oacute;n de precio':'Tiene variaci&oacute;n de precio'"></td>
+		                                        <td th:text="${cotizacion[8]==0.0 and cotizacion[9]==0.0 and cotizacion[10]==0}?'No':'Si'"></td>
 		                                        <td th:text="${cotizacion[6]}"></td><!-- agente de ventas -->
 		                                        <!-- estatus -->
 		                                        <td th:if="${cotizacion[7]==0}">Por Autorizar</td>

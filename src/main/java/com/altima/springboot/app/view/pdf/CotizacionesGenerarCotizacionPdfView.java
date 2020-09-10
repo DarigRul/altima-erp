@@ -291,7 +291,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celda.setBorder(Rectangle.BOTTOM);
-    	celda.setBorderColorBottom(borderTable);
+    	celda.setBorderColorBottom(borderTable); 
     	celda.setBorderWidthBottom(2);
     	tablaHeader2.addCell(celda);
     	celda = new PdfPCell(new Phrase("Correo: ", Helvetica));
@@ -361,7 +361,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 
 		PdfPTable tablaHeader3 = new PdfPTable(1);
     	tablaHeader3.setWidthPercentage(100);
-    	PdfPCell nombre = new PdfPCell(new Phrase("C. "+cliente.getNombreContacto(), HelveticaBold));
+    	PdfPCell nombre = new PdfPCell(new Phrase("At'n. "+cliente.getNombreContacto(), HelveticaBold));
     	PdfPCell leyenda = new PdfPCell(new Phrase("Por medio de la presente nos permitimos poner a su consideración la cotización de las siguientes prendas: ", Helvetica));
     	nombre.setBorder(0);
     	leyenda.setBorder(0);
@@ -849,6 +849,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tituloTablaFirmas.setHorizontalAlignment(Element.ALIGN_LEFT);
 				tituloTablaFirmas.setVerticalAlignment(Element.ALIGN_CENTER);
 				tituloTablaFirmas.setBorder(0);
+				tituloTablaFirmas.setPaddingTop(18f);
 		    	tablaFooter1.addCell(tituloTablaFirmas);
 		    	tablaFooter1.setWidthPercentage(100);
 		    	PdfPCell leyenda2 = new PdfPCell(new Phrase("* Estos precios son más I.V.A.", Helvetica));
