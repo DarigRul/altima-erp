@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
+import com.altima.springboot.app.models.entity.ComercialCotizacionTotal;
+import com.altima.springboot.app.models.service.IComercialCotizacionTotalService;
 import com.altima.springboot.app.models.service.IEnviarCorreoService;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -44,6 +46,8 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 
 	@Autowired
     private IEnviarCorreoService enviarCorreoService;
+	@Autowired
+	private IComercialCotizacionTotalService cotiTotalService;
 	
 	@SuppressWarnings("static-access")
 	@Override
@@ -56,12 +60,14 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		 */
 		@SuppressWarnings("unchecked")
 		List<Object[]> prendas = (List<Object[]>) model.get("ListaCotizacionPrendas");
+		ComercialCotizacionTotal cotitotal = (ComercialCotizacionTotal) model.get("cotizacionTotal");
 		DateTime jodaTime = new DateTime();
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH-mm-ss-SSS");
 		String nombrePDF = "Cotizacion_" + (String) model.get("id") + "_" + formatter.print(jodaTime) + ".pdf";
 		String archivo = "src/main/resources/static/dist/pdf/cotizaciones/" + nombrePDF;
 		String tipoCotizacion = (String) model.get("tipo");
 		String correo = (String) model.get("mail");
+		double iva = Double.parseDouble(cotitotal.getIva() );
 		boolean totales = (boolean) model.get("totales");
 		boolean cv = (boolean) model.get("cv");
 		SimpleDateFormat formato = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
@@ -441,8 +447,39 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				tablaPrendas.addCell(precioPrenda);
 			}
 			
-			//Si tiene lo de los totales, se le anexa
+			if(prendas.size()>=15) {
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
+				tablaPrendas.addCell(vacio);
+
+			}
+			//Si tiene los totales se le anexan
 			if(totales) {
+				
+				
+				if(prendas.size()>=12) {
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+				}
 				PdfPCell totalTitulo = new PdfPCell(new Phrase("Total", HelveticaBold));
 				PdfPCell totalNumero = new PdfPCell(new Phrase("" + Total, HelveticaBold));
 //				totalTitulo.setPadding(3f);
@@ -464,12 +501,16 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				tablaPrendas.addCell(totalNumero);
 			}
 		}
-		//Si pasa aqui es porque es una desglosada xd
+		//Si pasa aqui es porque es una desglosada por tipo de prenda xd
 		else if(tipoCotizacion.equalsIgnoreCase("2")) {
 			//Se declara la tabla
 			tablaPrendas = new PdfPTable(5);
 			tablaPrendas.setWidthPercentage(100);
 			tablaPrendas.setWidths(new float[] { 2.8f, 6f, 1.5f, 2.2f, 1.5f });
+			PdfPCell vacia = new PdfPCell(new Phrase(" "));
+			vacia.setBorder(0);
+			vacia.setPadding(3f);
+			
 			PdfPCell Cabezero1 = new PdfPCell(new Phrase("No. Coordinado", subtitulos));
 			PdfPCell Cabezero2 = new PdfPCell(new Phrase("Descripción", subtitulos));
 			PdfPCell Cabezero3 = new PdfPCell(new Phrase("Cantidad", subtitulos));
@@ -552,21 +593,57 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				tablaPrendas.addCell(cuerpo3);
 				tablaPrendas.addCell(cuerpo4);
 				tablaPrendas.addCell(cuerpo5);
+				
 			}
-			IVA = (int)( Subtotal * ( 16.0f/100.0f ));
+			IVA = (int)( Subtotal * ( iva/100.0f ));
 			Total = (IVA + Subtotal);
-					
+			
+			if(prendas.size()>=15) {
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+			}
 			//Si tiene los totales se le anexan
 			if(totales) {
-				PdfPCell vacia = new PdfPCell(new Phrase(" "));
+				
+				
+				if(prendas.size()>=12) {
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+				}
+				
 				PdfPCell subTotalLetra = new PdfPCell(new Phrase("Subtotal:", subtitulos));
 				PdfPCell subTotalNumero = new PdfPCell(new Phrase("$" + Subtotal, HelveticaBold));
-				PdfPCell ivaLetra = new PdfPCell(new Phrase("I.V.A: 16%", subtitulos));
+				PdfPCell ivaLetra = new PdfPCell(new Phrase("I.V.A: ", subtitulos));
 				PdfPCell ivaNumero = new PdfPCell(new Phrase("$" + IVA, HelveticaBold));
 				PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
 				PdfPCell TotalNumero = new PdfPCell(new Phrase("$" + Total, HelveticaBold));
-				vacia.setBorder(0);
-				vacia.setPadding(3f);
+				
 				subTotalLetra.setPaddingBottom(10f);
 				subTotalLetra.setPaddingTop(8f);
 				subTotalLetra.setBorder(0);
@@ -621,6 +698,10 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			tablaPrendas = new PdfPTable(5);
 			tablaPrendas.setWidthPercentage(100);
 			tablaPrendas.setWidths(new float[] { 2.8f, 6f, 6f, 2.2f, 1.5f });
+			PdfPCell vacia = new PdfPCell(new Phrase(" "));
+			vacia.setBorder(0);
+			vacia.setPadding(3f);
+			
 			PdfPCell Cabezero1 = new PdfPCell(new Phrase("No. Coordinado", subtitulos));
 			PdfPCell Cabezero2 = new PdfPCell(new Phrase("Prenda", subtitulos));
 			PdfPCell Cabezero3 = new PdfPCell(new Phrase("Familia de Composición", subtitulos));
@@ -704,20 +785,55 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				tablaPrendas.addCell(cuerpo4);
 				tablaPrendas.addCell(cuerpo5);
 			}
-			IVA = (int)( Subtotal * ( 16.0f/100.0f ));
+			IVA = (int)( Subtotal * ( iva/100.0f ));
 			Total = (IVA + Subtotal);
 					
+			if(prendas.size()>=15) {
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+			}
 			//Si tiene los totales se le anexan
 			if(totales) {
-				PdfPCell vacia = new PdfPCell(new Phrase(" "));
+				
+				
+				if(prendas.size()>=12) {
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+					tablaPrendas.addCell(vacia);
+				}
+				
 				PdfPCell subTotalLetra = new PdfPCell(new Phrase("Subtotal:", subtitulos));
 				PdfPCell subTotalNumero = new PdfPCell(new Phrase("$" + Subtotal, HelveticaBold));
-				PdfPCell ivaLetra = new PdfPCell(new Phrase("I.V.A: 16%", subtitulos));
+				PdfPCell ivaLetra = new PdfPCell(new Phrase("I.V.A: ", subtitulos));
 				PdfPCell ivaNumero = new PdfPCell(new Phrase("$" + IVA, HelveticaBold));
 				PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
 				PdfPCell TotalNumero = new PdfPCell(new Phrase("$" + Total, HelveticaBold));
-				vacia.setBorder(0);
-				vacia.setPadding(3f);
+				
 				subTotalLetra.setPaddingBottom(10f);
 				subTotalLetra.setPaddingTop(8f);
 				subTotalLetra.setBorder(0);
@@ -772,6 +888,10 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		
 		
 		    	//Primera tabla de numero, nombre y fecha
+		if(prendas.size()>=2) {
+			
+			document.newPage();
+		}
 		    	PdfPTable tablaFooter1 = new PdfPTable(1);
 		    	tablaFooter1.setWidthPercentage(100);
 		    	PdfPCell tituloTablaFirmas = new PdfPCell(new Phrase("CONDICIONES", TitulosOscuros));

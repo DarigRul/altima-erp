@@ -270,6 +270,7 @@ public class CotizacionesController {
 		
 		model.addAttribute("tipo", cotizacionService.findOne(id).getTipoCotizacion());
 		model.addAttribute("id", cotizacionService.findOne(id).getIdText());
+		model.addAttribute("cotizacionTotal", cotizacionTotalService.findByCotizacion(id));
 		model.addAttribute("totales", totales);
 		model.addAttribute("cv", cv);
 		model.addAttribute("mail", mail);

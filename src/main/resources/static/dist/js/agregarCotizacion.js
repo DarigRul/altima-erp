@@ -338,7 +338,7 @@ function mapearTablita(){
 			 ]).node().id ="row"+contadorGeneral;
 		table.draw( false );
 		$('#bordadoPrecioCotizacion'+contadorGeneral+' option[value="'+tablaPrendasCotizar[i][23]+'"]').attr("selected", true);
-		$('#bordadoPrecioCotizacion'+contadorGeneral).selectpicker("refresh");
+		$('.selectpicker').selectpicker("refresh");
 		contadorGeneral++;
 	}
 }
@@ -414,7 +414,7 @@ function AgregarRegistroTablita (){
 					 "<a class='btn btn-danger btn-circle btn-sm text-white popoverxd' id='borrar' data-container='body' data-placement='top'><i class='fas fa-minus'></i></a>"    
 					 ]).node().id ="row"+contadorGeneral;
 					table.draw( false );
-					$('#bordadoPrecioCotizacion'+contadorGeneral).selectpicker("refresh");
+					$('.selectpicker').selectpicker("refresh");
 					contadorGeneral++;
 				}
 				else{
