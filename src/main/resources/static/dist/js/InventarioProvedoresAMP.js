@@ -1,8 +1,14 @@
 function agregarProveedor(){
+	var id_proovedor_pricipa = $("#id_proovedor_pricipa").val();
+	var id_proovedor_pricipa_clave= $("#id_proovedor_pricipa_clave").val();
+	console.log(id_proovedor_pricipa);
 	var select = $("#proveedorModal");
 	$("#id").val(null);
 	 $.ajax({
-         data: {},
+         data: {
+        	 Inventario:$("#idInventario").val(),
+        	 tipo:$("#tipo").val()
+         },
          url:   '/proveedores-activos',
          type:  'GET',
          beforeSend: function () 
@@ -15,7 +21,17 @@ function agregarProveedor(){
              select.find('option').remove();
              $('.proveedorModal').selectpicker('refresh');
              $(r).each(function(i, v){ // indice, valor
-                 select.append('<option value="'+v[0]+'">' + v[1] + '</option>');
+            	 
+            	 if ( id_proovedor_pricipa != "" ){
+            		 if (id_proovedor_pricipa == v[0]){
+            			 select.append('<option selected value="'+v[0]+'">' + v[1] + '</option>');
+            		 }else{
+            			 select.append('<option disabled value="'+v[0]+'">' + v[1] + '</option>');
+            		 }
+            		 
+            	 }else{
+                 select.append('<option  value="'+v[0]+'">' + v[1] + '</option>');
+            	 }
              })
              $('.proveedorModal').prop('disabled', false);
              $('.proveedorModal').selectpicker('refresh');
@@ -27,7 +43,16 @@ function agregarProveedor(){
      });
 	 
 	 $("#proveedorModal").val(null);
-	 $("#proveedorClave").val(null);
+	 if ( id_proovedor_pricipa_clave != ""){
+		 $("#proveedorClave").val(id_proovedor_pricipa_clave);
+		 $("#proveedorClave").attr("readonly","readonly");
+	 }
+	 else{
+		 $("#proveedorClave").val(null);
+		 $("#proveedorClave").removeAttr("readonly");
+	 }
+	 
+	 
 	 $("#proveedorCosto").val(null);
 	 
 	 $("#proveedorSurtido").val(null);
