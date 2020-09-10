@@ -801,7 +801,11 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		}
 		
 		
-		    	//Primera tabla de numero, nombre y fecha
+				//Primera tabla de numero, nombre y fecha
+
+				// esta es la grande
+				PdfPTable tablesplit = new PdfPTable(1);
+
 		    	PdfPTable tablaFooter1 = new PdfPTable(1);
 		    	tablaFooter1.setWidthPercentage(100);
 		    	PdfPCell tituloTablaFirmas = new PdfPCell(new Phrase("CONDICIONES", TitulosOscuros));
@@ -838,7 +842,11 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tablaFooter1.addCell(leyenda4);
 		    	tablaFooter1.addCell(leyenda5);
 		    	tablaFooter1.addCell(leyenda6);
-		    	tablaFooter1.addCell(leyenda7);
+				tablaFooter1.addCell(leyenda7);
+
+				PdfPCell cellsplit = new PdfPCell(tablaFooter1);
+				cellsplit.setBorder(PdfPCell.NO_BORDER);
+				tablesplit.addCell(cellsplit);
 		    	//Segunda tabla de las firmas
 		    	PdfPTable tablaFooter2 = new PdfPTable(3);
 		    	tablaFooter2.setWidthPercentage(90);
@@ -922,8 +930,11 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tablaFooter2.addCell(puestosFirma1);
 		    	tablaFooter2.addCell(espacioBlanco3);
 		    	tablaFooter2.addCell(puestosFirma2);
-		    	tablaFooter2.setWidths(new float[] { 6f, 3f, 6f });
-		    	
+				tablaFooter2.setWidths(new float[] { 6f, 3f, 6f });
+				
+				cellsplit = new PdfPCell(tablaFooter2);
+				cellsplit.setBorder(PdfPCell.NO_BORDER);
+				tablesplit.addCell(cellsplit);
 		    	
 		//Aqui se hace el merge del CV si es que existe
 		if(cv) {
