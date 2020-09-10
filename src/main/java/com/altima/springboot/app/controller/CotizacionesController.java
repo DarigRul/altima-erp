@@ -22,6 +22,7 @@ import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialCotizacionPrendaService;
 import com.altima.springboot.app.models.service.IComercialCotizacionService;
 import com.altima.springboot.app.models.service.IComercialCotizacionTotalService;
+import com.altima.springboot.app.models.service.IHrDireccionService;
 import com.altima.springboot.app.models.service.IHrEmpleadoService;
 import com.altima.springboot.app.models.service.IUsuarioService;
 
@@ -40,6 +41,8 @@ public class CotizacionesController {
 	private  IComercialCoordinadoService CoordinadoService;
 	@Autowired
 	private IComercialCotizacionPrendaService cotizacionPrendaService;
+	@Autowired
+	private IHrDireccionService direccionService;
 	@Autowired
 	private IUsuarioService usuarioService;
 	@Autowired
@@ -271,6 +274,8 @@ public class CotizacionesController {
 		model.addAttribute("tipo", cotizacionService.findOne(id).getTipoCotizacion());
 		model.addAttribute("id", cotizacionService.findOne(id).getIdText());
 		model.addAttribute("cotizacionTotal", cotizacionTotalService.findByCotizacion(id));
+		model.addAttribute("cliente", clienteService.findOne(cotizacionService.findOne(id).getIdCliente()));
+		model.addAttribute("direccion", direccionService.findOne(clienteService.findOne(cotizacionService.findOne(id).getIdCliente()).getIdDireccion()));
 		model.addAttribute("totales", totales);
 		model.addAttribute("cv", cv);
 		model.addAttribute("mail", mail);

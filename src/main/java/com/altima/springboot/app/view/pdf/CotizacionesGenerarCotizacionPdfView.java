@@ -18,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
+import com.altima.springboot.app.models.entity.ComercialCliente;
 import com.altima.springboot.app.models.entity.ComercialCotizacionTotal;
+import com.altima.springboot.app.models.entity.HrDireccion;
 import com.altima.springboot.app.models.service.IComercialCotizacionTotalService;
 import com.altima.springboot.app.models.service.IEnviarCorreoService;
 import com.lowagie.text.Chunk;
@@ -58,9 +60,13 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		 * Variables del controller y de tiempo
 		 * 
 		 */
+		document.setMargins(40f, 40f, 40f, 100f);
+		
 		@SuppressWarnings("unchecked")
 		List<Object[]> prendas = (List<Object[]>) model.get("ListaCotizacionPrendas");
 		ComercialCotizacionTotal cotitotal = (ComercialCotizacionTotal) model.get("cotizacionTotal");
+		ComercialCliente cliente = (ComercialCliente) model.get("cliente");
+		HrDireccion direccion = (HrDireccion) model.get("direccion");
 		DateTime jodaTime = new DateTime();
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH-mm-ss-SSS");
 		String nombrePDF = "Cotizacion_" + (String) model.get("id") + "_" + formatter.print(jodaTime) + ".pdf";
@@ -73,6 +79,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		SimpleDateFormat formato = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
 		String fecha = formato.format(new Date());
 
+		
 		/*
 		 * 
 		 * Colores y Fuente
@@ -174,7 +181,13 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		celd.setBorder(0);
 		tablaHeader1.addCell(celd);
 		
-		celd = new PdfPCell(new Phrase("Cliente:           Bimbo", HelveticaBold));
+		if(cliente.getApellidoPaterno()==null || cliente.getApellidoMaterno()==null) {
+			celd = new PdfPCell(new Phrase("Cliente:         "+cliente.getNombre(), HelveticaBold));
+		}
+		else {
+			celd = new PdfPCell(new Phrase("Cliente:         "+cliente.getNombre()+" " +cliente.getApellidoPaterno()+" " +cliente.getApellidoMaterno(), HelveticaBold));
+		}
+		
 		celd.setHorizontalAlignment(Element.ALIGN_CENTER);
     	celd.setVerticalAlignment(Element.ALIGN_CENTER);
     	celd.setBackgroundColor(backgroundWhite);
@@ -198,7 +211,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorderColorBottom(borderTable);
     	celda.setBorderWidthBottom(2);
     	tablaHeader2.addCell(celda);
-    	celda = new PdfPCell(new Phrase("Cantarranas No. 33", datosGris));
+    	celda = new PdfPCell(new Phrase(direccion.getCalle(), datosGris));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celda.setBorder(Rectangle.BOTTOM);
@@ -208,14 +221,14 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda = new PdfPCell(new Phrase(" "));
     	celda.setBorder(0);
     	tablaHeader2.addCell(celda);
-    	celda = new PdfPCell(new Phrase("Interior:", Helvetica));
+    	celda = new PdfPCell(new Phrase("Número interior", Helvetica));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celda.setBorder(Rectangle.BOTTOM);
     	celda.setBorderColorBottom(borderTable);
     	celda.setBorderWidthBottom(2);
     	tablaHeader2.addCell(celda);
-    	celda = new PdfPCell(new Phrase(" "));
+    	celda = new PdfPCell(new Phrase(direccion.getNumeroInt(), datosGris));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celda.setBorder(Rectangle.BOTTOM);
@@ -229,7 +242,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorderColorBottom(borderTable);
     	celda.setBorderWidthBottom(2);
     	tablaHeader2.addCell(celda);
-    	celda = new PdfPCell(new Phrase("Zona Centro", datosGris));
+    	celda = new PdfPCell(new Phrase(direccion.getColonia(), datosGris));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celda.setBorder(Rectangle.BOTTOM);
@@ -246,7 +259,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorderColorBottom(borderTable);
     	celda.setBorderWidthBottom(2);
     	tablaHeader2.addCell(celda);
-    	celda = new PdfPCell(new Phrase("36000", datosGris));
+    	celda = new PdfPCell(new Phrase(direccion.getCodigoPostal(), datosGris));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celda.setBorder(Rectangle.BOTTOM);
@@ -260,7 +273,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorderColorBottom(borderTable);
     	celda.setBorderWidthBottom(2);
     	tablaHeader2.addCell(celda);
-    	celda = new PdfPCell(new Phrase("Guanajuato", datosGris));
+    	celda = new PdfPCell(new Phrase(direccion.getMunicipio(), datosGris));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celda.setBorder(Rectangle.BOTTOM);
@@ -277,7 +290,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorderColorBottom(borderTable);
     	celda.setBorderWidthBottom(2);
     	tablaHeader2.addCell(celda);
-    	celda = new PdfPCell(new Phrase("Gto.", datosGris));
+    	celda = new PdfPCell(new Phrase(direccion.getEstado(), datosGris));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celda.setBorder(Rectangle.BOTTOM);
@@ -291,7 +304,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorderColorBottom(borderTable);
     	celda.setBorderWidthBottom(2);
     	tablaHeader2.addCell(celda);
-    	celda = new PdfPCell(new Phrase("patty_jama@hotmail.com", datosGris));
+    	celda = new PdfPCell(new Phrase(cliente.getCorreo(), datosGris));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celda.setBorder(Rectangle.BOTTOM);
@@ -308,7 +321,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorderColorBottom(borderTable);
     	celda.setBorderWidthBottom(2);
     	tablaHeader2.addCell(celda);
-    	celda = new PdfPCell(new Phrase("461 227 7646", datosGris));
+    	celda = new PdfPCell(new Phrase(cliente.getTelefono(), datosGris));
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celda.setBorder(Rectangle.BOTTOM);
@@ -351,7 +364,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 
 		PdfPTable tablaHeader3 = new PdfPTable(1);
     	tablaHeader3.setWidthPercentage(100);
-    	PdfPCell nombre = new PdfPCell(new Phrase("Atte. Patricia Jaime", HelveticaBold));
+    	PdfPCell nombre = new PdfPCell(new Phrase("C. "+cliente.getNombreContacto(), HelveticaBold));
     	PdfPCell leyenda = new PdfPCell(new Phrase("Por medio de la presente nos permitimos poner a su consideración la cotización de las siguientes prendas: ", Helvetica));
     	nombre.setBorder(0);
     	leyenda.setBorder(0);
@@ -447,39 +460,9 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				tablaPrendas.addCell(precioPrenda);
 			}
 			
-			if(prendas.size()>=15) {
-				tablaPrendas.addCell(vacio);
-				tablaPrendas.addCell(vacio);
-				tablaPrendas.addCell(vacio);
-				tablaPrendas.addCell(vacio);
-				tablaPrendas.addCell(vacio);
-				tablaPrendas.addCell(vacio);
-				tablaPrendas.addCell(vacio);
-				tablaPrendas.addCell(vacio);
-				tablaPrendas.addCell(vacio);
-				tablaPrendas.addCell(vacio);
-				tablaPrendas.addCell(vacio);
-				tablaPrendas.addCell(vacio);
-
-			}
 			//Si tiene los totales se le anexan
 			if(totales) {
 				
-				
-				if(prendas.size()>=12) {
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-				}
 				PdfPCell totalTitulo = new PdfPCell(new Phrase("Total", HelveticaBold));
 				PdfPCell totalNumero = new PdfPCell(new Phrase("" + Total, HelveticaBold));
 //				totalTitulo.setPadding(3f);
@@ -598,45 +581,10 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			IVA = (int)( Subtotal * ( iva/100.0f ));
 			Total = (IVA + Subtotal);
 			
-			if(prendas.size()>=15) {
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-			}
 			//Si tiene los totales se le anexan
 			if(totales) {
 				
-				
-				if(prendas.size()>=12) {
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-				}
-				
+			
 				PdfPCell subTotalLetra = new PdfPCell(new Phrase("Subtotal:", subtitulos));
 				PdfPCell subTotalNumero = new PdfPCell(new Phrase("$" + Subtotal, HelveticaBold));
 				PdfPCell ivaLetra = new PdfPCell(new Phrase("I.V.A: ", subtitulos));
@@ -757,6 +705,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				cuerpo1.setBorderColorBottom(borderTable);
 				cuerpo1.setBorderWidthBottom(2);
 				cuerpo1.setBorder(Rectangle.BOTTOM);
+				cuerpo1.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cuerpo1.setPaddingBottom(10f);
 				cuerpo1.setPaddingTop(8f);
 				cuerpo2.setBorderColorBottom(borderTable);
@@ -788,44 +737,9 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			IVA = (int)( Subtotal * ( iva/100.0f ));
 			Total = (IVA + Subtotal);
 					
-			if(prendas.size()>=15) {
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-			}
 			//Si tiene los totales se le anexan
 			if(totales) {
 				
-				
-				if(prendas.size()>=12) {
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-					tablaPrendas.addCell(vacia);
-				}
 				
 				PdfPCell subTotalLetra = new PdfPCell(new Phrase("Subtotal:", subtitulos));
 				PdfPCell subTotalNumero = new PdfPCell(new Phrase("$" + Subtotal, HelveticaBold));
@@ -888,10 +802,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		
 		
 		    	//Primera tabla de numero, nombre y fecha
-		if(prendas.size()>=2) {
-			
-			document.newPage();
-		}
 		    	PdfPTable tablaFooter1 = new PdfPTable(1);
 		    	tablaFooter1.setWidthPercentage(100);
 		    	PdfPCell tituloTablaFirmas = new PdfPCell(new Phrase("CONDICIONES", TitulosOscuros));
