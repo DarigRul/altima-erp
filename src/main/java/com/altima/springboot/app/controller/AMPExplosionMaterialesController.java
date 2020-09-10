@@ -17,6 +17,10 @@ public class AMPExplosionMaterialesController {
     	model.addAttribute("explosionmaterial", AmpExplosionMaterialesService.findAll());
         return"explosion-de-materiales";
     }
+    @GetMapping("/explosion-de-material")
+    public String MateriaPrimaList1(){
+        return"explosion-de-material";
+    }
 
     @GetMapping("/materia-prima")
     public String MateriaPrimaList(){
