@@ -386,7 +386,7 @@
                 	if (data != "Error , no es posible calcular el monto"){
                 		Swal.fire({
           				  title: '&iquest;Est&aacute; seguro que desea cerrar este pedido?',
-          				  text: data,
+          				  html: '<i class="fas fa-exclamation-triangle text-danger">&nbsp;</i><a class="text-danger">'+data+'</a>',
           				  icon: 'warning',
           				  showCancelButton: true,
           				  confirmButtonColor: '#3085d6',
