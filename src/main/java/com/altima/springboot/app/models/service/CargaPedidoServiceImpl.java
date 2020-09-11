@@ -233,18 +233,14 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 	@Transactional
 	public String validarMonto(Long id){
 	
-		
-
-		
-
 		try {
 			String re = em.createNativeQuery("SELECT\n" + 
 					"CASE\n" + 
 					"		\n" + 
 					"	WHEN\n" + 
 					"		cliente.foraneo = 0 THEN\n" + 
-					"		IF\n" + 
-					"			( SUM( concen.cantidad * coor_pre.precio_final ) >= c.locales, 'Todo bien', 'No cumple el monto total' ) \n" + 
+						"		IF\n" + 
+						"			( SUM( concen.cantidad * coor_pre.precio_final ) >= c.locales, 'Todo bien', 'No cumple el monto total' ) \n" + 
 					"			WHEN cliente.foraneo = 1 THEN\n" + 
 					"		IF\n" + 
 					"			( SUM( concen.cantidad * coor_pre.precio_final ) >= c.foraneo, 'Todo bien', 'No cumple el monto total' ) ELSE 'Error'\n" + 
@@ -322,6 +318,49 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 
 			
 		return re;
+	}
+	
+	
+	@Override
+	@Transactional
+	public String validarStock(Long id){
+	
+		try {
+			String re = em.createNativeQuery(""
+					+ "SELECT\n" + 
+					"	IF ( SUM( concen.cantidad )  >= c.minimo_personas, 'Correcto', 'No cumple con el stock' ) \n" + 
+					"FROM\n" + 
+					"	alt_comercial_pedido_informacion AS pedido,\n" + 
+					"	alt_comercial_coordinado AS coor,\n" + 
+					"	alt_comercial_coordinado_prenda AS coor_pre,\n" + 
+					"	alt_comercial_concetrado_prenda AS concen,\n" + 
+					"	alt_disenio_prenda AS prenda,\n" + 
+					"	alt_admin_configuracion_pedido AS c,\n" + 
+					"	alt_comercial_cliente_empleado AS empleado \n" + 
+					"WHERE\n" + 
+					"	1 = 1 \n" + 
+					"	AND pedido.id_pedido_informacion = coor.id_pedido \n" + 
+					"	AND coor.id_coordinado = coor_pre.id_coordinado \n" + 
+					"	AND coor_pre.id_coordinado_prenda = concen.id_coordinado_prenda \n" + 
+					"	AND concen.estatus = 1 \n" + 
+					"	AND prenda.id_prenda = coor_pre.id_prenda \n" + 
+					"	AND c.id_configuracion_pedido = pedido.tipo_pedido \n" + 
+					"	AND empleado.id_empleado = concen.id_empleado \n" + 
+					"	AND empleado.nombre_empleado LIKE \"SPF%\" \n" + 
+					"	AND pedido.id_pedido_informacion = "+id+" \n" + 
+					"GROUP BY\n" + 
+					"	pedido.id_pedido_informacion")
+					.getSingleResult().toString();
+			return  re;
+			}
+			catch(Exception e) {
+				
+				return "Error , no es posible calcular el stock";
+			}
+		
+
+		
+		
 	}
 	
 }

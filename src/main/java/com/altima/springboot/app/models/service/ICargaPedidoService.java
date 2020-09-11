@@ -36,4 +36,6 @@ public interface ICargaPedidoService {
 
 	
 	List<Object []> listPedidos();
+	
+	String validarStock(Long id);
 }

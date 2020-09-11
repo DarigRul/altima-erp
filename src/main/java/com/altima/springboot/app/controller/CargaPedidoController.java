@@ -304,8 +304,19 @@ public class CargaPedidoController {
 			public String  validarMontoPedio(Long id) {
 				String CantidadMonto =cargaPedidoService.validarMonto(id);
 				
+				String Stock = cargaPedidoService.validarStock(id);
+				
+				
+				System.out.println(Stock);
 				if (CantidadMonto.equals("No cumple el monto total") || CantidadMonto.equals("Error , no es posible calcular el monto") ) {
+					if (Stock.equals("No cumple con el stock") || Stock.equals("Error , no es posible calcular el stock")  ) {
+						return  CantidadMonto +"\n"+Stock;
+					}
 					return  CantidadMonto;
+				}
+				
+				else if (Stock.equals("No cumple con el stock") || Stock.equals("Error , no es posible calcular el stock")  ) {
+					return Stock;
 				}
 				else {
 					return null;

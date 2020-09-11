@@ -180,6 +180,8 @@ public class InventarioAMPController {
 				model.addAttribute("title", "Por favor, ingrese el proveedor principal");
 				model.addAttribute("icon", "warning");
 				model.addAttribute("id_proovedor_pricipal",Long.toString(tela.getIdProveedor()));
+				
+				model.addAttribute("id_proovedor_pricipal_clave",tela.getClaveProveedor());
 			}
 		}else if(tipo.equals("f")) {
 			DisenioForro forro =  forroService.findOne(id);
@@ -187,6 +189,7 @@ public class InventarioAMPController {
 				model.addAttribute("title", "Por favor, ingrese el proveedor principal");
 				model.addAttribute("icon", "warning");
 				model.addAttribute("id_proovedor_pricipal",forro.getIdProveedor());
+				model.addAttribute("id_proovedor_pricipal_clave",forro.getClaveProveedor());
 			}
 		}
 		model.addAttribute("idInventario", id);
