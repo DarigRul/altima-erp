@@ -22,7 +22,6 @@ function addUnity() {
             },
           }).done(function (data) {
             if (data == true) {
-              
           $.ajax({
             type: "POST",
             url: "/unidad-nueva",
