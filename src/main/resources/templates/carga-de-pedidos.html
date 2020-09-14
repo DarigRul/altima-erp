@@ -63,6 +63,32 @@
                                     </tr>
                                  </thead>
                                  <tbody>
+                                    <tr>
+                                       <td>PEDG10059</td>
+                                       <td>Schneider electric</td>
+                                       <td>Por definir</td>
+                                       <td>Sin monto</td>
+                                       <td class="text-center">
+                                          <div class="btn-group" role="group" aria-label="Basic example">
+                                             <a data-toggle="modal"
+                                             class="btn btn-danger popoverxd text-white"
+                                             data-container="body" data-placement="top"
+                                             data-content="Ver observaciones"><i class="fas fa-eye fa-sm"></i></a>
+                                                <a th:href="@{/empleados-spf}"
+                                                class="btn btn-altima popoverxd" data-container="body"
+                                                data-placement="top"
+                                                data-content="Empleados SPF"><i
+                                                class="fas fa-user"></i></a>
+                                                <a class="btn btn-secondary popoverxd" data-container="body"
+                                                data-placement="top" data-content="Toma de tallas"><i
+                                                class="fas fa-ruler-combined"></i></a>
+                                                <a class="btn btn-danger text-white popoverxd"
+                                                data-container="body" data-placement="top"
+                                                data-content="Cerrar expediente"><i
+                                                class="fas fa-file-download"></i></a>
+                                          </div>
+                                       </td>
+                                    </tr>
                                     <tr th:each="pedidos: ${pedidos}">
                                        <td th:text="${pedidos[1]}"></td>
                                        <td th:text="${pedidos[2]}"></td>
@@ -140,11 +166,6 @@
                                                 data-placement="top"
                                                 data-content="Concentrado de prendas"><i
                                                 class="fas fa-tshirt fa-sm" style="margin-left: -2px"></i></a>
-                                                <a th:href="@{/empleados-spf}"
-                                                class="btn btn-altima popoverxd" data-container="body"
-                                                data-placement="top"
-                                                data-content="Empleados SPF"><i
-                                                class="fas fa-user"></i></a>
                                              <a th:href="@{/concentrado-de-tallas/}+${pedidos[0]}"
                                                 class="btn btn-warning popoverxd" data-container="body"
                                                 data-placement="top"
@@ -239,11 +260,6 @@
                                                 data-placement="top"
                                                 data-content="Concentrado de prendas"><i
                                                 class="fas fa-tshirt fa-sm" style="margin-left: -2px"></i></a>
-                                                <a th:href="@{/empleados-spf}"
-                                                class="btn btn-altima popoverxd" data-container="body"
-                                                data-placement="top"
-                                                data-content="Empleados SPF"><i
-                                                class="fas fa-user"></i></a>
                                              <a href="#" class="btn btn-warning popoverxd"
                                                 data-container="body" data-placement="top"
                                                 data-content="Concentrado por tallas"><i
