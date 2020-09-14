@@ -1,5 +1,5 @@
  $(document).ready(function() {
-	 if ($('#proveedorNumExt').val()==0) {								//
+	 if ($('#proveedorNumExt').val()==0 || $('#proveedorNumExt').val()=='' ||  $('#proveedorNumExt').val()==null ||  $('#proveedorNumExt').val()==undefined) {								//
 	        $('.check').hide();						//
 	        $('#proveedorNumExt').val("0")			//
 	        $('#proveedorNumInt').val("")			//

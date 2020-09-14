@@ -40,7 +40,7 @@ public class ComprasProveedoresController {
 	public String addProveedores(Model model, Map<String, Object> m ) {
 		ComprasProveedores proveedor = new ComprasProveedores();
 		m.put("proveedor", proveedor);
-		
+		model.addAttribute("check", true);
 		return"compras-agregar-proveedores";
 	}
 		
