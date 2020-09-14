@@ -116,6 +116,7 @@ public class ComprasProveedoresRestController {
 			proveedor.setActualizadoPor(auth.getName());
 			proveedor.setUltimaFechaModificacion(dtf.format(now));
 			proveedor.setEstatus("1");
+			proveedor.setNomenclatura(datos.getString("nomenclatura"));
 			proveedorService.save(proveedor);
 			
 			return 1;
@@ -369,5 +370,14 @@ public class ComprasProveedoresRestController {
 		finally {
 			System.out.println("fin de proceso EditarContactosProveedor");
 		}
+		}
+	
+	@RequestMapping(value="/validar-nomen-proveedor", method=RequestMethod.GET)
+	private boolean validarnomen(@RequestParam(name="nomen")String nomen){
+		
+		System.out.println(nomen );
+		
+		return proveedorService.ValidarNomenclatura(nomen);
+	
 		}
 }

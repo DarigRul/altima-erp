@@ -94,6 +94,9 @@ public class ComprasProveedores implements Serializable {
 	
 	
 	
+	@Column(name="nomenclatura")
+	private String nomenclatura;
+	
 	
 	public String getZona() {
 		return zona;
@@ -290,4 +293,13 @@ public class ComprasProveedores implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getNomenclatura() {
+		return nomenclatura;
+	}
+
+	public void setNomenclatura(String nomenclatura) {
+		this.nomenclatura = nomenclatura;
+	}
+	
 }

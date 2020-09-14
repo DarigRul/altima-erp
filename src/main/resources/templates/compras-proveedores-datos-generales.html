@@ -1,10 +1,15 @@
 <form th:object="${proveedor}" method="post" action="javascript:validarDatos()">
 <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
     <div class="row">
-     	<div class="form-group col-md-8">
+     	<div class="form-group col-md-6">
             <label for="proveedorNombre">Nombre <strong style="color:red">*</strong></label>
             <input type="text" class="form-control" id="proveedorNombre" th:field="*{nombreProveedor}" placeholder="Juan Casas Luna"
-            pattern="[a-zA-ZÃ Ã¡Ã¢Ã¤Ã£Ã¥Ä…Ä�Ä‡Ä™Ã¨Ã©ÃªÃ«Ä—Ä¯Ã¬Ã­Ã®Ã¯Å‚Å„Ã²Ã³Ã´Ã¶ÃµÃ¸Ã¹ÃºÃ»Ã¼Å³Å«Ã¿Ã½Å¼ÅºÃ±Ã§Ä�Å¡Å¾Ã€Ã�Ã‚Ã„ÃƒÃ…Ä„Ä†ÄŒÄ–Ä˜ÃˆÃ‰ÃŠÃ‹ÃŒÃ�ÃŽÃ�Ä®Å�ÅƒÃ’Ã“Ã”Ã–Ã•Ã˜Ã™ÃšÃ›ÃœÅ²ÅªÅ¸Ã�Å»Å¹Ã‘ÃŸÃ‡Å’Ã†ÄŒÅ Å½âˆ‚Ã° ,.'-]{2,48}" required>
+            pattern="[a-zA-ZÃƒÂ ÃƒÂ¡ÃƒÂ¢ÃƒÂ¤ÃƒÂ£ÃƒÂ¥Ã„â€¦Ã„ï¿½Ã„â€¡Ã„â„¢ÃƒÂ¨ÃƒÂ©ÃƒÂªÃƒÂ«Ã„â€”Ã„Â¯ÃƒÂ¬ÃƒÂ­ÃƒÂ®ÃƒÂ¯Ã…â€šÃ…â€žÃƒÂ²ÃƒÂ³ÃƒÂ´ÃƒÂ¶ÃƒÂµÃƒÂ¸ÃƒÂ¹ÃƒÂºÃƒÂ»ÃƒÂ¼Ã…Â³Ã…Â«ÃƒÂ¿ÃƒÂ½Ã…Â¼Ã…ÂºÃƒÂ±ÃƒÂ§Ã„ï¿½Ã…Â¡Ã…Â¾Ãƒâ‚¬Ãƒï¿½Ãƒâ€šÃƒâ€žÃƒÆ’Ãƒâ€¦Ã„â€žÃ„â€ Ã„Å’Ã„â€“Ã„ËœÃƒË†Ãƒâ€°ÃƒÅ Ãƒâ€¹ÃƒÅ’Ãƒï¿½ÃƒÅ½Ãƒï¿½Ã„Â®Ã…ï¿½Ã…Æ’Ãƒâ€™Ãƒâ€œÃƒâ€�Ãƒâ€“Ãƒâ€¢ÃƒËœÃƒâ„¢ÃƒÅ¡Ãƒâ€ºÃƒÅ“Ã…Â²Ã…ÂªÃ…Â¸Ãƒï¿½Ã…Â»Ã…Â¹Ãƒâ€˜ÃƒÅ¸Ãƒâ€¡Ã…â€™Ãƒâ€ Ã„Å’Ã…Â Ã…Â½Ã¢Ë†â€šÃƒÂ° ,.'-]{2,48}" required>
+        </div>
+        
+        <div class="form-group col-md-2">
+            <label for="proveedorNombre">Nomenclatura<strong style="color:red">*</strong></label>
+            <input type="text" class="form-control" id="nomenclatura" th:field="*{nomenclatura}" placeholder="JCL" required>
         </div>
          <div class="form-group col-md-4">
             <label for="proveedorTipo">Tipo <strong style="color:red">*</strong></label>
@@ -37,12 +42,12 @@
         <div class="form-group col-md-3">
             <label for="proveedorColonia">Colonia</label>
             <input type="text" class="form-control" id="proveedorColonia" th:field="*{colonia}" placeholder="Centro"
-            pattern="[a-zA-ZÃ Ã¡Ã¢Ã¤Ã£Ã¥Ä…Ä�Ä‡Ä™Ã¨Ã©ÃªÃ«Ä—Ä¯Ã¬Ã­Ã®Ã¯Å‚Å„Ã²Ã³Ã´Ã¶ÃµÃ¸Ã¹ÃºÃ»Ã¼Å³Å«Ã¿Ã½Å¼ÅºÃ±Ã§Ä�Å¡Å¾Ã€Ã�Ã‚Ã„ÃƒÃ…Ä„Ä†ÄŒÄ–Ä˜ÃˆÃ‰ÃŠÃ‹ÃŒÃ�ÃŽÃ�Ä®Å�ÅƒÃ’Ã“Ã”Ã–Ã•Ã˜Ã™ÃšÃ›ÃœÅ²ÅªÅ¸Ã�Å»Å¹Ã‘ÃŸÃ‡Å’Ã†ÄŒÅ Å½âˆ‚Ã° ,.'-]{2,48}" >
+            pattern="[a-zA-ZÃƒÂ ÃƒÂ¡ÃƒÂ¢ÃƒÂ¤ÃƒÂ£ÃƒÂ¥Ã„â€¦Ã„ï¿½Ã„â€¡Ã„â„¢ÃƒÂ¨ÃƒÂ©ÃƒÂªÃƒÂ«Ã„â€”Ã„Â¯ÃƒÂ¬ÃƒÂ­ÃƒÂ®ÃƒÂ¯Ã…â€šÃ…â€žÃƒÂ²ÃƒÂ³ÃƒÂ´ÃƒÂ¶ÃƒÂµÃƒÂ¸ÃƒÂ¹ÃƒÂºÃƒÂ»ÃƒÂ¼Ã…Â³Ã…Â«ÃƒÂ¿ÃƒÂ½Ã…Â¼Ã…ÂºÃƒÂ±ÃƒÂ§Ã„ï¿½Ã…Â¡Ã…Â¾Ãƒâ‚¬Ãƒï¿½Ãƒâ€šÃƒâ€žÃƒÆ’Ãƒâ€¦Ã„â€žÃ„â€ Ã„Å’Ã„â€“Ã„ËœÃƒË†Ãƒâ€°ÃƒÅ Ãƒâ€¹ÃƒÅ’Ãƒï¿½ÃƒÅ½Ãƒï¿½Ã„Â®Ã…ï¿½Ã…Æ’Ãƒâ€™Ãƒâ€œÃƒâ€�Ãƒâ€“Ãƒâ€¢ÃƒËœÃƒâ„¢ÃƒÅ¡Ãƒâ€ºÃƒÅ“Ã…Â²Ã…ÂªÃ…Â¸Ãƒï¿½Ã…Â»Ã…Â¹Ãƒâ€˜ÃƒÅ¸Ãƒâ€¡Ã…â€™Ãƒâ€ Ã„Å’Ã…Â Ã…Â½Ã¢Ë†â€šÃƒÂ° ,.'-]{2,48}" >
         </div>
         <div class="form-group col-md-3">
             <label for="poblacionColonia">Poblaci&oacute;n</label>
             <input type="text" class="form-control" id="poblacionColonia" th:field="*{poblacion}" placeholder="Centro"
-            pattern="[a-zA-ZÃ Ã¡Ã¢Ã¤Ã£Ã¥Ä…Ä�Ä‡Ä™Ã¨Ã©ÃªÃ«Ä—Ä¯Ã¬Ã­Ã®Ã¯Å‚Å„Ã²Ã³Ã´Ã¶ÃµÃ¸Ã¹ÃºÃ»Ã¼Å³Å«Ã¿Ã½Å¼ÅºÃ±Ã§Ä�Å¡Å¾Ã€Ã�Ã‚Ã„ÃƒÃ…Ä„Ä†ÄŒÄ–Ä˜ÃˆÃ‰ÃŠÃ‹ÃŒÃ�ÃŽÃ�Ä®Å�ÅƒÃ’Ã“Ã”Ã–Ã•Ã˜Ã™ÃšÃ›ÃœÅ²ÅªÅ¸Ã�Å»Å¹Ã‘ÃŸÃ‡Å’Ã†ÄŒÅ Å½âˆ‚Ã° ,.'-]{2,48}" >
+            pattern="[a-zA-ZÃƒÂ ÃƒÂ¡ÃƒÂ¢ÃƒÂ¤ÃƒÂ£ÃƒÂ¥Ã„â€¦Ã„ï¿½Ã„â€¡Ã„â„¢ÃƒÂ¨ÃƒÂ©ÃƒÂªÃƒÂ«Ã„â€”Ã„Â¯ÃƒÂ¬ÃƒÂ­ÃƒÂ®ÃƒÂ¯Ã…â€šÃ…â€žÃƒÂ²ÃƒÂ³ÃƒÂ´ÃƒÂ¶ÃƒÂµÃƒÂ¸ÃƒÂ¹ÃƒÂºÃƒÂ»ÃƒÂ¼Ã…Â³Ã…Â«ÃƒÂ¿ÃƒÂ½Ã…Â¼Ã…ÂºÃƒÂ±ÃƒÂ§Ã„ï¿½Ã…Â¡Ã…Â¾Ãƒâ‚¬Ãƒï¿½Ãƒâ€šÃƒâ€žÃƒÆ’Ãƒâ€¦Ã„â€žÃ„â€ Ã„Å’Ã„â€“Ã„ËœÃƒË†Ãƒâ€°ÃƒÅ Ãƒâ€¹ÃƒÅ’Ãƒï¿½ÃƒÅ½Ãƒï¿½Ã„Â®Ã…ï¿½Ã…Æ’Ãƒâ€™Ãƒâ€œÃƒâ€�Ãƒâ€“Ãƒâ€¢ÃƒËœÃƒâ„¢ÃƒÅ¡Ãƒâ€ºÃƒÅ“Ã…Â²Ã…ÂªÃ…Â¸Ãƒï¿½Ã…Â»Ã…Â¹Ãƒâ€˜ÃƒÅ¸Ãƒâ€¡Ã…â€™Ãƒâ€ Ã„Å’Ã…Â Ã…Â½Ã¢Ë†â€šÃƒÂ° ,.'-]{2,48}" >
         </div>
         <div class="form-group col-md-3">
             <label for="cpColonia">C&oacute;digo postal</label>
@@ -52,7 +57,7 @@
         <div class="form-group col-md-3">
             <label for="proveedorMunicipio">Municipio</label>
             <input type="text" class="form-control" id="proveedorMunicipio" th:field="*{municipio}" placeholder="Puebla"
-            pattern="[a-zA-ZÃ Ã¡Ã¢Ã¤Ã£Ã¥Ä…Ä�Ä‡Ä™Ã¨Ã©ÃªÃ«Ä—Ä¯Ã¬Ã­Ã®Ã¯Å‚Å„Ã²Ã³Ã´Ã¶ÃµÃ¸Ã¹ÃºÃ»Ã¼Å³Å«Ã¿Ã½Å¼ÅºÃ±Ã§Ä�Å¡Å¾Ã€Ã�Ã‚Ã„ÃƒÃ…Ä„Ä†ÄŒÄ–Ä˜ÃˆÃ‰ÃŠÃ‹ÃŒÃ�ÃŽÃ�Ä®Å�ÅƒÃ’Ã“Ã”Ã–Ã•Ã˜Ã™ÃšÃ›ÃœÅ²ÅªÅ¸Ã�Å»Å¹Ã‘ÃŸÃ‡Å’Ã†ÄŒÅ Å½âˆ‚Ã° ,.'-]{2,48}" >
+            pattern="[a-zA-ZÃƒÂ ÃƒÂ¡ÃƒÂ¢ÃƒÂ¤ÃƒÂ£ÃƒÂ¥Ã„â€¦Ã„ï¿½Ã„â€¡Ã„â„¢ÃƒÂ¨ÃƒÂ©ÃƒÂªÃƒÂ«Ã„â€”Ã„Â¯ÃƒÂ¬ÃƒÂ­ÃƒÂ®ÃƒÂ¯Ã…â€šÃ…â€žÃƒÂ²ÃƒÂ³ÃƒÂ´ÃƒÂ¶ÃƒÂµÃƒÂ¸ÃƒÂ¹ÃƒÂºÃƒÂ»ÃƒÂ¼Ã…Â³Ã…Â«ÃƒÂ¿ÃƒÂ½Ã…Â¼Ã…ÂºÃƒÂ±ÃƒÂ§Ã„ï¿½Ã…Â¡Ã…Â¾Ãƒâ‚¬Ãƒï¿½Ãƒâ€šÃƒâ€žÃƒÆ’Ãƒâ€¦Ã„â€žÃ„â€ Ã„Å’Ã„â€“Ã„ËœÃƒË†Ãƒâ€°ÃƒÅ Ãƒâ€¹ÃƒÅ’Ãƒï¿½ÃƒÅ½Ãƒï¿½Ã„Â®Ã…ï¿½Ã…Æ’Ãƒâ€™Ãƒâ€œÃƒâ€�Ãƒâ€“Ãƒâ€¢ÃƒËœÃƒâ„¢ÃƒÅ¡Ãƒâ€ºÃƒÅ“Ã…Â²Ã…ÂªÃ…Â¸Ãƒï¿½Ã…Â»Ã…Â¹Ãƒâ€˜ÃƒÅ¸Ãƒâ€¡Ã…â€™Ãƒâ€ Ã„Å’Ã…Â Ã…Â½Ã¢Ë†â€šÃƒÂ° ,.'-]{2,48}" >
         </div>
         <div class="form-group col-md-3">
             <label for="proveedorPais">Pa&iacute;s <strong style="color:red">*</strong></label>
@@ -77,7 +82,7 @@
         <div class="form-group col-md-2">
             <label for="proveedorRFC">RFC</label>
             <input type="text" class="form-control" id="proveedorRFC" th:field="*{rfcProveedor}" placeholder="M&eacute;xico"
-            pattern="^([A-ZÃ‘\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))((-)?([A-Z\d]{3}))?$">
+            pattern="^([A-ZÃƒâ€˜\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))((-)?([A-Z\d]{3}))?$">
         </div>
         <div class="form-group col-md-2">
             <label for="proveedorCURP">CURP</label>

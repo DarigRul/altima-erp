@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.altima.springboot.app.models.entity.ComprasProveedores;
 import com.altima.springboot.app.models.entity.DisenioFamiliaComposicionTela;
 import com.altima.springboot.app.models.entity.DisenioForro;
 import com.altima.springboot.app.models.entity.DisenioLookup;
@@ -32,6 +33,7 @@ import com.altima.springboot.app.models.entity.DisenioTela;
 import com.altima.springboot.app.models.entity.DisenioTelaForro;
 import com.altima.springboot.app.models.entity.DisenioTelaPrenda;
 import com.altima.springboot.app.models.service.IAmpInventarioProovedorService;
+import com.altima.springboot.app.models.service.IComprasProveedorService;
 import com.altima.springboot.app.models.service.IDisenioFamiliaComposicionTelaService;
 import com.altima.springboot.app.models.service.IDisenioForroService;
 import com.altima.springboot.app.models.service.IDisenioLookupService;
@@ -57,6 +59,8 @@ public class TelaController {
 	private IDisenioFamiliaComposicionTelaService ComposicionTelaService;
 	@Autowired
 	private IUploadService UploadService;
+	@Autowired
+	private IComprasProveedorService proveedorService;
 	
 	
 	@Autowired
@@ -193,7 +197,10 @@ public class TelaController {
 			}
 		}
 		else {
-			tela.setIdText("TELA"+(tela.getIdTela()+10000));
+			ComprasProveedores provee = proveedorService.findOne(tela.getIdProveedor());
+			
+			
+			tela.setIdText(provee.getNomenclatura()+(tela.getIdTela()+10000));
 			tela.setUltimaFechaModificacion(hourdateFormat.format(date));
 			tela.setActualizadoPor(auth.getName());
 			

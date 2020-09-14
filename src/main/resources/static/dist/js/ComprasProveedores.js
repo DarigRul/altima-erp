@@ -30,6 +30,7 @@ function guardarDatosGenerales(){
 	record ["correo"]				= $('#proveedorCorreo').val();
 	record ["paginaWebProveedor"]	= $('#proveedorWeb').val();
 	record ["idProveedor"]			= $('#datosPrueba').val();
+	record ["nomenclatura"]			= $('#nomenclatura').val();
 	
 	console.log(record);
 	//Valida que sea un nuevo registro
@@ -712,3 +713,33 @@ $('#manejoCredito').on("change", function(){	//
     }											//
 })												//
 //===============================================//
+
+$('#nomenclatura').change(function() {
+	
+	  $.ajax({
+	        data: {nomen:$("#nomenclatura").val()},
+	        url:   '/validar-nomen-proveedor',
+	        type:  'GET',
+	        success:  function (r) 
+	        {
+	        	if ( r == true ){
+	        		
+	        		   	 Swal.fire({
+	        					position: 'center',
+	        					icon: 'error',
+	        					title: 'Esta nomenclatura ya fue registrada',
+	        					showConfirmButton: false,
+	        					timer: 2500
+	        				})
+	        		     
+	        		   	$("#nomenclatura").val(null);
+	        	}
+	        	//console.log ("la repuesta es:"+ r)
+	        },
+	        error: function(){
+	            alert('Ocurrio un error en el servidor de modelo ..');
+	            select.prop('disabled', false);
+	        }
+	    });
+	  
+	})

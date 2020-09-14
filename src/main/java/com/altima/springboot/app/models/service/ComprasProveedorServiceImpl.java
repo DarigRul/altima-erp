@@ -43,4 +43,27 @@ public class ComprasProveedorServiceImpl implements IComprasProveedorService {
 		repository.save(comprasProveedores);
 	}
 
+	@Override
+	 public boolean ValidarNomenclatura(String nomen) {
+		
+		
+		try {
+			String re = em.createNativeQuery(""
+					+ "SELECT \r\n" + 
+					"compras.nombre_proveedor\r\n" + 
+					"FROM\r\n" + 
+					"alt_compras_proveedor as compras\r\n" + 
+					"WHERE \r\n" + 
+					"1=1\r\n" + 
+					"AND compras.nomenclatura ='"+nomen+"'").getSingleResult().toString();
+					
+			return true;
+			}
+			catch(Exception e) {
+				
+				return false;
+			}
+	
+	}
+
 }

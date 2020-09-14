@@ -11,4 +11,6 @@ public interface IComprasProveedorService {
 	List<ComprasProveedores> findAll ();
 	
 	void save (ComprasProveedores comprasProveedores);
+	
+	boolean ValidarNomenclatura (String nomen);
 }
