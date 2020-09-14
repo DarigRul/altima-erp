@@ -71,7 +71,7 @@ public class ComprasProveedoresRestController {
 			proveedor.setEstatus("1");
 			proveedorService.save(proveedor);
 			proveedor.setIdText("PROV"+(10000+proveedor.getIdProveedor()));
-			
+			proveedorService.save(proveedor);
 			return Integer.parseInt(proveedor.getIdProveedor().toString());
 		}
 		catch(Exception e) {

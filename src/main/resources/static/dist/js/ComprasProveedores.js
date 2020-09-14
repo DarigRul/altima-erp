@@ -691,7 +691,7 @@ $('#inlineFormCheck').on("change", function(){	//
 	var checked = this.checked;				  	//
     if (checked) {								//
         $('.check').hide();						//
-        $('#proveedorNumExt').val("")			//
+        $('#proveedorNumExt').val("0")			//
         $('#proveedorNumInt').val("")			//
     } else {									//
     	$('.check').show();						//
