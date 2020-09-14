@@ -70,7 +70,7 @@ public class ComprasProveedoresRestController {
 			proveedor.setUltimaFechaModificacion(dtf.format(now));
 			proveedor.setEstatus("1");
 			proveedorService.save(proveedor);
-			proveedor.setIdText("PROV"+(10000+proveedor.getIdProveedor()));
+			proveedor.setIdText("PROV"+(1000+proveedor.getIdProveedor()));
 			proveedorService.save(proveedor);
 			return Integer.parseInt(proveedor.getIdProveedor().toString());
 		}
