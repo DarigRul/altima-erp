@@ -30,6 +30,9 @@ public class AmpAlmacenFisico implements Serializable{
 	@Column(name="id_empleado")
 	private Long idEmpleado;
 	
+	@Column(name="nombre_almacen")
+	private String nombreAlmacen;
+	
 	@Column(name="creado_por")
 	private String creadoPor;
 	
@@ -51,6 +54,15 @@ public class AmpAlmacenFisico implements Serializable{
 
 	public void setIdAlmacenFisico(Long idAlmacenFisico) {
 		this.idAlmacenFisico = idAlmacenFisico;
+	}
+	
+
+	public String getNombreAlmacen() {
+		return nombreAlmacen;
+	}
+
+	public void setNombreAlmacen(String nombreAlmacen) {
+		this.nombreAlmacen = nombreAlmacen;
 	}
 
 	public Long getIdEmpleado() {
