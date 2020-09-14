@@ -1,6 +1,14 @@
+ $(document).ready(function() {
+	 if ($('#proveedorNumExt').val()==0) {								//
+	        $('.check').hide();						//
+	        $('#proveedorNumExt').val("0")			//
+	        $('#proveedorNumInt').val("")			//
+	    } else {									//
+	    	$('.check').show();						//
+	    }	
+});
 
 function guardarDatosGenerales(){
-	
 	var record={};
 		
 	record ["nombreProveedor"] 		= $('#proveedorNombre').val();
@@ -498,16 +506,8 @@ function validarDatos(){
 	if($('#proveedorNombre').val()			==null || $('#proveedorNombre').val()			== "" || $('#proveedorNombre').val()		==undefined ||
 	   $('#proveedorTipo').val()			==null || $('#proveedorTipo').val()				== "" || $('#proveedorTipo').val()			==undefined ||
 	   $('#proveedorCalle').val()			==null || $('#proveedorCalle').val()			== "" || $('#proveedorCalle').val()			==undefined ||
-	   $('#proveedorColonia').val()			==null || $('#proveedorColonia').val()			== "" || $('#proveedorColonia').val()		==undefined ||
-	   $('#poblacionColonia').val()			==null || $('#poblacionColonia').val()			== "" || $('#poblacionColonia').val()		==undefined ||
-	   $('#cpColonia').val()	 	 	   	==null || $('#cpColonia').val()					== "" || $('#cpColonia').val()				==undefined ||
-	   $('#proveedorMunicipio').val()   	==null || $('#proveedorMunicipio').val()		== "" || $('#proveedorMunicipio').val()		==undefined ||
 	   $('#proveedorEstado').val()	 		==null || $('#proveedorEstado').val()			== "" || $('#proveedorEstado').val()		==undefined ||
 	   $('#proveedorPais').val()		   	==null || $('#proveedorPais').val()				== "" || $('#proveedorPais').val()			==undefined ||
-	   $('#proveedorClasificacion').val()	==null || $('#proveedorClasificacion').val()	== "" || $('#proveedorClasificacion').val()	==undefined ||
-	   $('#proveedorRFC').val()		   		==null || $('#proveedorRFC').val()				== "" || $('#proveedorRFC').val()			==undefined ||
-	   $('#proveedorCURP').val()		   	==null || $('#proveedorCURP').val()				== "" || $('#proveedorCURP').val()			==undefined ||
-	   $('#proveedorZona').val()		   	==null || $('#proveedorZona').val()				== "" || $('#proveedorZona').val()			==undefined ||
 	   $('#proveedorTelefono').val()     	==null || $('#proveedorTelefono').val()			== "" || $('#proveedorTelefono').val()		==undefined ){
 		validador = 0;
 		Swal.fire({

@@ -51,6 +51,13 @@ public class ComprasProveedoresController {
 		
 		proveedor = proveedorService.findOne(id);
 		m.put("proveedor", proveedor);
+		if(proveedor.getNumeroExterior().equalsIgnoreCase("0")) {
+			model.addAttribute("check", true);
+		}
+		else {
+			model.addAttribute("check", false);
+		}
+		
 		
 		try {
 		credito = creditoService.findByProveedor(id);
