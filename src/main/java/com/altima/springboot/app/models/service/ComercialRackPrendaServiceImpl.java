@@ -34,7 +34,7 @@ public class ComercialRackPrendaServiceImpl implements IComercialRackPrendaServi
 		return em.createNativeQuery("select muest.id_rack_prenda, \n" + 
 									"		muest.cantidad,  \n" + 
 									"		muest.id_movimiento,  \n" + 
-									"		lookup.nombre_lookup, \n" + 
+									"		prenda.descripcion_prenda, \n" + 
 									"		prenda.id_text as modelo_prenda, \n" + 
 									"		tela.id_text as codigo_tela, \n" + 
 									"		(precio.precio_muestrario*muest.cantidad) AS precio, \n" + 

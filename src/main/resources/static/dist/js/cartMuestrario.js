@@ -389,6 +389,11 @@ $('.add-to-cart').click(function (event) {
 		                `Ha excedido la cantidad en stock`
 		            )
 	        }
+	        else if($('#cantidad').val() < 1){
+	        	Swal.showValidationMessage(
+		                `No puede haber números negativos o 0`
+		            )
+	        }
 	    }
 	}).then((result) => {
 	    if (result.value){

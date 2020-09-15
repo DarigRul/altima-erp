@@ -261,7 +261,7 @@
                             <div class="row" data-jplist-group="group1">
                                 <div th:each="muestra : ${muestrario}" th:if="${muestra[11]==1}" class="col-lg-3 col-sm-6 mb-4" data-jplist-item>
                                     <div th:class="${muestra[7]}">
-                                        <div class="card box-shadow" th:unless="${muestra[0]==0 || muestra[0]==null}">
+                                        <div class="card box-shadow" th:unless="${muestra[0]<=0 || muestra[0]==null}">
                                             <div class="food-img" style="text-align: center;">
                                                 <img class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'/uploads/prendas/' + ${muestra[13]}}" alt="" title="">
                                             </div>
