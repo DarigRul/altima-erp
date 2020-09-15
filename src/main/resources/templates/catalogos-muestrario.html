@@ -96,11 +96,18 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
+            <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>
                                 Cat&aacute;logos
+                            <div class="row">
+	                            <div class="col">
+	                                <button type="button" class="bt btn-primary btn-circle" data-toggle="modal" data-target="#addTraspaso" onclick="limpiarModal()"><i class="fa fa-shopping-cart"></i> <span
+	                                        class="total-count"></span></button><button class="clear-cart btn btn-danger">Limpiar carrito</button>
+	                            </div>
+                            </div>
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -115,6 +122,7 @@
                 <!-- /.container-fluid -->
             </section>
             <!-- Main content -->
+            <div th:insert="modal-traspaso"></div>
             <section class="content">
                 <div class="container-fluid">
                     <!-- Small boxes (Stat box) -->
@@ -253,7 +261,7 @@
                             <div class="row" data-jplist-group="group1">
                                 <div th:each="muestra : ${muestrario}" th:if="${muestra[11]==1}" class="col-lg-3 col-sm-6 mb-4" data-jplist-item>
                                     <div th:class="${muestra[7]}">
-                                        <div class="card box-shadow">
+                                        <div class="card box-shadow" th:unless="${muestra[0]==0 || muestra[0]==null}">
                                             <div class="food-img" style="text-align: center;">
                                                 <img class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'/uploads/prendas/' + ${muestra[13]}}" alt="" title="">
                                             </div>
@@ -278,6 +286,9 @@
                                                         <li><strong>Talla: </strong>
                                                             <a th:text="${muestra[4]}"></a>
                                                         </li>
+                                                        <div style="width: 70%; margin: 0 auto;">
+                                                            <button th:data-name="${muestra[15]}" th:data-cantidad="${muestra[0]}" th:data-pedido="${muestra[1]}" th:data-idp="${muestra[10]}" th:data-idt="${muestra[12]}" th:data-talla="${muestra[5]}" th:data-nomTel="${muestra[6]}"  th:data-value="${muestra[16]}" th:data-price="${muestra[14]}" class="add-to-cart btn btn-primary">A&ntilde;adir al carrito</button>
+                                                        </div>
                                                     </ul>
                                                 </li>
                                             </ul>
@@ -313,6 +324,7 @@
 
     <!-- jPList Library -->
     <script src="/dist/jplist/jplist.min.js"></script>
+    <script src="/dist/js/cartMuestrario.js"></script>
     <script>
         jplist.init();
     </script>

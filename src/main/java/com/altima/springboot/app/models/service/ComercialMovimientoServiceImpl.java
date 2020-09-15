@@ -78,7 +78,35 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 									"from alt_comercial_movimiento as movimiento\n" + 
 									"	INNER JOIN alt_comercial_cliente cliente ON movimiento.empresa = id_cliente\n" + 
 									"	INNER JOIN alt_hr_empleado empleado ON movimiento.vendedor = empleado.id_empleado\n" + 
-									"ORDER BY movimiento.id_text").getResultList();
+									"WHERE movimiento.estatus NOT like 'Rack de prendas' AND movimiento.estatus NOT LIKE 'Rack de prendas registrado'" +
+									
+									"UNION\n" + 
+
+									"SELECT movimientoRack.id_movimiento,\n" + 
+									"movimientoRack.id_text,  \n" + 
+									"cliente.nombre, \n" + 
+									"cliente.apellido_paterno,  \n" + 
+									"cliente.apellido_materno,  \n" + 
+									"empleado.nombre_persona,  \n" + 
+									"empleado.apellido_paterno as paterno,  \n" + 
+									"empleado.apellido_materno as materno,  \n" + 
+									"movimientoRack.fecha_salida,  \n" + 
+									"movimientoRack.fecha_entrega,  \n" + 
+									"movimientoRack.estatus,\n" + 
+									"(SELECT SUM(precio.precio_muestrario*rack.cantidad)  \n" + 
+									"		FROM alt_comercial_rack_prenda as rack\n" + 
+									"		INNER JOIN alt_disenio_prenda prenda ON rack.id_prenda = prenda.id_prenda\n" + 
+									"		INNER JOIN alt_disenio_tela tela ON rack.id_tela = tela.id_tela\n" + 
+									"		INNER JOIN alt_disenio_lista_precio_prenda precio ON rack.id_prenda = precio.id_prenda\n" + 
+									"														AND tela.id_familia_composicion = precio.id_familia_composicion \n" + 
+									"		WHERE rack.id_movimiento = movimientoRack.id_movimiento) AS Total,\n" + 
+									"movimientoRack.encargado\n" + 
+									"\n" + 
+									"FROM alt_comercial_movimiento as movimientoRack\n" + 
+									"INNER JOIN alt_comercial_cliente cliente ON movimientoRack.empresa = id_cliente \n" + 
+									"INNER JOIN alt_hr_empleado empleado ON movimientoRack.vendedor = empleado.id_empleado  \n" + 
+									"\n" + 
+									"WHERE movimientoRack.estatus = 'Rack de prendas' OR movimientoRack.estatus = 'Rack de prendas registrado'").getResultList();
 	}
 	
 	@Override
@@ -97,7 +125,18 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 	@Transactional
 	public List<Object> datosMovimiento(Long id) {
 
-		return em.createNativeQuery("SELECT movimiento.empresa, movimiento.vendedor, prenda.descripcion_prenda, movidetalle.codigo_barras, movidetalle.id_detalle_pedido, prenda.id_text AS text, telas.id_text, prenda.id_prenda, telas.id_tela, movidetalle.id_movimiento, movimiento.encargado FROM alt_comercial_movimiento AS movimiento\r\n" + 
+		return em.createNativeQuery("SELECT movimiento.empresa, " +
+										   "movimiento.vendedor, " +
+										   "prenda.descripcion_prenda, " +
+										   "movidetalle.codigo_barras, " +
+										   "movidetalle.id_detalle_pedido, " +
+										   "prenda.id_text AS text, " +
+										   "telas.id_text, " +
+										   "prenda.id_prenda, " +
+										   "telas.id_tela, " +
+										   "movidetalle.id_movimiento, " +
+										   "movimiento.encargado " +
+									"FROM alt_comercial_movimiento AS movimiento\r\n" + 
 									"\r\n" + 
 									"INNER JOIN alt_comercial_movimiento_muestra_detalle movidetalle ON movimiento.id_movimiento = movidetalle.id_movimiento\r\n" + 
 									"INNER JOIN alt_disenio_prenda prenda ON movidetalle.modelo_prenda = prenda.id_prenda\r\n" + 
@@ -153,9 +192,5 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 				"GROUP BY\n" + 
 				"	movi_deta.id_detalle_pedido").getResultList();
 	}
-	
-	
 
 }
-
-

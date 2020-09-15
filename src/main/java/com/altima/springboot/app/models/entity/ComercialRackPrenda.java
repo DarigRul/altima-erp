@@ -26,8 +26,14 @@ public class ComercialRackPrenda implements Serializable{
 	@GenericGenerator(name="native",strategy="native")
 	private Long idRackPrenda;
 	
+	@Column(name="id_movimiento")
+	private Long idMovimiento;
+	
 	@Column(name="id_prenda")
 	private Long idPrenda;
+	
+	@Column(name="id_tela")
+	private Long idTela;
 	
 	@Column(name="id_vendedor")
 	private Long idVendedor;
@@ -57,7 +63,7 @@ public class ComercialRackPrenda implements Serializable{
 	private String ultimaFechaModificacion;
 	
 	@Column(name="estatus")
-	private String estatus;
+	private int estatus;
 
 	public Long getIdRackPrenda() {
 		return idRackPrenda;
@@ -73,6 +79,14 @@ public class ComercialRackPrenda implements Serializable{
 
 	public void setIdPrenda(Long idPrenda) {
 		this.idPrenda = idPrenda;
+	}
+
+	public Long getIdTela() {
+		return idTela;
+	}
+
+	public void setIdTela(Long idTela) {
+		this.idTela = idTela;
 	}
 
 	public Long getIdVendedor() {
@@ -147,18 +161,25 @@ public class ComercialRackPrenda implements Serializable{
 		this.ultimaFechaModificacion = ultimaFechaModificacion;
 	}
 
-	public String getEstatus() {
+	public Long getIdMovimiento() {
+		return idMovimiento;
+	}
+
+	public void setIdMovimiento(Long idMovimiento) {
+		this.idMovimiento = idMovimiento;
+	}
+
+	public int getEstatus() {
 		return estatus;
 	}
 
-	public void setEstatus(String estatus) {
+	public void setEstatus(int estatus) {
 		this.estatus = estatus;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
+
 
 }

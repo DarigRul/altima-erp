@@ -426,8 +426,10 @@ function agregarMiniTabla(tablaMuestra){
 
 
 //Listar el modal para editar
-function datosMovimiento(idMovimiento){
-	console.log("Si entra a editar");
+function datosMovimiento(idMovimiento, estatus){
+	console.log("Si entra a editar"); 
+	
+	if(estatus==1){
 	$.ajax({
 
 		   method: "POST",
@@ -480,19 +482,56 @@ function datosMovimiento(idMovimiento){
 		   error: (e) =>{
 		   }
 	   });
+	}
+	else{
+		$.ajax({
+			   method: "POST",
+			   url: "/datosMovimientoSolicitud",
+			   data:{
+				   "_csrf": $('#token').val(),
+				   movimiento: idMovimiento
+			   },
+			   success: (data) => {
+				   $('#movimiento').val(data[0][9]);
+				   $('#encargadoRecibir').val(data[0][10]);
+				   $('#borrarDatos').remove();
+				   $('#crearDatos').append("<div class='form-group col-sm-12' id='borrarDatos'>" +
+			                        			"<table class='table table-striped table-bordered' id ='tablaMuestra'>" +
+							   						"<thead>" +
+			                                			"<tr>" +
+							   								"<th>C&oacute;digo de barras</th>" +
+			                                    			"<th>Prendas</th>" +
+							   								"<th>Modelo Prenda</th>" +
+							   								"<th>C&oacute;digo Tela</th>" +
+							   								"<th></th>" +
+							   							"</tr>" +
+			                            			"</thead>" +
+			                        			"</table>" +
+				   							"</div>");
+				   
+				   $('#vendedorMovi option[value="'+data[0][1]+'"]').attr("selected", true);
+			   	   $('#empresaMovi option[value='+data[0][0]+']').attr("selected", true);
+			   	   $('.selectCustom').selectpicker('refresh');
+			   },
+			   error: (e) =>{
+			   }
+		   });
+	}
 }
 	
 	
 	
 
 //Función para mostrar todas las muestras de acuerdo a su respectivo movimiento  //
-function detalleMuestras(id){
+function detalleMuestras(id, estatus){
 	$('#mov').val(id);
 	$('#vendedorTraspasoCodigo').val((Math.floor(Math.random() * (10 - 1)) + 1)+""+
 									 (Math.floor(Math.random() * (10 - 1)) + 1)+""+
 									 (Math.floor(Math.random() * (10 - 1)) + 1)+""+
 									 (Math.floor(Math.random() * (10 - 1)) + 1));
 	$('#borrarTabla').remove();
+	
+	if(estatus==1){
 	$('#crearTabla').append("<div class='modal-body' id='borrarTabla'>" +
 								"<div class='form-check'>" +
 									"<input type='checkbox' class='form-check-input' id='selectAll' onclick='selectAllCheck()'>" +
@@ -657,16 +696,151 @@ function detalleMuestras(id){
 			
 		}
 	})	
-	
-
-	
+	}
+	else{
+		crearTablaRackPrendas(id);
+	}
 	$('#infoTraspaso').modal(true);
+	
+	
 }
 
 
+function crearTablaRackPrendas (id){
+		$('#crearTabla').append("<div class='modal-body' id='borrarTabla'>" +
+				
+				"<br>" +
+				"<table class='table table-striped table-bordered' id='tablaTraspasoinfo'>" +
+					"<thead>" +
+						"<tr>" +
+							"<th>Cantidad</th>" +
+							"<th>Muestra</th>" +
+							"<th>Modelo Prenda</th>" +
+							"<th>C&oacute;digo Tela</th>" +
+							"<th>Precio unitario</th>" +
+							"<th>Estatus</th>" +
+						"</tr>" +
+					"</thead>" +
+				"</table>" +
+			"</div>");
+	
+	
+	//AJAX para hacer un correcto formato en la tabla del modal de las muestras  //	
+	$.ajax({
+	
+	method:"POST",
+	url: "/listDetalleMuestrasSolicitud",
+	data:{
+	"_csrf": $('#token').val(),
+	idMovi:id
+	},
+	success:(data) => {
+	/* lista de estatus en la tabla de muestras
+	* 
+	* 1 = "Pendiente de recoger"
+	* 2 = "Cancelado"
+	* 3 = "Devuelto"
+	* 4 = "Entregado a vendedor" con checkBox en la tabla
+	* 5 = "Entregado a vendedor" sin checkBox en la tabla
+	* 6 = "Traspaso" con checkBox en la tabla
+	* 7 = "Traspaso" sin checkBox en la tabla
+	* 8 = "Prestado a empresa" con checkBox en la tabla
+	* 9 = "Prestado a empresa" sin checkBox en la tabla
+	* 10= "Devuelto con recargos"
+	* 11= "Rack de prendas"
+	**********/
+	var a;
+	var b = [];
+	
+	for (i in data){
+	var estatus;
+//	var validador1 = data[i][7];
+//	var validador2 = data[i][8];
+//	var validador3 = data[i][9];
+//	var validador4 = data[i][10];
+//	var validador5 = data[i][11];
+//	if(data[i][7]==null){validador1="";}
+//	if(data[i][8]==null){validador2="";}
+//	if(data[i][9]==null){validador3="";}
+//	if(data[i][10]==null){validador4="";}
+//	if(data[i][11]==null){validador5="";}
+//	
+//	validador1 = validador1.replace("T"," ").substring(0,19);
+//	//validador3 = validador3.replace("T"," ").substring(0,19);
+	
+	
+	//Mapeo de los datos que va a llevar la tabla  //				
+	a= ["<tr>"+
+		"<td>"+data[i][1]+"</td>",
+		"<td>"+data[i][3]+"</td>",
+		"<td>"+data[i][4]+"</td>", 
+		"<td>"+data[i][5]+"</td>", 
+		"<td>"+data[i][6]+"</td>",
+		"<td>Rack de prendas</td>"+
+	"<tr>"];
+	b.push(a);
+	}
+	
+	//Estructura de la tabla //
+	$('#tablaTraspasoinfo').DataTable({
+	"data":	b,
+	"ordering": false,
+	"pageLength": 5,
+	"responsive": true,
+	"stateSave": true,
+	"drawCallback": function() {
+	$('.popoverxd').popover({
+	    container: 'body',
+	    trigger: 'hover'
+	});
+	},
+	"lengthMenu": [
+	[5, 10, 25, 50, 100],
+	[5, 10, 25, 50, 100]
+	],
+	"language": {
+	"sProcessing": "Procesando...",
+	"sLengthMenu": "Mostrar _MENU_ registros",
+	"sZeroRecords": "No se encontraron resultados",
+	"sEmptyTable": "Ningún dato disponible en esta tabla =(",
+	"sInfo": "Del _START_ al _END_ de un total de _TOTAL_ registros",
+	"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+	"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+	"sInfoPostFix": "",
+	"sSearch": "Buscar:",
+	"sUrl": "",
+	"sInfoThousands": ",",
+	"sLoadingRecords": "Cargando...",
+	"oPaginate": {
+	    "sFirst": "Primero",
+	    "sLast": "Último",
+	    "sNext": "Siguiente",
+	    "sPrevious": "Anterior"
+	},
+	"oAria": {
+	    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+	    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	},
+	"buttons": {
+	    "copy": "Copiar",
+	    "colvis": "Visibilidad"
+	}
+	}
+	});
+	
+	
+	
+	},
+	error: (e) =>{
+	
+	}
+	})	
+}
+
 
 //Función para cambiar el estatus de una solicitud de movimiento a cancelado, al igual que las muestras //
-function cancelarSolicitud(idMovimiento){
+function cancelarSolicitud(idMovimiento, estatus){
+	
 	Swal.fire({
 		  title: '¿Desea cancelar la solicitud?',
 		  icon: 'warning',
@@ -677,43 +851,84 @@ function cancelarSolicitud(idMovimiento){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 			if (result.value) {
-				$.ajax({
-				
-					method:"POST",
-					url:"/cancelarMovimiento",
-					data: {
-					    	"_csrf": $('#token').val(),
-					    	idMovi: idMovimiento
-					},
-					beforeSend: function () {
-			        	 Swal.fire({
-			                 title: 'Cargando ',
-			                 html: 'Por favor espere',// add html attribute if you want or remove
-			                 allowOutsideClick: false,
-			                 timerProgressBar: true,
-			                 onBeforeOpen: () => {
-			                     Swal.showLoading()
-			                 },
-			             });
-			        	
-			        },
-					success: (data)=> {
-						Swal.fire({
-						      position: 'center',
-					          icon: 'success',
-					          title: '¡Movimiento cancelado!',
-					          showConfirmButton: false,
-					          timer: 1550,
-						      onClose: () => {
-						    	  console.log("si entra hasta aca");
-						    	  location.href = "/movimientos";
-						      }
-						})
-					},
-					error: (e) => {
-					}
+				if(estatus==1){
+					$.ajax({
 					
-				})
+						method:"POST",
+						url:"/cancelarMovimiento",
+						data: {
+						    	"_csrf": $('#token').val(),
+						    	idMovi: idMovimiento
+						},
+						beforeSend: function () {
+				        	 Swal.fire({
+				                 title: 'Cargando ',
+				                 html: 'Por favor espere',// add html attribute if you want or remove
+				                 allowOutsideClick: false,
+				                 timerProgressBar: true,
+				                 onBeforeOpen: () => {
+				                     Swal.showLoading()
+				                 },
+				             });
+				        	
+				        },
+						success: (data)=> {
+							Swal.fire({
+							      position: 'center',
+						          icon: 'success',
+						          title: '¡Movimiento cancelado!',
+						          showConfirmButton: false,
+						          timer: 1550,
+							      onClose: () => {
+							    	  console.log("si entra hasta aca");
+							    	  location.href = "/movimientos";
+							      }
+							})
+						},
+						error: (e) => {
+						}
+						
+					})
+				}
+				else{
+					$.ajax({
+						
+						method:"POST",
+						url:"/cancelarSolicitudMovimiento",
+						data: {
+						    	"_csrf": $('#token').val(),
+						    	idMovi: idMovimiento
+						},
+						beforeSend: function () {
+				        	 Swal.fire({
+				                 title: 'Cargando ',
+				                 html: 'Por favor espere',// add html attribute if you want or remove
+				                 allowOutsideClick: false,
+				                 timerProgressBar: true,
+				                 onBeforeOpen: () => {
+				                     Swal.showLoading()
+				                 },
+				             });
+				        	
+				        },
+						success: (data)=> {
+							Swal.fire({
+							      position: 'center',
+						          icon: 'success',
+						          title: '¡Solicitud cancelada!',
+						          showConfirmButton: false,
+						          timer: 1550,
+							      onClose: () => {
+							    	  console.log("si entra hasta aca");
+							    	  location.href = "/movimientos";
+							      }
+							})
+						},
+						error: (e) => {
+						}
+						
+					})
+				}
 		  }
 		});
 
