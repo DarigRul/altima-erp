@@ -324,10 +324,7 @@ public class CargaPedidoController {
 				}
 				
 			}
-		@GetMapping("/empleados-spf")
-    	public String ListaEmpleadosSPF(){
-        	return"empleados-spf";
-    	}
+	
 }
    
 

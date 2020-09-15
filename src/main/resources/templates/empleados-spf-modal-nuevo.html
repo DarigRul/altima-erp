@@ -12,9 +12,8 @@
             <div class="form-group col-md-12">
                 <label for="agregarEmpleadoSPF">Nombre del empleado</label>
                 <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="agregarEmpleadoSPF">
-                    <option value="">Jose Luis Martinez</option>
-                    <option value="">Gabriela Sanchez Luna</option>
-                    <option value="">Manuel Quesada</option>
+                    <option th:each="empleados: ${empleados}" th:value="${empleados[0]}"
+					th:text="${empleados[1]}"></option>
                 </select>
             </div>
           </div>

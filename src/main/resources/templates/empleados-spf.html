@@ -85,7 +85,8 @@
     </div>
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
-    <script src="dist/js/tablaGeneral.js"></script>
+    <script th:src="@{/dist/js/tablaGeneral.js}"></script>
+    <script th:src="@{/dist/js/SPF.js}"></script>
     <script>
         $('#iComercial').removeClass('text-altima');
         $('#menuComercial').addClass('menu-open');

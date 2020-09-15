@@ -56,6 +56,7 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 	@Override
 	@Transactional
 	public List<Object[]> CargaPedidoVista(Long iduser) {
+		
 		List<Object[]> re = null;
 		if (iduser != null) {
 			 
@@ -82,23 +83,31 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 					"					ORDER BY\n" + 
 					"						informacion.fecha_creacion DESC").getResultList();
 		} else {
-			re = em.createNativeQuery("SELECT\r\n" + 
-					"	informacion.id_pedido_informacion,\r\n" + 
-					"	informacion.id_text,\r\n" + 
-					"	cliente.nombre,\r\n" + 
-					"	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\r\n" + 
-					"	cliente.id_cliente,\r\n" + 
-					"	informacion.observacion,\r\n" + 
-					"	montos_razon(informacion.id_pedido_informacion), \r\n" + 
-					"	if (informacion.estatus=1 , '1','2') \r\n" + 
-					"\r\n" + 
-					"\r\n" + 
-					"FROM\r\n" + 
-					"	alt_comercial_pedido_informacion informacion\r\n" + 
-					"	INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente \r\n" + 
-					"GROUP BY\r\n" + 
-					"	informacion.id_pedido_informacion \r\n" + 
-					"ORDER BY\r\n" + 
+			re = em.createNativeQuery(""
+					+ "SELECT\n" + 
+					"	informacion.id_pedido_informacion,\n" + 
+					"IF\n" + 
+					"	( config.tipo_pedido = 1, informacion.id_text, CONCAT( informacion2.id_text, '-', informacion.id_text ) ),\n" + 
+					"	cliente.nombre,\n" + 
+					"	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\n" + 
+					"	cliente.id_cliente,\n" + 
+					"	informacion.observacion,\n" + 
+					"	montos_razon ( informacion.id_pedido_informacion ),\n" + 
+					"IF\n" + 
+					"	( informacion.estatus = 1, '1', '2' ),\n" + 
+					"	informacion.fecha_toma_tallas,\n" + 
+					"	config.tipo_pedido \n" + 
+					"FROM\n" + 
+					"	alt_comercial_pedido_informacion informacion\n" + 
+					"	INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente\n" + 
+					"	INNER JOIN alt_admin_configuracion_pedido config ON informacion.tipo_pedido = config.id_configuracion_pedido,\n" + 
+					"	alt_comercial_pedido_informacion informacion2 \n" + 
+					"WHERE\n" + 
+					"	1 = 1 \n" + 
+					"	AND ( informacion.id_pedido IS NULL || informacion.id_pedido = informacion2.id_pedido_informacion ) \n" + 
+					"GROUP BY\n" + 
+					"	informacion.id_pedido_informacion \n" + 
+					"ORDER BY\n" + 
 					"	informacion.fecha_creacion DESC").getResultList();
 		}
 
