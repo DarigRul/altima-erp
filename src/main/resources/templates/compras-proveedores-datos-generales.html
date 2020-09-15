@@ -9,7 +9,7 @@
         
         <div class="form-group col-md-2">
             <label for="proveedorNombre">Nomenclatura<strong style="color:red">*</strong></label>
-            <input type="text" class="form-control" id="nomenclatura" th:field="*{nomenclatura}" placeholder="JCL" required>
+            <input type="text" class="form-control" id="nomenclatura" th:field="*{nomenclatura}" placeholder="JCL" required onkeyup="javascript:this.value=this.value.toUpperCase();">
         </div>
          <div class="form-group col-md-4">
             <label for="proveedorTipo">Tipo <strong style="color:red">*</strong></label>
