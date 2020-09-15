@@ -530,7 +530,7 @@ function detalleMuestras(id, estatus){
 									 (Math.floor(Math.random() * (10 - 1)) + 1)+""+
 									 (Math.floor(Math.random() * (10 - 1)) + 1));
 	$('#borrarTabla').remove();
-	
+	$('.solicitud').show();
 	if(estatus==1){
 	$('#crearTabla').append("<div class='modal-body' id='borrarTabla'>" +
 								"<div class='form-check'>" +
@@ -707,6 +707,7 @@ function detalleMuestras(id, estatus){
 
 
 function crearTablaRackPrendas (id){
+		$('.solicitud').hide();
 		$('#crearTabla').append("<div class='modal-body' id='borrarTabla'>" +
 				
 				"<br>" +
