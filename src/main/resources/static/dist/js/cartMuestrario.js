@@ -147,7 +147,7 @@ console.log(encargado);
 				   if(data==1){
 					   Swal.fire({
 							icon: 'success',
-							title: 'Carrito agregado',
+							title: 'Rack agregado',
 							text: '¡Se ha modificado un movimiento!',
 							showConfirmButton: false,
 					        timer: 2000,
@@ -160,8 +160,8 @@ console.log(encargado);
 				   else if(data==2){
 					   Swal.fire({
 							icon: 'success',
-							title: 'Carrito agregado',
-							text: '¡Se ha agregado el carrito!',
+							title: 'Rack agregado',
+							text: '¡Se ha agregado el Rack!',
 							showConfirmButton: false,
 					        timer: 2000,
 					        onClose: () => {
@@ -238,7 +238,7 @@ var shoppingCart = (function () {
 		  Swal.fire({
 		      position: 'center',
 		      icon: 'success',
-		      title: '¡Añadido al carrito!',
+		      title: '¡Añadido al Rack!',
 		      showConfirmButton: false,
 		      timer: 1550
 		})
@@ -248,7 +248,7 @@ var shoppingCart = (function () {
     	  Swal.fire({
     	      position: 'center',
     	      icon: 'success',
-    	      title: '¡Ya está en el carrito!',
+    	      title: '¡Ya está en el Rack!',
     	      showConfirmButton: false,
     	      timer: 1550
     	})
@@ -258,7 +258,7 @@ var shoppingCart = (function () {
     	  Swal.fire({
     	      position: 'center',
     	      icon: 'success',
-    	      title: '¡Añadido al carrito!',
+    	      title: '¡Añadido al Rack!',
     	      showConfirmButton: false,
     	      timer: 1550
     	})
@@ -429,7 +429,7 @@ function displayCart() {
   $('.cartLess').remove();
   $('#exampleModalLongTitle').remove();
   $('.close').remove();
-  $('#titleModal').append("<h5 class='modal-title' id='exampleModalLongTitle'>Carrito</h5>"+
+  $('#titleModal').append("<h5 class='modal-title' id='exampleModalLongTitle'>Rack</h5>"+
 		  				   "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"+
   						   "<span aria-hidden='true'>&times;</span>"+
   						   "</button>");
