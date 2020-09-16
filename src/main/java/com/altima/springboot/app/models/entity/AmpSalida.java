@@ -35,6 +35,9 @@ public class AmpSalida implements Serializable {
 	@Column(name="id_precio")
 	private Long idPrecio;
 	
+	@Column(name="id_text")
+	private String idText;
+	
 	@Column(name="referencia")
 	private String referencia;
 	

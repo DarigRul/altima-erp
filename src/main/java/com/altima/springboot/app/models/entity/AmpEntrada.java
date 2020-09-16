@@ -32,6 +32,9 @@ public class AmpEntrada implements Serializable{
 	@Column(name="id_concepto_entrada")
 	private Long idConceptoEntrada;
 	
+	@Column(name="id_text")
+	private String idText;
+	
 	@Column(name="referencia")
 	private String referencia;
 	
