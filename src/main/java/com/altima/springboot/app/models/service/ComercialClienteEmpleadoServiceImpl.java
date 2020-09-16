@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.models.entity.ComercialClienteEmpleado;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoMaterial;
+import com.altima.springboot.app.models.entity.ComercialSpfEmpleado;
 import com.altima.springboot.app.repository.ComercialClienteEmpleadoRepository;
 @Service
 public class ComercialClienteEmpleadoServiceImpl implements ComercialClienteEmpleadoService{
@@ -136,7 +137,12 @@ public class ComercialClienteEmpleadoServiceImpl implements ComercialClienteEmpl
 		
 		
 		
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<ComercialSpfEmpleado> findAllClientesSPF(Long id) {
 		
+			return em.createQuery("from ComercialSpfEmpleado  where id_pedido_spf = "+id+" order by nombre_empleado Desc ").getResultList();
+		}
 		
 		
 

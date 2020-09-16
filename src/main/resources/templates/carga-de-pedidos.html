@@ -145,10 +145,10 @@
                                                 class="btn btn-warning popoverxd" data-container="body"
                                                 data-placement="top"
                                                 data-content="Concentrado por tallas"><i
-                                                class="fas fa-ruler-combined"></i></a> <a
-                                                class="btn btn-secondary popoverxd" data-container="body"
-                                                data-placement="top" data-content="Toma de tallas"><i
-                                                class="fas fa-ruler-combined"></i></a> <a
+                                                class="fas fa-ruler-combined"></i></a> 
+                                                
+                                           
+                                                <a
                                                 th:href="@{/totales-por-razon-social/}+${pedidos[0]}"
                                                 class="btn btn-danger popoverxd" data-container="body"
                                                 data-placement="top"
@@ -239,10 +239,7 @@
                                                 data-container="body" data-placement="top"
                                                 data-content="Concentrado por tallas"><i
                                                 class="fas fa-ruler-combined"></i></a> 
-                                                <a
-                                                class="btn btn-secondary popoverxd" data-container="body"
-                                                data-placement="top" data-content="Toma de tallas"><i
-                                                class="fas fa-ruler-combined"></i></a> 
+                                               
                                                 <a href="#"
                                                 class="btn btn-danger popoverxd" data-container="body"
                                                 data-placement="top"
@@ -272,9 +269,13 @@
                                                 data-placement="top"
                                                 data-content="Empleados SPF"><i
                                                 class="fas fa-user"></i></a>
-                                                <a class="btn btn-secondary popoverxd" data-container="body"
-                                                data-placement="top" data-content="Toma de tallas"><i
-                                                class="fas fa-ruler-combined"></i></a>
+                                                
+                                                <a th:href="@{/concentrado-de-tallas/}+${pedidos[0]}"
+                                                class="btn btn-warning popoverxd" data-container="body"
+                                                data-placement="top"
+                                                data-content="Concentrado por tallas"><i
+                                                class="fas fa-ruler-combined"></i></a> 
+                                                
                                                 <a class="btn btn-danger text-white popoverxd"
                                                 data-container="body" data-placement="top"
                                                 data-content="Cerrar expediente"><i

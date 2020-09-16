@@ -23,7 +23,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>
-                                Empleados SPF&nbsp;<a th:href="${'/carga-de-spf'}" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>&nbsp;<a data-target="#nuevoEmpleadoSPF" data-toggle="modal" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nuevo empleado</a>
+                                Empleados SPF&nbsp;<a th:href="${'/carga-de-pedidos'}" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>&nbsp;<a data-target="#nuevoEmpleadoSPF" data-toggle="modal"  onclick ="llenar_select()" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nuevo empleado</a>
                             </h1>
                         </div>
                         <div th:insert="empleados-spf-modal-nuevo"></div>
@@ -59,14 +59,19 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>PEDG1001</td>
-                                                <td>Juan Manuel Gutierrez</td>
-                                                <td class="text-center">
-                                                    <button data-target="#editarEmpleadoSPF" data-toggle="modal" class="btn btn-warning btn-sm btn-circle popoverxd" data-content="Editar" data-placement="top"><i class="fas fa-pen"></i></button>
-                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-content="Eliminar" data-placement="top"><i class="fas fa-times"></i></button>
+                                            
+                                                
+                                            <tr th:each="list: ${list}">
+                                                <td th:text="${list[1]}"></td>
+                                                <td th:text="${list[2]}"></td>
+                                                 <td class="text-center">
+                                                    <button th:onclick="|editar('${list[0]}')|"	 data-target="#editarEmpleadoSPF" data-toggle="modal" class="btn btn-warning btn-sm btn-circle popoverxd" data-content="Editar" data-placement="top"><i class="fas fa-pen"></i></button>
+                                                    <button th:onclick="|eliminar('${list[0]}')|"	 class="btn btn-danger btn-sm btn-circle popoverxd" data-content="Eliminar" data-placement="top"><i class="fas fa-times"></i></button>
                                                 </td>
                                             </tr>
+                                                
+                                                
+                                            
                                         </tbody>
                                     </table>
                                     <div th:insert="empleados-spf-modal-editar"></div>

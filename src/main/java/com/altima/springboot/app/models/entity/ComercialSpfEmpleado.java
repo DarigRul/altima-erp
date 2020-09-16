@@ -32,7 +32,7 @@ public class ComercialSpfEmpleado implements Serializable{
 	private Long idPedidoSpf;
 	
 	@Column(name="nombre_empleado")
-	private String nombreEmpleado;
+	private String nombre_empleado;
 	
 	@Column(name="creado_por")
 	private String creadoPor;
@@ -73,12 +73,14 @@ public class ComercialSpfEmpleado implements Serializable{
 		this.idPedidoSpf = idPedidoSpf;
 	}
 
-	public String getNombreEmpleado() {
-		return nombreEmpleado;
+	
+
+	public String getNombre_empleado() {
+		return nombre_empleado;
 	}
 
-	public void setNombreEmpleado(String nombreEmpleado) {
-		this.nombreEmpleado = nombreEmpleado;
+	public void setNombre_empleado(String nombre_empleado) {
+		this.nombre_empleado = nombre_empleado;
 	}
 
 	public String getCreadoPor() {

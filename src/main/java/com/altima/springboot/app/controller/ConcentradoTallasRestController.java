@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialConcentradoTalla;
+import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
+import com.altima.springboot.app.models.service.IAdminConfiguracionPedidoService;
+import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialConcentradoTallaService;
 import com.altima.springboot.app.models.service.IProduccionLookupService;
 import com.altima.springboot.app.models.service.IServicioClienteLookupService;
@@ -30,6 +34,12 @@ public class ConcentradoTallasRestController {
 
 	@Autowired
 	IProduccionLookupService ProduccionLookupService;
+	
+	@Autowired
+	private IAdminConfiguracionPedidoService configService;
+	
+	@Autowired
+	private ICargaPedidoService cargaPedidoService;
 
 	@PostMapping("/guardar-concentrado-tallas")
 	public String guardarcontentradotallas(Model model, String Nombre,
@@ -230,9 +240,19 @@ public class ConcentradoTallasRestController {
 	@GetMapping("/prendas-empleado")
 	public List<Object[]> prendasempleado(Long idempleado, Long idpedido) {
 
-		return ConcentradoTallaService.findPrendasEmpleado(idempleado, idpedido);
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(idpedido);
+		
+		AdminConfiguracionPedido config = configService.findOne(Long.parseLong(pedido.getTipoPedido()));
+		if ( config.getTipoPedido() ==1) {
+			return ConcentradoTallaService.findPrendasEmpleado(idempleado, idpedido);
+		}
+		else if ( config.getTipoPedido() ==2 ) {
+			return ConcentradoTallaService.findPrendasEmpleado(idempleado, pedido.getIdPedido());
+		}
+		else {
+			return null;
+		}
 	}
-
 	@RequestMapping(value = "/editar", method = RequestMethod.POST)
 	public boolean editar(Model model, @RequestParam(value = "talla", required = false) Long talla,
 			@RequestParam(value = "largo", required = false) Long largo, Long pedido, Long prenda, Long empleado) {

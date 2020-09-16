@@ -11,17 +11,20 @@
           <div class="row">
             <div class="form-group col-md-12">
                 <label for="agregarEmpleadoSPF">Nombre del empleado</label>
-                <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="agregarEmpleadoSPF">
-                    <option th:each="empleados: ${empleados}" th:value="${empleados[0]}"
-					th:text="${empleados[1]}"></option>
+                <select class="form-control selectpicker idEmpleado" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="idEmpleado" name="idEmpleado">
+                    
                 </select>
             </div>
+            <input type="hidden" th:value="${idPedidoSpf}" name="idPedidoSpf" id="idPedidoSpf">
+            <input type="hidden" id="nombreEmpleado" name ="nombreEmpleado">
           </div>
+          <input type="hidden" name="_csrf" id="token"
+                                    th:value="${_csrf.token}" />
         </div>
         <div class="modal-footer">
             <button data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
             <button data-dismiss="modal" class="btn icon-btn btn-success text-white mr-auto"><span class="btn-glyphicon fas fa-plus img-circle text-success"></span>Agregar todos</button>
-            <button type="submit" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar uno</button>            
+            <button id ="btn-enviar" name ="btn-enviar" type="submit" onclick="agregarSPF()" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar uno</button>            
         </div>
       </div>
     </div>

@@ -9,7 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
+import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
+import com.altima.springboot.app.models.service.IAdminConfiguracionPedidoService;
+import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialConcentradoTallaService;
 import com.altima.springboot.app.models.service.IProduccionLookupService;
 import com.altima.springboot.app.models.service.IServicioClienteLookupService;
@@ -25,6 +30,12 @@ public class ConcentradoTallasController {
 
 	@Autowired
 	IProduccionLookupService ProduccionLookupService;
+	
+	@Autowired
+	IAdminConfiguracionPedidoService configService;
+	
+	@Autowired
+	private ICargaPedidoService cargaPedidoService;
 
 	/*
 	 * este componente(@authComponent) funciona mandando el id del registro como
@@ -61,11 +72,25 @@ public class ConcentradoTallasController {
 		ConcentradoTallaService.findPrendaCliente(idpedido);
 
 		model.addAttribute("idpedido", idpedido);
-		model.addAttribute("empleados", ComClienteEmpleadoService.findAllEmpleadosEmpresa(idpedido));
-		model.addAttribute("prendas", ConcentradoTallaService.findPrendaCliente(idpedido));
-		model.addAttribute("talla", ProduccionLookupService.findAllByType("Talla"));
-		model.addAttribute("largo", ProduccionLookupService.findAllByType("Largo"));
-		model.addAttribute("especificacion", ServicioClienteLookupService.findAllByType("Especificacion"));
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(idpedido);
+		
+		AdminConfiguracionPedido config = configService.findOne(Long.parseLong(pedido.getTipoPedido()));
+		if ( config.getTipoPedido() ==1) {
+			model.addAttribute("empleados", ComClienteEmpleadoService.findAllEmpleadosEmpresa(idpedido));
+			model.addAttribute("prendas", ConcentradoTallaService.findPrendaCliente(idpedido));
+			model.addAttribute("talla", ProduccionLookupService.findAllByType("Talla"));
+			model.addAttribute("largo", ProduccionLookupService.findAllByType("Largo"));
+			model.addAttribute("especificacion", ServicioClienteLookupService.findAllByType("Especificacion"));
+		}
+		else if ( config.getTipoPedido() ==2 ) {
+			
+			model.addAttribute("empleados", ComClienteEmpleadoService.findAllClientesSPF(idpedido));
+			model.addAttribute("prendas", ConcentradoTallaService.findPrendaCliente(pedido.getIdPedido()));
+			model.addAttribute("talla", ProduccionLookupService.findAllByType("Talla"));
+			model.addAttribute("largo", ProduccionLookupService.findAllByType("Largo"));
+			model.addAttribute("especificacion", ServicioClienteLookupService.findAllByType("Especificacion"));
+		}
+		
 		return "agregar-concentrado-de-tallas";
 	}
 

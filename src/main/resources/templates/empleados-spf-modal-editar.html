@@ -11,13 +11,15 @@
           <div class="row">
             <div class="form-group col-md-12">
                 <label for="actualizarEmpleadoSPF">Nombre del empleado</label>
-                <input class="form-control" type="text" id="actualizarEmpleadoSPF" placeholder="Jose Luis Martinez">
+                <input class="form-control" type="text" id="actualizarEmpleadoSPF" name ="actualizarEmpleadoSPF" placeholder="Jose Luis Martinez">
+                
+                <input class="form-control" type="hidden" id="idSpfEmpleado2"  name ="idSpfEmpleado2" placeholder="Jose Luis Martinez">
             </div>
           </div>
         </div>
         <div class="modal-footer">
             <button data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
-            <button type="submit" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>            
+            <button onclick="agregarSPFeditar()" id="btn-enviar-editar" type="submit" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>            
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 
 import com.altima.springboot.app.models.entity.ComercialClienteEmpleado;
+import com.altima.springboot.app.models.entity.ComercialSpfEmpleado;
 
 
 public interface ComercialClienteEmpleadoService {
@@ -39,6 +40,7 @@ public interface ComercialClienteEmpleadoService {
 	public String findMaxByidText( Long idPedidoInformacion);
 	
 	
+	List<ComercialSpfEmpleado> findAllClientesSPF(Long id);
 	
 	
 	

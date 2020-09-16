@@ -1,8 +1,6 @@
 package com.altima.springboot.app.models.service;
 
 import java.util.List;
-
-import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialSpfEmpleado;
 
 public interface IComercialSpfEmpleadoService {
@@ -17,5 +15,7 @@ public interface IComercialSpfEmpleadoService {
 	ComercialSpfEmpleado findOne(Long id);
 	
 	List<Object[]> empleados (Long id);
+	
+	List<Object[]> findAll (Long id);
 
 }
