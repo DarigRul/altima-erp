@@ -538,3 +538,213 @@ function reactiveRuta(){
 		  }
 		});
 }
+
+// ALMACEN LOGICO
+$('#detalleMaquileros').on('shown.bs.modal', function () {
+	$(document).off('focusin.modal');
+});
+function agregarMaquileros(){
+	Swal.fire({
+		  title: 'Nueva maquileros',
+		  html:
+			  '<div class="row">'+
+				  '<div class="form-group col-md-6">'+
+				  	'<label for="nombreMaquileros">Nombre</label>'+
+				  	'<input type="text" class="form-control" id="nombreMaquileros" placeholder="Maquileros S.A. de C.V.">'+
+				  '</div>'+
+				  '<div class="form-group col-md-6">'+
+				  	'<label for="telefonoMaquileros">Tel&eacute;fono</label>'+
+				  	'<input type="number" class="form-control" id="telefonoMaquileros" placeholder="222 182 23 12">'+
+				  '</div>'+
+			  '</div>',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Maquilero agregado correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function editarMaquileros(){
+	Swal.fire({
+		  title: 'Editar maquileros',
+		  html:
+			  '<div class="row">'+
+				  '<div class="form-group col-md-6">'+
+				  	'<label for="nombreMaquilerosE">Nombre</label>'+
+				  	'<input type="text" class="form-control" id="nombreMaquilerosE" placeholder="Maquileros S.A. de C.V.">'+
+				  '</div>'+
+				  '<div class="form-group col-md-6">'+
+				  	'<label for="telefonoMaquilerosE">Tel&eacute;fono</label>'+
+				  	'<input type="number" class="form-control" id="telefonoMaquilerosE" placeholder="222 182 23 12">'+
+				  '</div>'+
+			  '</div>',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Maquilero editado correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function bajaMaquileros(){
+	Swal.fire({
+		  title: '¿Deseas dar de baja al maquilero?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Maquilero dado de baja correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function altaMaquileros(){
+	Swal.fire({
+		  title: '¿Deseas dar de alta al maquilero?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Maquilero dado de alta correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+
+// ALMACEN LOGICO
+$('#detalleEntrega').on('shown.bs.modal', function () {
+	$(document).off('focusin.modal');
+});
+function agregarEntrega(){
+	Swal.fire({
+		  title: 'Nueva falla de entrega',
+		  html:
+		  '<div class="row">'+
+			  '<div class="form-group col-md-12">'+
+				  '<label for="fallaEntrega">Falla de entrega</label>'+
+				  '<input type="text" class="form-control" id="fallaEntrega" placeholder="Especificar">'+
+			  '</div>'+
+		  '</div>',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Falla de entrega agregada correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function editarEntrega(){
+	Swal.fire({
+		  title: 'Editar falla de entrega',
+		  html:
+		  '<div class="row">'+
+			  '<div class="form-group col-md-12">'+
+				  '<label for="fallaEntregaE">Falla de entrega</label>'+
+				  '<input type="text" class="form-control" id="fallaEntregaE" placeholder="Especificar">'+
+			  '</div>'+
+		  '</div>',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Falla de entrega editada correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function bajaEntrega(){
+	Swal.fire({
+		  title: '¿Deseas dar de baja la falla de entrega?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Falla de entrega dada de baja correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
+function altaEntrega(){
+	Swal.fire({
+		  title: '¿Deseas dar de alta la falla de entrega?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Falla de entrega dada de alta correctamente',
+				  showConfirmButton: false,
+				  timer: 2500
+				})
+		  }
+		});
+}
