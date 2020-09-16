@@ -68,6 +68,16 @@ public class AmpSalida implements Serializable {
 	@Column(name="estatus")
 	private String estatus;
 
+	
+	
+	public String getIdText() {
+		return idText;
+	}
+
+	public void setIdText(String idText) {
+		this.idText = idText;
+	}
+
 	public Long getIdSalida() {
 		return idSalida;
 	}
