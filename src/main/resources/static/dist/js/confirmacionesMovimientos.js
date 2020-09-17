@@ -1494,6 +1494,7 @@ function insertarCodigo(){
 	}).then((result) => {
 	    if (result.value){
 	    	var codigoTraspaso = $('#codigoTraspasoConfirm').val();
+	    	var empresaTraspaso = $('#empresaTraspaso').val();
 	    	$.ajax({
 				method:"POST",
 				url:"/codigoTraspasoSolicitud",
