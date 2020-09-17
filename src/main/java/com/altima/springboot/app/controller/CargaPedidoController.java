@@ -83,7 +83,7 @@ public class CargaPedidoController {
 
 	@PostMapping("/guardar-carga-pedido")
 	@ResponseBody
-	public String guardacatalogo(Long cargaEmpresa, String cargaTipopedido, Long id_pedido, HttpServletRequest request,
+	public String guardacatalogo(Long cargaEmpresa, String cargaTipopedido, Long id_pedido,String fechaTallas ,HttpServletRequest request,
 			RedirectAttributes redirectAttrs) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
@@ -123,6 +123,7 @@ public class CargaPedidoController {
 					pedido.setFechaCreacion(hourdateFormat.format(date));
 					pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
 					pedido.setEstatus("1");
+					pedido.setFechaTomaTalla(fechaTallas);
 					pedido.setIdUsuario(currentuserid.currentuserid());
 					cargaPedidoService.save(pedido);
 					pedido.setIdText("S"+cargaPedidoService.ContadorStock(id_pedido)+pedidoAux.getIdText());
@@ -373,7 +374,65 @@ public class CargaPedidoController {
 				}
 				
 			}
+	 
+	 
+	 @RequestMapping(value = "/validar-stock-disponibles", method = RequestMethod.GET)
+		@ResponseBody
+			public String  validarStockDisponibles(Long id) {
+				String vali =cargaPedidoService.CantidadStock(id);
+				
+				return vali;
 	
-}
+	 }
+	 
+	 @PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
+	 @RequestMapping(value = "/cerrar-expediente-Stock", method = RequestMethod.GET)
+	@ResponseBody
+		public String  cerrarStock(Long id) {
+		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		 ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+		 
+		 AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(pedido.getTipoPedido());
+		 
+		 Integer CantidadPiezas =cargaPedidoService.validarPiezasStock(id);
+		 
+		 System.out.println("Esta es la consult de piezas Stock  "+CantidadPiezas);
+		 if ( CantidadPiezas != 0) {
+			 Integer sumaDias =0;
+				if ( cargaPedidoService.validarBordadoStock(id) == true ) {
+					sumaDias +=  Integer.parseInt(config.getDiasBordado());
+				}
+				
+				if ( CantidadPiezas <=  Integer.parseInt(config.getCantidadPrenda())   ) {
+					sumaDias +=  Integer.parseInt(config.getMinimoDias());
+				}else {
+					sumaDias +=  Integer.parseInt(config.getMaximoDias());
+				}
+				
+				
+				
+
+				pedido.setEstatus("2");
+				pedido.setFechaCierre(hourdateFormat.format(date));
+				pedido.setFechaEntrega(cargaPedidoService.CalcularFecha(pedido.getFechaCierre(), sumaDias));
+				pedido.setActualizadoPor(auth.getName());
+				pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
+				pedido.setDiaEstimados(Integer.toString(sumaDias));
+				cargaPedidoService.save(pedido);
+				
+				
+				return null;
+		 }
+		
+		 else {
+			 return "No contiene empleados";
+		 }
+			
+		
+		
+		}
    
+}
 

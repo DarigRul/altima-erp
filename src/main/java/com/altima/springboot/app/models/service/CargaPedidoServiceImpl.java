@@ -431,14 +431,6 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 	@Override
 	@Transactional
 	public Integer ContadorStock(Long id){
-		
-		System.out.println("SELECT\n" + 
-				"	COUNT( inf.id_pedido_informacion ) \n" + 
-				"FROM\n" + 
-				"	alt_comercial_pedido_informacion AS inf \n" + 
-				"WHERE\n" + 
-				"	1 = 1 \n" + 
-				"	AND inf.id_pedido = "+id);
 		String re = em.createNativeQuery("SELECT\n" + 
 				"	COUNT( inf.id_pedido_informacion ) \n" + 
 				"FROM\n" + 
@@ -450,6 +442,113 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 		
 		double d = Double.parseDouble(re); 
 		return (int) d;
+	}
+	
+	
+	@Override
+	@Transactional
+	public String CantidadStock(Long id){
+		String re = em.createNativeQuery("SELECT \n" + 
+				"					COUNT(empleado.id_empleado)\n" + 
+				"				FROM\n" + 
+				"					alt_comercial_pedido_informacion AS pedido, \n" + 
+				"					alt_comercial_pedido_informacion AS spf, \n" + 
+				"					alt_comercial_cliente_empleado AS empleado  \n" + 
+				"				WHERE \n" + 
+				"				1 = 1 \n" + 
+				"					AND spf.id_pedido = pedido.id_pedido_informacion \n" + 
+				"					AND empleado.id_pedido_informacion = pedido.id_pedido_informacion \n" + 
+				"					AND spf.id_pedido_informacion = "+id+" \n" + 
+				"					AND empleado.nombre_empleado LIKE '%spf%'  ")
+				.getSingleResult().toString();
+		
+		int maximoStock = Integer.parseInt(re); 
+		
+		String re2 = em.createNativeQuery("SELECT\n" + 
+				"					COUNT(empleado.id_empleado)\n" +
+				"FROM\n" + 
+				"	alt_comercial_pedido_informacion AS pedido,\n" + 
+				"	alt_comercial_pedido_informacion AS spf,\n" + 
+				"	alt_comercial_cliente_empleado AS empleado \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND spf.id_pedido = pedido.id_pedido_informacion \n" + 
+				"	AND empleado.id_pedido_informacion = pedido.id_pedido_informacion \n" + 
+				"	AND spf.id_pedido_informacion = "+id+" \n" + 
+				"	AND empleado.nombre_empleado LIKE '%spf%' \n" + 
+				"	AND empleado.id_empleado IN (\n" + 
+				"	SELECT\n" + 
+				"		empleado.id_empleado \n" + 
+				"	FROM\n" + 
+				"		alt_comercial_spf_empleado AS empleado \n" + 
+				"	WHERE\n" + 
+				"	empleado.estatus = 1 \n" + 
+				"	)")
+				.getSingleResult().toString();
+		
+		int aplican = Integer.parseInt(re2); 
+		
+		if ( maximoStock > aplican) {
+			return "Stocks restantes: "+(maximoStock-aplican);
+		}else {
+			return null;
+		}
+	}
+	
+	@Override
+	@Transactional
+	public Integer validarPiezasStock(Long id){
+		
+		String re = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	COUNT( spf.id_empleado ) \n" + 
+				"FROM\n" + 
+				"	alt_comercial_spf_empleado AS spf,\n" + 
+				"	alt_comercial_concetrado_prenda AS concen \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND concen.id_empleado = spf.id_empleado \n" + 
+				"	AND spf.id_pedido_spf = "+id)
+				.getSingleResult().toString();
+		
+		
+		if ( re.isEmpty()) {
+			return 0;
+		}else {
+			double d = Double.parseDouble(re); 
+			return (int) d;
+		}
+		
+		
+		
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public boolean validarBordadoStock(Long id){
+		String re = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	COUNT( bordado.id_bordado ) \n" + 
+				"FROM\n" + 
+				"	alt_comercial_spf_empleado AS spf,\n" + 
+				"	alt_comercial_concetrado_prenda AS concen,\n" + 
+				"	alt_comercial_prenda_bordado AS bordado \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND concen.id_empleado = spf.id_empleado \n" + 
+				"	AND bordado.id_coordinado_prenda = concen.id_coordinado_prenda \n" + 
+				"	AND spf.id_pedido_spf = "+id+" \n" + 
+				"GROUP BY\n" + 
+				"	bordado.id_bordado").getSingleResult().toString();
+		if ( re.equals("0")) {
+			return false;
+		}else {
+			return true;
+		}
+		
+		
 	}
 	
 }
