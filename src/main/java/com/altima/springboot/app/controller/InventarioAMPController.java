@@ -40,6 +40,7 @@ import com.altima.springboot.app.models.entity.HrDireccion;
 import com.altima.springboot.app.models.service.IAmpInventarioProovedorService;
 import com.altima.springboot.app.models.service.IAmpInventarioService;
 import com.altima.springboot.app.models.service.IAmpLoookupService;
+import com.altima.springboot.app.models.service.IAmpMultialmacenService;
 import com.altima.springboot.app.models.service.ICatalogoService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IDisenioForroService;
@@ -73,13 +74,15 @@ public class InventarioAMPController {
 	@Autowired
 	private IDisenioMaterialService disenioMaterialService;
 	
-	
+	@Autowired
+	private IAmpMultialmacenService AmpMultialmacenService;
 	
 	
 	@GetMapping("/inventario-amp")
 	public String listInv(Model model)
 	{
 		model.addAttribute("inventario", InventarioSerivice.findAll());
+		model.addAttribute("almaceneslogicos", AmpMultialmacenService.findAllActiveAMPLogic());
 		return"inventario-amp";
 	}
 	

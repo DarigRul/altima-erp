@@ -128,6 +128,14 @@ public class AmpMultialmacen implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public Long getIdArticulo() {
+		return idArticulo;
+	}
+
+	public void setIdArticulo(Long idArticulo) {
+		this.idArticulo = idArticulo;
+	}
 	
 
 
