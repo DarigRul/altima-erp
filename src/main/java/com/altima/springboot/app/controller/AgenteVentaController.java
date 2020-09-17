@@ -27,6 +27,7 @@ import com.altima.springboot.app.models.entity.Usuario;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialCalendarioService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
+import com.altima.springboot.app.models.service.IComercialMovimientoService;
 import com.altima.springboot.app.models.service.IUsuarioService;
 
 @Controller
@@ -42,6 +43,9 @@ public class AgenteVentaController {
 
 	@Autowired
 	IUsuarioService usuarioService;
+	
+	@Autowired
+	IComercialMovimientoService movimientoService;
 
 	@GetMapping("/obtener-clientes")
 	@ResponseBody
@@ -145,8 +149,32 @@ public class AgenteVentaController {
 	}
 
 	@GetMapping("/movimientos-agentes")
-	public String listMovi() {
-		return "movimientos-agentes";
+	public String listMovi(Model model) {
+		
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if(auth.getName().equalsIgnoreCase("ADMIN")) {
+				model.addAttribute("listMovimientos", movimientoService.findAllWithNames());
+				return "movimientos-agentes";
+			}
+			else {
+				try {
+					Object[] empleado = usuarioService.findEmpleadoByUserName(auth.getName());
+					model.addAttribute("listMovimientos", movimientoService.findAllWithNamesByAgente(Long.parseLong(empleado[0].toString())));
+					return "movimientos-agentes";
+				}
+				catch(Exception e) {
+					model.addAttribute("listMovimientos", movimientoService.findAllWithNames());
+					return "movimientos-agentes";
+				}
+			}
+		}
+		catch(Exception e) {
+			
+			return "movimientos-agentes";
+		}
+		finally {
+			
+		}
 	}
-
 }

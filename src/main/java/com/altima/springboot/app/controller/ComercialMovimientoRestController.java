@@ -18,6 +18,7 @@ import com.altima.springboot.app.models.entity.ComercialCliente;
 import com.altima.springboot.app.models.entity.ComercialMovimiento;
 import com.altima.springboot.app.models.entity.ComercialMovimientoMuestraDetalle;
 import com.altima.springboot.app.models.entity.ComercialRackPrenda;
+import com.altima.springboot.app.models.entity.ComercialTokenTraspaso;
 import com.altima.springboot.app.models.entity.HrEmpleado;
 import com.altima.springboot.app.models.entity.ProduccionDetallePedido;
 import com.altima.springboot.app.models.service.IComercialClienteService;
@@ -26,6 +27,7 @@ import com.altima.springboot.app.models.service.IComercialMovimientoService;
 import com.altima.springboot.app.models.service.IComercialRackPrendaService;
 import com.altima.springboot.app.models.service.IHrEmpleadoService;
 import com.altima.springboot.app.models.service.IProduccionDetalleService;
+import com.altima.springboot.app.models.service.IUsuarioService;
 
 @RestController
 public class ComercialMovimientoRestController {
@@ -48,10 +50,22 @@ public class ComercialMovimientoRestController {
 	@Autowired
 	private IComercialRackPrendaService rackService;
 	
+	@Autowired
+	private IUsuarioService usuarioService;
+	
 	@RequestMapping(value ="/listarVendedores", method=RequestMethod.GET)
-	public List<Object> listarVendedores(){
+	public List<Object> listarVendedores(@RequestParam(name="EsTraspaso", required=false)Long EsTraspaso){
 		
-		return empleadoService.findAllByPuesto("Agente de Ventas");
+		if(EsTraspaso==null) {
+			return empleadoService.findAllByPuesto("Agente de Ventas");
+		}
+		else{
+			System.out.println(EsTraspaso);
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Object[] empleado = usuarioService.findEmpleadoByUserName(auth.getName());
+			Long idAgente = Long.parseLong(empleado[0].toString());
+			return empleadoService.findAllByPuestoWithoutAgenteLogued("Agente de Ventas", idAgente);
+		}
 	}
 	
 	@RequestMapping(value="/listarEmpresasMovimiento", method=RequestMethod.GET)
@@ -715,135 +729,167 @@ public class ComercialMovimientoRestController {
 	}
 	
 	@RequestMapping(value="/traspasoSolicitud", method = RequestMethod.POST)
-	public void traspasoSolicitud(@RequestParam("idMuestras")String muestrasDevolver,
+	public int traspasoSolicitud(@RequestParam("idMuestras")String muestrasDevolver,
 								  @RequestParam("movimiento")String idMovimiento,
-								  @RequestParam("empresaTraspaso")String empresaTraspaso,
-								  @RequestParam("nuevoVendedor")Long vendedor,
+								  @RequestParam("codigoTraspaso")Long codigoTraspaso,
 								  @RequestParam("object_muestras")String objectmuestras) {
 		
 		try {
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-			LocalDateTime now = LocalDateTime.now();
-			String[] listaids;
-			listaids = muestrasDevolver.split(",");
-			ComercialMovimientoMuestraDetalle muestrita = new ComercialMovimientoMuestraDetalle();
-			ComercialMovimiento movimientoEntity = movimientoService.findOne(Long.parseLong(idMovimiento));
-			HrEmpleado nombrevendedor = empleadoService.findOne(vendedor);
+			ComercialTokenTraspaso token = moviDetalleService.findCode(codigoTraspaso);
+			moviDetalleService.removeToken(token);
 			
-			for (String i :listaids) {
-				muestrita = moviDetalleService.FindMuestraByPedido(Long.parseLong(idMovimiento),Long.parseLong(i));
+			try {
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+				LocalDateTime now = LocalDateTime.now();
+				String[] listaids;
+				listaids = muestrasDevolver.split(",");
+				ComercialMovimientoMuestraDetalle muestrita = new ComercialMovimientoMuestraDetalle();
+				ComercialMovimiento movimientoEntity = movimientoService.findOne(Long.parseLong(idMovimiento));
+				HrEmpleado nombrevendedor = empleadoService.findOne(token.getIdAgente());
 				
-				muestrita.setEstatus(muestrita.getEstatus()+1);
-				moviDetalleService.save(muestrita);
+				for (String i :listaids) {
+					muestrita = moviDetalleService.FindMuestraByPedido(Long.parseLong(idMovimiento),Long.parseLong(i));
+					
+					muestrita.setEstatus(muestrita.getEstatus()+1);
+					moviDetalleService.save(muestrita);
+		
+					ComercialMovimientoMuestraDetalle muestraDetalleEntity = new ComercialMovimientoMuestraDetalle();
+					
+					muestraDetalleEntity.setIdDetallePedido(muestrita.getIdDetallePedido());
+					muestraDetalleEntity.setCodigoBarras(muestrita.getCodigoBarras());
+					muestraDetalleEntity.setIdMovimiento(muestrita.getIdMovimiento());
+					muestraDetalleEntity.setNombreMuestra(muestrita.getNombreMuestra());
+					muestraDetalleEntity.setModeloPrenda(muestrita.getModeloPrenda());
+					muestraDetalleEntity.setCodigoTela(muestrita.getCodigoTela());
+					muestraDetalleEntity.setActualizadoPor(auth.getName());
+					muestraDetalleEntity.setFecha_salida(dtf.format(now));
+					muestraDetalleEntity.setEntregadaPor(muestrita.getRecibidaPor());
+					muestraDetalleEntity.setRecibidaPor(nombrevendedor.getApellidoPaterno()==null || 
+														nombrevendedor.getApellidoMaterno()==null?
+														nombrevendedor.getNombrePersona():nombrevendedor.getNombrePersona()+" "+ nombrevendedor.getApellidoPaterno()+" "+nombrevendedor.getApellidoMaterno());
+					muestraDetalleEntity.setFechaCreacion(dtf.format(now));
+					muestraDetalleEntity.setUltimaFechaModificacion(dtf.format(now));
+					muestraDetalleEntity.setCreadoPor(auth.getName());
+					muestraDetalleEntity.setEstatus(11);
+					moviDetalleService.save(muestraDetalleEntity);
+					
+					
+				}
+				
+				if(moviDetalleService.ifExistCheckBox(muestrita.getIdMovimiento()).equals("1")) {
+					
+					movimientoEntity.setEstatus("Traspaso");
+					movimientoEntity.setFecha_entrega(dtf.format(now));
+					movimientoService.save(movimientoEntity);
+				}	else {
+					movimientoEntity.setEstatus("Traspasado");
+					movimientoEntity.setFecha_entrega(dtf.format(now));
+					movimientoService.save(movimientoEntity);
+				}
+				
+				HrEmpleado empleado = empleadoService.findOne(Long.parseLong(movimientoEntity.getVendedor()));
+				
+				ComercialMovimiento comercialEntity = new ComercialMovimiento();
+				
+				
+				comercialEntity.setVendedor(token.getIdAgente().toString());
+				comercialEntity.setEmpresa(movimientoEntity.getEmpresa());
+				comercialEntity.setEncargado(empleado.getApellidoPaterno()==null || 
+											 empleado.getApellidoMaterno()==null?
+											 empleado.getNombrePersona():empleado.getNombrePersona()+" "+ empleado.getApellidoPaterno()+" "+empleado.getApellidoMaterno());
+				comercialEntity.setCreadoPor(auth.getName());
+				comercialEntity.setActualizadoPor(auth.getName());
+				comercialEntity.setFechaCreacion(dtf.format(now));
+				comercialEntity.setFecha_salida(dtf.format(now));
+				comercialEntity.setUltimaFechaModificacion(dtf.format(now));
+				comercialEntity.setEstatus("Traspaso");
+				comercialEntity.setIdText(" ");
+				movimientoService.save(comercialEntity);
+				comercialEntity.setIdText("MOV"+(comercialEntity.getIdMovimiento() +10000));
+				movimientoService.save(comercialEntity);
+				
+				 
+				/* lista de estatus en la tabla de muestras
+				 * 
+				 * 1 = "Pendiente de recoger"
+				 * 2 = "Cancelado"
+				 * 3 = "Devolución"
+				 * 4 = "Entregado a vendedor" con checkBox en la tabla
+				 * 5 = "Entregado a vendedor" sin checkBox en la tabla
+				 * 6 = "Traspaso" con checkBox en la tabla
+				 * 7 = "Traspaso" sin checkBox en la tabla
+				 * 8 = "Prestado a empresa" con checkBox en la tabla
+				 * 9 = "Prestado a empresa" sin checkBox en la tabla
+				 * 10= "Devolución con recargos"
+				 * 11= "Traspasado"
+				 **********/
+				
+				JSONArray muestras = new JSONArray(objectmuestras);
+				for (int i = 0; i < muestras.length(); i++) {
+					ComercialMovimientoMuestraDetalle muestraDetalleEntity = new ComercialMovimientoMuestraDetalle();
+					System.out.println(muestras);
+					JSONObject muestra = muestras.getJSONObject(i);
+					System.out.println(muestra.get("idmuestra").toString());
+					muestraDetalleEntity.setIdDetallePedido(Long.parseLong(muestra.get("idmuestra").toString()));
+					muestraDetalleEntity.setCodigoBarras(muestra.getString("codigoBarras").toString());
+					muestraDetalleEntity.setIdMovimiento(comercialEntity.getIdMovimiento());
+					muestraDetalleEntity.setNombreMuestra(muestra.getString("nombreMuestra").toString());
+					muestraDetalleEntity.setModeloPrenda(muestra.getString("idPrenda").toString());
+					muestraDetalleEntity.setCodigoTela(muestra.getString("idTela").toString());
+					muestraDetalleEntity.setEntregadaPor(empleado.getApellidoPaterno()==null || 
+							 							 empleado.getApellidoMaterno()==null?
+							 							 empleado.getNombrePersona():empleado.getNombrePersona()+" "+ empleado.getApellidoPaterno()+" "+empleado.getApellidoMaterno());
+					muestraDetalleEntity.setRecibidaPor(nombrevendedor.getApellidoPaterno()==null || 
+														nombrevendedor.getApellidoMaterno()==null?
+														nombrevendedor.getNombrePersona():nombrevendedor.getNombrePersona()+" "+ nombrevendedor.getApellidoPaterno()+" "+nombrevendedor.getApellidoMaterno());
+					muestraDetalleEntity.setFecha_salida(dtf.format(now));
+					muestraDetalleEntity.setFechaCreacion(dtf.format(now));
+					muestraDetalleEntity.setUltimaFechaModificacion(dtf.format(now));
+					muestraDetalleEntity.setCreadoPor(auth.getName());
+					muestraDetalleEntity.setActualizadoPor(auth.getName());
+					muestraDetalleEntity.setEstatus(6);
+					
+					System.out.println(muestras);
+					moviDetalleService.save(muestraDetalleEntity);
+				
+				
+				}
+			}catch(Exception e) {
+				System.out.println(e);
+			}
+			finally {
+				System.out.println("Fin de proceso traspasoSolicitud");
+			}
+			return 1;
+		}
+		catch(Exception e) {
+			return 2;
+		}
+	}
 	
-				ComercialMovimientoMuestraDetalle muestraDetalleEntity = new ComercialMovimientoMuestraDetalle();
-				
-				muestraDetalleEntity.setIdDetallePedido(muestrita.getIdDetallePedido());
-				muestraDetalleEntity.setCodigoBarras(muestrita.getCodigoBarras());
-				muestraDetalleEntity.setIdMovimiento(muestrita.getIdMovimiento());
-				muestraDetalleEntity.setNombreMuestra(muestrita.getNombreMuestra());
-				muestraDetalleEntity.setModeloPrenda(muestrita.getModeloPrenda());
-				muestraDetalleEntity.setCodigoTela(muestrita.getCodigoTela());
-				muestraDetalleEntity.setActualizadoPor(auth.getName());
-				muestraDetalleEntity.setFecha_salida(dtf.format(now));
-				muestraDetalleEntity.setEntregadaPor(muestrita.getRecibidaPor());
-				muestraDetalleEntity.setRecibidaPor(nombrevendedor.getApellidoPaterno()==null || 
-													nombrevendedor.getApellidoMaterno()==null?
-													nombrevendedor.getNombrePersona():nombrevendedor.getNombrePersona()+" "+ nombrevendedor.getApellidoPaterno()+" "+nombrevendedor.getApellidoMaterno());
-				muestraDetalleEntity.setFechaCreacion(dtf.format(now));
-				muestraDetalleEntity.setUltimaFechaModificacion(dtf.format(now));
-				muestraDetalleEntity.setCreadoPor(auth.getName());
-				muestraDetalleEntity.setEstatus(11);
-				moviDetalleService.save(muestraDetalleEntity);
-				
-				
-			}
+	@RequestMapping(value="/codigoTraspasoSolicitud", method = RequestMethod.POST)
+	public int codigoTraspasoSolicitud(@RequestParam("codigoTraspaso")Long codigoTraspaso) {
+	System.out.println(codigoTraspaso);
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Object[] empleado = usuarioService.findEmpleadoByUserName(auth.getName());
+			Long idAgente = Long.parseLong(empleado[0].toString());
 			
-			if(moviDetalleService.ifExistCheckBox(muestrita.getIdMovimiento()).equals("1")) {
-				
-				movimientoEntity.setEstatus("Traspaso");
-				movimientoEntity.setFecha_entrega(dtf.format(now));
-				movimientoService.save(movimientoEntity);
-			}	else {
-				movimientoEntity.setEstatus("Traspasado");
-				movimientoEntity.setFecha_entrega(dtf.format(now));
-				movimientoService.save(movimientoEntity);
-			}
+			ComercialTokenTraspaso token = new ComercialTokenTraspaso();
+			token.setCodigoTraspaso(codigoTraspaso);
+			token.setIdAgente(idAgente);
+			moviDetalleService.saveToken(token);
 			
-			HrEmpleado empleado = empleadoService.findOne(Long.parseLong(movimientoEntity.getVendedor()));
-			
-			ComercialMovimiento comercialEntity = new ComercialMovimiento();
-			
-			
-			comercialEntity.setVendedor(vendedor.toString());
-			comercialEntity.setEmpresa(empresaTraspaso);
-			comercialEntity.setEncargado(empleado.getApellidoPaterno()==null || 
-										 empleado.getApellidoMaterno()==null?
-										 empleado.getNombrePersona():empleado.getNombrePersona()+" "+ empleado.getApellidoPaterno()+" "+empleado.getApellidoMaterno());
-			comercialEntity.setCreadoPor(auth.getName());
-			comercialEntity.setActualizadoPor(auth.getName());
-			comercialEntity.setFechaCreacion(dtf.format(now));
-			comercialEntity.setFecha_salida(dtf.format(now));
-			comercialEntity.setUltimaFechaModificacion(dtf.format(now));
-			comercialEntity.setEstatus("Traspaso");
-			comercialEntity.setIdText(" ");
-			movimientoService.save(comercialEntity);
-			comercialEntity.setIdText("MOV"+(comercialEntity.getIdMovimiento() +10000));
-			movimientoService.save(comercialEntity);
-			
-			 
-			/* lista de estatus en la tabla de muestras
-			 * 
-			 * 1 = "Pendiente de recoger"
-			 * 2 = "Cancelado"
-			 * 3 = "Devolución"
-			 * 4 = "Entregado a vendedor" con checkBox en la tabla
-			 * 5 = "Entregado a vendedor" sin checkBox en la tabla
-			 * 6 = "Traspaso" con checkBox en la tabla
-			 * 7 = "Traspaso" sin checkBox en la tabla
-			 * 8 = "Prestado a empresa" con checkBox en la tabla
-			 * 9 = "Prestado a empresa" sin checkBox en la tabla
-			 * 10= "Devolución con recargos"
-			 * 11= "Traspasado"
-			 **********/
-			
-			JSONArray muestras = new JSONArray(objectmuestras);
-			for (int i = 0; i < muestras.length(); i++) {
-				ComercialMovimientoMuestraDetalle muestraDetalleEntity = new ComercialMovimientoMuestraDetalle();
-				System.out.println(muestras);
-				JSONObject muestra = muestras.getJSONObject(i);
-				System.out.println(muestra.get("idmuestra").toString());
-				muestraDetalleEntity.setIdDetallePedido(Long.parseLong(muestra.get("idmuestra").toString()));
-				muestraDetalleEntity.setCodigoBarras(muestra.getString("codigoBarras").toString());
-				muestraDetalleEntity.setIdMovimiento(comercialEntity.getIdMovimiento());
-				muestraDetalleEntity.setNombreMuestra(muestra.getString("nombreMuestra").toString());
-				muestraDetalleEntity.setModeloPrenda(muestra.getString("idPrenda").toString());
-				muestraDetalleEntity.setCodigoTela(muestra.getString("idTela").toString());
-				muestraDetalleEntity.setEntregadaPor(empleado.getApellidoPaterno()==null || 
-						 							 empleado.getApellidoMaterno()==null?
-						 							 empleado.getNombrePersona():empleado.getNombrePersona()+" "+ empleado.getApellidoPaterno()+" "+empleado.getApellidoMaterno());
-				muestraDetalleEntity.setRecibidaPor(nombrevendedor.getApellidoPaterno()==null || 
-													nombrevendedor.getApellidoMaterno()==null?
-													nombrevendedor.getNombrePersona():nombrevendedor.getNombrePersona()+" "+ nombrevendedor.getApellidoPaterno()+" "+nombrevendedor.getApellidoMaterno());
-				muestraDetalleEntity.setFecha_salida(dtf.format(now));
-				muestraDetalleEntity.setFechaCreacion(dtf.format(now));
-				muestraDetalleEntity.setUltimaFechaModificacion(dtf.format(now));
-				muestraDetalleEntity.setCreadoPor(auth.getName());
-				muestraDetalleEntity.setActualizadoPor(auth.getName());
-				muestraDetalleEntity.setEstatus(6);
-				
-				System.out.println(muestras);
-				moviDetalleService.save(muestraDetalleEntity);
-			
-			
-			}
-		}catch(Exception e) {
-			System.out.println(e);
+			return 1; 
+		}
+		catch(Exception e) {
+			return 2;
 		}
 		finally {
-			System.out.println("Fin de proceso traspasoSolicitud");
+			
 		}
+	
 	}
 	
 	

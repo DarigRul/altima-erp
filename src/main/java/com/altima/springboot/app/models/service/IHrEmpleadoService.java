@@ -23,4 +23,7 @@ public interface IHrEmpleadoService {
 	Object findEmpleadoById(Long id);
 
 	List<HrEmpleado> findAllEmpleado();
+
+	List<Object> findAllByPuestoWithoutAgenteLogued(String nombrePuesto, Long idAgente);
+
 }

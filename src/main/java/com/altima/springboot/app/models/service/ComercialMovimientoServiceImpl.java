@@ -111,6 +111,64 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 	
 	@Override
 	@Transactional
+	public List<Object> findAllWithNamesByAgente(Long idVendedor){
+		return em.createNativeQuery("SELECT movimiento.id_movimiento, \n" + 
+											"movimiento.id_text, \n" + 
+											"cliente.nombre,\n" + 
+											"cliente.apellido_paterno, \n" + 
+											"cliente.apellido_materno, \n" + 
+											"empleado.nombre_persona, \n" + 
+											"empleado.apellido_paterno as paterno, \n" + 
+											"empleado.apellido_materno as materno, \n" + 
+											"movimiento.fecha_salida, \n" + 
+											"movimiento.fecha_entrega, \n" + 
+											"movimiento.estatus, \n" + 
+											"(SELECT SUM(precio.precio_muestrario) \n" + 
+											" FROM alt_comercial_movimiento_muestra_detalle as muest\n" + 
+											"	INNER JOIN alt_disenio_prenda prenda ON muest.modelo_prenda = prenda.id_prenda\n" +
+											"   INNER JOIN alt_disenio_tela tela ON muest.codigo_tela = tela.id_tela\n" +
+											"	INNER JOIN alt_disenio_lista_precio_prenda precio ON muest.modelo_prenda = precio.id_prenda " +
+											 													"AND tela.id_familia_composicion = precio.id_familia_composicion\n" + 
+											"	WHERE muest.id_movimiento = movimiento.id_movimiento\n" +
+											"   AND (muest.estatus=1 OR muest.estatus=2 OR muest.estatus=6 OR muest.estatus=7)) AS Total, movimiento.encargado\n" + 
+									"from alt_comercial_movimiento as movimiento\n" + 
+									"	INNER JOIN alt_comercial_cliente cliente ON movimiento.empresa = id_cliente\n" + 
+									"	INNER JOIN alt_hr_empleado empleado ON movimiento.vendedor = empleado.id_empleado\n" + 
+									"WHERE movimiento.estatus NOT like 'Rack de prendas' AND movimiento.estatus NOT LIKE 'Rack de prendas registrado'"
+									+ " AND movimiento.vendedor = "+idVendedor +
+									
+									" UNION\n" + 
+
+									"SELECT movimientoRack.id_movimiento,\n" + 
+									"movimientoRack.id_text,  \n" + 
+									"cliente.nombre, \n" + 
+									"cliente.apellido_paterno,  \n" + 
+									"cliente.apellido_materno,  \n" + 
+									"empleado.nombre_persona,  \n" + 
+									"empleado.apellido_paterno as paterno,  \n" + 
+									"empleado.apellido_materno as materno,  \n" + 
+									"movimientoRack.fecha_salida,  \n" + 
+									"movimientoRack.fecha_entrega,  \n" + 
+									"movimientoRack.estatus,\n" + 
+									"(SELECT SUM(precio.precio_muestrario*rack.cantidad)  \n" + 
+									"		FROM alt_comercial_rack_prenda as rack\n" + 
+									"		INNER JOIN alt_disenio_prenda prenda ON rack.id_prenda = prenda.id_prenda\n" + 
+									"		INNER JOIN alt_disenio_tela tela ON rack.id_tela = tela.id_tela\n" + 
+									"		INNER JOIN alt_disenio_lista_precio_prenda precio ON rack.id_prenda = precio.id_prenda\n" + 
+									"														AND tela.id_familia_composicion = precio.id_familia_composicion \n" + 
+									"		WHERE rack.id_movimiento = movimientoRack.id_movimiento) AS Total,\n" + 
+									"movimientoRack.encargado\n" + 
+									"\n" + 
+									"FROM alt_comercial_movimiento as movimientoRack\n" + 
+									"INNER JOIN alt_comercial_cliente cliente ON movimientoRack.empresa = id_cliente \n" + 
+									"INNER JOIN alt_hr_empleado empleado ON movimientoRack.vendedor = empleado.id_empleado  \n" + 
+									"\n" + 
+									"WHERE movimientoRack.estatus = 'Rack de prendas' OR movimientoRack.estatus = 'Rack de prendas registrado'"
+									+ " AND movimientoRack.vendedor = "+idVendedor).getResultList();
+	}
+	
+	@Override
+	@Transactional
 	public List<Object> listarMuestrasTraspaso(Long id) {
 		return em.createNativeQuery("select prenda.descripcion_prenda, movimiento.codigo_barras, telas.nombre_tela, movimiento.id_detalle_pedido, prenda.id_text AS text, telas.id_text from alt_comercial_movimiento_muestra_detalle movimiento\r\n" + 
 									"		INNER JOIN alt_disenio_prenda prenda ON movimiento.modelo_prenda = prenda.id_prenda\r\n" + 

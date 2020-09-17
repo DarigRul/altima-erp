@@ -59,6 +59,19 @@ public class HrEmpleadoServiceImpl implements IHrEmpleadoService {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
+	public List<Object> findAllByPuestoWithoutAgenteLogued(String nombrePuesto, Long idAgente) {
+		// TODO Auto-generated method stub
+
+		return em.createNativeQuery("select id_empleado, nombre_persona, apellido_paterno, apellido_materno from alt_hr_empleado AS empleado\r\n" + 
+				"		INNER JOIN alt_hr_puesto puesto ON empleado.id_puesto = puesto.id_puesto\r\n" + 
+				"		where puesto.nombre_puesto ='"+nombrePuesto+"' "
+						+ "AND empleado.id_empleado!="+idAgente).getResultList();
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
 	public List<Object> findAllByDepartamento(String nombreDepartamento) {
 		// TODO Auto-generated method stub
 		return em.createNativeQuery("select id_empleado, nombre_persona, apellido_paterno, apellido_materno from alt_hr_empleado AS empleado\r\n" + 

@@ -22,16 +22,25 @@ public class ComercialTokenTraspaso implements Serializable{
 	
 	@Id
 	@Column(name="codigo_traspaso")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GenericGenerator(name="native",strategy="native")
 	private Long codigoTraspaso;
+	
+	@Column(name="id_agente")
+	private Long idAgente;
 
 	public Long getCodigoTraspaso() {
 		return codigoTraspaso;
 	}
 
-	public void setCodigoTraspaso(Long codigoTraspaso) {
-		this.codigoTraspaso = codigoTraspaso;
+	public void setCodigoTraspaso(Long codigoTraspaso2) {
+		this.codigoTraspaso = codigoTraspaso2;
+	}
+
+	public Long getIdAgente() {
+		return idAgente;
+	}
+
+	public void setIdAgente(Long idAgente) {
+		this.idAgente = idAgente;
 	}
 
 	public static long getSerialversionuid() {
