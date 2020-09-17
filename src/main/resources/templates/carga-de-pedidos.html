@@ -406,23 +406,53 @@
                  },
                  
                  beforeSend: function () {
-                 	 Swal.fire({
-                 		 position: 'center',
-              				icon: 'success',
-              				title: 'Agregado correctamente',
-                          allowOutsideClick: false,
-                          timerProgressBar: true,
-                          showConfirmButton: false,
-                          onBeforeOpen: () => {
-                             
-                          },
-                      });
-                 	
+                 	 
                  },
                  success: function(data) {
+                	 if ( data =="1"){
+                		 Swal.fire({
+                     		 position: 'center',
+                  				icon: 'success',
+                  				title: 'Agregado correctamente',
+                              allowOutsideClick: false,
+                              timerProgressBar: true,
+                              showConfirmButton: false,
+                              onBeforeOpen: () => {
+                                 
+                              },
+                          });
+                		location.reload()
+                	 }
+                	 else if (data =="2"){
+                		 Swal.fire({
+                     		 position: 'center',
+                  				icon: 'warning',
+                  				title: 'Solo se pueden realizar Stock de pedido cerrados '
+                             
+                          
+                		 });    
+                     	
+                	 }
+                	 else if ( data =="3"){
+                		 Swal.fire({
+                     		 position: 'center',
+                  				icon: 'error',
+                  				title: 'Solo se pueden realizar un maximo de 3 Stock por pedido'
+
+                          });
+                     	
+                	 }
+                	 else if (data =="4"){
+                		 Swal.fire({
+                     		 position: 'center',
+                  				icon: 'error',
+                  				title: 'Solo se puede realizar Stock un año antes'
+                          });
+                     	
+                	 }
                     },
                     complete: function() {    		
-             			location.reload()
+             			
             	    },
              })
                }else 
@@ -433,7 +463,7 @@
                        title: 'Datos Incorrectos',
                        showConfirmButton: false,
                        timer: 1250
-                     })       
+                     })      ; 
                }
          }
          

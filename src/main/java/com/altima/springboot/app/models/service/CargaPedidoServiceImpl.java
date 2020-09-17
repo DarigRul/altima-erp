@@ -86,8 +86,8 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 			re = em.createNativeQuery(""
 					+ "SELECT\n" + 
 					"	informacion.id_pedido_informacion,\n" + 
-					"IF\n" + 
-					"	( config.tipo_pedido = 1, informacion.id_text, CONCAT( informacion2.id_text, '-', informacion.id_text ) ),\n" + 
+					"	informacion.id_text,\n" + 
+				
 					"	cliente.nombre,\n" + 
 					"	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\n" + 
 					"	cliente.id_cliente,\n" + 
@@ -100,11 +100,8 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 					"FROM\n" + 
 					"	alt_comercial_pedido_informacion informacion\n" + 
 					"	INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente\n" + 
-					"	INNER JOIN alt_admin_configuracion_pedido config ON informacion.tipo_pedido = config.id_configuracion_pedido,\n" + 
-					"	alt_comercial_pedido_informacion informacion2 \n" + 
-					"WHERE\n" + 
-					"	1 = 1 \n" + 
-					"	AND ( informacion.id_pedido IS NULL || informacion.id_pedido = informacion2.id_pedido_informacion ) \n" + 
+					"	INNER JOIN alt_admin_configuracion_pedido config ON informacion.tipo_pedido = config.id_configuracion_pedido\n" + 
+
 					"GROUP BY\n" + 
 					"	informacion.id_pedido_informacion \n" + 
 					"ORDER BY\n" + 
@@ -118,9 +115,18 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 	@Override
 	@Transactional
 	public List<Object[]> PedidosExistenteIdEmpresa(Long id) {
-		List<Object[]> re = em.createNativeQuery(
-				"select informacion.id_pedido_informacion, informacion.id_text  from alt_comercial_pedido_informacion as informacion \r\n"
-						+ "where informacion.id_empresa=" + id)
+		
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"informacion.id_pedido_informacion,\n" + 
+				"informacion.id_text \n" + 
+				"FROM\n" + 
+				"	alt_comercial_pedido_informacion AS informacion \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND informacion.estatus = 2 \n" + 
+				"	AND informacion.id_pedido IS NULL \n" + 
+				"	AND informacion.id_empresa = "+id)
 				.getResultList();
 		return re;
 	}
@@ -370,6 +376,80 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 
 		
 		
+	}
+	
+	
+	@Override
+	@Transactional
+	public boolean validarNumStockPedido(Long id){
+
+		try {
+			String re = em.createNativeQuery(""
+					+ "SELECT\n" + 
+					"IF\n" + 
+					"	( COUNT( inf.id_pedido_informacion ) < 3, 'si', NULL ) \n" + 
+					"FROM\n" + 
+					"	alt_comercial_pedido_informacion AS inf \n" + 
+					"WHERE\n" + 
+					"	1 = 1 \n" + 
+					"	AND inf.id_pedido = "+id)
+					.getSingleResult().toString();
+			return  true;
+			}
+			catch(Exception e) {
+				
+				return false;
+			}
+
+	}
+	
+	@Override
+	@Transactional
+	public boolean validarFechaStockPedido(Long id){
+	
+		try {
+			String re = em.createNativeQuery("SELECT\n" + 
+					"IF\n" + 
+					"	( TIMESTAMPDIFF( YEAR, inf.fecha_entrega, CURDATE()) = 0, 'Si', NULL ) \n" + 
+					"FROM\n" + 
+					"	alt_comercial_pedido_informacion AS inf \n" + 
+					"WHERE\n" + 
+					"	1 = 1 \n" + 
+					"	AND inf.id_pedido_informacion = "+id)
+					.getSingleResult().toString();
+			return  true;
+			}
+			catch(Exception e) {
+				
+				return false;
+			}
+
+	}
+	
+	
+
+	@Override
+	@Transactional
+	public Integer ContadorStock(Long id){
+		
+		System.out.println("SELECT\n" + 
+				"	COUNT( inf.id_pedido_informacion ) \n" + 
+				"FROM\n" + 
+				"	alt_comercial_pedido_informacion AS inf \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND inf.id_pedido = "+id);
+		String re = em.createNativeQuery("SELECT\n" + 
+				"	COUNT( inf.id_pedido_informacion ) \n" + 
+				"FROM\n" + 
+				"	alt_comercial_pedido_informacion AS inf \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND inf.id_pedido = "+id)
+				.getSingleResult().toString();
+		
+		double d = Double.parseDouble(re); 
+		return (int) d;
 	}
 	
 }

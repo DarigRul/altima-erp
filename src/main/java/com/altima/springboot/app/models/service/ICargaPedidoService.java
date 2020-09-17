@@ -38,4 +38,9 @@ public interface ICargaPedidoService {
 	List<Object []> listPedidos();
 	
 	String validarStock(Long id);
+	
+	boolean validarNumStockPedido(Long id);
+	boolean validarFechaStockPedido(Long id);
+	
+	Integer ContadorStock(Long id);
 }

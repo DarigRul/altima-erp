@@ -49,7 +49,13 @@ $('#idEmpleado').on('change', function() {
 	    })
 		
 	}else{
-		console.log("nooo")
+		 Swal.fire({
+             position: 'center',
+             icon: 'warning',
+             title: 'Seleccione un empleado',
+             showConfirmButton: false,
+             timer: 2500
+           })      ; 
 	}
 }
 
@@ -145,7 +151,13 @@ function agregarSPFeditar(){
 	    })
 		
 	}else{
-		console.log("nooo")
+		Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Ingrese un nombre',
+            showConfirmButton: false,
+            timer: 2500
+          })      ; 
 	}
 }
 
