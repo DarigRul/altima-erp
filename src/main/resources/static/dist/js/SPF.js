@@ -98,7 +98,7 @@ function editar(id){
         success:  function (data) 
         {
         	console.log(data.idSpfEmpleado)
-        	$("#actualizarEmpleadoSPF").val(data.nombreEmpleado);
+        	$("#actualizarEmpleadoSPF").val(data.nombre_empleado);
         	$("#idSpfEmpleado2").val(data.idSpfEmpleado);
         	
         },
@@ -205,4 +205,47 @@ function eliminar(e) {
 			  
 		  }
 		})
+}
+
+function agregarmasivo (){
+	
+	var idPedidoSpf = $("#idPedidoSpf").val();
+	$.ajax({
+        type: "POST",
+        url:"/agregar-spf-masivo",
+        data: { 
+        	"idPedidoSpf":idPedidoSpf,
+        	
+             "_csrf": $('#token').val()
+        },
+        beforeSend: function () {
+        	
+        	
+        },
+    
+        success: function(data) {
+        	
+        	if ( data =="Lista vacia"){
+        		Swal.fire({
+              		 position: 'center',
+           				icon: 'warning',
+           				title: 'No hay nada que agregar',
+           				showConfirmButton: false,
+      					timer: 1250
+                       
+                   });
+        	}else {
+        		Swal.fire({
+           		 position: 'center',
+        				icon: 'success',
+        				title: 'Agregados correctamente',
+        				showConfirmButton: false,
+   					timer: 1250
+                    
+                });
+        		location.reload();
+        	}
+        	 
+       }
+    })
 }

@@ -91,5 +91,35 @@ public class ComercialSpfEmpleadoController {
 			return true;
 		}
 
+		@RequestMapping(value = "/agregar-spf-masivo", method = RequestMethod.POST)
+		@ResponseBody
+		public String masivo(Long idPedidoSpf) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    	Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			
+			List<Object[]> auxlist =SPFService.empleados(idPedidoSpf);
+			
+			if ( auxlist.isEmpty() ) {
+				return "Lista vacia";
+			}else {
+				for (Object[] a : auxlist) {
+					ComercialSpfEmpleado obj = new ComercialSpfEmpleado();
+					
+					obj.setIdEmpleado(Long.parseLong(a[0].toString()));
+					obj.setIdPedidoSpf(idPedidoSpf);
+					obj.setNombre_empleado(a[1].toString());
+					obj.setCreadoPor(auth.getName());
+					obj.setFechaCreacion(hourdateFormat.format(date));
+					obj.setEstatus("1");
+					SPFService.save(obj);
+				}
+				return "Correcto";
+			}
+			
+			 
+			 
+			
+		}
 		
 }
