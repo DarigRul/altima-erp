@@ -528,26 +528,31 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 	@Override
 	@Transactional
 	public boolean validarBordadoStock(Long id){
-		String re = em.createNativeQuery(""
-				+ "SELECT\n" + 
-				"	COUNT( bordado.id_bordado ) \n" + 
-				"FROM\n" + 
-				"	alt_comercial_spf_empleado AS spf,\n" + 
-				"	alt_comercial_concetrado_prenda AS concen,\n" + 
-				"	alt_comercial_prenda_bordado AS bordado \n" + 
-				"WHERE\n" + 
-				"	1 = 1 \n" + 
-				"	AND concen.id_empleado = spf.id_empleado \n" + 
-				"	AND bordado.id_coordinado_prenda = concen.id_coordinado_prenda \n" + 
-				"	AND spf.id_pedido_spf = "+id+" \n" + 
-				"GROUP BY\n" + 
-				"	bordado.id_bordado").getSingleResult().toString();
-		if ( re.equals("0")) {
-			return false;
-		}else {
-			return true;
-		}
 		
+		try {
+			String re = em.createNativeQuery(""
+					+ "SELECT\n" + 
+					"	COUNT( bordado.id_bordado ) \n" + 
+					"FROM\n" + 
+					"	alt_comercial_spf_empleado AS spf,\n" + 
+					"	alt_comercial_concetrado_prenda AS concen,\n" + 
+					"	alt_comercial_prenda_bordado AS bordado \n" + 
+					"WHERE\n" + 
+					"	1 = 1 \n" + 
+					"	AND concen.id_empleado = spf.id_empleado \n" + 
+					"	AND bordado.id_coordinado_prenda = concen.id_coordinado_prenda \n" + 
+					"	AND spf.id_pedido_spf = "+id+" \n" + 
+					"GROUP BY\n" + 
+					"	bordado.id_bordado").getSingleResult().toString();
+			
+			return  true;
+			}
+			catch(Exception e) {
+				
+				return false;
+			}
+		
+	
 		
 	}
 	
