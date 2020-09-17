@@ -263,7 +263,7 @@
                                     <div th:class="${muestra[7]}">
                                         <div class="card box-shadow" th:unless="${muestra[0]<=0 || muestra[0]==null}">
                                             <div class="food-img" style="text-align: center;">
-                                                <img class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'/uploads/prendas/' + ${muestra[13]}}" alt="" title="">
+                                                <img class="centerImg" th:id="${muestra[10] +''+ muestra[12]}" style="background: 50% 50% no-repeat; width: 132PX; height: 132px;margin-left: 80px;" th:src="@{'/uploads/prendas/' + ${muestra[13]}}" alt="" title="">
                                             </div>
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">

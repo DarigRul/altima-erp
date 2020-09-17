@@ -1,7 +1,6 @@
 
 $(document).ready(function() {
 	listarVendedores()
-    listarEmpresas();
     listarMuestras();
 
 });
@@ -28,7 +27,6 @@ function limpiarModal(){
                           			"</thead>" +
                       			"</table>" +
 	   						"</div>");
-	   listarEmpresas();
 	   listarMuestras();
 	   listarVendedores();
 	   $('.selectCustom').selectpicker('refresh');
@@ -51,6 +49,8 @@ function listarVendedores(){
 					}
 				}
 				$('#vendedorMovi').selectpicker('refresh');
+				
+				
 		    },
 		    error: (e) => {
 		    }
@@ -80,22 +80,19 @@ function listarVendedores(){
 //		});
 //}
 
-function listarEmpresas(){
-
+$('#vendedorMovi').on('change',function(){
+var idAgente = $(this).val();
+$('#empresaMovi').find('option').remove();
+$('#empresaMovi').selectpicker('refresh');
 	$.ajax({
 		 method: "GET",
 		    url: "/listarEmpresasMovimiento",
 		    data: {
-
+		    	idAgente: idAgente
 		    },
 		    success: (data) => {
 				for (i in data){
-					if(data[i].apellidoPaterno==null || data[i].apellidoMaterno==null){
-						$('#empresaMovi').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + "</option>");
-					}
-					else{
-						$('#empresaMovi').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + " " + data[i].apellidoPaterno + " " + data[i].apellidoMaterno +"</option>");
-					}
+					$('#empresaMovi').append("<option value='"+data[i][0]+"'>"+ data[i][1] + "</option>");
 				}
 
 				$('#empresaMovi').selectpicker('refresh');
@@ -105,29 +102,26 @@ function listarEmpresas(){
 
 		    }
 		});
-}
+})
 
-//function listarEmpresasTraspaso(){
-//	$.ajax({
-//		 method: "GET",
-//		    url: "/listarEmpresasMovimiento",
-//		    data: {
-//		    },
-//		    success: (data) => {
-//				for (i in data){
-//					if(data[i].apellidoPaterno==null || data[i].apellidoMaterno==null){
-//						$('#empresaTraspaso').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + "</option>");
-//					}
-//					else{
-//						$('#empresaTraspaso').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + " " + data[i].apellidoPaterno + " " + data[i].apellidoMaterno +"</option>");
-//					}
-//				}
-//				$('#empresaTraspaso').selectpicker('refresh');
-//		    },
-//		    error: (e) => {
-//		    }
-//		});
-//}
+function listarEmpresasTraspaso(idAgente){
+	
+	$.ajax({
+		 method: "GET",
+		    url: "/listarEmpresasMovimiento",
+		    data: {
+		    	idAgente: idAgente
+		    },
+		    success: (data) => {
+				for (i in data){
+					$('#empresaTraspaso').append("<option value='"+data[i][0]+"'>"+ data[i][1] + "</option>");
+				}
+				$('#empresaTraspaso').selectpicker('refresh');
+		    },
+		    error: (e) => {
+		    }
+		});
+}
 
 function listarMuestras(){
 	$.ajax({
@@ -1464,7 +1458,7 @@ $('#infoTraspaso').on('hidden.bs.modal', function () {
 	
 	
 function insertarCodigo(){
-	
+	var idAgenteVentas = $('#idAgenteVentas').val();
 	var codigoRandom =  (Math.floor(Math.random() * (10 - 1)) + 1)+""+
 	 					(Math.floor(Math.random() * (10 - 1)) + 1)+""+
 	 					(Math.floor(Math.random() * (10 - 1)) + 1)+""+
@@ -1478,6 +1472,10 @@ function insertarCodigo(){
 	        '<label for="codigo">C&oacute;digo</label>' +
 	        '<input type="number" class="swal2-input" id="codigoTraspasoConfirm" placeholder="382643" disabled value='+codigoRandom+'>' +
 	        '</div>' +
+	        '<div class="form-group col-sm-12">' +
+	        '<label for="empresa">Empresa</label>' +
+	        '<select type="number" class="form-control" id="empresaTraspaso">'+listarEmpresasTraspaso(idAgenteVentas)+'</select>' +
+	        '</div>' +
 	        '</div>',
 	    showCancelButton: true,
 	    cancelButtonColor: '#dc3545',
@@ -1486,7 +1484,8 @@ function insertarCodigo(){
 	    confirmButtonColor: '#0288d1',
 	    preConfirm: (color) => {
 	        if ($('#codigoTraspasoConfirm').val()=="" || $('#codigoTraspasoConfirm').val()==null || $('#codigoTraspasoConfirm').val()==undefined || 
-	        		$('#codigoTraspasoConfirm').val().length!=6) {
+	        		$('#codigoTraspasoConfirm').val().length!=6 || $('#empresaTraspaso').val()=="" || $('#empresaTraspaso').val()==null || 
+	        		$('#empresaTraspaso').val()==undefined) {
 	            Swal.showValidationMessage(
 	                `Ingrese un código válido`
 	            )
@@ -1501,6 +1500,7 @@ function insertarCodigo(){
 				data:{
 					"_csrf": $('#token').val(),
 					codigoTraspaso: codigoTraspaso,
+					empresaTraspaso: empresaTraspaso
 				},
 				beforeSend: function () {
 		        	 Swal.fire({

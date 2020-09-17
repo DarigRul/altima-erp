@@ -69,8 +69,16 @@ public class ComercialMovimientoRestController {
 	}
 	
 	@RequestMapping(value="/listarEmpresasMovimiento", method=RequestMethod.GET)
-	public List<ComercialCliente> listarEmpresasMovimiento(){
-		return clienteService.findAll(null);
+	public List<Object[]> listarEmpresasMovimiento(@RequestParam(name="idAgente", required=false)Long idAgente){
+		try {
+			System.out.println(idAgente);
+			return clienteService.findClientesByAgenteVentas(idAgente);
+			
+		}
+		catch(Exception e) {
+			return null;
+		}
+		
 	}
 	
 	@RequestMapping(value="/listarMuestras", method = RequestMethod.GET)
@@ -794,7 +802,7 @@ public class ComercialMovimientoRestController {
 				
 				
 				comercialEntity.setVendedor(token.getIdAgente().toString());
-				comercialEntity.setEmpresa(movimientoEntity.getEmpresa());
+				comercialEntity.setEmpresa(token.getIdEmpresa().toString());
 				comercialEntity.setEncargado(empleado.getApellidoPaterno()==null || 
 											 empleado.getApellidoMaterno()==null?
 											 empleado.getNombrePersona():empleado.getNombrePersona()+" "+ empleado.getApellidoPaterno()+" "+empleado.getApellidoMaterno());
@@ -869,7 +877,8 @@ public class ComercialMovimientoRestController {
 	}
 	
 	@RequestMapping(value="/codigoTraspasoSolicitud", method = RequestMethod.POST)
-	public int codigoTraspasoSolicitud(@RequestParam("codigoTraspaso")Long codigoTraspaso) {
+	public int codigoTraspasoSolicitud(@RequestParam("codigoTraspaso")Long codigoTraspaso,
+									   @RequestParam("empresaTraspaso")Long empresaTraspaso) {
 	System.out.println(codigoTraspaso);
 		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -879,6 +888,7 @@ public class ComercialMovimientoRestController {
 			ComercialTokenTraspaso token = new ComercialTokenTraspaso();
 			token.setCodigoTraspaso(codigoTraspaso);
 			token.setIdAgente(idAgente);
+			token.setIdEmpresa(empresaTraspaso);
 			moviDetalleService.saveToken(token);
 			
 			return 1; 

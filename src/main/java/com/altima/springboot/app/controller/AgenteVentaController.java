@@ -161,6 +161,8 @@ public class AgenteVentaController {
 				try {
 					Object[] empleado = usuarioService.findEmpleadoByUserName(auth.getName());
 					model.addAttribute("listMovimientos", movimientoService.findAllWithNamesByAgente(Long.parseLong(empleado[0].toString())));
+					Long idAgente = Long.parseLong(empleado[0].toString());
+					model.addAttribute("idAgente", idAgente);
 					return "movimientos-agentes";
 				}
 				catch(Exception e) {

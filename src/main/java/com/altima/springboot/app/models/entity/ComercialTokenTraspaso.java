@@ -26,6 +26,9 @@ public class ComercialTokenTraspaso implements Serializable{
 	
 	@Column(name="id_agente")
 	private Long idAgente;
+	
+	@Column(name="id_empresa")
+	private Long idEmpresa;
 
 	public Long getCodigoTraspaso() {
 		return codigoTraspaso;
@@ -41,6 +44,14 @@ public class ComercialTokenTraspaso implements Serializable{
 
 	public void setIdAgente(Long idAgente) {
 		this.idAgente = idAgente;
+	}
+
+	public Long getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
 
 	public static long getSerialversionuid() {

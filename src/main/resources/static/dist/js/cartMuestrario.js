@@ -1,6 +1,5 @@
  $(document).ready(function() {
 	listarVendedores();
-    listarEmpresas();
 });
  
 
@@ -24,34 +23,35 @@
 			});
 	}
  
- function listarEmpresas(){
+ $('#vendedorMovi').on('change',function(){
+	 var idAgente = $(this).val();
+	 $('#empresaMovi').find('option').remove();
+	 $('#empresaMovi').selectpicker('refresh');
+	 	$.ajax({
+	 		 method: "GET",
+	 		    url: "/listarEmpresasMovimiento",
+	 		    data: {
+	 		    	idAgente: idAgente
+	 		    },
+	 		    success: (data) => {
+	 				for (i in data){
+	 					$('#empresaMovi').append("<option value='"+data[i][0]+"'>"+ data[i][1] + "</option>");
+	 				}
 
-		$.ajax({
-			 method: "GET",
-			    url: "/listarEmpresasMovimiento",
-			    success: (data) => {
-					for (i in data){
-						if(data[i].apellidoPaterno==null || data[i].apellidoMaterno==null){
-							$('#empresaMovi').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + "</option>");
-						}
-						else{
-							$('#empresaMovi').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + " " + data[i].apellidoPaterno + " " + data[i].apellidoMaterno +"</option>");
-						}
-					}
-					$('#empresaMovi').selectpicker('refresh');
-			    },
-			    error: (e) => {
-			        // location.reload();
-			    }
-			});
-	}
+	 				$('#empresaMovi').selectpicker('refresh');
+	 		    },
+	 		    error: (e) => {
+	 		        // location.reload();
+
+	 		    }
+	 		});
+	 })
  
  function limpiarModal(){
 		$('#vendedorMovi').find("option").remove();
 		$('#empresaMovi').find("option").remove();
 		$('#encargadoRecibir').val("");
 		$('#movimiento').val('');
-		   listarEmpresas();
 		   listarVendedores();
 		   $('.selectCustom').selectpicker('refresh');
 	}

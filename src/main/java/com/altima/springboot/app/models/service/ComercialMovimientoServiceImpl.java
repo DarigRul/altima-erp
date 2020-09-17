@@ -80,6 +80,7 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 									"	INNER JOIN alt_hr_empleado empleado ON movimiento.vendedor = empleado.id_empleado\n" + 
 									"WHERE movimiento.estatus NOT like 'Rack de prendas' AND movimiento.estatus NOT LIKE 'Rack de prendas registrado'" +
 									
+									
 									"UNION\n" + 
 
 									"SELECT movimientoRack.id_movimiento,\n" + 
@@ -106,7 +107,8 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 									"INNER JOIN alt_comercial_cliente cliente ON movimientoRack.empresa = id_cliente \n" + 
 									"INNER JOIN alt_hr_empleado empleado ON movimientoRack.vendedor = empleado.id_empleado  \n" + 
 									"\n" + 
-									"WHERE movimientoRack.estatus = 'Rack de prendas' OR movimientoRack.estatus = 'Rack de prendas registrado'").getResultList();
+									"WHERE movimientoRack.estatus = 'Rack de prendas' OR movimientoRack.estatus = 'Rack de prendas registrado' "
+									+ "ORDER BY id_movimiento DESC").getResultList();
 	}
 	
 	@Override
@@ -163,8 +165,8 @@ public class ComercialMovimientoServiceImpl implements IComercialMovimientoServi
 									"INNER JOIN alt_comercial_cliente cliente ON movimientoRack.empresa = id_cliente \n" + 
 									"INNER JOIN alt_hr_empleado empleado ON movimientoRack.vendedor = empleado.id_empleado  \n" + 
 									"\n" + 
-									"WHERE movimientoRack.estatus = 'Rack de prendas' OR movimientoRack.estatus = 'Rack de prendas registrado'"
-									+ " AND movimientoRack.vendedor = "+idVendedor).getResultList();
+									"WHERE (movimientoRack.estatus = 'Rack de prendas' OR movimientoRack.estatus = 'Rack de prendas registrado')"
+									+ " AND movimientoRack.vendedor = "+idVendedor+" ORDER BY id_movimiento DESC").getResultList();
 	}
 	
 	@Override
