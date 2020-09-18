@@ -41,7 +41,8 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Dise&ntilde;o</li>
                                 <li class="breadcrumb-item active">Materiales</li>
                             </ol>
                         </div>
@@ -59,7 +60,7 @@
                         <h2 class="d-none d-print-block" style=" text-align:center;" th:text="${h2}"></h2-->
                         <div class="card">
                             
-                            <div class="card-header bg-dark d-print-none" id="cab" >
+                            <div class="card-header bg-altima d-print-none" id="cab" >
                                 <h3 class="card-title" th:text="${h3}"></h3>&nbsp
                             </div>
                             
@@ -67,8 +68,7 @@
                                 <div th:if="${tipo=='forro'}" class="row" th:insert="detalle-material-forro"></div>
                                 <div th:if="${tipo=='material'}" class="row" th:insert="detalle-material-general"></div>
                             <div class="card-footer">
-                                <button id="btnimp" class="btn btn-primary d-print-none float-right" onclick="printmaterial();">Imprimir reporte <i class="fas fa-print"></i></button>
-                            
+                                <button id="btnimp" onclick="printmaterial();" class="btn btn-sm icon-btn btn-danger text-white d-print-none float-right"><span class="btn-glyphicon fas fa-print img-circle text-danger"></span>Imprimir reporte</button>
                             </div>
                         </div>
                 
@@ -105,13 +105,11 @@
         }
     </script>
     <script>
-		function changeClassById() {
-			document.getElementById("menuDiseno").className = "nav-item has-treeview menu-open";
-			document.getElementById("navDiseno").className = "nav-link active";
-			document.getElementById("navDiseno3").className = "nav-link active";
-		}
-		window.onload = changeClassById();
-	</script>
+        $('#iDiseno').removeClass('text-altima');
+        $('#menuDiseno').addClass('menu-open');
+        $('#navDiseno').addClass('active-altima');
+        $('#navDiseno2').addClass('active');
+    </script>
 </body>
 
 </html>

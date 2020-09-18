@@ -1,8 +1,8 @@
 <div class="modal fade" id="nuevaSolicitudMuestra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Nueva solicitud</h5>
+      <div class="modal-content modal-rounded-body">
+         <div class="modal-header bg-altima modal-rounded-header">
+            <h5 class="modal-title ">Nueva solicitud</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
          </div>
          <div class="modal-body col-md">
@@ -33,8 +33,9 @@
                   <div id="padre">
                   </div>
                </div>
-               <div class="form-group col-sm-12"> <button class="btn btn-danger"  data-dismiss="modal">Cancelar</button>
-                  <input type="submit" class="btn btn-primary next-step float-right" value="Guardar">
+               <div class="form-group col-sm-12">
+                  <button data-dismiss="modal" type="button" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+                  <button type="submit" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
                </div>
             </form>
          </div>
