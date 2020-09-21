@@ -189,7 +189,7 @@
   transform: translate(-50%, -50%);
   transition-duration: 0.3s;
 }
-.profile1 .box1 i {
+.profile1 .box1 a {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -203,33 +203,29 @@
   box-shadow: 0 0 0.5rem #babbbc;
   transition-duration: 0.3s;
 }
-.profile1 .box1 i:hover {
+.profile1 .box1 a:hover {
   transition-delay: initial !important;
   box-shadow: 0 0 0 5px #babbbc;
 }
 .profile1 .box1.open1 {
   opacity: 1;
 }
-.profile1 .box1.open1 i {
+.profile1 .box1.open1 a {
   left: 60px;
 }
-.profile1 .box1.open1 i:nth-of-type(1) {
+.profile1 .box1.open1 a:nth-of-type(1) {
   transform: rotate(-90deg) translateX(120px) rotate(90deg);
   transition-delay: 0s;
 }
-.profile1 .box1.open1 i:nth-of-type(2) {
-  transform: rotate(-45deg) translateX(120px) rotate(45deg);
+.profile1 .box1.open1 a:nth-of-type(2) {
+  transform: rotate(-30deg) translateX(120px) rotate(30deg);
   transition-delay: 0.1s;
 }
-.profile1 .box1.open1 i:nth-of-type(3) {
-  transform: rotate(0deg) translateX(120px) rotate(0deg);
+.profile1 .box1.open1 a:nth-of-type(3) {
+  transform: rotate(30deg) translateX(120px) rotate(30deg);
   transition-delay: 0.2s;
 }
-.profile1 .box1.open1 i:nth-of-type(4) {
-  transform: rotate(45deg) translateX(120px) rotate(-45deg);
-  transition-delay: 0.3s;
-}
-.profile1 .box1.open1 i:nth-of-type(5) {
+.profile1 .box1.open1 a:nth-of-type(4) {
   transform: rotate(90deg) translateX(120px) rotate(-90deg);
-  transition-delay: 0.4s;
+  transition-delay: 0.3s;
 }
