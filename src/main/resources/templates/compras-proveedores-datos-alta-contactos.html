@@ -1,14 +1,14 @@
 <form method="post" action="javascript:validarTablaContactos()">
     <div class="row">
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-3">
             <label for="altaNombre">Nombre<strong style="color:red">*</strong></label>
             <input type="text" placeholder="Jose Manuel Lopez Martinez" class="form-control" id="altaNombreContacto">
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-3">
             <label for="altaCargo">Cargo<strong style="color:red">*</strong></label>
             <input type="text" placeholder="Gerente de ventas" class="form-control" id="altaCargoContacto">
         </div>
-        <div class="form-group col-md-2">
+        <div class="form-group col-md-3">
             <label for="altaCorreo">Correo<strong style="color:red">*</strong></label>
             <input type="email" placeholder="proveedor@correo.com" class="form-control" id="altaCorreoContacto">
         </div>
@@ -17,10 +17,18 @@
             <input type="tel" pattern="[0-9]{10}" placeholder="2222631408" class="form-control" id="altaTelefonoContacto">
         </div>
         <div class="form-group col-md-3">
-            <label for="altaExtension">Extensi&oacute;n<strong style="color:red">*</strong></label>
+            <label for="extensionContacto">Whatsapp<strong style="color:red">*</strong></label>
+            <input type="number" placeholder="2227592638" class="form-control" id="altawhatsappContacto">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="extensionContacto">Extensi&oacute;n<strong style="color:red">*</strong></label>
+            <input type="tel" pattern="[0-9]{3}" placeholder="222" class="form-control" id="altaExtensionContacto" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="altaExtension">Lada internacional<strong style="color:red">*</strong></label>
             <div class="input-group mb-3">
             	<input type="hidden" id="datoContacto" th:value="${datoContacto}">
-                <input type="text" placeholder="+52" class="form-control" id="altaExtensionContacto" style="border-radius: .25rem; margin-right: 10px;">
+                <input type="text" placeholder="+52" class="form-control" id="altaLadaContacto" style="border-radius: .25rem; margin-right: 10px;" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.keyCode == 43'>
                 <div class="input-group-append">
                     <button class="btn icon-btn btn-altima text-white" onclick="validarContacto()" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
                 </div>
@@ -34,6 +42,8 @@
                         <th>Cargo</th>
                         <th>Correo</th>
                         <th>Tel&eacute;fono</th>
+                        <th>Whatsapp</th>
+                        <th>Lada</th>
                         <th>Extensi&oacute;n</th>
                         <th>Acciones</th>
                     </tr>
@@ -44,6 +54,8 @@
                         <td th:text="${contacto.cargoContacto}">Gerente de ventas</td>
                         <td th:text="${contacto.correoContacto}">proveedor@correo.com</td>
                         <td th:text="${contacto.telefonoContacto}">2222346432</td>
+                        <td th:text="${contacto.whatsContacto}">2222346432</td>
+                        <td th:text="${contacto.lada}">245</td>
                         <td th:text="${contacto.extensionContacto}">245</td>
                         <td class="text-center">
                         	<input type="hidden" th:value="${contacto.idProveedorContacto==null}?-1:${contacto.idProveedorContacto}">

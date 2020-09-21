@@ -65,6 +65,11 @@ public class ComprasProveedoresRestController {
 			proveedor.setTelefonoProveedor(datos.getString("telefonoProveedor"));
 			proveedor.setCorreoProveedor(datos.getString("correo"));
 			proveedor.setPaginaWebProveedor(datos.getString("paginaWebProveedor"));
+			proveedor.setFaceProveedor(datos.getString("facebook"));
+			proveedor.setInstaProveedor(datos.getString("instagram"));
+			proveedor.setTwitProveedor(datos.getString("twitter"));
+			proveedor.setWhatsProveedor(datos.getString("whatsapp"));
+			proveedor.setOtraRedsocial(datos.getString("otraRedsocial"));
 			proveedor.setCreadoPor(auth.getName());
 			proveedor.setActualizadoPor(auth.getName());
 			proveedor.setUltimaFechaModificacion(dtf.format(now));
@@ -113,6 +118,11 @@ public class ComprasProveedoresRestController {
 			proveedor.setTelefonoProveedor(datos.getString("telefonoProveedor"));
 			proveedor.setCorreoProveedor(datos.getString("correo"));
 			proveedor.setPaginaWebProveedor(datos.getString("paginaWebProveedor"));
+			proveedor.setFaceProveedor(datos.getString("facebook"));
+			proveedor.setInstaProveedor(datos.getString("instagram"));
+			proveedor.setTwitProveedor(datos.getString("twitter"));
+			proveedor.setWhatsProveedor(datos.getString("whatsapp"));
+			proveedor.setOtraRedsocial(datos.getString("otraRedsocial"));
 			proveedor.setActualizadoPor(auth.getName());
 			proveedor.setUltimaFechaModificacion(dtf.format(now));
 			proveedor.setEstatus("1");
@@ -152,6 +162,8 @@ public class ComprasProveedoresRestController {
 			contactoProveedor.setCorreoContacto(dato.getString("correoContacto"));
 			contactoProveedor.setTelefonoContacto(dato.getString("telefonoContacto"));
 			contactoProveedor.setExtensionContacto(dato.getString("extensionContacto"));
+			contactoProveedor.setWhatsContacto(dato.getString("whatsContacto"));
+			contactoProveedor.setLada(dato.getString("ladaContacto"));
 			contactoProveedor.setCreadoPor(auth.getName());
 			contactoProveedor.setActualizadoPor(auth.getName());
 			contactoProveedor.setFechaCreacion(dtf.format(now));
@@ -233,6 +245,8 @@ public class ComprasProveedoresRestController {
 				proveedorContacto.setCorreoContacto(dato.getString("correoContacto"));
 				proveedorContacto.setTelefonoContacto(dato.getString("telefonoContacto"));
 				proveedorContacto.setExtensionContacto(dato.getString("extensionContacto"));
+				proveedorContacto.setWhatsContacto(dato.getString("whatsContacto"));
+				proveedorContacto.setLada(dato.getString("ladaContacto"));
 				proveedorContacto.setCreadoPor(auth.getName());
 				proveedorContacto.setActualizadoPor(auth.getName());
 				proveedorContacto.setFechaCreacion(dtf.format(now));
@@ -253,6 +267,8 @@ public class ComprasProveedoresRestController {
 				proveedorContacto.setCorreoContacto(dato.getString("correoContacto"));
 				proveedorContacto.setTelefonoContacto(dato.getString("telefonoContacto"));
 				proveedorContacto.setExtensionContacto(dato.getString("extensionContacto"));
+				proveedorContacto.setWhatsContacto(dato.getString("whatsContacto"));
+				proveedorContacto.setLada(dato.getString("ladaContacto"));
 				proveedorContacto.setActualizadoPor(auth.getName());
 				proveedorContacto.setUltimaFechaModificacion(dtf.format(now));
 				

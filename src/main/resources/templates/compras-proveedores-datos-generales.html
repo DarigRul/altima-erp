@@ -100,7 +100,27 @@
         <input type="hidden" id="datosPrueba" th:field="*{idProveedor}">
         <div class="form-group col-md-3">
             <label for="proveedorWeb">Pagina Web</label>
-            <input type="text" class="form-control" id="proveedorWeb" th:field="*{paginaWebProveedor}" placeholder="M&eacute;xico">
+            <input type="text" class="form-control" id="proveedorWeb" th:field="*{paginaWebProveedor}">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="faceProveedor">Facebook</label>
+            <input type="text" class="form-control" id="faceProveedor" th:field="*{faceProveedor}">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="instaProveedor">Instagram</label>
+            <input type="text" class="form-control" id="instaProveedor" th:field="*{instaProveedor}">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="twitProveedor">Twitter</label>
+            <input type="text" class="form-control" id="twitProveedor" th:field="*{twitProveedor}">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="whatsProveedor">Whatsapp</label>
+            <input type="text" class="form-control" id="whatsProveedor" th:field="*{whatsProveedor}">
+        </div>
+        <div class="form-group col-md-3">
+            <label for="otraRedsocial">Otro</label>
+            <input type="text" class="form-control" id="otraRedsocial" th:field="*{otraRedsocial}">
         </div>
         <div class="form-group col-md-12">
             <a th:href="@{'/compras-proveedores'}" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>

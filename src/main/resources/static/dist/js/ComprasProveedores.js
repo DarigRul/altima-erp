@@ -29,8 +29,13 @@ function guardarDatosGenerales(){
 	record ["telefonoProveedor"]	= $('#proveedorTelefono').val();
 	record ["correo"]				= $('#proveedorCorreo').val();
 	record ["paginaWebProveedor"]	= $('#proveedorWeb').val();
-	record ["idProveedor"]			= $('#datosPrueba').val();
 	record ["nomenclatura"]			= $('#nomenclatura').val();
+	record ["facebook"]				= $('#faceProveedor').val();
+	record ["instagram"]			= $('#instaProveedor').val();
+	record ["twitter"]				= $('#twitProveedor').val();
+	record ["whatsapp"]				= $('#whatsProveedor').val();
+	record ["otraRedsocial"]		= $('#otraRedsocial').val();
+	record ["idProveedor"]			= $('#datosPrueba').val();
 	
 	console.log(record);
 	//Valida que sea un nuevo registro
@@ -142,17 +147,21 @@ function anadirContactoTablita(){
 	var cargo = $('#altaCargoContacto').val();
 	var correo = $('#altaCorreoContacto').val();
 	var telefono = $('#altaTelefonoContacto').val();
+	var whatsContacto = $('#altawhatsappContacto').val();
 	var extension = $('#altaExtensionContacto').val();
+	var lada = $('#altaLadaContacto').val();
 	console.log("si entra aca");
 	
 	var tabla = $('#tablitaContactos').DataTable();
 	
 	tabla.row.add([	
-		 nombre,
+		 nombre ,
 		 cargo ,
 		 correo ,
 		 telefono ,
-		 extension,
+		 whatsContacto ,
+		 extension ,
+		 lada,
 		 "<input type='hidden' value=''>" +
 		 "<button class='btn btn-danger btn-circle btn-sm popoverxd borrar'><i class='fas fa-times'></i></button>"    
 		 ]).node().id ="row";
@@ -182,8 +191,10 @@ function guardarContactosProveedor(){
 					 cargoContacto: 	   $(celdas[1]).text(), 
 					 correoContacto:  	   $(celdas[2]).text(), 
 					 telefonoContacto:     $(celdas[3]).text(),
-					 extensionContacto:    $(celdas[4]).text(),
-					 idContactoProveedor:  $($(celdas[5]).children("input")[0]).val()};
+					 whatsContacto:        $(celdas[4]).text(),
+					 ladaContacto:    	   $(celdas[5]).text(),
+					 extensionContacto:     $(celdas[6]).text(),
+					 idContactoProveedor:  $($(celdas[7]).children("input")[0]).val()};
 		listaContactos.push(record);
 		
 		if(contadorsito==4){
@@ -561,7 +572,7 @@ function validarContacto(){
 	$('#altaCargoContacto').val();
 	$('#altaCorreoContacto').val();
 	$('#altaTelefonoContacto').val();
-	$('#altaExtensionContacto').val();
+	$('#altaLadaContacto').val();
 	validador=1;
 	
 	if ($('#altaNombreContacto').val().length== null || $('#altaNombreContacto').val().length== "" || $('#altaNombreContacto').val().length== undefined){
@@ -605,7 +616,7 @@ function validarContacto(){
 		          timer: 2750,
 			})
 	}
-	else if ($('#altaExtensionContacto').val().length!=3){
+	else if ($('#altaLadaContacto').val().length!=3){
 			validador = 0;
 			Swal.fire({
 			      position: 'center',

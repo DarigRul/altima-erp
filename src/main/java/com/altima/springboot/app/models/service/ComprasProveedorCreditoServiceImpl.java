@@ -1,5 +1,7 @@
 package com.altima.springboot.app.models.service;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,9 @@ public class ComprasProveedorCreditoServiceImpl implements IComprasProveedorCred
 
 	@Autowired
 	private ComprasProveedorCreditoRepository repository;
+	
+	@Autowired
+	private EntityManager em;
 
 	@Override
 	@Transactional
@@ -23,6 +28,6 @@ public class ComprasProveedorCreditoServiceImpl implements IComprasProveedorCred
 	@Override
 	@Transactional
 	public ComprasProveedorCredito findByProveedor(Long id) {
-		return repository.findById(id).orElse(null);
+		return (ComprasProveedorCredito) em.createQuery("FROM ComprasProveedorCredito WHERE IdProveedor = "+id).getSingleResult();
 	}
 }
