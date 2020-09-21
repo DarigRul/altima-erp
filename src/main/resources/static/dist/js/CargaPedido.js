@@ -98,9 +98,17 @@
          
          // Agregar procreso
           function agregar() {
-        	 
-        	var fecha = moment($('#fechaTallas').val());
-        	var   valid = validateDateRange(fecha );
+        	  
+        	  var isVisible = $("#fechaTallas").is(":visible");
+        	  var   valid ;
+        	  if ( isVisible == true){
+        			var fecha = moment($('#fechaTallas').val());
+        			valid = validateDateRange(fecha );
+        	  }
+        	  else{
+        		  valid= true;
+        	  }
+        
         	
                if (document.getElementById("cargaTipopedido").value && 
              		  document.getElementById("cargaEmpresa").value && valid  ) {
