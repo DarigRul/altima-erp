@@ -13,7 +13,7 @@
             <input type="email" placeholder="proveedor@correo.com" class="form-control" id="altaCorreoContacto">
         </div>
         <div class="form-group col-md-3">
-            <label for="altaExtension">Lada internacional<strong style="color:red">*</strong></label>
+            <label for="altaLadaContacto">C&oacute;digo de pa&iacute;s<strong style="color:red">*</strong></label>
             <input type="text" value="+52" placeholder="+52" class="form-control" id="altaLadaContacto" style="border-radius: .25rem; margin-right: 10px;" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.keyCode == 43'>
         </div>
         <div class="form-group col-md-3">
@@ -41,10 +41,10 @@
                         <th>Nombre</th>
                         <th>Cargo</th>
                         <th>Correo</th>
-                        <th>Tel&eacute;fono</th>
-                        <th>Whatsapp</th>
                         <th>Lada</th>
+                        <th>Tel&eacute;fono</th>
                         <th>Extensi&oacute;n</th>
+                        <th>Whatsapp</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -53,10 +53,10 @@
                         <td th:text="${contacto.nombreContacto}">Jose Manuel Hernandez Lopez</td>
                         <td th:text="${contacto.cargoContacto}">Gerente de ventas</td>
                         <td th:text="${contacto.correoContacto}">proveedor@correo.com</td>
-                        <td th:text="${contacto.telefonoContacto}">2222346432</td>
-                        <td th:text="${contacto.whatsContacto}">2222346432</td>
                         <td th:text="${contacto.lada}">245</td>
+                        <td th:text="${contacto.telefonoContacto}">2222346432</td>
                         <td th:text="${contacto.extensionContacto}">245</td>
+                        <td th:text="${contacto.whatsContacto}">2222346432</td>
                         <td class="text-center">
                         	<input type="hidden" th:value="${contacto.idProveedorContacto==null}?-1:${contacto.idProveedorContacto}">
                             <button class="btn btn-danger btn-circle btn-sm popoverxd borrar"><i class="fas fa-times"></i></button>

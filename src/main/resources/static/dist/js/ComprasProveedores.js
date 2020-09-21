@@ -158,10 +158,10 @@ function anadirContactoTablita(){
 		 nombre ,
 		 cargo ,
 		 correo ,
+		 lada ,
 		 telefono ,
-		 whatsContacto ,
 		 extension ,
-		 lada,
+		 whatsContacto ,
 		 "<input type='hidden' value=''>" +
 		 "<button class='btn btn-danger btn-circle btn-sm popoverxd borrar'><i class='fas fa-times'></i></button>"    
 		 ]).node().id ="row";
@@ -190,10 +190,10 @@ function guardarContactosProveedor(){
 		var record = {nombreContacto:       $(celdas[0]).text(), 
 					 cargoContacto: 	   $(celdas[1]).text(), 
 					 correoContacto:  	   $(celdas[2]).text(), 
-					 telefonoContacto:     $(celdas[3]).text(),
-					 whatsContacto:        $(celdas[4]).text(),
-					 ladaContacto:    	   $(celdas[5]).text(),
-					 extensionContacto:     $(celdas[6]).text(),
+					 ladaContacto:    	   $(celdas[3]).text(),
+					 telefonoContacto:     $(celdas[4]).text(),
+					 extensionContacto:    $(celdas[5]).text(),
+					 whatsContacto:        $(celdas[6]).text(),
 					 idContactoProveedor:  $($(celdas[7]).children("input")[0]).val()};
 		listaContactos.push(record);
 		
@@ -251,7 +251,7 @@ function guardarContactosProveedor(){
 				          timer: 1850,
 					      onClose: () => {
 					    	  console.log(data);
-					    	  $('#datos-compras-tab').click();
+					    	  location.href = "/compras-proveedores";
 					      }
 					})
 				}
@@ -325,7 +325,7 @@ function EditarContactosProveedor(idProveedor, listaContactos){
 					timer: 1850,
 					onClose: () => {
 						console.log(data);
-						$('#datos-compras-tab').click();
+						location.href = "/compras-proveedores";
 					}
 				})
 			}
