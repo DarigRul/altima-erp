@@ -621,7 +621,7 @@ function validarContacto(){
 			Swal.fire({
 			      position: 'center',
 		          icon: 'error',
-		          title: '¡Ingrese una extensión válida!',
+		          title: '¡Ingrese un código de país válida!',
 		          showConfirmButton: false,
 		          timer: 2750,
 			})
