@@ -214,18 +214,172 @@
   left: 60px;
 }
 .profile1 .box1.open1 a:nth-of-type(1) {
-  transform: rotate(-90deg) translateX(120px) rotate(90deg);
+  transform: rotate(-90deg) translateX(72px) rotate(90deg);
   transition-delay: 0s;
 }
 .profile1 .box1.open1 a:nth-of-type(2) {
-  transform: rotate(-30deg) translateX(120px) rotate(30deg);
+  transform: rotate(-30deg) translateX(72px) rotate(30deg);
   transition-delay: 0.1s;
 }
 .profile1 .box1.open1 a:nth-of-type(3) {
-  transform: rotate(30deg) translateX(120px) rotate(30deg);
+  transform: rotate(30deg) translateX(72px) rotate(30deg);
   transition-delay: 0.2s;
 }
 .profile1 .box1.open1 a:nth-of-type(4) {
-  transform: rotate(90deg) translateX(120px) rotate(-90deg);
+  transform: rotate(90deg) translateX(72px) rotate(-90deg);
   transition-delay: 0.3s;
 }
+
+.profile1 .content1 .btn2 {
+  background-color: #0288d1;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  border-radius: 50%;
+  z-index: 1;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  animation: pop-btn 0.3s both ease-in-out 0.5s;
+}
+@keyframes pop-btn {
+0% {
+  transform: scale(0);
+}
+80% {
+  transform: scale(1.2);
+}
+100% {
+  transform: scale(1);
+}
+}
+.profile1 .content1 .btn2:hover {
+box-shadow: 0 0 0 5px rgba(170, 187, 204, 0.5);
+}
+.profile1 .content1 .btn2 span {
+width: 60%;
+height: 2px;
+position: absolute;
+background-color: white;
+top: 50%;
+left: 20%;
+transform: translateY(-50%);
+animation: to-hamburger 0.3s forwards ease-in-out;
+}
+.profile1 .content1 .btn2 span::before, .profile1 .content1 .btn2 span::after {
+content: "";
+width: 100%;
+height: 2px;
+position: absolute;
+background-color: white;
+transition-duration: 0.3s;
+transform: rotate(0deg);
+right: 0;
+}
+.profile1 .content1 .btn2 span::before {
+margin-top: -7px;
+}
+.profile1 .content1 .btn2 span::after {
+margin-top: 7px;
+}
+.profile1 .content1 .btn2.active span {
+animation: to-arrow 0.3s forwards ease-in-out;
+}
+.profile1 .content1 .btn2.active span::before, .profile1 .content1 .btn2.active span::after {
+width: 60%;
+right: -1px;
+}
+.profile1 .content1 .btn2.active span::before {
+transform: rotate(45deg);
+}
+.profile1 .content1 .btn2.active span::after {
+transform: rotate(-45deg);
+}
+@keyframes to-hamburger {
+from {
+  transform: translateY(-50%) rotate(-180deg);
+}
+}
+@keyframes to-arrow {
+from {
+  transform: translateY(-50%) rotate(0deg);
+}
+to {
+  transform: translateY(-50%) rotate(180deg);
+}
+}
+.profile1 .box2 {
+width: 150px;
+height: 150px;
+opacity: 0;
+border-radius: 50%;
+background-color: rgba(255, 255, 255, 0.7);
+position: absolute;
+top: 50%;
+right: -40%;
+transform: translate(-50%, -50%);
+transition-duration: 0.3s;
+}
+.profile1 .box2 a {
+width: 50px;
+height: 50px;
+border-radius: 50%;
+background-color: #ececec;
+font-size: 26px;
+text-align: center;
+line-height: 50px;
+position: absolute;
+left: 18px;
+top: calc(75px - 50px/2);
+box-shadow: 0 0 0.5rem #babbbc;
+transition-duration: 0.3s;
+}
+.profile1 .box2 a:hover {
+transition-delay: initial !important;
+box-shadow: 0 0 0 5px #babbbc;
+}
+.profile1 .box2.open2 {
+opacity: 1;
+}
+.profile1 .box2.open2 a {
+left: 60px;
+}
+.profile1 .box2.open2 a:nth-of-type(1) {
+transform: rotate(-90deg) translateX(100px) rotate(90deg);
+transition-delay: 0s;
+}
+.profile1 .box2.open2 a:nth-of-type(2) {
+transform: rotate(-50deg) translateX(100px) rotate(50deg);
+transition-delay: 0.1s;
+}
+.profile1 .box2.open2 a:nth-of-type(3) {
+transform: rotate(-10deg) translateX(100px) rotate(10deg);
+transition-delay: 0.2s;
+}
+.profile1 .box2.open2 a:nth-of-type(4) {
+transform: rotate(30deg) translateX(100px) rotate(-30deg);
+transition-delay: 0.3s;
+}
+.profile1 .box2.open2 a:nth-of-type(5) {
+  transform: rotate(70deg) translateX(100px) rotate(-70deg);
+  transition-delay: 0.3s;
+}
+.profile1 .box2.open2 a:nth-of-type(6) {
+  transform: rotate(110deg) translateX(100px) rotate(-110deg);
+  transition-delay: 0.3s;
+ }
+.profile1 .box2.open2 a:nth-of-type(7) {
+  transform: rotate(150deg) translateX(100px) rotate(-150deg);
+  transition-delay: 0.3s;
+}
+.profile1 .box2.open2 a:nth-of-type(8) {
+  transform: rotate(190deg) translateX(100px) rotate(-190deg);
+  transition-delay: 0.3s;
+}
+.profile1 .box2.open2 a:nth-of-type(9) {
+  transform: rotate(230deg) translateX(100px) rotate(-230deg);
+  transition-delay: 0.3s;
+}
+
+
