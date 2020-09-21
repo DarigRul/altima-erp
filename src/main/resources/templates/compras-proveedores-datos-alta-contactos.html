@@ -13,22 +13,22 @@
             <input type="email" placeholder="proveedor@correo.com" class="form-control" id="altaCorreoContacto">
         </div>
         <div class="form-group col-md-3">
+            <label for="altaExtension">Lada internacional<strong style="color:red">*</strong></label>
+            <input type="text" value="+52" placeholder="+52" class="form-control" id="altaLadaContacto" style="border-radius: .25rem; margin-right: 10px;" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.keyCode == 43'>
+        </div>
+        <div class="form-group col-md-3">
             <label for="altaTelefono">Tel&eacute;fono<strong style="color:red">*</strong></label>
             <input type="tel" pattern="[0-9]{10}" placeholder="2222631408" class="form-control" id="altaTelefonoContacto">
         </div>
         <div class="form-group col-md-3">
-            <label for="extensionContacto">Whatsapp<strong style="color:red">*</strong></label>
-            <input type="number" placeholder="2227592638" class="form-control" id="altawhatsappContacto">
-        </div>
-        <div class="form-group col-md-2">
-            <label for="extensionContacto">Extensi&oacute;n<strong style="color:red">*</strong></label>
+            <label for="extensionContacto">Extensi&oacute;n</label>
             <input type="tel" pattern="[0-9]{3}" placeholder="222" class="form-control" id="altaExtensionContacto" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
         </div>
         <div class="form-group col-md-3">
-            <label for="altaExtension">Lada internacional<strong style="color:red">*</strong></label>
+            <label for="extensionContacto">Whatsapp</label>
             <div class="input-group mb-3">
             	<input type="hidden" id="datoContacto" th:value="${datoContacto}">
-                <input type="text" placeholder="+52" class="form-control" id="altaLadaContacto" style="border-radius: .25rem; margin-right: 10px;" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.keyCode == 43'>
+                <input type="number" placeholder="2227592638" class="form-control" id="altawhatsappContacto">
                 <div class="input-group-append">
                     <button class="btn icon-btn btn-altima text-white" onclick="validarContacto()" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
                 </div>
