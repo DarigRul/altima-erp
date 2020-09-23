@@ -102,12 +102,6 @@
                         <div class="col-sm-6">
                             <h1>
                                 Cat&aacute;logos
-                            <div class="row">
-	                            <div class="col">
-	                                <button type="button" class="bt btn-primary btn-circle" data-toggle="modal" data-target="#addTraspaso" onclick="limpiarModal()"><i class="fa fa-server"></i> <span
-	                                        class="total-count"></span></button><button class="clear-cart btn btn-danger">Limpiar rack</button>
-	                            </div>
-                            </div>
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -286,9 +280,6 @@
                                                         <li><strong>Talla: </strong>
                                                             <a th:text="${muestra[4]}"></a>
                                                         </li>
-                                                        <div style="width: 70%; margin: 0 auto;">
-                                                            <button th:data-name="${muestra[15]}" th:data-cantidad="${muestra[0]}" th:data-pedido="${muestra[1]}" th:data-idp="${muestra[10]}" th:data-idt="${muestra[12]}" th:data-talla="${muestra[5]}" th:data-nomTel="${muestra[6]}"  th:data-value="${muestra[16]}" th:data-price="${muestra[14]}" class="add-to-cart btn btn-primary">A&ntilde;adir al rack</button>
-                                                        </div>
                                                     </ul>
                                                 </li>
                                             </ul>

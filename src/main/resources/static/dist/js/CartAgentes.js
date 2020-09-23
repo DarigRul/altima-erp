@@ -1,6 +1,5 @@
  $(document).ready(function() {
 	listarVendedores();
-    listarEmpresas();
 });
  
 
@@ -24,40 +23,41 @@
 			});
 	}
  
- function listarEmpresas(){
+ $('#vendedorMovi').on('change',function(){
+	 var idAgente = $(this).val();
+	 $('#empresaMovi').find('option').remove();
+	 $('#empresaMovi').selectpicker('refresh');
+	 	$.ajax({
+	 		 method: "GET",
+	 		    url: "/listarEmpresasMovimiento",
+	 		    data: {
+	 		    	idAgente: idAgente
+	 		    },
+	 		    success: (data) => {
+	 				for (i in data){
+	 					$('#empresaMovi').append("<option value='"+data[i][0]+"'>"+ data[i][1] + "</option>");
+	 				}
 
-		$.ajax({
-			 method: "GET",
-			    url: "/listarEmpresasMovimiento",
-			    success: (data) => {
-					for (i in data){
-						if(data[i].apellidoPaterno==null || data[i].apellidoMaterno==null){
-							$('#empresaMovi').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + "</option>");
-						}
-						else{
-							$('#empresaMovi').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + " " + data[i].apellidoPaterno + " " + data[i].apellidoMaterno +"</option>");
-						}
-					}
-					$('#empresaMovi').selectpicker('refresh');
-			    },
-			    error: (e) => {
-			        // location.reload();
-			    }
-			});
-	}
+	 				$('#empresaMovi').selectpicker('refresh');
+	 		    },
+	 		    error: (e) => {
+	 		        // location.reload();
+
+	 		    }
+	 		});
+	 })
  
  function limpiarModal(){
 		$('#vendedorMovi').find("option").remove();
 		$('#empresaMovi').find("option").remove();
 		$('#encargadoRecibir').val("");
 		$('#movimiento').val('');
-		   listarEmpresas();
 		   listarVendedores();
 		   $('.selectCustom').selectpicker('refresh');
 	}
+
  
- 
-function foreach(root, selector, callback) {
+ function foreach(root, selector, callback) {
 	   if (typeof selector == 'string') {
 	      var all = root.querySelectorAll(selector);
 	      for (var each = 0; each < all.length; each++) {
@@ -105,7 +105,7 @@ function foreach(root, selector, callback) {
 		   if(validacion==true){
 			   for(i=1; i<filas.length; i++){
 				   var celdas = $(filas[i]).find("td");
-			       var record = {codigoBarras:  $(celdas[0]).text(), 
+			       var record = {cantidad:  $(celdas[0]).text(), 
 								 nombreMuestra: $(celdas[1]).text(), 
 								 modeloPrenda:  $(celdas[2]).text(), 
 								 idPrenda:      $($(celdas[2]).children("input")[0]).val(),
@@ -119,16 +119,16 @@ function foreach(root, selector, callback) {
 		   }
 	   }
 	   if(validacion==true){
-
+console.log(encargado);
 //AJAX para mandar los datos del JSON y los datos del vendedor y la empresa(Cliente)  //
 		   $.ajax({
 			   method: "POST",
-			   url: "/guardarNuevoMovimiento",
+			   url: "/guardarSolicitudMovimiento",
 			   data:{
 				   "_csrf": $('#token').val(),
 				   vendedor: vendedorMovi,
 				   empresa: empresaMovi,
-				   encargado:encargado,
+				   encargado: encargado,
 				   idMovimiento:movimiento,
 				   "object_muestras": JSON.stringify(datosJson)
 			   },
@@ -147,7 +147,7 @@ function foreach(root, selector, callback) {
 				   if(data==1){
 					   Swal.fire({
 							icon: 'success',
-							title: 'Carrito agregado',
+							title: 'Rack agregado',
 							text: '¡Se ha modificado un movimiento!',
 							showConfirmButton: false,
 					        timer: 2000,
@@ -160,8 +160,8 @@ function foreach(root, selector, callback) {
 				   else if(data==2){
 					   Swal.fire({
 							icon: 'success',
-							title: 'Carrito agregado',
-							text: '¡Se ha agregado el carrito!',
+							title: 'Rack agregado',
+							text: '¡Se ha agregado el Rack!',
 							showConfirmButton: false,
 					        timer: 2000,
 					        onClose: () => {
@@ -188,4 +188,4 @@ function foreach(root, selector, callback) {
 	   }
 	   return datosJson;
 	}
-	
+

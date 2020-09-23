@@ -143,6 +143,7 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 				"										WHERE rack.id_prenda = pre3.id_prenda AND rack.id_tela = dt.id_tela AND rack.estatus=1)) \n" + 
 				"					FROM alt_produccion_detalle_pedido AS pdetalle \n" + 
 				"					WHERE  pdetalle.id_prenda = pre3.id_prenda \n" + 
+				"					AND pdetalle.id_tela = dt.id_tela \n" +	
 				"					AND pdetalle.estatus_confeccion = 2 \n" + 
 				"					AND pdetalle.estatus = 1) AS stock,	 \n" + 
 				"			po.id_detalle_pedido AS Id,	 \n" + 
