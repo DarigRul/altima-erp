@@ -79,7 +79,7 @@
                           <td class="text-center">
                             <button
                               th:empleado="${empleados10[prendastallasiterator.index]}"
-                              th:onclick="|listarPrendas(['${idpedido}',this.getAttribute('empleado')])|"
+                              th:onclick="|listarPrendas(['${idpedido}',this.getAttribute('empleado'),'${idspf}'])|"
                               data-toggle="modal"
                               th:attr="data-target='#modalConcentradoPrendasInfo'+${empleados10[prendastallasiterator.index]}"
                               class="btn btn-info btn-circle btn-sm popoverxd"
@@ -92,7 +92,7 @@
                           <td class="text-center">
                           <a                           
                            th:empleado="${empleados10[prendastallasiterator.index]}"
-                              th:onclick="|redirect(['${idpedido}',this.getAttribute('empleado')])|"
+                              th:onclick="|redirect(['${idpedido}',this.getAttribute('empleado'),'${idspf}'])|"
                             ><button 
                             
                             class="btn btn-warning btn-circle btn-sm popoverxd"
@@ -120,7 +120,7 @@
     </div>
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
-    <script src="../dist/js/tablaConcentradoTallas.js"></script>
+    <script src="../../dist/js/tablaConcentradoTallas.js"></script>
     <script>
       $('#iComercial').removeClass('text-primary');
       $('#menuComercial').addClass('menu-open');

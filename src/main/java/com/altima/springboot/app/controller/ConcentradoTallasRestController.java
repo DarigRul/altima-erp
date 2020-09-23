@@ -34,10 +34,10 @@ public class ConcentradoTallasRestController {
 
 	@Autowired
 	IProduccionLookupService ProduccionLookupService;
-	
+
 	@Autowired
 	private IAdminConfiguracionPedidoService configService;
-	
+
 	@Autowired
 	private ICargaPedidoService cargaPedidoService;
 
@@ -132,16 +132,17 @@ public class ConcentradoTallasRestController {
 
 	@RequestMapping(value = "/verifduplicadoconcentradotalla", method = RequestMethod.GET)
 	public boolean verificarduplicado(Model model, @RequestParam(value = "values[]", required = false) String[] values,
-			String Empleado,String Pedido, String Largo, String PrendaCliente, String Talla, String Pulgadas) {
+			String Empleado, String Pedido, String Largo, String PrendaCliente, String Talla, String Pulgadas) {
 		boolean response;
 		int contador = 0;
 		for (String especificacion : values) {
 
-			if (ConcentradoTallaService.findDuplicates(Empleado, Largo, PrendaCliente, Talla, Pulgadas, especificacion, Pedido)
+			if (ConcentradoTallaService
+					.findDuplicates(Empleado, Largo, PrendaCliente, Talla, Pulgadas, especificacion, Pedido)
 					.size() > 0) {
 				contador++;
 			}
-			if (ConcentradoTallaService.findDuplicates(Empleado, PrendaCliente, especificacion,Pedido).size() > 0) {
+			if (ConcentradoTallaService.findDuplicates(Empleado, PrendaCliente, especificacion, Pedido).size() > 0) {
 				contador++;
 			}
 		}
@@ -203,8 +204,25 @@ public class ConcentradoTallasRestController {
 
 	@GetMapping("/prenda-empleado")
 	public List<Object[]> prendaempleado(Long idpedido, Long idempleado) {
+		List<Object[]> res = null;
+		System.out.println(ConcentradoTallaService.findSPF(idpedido));
+		try {
 
-		return ConcentradoTallaService.findPrenda(idpedido, idempleado);
+			if (ConcentradoTallaService.findSPF(idpedido) == null) {
+
+				res = ConcentradoTallaService.findPrenda(idpedido, idempleado);
+			} else {
+
+				res = ConcentradoTallaService.findPrenda(ConcentradoTallaService.findSPF(idpedido), idempleado);
+
+			}
+			System.out.println("res" + res);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("res2" + res);
+		}
+
+		return res;
 	}
 
 	@GetMapping("/prenda-empleado-pivote")
@@ -241,18 +259,17 @@ public class ConcentradoTallasRestController {
 	public List<Object[]> prendasempleado(Long idempleado, Long idpedido) {
 
 		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(idpedido);
-		
+
 		AdminConfiguracionPedido config = configService.findOne(Long.parseLong(pedido.getTipoPedido()));
-		if ( config.getTipoPedido() ==1) {
+		if (config.getTipoPedido() == 1) {
 			return ConcentradoTallaService.findPrendasEmpleado(idempleado, idpedido);
-		}
-		else if ( config.getTipoPedido() ==2 ) {
+		} else if (config.getTipoPedido() == 2) {
 			return ConcentradoTallaService.findPrendasEmpleado(idempleado, pedido.getIdPedido());
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
+
 	@RequestMapping(value = "/editar", method = RequestMethod.POST)
 	public boolean editar(Model model, @RequestParam(value = "talla", required = false) Long talla,
 			@RequestParam(value = "largo", required = false) Long largo, Long pedido, Long prenda, Long empleado) {

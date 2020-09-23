@@ -141,11 +141,21 @@
                                                 data-placement="top"
                                                 data-content="Concentrado de prendas"><i
                                                 class="fas fa-tshirt fa-sm" style="margin-left: -2px"></i></a>
-                                             <a th:href="@{/concentrado-de-tallas/}+${pedidos[0]}"
+                                              
+                                            
+                                            
+                                                 <a th:if="${pedidos[10] == null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+0"
                                                 class="btn btn-warning popoverxd" data-container="body"
                                                 data-placement="top"
                                                 data-content="Concentrado por tallas"><i
                                                 class="fas fa-ruler-combined"></i></a> 
+                                                
+                                                 <a th:if="${pedidos[10] != null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+${pedidos[10]}"
+                                                class="btn btn-warning popoverxd" data-container="body"
+                                                data-placement="top"
+                                                data-content="Concentrado por tallas"><i
+                                                class="fas fa-ruler-combined"></i></a> 
+                                                
                                                 
                                            
                                                 <a
@@ -270,7 +280,13 @@
                                                 data-content="Empleados SPF"><i
                                                 class="fas fa-user"></i></a>
                                                 
-                                                <a th:href="@{/concentrado-de-tallas/}+${pedidos[0]}"
+                                                <a th:if="${pedidos[10] == null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+0"
+                                                class="btn btn-warning popoverxd" data-container="body"
+                                                data-placement="top"
+                                                data-content="Concentrado por tallas"><i
+                                                class="fas fa-ruler-combined"></i></a> 
+                                                
+                                                 <a th:if="${pedidos[10] != null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+${pedidos[10]}"
                                                 class="btn btn-warning popoverxd" data-container="body"
                                                 data-placement="top"
                                                 data-content="Concentrado por tallas"><i

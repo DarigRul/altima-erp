@@ -21,7 +21,8 @@ public interface IComercialConcentradoTallaService {
 	List<ComercialConcentradoTalla> findDuplicates(String Empleado, String Largo, String PrendaCliente, String Talla,
 			String Pulgadas, String especificacion, String pedido);
 
-	List<ComercialConcentradoTalla> findDuplicates(String Empleado, String PrendaCliente, String especificacion, String pedido);
+	List<ComercialConcentradoTalla> findDuplicates(String Empleado, String PrendaCliente, String especificacion,
+			String pedido);
 
 	List<Object[]> findPrenda(Long idpedido, Long idempleado);
 
@@ -48,5 +49,11 @@ public interface IComercialConcentradoTallaService {
 	void updateall(Long largo, Long idempleado, Long idpedido, Long idprenda);
 
 	void updateall1(Long talla, Long idempleado, Long idpedido, Long idprenda);
+
+	List<Object[]> findPrendaTalla2(String genpivot, Long idpedido, Long idspf);
+
+	Object findPrendaTalla3(Long idpedido, Long parseLong);
+
+	Long findSPF(Long idpedido);
 
 }
