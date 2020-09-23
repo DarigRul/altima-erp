@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "alt_disenio_ruta")
+@Table(name = "alt_produccion_ruta")
 public class ProduccionRuta implements Serializable{
 
 	/**
@@ -139,4 +139,45 @@ public class ProduccionRuta implements Serializable{
 		return result;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProduccionRuta other = (ProduccionRuta) obj;
+		if (actualizadoPor == null) {
+			if (other.actualizadoPor != null)
+				return false;
+		} else if (!actualizadoPor.equals(other.actualizadoPor))
+			return false;
+		if (creadoPor == null) {
+			if (other.creadoPor != null)
+				return false;
+		} else if (!creadoPor.equals(other.creadoPor))
+			return false;
+		if (fechaCreacion == null) {
+			if (other.fechaCreacion != null)
+				return false;
+		} else if (!fechaCreacion.equals(other.fechaCreacion))
+			return false;
+		if (idRuta == null) {
+			if (other.idRuta != null)
+				return false;
+		} else if (!idRuta.equals(other.idRuta))
+			return false;
+		if (idText == null) {
+			if (other.idText != null)
+				return false;
+		} else if (!idText.equals(other.idText))
+			return false;
+		if (ultimaFechaModificacion == null) {
+			if (other.ultimaFechaModificacion != null)
+				return false;
+		} else if (!ultimaFechaModificacion.equals(other.ultimaFechaModificacion))
+			return false;
+		return true;
+	}
 }
