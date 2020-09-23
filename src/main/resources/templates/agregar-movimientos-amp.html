@@ -6,39 +6,43 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-    <!-- Site wrapper -->
-    <div class="wrapper">
-        <!-- Navbar -->
-        <div th:insert="navegacion-nav"></div>
-        <!-- /.navbar -->
-        <!-- Modal -->
-        <div th:insert="navegacion-logout"></div>
-        <!-- Main Sidebar Container -->
-        <div th:insert="navegacion-aside"></div>
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Entradas y Salidas <a th:href="@{/movimientos-amp}"><button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item altima">Altima</li>
-                                <li class="breadcrumb-item active">Comercial</li>
-                                <li class="breadcrumb-item active">AMP</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.container-fluid -->
-            </section>
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                <div class="row">
+	<input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+	<!-- Site wrapper -->
+	<div class="wrapper">
+		<!-- Navbar -->
+		<div th:insert="navegacion-nav"></div>
+		<!-- /.navbar -->
+		<!-- Modal -->
+		<div th:insert="navegacion-logout"></div>
+		<!-- Main Sidebar Container -->
+		<div th:insert="navegacion-aside"></div>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Entradas y Salidas <a th:href="@{/movimientos-amp}"><button
+										class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
+										data-placement="right" data-content="Regresar"><i
+											class="fas fa-arrow-left"></i></button></a></h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item altima">Altima</li>
+								<li class="breadcrumb-item active">Comercial</li>
+								<li class="breadcrumb-item active">AMP</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
 						<div class="col-12">
 							<!-- Default box -->
 							<div class="card">
@@ -46,110 +50,125 @@
 									<h3 class="card-title">Listado de entradas y salidas</h3>
 								</div>
 								<div class="card-body">
-								<form class="row">
-								
-									  <div class="form-group col-md-6">
-									    <label for="tipoMovimiento">Movimiento</label>
-									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="tipoMovimiento">
-									      <option>Entrada</option>
-									      <option>Salida</option>
-									    </select>
-									  </div>
-									  <div class="form-group col-md-6">
-									    <label for="conceptoMovimiento">Concepto</label>
-									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="conceptoMovimiento">
-									      <option>1</option>
-									      <option>2</option>
-									    </select>
-									  </div>
-									  <div class="form-group col-md-4">
-									    <label for="almacenLogicoMovimiento">Almac&eacute;n l&oacute;gico</label>
-										<select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="almacenLogicoMovimiento">
-									      <option>Almac&eacute;n 126</option>
-									      <option>Almac&eacute;n 213</option>
-									    </select>
-									  </div>
-									  <div class="form-group col-md-4">
-									    <label for="almacenFisicoMovimiento">Almac&eacute;n f&iacute;sico</label>
-										<input type="text" disabled="disabled" class="form-control" id="almacenFisicoMovimiento">
-									  </div>
-									  <div class="form-group col-md-4">
-									    <label for="referenciaMovimiento">Referencia</label>
-										<div class="input-group mb-3">
-											<div class="input-group-prepend">
-											  <div class="input-group-text">
-												<input type="checkbox">
-											  </div>
+									<div class="row">
+
+										<div class="form-group col-md-6">
+											<label for="tipoMovimiento">Movimiento</label>
+											<select class="form-control selectpicker"
+												onchange="listarConceptos(this.value)" title="Selecciona uno..."
+												data-live-search="true" data-live-search-normalize="true"
+												id="tipoMovimiento">
+												<option value="Entrada">Entrada</option>
+												<option value="Salida">Salida</option>
+											</select>
+										</div>
+										<div class="form-group col-md-6">
+											<label for="conceptoMovimiento">Concepto</label>
+											<select class="form-control selectpicker" title="Selecciona uno..."
+												data-live-search="true" data-live-search-normalize="true"
+												id="conceptoMovimiento">
+											</select>
+										</div>
+										<div class="form-group col-md-4">
+											<label for="almacenLogicoMovimiento">Almac&eacute;n l&oacute;gico</label>
+											<select class="form-control selectpicker" title="Selecciona uno..."
+												data-live-search="true" data-live-search-normalize="true"
+												id="almacenLogicoMovimiento">
+											</select>
+										</div>
+										<div class="form-group col-md-4">
+											<label for="almacenFisicoMovimiento">Almac&eacute;n f&iacute;sico</label>
+											<input type="text" disabled="disabled" class="form-control"
+												id="almacenFisicoMovimiento">
+										</div>
+										<div class="form-group col-md-4">
+											<label for="referenciaMovimiento">Referencia</label>
+											<div class="input-group mb-3">
+												<div class="input-group-prepend">
+													<div class="input-group-text">
+														<input type="checkbox">
+													</div>
+												</div>
+												<select class="form-control selectpicker" title="Selecciona uno..."
+													data-live-search="true" data-live-search-normalize="true"
+													id="referenciaMovimiento">
+													<option>1</option>
+												</select>
 											</div>
-											<select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="referenciaMovimiento">
-												<option>1</option>
-											  </select>
-										  </div>
-									  </div>
-									  <div class="form-group col-md-12">
-										<a th:href="@{/movimientos-amp}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-										<button type="submit" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
-										  <hr style="border:1px solid #e9ecef">
-									  </div>
-									 <div class="form-group col-md-3">
-									    <label for="cantidadMovimiento">Cantidad</label>
-									    <input type="number" class="form-control" id="cantidadMovimiento" placeholder="4">
-									  </div>
-									  <div class="form-group col-md-9">
-									    <label for="articuloMovimiento" style="margin-left:2px">Articulo</label>
-										<div class="input-group mb-3">
-											<select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="articuloMovimiento">
-												<option>1</option>
-												<option>2</option>
-											  </select>
-										  <div class="input-group-append" style="margin-left: 10px;">
-											<button class="btn icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
-										  </div>
 										</div>
-									  </div>
+										<div class="form-group col-md-5">
+											<label for="cantidadMovimiento">Fecha</label>
+											<input type="date" class="form-control" id="fechaMovimiento">
+										</div>
+										<div class="form-group col-md-7">
+											<label for="cantidadMovimiento">Observaciones</label>
+											<input type="text" class="form-control" id="observacionesMovimientos"
+												placeholder="">
+										</div>
+
+										<div class="form-group col-md-4">
+											<label for="cantidadMovimiento">Cantidad</label>
+											<input type="number" class="form-control" id="cantidadMovimiento"
+												placeholder="4">
+										</div>
+										<div class="form-group col-md-8">
+											<label for="articuloMovimiento" style="margin-left:2px">Articulo</label>
+											<div class="input-group mb-3">
+												<select class="form-control selectpicker" title="Selecciona uno..."
+													data-live-search="true" data-live-search-normalize="true"
+													id="articuloMovimiento">
+												</select>
+												<div class="input-group-append" style="margin-left: 10px;">
+													<button class="btn icon-btn btn-altima text-white" type="button"
+														id="agregarArticulo"><span
+															class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+												</div>
+											</div>
+										</div>
 										<div class="form-group col-md-12">
-										<table class="table tablaAgregarMovimientosAMP table-striped table-bordered" style="width:100%">
-											<thead>
-												<tr>
-													<th>Cantidad</th>
-													<th>Clave art&iacute;culo</th>
-													<th>Descripci&oacute;n</th>
-													<th>UOM</th>
-													<th>Acciones</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>45</td>
-													<td>CIE00034</td>
-													<td>Cierre Nylo #20</td>
-													<td>Pieza</td>
-													<td class="text-center">
-														<a class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Eliminar"><i class="fas fa-times text-white"></i></a>
-														<a data-toggle="modal" data-target="#cambioProveedor" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Proveedor"><i class="fas fa-store text-white" style="margin-left: -2px;"></i></a>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-										<div th:insert="agregar-movimientos-amp-modal"></div>
+											<table class="table tablaAgregarMovimientosAMP table-striped table-bordered"
+												style="width:100%" id="example">
+												<thead>
+													<tr>
+														<th>Cantidad</th>
+														<th>Clave art&iacute;culo</th>
+														<th>Descripci&oacute;n</th>
+														<th>UOM</th>
+														<th>Acciones</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+											</table>
+											<div th:insert="agregar-movimientos-amp-modal"></div>
 										</div>
-								</form>
+										<div class="form-group col-md-12">
+											<a th:href="@{/movimientos-amp}"
+												class="btn icon-btn btn-danger text-white mr-auto"><span
+													class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+											<button type="button" id="guardarMovimientos"
+												class="btn icon-btn btn-altima text-white float-right"><span
+													class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+											<hr style="border:1px solid #e9ecef">
+										</div>
+									</div>
 								</div>
 								<!-- /.card-body -->
 							</div>
 							<!-- /.card -->
 						</div>
 					</div>
-                </div>
-                <!-- Main row -->
-            </section>
-            <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
-        <div th:insert="navegacion-footer"></div>
-    </div>
-    <div th:replace="navegacion-scripts"></div>
-    <script src="dist/js/tablaAgregarMovimientosAMP.js"></script>
+				</div>
+				<!-- Main row -->
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+		<div th:insert="navegacion-footer"></div>
+	</div>
+	<div th:replace="navegacion-scripts"></div>
+	<script src="dist/js/tablaAgregarMovimientosAMP.js"></script>
+	<script src="dist/js/movimientosAMP.js"></script>
 	<script>
 		$('#iComercial').removeClass('text-altima');
 		$('#navComercial').addClass('active-altima');

@@ -1,7 +1,7 @@
 <div class="small-box bg-danger div-rounded">
     <div class="inner">
         <h3>Modelos</h3>
-        <button data-toggle="modal" data-target="#detalleModelo" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+        <button data-toggle="modal" onclick="listarModelos()" data-target="#detalleModelo" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
     </div>
     <div class="icon">
         <i class="fas fa-user"></i>
@@ -22,7 +22,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                <table class="table table-striped table-bordered" id="tablaModelo" style="width: 100%;">
                     <thead>
                         <tr>
                             <th>Clave</th>
@@ -33,18 +33,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td class="text-center">
-                              <button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>
-                              <button onclick="editarModelo()" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-                              <button onclick="bajarModelo()" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-                              <button onclick="altaModelo()" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>
-                            </td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>

@@ -12,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "alt_disenio_ruta_proceso")
-public class DisenioRutaProceso implements Serializable{
+public class ProduccionRutaProceso implements Serializable {
 
 	@Id
 	@Column(name="id_ruta_proceso")

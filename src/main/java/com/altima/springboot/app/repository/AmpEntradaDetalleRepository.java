@@ -1,11 +1,11 @@
 package com.altima.springboot.app.repository;
 
+import com.altima.springboot.app.models.entity.AmpEntradaDetalle;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.altima.springboot.app.models.entity.DisenioRuta;
-
 @Repository
-public interface DisenioRutaRepository extends CrudRepository<DisenioRuta, Long>{
-
+public interface AmpEntradaDetalleRepository extends CrudRepository<AmpEntradaDetalle,Long>{
+    
 }

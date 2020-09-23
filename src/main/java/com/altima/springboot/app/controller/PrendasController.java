@@ -22,7 +22,6 @@ import com.altima.springboot.app.models.service.IDisenioMaterialService;
 import com.altima.springboot.app.models.service.IDisenioPrendaClienteService;
 import com.altima.springboot.app.models.service.IDisenioPrendaMarcadorService;
 import com.altima.springboot.app.models.service.IDisenioPrendaService;
-import com.altima.springboot.app.models.service.IDisenioRutaService;
 import com.altima.springboot.app.models.service.IUploadService;
 
 @Controller
@@ -31,8 +30,6 @@ public class PrendasController {
 	IDisenioPrendaService disenioPrendaService;
 	@Autowired
 	IDisenioMaterialService disenioMaterialService;
-	@Autowired
-	IDisenioRutaService disenioRutaService;
 	@Autowired
 	IDisenioImagenPrendaService disenioImagenPrendaService;
 	@Autowired
@@ -79,7 +76,6 @@ public class PrendasController {
 		model.addAttribute("familias", disenioMaterialService.findAllFamiliaPrenda());
 		model.addAttribute("materiales", disenioMaterialService.findAllForCreate());
 		model.addAttribute("patronajes", disenioMaterialService.findLookUps());
-		model.addAttribute("rutas", disenioRutaService.findAll());
 		model.addAttribute("clientes", clienteService.findAll(null));
 		model.addAttribute("generos", disenioLookupService.findByTipoLookup("Familia Genero"));
 		model.addAttribute("marcadores", disenioLookupService.findByTipoLookup("Marcador"));
