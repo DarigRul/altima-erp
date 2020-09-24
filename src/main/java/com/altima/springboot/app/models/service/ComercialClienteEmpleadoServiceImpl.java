@@ -55,6 +55,15 @@ public class ComercialClienteEmpleadoServiceImpl implements ComercialClienteEmpl
 	public List<ComercialClienteEmpleado> findAllEmpleadosEmpresa(Long id) {
 
 		return em.createQuery("from ComercialClienteEmpleado  where idPedidoInformacion = " + id
+				+ " order by idText Desc ").getResultList();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<ComercialClienteEmpleado> findAllEmpleadosEmpresaWithoutSPF(Long id) {
+
+		return em.createQuery("from ComercialClienteEmpleado  where idPedidoInformacion = " + id
 				+ " and nombre_empleado NOT LIKE '%SPF%' order by idText Desc ").getResultList();
 	}
 
