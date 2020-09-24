@@ -116,10 +116,14 @@ public class ComercialSpfEmpleadoController {
 				}
 				return "Correcto";
 			}
+				 
+		}
+		
+		@GetMapping("/empleados-spf-cambio-modelo/{id}")
+		public String ListaEmpleadosSPFCambio(@PathVariable(value = "id") Long id,Model model){
 			
-			 
-			 
 			
+	    	return"cambio-modelo-falda";
 		}
 		
 }

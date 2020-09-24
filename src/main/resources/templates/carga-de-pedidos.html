@@ -269,7 +269,8 @@
                                           </div>
                                           
                                        
-                                          <div th:if="${pedidos[9]} == 2 and  ${pedidos[7]} == '1'" class="btn-group" role="group" aria-label="Basic example" >
+                                          
+                                       <div th:if="${pedidos[9]} == 2 and  ${pedidos[7]} == '1'" class="btn-group" role="group" aria-label="Basic example" >
                                              <a data-toggle="modal"
                                              class="btn btn-danger popoverxd text-white"
                                              data-container="body" data-placement="top"
@@ -280,13 +281,19 @@
                                                 data-content="Empleados SPF"><i
                                                 class="fas fa-user"></i></a>
                                                 
-                                                <a th:if="${pedidos[10] == null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+0"
-                                                class="btn btn-warning popoverxd" data-container="body"
+                                                <a   th:href="@{/agregar-coordinado/72}"
+                                                class="btn btn-success popoverxd" data-container="body"
                                                 data-placement="top"
-                                                data-content="Concentrado por tallas"><i
-                                                class="fas fa-ruler-combined"></i></a> 
+                                                data-content="Agregar falda"><i class="fas fa-plus"></i></a>
                                                 
-                                                 <a th:if="${pedidos[10] != null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+${pedidos[10]}"
+                                                 <a   th:href="@{/empleados-spf-cambio-modelo/}+${pedidos[0]}"
+                                                class="btn btn-gray popoverxd" data-container="body"
+                                                data-placement="top"
+                                                data-content="Cambio-Falda"><i
+                                                class="fas fa-exchange-alt"></i></a>
+                                                
+                                                
+                                                <a th:href="@{/concentrado-de-tallas/}+${pedidos[0]}"
                                                 class="btn btn-warning popoverxd" data-container="body"
                                                 data-placement="top"
                                                 data-content="Concentrado por tallas"><i
@@ -299,7 +306,6 @@
                                                 data-content="Cerrar expediente"><i
                                                 class="fas fa-file-download"></i></a>
                                           </div>
-                                       
                                           
                                           
                                           <div th:if="${admin} == null and  ${pedidos[7]} =='2'"

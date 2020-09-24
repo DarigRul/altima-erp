@@ -79,6 +79,18 @@ public class ComercialSpfEmpleadoServiceImpl implements IComercialSpfEmpleadoSer
 	@Transactional
 	public List<Object[]> findAll(Long id ) {
 		
+		System.out.println(""
+				+ "SELECT\r\n" + 
+				"	spf_empleado.id_spf_empleado,\r\n" + 
+				"	empleado.id_text,\r\n" + 
+				"	spf_empleado.nombre_empleado \r\n" + 
+				"FROM\r\n" + 
+				"	alt_comercial_spf_empleado AS spf_empleado,\r\n" + 
+				"	alt_comercial_cliente_empleado AS empleado \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND empleado.id_empleado = spf_empleado.id_empleado \r\n" + 
+				"	AND spf_empleado.id_pedido_spf = "+id);
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	spf_empleado.id_spf_empleado,\r\n" + 
