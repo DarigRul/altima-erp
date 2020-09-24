@@ -92,7 +92,23 @@ public class ComprasProveedores implements Serializable {
 	@Column(name="correo_proveedor")
 	private String correoProveedor;
 	
+	@Column(name="facebook_proveedor")
+	private String faceProveedor;
 	
+	@Column(name="instagram_proveedor")
+	private String instaProveedor;
+	
+	@Column(name="twitter_proveedor")
+	private String twitProveedor;
+	
+	@Column(name="whatsapp_proveedor")
+	private String whatsProveedor;
+	
+	@Column(name="otra_redsocial")
+	private String otraRedsocial;
+	
+	@Column(name="nomenclatura")
+	private String nomenclatura;
 	
 	
 	public String getZona() {
@@ -289,5 +305,53 @@ public class ComprasProveedores implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getNomenclatura() {
+		return nomenclatura;
+	}
+
+	public void setNomenclatura(String nomenclatura) {
+		this.nomenclatura = nomenclatura;
+	}
+	
+	public String getFaceProveedor() {
+		return faceProveedor;
+	}
+
+	public void setFaceProveedor(String faceProveedor) {
+		this.faceProveedor = faceProveedor;
+	}
+
+	public String getInstaProveedor() {
+		return instaProveedor;
+	}
+
+	public void setInstaProveedor(String instaProveedor) {
+		this.instaProveedor = instaProveedor;
+	}
+
+	public String getTwitProveedor() {
+		return twitProveedor;
+	}
+
+	public void setTwitProveedor(String twitProveedor) {
+		this.twitProveedor = twitProveedor;
+	}
+
+	public String getWhatsProveedor() {
+		return whatsProveedor;
+	}
+
+	public void setWhatsProveedor(String whatsProveedor) {
+		this.whatsProveedor = whatsProveedor;
+	}
+
+	public String getOtraRedsocial() {
+		return otraRedsocial;
+	}
+
+	public void setOtraRedsocial(String otraRedsocial) {
+		this.otraRedsocial = otraRedsocial;
 	}
 }

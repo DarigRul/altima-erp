@@ -13,16 +13,7 @@ function addUnity() {
           "placaJS":placaJS
         },
       }).done(function (data) {
-        if (data == true && placaJS==placaJS) {
-          $.ajax({
-            type: "GET",
-            url: "/duplicado-id-unidad",
-            data: {
-              "idJS":idJS
-            },
-          }).done(function (data) {
-            if (data == true && idJS==idJS) {
-              
+        if (data == false) {
           $.ajax({
             type: "POST",
             url: "/unidad-nueva",
@@ -69,21 +60,13 @@ function addUnity() {
               Swal.fire({
                 position: "center",
                 icon: "error",
-                title: "El n&uacute;mero de la placa ya existe",
+                title: "El n&uacute;mero de placa ya existe",
                 showConfirmButton: false,
                 timer: 2000,
               });
+              console.log('Numero de placa existente 1')
             }
-          });
-        } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "El n&uacute;mero de la placa ya existe",
-            showConfirmButton: false,
-            timer: 2000,
-          });
-        }
+          
       });
     }
 }

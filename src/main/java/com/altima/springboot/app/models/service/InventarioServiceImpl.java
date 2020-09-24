@@ -52,7 +52,7 @@ public class InventarioServiceImpl implements IInventarioService {
 				"FROM\r\n" + 
 				"    alt_produccion_detalle_pedido po\r\n" + 
 				"INNER JOIN alt_disenio_prenda pre3 ON\r\n" + 
-				"    pre3.id_prenda = po.id_prenda AND estatus_confeccion = '2' AND (po.estatus = '1' OR po.estatus = '2')\r\n" + 
+				"    pre3.id_prenda = po.id_prenda AND estatus_confeccion = '2' AND (po.estatus = '1' OR po.estatus = '2' OR po.estatus = '3')\r\n" + 
 				"INNER JOIN alt_disenio_tela dt ON\r\n" + 
 				"    dt.id_tela = po.id_tela\r\n" + 
 				"INNER JOIN alt_disenio_lista_precio_prenda precio ON\r\n" + 

@@ -1,6 +1,14 @@
+ $(document).ready(function() {
+	 if ($('#proveedorNumExt').val()==0 || $('#proveedorNumExt').val()=='' ||  $('#proveedorNumExt').val()==null ||  $('#proveedorNumExt').val()==undefined) {								//
+	        $('.check').hide();						//
+	        $('#proveedorNumExt').val("0")			//
+	        $('#proveedorNumInt').val("")			//
+	    } else {									//
+	    	$('.check').show();						//
+	    }	
+});
 
 function guardarDatosGenerales(){
-	
 	var record={};
 		
 	record ["nombreProveedor"] 		= $('#proveedorNombre').val();
@@ -21,6 +29,12 @@ function guardarDatosGenerales(){
 	record ["telefonoProveedor"]	= $('#proveedorTelefono').val();
 	record ["correo"]				= $('#proveedorCorreo').val();
 	record ["paginaWebProveedor"]	= $('#proveedorWeb').val();
+	record ["nomenclatura"]			= $('#nomenclatura').val();
+	record ["facebook"]				= $('#faceProveedor').val();
+	record ["instagram"]			= $('#instaProveedor').val();
+	record ["twitter"]				= $('#twitProveedor').val();
+	record ["whatsapp"]				= $('#whatsProveedor').val();
+	record ["otraRedsocial"]		= $('#otraRedsocial').val();
 	record ["idProveedor"]			= $('#datosPrueba').val();
 	
 	console.log(record);
@@ -133,17 +147,21 @@ function anadirContactoTablita(){
 	var cargo = $('#altaCargoContacto').val();
 	var correo = $('#altaCorreoContacto').val();
 	var telefono = $('#altaTelefonoContacto').val();
+	var whatsContacto = $('#altawhatsappContacto').val();
 	var extension = $('#altaExtensionContacto').val();
+	var lada = $('#altaLadaContacto').val();
 	console.log("si entra aca");
 	
 	var tabla = $('#tablitaContactos').DataTable();
 	
 	tabla.row.add([	
-		 nombre,
+		 nombre ,
 		 cargo ,
 		 correo ,
+		 lada ,
 		 telefono ,
-		 extension,
+		 extension ,
+		 whatsContacto ,
 		 "<input type='hidden' value=''>" +
 		 "<button class='btn btn-danger btn-circle btn-sm popoverxd borrar'><i class='fas fa-times'></i></button>"    
 		 ]).node().id ="row";
@@ -172,9 +190,11 @@ function guardarContactosProveedor(){
 		var record = {nombreContacto:       $(celdas[0]).text(), 
 					 cargoContacto: 	   $(celdas[1]).text(), 
 					 correoContacto:  	   $(celdas[2]).text(), 
-					 telefonoContacto:     $(celdas[3]).text(),
-					 extensionContacto:    $(celdas[4]).text(),
-					 idContactoProveedor:  $($(celdas[5]).children("input")[0]).val()};
+					 ladaContacto:    	   $(celdas[3]).text(),
+					 telefonoContacto:     $(celdas[4]).text(),
+					 extensionContacto:    $(celdas[5]).text(),
+					 whatsContacto:        $(celdas[6]).text(),
+					 idContactoProveedor:  $($(celdas[7]).children("input")[0]).val()};
 		listaContactos.push(record);
 		
 		if(contadorsito==4){
@@ -231,7 +251,7 @@ function guardarContactosProveedor(){
 				          timer: 1850,
 					      onClose: () => {
 					    	  console.log(data);
-					    	  $('#datos-compras-tab').click();
+					    	  location.href = "/compras-proveedores";
 					      }
 					})
 				}
@@ -305,7 +325,7 @@ function EditarContactosProveedor(idProveedor, listaContactos){
 					timer: 1850,
 					onClose: () => {
 						console.log(data);
-						$('#datos-compras-tab').click();
+						location.href = "/compras-proveedores";
 					}
 				})
 			}
@@ -498,16 +518,8 @@ function validarDatos(){
 	if($('#proveedorNombre').val()			==null || $('#proveedorNombre').val()			== "" || $('#proveedorNombre').val()		==undefined ||
 	   $('#proveedorTipo').val()			==null || $('#proveedorTipo').val()				== "" || $('#proveedorTipo').val()			==undefined ||
 	   $('#proveedorCalle').val()			==null || $('#proveedorCalle').val()			== "" || $('#proveedorCalle').val()			==undefined ||
-	   $('#proveedorColonia').val()			==null || $('#proveedorColonia').val()			== "" || $('#proveedorColonia').val()		==undefined ||
-	   $('#poblacionColonia').val()			==null || $('#poblacionColonia').val()			== "" || $('#poblacionColonia').val()		==undefined ||
-	   $('#cpColonia').val()	 	 	   	==null || $('#cpColonia').val()					== "" || $('#cpColonia').val()				==undefined ||
-	   $('#proveedorMunicipio').val()   	==null || $('#proveedorMunicipio').val()		== "" || $('#proveedorMunicipio').val()		==undefined ||
 	   $('#proveedorEstado').val()	 		==null || $('#proveedorEstado').val()			== "" || $('#proveedorEstado').val()		==undefined ||
 	   $('#proveedorPais').val()		   	==null || $('#proveedorPais').val()				== "" || $('#proveedorPais').val()			==undefined ||
-	   $('#proveedorClasificacion').val()	==null || $('#proveedorClasificacion').val()	== "" || $('#proveedorClasificacion').val()	==undefined ||
-	   $('#proveedorRFC').val()		   		==null || $('#proveedorRFC').val()				== "" || $('#proveedorRFC').val()			==undefined ||
-	   $('#proveedorCURP').val()		   	==null || $('#proveedorCURP').val()				== "" || $('#proveedorCURP').val()			==undefined ||
-	   $('#proveedorZona').val()		   	==null || $('#proveedorZona').val()				== "" || $('#proveedorZona').val()			==undefined ||
 	   $('#proveedorTelefono').val()     	==null || $('#proveedorTelefono').val()			== "" || $('#proveedorTelefono').val()		==undefined ){
 		validador = 0;
 		Swal.fire({
@@ -560,7 +572,7 @@ function validarContacto(){
 	$('#altaCargoContacto').val();
 	$('#altaCorreoContacto').val();
 	$('#altaTelefonoContacto').val();
-	$('#altaExtensionContacto').val();
+	$('#altaLadaContacto').val();
 	validador=1;
 	
 	if ($('#altaNombreContacto').val().length== null || $('#altaNombreContacto').val().length== "" || $('#altaNombreContacto').val().length== undefined){
@@ -604,12 +616,12 @@ function validarContacto(){
 		          timer: 2750,
 			})
 	}
-	else if ($('#altaExtensionContacto').val().length!=3){
+	else if ($('#altaLadaContacto').val().length!=3){
 			validador = 0;
 			Swal.fire({
 			      position: 'center',
 		          icon: 'error',
-		          title: '¡Ingrese una extensión válida!',
+		          title: '¡Ingrese un código de país válida!',
 		          showConfirmButton: false,
 		          timer: 2750,
 			})
@@ -691,7 +703,7 @@ $('#inlineFormCheck').on("change", function(){	//
 	var checked = this.checked;				  	//
     if (checked) {								//
         $('.check').hide();						//
-        $('#proveedorNumExt').val("")			//
+        $('#proveedorNumExt').val("0")			//
         $('#proveedorNumInt').val("")			//
     } else {									//
     	$('.check').show();						//
@@ -712,3 +724,33 @@ $('#manejoCredito').on("change", function(){	//
     }											//
 })												//
 //===============================================//
+
+$('#nomenclatura').change(function() {
+	
+	  $.ajax({
+	        data: {nomen:$("#nomenclatura").val()},
+	        url:   '/validar-nomen-proveedor',
+	        type:  'GET',
+	        success:  function (r) 
+	        {
+	        	if ( r == true ){
+	        		
+	        		   	 Swal.fire({
+	        					position: 'center',
+	        					icon: 'error',
+	        					title: 'Esta nomenclatura ya fue registrada',
+	        					showConfirmButton: false,
+	        					timer: 2500
+	        				})
+	        		     
+	        		   	$("#nomenclatura").val(null);
+	        	}
+	        	//console.log ("la repuesta es:"+ r)
+	        },
+	        error: function(){
+	            alert('Ocurrio un error en el servidor de modelo ..');
+	            select.prop('disabled', false);
+	        }
+	    });
+	  
+	})

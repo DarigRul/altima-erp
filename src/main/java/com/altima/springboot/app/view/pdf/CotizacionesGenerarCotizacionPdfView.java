@@ -21,7 +21,6 @@ import org.springframework.web.servlet.view.document.AbstractPdfView;
 import com.altima.springboot.app.models.entity.ComercialCliente;
 import com.altima.springboot.app.models.entity.ComercialCotizacionTotal;
 import com.altima.springboot.app.models.entity.HrDireccion;
-import com.altima.springboot.app.models.service.IComercialCotizacionTotalService;
 import com.altima.springboot.app.models.service.IEnviarCorreoService;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -48,8 +47,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 
 	@Autowired
     private IEnviarCorreoService enviarCorreoService;
-	@Autowired
-	private IComercialCotizacionTotalService cotiTotalService;
 	
 	@SuppressWarnings("static-access")
 	@Override
@@ -294,7 +291,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	celda.setBorder(0);
     	celda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	celda.setBorder(Rectangle.BOTTOM);
-    	celda.setBorderColorBottom(borderTable);
+    	celda.setBorderColorBottom(borderTable); 
     	celda.setBorderWidthBottom(2);
     	tablaHeader2.addCell(celda);
     	celda = new PdfPCell(new Phrase("Correo: ", Helvetica));
@@ -364,7 +361,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 
 		PdfPTable tablaHeader3 = new PdfPTable(1);
     	tablaHeader3.setWidthPercentage(100);
-    	PdfPCell nombre = new PdfPCell(new Phrase("C. "+cliente.getNombreContacto(), HelveticaBold));
+    	PdfPCell nombre = new PdfPCell(new Phrase("At'n. "+cliente.getNombreContacto(), HelveticaBold));
     	PdfPCell leyenda = new PdfPCell(new Phrase("Por medio de la presente nos permitimos poner a su consideración la cotización de las siguientes prendas: ", Helvetica));
     	nombre.setBorder(0);
     	leyenda.setBorder(0);
@@ -538,6 +535,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			float Subtotal = 0;
 			float IVA = 0;
 			float Total = 0;
+			float descuentoCargo = 0;
 			for(int con = 0; con < prendas.size(); con++) {
 				Object[] aux = (Object[]) prendas.get(con);
 				Subtotal += Float.valueOf(aux[27].toString());
@@ -578,8 +576,9 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				tablaPrendas.addCell(cuerpo5);
 				
 			}
+			descuentoCargo = Float.parseFloat(cotitotal.getDescuentoMonto());
 			IVA = (int)( Subtotal * ( iva/100.0f ));
-			Total = (IVA + Subtotal);
+			Total = (IVA + Subtotal + descuentoCargo);
 			
 			//Si tiene los totales se le anexan
 			if(totales) {
@@ -587,6 +586,8 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			
 				PdfPCell subTotalLetra = new PdfPCell(new Phrase("Subtotal:", subtitulos));
 				PdfPCell subTotalNumero = new PdfPCell(new Phrase("$" + Subtotal, HelveticaBold));
+				PdfPCell descuentoLetra = new PdfPCell(new Phrase("Descuento/ Cargo", subtitulos));
+				PdfPCell descuentoNumero = new PdfPCell(new Phrase("$" + descuentoCargo, HelveticaBold));
 				PdfPCell ivaLetra = new PdfPCell(new Phrase("I.V.A: ", subtitulos));
 				PdfPCell ivaNumero = new PdfPCell(new Phrase("$" + IVA, HelveticaBold));
 				PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
@@ -603,6 +604,17 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				subTotalNumero.setBorder(Rectangle.BOTTOM);
 				subTotalNumero.setBorderColorBottom(borderGray);
 				subTotalNumero.setBorderWidthBottom(2);
+				descuentoLetra.setPaddingBottom(10f);
+				descuentoLetra.setPaddingTop(8f);
+				descuentoLetra.setBorder(0);
+				descuentoLetra.setBorder(Rectangle.BOTTOM);
+				descuentoLetra.setBorderColorBottom(borderGray);
+				descuentoLetra.setBorderWidthBottom(2);
+				descuentoNumero.setPaddingBottom(10f);
+				descuentoNumero.setPaddingTop(8f);
+				descuentoNumero.setBorder(Rectangle.BOTTOM);
+				descuentoNumero.setBorderColorBottom(borderGray);
+				descuentoNumero.setBorderWidthBottom(2);
 				ivaLetra.setPaddingBottom(10f);
 				ivaLetra.setPaddingTop(8f);
 				ivaLetra.setBorder(0);
@@ -630,6 +642,11 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(subTotalLetra);
 				tablaPrendas.addCell(subTotalNumero);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(descuentoLetra);
+				tablaPrendas.addCell(descuentoNumero);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
@@ -692,6 +709,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			tablaPrendas.addCell(Cabezero5);
 			
 			float Subtotal = 0;
+			float descuentoCargo = 0;
 			float IVA = 0;
 			float Total = 0;
 			for(int con = 0; con < prendas.size(); con++) {
@@ -734,8 +752,9 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				tablaPrendas.addCell(cuerpo4);
 				tablaPrendas.addCell(cuerpo5);
 			}
+			descuentoCargo = Float.parseFloat(cotitotal.getDescuentoMonto());
 			IVA = (int)( Subtotal * ( iva/100.0f ));
-			Total = (IVA + Subtotal);
+			Total = (IVA + Subtotal + descuentoCargo);
 					
 			//Si tiene los totales se le anexan
 			if(totales) {
@@ -743,6 +762,8 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				
 				PdfPCell subTotalLetra = new PdfPCell(new Phrase("Subtotal:", subtitulos));
 				PdfPCell subTotalNumero = new PdfPCell(new Phrase("$" + Subtotal, HelveticaBold));
+				PdfPCell descuentoLetra = new PdfPCell(new Phrase("Descuento/ Cargo", subtitulos));
+				PdfPCell descuentoNumero = new PdfPCell(new Phrase("$" + descuentoCargo, HelveticaBold));
 				PdfPCell ivaLetra = new PdfPCell(new Phrase("I.V.A: ", subtitulos));
 				PdfPCell ivaNumero = new PdfPCell(new Phrase("$" + IVA, HelveticaBold));
 				PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
@@ -759,6 +780,17 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				subTotalNumero.setBorder(Rectangle.BOTTOM);
 				subTotalNumero.setBorderColorBottom(borderGray);
 				subTotalNumero.setBorderWidthBottom(2);
+				descuentoLetra.setPaddingBottom(10f);
+				descuentoLetra.setPaddingTop(8f);
+				descuentoLetra.setBorder(0);
+				descuentoLetra.setBorder(Rectangle.BOTTOM);
+				descuentoLetra.setBorderColorBottom(borderGray);
+				descuentoLetra.setBorderWidthBottom(2);
+				descuentoNumero.setPaddingBottom(10f);
+				descuentoNumero.setPaddingTop(8f);
+				descuentoNumero.setBorder(Rectangle.BOTTOM);
+				descuentoNumero.setBorderColorBottom(borderGray);
+				descuentoNumero.setBorderWidthBottom(2);
 				ivaLetra.setPaddingBottom(10f);
 				ivaLetra.setPaddingTop(8f);
 				ivaLetra.setBorder(0);
@@ -789,6 +821,11 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(descuentoLetra);
+				tablaPrendas.addCell(descuentoNumero);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(ivaLetra);
 				tablaPrendas.addCell(ivaNumero);
 				tablaPrendas.addCell(vacia);
@@ -805,14 +842,16 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 
 				// esta es la grande
 				PdfPTable tablesplit = new PdfPTable(1);
-
+				PdfPTable tableFirmas = new PdfPTable(1);
 		    	PdfPTable tablaFooter1 = new PdfPTable(1);
 		    	tablaFooter1.setWidthPercentage(100);
 		    	PdfPCell tituloTablaFirmas = new PdfPCell(new Phrase("CONDICIONES", TitulosOscuros));
 		    	tituloTablaFirmas.setHorizontalAlignment(Element.ALIGN_LEFT);
 				tituloTablaFirmas.setVerticalAlignment(Element.ALIGN_CENTER);
 				tituloTablaFirmas.setBorder(0);
+				tituloTablaFirmas.setPaddingTop(18f);
 		    	tablaFooter1.addCell(tituloTablaFirmas);
+		    	tablaFooter1.setWidthPercentage(100);
 		    	PdfPCell leyenda2 = new PdfPCell(new Phrase("* Estos precios son más I.V.A.", Helvetica));
 		    	PdfPCell leyenda3 = new PdfPCell(new Phrase("* El pago será de 45% días hábiles para un máximo de 50 personas y de 60 días hábiles para un número mayor; a partir del anticipo, toma de tallas, modelos y colores autorizados por uds.", Helvetica));
 		    	PdfPCell leyenda4 = new PdfPCell(new Phrase("* Los uniformes son sobre talla y no sobre medida.", Helvetica));
@@ -844,9 +883,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tablaFooter1.addCell(leyenda6);
 				tablaFooter1.addCell(leyenda7);
 
-				PdfPCell cellsplit = new PdfPCell(tablaFooter1);
-				cellsplit.setBorder(PdfPCell.NO_BORDER);
-				tablesplit.addCell(cellsplit);
 		    	//Segunda tabla de las firmas
 		    	PdfPTable tablaFooter2 = new PdfPTable(3);
 		    	tablaFooter2.setWidthPercentage(90);
@@ -932,9 +968,20 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tablaFooter2.addCell(puestosFirma2);
 				tablaFooter2.setWidths(new float[] { 6f, 3f, 6f });
 				
+
+				PdfPCell cellsplit = new PdfPCell(tablaFooter1);
+				cellsplit.setBorder(PdfPCell.NO_BORDER);
+				tablesplit.addCell(cellsplit);
+				
 				cellsplit = new PdfPCell(tablaFooter2);
 				cellsplit.setBorder(PdfPCell.NO_BORDER);
 				tablesplit.addCell(cellsplit);
+				tablesplit.setWidthPercentage(100);
+				
+				cellsplit = new PdfPCell(tablesplit);
+				cellsplit.setBorder(PdfPCell.NO_BORDER);
+				tableFirmas.addCell(cellsplit);
+				tableFirmas.setWidthPercentage(100);
 		    	
 		//Aqui se hace el merge del CV si es que existe
 		if(cv) {
@@ -953,10 +1000,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			document.add(tablaHeader3);
 			document.add(espacio);
 			document.add(tablaPrendas);
-			document.add(espacio);
-			document.add(tablaFooter1);
-			document.add(espacio);
-			document.add(tablaFooter2);
+			document.add(tableFirmas);
 			document.add(espacio);
 			document.newPage();
 			PdfReader reader = new PdfReader(FILE1);
@@ -991,10 +1035,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			document.add(tablaHeader3);
 			document.add(espacio);
 			document.add(tablaPrendas);
-			document.add(espacio);
-			document.add(tablaFooter1);
-			document.add(espacio);
-			document.add(tablaFooter2);
+			document.add(tableFirmas);
 			document.add(espacio);
 		}
 		if(!correo.equalsIgnoreCase("nulo")) {
@@ -1017,9 +1058,8 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			document.add(tablaHeader3);
 			document.add(espacio);
 			document.add(tablaPrendas);
-			document.add(tablaFooter1);
-			document.add(espacio);
-			document.add(tablaFooter2);
+			document.add(tableFirmas);
+
 			document.add(espacio);
 			document.newPage();
 			PdfReader reader = new PdfReader(FILE1);

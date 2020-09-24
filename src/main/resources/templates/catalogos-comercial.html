@@ -6,6 +6,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -57,7 +58,7 @@
     </div>
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
-    <script src="/dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/tablaComercialCatalogo.js"></script>
     <script src="/dist/js/catalogosComercial.js"></script>
     <script>
         $('#iComercial').removeClass('text-altima');

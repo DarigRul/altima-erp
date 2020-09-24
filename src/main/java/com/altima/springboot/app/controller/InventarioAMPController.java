@@ -40,6 +40,7 @@ import com.altima.springboot.app.models.entity.HrDireccion;
 import com.altima.springboot.app.models.service.IAmpInventarioProovedorService;
 import com.altima.springboot.app.models.service.IAmpInventarioService;
 import com.altima.springboot.app.models.service.IAmpLoookupService;
+import com.altima.springboot.app.models.service.IAmpMultialmacenService;
 import com.altima.springboot.app.models.service.ICatalogoService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IDisenioForroService;
@@ -73,11 +74,15 @@ public class InventarioAMPController {
 	@Autowired
 	private IDisenioMaterialService disenioMaterialService;
 	
+	@Autowired
+	private IAmpMultialmacenService AmpMultialmacenService;
+	
 	
 	@GetMapping("/inventario-amp")
 	public String listInv(Model model)
 	{
 		model.addAttribute("inventario", InventarioSerivice.findAll());
+		model.addAttribute("almaceneslogicos", AmpMultialmacenService.findAllActiveAMPLogic());
 		return"inventario-amp";
 	}
 	
@@ -162,6 +167,34 @@ public class InventarioAMPController {
 	@GetMapping("/proveedores-inventario-amp/{id}/{tipo}")
 	public String addproveedores(@PathVariable (value="id") Long id,@PathVariable (value="tipo") String tipo, Model model)
 	{
+		
+		if (tipo.equals("m")) {
+			DisenioMaterial material = disenioMaterialService.findOne(id);
+			if(ProveedorSerivice.Vefiricar_Proveedor_Principal(id, tipo, material.getProveedor()) == false) {
+				model.addAttribute("title", "Por favor, ingrese el proveedor principal");
+				model.addAttribute("icon", "warning");
+				model.addAttribute("id_proovedor_pricipal",material.getProveedor());
+				model.addAttribute("id_proovedor_pricipal_clave",material.getModelo());
+			}
+			
+		}else if (tipo.equals("t")){
+			DisenioTela tela =  disenioTelaService.findOne(id);
+			if(ProveedorSerivice.Vefiricar_Proveedor_Principal(id, tipo, Long.toString(tela.getIdProveedor())) == false) {
+				model.addAttribute("title", "Por favor, ingrese el proveedor principal");
+				model.addAttribute("icon", "warning");
+				model.addAttribute("id_proovedor_pricipal",Long.toString(tela.getIdProveedor()));
+				
+				model.addAttribute("id_proovedor_pricipal_clave",tela.getClaveProveedor());
+			}
+		}else if(tipo.equals("f")) {
+			DisenioForro forro =  forroService.findOne(id);
+			if(ProveedorSerivice.Vefiricar_Proveedor_Principal(id, tipo, forro.getIdProveedor() ) == false) {
+				model.addAttribute("title", "Por favor, ingrese el proveedor principal");
+				model.addAttribute("icon", "warning");
+				model.addAttribute("id_proovedor_pricipal",forro.getIdProveedor());
+				model.addAttribute("id_proovedor_pricipal_clave",forro.getClaveProveedor());
+			}
+		}
 		model.addAttribute("idInventario", id);
 		model.addAttribute("tipo", tipo);
 		model.addAttribute("view", ProveedorSerivice.View(id, tipo));
@@ -284,8 +317,8 @@ public class InventarioAMPController {
 	
 	@RequestMapping(value = "/proveedores-activos", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Object []> provedor() {
-		return ProveedorSerivice.Proveedores();
+	public List<Object []> provedor(Long Inventario, String tipo) {
+		return ProveedorSerivice.Proveedores_disponibles(tipo, Inventario);
 	}
 	
 	@RequestMapping(value = "/historial-precio", method = RequestMethod.GET)
@@ -338,7 +371,7 @@ public class InventarioAMPController {
 			System.out.println("precio"+costo);
 			System.out.println("precio de la base"+precio);
 			
-			if ( costo > precio || precio<costo ) {
+			if ( costo != precio) {
 				AmpInventarioProovedorPrecio objPrecio = new AmpInventarioProovedorPrecio();
 				
 				objPrecio.setIdProveedor(obj.getIdInventarioProveedor());

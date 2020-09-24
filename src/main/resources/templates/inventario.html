@@ -75,7 +75,7 @@
                                           
                                                 <td th:text="${mt[1]}"></td>
 											    <td th:text="${mt[2]}"></td>
-											    <td th:text="${mt[13]}">  </td>
+											    <td th:text="${mt[13]}"></td>
 											    <td th:text="${mt[3]}"></td>
 											    <td th:text="${mt[4]}"></td>  
 											    <td th:text="${mt[5]}"></td>
@@ -87,6 +87,7 @@
 												<td th:if="${mt[10]==0}">Inactivo</td>
 												<td th:if="${mt[10]==1}">Activo</td>
 												<td th:if="${mt[10]==2}">Prestado</td>
+												<td th:if="${mt[10]==3}">Solicitud de Rack</td>
 												
 												<td class="tdcenter">
 												<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>

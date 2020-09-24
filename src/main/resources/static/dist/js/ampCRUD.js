@@ -2,6 +2,8 @@
 $(document).ready(function () {
 
 	listarClasificacion();
+	listarAlmacenesfisicos();
+	listarAlmaceneslogicos();
 
 });
 $('#detalleClasificacion').on('shown.bs.modal', function () {
@@ -466,7 +468,7 @@ function listarClasificacion() {
 			}
 			var tablaColores = $('#idtable2').DataTable({
 				"data": b,
-				"ordering": true,
+				"ordering": false,
 				"pageLength": 5,
 				"drawCallback": function() {
 					$('.popoverxd').popover({
@@ -498,10 +500,7 @@ function listarClasificacion() {
 							"sNext": "Siguiente",
 							"sPrevious": "Anterior"
 						},
-						"oAria": {
-							"sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-							"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-						},
+						
 						"buttons": {
 							"copy": "Copiar",
 							"colvis": "Visibilidad"
@@ -674,20 +673,20 @@ function agregarAlmacenLogico(){
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
 				  	'<label for="almacenFisicoLogico">Almac&eacute;n f&iacute;sico</label>'+
-				  	'<select class="form-control" id="almacenFisicoLogico" name="almacenFisicoLogico">'+
-				  	'<option>Listar todos los almacenes fisicos</option>'+
+				  	'<select "'+almaceneslogicosselect()+'" class="form-control" id="almacenFisicoLogico" name="almacenFisicoLogico">'+
+				  	'<option>seleccione un almacen</option>'+
 				  	'</select>'+
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
 				  	'<label for="entradaLogico">Movimiento Entrada</label>'+
-				  	'<select class="form-control" id="entradaLogico" name="entradaLogico">'+
-				  	'<option>Listar todas las entradas</option>'+
+				  	'<select "'+selectentradas()+'" class="form-control" id="entradaLogico" name="entradaLogico">'+
+				  	'<option>seleccione una entrada</option>'+
 				  	'</select>'+
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
 				  	'<label for="salidaLogico">Movimiento Salida</label>'+
-				  	'<select class="form-control" id="salidaLogico" name="salidaLogico">'+
-				  	'<option>Listar todas las salidas</option>'+
+				  	'<select "'+selectsalidas()+'" class="form-control" id="salidaLogico" name="salidaLogico">'+
+				  	'<option>seleccione una salida</option>'+
 				  	'</select>'+
 				  '</div>'+
 			  '</div>',
@@ -698,41 +697,260 @@ function agregarAlmacenLogico(){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Almac&eacute;n l&oacute;gico agregado correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
+			  if($('#nombreLogico').val().length<0 && $('#almacenFisicoLogico').val().length<0 && $('#salidaLogico').val().length<0 && $('#entradaLogico').val().length<0){
+				  $.ajax({
+                      type: "POST",
+                      url: "/guardar-almacen-logico",
+                      data: {
+                          "_csrf": $('#token').val(),
+                          'Nombre': $('#nombreLogico').val(),
+                          'AlmacenFisico': $('#almacenFisicoLogico').val(),
+                          'Salida': $('#salidaLogico').val(),
+                        	  'Entrada': $('#entradaLogico').val(),
+                          
+                      }
+
+                  }).done(function(data) {
+                	  if(data==true){
+                	  Swal.fire({
+    					  position: 'center',
+    					  icon: 'success',
+    					  title: 'Ingresado correctamente',
+    					  showConfirmButton: false,
+    					  timer: 1500
+    					})  }
+                	  else{
+                		  Swal.fire({
+        					  position: 'center',
+        					  icon: 'error',
+        					  title: 'Registro duplicado algo ha salido mal reintente',
+        					  showConfirmButton: false,
+        					  timer: 1500
+        					})  
+                	  }
+                	  //listarColores();
+                	  listarAlmaceneslogicos();
+                  });
+		
+			  }
+			  else{
+				  Swal.fire({
+					  position: 'center',
+					  icon: 'error',
+					  title: 'Ingrese todos los campos requeridos',
+					  showConfirmButton: false,
+					  timer: 1500
+					})  
+				  
+			  }
 		  }
 		});
 }
-function editarAlmacenLogico(){
+
+function almaceneslogicosselect(){
+	$.ajax({
+	    type: "GET",
+	    url: "/obtener-almacenes-fisicos-select",
+	    success: (data) => {
+	    	var select = document.getElementById("almacenFisicoLogico");
+	    	//console.log(select);
+	    	for(index in data) {
+	    	    select.options[select.options.length] = new Option(data[index].nombreAlmacen, data[index].idAlmacenFisico);
+	    	}
+	    },
+	    error: (e) => {
+	    	
+	    }
+	});
+
+	};
+	
+	function selectentradas(){
+		$.ajax({
+		    type: "GET",
+		    url: "/entradas-salidas",
+		    data:{
+				"Tipo":"Entrada"
+			} ,
+		    success: (data) => {
+		    	var select = document.getElementById("entradaLogico");
+		    	//console.log(select);
+		    	for(index in data) {
+		    	    select.options[select.options.length] = new Option(data[index].nombreLookup, data[index].idLookup);
+		    	}
+		    },
+		    error: (e) => {
+		    	
+		    }
+		});
+
+		};
+		
+		function selectsalidas(){
+			$.ajax({
+			    type: "GET",
+			    url: "/entradas-salidas",
+			    data:{
+					"Tipo":"Salida"
+				} ,
+			    success: (data) => {
+			    	var select = document.getElementById("salidaLogico");
+			    	//console.log(select);
+			    	for(index in data) {
+			    	    select.options[select.options.length] = new Option(data[index].nombreLookup, data[index].idLookup);
+			    	}
+			    },
+			    error: (e) => {
+			    	
+			    }
+			});
+
+			};
+
+
+function listarAlmaceneslogicos() {
+
+    $.ajax({
+        method: "GET",
+        url: "/get-all-amp-logico",
+        success: (data) => {
+            $('#quitar12').remove();
+            $('#contenedorTabla12').append("<div class='modal-body' id='quitar12'>" +
+                "<table class='table table-striped table-bordered' id='idtable12' style='width:100%'>" +
+                "<thead>" +
+                "<tr>" +
+                "<th>Almacen Logico</th>" +
+                "<th>Almacen fisico</th>" +
+                "<th>Mov. Entrada</th>" +
+                "<th>Mov. Salida</th>" +
+                "<th>Acciones</th>" +
+                "</tr>" +
+                "</thead>" +
+                "</table>" + "</div>");
+            var a;
+            var b = [];
+           
+                for (i in data) {
+                    var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
+                    var idlogico=data[i][0];
+                    var logico=data[i][1];
+                    var idfisico=data[i][2];
+                    var fisico=data[i][3];
+                    var idsalida=data[i][4];
+                    var salida=data[i][5];
+                    var identrada=data[i][6];
+                    var entrada=data[i][7];
+                    a = [
+                        "<tr>" +
+                        "<td>" + data[i][1] + "</td>",
+                        "<td>" + data[i][3] + "</td>",
+                        "<td>" + data[i][7] + "</td>",
+                        "<td>" + data[i][5] + "</td>",
+                        "<td style='text-align: center;'>" +
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][8] + " <br /><strong>Fecha de creación:</strong> " + data[i][9] + "<br><strong>Modificado por:</strong>" + data[i][10] + "<br><strong>Fecha de modicación:</strong>" + data[i][11] + "'><i class='fas fa-info'></i></button> " +
+                        "<button onclick='editarAlmacenLogico(\"" + idlogico+ "\",\"" + logico + "\",\"" + idfisico + "\",\"" + fisico + "\",\"" + idsalida + "\",\"" + salida + "\",\"" + identrada + "\",\"" + entrada + "\");'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        (data[i][12] == 1 ? "<button onclick='bajaAlmacenLogico(" + idlogico + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                        (data[i][12] == 0 ? "<button onclick='altaAlmacenLogico(" + idlogico + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
+
+                        "</td>" +
+                        "<tr>"
+                    ];
+                    b.push(a);
+                }
+           
+            var tablaMarcador = $('#idtable12').DataTable({
+                "data": b,
+                "ordering": false,
+                "pageLength": 5,
+                "responsive": true,
+                "stateSave": true,
+                "drawCallback": function() {
+                    $('.popoverxd').popover({
+                        container: 'body',
+                        trigger: 'hover'
+                    });
+                },
+                "columnDefs": [{
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 2,
+                        className: 'dt-body-center'
+                    }
+                ],
+                "lengthMenu": [
+                    [5, 10, 25, 50, 100],
+                    [5, 10, 25, 50, 100]
+                ],
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    
+                    "buttons": {
+                        "copy": "Copiar",
+                        "colvis": "Visibilidad"
+                    }
+                }
+            });
+            new $.fn.dataTable.FixedHeader(tablaMarcador);
+        },
+        error: (e) => {
+
+        }
+    })
+}
+
+function editarAlmacenLogico(
+		idlogico,
+        logico,
+        idfisico,
+        fisico,
+        idsalida,
+        salida,
+        identrada,
+        entrada
+){
 	Swal.fire({
 		  title: 'Editar almac&eacute;n l&oacute;gico',
 		  html:
 			  '<div class="row">'+
 				  '<div class="form-group col-sm-6">'+
 				  	'<label for="nombreLogicoE">Nombre del almac&eacute;n l&oacute;gico</label>'+
-				  	'<input type="text" class="form-control" id="nombreLogicoE" name="nombreLogicoE" placeholder="Almac&eacute;n 126">'+
+				  	'<input value="'+logico+'" type="text" class="form-control" id="nombreLogicoE" name="nombreLogicoE" placeholder="Almac&eacute;n 126">'+
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
 				  	'<label for="almacenFisicoLogicoE">Almac&eacute;n f&iacute;sico</label>'+
-				  	'<select class="form-control" id="almacenFisicoLogicoE" name="almacenFisicoLogicoE">'+
-				  	'<option>Listar todos los almacenes fisicos</option>'+
+				  	'<select "'+almacenfisicoeditarselect(idfisico)+'" class="form-control" id="almacenFisicoLogicoE" name="almacenFisicoLogicoE">'+
+				  	'<option value="'+idfisico+'">'+fisico+'</option>'+
 				  	'</select>'+
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
 				  	'<label for="entradaLogicoE">Movimiento Entrada</label>'+
-				  	'<select class="form-control" id="entradaLogicoE" name="entradaLogicoE">'+
-				  	'<option>Listar todas las entradas</option>'+
+				  	'<select "'+entradaSalidaSelectEditar(identrada,"Entrada")+'" class="form-control" id="entradaLogicoE" name="entradaLogicoE">'+
+				  	'<option value="'+identrada+'">'+entrada+'</option>'+
 				  	'</select>'+
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
 				  	'<label for="salidaLogicoE">Movimiento Salida</label>'+
-				  	'<select class="form-control" id="salidaLogicoE" name="salidaLogicoE">'+
-				  	'<option>Listar todas las salidas</option>'+
+				  	'<select "'+entradaSalidaSelectEditar(idsalida,"Salida")+'" class="form-control" id="salidaLogicoE" name="salidaLogicoE">'+
+				  	'<option value="'+idsalida+'">'+salida+'</option>'+
 				  	'</select>'+
 				  '</div>'+
 			  '</div>',
@@ -743,17 +961,118 @@ function editarAlmacenLogico(){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Almac&eacute;n l&oacute;gico editado correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
+			  $.ajax({
+					type: "POST",
+					url: "/editar-almacen-logico",
+					data: {
+						"_csrf": $('#token').val(),
+						'Id': idlogico,
+						'AlmacenFisico': $('#almacenFisicoLogicoE').val(),
+						'Nombre': $('#nombreLogicoE').val(),
+						'Entrada': $('#entradaLogicoE').val(),
+						'Salida':$('#salidaLogicoE').val()
+					}
+
+				}).done(function (data) {
+					if(data==true){
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Almac&eacute;n l&oacute;gico editado correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmaceneslogicos();
+						
+					}
+					
+					
+					else{
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'Registro duplicado algo ha salido mal reintente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmaceneslogicos();
+					}
+					
+				});
 		  }
 		});
 }
-function bajaAlmacenLogico(){
+
+function almacenfisicoeditarselect(idfisico){
+	$.ajax({
+	    type: "GET",
+	    url: "/obtener-almacenes-fisicos-select",
+	    success: (data) => {
+	    	var select = document.getElementById("almacenFisicoLogicoE");
+	    	for (var i = 0; i < data.length; i++) {
+				console.log(data[i]);
+				if(data[i].idAlmacenFisico==idfisico){
+					
+					data.splice(i,1);
+					
+				}
+			}
+	    	for(index in data) {
+	    	    select.options[select.options.length] = new Option(data[index].nombreAlmacen, data[index].idAlmacenFisico);
+	    	}
+	    },
+	    error: (e) => {
+	    	
+	    }
+	});
+
+	};
+	
+	function entradaSalidaSelectEditar(identradasalida,Tipo){
+		console.log(identradasalida);
+		console.log(Tipo);
+		$.ajax({
+		    type: "GET",
+		    url: "/entradas-salidas",
+		    data: {
+		    	
+		    	'Tipo':Tipo
+		    },
+		    success: (data) => {
+		    	console.log(data.tipoLookup=="Salida");
+		    	console.log(data.tipoLookup=="Entrada");
+		    	console.log(data.tipoLookup);
+		    	var select;
+		    	
+		    	//var select = document.getElementById("almacenFisicoLogicoE");
+		    	for (var i = 0; i < data.length; i++) {
+					console.log(data[i]);
+					if(data[i].idLookup==identradasalida){
+						if (data[i].tipoLookup=="Salida") {
+				    		console.log("salida");
+				    		select = document.getElementById("salidaLogicoE");
+						} else {
+							console.log("entrada");
+							select = document.getElementById("entradaLogicoE");
+						}
+						data.splice(i,1);
+						
+					}
+				}
+		    	for(index in data) {
+		    	    select.options[select.options.length] = new Option(data[index].nombreLookup, data[index].idLookup);
+		    	}
+		    },
+		    error: (e) => {
+		    	
+		    }
+		});
+
+		};
+		
+		
+		
+function bajaAlmacenLogico(id){
 	Swal.fire({
 		  title: '¿Deseas dar de baja el almac&eacute;n l&oacute;gico?',
 		  icon: 'warning',
@@ -764,17 +1083,46 @@ function bajaAlmacenLogico(){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Almac&eacute;n l&oacute;gico dado de baja correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
+			  $.ajax({
+					type: "POST",
+					url: "/baja-almacen",
+					data: {
+						"_csrf": $('#token').val(),
+						'Id': id,
+						'Tipo': 'Logico' 
+					}
+
+				}).done(function (data) {
+					if(data==true){
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Almac&eacute;n l&oacute;gico dado de baja correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmaceneslogicos();
+						
+					}
+					
+					
+					else{
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'Algo ha salido mal reintente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmaceneslogicos();
+					}
+					
+				});
+			  
 		  }
 		});
 }
-function altaAlmacenLogico(){
+function altaAlmacenLogico(id){
 	Swal.fire({
 		  title: '¿Deseas dar de alta el almac&eacute;n l&oacute;gico?',
 		  icon: 'warning',
@@ -785,13 +1133,42 @@ function altaAlmacenLogico(){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Almac&eacute;n l&oacute;gico dado de alta correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
+			  $.ajax({
+					type: "POST",
+					url: "/alta-almacen",
+					data: {
+						"_csrf": $('#token').val(),
+						'Id': id,
+						'Tipo': 'Logico' 
+					}
+
+				}).done(function (data) {
+					if(data==true){
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Almac&eacute;n l&oacute;gico dado de alta correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmaceneslogicos();
+						
+					}
+					
+					
+					else{
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'Algo ha salido mal reintente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmaceneslogicos();
+					}
+					
+				});
+			  
 		  }
 		});
 }
@@ -799,6 +1176,12 @@ function altaAlmacenLogico(){
 $('#detalleAlmacenesFisicos').on('shown.bs.modal', function () {
 	$(document).off('focusin.modal');
 });
+
+//$( document ).ready(
+
+
+
+//////////////agregar almacen fisico
 function agregarAlmacenFisico(){
 	Swal.fire({
 		  title: 'Nuevo almac&eacute;n f&iacute;sico',
@@ -810,9 +1193,7 @@ function agregarAlmacenFisico(){
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
 				  	'<label for="encargadoFisico">Encargado</label>'+
-				  	'<select class="form-control" id="encargadoFisico" name="encargadoFisico">'+
-				  	'<option>Listar todos los empleados de almacen</option>'+
-				  	'</select>'+
+				  	'<select class="form-control" id="encargadoFisico" name="encargadoFisico">' +empleadosalmacen()+ '</select>'+
 				  '</div>'+
 			  '</div>',
 		  showCancelButton: true,
@@ -821,30 +1202,192 @@ function agregarAlmacenFisico(){
 		  confirmButtonText: 'Confirmar',
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
+			
 		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Almac&eacute;n f&iacute;sico agregado correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
+			  if($('#nombreFisico').val().length<0 && $('#encargadoFisico').val().length<0){
+				  $.ajax({
+                      type: "POST",
+                      url: "/guardar-almacen-fisico",
+                      data: {
+                          "_csrf": $('#token').val(),
+                          'Nombre': $('#nombreFisico').val(),
+                          'Encargado': $('#encargadoFisico').val()
+
+                      }
+
+                  }).done(function(data) {
+                	  if(data==true){
+                	  Swal.fire({
+    					  position: 'center',
+    					  icon: 'success',
+    					  title: 'Ingresado correctamente',
+    					  showConfirmButton: false,
+    					  timer: 2500
+    					})  }
+                	  else{
+                		  Swal.fire({
+        					  position: 'center',
+        					  icon: 'error',
+        					  title: 'Registro duplicado o algo ha salido mal reintente',
+        					  showConfirmButton: false,
+        					  timer: 2500
+        					})  
+                	  }
+                	  //listarColores();
+                	  listarAlmacenesfisicos();
+                  });
+		
+			  }
+			  else{
+				  Swal.fire({
+					  position: 'center',
+					  icon: 'error',
+					  title: 'Ingrese todos los campos requeridos',
+					  showConfirmButton: false,
+					  timer: 1500
+					})  
+				  
+			  }
+			
 		  }
 		});
 }
-function editarAlmacenFisico(){
+///////////////////////////////
+/////////////listar
+
+function listarAlmacenesfisicos() {
+
+    $.ajax({
+        method: "GET",
+        url: "/get-all-amp-fisico",
+        success: (data) => {
+            $('#quitar11').remove();
+            $('#contenedorTabla11').append("<div class='modal-body' id='quitar11'>" +
+                "<table class='table table-striped table-bordered' id='idtable11' style='width:100%'>" +
+                "<thead>" +
+                "<tr>" +
+                "<th>Almacen fisico</th>" +
+                "<th>Encargado</th>" +
+                "<th>Acciones</th>" +
+                "</tr>" +
+                "</thead>" +
+                "</table>" + "</div>");
+            var a;
+            var b = [];
+           
+                for (i in data) {
+                    //var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
+                    a = [
+                        "<tr>" +
+                        "<td>" + data[i][3] + "</td>",
+                        "<td>" + data[i][0] + "</td>",
+                        "<td style='text-align: center;'>" +
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][4] + " <br /><strong>Fecha de creación:</strong> " + data[i][6] + "<br><strong>Modificado por:</strong>" + data[i][5] + "<br><strong>Fecha de modicación:</strong>" + data[i][7] + "'><i class='fas fa-info'></i></button> " +
+                        "<button onclick='editarAlmacenFisico(\"" + data[i][3] + "\",\"" + data[i][0] + "\",\"" + data[i][1] + "\",\"" + data[i][2] + "\");'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        (data[i][8] == 1 ? "<button onclick='bajaAlmacenFisico(" + data[i][1] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                        (data[i][8] == 0 ? "<button onclick='altaAlmacenFisico(" + data[i][1] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
+                        "<button onclick='abrirMapeo()' class='btn btn-altima btn-circle btn-sm popoverxd' data-content='Mapeo' data-placement='top'><i class='fas fa-map' style='margin-left: -1px;'></i></button>"+
+
+                        "</td>" +
+                        "<tr>"
+                    ];
+                    b.push(a);
+                }
+           
+            var tablaMarcador = $('#idtable11').DataTable({
+                "data": b,
+                "ordering": false,
+                "pageLength": 5,
+                "responsive": true,
+                "stateSave": true,
+                "drawCallback": function() {
+                    $('.popoverxd').popover({
+                        container: 'body',
+                        trigger: 'hover'
+                    });
+                },
+                "columnDefs": [{
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 2,
+                        className: 'dt-body-center'
+                    }
+                ],
+                "lengthMenu": [
+                    [5, 10, 25, 50, 100],
+                    [5, 10, 25, 50, 100]
+                ],
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    
+                    "buttons": {
+                        "copy": "Copiar",
+                        "colvis": "Visibilidad"
+                    }
+                }
+            });
+            new $.fn.dataTable.FixedHeader(tablaMarcador);
+        },
+        error: (e) => {
+
+        }
+    })
+}
+//////////////////////77acaba listar
+
+
+function empleadosalmacen(){
+	$.ajax({
+	    type: "GET",
+	    url: "/obtener-responsables-almacen",
+	    success: (data) => {
+	    	var select = document.getElementById("encargadoFisico");
+	    	//console.log(select);
+	    	for(index in data) {
+	    	    select.options[select.options.length] = new Option(data[index][1], data[index][0]);
+	    	}
+	    },
+	    error: (e) => {
+	    	
+	    }
+	});
+
+	};
+function editarAlmacenFisico(almacen,encargado,id,idencargado){
+	console.log(almacen);
+	console.log(encargado);
+	console.log(id);
 	Swal.fire({
 		  title: 'Editar almac&eacute;n f&iacute;sico',
 		  html:
 			  '<div class="row">'+
 				  '<div class="form-group col-sm-6">'+
 				  	'<label for="nombreFisicoE">Nombre del almac&eacute;n f&iacute;sico</label>'+
-				  	'<input type="text" class="form-control" id="nombreFisicoE" name="nombreFisicoE" placeholder="Almac&eacute;n 126">'+
+				  	'<input type="text" value="'+almacen+'" class="form-control" id="nombreFisicoE" name="nombreFisicoE" placeholder="Almac&eacute;n 126">'+
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
 				  	'<label for="encargadoFisicoE">Encargado</label>'+
-				  	'<select class="form-control" id="encargadoFisicoE" name="encargadoFisicoE">'+
-				  	'<option>Listar todos los empleados de almacen</option>'+
+				  	'<select "'+empleadosalmaceneditar(idencargado)+'" class="form-control" id="encargadoFisicoE" name="encargadoFisicoE">'+
+				  	'<option value="'+idencargado+'">'+encargado+'</option>'+
 				  	'</select>'+
 				  '</div>'+
 			  '</div>',
@@ -855,17 +1398,71 @@ function editarAlmacenFisico(){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Almac&eacute;n f&iacute;sico editado correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
+			  $.ajax({
+					type: "POST",
+					url: "/editar-almacen-fisico",
+					data: {
+						"_csrf": $('#token').val(),
+						'Id': id,
+						'Nombre': $('#nombreFisicoE').val(),
+						'Encargado': $('#encargadoFisicoE').val()	
+					}
+
+				}).done(function (data) {
+					if(data==true){
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Almac&eacute;n f&iacute;sico editado correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmacenesfisicos();
+						
+					}
+					
+					
+					else{
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'Registro duplicado algo ha salido mal reintente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmacenesfisicos();
+					}
+					
+				});
 		  }
 		});
 }
-function bajaAlmacenFisico(){
+
+function empleadosalmaceneditar(idencargado){
+	$.ajax({
+	    type: "GET",
+	    url: "/obtener-responsables-almacen",
+	    success: (data) => {
+	    	var select = document.getElementById("encargadoFisicoE");
+	    	for (var i = 0; i < data.length; i++) {
+				console.log(data[i]);
+				if(data[i][0]==idencargado){
+					
+					data.splice(i,1);
+					
+				}
+			}
+	    	for(index in data) {
+	    	    select.options[select.options.length] = new Option(data[index][1], data[index][0]);
+	    	}
+	    },
+	    error: (e) => {
+	    	
+	    }
+	});
+
+	};
+function bajaAlmacenFisico(id){
 	Swal.fire({
 		  title: '¿Deseas dar de baja el almac&eacute;n f&iacute;sico?',
 		  icon: 'warning',
@@ -876,17 +1473,47 @@ function bajaAlmacenFisico(){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Almac&eacute;n f&iacute;sico dado de baja correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
+			  $.ajax({
+					type: "POST",
+					url: "/baja-almacen",
+					data: {
+						"_csrf": $('#token').val(),
+						'Id': id,
+						'Tipo': 'Fisico' 
+					}
+
+				}).done(function (data) {
+					if(data==true){
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Almac&eacute;n f&iacute;sico dado de baja correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmacenesfisicos();
+						
+					}
+					
+					
+					else{
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'Algo ha salido mal reintente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmacenesfisicos();
+					}
+					
+				});
+			  
+			 
 		  }
 		});
 }
-function altaAlmacenFisico(){
+function altaAlmacenFisico(id){
 	Swal.fire({
 		  title: '¿Deseas dar de alta el almac&eacute;n f&iacute;sico?',
 		  icon: 'warning',
@@ -897,13 +1524,42 @@ function altaAlmacenFisico(){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Almac&eacute;n f&iacute;sico dado de alta correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
+			  $.ajax({
+					type: "POST",
+					url: "/alta-almacen",
+					data: {
+						"_csrf": $('#token').val(),
+						'Id': id,
+						'Tipo': 'Fisico' 
+					}
+
+				}).done(function (data) {
+					if(data==true){
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Almac&eacute;n f&iacute;sico dado de alta correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmacenesfisicos();
+						
+					}
+					
+					
+					else{
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'Algo ha salido mal reintente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarAlmacenesfisicos();
+					}
+					
+				});
+			  
 		  }
 		});
 }

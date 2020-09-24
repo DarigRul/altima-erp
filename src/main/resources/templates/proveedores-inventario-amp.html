@@ -77,6 +77,10 @@
                                             
                                         </tbody>
                                     </table>
+                                    
+                                    <input type="hidden" th:value="${id_proovedor_pricipal}" id="id_proovedor_pricipa"  name="id_proovedor_pricipa" >
+                                    
+                                    <input type="hidden" th:value="${id_proovedor_pricipal_clave}" id="id_proovedor_pricipa_clave"  name="id_proovedor_pricipa_clave" >
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -99,7 +103,7 @@
 	          icon: /*[[${icon}]]*/,
 	          title: /*[[${title}]]*/,
 	          showConfirmButton: false,
-	          timer: 1250
+	          timer: 2500
 	    });
 	</script>
     <script>

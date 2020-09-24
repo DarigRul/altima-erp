@@ -23,7 +23,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Solicitud de muestras <button data-toggle="modal" data-target="#nuevaSolicitudMuestra" class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></h1>
+                            <h1>Solicitud de muestras&nbsp;<button data-toggle="modal" data-target="#nuevaSolicitudMuestra" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nueva solicitud</button></h1>
                         </div>
                         <div th:insert="modal-solicitud-gerencial"></div>
                         <div class="col-sm-6">
@@ -37,7 +37,7 @@
                 </div>
                 <!-- /.container-fluid -->
             </section>
-
+			
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
@@ -118,9 +118,8 @@
     </div>
     <!-- ./wrapper -->
 	<!-- SweetAlert -->
-    <script src="dist/js/sweetalert.js"></script>
     <div th:replace="navegacion-scripts"></div>
-   <script src="dist/js/tablaGeneral.js"></script>
+   <script src="/dist/js/tablaGeneral.js"></script>
    <script th:if="${icon != null}" th:inline="javascript">
 		Swal.fire({
 	    	  position: 'center',
@@ -246,7 +245,7 @@
 		        }
 				$('#cantidad').empty();
 			              console.log("aqui checa la cantidad "+r);
-			              $('#cantidad').append("<label>TOTAL DE PRENDAS:  "  +r+ "</label>");	        
+			              $('#cantidad').append("<label>Total de prendas:  "  +r+ "</label>");	        
 			    var tabla = $('#idtableDetallesPrenda').DataTable({
 	            	"data":b,
 	                "ordering": true,
@@ -391,7 +390,7 @@
 			          {
 			              $('#cantidad').empty();
 			              console.log("aqui checa la cantidad "+r);
-			              $('#cantidad').append("<label>TOTAL DE PRENDAS:  "  +r+ "</label>");
+			              $('#cantidad').append("<label>Total de prendas:  "  +r+ "</label>");
 			          },
 			          error: function()
 			          {

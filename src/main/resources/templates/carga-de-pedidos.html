@@ -58,13 +58,12 @@
                                        <th>Folio</th>
                                        <th>Empresa</th>
                                        <th>Fecha de entrega</th>
-                                        <th>Monto Descuento</th>
-                                
-                                       <th>Detalles</th>
+                                       <th>Monto Descuento</th>
                                        <th>Acciones</th>
                                     </tr>
                                  </thead>
                                  <tbody>
+                                   
                                     <tr th:each="pedidos: ${pedidos}">
                                        <td th:text="${pedidos[1]}"></td>
                                        <td th:text="${pedidos[2]}"></td>
@@ -73,13 +72,14 @@
                                        
                                      <td th:if="${pedidos[6]==0}"> Sin monto</td>
                                      <td th:if="${pedidos[6]!=0}"> Monto Existente</td>							
-                                
+                              
                                        <td class="text-center">
-                                          <a data-toggle="modal"
+                                          <div th:if="${pedidos[8]} != null and  ${pedidos[7]} == '1' and  ${pedidos[9]} == 1" class="btn-group" role="group" aria-label="Basic example">
+                                             <a data-toggle="modal"
                                              th:attr="data-target='#observacion'+${pedidos[0]}"
-                                             class="btn btn-info btn-circle btn-sm popoverxd text-white"
+                                             class="btn btn-danger popoverxd text-white"
                                              data-container="body" data-placement="top"
-                                             data-content="Ver observaciones"><i class="fas fa-eye"></i></a>&nbsp;
+                                             data-content="Ver observaciones"><i class="fas fa-eye fa-sm"></i></a>
                                           <div class="modal fade" th:id="'observacion'+${pedidos[0]}"
                                              tabindex="-1" role="dialog"
                                              aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -119,9 +119,6 @@
                                                 </div>
                                              </div>
                                           </div>
-                                       </td>
-                                       <td class="text-center">
-                                          <div th:if="${pedidos[3]} != 'Por definir' and  ${pedidos[7]} == '1'" class="btn-group" role="group" aria-label="Basic example">
                                              <a th:href="@{/informacion-general/}+ ${pedidos[0]}"
                                                 class="btn btn-info popoverxd" data-container="body"
                                                 data-placement="top"
@@ -144,14 +141,24 @@
                                                 data-placement="top"
                                                 data-content="Concentrado de prendas"><i
                                                 class="fas fa-tshirt fa-sm" style="margin-left: -2px"></i></a>
-                                             <a th:href="@{/concentrado-de-tallas/}+${pedidos[0]}"
+                                              
+                                            
+                                            
+                                                 <a th:if="${pedidos[10] == null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+0"
                                                 class="btn btn-warning popoverxd" data-container="body"
                                                 data-placement="top"
                                                 data-content="Concentrado por tallas"><i
-                                                class="fas fa-ruler-combined"></i></a> <a
-                                                class="btn btn-secondary popoverxd" data-container="body"
-                                                data-placement="top" data-content="Toma de tallas"><i
-                                                class="fas fa-ruler-combined"></i></a> <a
+                                                class="fas fa-ruler-combined"></i></a> 
+                                                
+                                                 <a th:if="${pedidos[10] != null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+${pedidos[10]}"
+                                                class="btn btn-warning popoverxd" data-container="body"
+                                                data-placement="top"
+                                                data-content="Concentrado por tallas"><i
+                                                class="fas fa-ruler-combined"></i></a> 
+                                                
+                                                
+                                           
+                                                <a
                                                 th:href="@{/totales-por-razon-social/}+${pedidos[0]}"
                                                 class="btn btn-danger popoverxd" data-container="body"
                                                 data-placement="top"
@@ -174,8 +181,52 @@
                                           
                                         
                                           
-                                          <div th:if="${pedidos[3]} == 'Por definir' and  ${pedidos[7]} =='1'"
+                                          <div th:if="${pedidos[8]} == null and  ${pedidos[7]} =='1' and  ${pedidos[9]} == 1"
                                              class="btn-group" role="group" aria-label="Basic example">
+                                             <a data-toggle="modal"
+                                             th:attr="data-target='#observacion'+${pedidos[0]}"
+                                             class="btn btn-danger popoverxd text-white"
+                                             data-container="body" data-placement="top"
+                                             data-content="Ver observaciones"><i class="fas fa-eye fa-sm"></i></a>
+                                          <div class="modal fade" th:id="'observacion'+${pedidos[0]}"
+                                             tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                             <div class="modal-dialog modal-dialog-centered modal-lg"
+                                                role="document">
+                                                <div class="modal-content modal-rounded-body">
+                                                   <div class="modal-header bg-altima modal-rounded-header">
+                                                      <h5 class="modal-title" id="exampleModalLabel">Observaciones</h5>
+                                                      <button type="button" class="close"
+                                                         data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                      </button>
+                                                   </div>
+                                                   <div class="modal-body col-md">
+                                                      <form class="row" th:method="post"
+                                                         th:action="@{/observaciones}">
+                                                         <div class="form-group col-md-12">
+                                                            <input type="hidden" th:name="idpedido"
+                                                               th:value="${pedidos[0]}"> <label
+                                                               for="cargaEmpresa">Observaciones</label>
+                                                            <textarea th:name="observacion"
+                                                               th:text="${pedidos[5]}" class="form-control"
+                                                               id="message-text"></textarea>
+                                                         </div>
+                                                         <div class="form-group col-sm-12">
+                                                            <a data-dismiss="modal"
+                                                               class="btn icon-btn btn-danger text-white mr-auto"><span
+                                                               class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                                                            <button type="submit"
+                                                               class="btn icon-btn btn-altima text-white float-right">
+                                                            <span
+                                                               class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar
+                                                            </button>
+                                                         </div>
+                                                      </form>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
                                              <a th:href="@{/informacion-general/}+ ${pedidos[0]}"
                                                 class="btn btn-info popoverxd" data-container="body"
                                                 data-placement="top"
@@ -198,10 +249,7 @@
                                                 data-container="body" data-placement="top"
                                                 data-content="Concentrado por tallas"><i
                                                 class="fas fa-ruler-combined"></i></a> 
-                                                <a
-                                                class="btn btn-secondary popoverxd" data-container="body"
-                                                data-placement="top" data-content="Toma de tallas"><i
-                                                class="fas fa-ruler-combined"></i></a> 
+                                               
                                                 <a href="#"
                                                 class="btn btn-danger popoverxd" data-container="body"
                                                 data-placement="top"
@@ -219,6 +267,46 @@
                                                 data-content="Cerrar expediente"><i
                                                 class="fas fa-file-download"></i></a>
                                           </div>
+                                          
+                                       
+                                          
+                                       <div th:if="${pedidos[9]} == 2 and  ${pedidos[7]} == '1'" class="btn-group" role="group" aria-label="Basic example" >
+                                             <a data-toggle="modal"
+                                             class="btn btn-danger popoverxd text-white"
+                                             data-container="body" data-placement="top"
+                                             data-content="Ver observaciones"><i class="fas fa-eye fa-sm"></i></a>
+                                                <a   th:href="@{/empleados-spf/}+${pedidos[0]}"
+                                                class="btn btn-altima popoverxd" data-container="body"
+                                                data-placement="top"
+                                                data-content="Empleados SPF"><i
+                                                class="fas fa-user"></i></a>
+                                                
+                                                <a   th:href="@{/agregar-coordinado/72}"
+                                                class="btn btn-success popoverxd" data-container="body"
+                                                data-placement="top"
+                                                data-content="Agregar falda"><i class="fas fa-plus"></i></a>
+                                                
+                                                 <a   th:href="@{/empleados-spf-cambio-modelo/}+${pedidos[0]}"
+                                                class="btn btn-gray popoverxd" data-container="body"
+                                                data-placement="top"
+                                                data-content="Cambio-Falda"><i
+                                                class="fas fa-exchange-alt"></i></a>
+                                                
+                                                
+                                                <a th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+${pedidos[10]}"
+                                                class="btn btn-warning popoverxd" data-container="body"
+                                                data-placement="top"
+                                                data-content="Concentrado por tallas"><i
+                                                class="fas fa-ruler-combined"></i></a> 
+                                                
+                                                <a
+                                                th:onclick="|cerrarStock('${pedidos[0]}')|"	
+                                                class="btn btn-danger text-white popoverxd"
+                                                data-container="body" data-placement="top"
+                                                data-content="Cerrar expediente"><i
+                                                class="fas fa-file-download"></i></a>
+                                          </div>
+                                          
                                           
                                           <div th:if="${admin} == null and  ${pedidos[7]} =='2'"
                                              class="btn-group" role="group" aria-label="Basic example">
@@ -255,245 +343,10 @@
       <!-- ./wrapper -->
       <div th:replace="navegacion-scripts"></div>
       <script src="dist/js/tablaGeneral.js"></script>
+      <script src="plugins/moment/moment.min.js"></script>
+      <script src="dist/js/CargaPedido.js"></script>
       <script>
-         $(document).ready(function() {
-         	   $('.selectpicker').selectpicker({
-         		   style: 'border border-bootstrap'
-         	   });
-         	   
-         	    $("#id-pedido").prop('disabled', true);
-         	   
-         	    $("#cargaTipopedido").change(function(){
-         	        // Guardamos el select de cursos
-         	        var pedido = $("#id-pedido");
-         
-         	        var tipoPedido = $(this);
-         	        var id = document.getElementById("cargaEmpresa").value;
-         	        
-         	        console.log("El select seleccionado es: "+$(this).val());
-         
-         	        if($(this).val() != 1)
-         	        {
-         	        	
-         	       
-         	            $.ajax({
-         	                data: { id : id },
-         	                url:   '/mostrar-pedidos',
-         	                type:  'GET',
-         	                
-         	                beforeSend: function () 
-         	                {
-         	                	tipoPedido.prop('disabled', true);
-         	                },
-         	                success:  function (r) {
-         	                	$("#div-ocultar").show();
-         	                	tipoPedido.prop('disabled', false);
-         
-         	                    // Limpiamos el select
-         	                    pedido.find('option').remove();
-         
-         	                    $(r).each(function(i, v){ // indice, valor
-         	                    	console.log("hola"+ v[1] );
-         	                    	pedido.append('<option value="' + v[0] + '">' + v[1] + '</option>');
-         	                    	
-         	                    	
-         	                    	$('.idPedido').selectpicker('refresh');
-         	                    	
-         	                    })
-         
-         	                    $('.idPedido').prop('disabled', false);
-         	                    $('.idPedido').selectpicker('refresh');
-         	                },
-         	                error: function()
-         	                {
-         	                    alert('Ocurrio un error en el servidor ..');
-         	                    tipoPedido.prop('disabled', false);
-         	                }
-         	            });
-         	        }
-         	        else
-         	        {
-         	        	$("#div-ocultar").hide();
-         	        	$('.idPedido').find('option').remove();
-         	        	$('.idPedido').prop('disabled', true);
-                         $('.idPedido').selectpicker('refresh');
-         	        }
-         	    })
-         	});
-         
-         
-         
-         // Agregar procreso
-          function agregar() {
-               if (document.getElementById("cargaTipopedido").value && 
-             		  document.getElementById("cargaEmpresa").value  ) {
-         		  var cargaTipopedido=document.getElementById("cargaTipopedido").value;
-         		  var cargaEmpresa=document.getElementById("cargaEmpresa").value;
-         		  var id_pedido=document.getElementById("id-pedido").value;
-         		
-         		$.ajax({
-                 type: "POST",
-                 url: "/guardar-carga-pedido",
-                 data: { 
-                 	 "_csrf": $('#token').val(),
-                 	'cargaTipopedido': cargaTipopedido,
-                 	'cargaEmpresa': cargaEmpresa,
-                 	'id_pedido': id_pedido
-                 },
-                 
-                 beforeSend: function () {
-                 	 Swal.fire({
-                 		 position: 'center',
-              				icon: 'success',
-              				title: 'Agregado correctamente',
-                          allowOutsideClick: false,
-                          timerProgressBar: true,
-                          showConfirmButton: false,
-                          onBeforeOpen: () => {
-                             
-                          },
-                      });
-                 	
-                 },
-                 success: function(data) {
-                    },
-                    complete: function() {    		
-             			location.reload()
-            	    },
-             })
-               }else 
-               {
-             	  Swal.fire({
-                       position: 'center',
-                       icon: 'warning',
-                       title: 'Datos Incorrectos',
-                       showConfirmButton: false,
-                       timer: 1250
-                     })       
-               }
-         }
-         
-      	function cerrar(e) {
-      		var valiMonto="";
-      		$.ajax({
-                type: "GET",
-                url: "/validar-monto-pedido",
-                data: { 
-                	 "id": e
-                },
-                success: function(data) {
-               	
-                	if (data != "Error , no es posible calcular el monto"){
-                		Swal.fire({
-          				  title: '&iquest;Est&aacute; seguro que desea cerrar este pedido?',
-          				  text: data,
-          				  icon: 'warning',
-          				  showCancelButton: true,
-          				  confirmButtonColor: '#3085d6',
-          				  cancelButtonColor: '#d33',
-          				  cancelButtonText: 'Cancelar',
-          				  confirmButtonText: 'Si, cerrar',
-          				  reverseButtons: true
-
-          				}).then((result) => {
-          				  if (result.value) {
-          					 
-          					 $.ajax({
-          		                 type: "GET",
-          		                 url: "/cerrar-expediente",
-          		                 data: { 
-          		                 	 "id": e
-          		                 },
-          		                 success: function(data) {
-          		                	 if ( data == null || data==''   ){
-          		                		 Swal.fire({
-          		                       	  position: 'center',
-          		                             icon: 'success',
-          		                             title: 'El pedido fue cerrado correctamente',
-          		                             showConfirmButton: false,
-          		                             timer: 2250
-          		                             
-          		                             
-          		                       });
-          		                		 location.reload(true);
-          		                	 }
-          		                	 else{
-          		                		 Swal.fire({
-          			                       	  position: 'center',
-          			                             icon: 'error',
-          			                             title: 'No cumple con el minimo de piezas requerido.',
-          			                             text: data,
-          			                             showConfirmButton: true
-          			                       });
-          		                	 }
-
-          		                	 console.log ( data)
-          		                	 
-          		                  }
-          		             })
-          				  }
-          				})
-                	}
-                	else{
-                		Swal.fire({
-	                       	  position: 'center',
-	                             icon: 'error',
-	                             title: 'No se puedo cerrar el pedido',
-	                             showConfirmButton: false,
-	                             timer: 2250
-	                             
-	                             
-	                       });
-                		
-                	}
-
-        			
-               	 
-                 }
-            })
-      		
-		}
-      	
-      	
-      	function abrir(e) {
-			Swal.fire({
-				  title: '&iquest;Est&aacute; seguro que desea abrir este pedido?',
-				  text: "",
-				  icon: 'warning',
-				  showCancelButton: true,
-				  confirmButtonColor: '#3085d6',
-				  cancelButtonColor: '#d33',
-				  cancelButtonText: 'Cancelar',
-				  confirmButtonText: 'Si, abrir',
-				  reverseButtons: true
-
-				}).then((result) => {
-				  if (result.value) {
-					 //location.href="/delete-cliente/"+e
-					 
-					 $.ajax({
-		                 type: "GET",
-		                 url: "/abrir-expediente",
-		                 data: { 
-		                 	 "id": e
-		                 },
-		                 success: function(data) {
-		                		 Swal.fire({
-		                       	  position: 'center',
-		                             icon: 'success',
-		                             title: 'El pedido fue abierto correctamente',
-		                             showConfirmButton: false,
-		                             timer: 2250
-		                       });
-		                		 location.reload(true);
-		                	
-		                	 console.log ( data)
-		                	 
-		                  }
-		             })
-				  }
-				})
-		}
+   
       </script>
       <script th:if="${icon != null}" th:inline="javascript">
          Swal.fire({

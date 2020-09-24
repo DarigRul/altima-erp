@@ -23,4 +23,6 @@ public interface IComercialMovimientoService {
 	List<Object> findAllHistorico();
 
 	List<Object[]> findAllExpirados();
+
+	List<Object> findAllWithNamesByAgente(Long id);
 }

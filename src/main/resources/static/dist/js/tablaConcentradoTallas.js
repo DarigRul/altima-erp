@@ -81,8 +81,12 @@ $(document).ready(function() {
 
 function redirect(e){
 	console.log(e[0]);
-	console.log(e[1])
+	console.log(e[1]);
+	console.log(e[2]);
+	
 	window.location.href="/editar-concentrado-de-tallas/"+e[0]+"/"+e[1]+""
+	
+	
 	
 }
 
@@ -90,7 +94,14 @@ function redirect(e){
 function listarPrendas(e) {
 	console.log(e[0]);
 	console.log(e[1])
-	var idpedido=e[0];
+	console.log(e[2])
+	var idpedido;
+	if (e[2]!=0) {
+		idpedido=e[2];
+	} else {
+       idpedido=e[0];
+	}
+	console.log("fdsf"+idpedido);
 	var idempleado=e[1];
 	var container='#contenedor2';
 	var remover='#quitar3';

@@ -15,6 +15,8 @@ public interface IProduccionLookupService {
 	ProduccionLookup findOne(Long id);
 
 	boolean findDuplicate(String Lookup,String Tipo);
+	
+	boolean findDuplicate(String Lookup,String Tipo, String descripcion);
 
 	List<ProduccionLookup> findAllLookup(String Tipo);
 

@@ -11,8 +11,13 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "alt_disenio_ruta_proceso")
-public class DisenioRutaProceso implements Serializable{
+@Table(name = "alt_produccion_ruta_proceso")
+public class ProduccionRutaProceso implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="id_ruta_proceso")

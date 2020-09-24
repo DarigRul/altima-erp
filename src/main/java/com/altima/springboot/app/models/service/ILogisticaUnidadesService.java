@@ -14,7 +14,7 @@ public interface ILogisticaUnidadesService {
     List<HrPuesto> findAllPosition();
     void save(LogisticaUnidad unidad);
     LogisticaUnidad findOne(Long id);
-    boolean findOneByPlaca(String placa);
+    boolean findOneByPlaca(String unidadDuplicado);
     boolean findOneById(Long id);
 
 }

@@ -23,5 +23,9 @@ public interface IAmpInventarioProovedorService {
 	Float findOnePrecio(Long id);
 
 	List<Object []> ViewPagos(Long id);
+	
+	boolean Vefiricar_Proveedor_Principal(Long id, String tipo, String idProvedo);
+
+	List<Object []> Proveedores_disponibles(String tipo, Long Inventario);
 
 }

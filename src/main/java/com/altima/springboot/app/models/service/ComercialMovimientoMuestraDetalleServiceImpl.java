@@ -9,14 +9,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.models.entity.ComercialMovimientoMuestraDetalle;
+import com.altima.springboot.app.models.entity.ComercialTokenTraspaso;
 import com.altima.springboot.app.repository.ComercialMovimientoMuestraDetalleRepository;
+import com.altima.springboot.app.repository.ComercialTokenTraspasoRepository;
 
 @Service
 public class ComercialMovimientoMuestraDetalleServiceImpl implements IComercialMovimientoMuestraDetalleService {
 
 	@Autowired
 	private ComercialMovimientoMuestraDetalleRepository repository;
-	 
+	
+	@Autowired
+	private ComercialTokenTraspasoRepository repositoryToken;
+	
 	@Autowired
 	private EntityManager em;
 	
@@ -120,4 +125,24 @@ public class ComercialMovimientoMuestraDetalleServiceImpl implements IComercialM
 		
 		return (ComercialMovimientoMuestraDetalle) em.createQuery("FROM ComercialMovimientoMuestraDetalle WHERE idMovimiento="+id+" AND idDetallePedido="+idDetalle+" AND (estatus = 4 OR estatus = 6 OR estatus = 8)").getSingleResult();
 	}
+	
+	@Override
+	@Transactional
+	public ComercialTokenTraspaso findCode(Long id) {
+		
+		return repositoryToken.findById(id).orElse(null);
+	}
+
+	@Override
+	public void removeToken(ComercialTokenTraspaso TokenTraspaso) {
+		// TODO Auto-generated method stub
+		repositoryToken.delete(TokenTraspaso);
+	}
+
+	@Override
+	public void saveToken(ComercialTokenTraspaso TokenTraspaso) {
+		repositoryToken.save(TokenTraspaso);
+	}
+	
+	
 }

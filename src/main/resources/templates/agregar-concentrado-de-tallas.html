@@ -22,13 +22,22 @@
               <div class="col-sm-6">
                 <h1>
                   Concentrado de tallas 
-                  <a th:href="@{/concentrado-de-tallas/}+${idpedido}"><button
+                  <a th:if="${idspf == null}" th:href="@{/concentrado-de-tallas/}+${idpedido}+'/'+0"><button
                     data-toggle="popover"
                     class="btn btn-danger btn-circle btn-sm popoverxd"
                     data-container="body" data-placement="right"
                     data-content="Regresar">
                   <i class="fas fa-arrow-left"></i>
                   </button></a>
+                  
+                  <a th:if="${idspf != null}" th:href="@{/concentrado-de-tallas/}+${idpedido}+'/'+${idspf}"><button
+                    data-toggle="popover"
+                    class="btn btn-danger btn-circle btn-sm popoverxd"
+                    data-container="body" data-placement="right"
+                    data-content="Regresar">
+                  <i class="fas fa-arrow-left"></i>
+                  </button></a>
+                 
                 </h1>
               </div>
               <div class="col-sm-6">
@@ -61,6 +70,8 @@
                         th:value="${_csrf.token}" /> <input type="hidden"
                         id="idcliente" th:value="${idcliente}" /> <input
                         type="hidden" id="idpedido" th:value="${idpedido}" />
+                        <input
+                        type="hidden" id="idspf" th:value="${idspf}" />
                       <div class="form-group col-md-6">
                         <label for="cargaEmpresa">Empleado</label> 
                         <select required onchange="muestraPrendas()"
@@ -112,7 +123,9 @@
                         <!--  	<button id="agregar2" onclick="Savenew()" tabindex="-1" class="btn btn-primary">Agregar nueva prenda</button>-->
                       </div>
                       <div class="form-group col-sm-12">
-                          <a th:href="@{/concentrado-de-tallas/}+${idpedido}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                          <a th:if="${idspf == null}" th:href="@{/concentrado-de-tallas/}+${idpedido}+'/'+0" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                                              <a th:unless="${idspf == null}" th:href="@{/concentrado-de-tallas/}+${idpedido}+'/'+${idspf}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                    
                      </div>
                     </div>
                     <div th:insert="modal-especificaciones-tallas"></div>

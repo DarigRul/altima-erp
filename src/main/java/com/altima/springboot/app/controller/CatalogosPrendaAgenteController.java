@@ -21,12 +21,9 @@ public class CatalogosPrendaAgenteController {
     @Autowired
 	private IProduccionDetalleService pedidoDetalles;
 
-	@Autowired
-	private IInventarioService inventarioService;
-
     @GetMapping("/catalogos-prendas-agentes")
 	public String listPre(Model model) {
-        model.addAttribute("muestrario", inventarioService.listCatalogoInventario());
+    	model.addAttribute("muestrario", pedidoDetalles.muestrariosCatalogo());
 
 		model.addAttribute("prendas", pedidoDetalles.selectDinamicPrenda());
 

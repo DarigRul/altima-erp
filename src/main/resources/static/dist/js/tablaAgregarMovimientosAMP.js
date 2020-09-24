@@ -25,8 +25,9 @@
         .replace(/[ýÝŷŶŸÿ]/g, 'n');
   };
 });
+var table
 $(document).ready(function() {
-	    var table = $('.tablaAgregarMovimientosAMP')
+	    table = $('.tablaAgregarMovimientosAMP')
 	        .DataTable({
 	            "ordering": false,
 	            "pageLength": 5,

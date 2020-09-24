@@ -96,6 +96,7 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
+            <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
@@ -115,6 +116,7 @@
                 <!-- /.container-fluid -->
             </section>
             <!-- Main content -->
+            <div th:insert="modal-traspaso"></div>
             <section class="content">
                 <div class="container-fluid">
                     <!-- Small boxes (Stat box) -->
@@ -253,9 +255,9 @@
                             <div class="row" data-jplist-group="group1">
                                 <div th:each="muestra : ${muestrario}" th:if="${muestra[11]==1}" class="col-lg-3 col-sm-6 mb-4" data-jplist-item>
                                     <div th:class="${muestra[7]}">
-                                        <div class="card box-shadow">
+                                        <div class="card box-shadow" th:unless="${muestra[0]<=0 || muestra[0]==null}">
                                             <div class="food-img" style="text-align: center;">
-                                                <img class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'/uploads/prendas/' + ${muestra[13]}}" alt="" title="">
+                                                <img class="centerImg" th:id="${muestra[10] +''+ muestra[12]}" style="background: 50% 50% no-repeat; width: 132PX; height: 132px;margin-left: 80px;" th:src="@{'/uploads/prendas/' + ${muestra[13]}}" alt="" title="">
                                             </div>
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
@@ -313,6 +315,7 @@
 
     <!-- jPList Library -->
     <script src="/dist/jplist/jplist.min.js"></script>
+    <script src="/dist/js/cartMuestrario.js"></script>
     <script>
         jplist.init();
     </script>

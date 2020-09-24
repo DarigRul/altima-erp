@@ -57,13 +57,12 @@
 											<tr>
 												<th>Folio</th>
 												<th>Empresa</th>
-												<th>Vendedor</th>
-												<th>Fecha de Salida</th>
-												<th>Fecha de Entrega</th>
+												<th style="width:20%">Vendedor</th>
+												<th style="width:12%">Fecha de Salida</th>
+												<th style="width:12%">Fecha de Entrega</th>
 												<th>Total</th>
-												<th>Estatus</th>
+												<th style="width:15%">Estatus</th>
 												<th>Acciones</th>
-
 											</tr>
 										</thead>
 										<tbody>
@@ -73,13 +72,16 @@
 												<td> <a class="popoverxd" data-container="body" data-placement="top" data-html="true" th:text="${movimiento[6]==null || movimiento[7]==null}?${movimiento[5]}:${movimiento[5]}+' '+${movimiento[6]}+' '+${movimiento[7]}"  th:attr="data-content='<strong>Encargado de recoger: </strong>'+${movimiento[12]}"></a></td>
 												<td th:text="${movimiento[8]==null}?'':${movimiento[8]}"></td>
 												<td th:text="${movimiento[9]==null}?'':${movimiento[9]}"></td>
-												<td th:text="${movimiento[11]==null}?'':'$'+${movimiento[11]}"></td>
+												<td th:text="${movimiento[11]==null}?'0':'$'+${movimiento[11]}"></td>
 												<td th:text="${movimiento[10]}"></td>
 												<td class="tdcenter">
-													<button data-target="#infoTraspaso" class="btn btn-info btn-circle btn-sm text-white" th:onclick="'detalleMuestras('+${movimiento[0]}+')'"><i class="fas fa-info"></i></button>
-													<button th:if="${movimiento[10]=='Pendiente de recoger'}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'datosMovimiento('+${movimiento[0]}+')'" data-target="#addTraspaso" data-container="body" data-toggle="modal" data-placement="right" data-content="Editar"><i class="fas fa-pen"></i></button>
+													<button data-target="#infoTraspaso" th:if="${movimiento[10]=='Rack de prendas' || movimiento[10]=='Rack de prendas registrado' || movimiento[10]=='Solicitud cancelada'}" class="btn btn-info btn-circle btn-sm text-white" th:onclick="'detalleMuestras('+${movimiento[0]}+',2)'"><i class="fas fa-info"></i></button>
+													<button data-target="#infoTraspaso" th:unless="${movimiento[10]=='Rack de prendas' || movimiento[10]=='Rack de prendas registrado' || movimiento[10]=='Solicitud cancelada'}"class="btn btn-info btn-circle btn-sm text-white" th:onclick="'detalleMuestras('+${movimiento[0]}+',1)'"><i class="fas fa-info"></i></button>
+													<button th:if="${movimiento[10]=='Pendiente de recoger'}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'datosMovimiento('+${movimiento[0]}+',1)'" data-target="#addTraspaso" data-container="body" data-toggle="modal" data-placement="right" data-content="Editar"><i class="fas fa-pen"></i></button>
+													<button th:if="${movimiento[10]=='Rack de prendas'}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'datosMovimiento('+${movimiento[0]}+',2)'" data-target="#addTraspaso" data-container="body" data-toggle="modal" data-placement="right" data-content="Editar"><i class="fas fa-pen"></i></button>
 													<a th:if="${movimiento[10]=='Pendiente de recoger'}" th:onclick="'entregarSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Entregar a vendedor"><i class="fas fa-user-check"></i></a>
-                                    				<a th:if="${movimiento[10]=='Pendiente de recoger'}" th:onclick="'cancelarSolicitud('+${movimiento[0]}+')'" class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Cancelar"><i class="fas fa-times"></i></a>
+                                    				<a th:if="${movimiento[10]=='Pendiente de recoger'}" th:onclick="'cancelarSolicitud('+${movimiento[0]}+',1)'" class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Cancelar"><i class="fas fa-times"></i></a>
+                                    				<a th:if="${movimiento[10]=='Rack de prendas'}" th:onclick="'cancelarSolicitud('+${movimiento[0]}+',2)'" class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Cancelar"><i class="fas fa-times"></i></a>
                                     				<a th:if="${movimiento[10]=='Entregado a vendedor'}" th:onclick="'devueltoSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>
                                     				<a th:if="${movimiento[10]=='Devolución parcial'}" th:onclick="'devueltoSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>
                                     				<a th:if="${movimiento[10]=='Prestamo empresa'}" th:onclick="'devueltoSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>

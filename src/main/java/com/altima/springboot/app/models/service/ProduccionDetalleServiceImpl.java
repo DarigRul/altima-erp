@@ -139,7 +139,40 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	public List<Object[]> muestrariosCatalogo() {
 		List<Object[]> quer = em.createNativeQuery(
-				"SELECT	COUNT(po.cantidad) AS stock,	po.id_detalle_pedido AS Id,	po.id_text AS codigo,	dl2.nombre_lookup AS Prenda,	po.talla AS talla,	po.largo AS largo,	dt.nombre_tela AS tela,	dl.nombre_lookup AS Genero,	po.costo AS price,	po.estatus_confeccion AS estatus_confeccion,	pre3.id_prenda,	MAX( po.estatus ) AS estatus,	dt.id_tela AS idTela,	imagen.ruta_prenda AS imagen,	precio.precio_muestrario,IF	( pre3.estatus_recepcion_muestra = 'Definitivo', pre3.id_text, pre3.id_text_prospecto ) AS modelote,	pre3.descripcion_prenda FROM	alt_produccion_detalle_pedido po	INNER JOIN alt_disenio_prenda pre3 ON pre3.id_prenda = po.id_prenda 	AND estatus_confeccion = '2'	AND po.estatus ='1'	INNER JOIN alt_disenio_tela dt ON dt.id_tela = po.id_tela	INNER JOIN alt_disenio_lista_precio_prenda precio ON precio.id_prenda = po.id_prenda	INNER JOIN alt_disenio_lookup dl2 ON dl2.id_lookup = pre3.id_familia_prenda	INNER JOIN alt_disenio_lookup dl ON dl.id_lookup = pre3.id_genero	LEFT JOIN alt_comercial_imagen_inventario imagen ON imagen.id_prenda = po.id_prenda 	AND imagen.id_tela = dt.id_tela GROUP BY	pre3.id_prenda,	dt.id_tela")
+				"SELECT (SELECT (COUNT(pdetalle.cantidad)-(SELECT IFNULL(SUM(rack.cantidad),0) FROM alt_comercial_rack_prenda AS rack\n" + 
+				"										WHERE rack.id_prenda = pre3.id_prenda AND rack.id_tela = dt.id_tela AND rack.estatus=1)) \n" + 
+				"					FROM alt_produccion_detalle_pedido AS pdetalle \n" + 
+				"					WHERE  pdetalle.id_prenda = pre3.id_prenda \n" + 
+				"					AND pdetalle.id_tela = dt.id_tela \n" +	
+				"					AND pdetalle.estatus_confeccion = 2 \n" + 
+				"					AND pdetalle.estatus = 1) AS stock,	 \n" + 
+				"			po.id_detalle_pedido AS Id,	 \n" + 
+				"			po.id_text AS codigo,	 \n" + 
+				"			dl2.nombre_lookup AS Prenda,	 \n" + 
+				"			po.talla AS talla,	 \n" + 
+				"			po.largo AS largo,	 \n" + 
+				"			dt.nombre_tela AS tela,	 \n" + 
+				"			dl.nombre_lookup AS Genero,	 \n" + 
+				"			po.costo AS price,	 \n" + 
+				"			po.estatus_confeccion AS estatus_confeccion,	 \n" + 
+				"			pre3.id_prenda,	 \n" + 
+				"			MAX( po.estatus ) AS estatus,	 \n" + 
+				"			dt.id_tela AS idTela,  \n" + 
+				"			imagen.ruta_prenda AS imagen,	 \n" + 
+				"			precio.precio_muestrario,  \n" + 
+				"			IF	( pre3.estatus_recepcion_muestra = 'Definitivo', pre3.id_text, pre3.id_text_prospecto ) AS modelote,	 \n" + 
+				"			pre3.descripcion_prenda  \n" + 
+				"			 \n" + 
+			"			FROM	alt_produccion_detalle_pedido po	 \n" + 
+			"			INNER JOIN alt_disenio_prenda pre3 ON pre3.id_prenda = po.id_prenda	AND estatus_confeccion = 2 AND po.estatus =1	 \n" + 
+			"			INNER JOIN alt_disenio_tela dt ON dt.id_tela = po.id_tela	 \n" + 
+			"			INNER JOIN alt_disenio_lista_precio_prenda precio ON precio.id_prenda = po.id_prenda AND dt.id_familia_composicion = precio.id_familia_composicion  \n" + 
+			"			INNER JOIN alt_disenio_lookup dl2 ON dl2.id_lookup = pre3.id_familia_prenda	 \n" + 
+			"			INNER JOIN alt_disenio_lookup dl ON dl.id_lookup = pre3.id_genero	 \n" + 
+			"			LEFT JOIN alt_comercial_imagen_inventario imagen ON imagen.id_prenda = po.id_prenda AND imagen.id_tela = dt.id_tela  \n" + 
+			"			\n" + 
+			"			WHERE 9 !=0\n" + 
+			"			GROUP BY	pre3.id_prenda,	dt.id_tela")
 				.getResultList();
 		return quer;
 	}

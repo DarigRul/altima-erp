@@ -1,0 +1,26 @@
+<div class="modal fade" id="editarEmpleadoSPF" tabindex="-1" role="dialog" aria-labelledby="nuevoEmpleadoSPFTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content modal-rounded-body">
+        <div class="modal-header bg-altima modal-rounded-header">
+          <h5 class="modal-title">Actualizar empleado</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group col-md-12">
+                <label for="actualizarEmpleadoSPF">Nombre del empleado</label>
+                <input class="form-control" type="text" id="actualizarEmpleadoSPF" name ="actualizarEmpleadoSPF" placeholder="Jose Luis Martinez">
+                
+                <input class="form-control" type="hidden" id="idSpfEmpleado2"  name ="idSpfEmpleado2" placeholder="Jose Luis Martinez">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+            <button onclick="agregarSPFeditar()" id="btn-enviar-editar" type="submit" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>            
+        </div>
+      </div>
+    </div>
+  </div>

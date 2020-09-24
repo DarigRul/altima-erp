@@ -12,8 +12,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "alt_disenio_ruta")
-public class DisenioRuta implements Serializable{
+@Table(name = "alt_produccion_ruta")
+public class ProduccionRuta implements Serializable{
 
 	/**
 	 * 
@@ -147,7 +147,7 @@ public class DisenioRuta implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DisenioRuta other = (DisenioRuta) obj;
+		ProduccionRuta other = (ProduccionRuta) obj;
 		if (actualizadoPor == null) {
 			if (other.actualizadoPor != null)
 				return false;

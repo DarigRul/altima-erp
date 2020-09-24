@@ -54,9 +54,9 @@ public class LogisticaUnidadesServiceImpl implements ILogisticaUnidadesService {
 	@Override
 	@Transactional
 	@SuppressWarnings("unchecked")
-	public boolean findOneByPlaca(String unidad)  {
+	public boolean findOneByPlaca(String unidadDuplicado)  {
 		boolean duplicate;
-		List<LogisticaUnidad> result = em.createNativeQuery("SELECT * FROM alt_logistica_unidad l WHERE l.id_text = '" + unidad +"'").getResultList();
+		List<LogisticaUnidad> result = em.createNativeQuery("SELECT * FROM alt_logistica_unidad l WHERE l.id_text = '" + unidadDuplicado +"'").getResultList();
 		if (result.isEmpty()) {
 			duplicate = false;
 		} else {

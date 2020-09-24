@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="navegacion-head :: header">
-	<title id="pageTitle">Dashboard | Altima</title>
+<head>
+	<link rel="stylesheet" href="/dist/css/cardAnimation.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="icon" type="image/png" sizes="32x32" href="/dist/img/favicon.ico">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<div th:include="navegacion-head :: header"></div>
+	<title id="pageTitle">Inicio | Altima</title>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+<body class="hold-transition layout-top-nav">
 	<!-- Site wrapper -->
 	<div class="wrapper">
 		<!-- Navbar -->
@@ -13,66 +19,207 @@
 		<!-- /.navbar -->
 		<!-- Modal -->
 		<div th:insert="navegacion-logout"></div>
-		<!-- Main Sidebar Container -->
-		<div th:insert="navegacion-aside"></div>
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
+			</section>
+			<!-- Main content -->
+			<section class="content" style="margin-top: 60px;">
 				<div class="container-fluid">
-					<div class="row mb-2">
-						<div class="col-sm-6">
-							<h1>Dashboard</h1> </div>
-						<div class="col-sm-6">
-							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item altima">Altima</li>
-								<li class="breadcrumb-item active">Dashboard</li>
-							</ol>
+					<div class="row">
+						<div class="form-group col-md-4">
+							<div class="profile1">
+								<div class="photo1"><img src="/dist/img/DisenoNotificaciones.png" /></div>
+								<div class="content1">
+									<div class="text1"
+										style="font-family: Raleway, Microsoft JhengHei, Arial, sans-serif;">
+										<h3 style="font-size: 20px;">Notificaciones</h3>
+										<h6 style="font-size: 12px;">Dise&ntilde;o</h6>
+									</div>
+									<a th:href="${'/notificaciones-diseno'}">
+										<div class="btn">
+											<i class="fas fa-arrow-right"
+												style="font-size: 28px;color: #fff;margin-top: 5px;"></i>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-4">
+							<div class="profile1">
+								<div class="photo1"><img src="/dist/img/DisenoCalidad.png" /></div>
+								<div class="content1">
+									<div class="text1"
+										style="font-family: Raleway, Microsoft JhengHei, Arial, sans-serif;">
+										<h3 style="font-size: 20px;">Calidad</h3>
+										<h6 style="font-size: 12px;">Dise&ntilde;o</h6>
+									</div>
+									<a th:href="${'/calidad'}">
+										<div class="btn">
+											<i class="fas fa-arrow-right"
+												style="font-size: 28px;color: #fff;margin-top: 5px;"></i>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-4">
+							<div class="profile1">
+								<div class="photo1"><img src="/dist/img/DisenoMateriales.png" /></div>
+								<div class="content1">
+									<div class="text1"
+										style="font-family: Raleway, Microsoft JhengHei, Arial, sans-serif;">
+										<h3 style="font-size: 20px;">Materiales</h3>
+										<h6 style="font-size: 12px;">Dise&ntilde;o</h6>
+									</div>
+									<a th:href="${'/materiales'}">
+										<div class="btn">
+											<i class="fas fa-arrow-right"
+												style="font-size: 28px;color: #fff;margin-top: 5px;"></i>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-4" style="margin-top: 115px;">
+							<div class="profile1">
+								<div class="photo1"><img src="/dist/img/DisenoPrendas.png" /></div>
+								<div class="content1">
+									<div class="text1"
+										style="font-family: Raleway, Microsoft JhengHei, Arial, sans-serif;">
+										<h3 style="font-size: 20px;">Prendas</h3>
+										<h6 style="font-size: 12px;">Dise&ntilde;o</h6>
+									</div>
+									<a th:href="${'/prendas'}">
+										<div class="btn">
+											<i class="fas fa-arrow-right"
+												style="font-size: 28px;color: #fff;margin-top: 5px;"></i>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-4" style="margin-top: 115px;">
+							<div class="profile1">
+								<div class="photo1"><img src="/dist/img/DisenoCatalogos.png" /></div>
+								<div class="content1">
+									<div class="text1"
+										style="font-family: Raleway, Microsoft JhengHei, Arial, sans-serif;">
+										<h3 style="font-size: 20px;">Cat&aacute;logos</h3>
+										<h6 style="font-size: 12px;">Dise&ntilde;o</h6>
+									</div>
+									<a th:href="${'/catalogos'}">
+										<div class="btn">
+											<i class="fas fa-arrow-right"
+												style="font-size: 28px;color: #fff;margin-top: 5px;"></i>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-4" style="margin-top: 115px;">
+							<div class="profile1">
+								<div class="photo1"><img src="/dist/img/DisenoControl.png" /></div>
+								<div class="content1">
+									<div class="text1"
+										style="font-family: Raleway, Microsoft JhengHei, Arial, sans-serif;">
+										<h3 style="font-size: 20px;">Prod. Muestras</h3>
+										<h6 style="font-size: 12px;">Dise&ntilde;o</h6>
+									</div>
+									<a th:href="${'/catalogos'}">
+										<div class="btn">
+											<i class="fas fa-arrow-right"
+												style="font-size: 28px;color: #fff;margin-top: 5px;"></i>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-4" style="margin-top: 115px;">
+							<div class="profile1">
+								<div class="photo1"><img src="/dist/img/DisenoCatalogos.png" /></div>
+								<div class="content1">
+									<div class="text1"
+										style="font-family: Raleway, Microsoft JhengHei, Arial, sans-serif;">
+										<h3 style="font-size: 20px;">Cat&aacute;logos</h3>
+										<h6 style="font-size: 12px;">Comercial</h6>
+									</div>
+									<a th:href="${'/inventario'}">
+										<div class="btn">
+											<i class="fas fa-arrow-right"
+												style="font-size: 28px;color: #fff;margin-top: 5px;"></i>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-4" style="margin-top: 115px;">
+							<div class="profile1">
+								<div class="photo1"><img src="/dist/img/ComercialMuestrario.png" /></div>
+								<div class="content1">
+									<div class="text1"
+										style="font-family: Raleway, Microsoft JhengHei, Arial, sans-serif;">
+										<h3 style="font-size: 20px;">Muestrario</h3>
+										<h6 style="font-size: 12px;">Comercial</h6>
+									</div>
+									<div class="btn1"><span></span></div>
+								</div>
+								<div class="box1">
+									<a class="text-altima" th:href="${'/inventario'}" data-toggle="tooltip" data-placement="top" title="Inventario"><i class="fas fa-stream"></i></a>
+									<a class="text-altima" th:href="${'/movimientos'}" data-toggle="tooltip" data-placement="top" title="Movimientos"><i class="fas fa-exchange-alt"></i></a>
+									<a class="text-altima" th:href="${'/historico-de-muestras'}" data-toggle="tooltip" data-placement="top" title="Hist&oacute;rico de muestras"><i class="fas fa-clock"></i></a>
+									<a class="text-altima" th:href="${'/catalogos-muestrario'}" data-toggle="tooltip" data-placement="top" title="Cat&aacute;logos"><i class="fas fa-book-open"></i></a>
+								</div>
+							</div>
+						</div>
+						<div class="form-group col-md-4" style="margin-top: 115px;">
+							<div class="profile1">
+								<div class="photo1"><img src="/dist/img/ComercialAgente.png" /></div>
+								<div class="content1">
+									<div class="text1"
+										style="font-family: Raleway, Microsoft JhengHei, Arial, sans-serif;">
+										<h3 style="font-size: 20px;">Agente de venta</h3>
+										<h6 style="font-size: 12px;">Comercial</h6>
+									</div>
+									<div class="btn2"><span></span></div>
+								</div>
+								<div class="box2">
+									<a class="text-altima" th:href="${'/agenda-agente'}" data-toggle="tooltip" data-placement="top" title="Agenda"><i class="fas fa-calendar-alt"></i></a>
+									<a class="text-altima" th:href="${'/clientes'}" data-toggle="tooltip" data-placement="top" title="Clientes"><i class="fas fa-address-book"></i></a>
+									<a class="text-altima" th:href="${'/seguimientos'}" data-toggle="tooltip" data-placement="top" title="Seguimientos"><i class="fas fa-search"></i></a>
+									<a class="text-altima" th:href="${'/carga-de-pedidos'}" data-toggle="tooltip" data-placement="top" title="Carga de pedidos"><i class="fas fa-luggage-cart"></i></a>
+									<a class="text-altima" th:href="${'/apartado-de-telas'}" data-toggle="tooltip" data-placement="top" title="Apartado de telas"><i class="flaticon4-curling-hair-with-tissue-roll"></i></a>
+									<a class="text-altima" th:href="${'/movimientos-agentes'}" data-toggle="tooltip" data-placement="top" title="Movimientos"><i class="fas fa-exchange-alt"></i></a>
+									<a class="text-altima" th:href="${'/bordados'}" data-toggle="tooltip" data-placement="top" title="Bordados"><i class="flaticon4-needle-with-thread-to-sew-clothes"></i></a>
+									<a class="text-altima" th:href="${'/catalogos-prendas-agentes'}" data-toggle="tooltip" data-placement="top" title="Cat&aacute;logos de prendas"><i class="flaticon4-lace-dress-with-white-belt"></i></a>
+									<a class="text-altima" th:href="${'/catalogos-materiales-agentes'}" data-toggle="tooltip" data-placement="top" title="Cat&aacute;logos de materiales"><i class="flaticon4-thread-spool-1"></i></a>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<!-- /.container-fluid -->
 			</section>
-			<!-- Main content -->
-			<section class="content">
-				<div class="container-fluid">
-					<div class="row">
-                        <div class="col-12">
-                            <!-- Default box -->
-                            <div class="card">
-                                <div class="card-header bg-altima">
-                                    <h3 class="card-title">Title</h3>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                            <i class="fas fa-minus"></i></button>
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                                            <i class="fas fa-times"></i></button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    Start creating your amazing application!
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer">
-                                    Footer
-                                </div>
-                                <!-- /.card-footer-->
-                            </div>
-                            <!-- /.card -->
-                        </div>
-                    </div>
-				</div>
-			</section>
-			<!-- /.content -->
 		</div>
-		<!-- /.content-wrapper -->
 		<div th:insert="navegacion-footer"></div>
 	</div>
 	<div th:replace="navegacion-scripts"></div>
 	<script>
 		$('#iDashboard').removeClass('text-altima');
 		$('#navDashboard').addClass('active-altima');
+		$('#menuPushList').hide();
+		(function () {
+			$('.btn1').click(function () {
+				$(this).toggleClass('active');
+				return $('.box1').toggleClass('open1');
+			});
+		}).call(this);
+		(function () {
+			$('.btn2').click(function () {
+				$(this).toggleClass('active');
+				return $('.box2').toggleClass('open2');
+			});
+		}).call(this);
 	</script>
 </body>
 

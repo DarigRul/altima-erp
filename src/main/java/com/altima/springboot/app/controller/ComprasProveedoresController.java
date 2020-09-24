@@ -40,7 +40,7 @@ public class ComprasProveedoresController {
 	public String addProveedores(Model model, Map<String, Object> m ) {
 		ComprasProveedores proveedor = new ComprasProveedores();
 		m.put("proveedor", proveedor);
-		
+		model.addAttribute("check", true);
 		return"compras-agregar-proveedores";
 	}
 		
@@ -51,6 +51,13 @@ public class ComprasProveedoresController {
 		
 		proveedor = proveedorService.findOne(id);
 		m.put("proveedor", proveedor);
+		if(proveedor.getNumeroExterior().equalsIgnoreCase("0")) {
+			model.addAttribute("check", true);
+		}
+		else {
+			model.addAttribute("check", false);
+		}
+		
 		
 		try {
 		credito = creditoService.findByProveedor(id);

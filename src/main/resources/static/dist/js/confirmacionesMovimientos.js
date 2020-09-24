@@ -1,7 +1,6 @@
 
 $(document).ready(function() {
 	listarVendedores()
-    listarEmpresas();
     listarMuestras();
 
 });
@@ -28,7 +27,6 @@ function limpiarModal(){
                           			"</thead>" +
                       			"</table>" +
 	   						"</div>");
-	   listarEmpresas();
 	   listarMuestras();
 	   listarVendedores();
 	   $('.selectCustom').selectpicker('refresh');
@@ -51,50 +49,50 @@ function listarVendedores(){
 					}
 				}
 				$('#vendedorMovi').selectpicker('refresh');
+				
+				
 		    },
 		    error: (e) => {
 		    }
 		});
 }
 
-function listarVendedoresTraspaso(){
-	$.ajax({
-		 method: "GET",
-		    url: "/listarVendedores",
-		    data: {
-		    },
-		    success: (data) => {
-				for (i in data){
-					if(data[i][2]==null || data[i][3]==null){
-						$('#vendedorTraspaso').append("<option value='"+data[i][0]+"'>"+ data[i][1] + "</option>");
-					}
-					else{
-						$('#vendedorTraspaso').append("<option value='"+data[i][0]+"'>"+ data[i][1] + " " + data[i][2] + " " + data[i][3] +"</option>");
-					}
-				}
-				$('#vendedorTraspaso').selectpicker('refresh');
-		    },
-		    error: (e) => {
-		    }
-		});
-}
+//function listarVendedoresTraspaso(){
+//	var EsTraspaso = 1;
+//	$.ajax({
+//		 method: "GET",
+//		    url: "/listarVendedores",
+//		    data: { EsTraspaso : EsTraspaso
+//		    },
+//		    success: (data) => {
+//				for (i in data){
+//					if(data[i][2]==null || data[i][3]==null){
+//						$('#vendedorTraspaso').append("<option value='"+data[i][0]+"'>"+ data[i][1] + "</option>");
+//					}
+//					else{
+//						$('#vendedorTraspaso').append("<option value='"+data[i][0]+"'>"+ data[i][1] + " " + data[i][2] + " " + data[i][3] +"</option>");
+//					}
+//				}
+//				$('#vendedorTraspaso').selectpicker('refresh');
+//		    },
+//		    error: (e) => {
+//		    }
+//		});
+//}
 
-function listarEmpresas(){
-
+$('#vendedorMovi').on('change',function(){
+var idAgente = $(this).val();
+$('#empresaMovi').find('option').remove();
+$('#empresaMovi').selectpicker('refresh');
 	$.ajax({
 		 method: "GET",
 		    url: "/listarEmpresasMovimiento",
 		    data: {
-
+		    	idAgente: idAgente
 		    },
 		    success: (data) => {
 				for (i in data){
-					if(data[i].apellidoPaterno==null || data[i].apellidoMaterno==null){
-						$('#empresaMovi').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + "</option>");
-					}
-					else{
-						$('#empresaMovi').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + " " + data[i].apellidoPaterno + " " + data[i].apellidoMaterno +"</option>");
-					}
+					$('#empresaMovi').append("<option value='"+data[i][0]+"'>"+ data[i][1] + "</option>");
 				}
 
 				$('#empresaMovi').selectpicker('refresh');
@@ -104,22 +102,19 @@ function listarEmpresas(){
 
 		    }
 		});
-}
+})
 
-function listarEmpresasTraspaso(){
+function listarEmpresasTraspaso(idAgente){
+	
 	$.ajax({
 		 method: "GET",
 		    url: "/listarEmpresasMovimiento",
 		    data: {
+		    	idAgente: idAgente
 		    },
 		    success: (data) => {
 				for (i in data){
-					if(data[i].apellidoPaterno==null || data[i].apellidoMaterno==null){
-						$('#empresaTraspaso').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + "</option>");
-					}
-					else{
-						$('#empresaTraspaso').append("<option value='"+data[i].idCliente+"'>"+ data[i].nombre + " " + data[i].apellidoPaterno + " " + data[i].apellidoMaterno +"</option>");
-					}
+					$('#empresaTraspaso').append("<option value='"+data[i][0]+"'>"+ data[i][1] + "</option>");
 				}
 				$('#empresaTraspaso').selectpicker('refresh');
 		    },
@@ -195,8 +190,8 @@ function nuevoTraspaso(){
 									"</table>" +
 									"</div>");
 	
-	listarVendedoresTraspaso();
-	listarEmpresasTraspaso();
+//	listarVendedoresTraspaso();
+//	listarEmpresasTraspaso();
 	listarMuestrasTraspaso(movi);
 	$('.selectCustom').selectpicker('refresh');
 }
@@ -426,8 +421,10 @@ function agregarMiniTabla(tablaMuestra){
 
 
 //Listar el modal para editar
-function datosMovimiento(idMovimiento){
-	console.log("Si entra a editar");
+function datosMovimiento(idMovimiento, estatus){
+	console.log("Si entra a editar"); 
+	
+	if(estatus==1){
 	$.ajax({
 
 		   method: "POST",
@@ -480,20 +477,61 @@ function datosMovimiento(idMovimiento){
 		   error: (e) =>{
 		   }
 	   });
+	}
+	else{
+		$.ajax({
+			   method: "POST",
+			   url: "/datosMovimientoSolicitud",
+			   data:{
+				   "_csrf": $('#token').val(),
+				   movimiento: idMovimiento
+			   },
+			   success: (data) => {
+				   $('#movimiento').val(data[0][9]);
+				   $('#encargadoRecibir').val(data[0][10]);
+				   $('#borrarDatos').remove();
+				   $('#crearDatos').append("<div class='form-group col-sm-12' id='borrarDatos'>" +
+			                        			"<table class='table table-striped table-bordered' id ='tablaMuestra'>" +
+							   						"<thead>" +
+			                                			"<tr>" +
+							   								"<th>C&oacute;digo de barras</th>" +
+			                                    			"<th>Prendas</th>" +
+							   								"<th>Modelo Prenda</th>" +
+							   								"<th>C&oacute;digo Tela</th>" +
+							   								"<th></th>" +
+							   							"</tr>" +
+			                            			"</thead>" +
+			                        			"</table>" +
+				   							"</div>");
+				   
+				   $('#vendedorMovi option[value="'+data[0][1]+'"]').attr("selected", true);
+			   	   $('#empresaMovi option[value='+data[0][0]+']').attr("selected", true);
+			   	   $('.selectCustom').selectpicker('refresh');
+			   },
+			   error: (e) =>{
+			   }
+		   });
+	}
 }
 	
 	
 	
 
 //Función para mostrar todas las muestras de acuerdo a su respectivo movimiento  //
-function detalleMuestras(id){
+function detalleMuestras(id, estatus, PantallaAgente){
 	$('#mov').val(id);
-	$('#vendedorTraspasoCodigo').val((Math.floor(Math.random() * (10 - 1)) + 1)+""+
-									 (Math.floor(Math.random() * (10 - 1)) + 1)+""+
-									 (Math.floor(Math.random() * (10 - 1)) + 1)+""+
-									 (Math.floor(Math.random() * (10 - 1)) + 1));
 	$('#borrarTabla').remove();
+	$('.solicitud').show();
+	if(PantallaAgente){
+		$('.PantallaAgente').hide();
+	}
+	else{
+		$('.PantallaAgente').show();
+	}
+	
+	if(estatus==1){
 	$('#crearTabla').append("<div class='modal-body' id='borrarTabla'>" +
+								"<input type='hidden' id='infoTraspasoRack' value=2>" +
 								"<div class='form-check'>" +
 									"<input type='checkbox' class='form-check-input' id='selectAll' onclick='selectAllCheck()'>" +
 									"<label class='form-check-label' for='selectAll'>Seleccionar todo</label>" +
@@ -657,16 +695,152 @@ function detalleMuestras(id){
 			
 		}
 	})	
-	
-
-	
+	}
+	else{
+		crearTablaRackPrendas(id);
+	}
 	$('#infoTraspaso').modal(true);
+	
+	
 }
 
 
+function crearTablaRackPrendas (id){
+		$('.solicitud').hide();
+		$('#crearTabla').append("<div class='modal-body' id='borrarTabla'>" +
+				"<input type='hidden' id='infoTraspasoRack' value=1>" +
+				"<br>" +
+				"<table class='table table-striped table-bordered' id='tablaTraspasoinfo'>" +
+					"<thead>" +
+						"<tr>" +
+							"<th>Cantidad</th>" +
+							"<th>Muestra</th>" +
+							"<th>Modelo Prenda</th>" +
+							"<th>C&oacute;digo Tela</th>" +
+							"<th>Precio unitario</th>" +
+							"<th>Estatus</th>" +
+						"</tr>" +
+					"</thead>" +
+				"</table>" +
+			"</div>");
+	
+	
+	//AJAX para hacer un correcto formato en la tabla del modal de las muestras  //	
+	$.ajax({
+	
+	method:"POST",
+	url: "/listDetalleMuestrasSolicitud",
+	data:{
+	"_csrf": $('#token').val(),
+	idMovi:id
+	},
+	success:(data) => {
+	/* lista de estatus en la tabla de muestras
+	* 
+	* 1 = "Pendiente de recoger"
+	* 2 = "Cancelado"
+	* 3 = "Devuelto"
+	* 4 = "Entregado a vendedor" con checkBox en la tabla
+	* 5 = "Entregado a vendedor" sin checkBox en la tabla
+	* 6 = "Traspaso" con checkBox en la tabla
+	* 7 = "Traspaso" sin checkBox en la tabla
+	* 8 = "Prestado a empresa" con checkBox en la tabla
+	* 9 = "Prestado a empresa" sin checkBox en la tabla
+	* 10= "Devuelto con recargos"
+	* 11= "Rack de prendas"
+	**********/
+	var a;
+	var b = [];
+	
+	for (i in data){
+	var estatus;
+//	var validador1 = data[i][7];
+//	var validador2 = data[i][8];
+//	var validador3 = data[i][9];
+//	var validador4 = data[i][10];
+//	var validador5 = data[i][11];
+//	if(data[i][7]==null){validador1="";}
+//	if(data[i][8]==null){validador2="";}
+//	if(data[i][9]==null){validador3="";}
+//	if(data[i][10]==null){validador4="";}
+//	if(data[i][11]==null){validador5="";}
+//	
+//	validador1 = validador1.replace("T"," ").substring(0,19);
+//	//validador3 = validador3.replace("T"," ").substring(0,19);
+	
+	
+	//Mapeo de los datos que va a llevar la tabla  //				
+	a= ["<tr>"+
+		"<td>"+data[i][1]+"</td>",
+		"<td>"+data[i][3]+"</td>",
+		"<td>"+data[i][4]+"</td>", 
+		"<td>"+data[i][5]+"</td>", 
+		"<td>"+data[i][6]+"</td>",
+		"<td>Rack de prendas</td>"+
+	"<tr>"];
+	b.push(a);
+	}
+	
+	//Estructura de la tabla //
+	$('#tablaTraspasoinfo').DataTable({
+	"data":	b,
+	"ordering": false,
+	"pageLength": 5,
+	"responsive": true,
+	"stateSave": true,
+	"drawCallback": function() {
+	$('.popoverxd').popover({
+	    container: 'body',
+	    trigger: 'hover'
+	});
+	},
+	"lengthMenu": [
+	[5, 10, 25, 50, 100],
+	[5, 10, 25, 50, 100]
+	],
+	"language": {
+	"sProcessing": "Procesando...",
+	"sLengthMenu": "Mostrar _MENU_ registros",
+	"sZeroRecords": "No se encontraron resultados",
+	"sEmptyTable": "Ningún dato disponible en esta tabla =(",
+	"sInfo": "Del _START_ al _END_ de un total de _TOTAL_ registros",
+	"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+	"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+	"sInfoPostFix": "",
+	"sSearch": "Buscar:",
+	"sUrl": "",
+	"sInfoThousands": ",",
+	"sLoadingRecords": "Cargando...",
+	"oPaginate": {
+	    "sFirst": "Primero",
+	    "sLast": "Último",
+	    "sNext": "Siguiente",
+	    "sPrevious": "Anterior"
+	},
+	"oAria": {
+	    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+	    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	},
+	"buttons": {
+	    "copy": "Copiar",
+	    "colvis": "Visibilidad"
+	}
+	}
+	});
+	
+	
+	
+	},
+	error: (e) =>{
+	
+	}
+	})	
+}
+
 
 //Función para cambiar el estatus de una solicitud de movimiento a cancelado, al igual que las muestras //
-function cancelarSolicitud(idMovimiento){
+function cancelarSolicitud(idMovimiento, estatus){
+	
 	Swal.fire({
 		  title: '¿Desea cancelar la solicitud?',
 		  icon: 'warning',
@@ -677,43 +851,84 @@ function cancelarSolicitud(idMovimiento){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 			if (result.value) {
-				$.ajax({
-				
-					method:"POST",
-					url:"/cancelarMovimiento",
-					data: {
-					    	"_csrf": $('#token').val(),
-					    	idMovi: idMovimiento
-					},
-					beforeSend: function () {
-			        	 Swal.fire({
-			                 title: 'Cargando ',
-			                 html: 'Por favor espere',// add html attribute if you want or remove
-			                 allowOutsideClick: false,
-			                 timerProgressBar: true,
-			                 onBeforeOpen: () => {
-			                     Swal.showLoading()
-			                 },
-			             });
-			        	
-			        },
-					success: (data)=> {
-						Swal.fire({
-						      position: 'center',
-					          icon: 'success',
-					          title: '¡Movimiento cancelado!',
-					          showConfirmButton: false,
-					          timer: 1550,
-						      onClose: () => {
-						    	  console.log("si entra hasta aca");
-						    	  location.href = "/movimientos";
-						      }
-						})
-					},
-					error: (e) => {
-					}
+				if(estatus==1){
+					$.ajax({
 					
-				})
+						method:"POST",
+						url:"/cancelarMovimiento",
+						data: {
+						    	"_csrf": $('#token').val(),
+						    	idMovi: idMovimiento
+						},
+						beforeSend: function () {
+				        	 Swal.fire({
+				                 title: 'Cargando ',
+				                 html: 'Por favor espere',// add html attribute if you want or remove
+				                 allowOutsideClick: false,
+				                 timerProgressBar: true,
+				                 onBeforeOpen: () => {
+				                     Swal.showLoading()
+				                 },
+				             });
+				        	
+				        },
+						success: (data)=> {
+							Swal.fire({
+							      position: 'center',
+						          icon: 'success',
+						          title: '¡Movimiento cancelado!',
+						          showConfirmButton: false,
+						          timer: 1550,
+							      onClose: () => {
+							    	  console.log("si entra hasta aca");
+							    	  location.href = "/movimientos";
+							      }
+							})
+						},
+						error: (e) => {
+						}
+						
+					})
+				}
+				else{
+					$.ajax({
+						
+						method:"POST",
+						url:"/cancelarSolicitudMovimiento",
+						data: {
+						    	"_csrf": $('#token').val(),
+						    	idMovi: idMovimiento
+						},
+						beforeSend: function () {
+				        	 Swal.fire({
+				                 title: 'Cargando ',
+				                 html: 'Por favor espere',// add html attribute if you want or remove
+				                 allowOutsideClick: false,
+				                 timerProgressBar: true,
+				                 onBeforeOpen: () => {
+				                     Swal.showLoading()
+				                 },
+				             });
+				        	
+				        },
+						success: (data)=> {
+							Swal.fire({
+							      position: 'center',
+						          icon: 'success',
+						          title: '¡Solicitud cancelada!',
+						          showConfirmButton: false,
+						          timer: 1550,
+							      onClose: () => {
+							    	  console.log("si entra hasta aca");
+							    	  location.href = "/movimientos";
+							      }
+							})
+						},
+						error: (e) => {
+						}
+						
+					})
+				}
 		  }
 		});
 
@@ -909,7 +1124,7 @@ function devueltoIndividualSolicitud(tablaTraspasoinfo){
 					          showConfirmButton: false,
 					          timer: 1550,
 						      onClose: () => {
-						    	  detalleMuestras(movi);
+						    	  detalleMuestras(movi, 1, $('#esAgente').val());
 						      }
 						})
 					}
@@ -1001,7 +1216,7 @@ function prestamoSolicitud(tablaTraspasoinfo){
 						          showConfirmButton: false,
 						          timer: 1550,
 							      onClose: () => {
-							    	  detalleMuestras(movi);
+							    	  detalleMuestras(movi, 1, $('#esAgente').val());
 							      }
 							})
 						}
@@ -1095,8 +1310,7 @@ function traspasoSolicitud(tablaTraspaso){
 	var datosJson = [];
 	var listaMuestras = [];
 	var filtered = lista.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
-	var vendedorTraspaso = $('#vendedorTraspaso').val();
-	var empresaTraspaso = $('#empresaTraspaso').val();
+	var codigoTraspaso = $('#vendedorTraspasoCodigo').val();
 	var filas = $("#tablaMuestraTraspaso").find('tr:not(:first-child)');
 	
 	if (table) {
@@ -1128,12 +1342,20 @@ function traspasoSolicitud(tablaTraspaso){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  if(dato.length==0 || vendedorTraspaso=="" || vendedorTraspaso==null || vendedorTraspaso==undefined || 
-				 empresaTraspaso== "" || empresaTraspaso== null || empresaTraspaso ==undefined){
+			  if(dato.length==0){
 				  Swal.fire({
 						icon: 'error',
 						title: 'Error',
 						text: 'Asegurese de tener al menos un registro en la tabla y llenar todos los campos requeridos',
+						showConfirmButton: false,
+				        timer: 3500
+				  })
+			  }
+			  else if(codigoTraspaso==null || codigoTraspaso=="" || codigoTraspaso==undefined || codigoTraspaso.length!=6){
+				  Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: 'Asegurese de que el código de traspaso tenga 6 dígitos',
 						showConfirmButton: false,
 				        timer: 3500
 				  })
@@ -1147,8 +1369,7 @@ function traspasoSolicitud(tablaTraspaso){
 						"_csrf": $('#token').val(),
 						movimiento: movi,
 						idMuestras:	dato,
-						nuevoVendedor: vendedorTraspaso,
-						empresaTraspaso: empresaTraspaso,
+						codigoTraspaso: codigoTraspaso,
 						"object_muestras": JSON.stringify(datosJson)
 					},
 					beforeSend: function () {
@@ -1164,19 +1385,30 @@ function traspasoSolicitud(tablaTraspaso){
 			        	
 			        },
 					success:(data) => {
-						Swal.fire({
-						      position: 'center',
-					          icon: 'success',
-					          title: '¡Traspaso exitoso!',
-					          showConfirmButton: false,
-					          timer: 1550,
-						      onClose: () => {
-						    	  $('#traspasoAgente').modal('hide');
-						    	  
-						    	  detalleMuestras(movi);
-						    	  
-						      }
-						})
+						if(data==1){
+							Swal.fire({
+							      position: 'center',
+						          icon: 'success',
+						          title: '¡Traspaso exitoso!',
+						          showConfirmButton: false,
+						          timer: 1550,
+							      onClose: () => {
+							    	  $('#traspasoAgente').modal('hide');
+							    	  
+							    	  detalleMuestras(movi, 1, $('#esAgente').val());
+							    	  
+							      }
+							})
+						}
+						else{
+							Swal.fire({
+							      position: 'center',
+						          icon: 'error',
+						          title: '¡No existe el código ingresado!',
+						          showConfirmButton: false,
+						          timer: 1550
+							})
+						}
 					}
 				});
 			  }
@@ -1214,12 +1446,95 @@ onScan.attachTo(document, {
 });
 
 $('#infoTraspaso').on('hidden.bs.modal', function () {
-	location.reload();
-	})
-	
-	
-$('#traspasoAgente').on('hidden.bs.modal', function () {
-	detalleMuestras(movi);
+	if($('#infoTraspasoRack').val()==2){
+		location.reload();
+	}
 })
 	
+
+//$('#traspasoAgente').on('hidden.bs.modal', function () {
+//	detalleMuestras(movi);
+//})
 	
+	
+function insertarCodigo(){
+	var idAgenteVentas = $('#idAgenteVentas').val();
+	var codigoRandom =  (Math.floor(Math.random() * (10 - 1)) + 1)+""+
+	 					(Math.floor(Math.random() * (10 - 1)) + 1)+""+
+	 					(Math.floor(Math.random() * (10 - 1)) + 1)+""+
+	 					(Math.floor(Math.random() * (10 - 1)) + 1)+""+
+	 					(Math.floor(Math.random() * (10 - 1)) + 1)+""+
+	 					(Math.floor(Math.random() * (10 - 1)) + 1);
+	Swal.fire({
+	    title: 'Inserte el c&oacute;digo de traspaso',
+	    html: '<div class="row">' +
+	        '<div class="form-group col-sm-12">' +
+	        '<label for="codigo">C&oacute;digo</label>' +
+	        '<input type="number" class="swal2-input" id="codigoTraspasoConfirm" placeholder="382643" disabled value='+codigoRandom+'>' +
+	        '</div>' +
+	        '<div class="form-group col-sm-12">' +
+	        '<label for="empresa">Empresa</label>' +
+	        '<select type="number" class="form-control" id="empresaTraspaso">'+listarEmpresasTraspaso(idAgenteVentas)+'</select>' +
+	        '</div>' +
+	        '</div>',
+	    showCancelButton: true,
+	    cancelButtonColor: '#dc3545',
+	    cancelButtonText: 'Cancelar',
+	    confirmButtonText: 'Agregar',
+	    confirmButtonColor: '#0288d1',
+	    preConfirm: (color) => {
+	        if ($('#codigoTraspasoConfirm').val()=="" || $('#codigoTraspasoConfirm').val()==null || $('#codigoTraspasoConfirm').val()==undefined || 
+	        		$('#codigoTraspasoConfirm').val().length!=6 || $('#empresaTraspaso').val()=="" || $('#empresaTraspaso').val()==null || 
+	        		$('#empresaTraspaso').val()==undefined) {
+	            Swal.showValidationMessage(
+	                `Ingrese un código válido`
+	            )
+	        }
+	    }
+	}).then((result) => {
+	    if (result.value){
+	    	var codigoTraspaso = $('#codigoTraspasoConfirm').val();
+	    	var empresaTraspaso = $('#empresaTraspaso').val();
+	    	$.ajax({
+				method:"POST",
+				url:"/codigoTraspasoSolicitud",
+				data:{
+					"_csrf": $('#token').val(),
+					codigoTraspaso: codigoTraspaso,
+					empresaTraspaso: empresaTraspaso
+				},
+				beforeSend: function () {
+		        	 Swal.fire({
+		                 title: 'Cargando ',
+		                 html: 'Por favor espere',// add html attribute if you want or remove
+		                 allowOutsideClick: false,
+		                 timerProgressBar: true,
+		                 onBeforeOpen: () => {
+		                     Swal.showLoading()
+		                 },
+		             });
+		        },
+				success:(data) => {
+					if(data==1){
+						Swal.fire({
+						      position: 'center',
+					          icon: 'success',
+					          title: '¡Traspaso exitoso!',
+					          showConfirmButton: false,
+					          timer: 1550
+						})
+					}
+					else{
+						Swal.fire({
+						      position: 'center',
+					          icon: 'error',
+					          title: '¡No existe el código ingresado!',
+					          showConfirmButton: false,
+					          timer: 1550
+						})
+					}
+				}
+			});
+	    }
+	})
+}

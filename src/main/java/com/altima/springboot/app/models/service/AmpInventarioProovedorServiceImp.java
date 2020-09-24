@@ -145,4 +145,56 @@ public class AmpInventarioProovedorServiceImp implements IAmpInventarioProovedor
 	
 		return re;
 	}
+
+	@Override
+	public boolean Vefiricar_Proveedor_Principal(Long id, String tipo, String idProvedo) {
+		try {
+			String re = em.createNativeQuery(""
+					+ "SELECT\r\n" + 
+					"	pro.id_inventario_proveedor\r\n" + 
+					"FROM\r\n" + 
+					"	alt_amp_inventario_proovedor AS pro,\r\n" + 
+					"	alt_compras_proveedor AS compras \r\n" + 
+					"WHERE\r\n" + 
+					"	1 = 1 \r\n" + 
+					"	AND pro.id_proveedor = compras.id_proveedor \r\n" + 
+					"	AND pro.id_inventario ="+id+"\r\n" + 
+					"	AND pro.estatus=1\r\n" + 
+					"	AND pro.tipo='"+tipo+"'\r\n" + 
+					"	AND pro.id_proveedor = "+idProvedo).getSingleResult().toString();
+					//System.out.println("regresa el true");
+			return true;
+			}
+			catch(Exception e) {
+				//System.out.println("regresa el false");
+				return false;
+			}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object []> Proveedores_disponibles(String tipo, Long Inventario) {
+		
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\r\n" + 
+				"	p.id_proveedor,\r\n" + 
+				"	p.nombre_proveedor \r\n" + 
+				"FROM\r\n" + 
+				"	alt_compras_proveedor AS p \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND p.estatus = 1 \r\n" + 
+				"	AND p.id_proveedor NOT IN (\r\n" + 
+				"	SELECT\r\n" + 
+				"		inventario.id_proveedor \r\n" + 
+				"	FROM\r\n" + 
+				"		alt_amp_inventario_proovedor AS inventario \r\n" + 
+				"	WHERE\r\n" + 
+				"		inventario.id_inventario = "+Inventario+" \r\n" + 
+				"	AND inventario.tipo = '"+tipo+"' \r\n" + 
+				"	)").getResultList();
+	
+		return re;
+	}
 }

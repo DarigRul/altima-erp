@@ -71,13 +71,14 @@ public class AdminConfiguracionPedidoServiceImpl implements IAdminConfiguracionP
 				"c.id_configuracion_pedido,\r\n" + 
 				"CASE\r\n" + 
 				"	WHEN c.tipo_pedido = '1' THEN 'Pedido General' \r\n" + 
-				"	WHEN c.tipo_pedido = '2' THEN 'Pedido Especial' \r\n" + 
-				"	WHEN c.tipo_pedido = '3' THEN 'Stock' \r\n" + 
+				"	WHEN c.tipo_pedido = '3' THEN 'Pedido Especial' \r\n" + 
+				"	WHEN c.tipo_pedido = '2' THEN 'Stock' \r\n" + 
 				"	WHEN c.tipo_pedido = '4' THEN 'Resurtido' \r\n" + 
 				"	WHEN c.tipo_pedido = '5' THEN 'Reajustes' \r\n" + 
 				"	ELSE 'N/P' \r\n" + 
 				"END AS tipo,\r\n" + 
-				"c.estatus\r\n" + 
+				"c.estatus,\r\n" + 
+				"c.nombre\r\n" + 
 				"FROM\r\n" + 
 				"	alt_admin_configuracion_pedido AS c").getResultList();
 		return re;

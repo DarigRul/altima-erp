@@ -44,6 +44,12 @@ public class ComprasProveedorContacto implements Serializable{
 	@Column(name="extension_contacto")
 	private String extensionContacto;
 	
+	@Column(name="lada_contacto")
+	private String lada;
+	
+	@Column(name="whats_contacto")
+	private String whatsContacto;
+	
 	@Column(name="creado_por")
 	private String creadoPor;
 	
@@ -113,6 +119,22 @@ public class ComprasProveedorContacto implements Serializable{
 
 	public void setExtensionContacto(String extensionContacto) {
 		this.extensionContacto = extensionContacto;
+	}
+
+	public String getLada() {
+		return lada;
+	}
+
+	public void setLada(String lada) {
+		this.lada = lada;
+	}
+
+	public String getWhatsContacto() {
+		return whatsContacto;
+	}
+
+	public void setWhatsContacto(String whatsContacto) {
+		this.whatsContacto = whatsContacto;
 	}
 
 	public String getCreadoPor() {

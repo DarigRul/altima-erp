@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,7 +73,9 @@ public class ProduccionCatalogosController {
 	
 	@PostMapping("/guardar-catalogo-produccion")
 	public String guardacatalogo(String nomenclatura , String descripcion,
-			String num_talla, String id_genero,String genero, String ubicacion) {
+			String num_talla, String id_genero,String genero, 
+			String ubicacion, String descripcionProceso ,String origenProceso,
+			String maquilero, String telefono) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -144,6 +147,74 @@ public class ProduccionCatalogosController {
 			return "catalogos";
 		}
 		
+		if ( descripcionProceso != null) {
+			System.out.println("hoola--->"+descripcionProceso);
+			ProduccionLookup proceso = new ProduccionLookup();
+			ProduccionLookup ultimoid = null;
+			try {
+				ultimoid = LookupService.findLastLookupByType("Proceso");
+
+			} catch (Exception e) {
+
+				System.out.println(e);
+			}
+
+			if (ultimoid == null) {
+				proceso.setIdText("PROC" + "1001");
+			} else {
+
+				String str = ultimoid.getIdText();
+				String[] part = str.split("(?<=\\D)(?=\\d)");
+				Integer cont = Integer.parseInt(part[1]);
+				proceso.setIdText("PROC" + (cont + 1));
+			}
+
+			proceso.setNombreLookup(StringUtils.capitalize(descripcionProceso));
+			proceso.setTipoLookup("Proceso");
+			proceso.setCreadoPor(auth.getName());
+			proceso.setFechaCreacion(dateFormat.format(date));
+			proceso.setEstatus("1");
+			proceso.setDescripcionLookup(origenProceso);
+			LookupService.save(proceso);
+			
+			
+			return "catalogos";
+		}
+		
+		if ( maquilero != null) {
+			System.out.println("hoola--->"+maquilero);
+			ProduccionLookup maqui = new ProduccionLookup();
+			ProduccionLookup ultimoid = null;
+			try {
+				ultimoid = LookupService.findLastLookupByType("Maquilero");
+
+			} catch (Exception e) {
+
+				System.out.println(e);
+			}
+
+			if (ultimoid == null) {
+				maqui.setIdText("MAQUI" + "1001");
+			} else {
+
+				String str = ultimoid.getIdText();
+				String[] part = str.split("(?<=\\D)(?=\\d)");
+				Integer cont = Integer.parseInt(part[1]);
+				maqui.setIdText("MAQUI" + (cont + 1));
+			}
+
+			maqui.setNombreLookup(StringUtils.capitalize(maquilero));
+			maqui.setTipoLookup("Maquilero");
+			maqui.setCreadoPor(auth.getName());
+			maqui.setFechaCreacion(dateFormat.format(date));
+			maqui.setEstatus("1");
+			maqui.setDescripcionLookup(telefono);
+			LookupService.save(maqui);
+			
+			
+			return "catalogos";
+		}
+		
 		return "redirect:catalogos";
 
 	}
@@ -162,6 +233,12 @@ public class ProduccionCatalogosController {
 			if ( Tipo.equals("Talla")) {
 				resp=LookupService.findDuplicate(Lookup, Tipo, Atributo1, Atributo2 , descripcion);
 			}
+			if (Tipo.equals("Proceso")) {
+				resp=LookupService.findDuplicate(Lookup, Tipo, descripcion);
+			}
+			if (Tipo.equals("Maquilero")) {
+				resp=LookupService.findDuplicate(Lookup, Tipo, descripcion);
+			}
 		return  resp;
 
 	}
@@ -172,4 +249,37 @@ public class ProduccionCatalogosController {
 
 		return LookupService.findAllLookup(Tipo);
 	}
+	
+	@PostMapping("/editar-catalogo-produccion")
+	public String editacatalogo(final Long idLookup, String descripcionProceso, String origenProceso, String maquilero,String telefono) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+	
+		
+		if (descripcionProceso != null && idLookup > 0) {
+			ProduccionLookup proceso = null;
+			proceso = LookupService.findOne(idLookup);
+			proceso.setNombreLookup(StringUtils.capitalize(descripcionProceso));
+			proceso.setDescripcionLookup(origenProceso);
+			proceso.setUltimaFechaModificacion(dateFormat.format(date));
+			proceso.setActualizadoPor(auth.getName());
+			LookupService.save(proceso);
+			return "redirect:catalogos";
+		}
+		
+		if (maquilero != null && idLookup > 0) {
+			ProduccionLookup proceso = null;
+			proceso = LookupService.findOne(idLookup);
+			proceso.setNombreLookup(StringUtils.capitalize(maquilero));
+			proceso.setDescripcionLookup(telefono);
+			proceso.setUltimaFechaModificacion(dateFormat.format(date));
+			proceso.setActualizadoPor(auth.getName());
+			LookupService.save(proceso);
+			return "redirect:catalogos";
+		}
+		
+		return "redirect:catalogos";
+	}
+
 }
