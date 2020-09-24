@@ -125,9 +125,17 @@ public class ConcentradoTallasRestController {
 
 	@RequestMapping(value = "/listar-especificacion", method = RequestMethod.GET)
 	public List<Object[]> listar(Long idpedido, Long idempleado, Long idprenda) {
+		List<Object[]> result = null;
+		if(ConcentradoTallaService.findSPF(idpedido) == null) {
+			result= ConcentradoTallaService.findTallasPrendaEspecificacion(idpedido, idempleado, idprenda);
 
-		return ConcentradoTallaService.findTallasPrendaEspecificacion(idpedido, idempleado, idprenda);
+		}
+		else {
+			result= ConcentradoTallaService.findTallasPrendaEspecificacion(ConcentradoTallaService.findSPF(idpedido), idempleado, idprenda);
 
+			
+		}
+		return result;
 	}
 
 	@RequestMapping(value = "/verifduplicadoconcentradotalla", method = RequestMethod.GET)
