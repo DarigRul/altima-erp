@@ -490,7 +490,7 @@ public class UploadServiceImpl implements IUploadService {
 	@Override
 	public Cloudinary CloudinaryApi() {
 		// TODO Auto-generated method stub
-		return new Cloudinary("cloudinary://586924591476784:z-5mX4JAKv4x2MhCvB5gdm0BEgo@dstky13uz");
+		return new Cloudinary("cloudinary://919683995354796:L5_KG7l-5yZN0a_zZEJIvi6DERI@dti-consultores");
 	}
 
 	/* EMPLEADOS */
