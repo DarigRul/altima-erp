@@ -157,31 +157,74 @@ function deleteMovimiento(fila, id) {
 
 
 $('#guardarMovimientos').click(function () {
-    temp={
-        'observaciones':$('#observacionesMovimientos').val(),
-        'fechaMovimiento':$('#fechaMovimiento').val(),
-        'tipoMovimiento':$('#tipoMovimiento').val(),
-        'concepto':$('#conceptoMovimiento').val(),
-        'idAlmacenLogico':$('#almacenLogicoMovimiento').val()
-    }
-    movimientoCabecero.push(temp);
-    console.log(movimientoCabecero);
+    var observaciones=$('#observacionesMovimientos').val()
+    var fechaMovimiento=$('#fechaMovimiento').val()
+    var tipoMovimiento=$('#tipoMovimiento').val()
+    var concepto=$('#conceptoMovimiento').val()
+    var idAlmacenLogico=$('#almacenLogicoMovimiento').val()
 
-    $.ajax({
-        type: "POST",
-        url: "postMovimientosAlmacen",
-        data: {
-            'cabecero':JSON.stringify(movimientoCabecero),
-            'movimientos':JSON.stringify(movimientos),
-            '_csrf':$('#token').val()
-        },
-        success: function (msg) {
-            if (msg=="Error") {
-                alert("Error en el servidor");
-            } 
-        },
-        error: (e) => {
-            alert(e);
+    if (tipoMovimiento == null || concepto == null || idAlmacenLogico == null || fechaMovimiento == null || tipoMovimiento == "" || concepto == "" || idAlmacenLogico == "" || fechaMovimiento == "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Todos los campos deben de estar llenos!',
+        })
+    }
+    else{
+        temp={
+            'observaciones':observaciones,
+            'fechaMovimiento':fechaMovimiento,
+            'tipoMovimiento':tipoMovimiento,
+            'concepto':concepto,
+            'idAlmacenLogico':idAlmacenLogico
         }
-    });
+        movimientoCabecero.push(temp);
+        if (temp.tipoMovimiento==='Entrada') {
+            $.ajax({
+                type: "POST",
+                url: "postMovimientosEntradaAlmacen",
+                data: {
+                    'cabecero':JSON.stringify(movimientoCabecero),
+                    'movimientos':JSON.stringify(movimientos),
+                    '_csrf':$('#token').val()
+                },
+                    success: function (msg) {
+                        
+                        if (msg=="Error") {
+                            alert("Error en el servidor");
+                            $(location).attr('href', '/movimientos-amp')
+                        } 
+                        $(location).attr('href', '/movimientos-amp')
+                    },
+                    error: (e) => {
+                        alert(e);
+                        $(location).attr('href', '/movimientos-amp')
+                    }
+            });
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "postMovimientosSalidaAlmacen",
+                data: {
+                    'cabecero':JSON.stringify(movimientoCabecero),
+                    'movimientos':JSON.stringify(movimientos),
+                    '_csrf':$('#token').val()
+                },
+                    success: function (msg) {
+
+                        if (msg=="Error") {
+                            alert("Error en el servidor");
+                            $(location).attr('href', '/movimientos-amp')
+                        } 
+                        $(location).attr('href', '/movimientos-amp')
+                    },
+                    error: (e) => {
+                        alert(e);
+                        $(location).attr('href', '/movimientos-amp')
+                    }
+            });
+        }    
+
+    }
+
 });

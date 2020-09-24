@@ -173,30 +173,6 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group col-md-4" style="margin-top: 115px;">
-							<div class="profile1">
-								<div class="photo1"><img src="/dist/img/ComercialAgente.png" /></div>
-								<div class="content1">
-									<div class="text1"
-										style="font-family: Raleway, Microsoft JhengHei, Arial, sans-serif;">
-										<h3 style="font-size: 20px;">Agente de venta</h3>
-										<h6 style="font-size: 12px;">Comercial</h6>
-									</div>
-									<div class="btn2"><span></span></div>
-								</div>
-								<div class="box2">
-									<a class="text-altima" th:href="${'/agenda-agente'}" data-toggle="tooltip" data-placement="top" title="Agenda"><i class="fas fa-calendar-alt"></i></a>
-									<a class="text-altima" th:href="${'/clientes'}" data-toggle="tooltip" data-placement="top" title="Clientes"><i class="fas fa-address-book"></i></a>
-									<a class="text-altima" th:href="${'/seguimientos'}" data-toggle="tooltip" data-placement="top" title="Seguimientos"><i class="fas fa-search"></i></a>
-									<a class="text-altima" th:href="${'/carga-de-pedidos'}" data-toggle="tooltip" data-placement="top" title="Carga de pedidos"><i class="fas fa-luggage-cart"></i></a>
-									<a class="text-altima" th:href="${'/apartado-de-telas'}" data-toggle="tooltip" data-placement="top" title="Apartado de telas"><i class="flaticon4-curling-hair-with-tissue-roll"></i></a>
-									<a class="text-altima" th:href="${'/movimientos-agentes'}" data-toggle="tooltip" data-placement="top" title="Movimientos"><i class="fas fa-exchange-alt"></i></a>
-									<a class="text-altima" th:href="${'/bordados'}" data-toggle="tooltip" data-placement="top" title="Bordados"><i class="flaticon4-needle-with-thread-to-sew-clothes"></i></a>
-									<a class="text-altima" th:href="${'/catalogos-prendas-agentes'}" data-toggle="tooltip" data-placement="top" title="Cat&aacute;logos de prendas"><i class="flaticon4-lace-dress-with-white-belt"></i></a>
-									<a class="text-altima" th:href="${'/catalogos-materiales-agentes'}" data-toggle="tooltip" data-placement="top" title="Cat&aacute;logos de materiales"><i class="flaticon4-thread-spool-1"></i></a>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</section>
@@ -212,12 +188,6 @@
 			$('.btn1').click(function () {
 				$(this).toggleClass('active');
 				return $('.box1').toggleClass('open1');
-			});
-		}).call(this);
-		(function () {
-			$('.btn2').click(function () {
-				$(this).toggleClass('active');
-				return $('.box2').toggleClass('open2');
 			});
 		}).call(this);
 	</script>

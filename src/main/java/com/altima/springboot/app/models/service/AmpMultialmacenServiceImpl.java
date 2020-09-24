@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.dto.ArticulosMultialmacenDto;
+import com.altima.springboot.app.dto.EntradasSalidasDTO;
 import com.altima.springboot.app.models.entity.AmpAlmacenLogico;
 import com.altima.springboot.app.models.entity.AmpMultialmacen;
 import com.altima.springboot.app.repository.AmpMultialmacenRepository;
@@ -78,6 +79,14 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 	public List<ArticulosMultialmacenDto> findArticulosByMultialmacen(Long idAlmacenLogico) {
 		// TODO Auto-generated method stub
 		return em.createNativeQuery("call alt_pr_articulos_multialmacen("+idAlmacenLogico+")",ArticulosMultialmacenDto.class).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<EntradasSalidasDTO> findAllMovimientos() {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("call alt_pr_movimientos_amp()",EntradasSalidasDTO.class).getResultList();
 	}
 
 

@@ -59,78 +59,13 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td></td>
-												<td>15/06/20 14:00</td>
-												<td>Salida</td>
-												<td>Salida a corte</td>
-												<td>Apartados</td>
-												<td>PED0048</td>
-												<td class="text-center">
-													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
-													<button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-													<button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-												</td>
-											</tr>
-											<tr>
-												<td></td>
-												<td>11/06/20 11:00</td>
-												<td>Entrada</td>
-												<td>Entr. por inventario fisico</td>
-												<td>Almacen de paso</td>
-												<td>REQ0123</td>
-												<td class="text-center">
-													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
-													<button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-													<button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-												</td>
-											</tr>
-											<tr>
-												<td></td>
-												<td>07/06/20 13:00</td>
-												<td>Entrada</td>
-												<td>Entr. por inventario fisico</td>
-												<td>Almacen de paso</td>
-												<td>Stock</td>
-												<td class="text-center">
-													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
-													<button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-													<button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-												</td>
-											</tr>
-											<tr>
-												<td></td>
-												<td>12/06/20 16:00</td>
-												<td>Entrada</td>
-												<td>Entrada x inventario fisico</td>
-												<td>Almacen de paso</td>
-												<td>REQ125</td>
-												<td class="text-center">
-													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
-													<button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-													<button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-												</td>
-											</tr>
-											<tr>
-												<td></td>
-												<td>12/06/21 13:00</td>
-												<td>Entrada</td>
-												<td>Entrada x inventario fisico</td>
-												<td>Almacen de paso</td>
-												<td>Stock</td>
-												<td class="text-center">
-													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
-													<button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-													<button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-												</td>
-											</tr>
-											<tr>
-												<td></td>
-												<td>12/06/22 12:00</td>
-												<td>Entrada</td>
-												<td>Entrada x inventario fisico</td>
-												<td>Almacen de paso</td>
-												<td>REQ789</td>
+											<tr th:each="movimiento : ${movimientos}">
+												<td th:text="${movimiento.idText}"></td>
+												<td th:text="${movimiento.fechaDocumento}">15/06/20 14:00</td>
+												<td th:text="${movimiento.movimiento}">Salida</td>
+												<td th:text="${movimiento.concepto}">Salida a corte</td>
+												<td th:text="${movimiento.nombreAlmacenLogico}">Apartados</td>
+												<td th:text="${movimiento.referencias}">PED0048</td>
 												<td class="text-center">
 													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
 													<button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
