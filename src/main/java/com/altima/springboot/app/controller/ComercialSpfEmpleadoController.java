@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.altima.springboot.app.models.entity.ComercialCoordinado;
+import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
 import com.altima.springboot.app.models.entity.ComercialSpfEmpleado;
+import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialSpfEmpleadoService;
 
 @CrossOrigin(origins = { "*" })
@@ -27,6 +31,9 @@ public class ComercialSpfEmpleadoController {
 	
 	@Autowired
 	private IComercialSpfEmpleadoService SPFService;
+	
+	@Autowired
+	private IComercialCoordinadoService CoordinadoService;
 
 	@GetMapping("/empleados-spf/{id}")
 	public String ListaEmpleadosSPF(@PathVariable(value = "id") Long id,Model model){
@@ -124,6 +131,38 @@ public class ComercialSpfEmpleadoController {
 			
 			
 	    	return"cambio-modelo-falda";
+		}
+		
+		@GetMapping("/agregar-falda-spf/{id}")
+		public String addCoordinados(@PathVariable(value = "id") Long id,Map<String, Object> model) {
+			ComercialCoordinado res = null;
+			Integer contador = CoordinadoService.ContadorCoordinadoCliente(id);
+			if ( contador ==0) {
+				ComercialCoordinado coor = new ComercialCoordinado () ;
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				Date date = new Date();
+				DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				coor.setEstatus("1");
+				coor.setIdPedido(id);
+				coor.setNumeroCoordinado(String.valueOf((contador + 1)));
+				coor.setCreadoPor(auth.getName());
+				coor.setFechaCreacion(hourdateFormat.format(date));
+				coor.setUltimaFechaModificacion(hourdateFormat.format(date));
+				coor.setIdText("COORSPF" + ((contador + 1) + 100));
+				CoordinadoService.save(coor);
+			}
+			
+			else {
+				 res =CoordinadoService.findOneCoorSPF(id);
+				
+			}
+			ComercialCoordinadoPrenda prenda = new ComercialCoordinadoPrenda();
+			prenda.setIdCoordinado(res.getIdCoordinado());
+			model.put("prenda", prenda);
+			model.put("listPrendas", CoordinadoService.findAllPrenda("Falda"));
+			model.put("listCoorPrenda", CoordinadoService.findAllCoorPrenda(res.getIdCoordinado()));
+
+			return "agregar-coordinado";
 		}
 		
 }
