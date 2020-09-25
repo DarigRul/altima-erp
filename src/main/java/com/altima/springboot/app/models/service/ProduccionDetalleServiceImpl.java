@@ -193,15 +193,31 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Transactional
 	public List<ProduccionDetallePedido> tabla(Long Id) {
 
-		return em.createNativeQuery("SELECT\r\n" + "    lk.nombre_lookup AS Famili,\r\n"
-				+ "    p.detalle_prenda AS Modelo,\r\n" + "    t.nombre_tela AS tela,\r\n" + "    dp.descripcion,\r\n"
-				+ "    dp.largo,\r\n" + "    dp.talla,\r\n" + "    dp.id_detalle_pedido,\r\n" + "    COUNT(*),\r\n"
-				+ "    p.id_prenda,\r\n" + "    p.id_text_prospecto\r\n" + "FROM\r\n"
-				+ "    alt_produccion_detalle_pedido dp\r\n" + "INNER JOIN alt_disenio_prenda p ON\r\n"
-				+ "    dp.id_prenda = p.id_prenda\r\n" + "INNER JOIN alt_disenio_lookup lk ON\r\n"
-				+ "    p.id_familia_prenda = lk.id_lookup\r\n" + "INNER JOIN alt_disenio_tela t ON\r\n"
-				+ "    dp.id_tela = t.id_tela\r\n" + "WHERE\r\n" + "    dp.id_pedido =" + Id + "\r\n" + "GROUP BY\r\n"
-				+ "    p.id_prenda,\r\n" + "    dp.talla,\r\n" + "    dp.largo,\r\n" + "    t.id_tela;")
+		
+		return em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	lk.nombre_lookup AS Famili,\n" + 
+				"	p.descripcion_prenda AS Modelo,\n" + 
+				"	t.nombre_tela AS tela,\n" + 
+				"	dp.descripcion,\n" + 
+				"	dp.largo,\n" + 
+				"	dp.talla,\n" + 
+				"	dp.id_detalle_pedido,\n" + 
+				"	COUNT(*),\n" + 
+				"	p.id_prenda,\n" + 
+				"	p.id_text_prospecto \n" + 
+				"FROM\n" + 
+				"	alt_produccion_detalle_pedido dp\n" + 
+				"	INNER JOIN alt_disenio_prenda p ON dp.id_prenda = p.id_prenda\n" + 
+				"	INNER JOIN alt_disenio_lookup lk ON p.id_familia_prenda = lk.id_lookup\n" + 
+				"	INNER JOIN alt_disenio_tela t ON dp.id_tela = t.id_tela \n" + 
+				"WHERE\n" + 
+				"	dp.id_pedido = "+Id+" \n" + 
+				"GROUP BY\n" + 
+				"	p.id_prenda,\n" + 
+				"	dp.talla,\n" + 
+				"	dp.largo,\n" + 
+				"	t.id_tela;")
 				.getResultList();
 	}
 

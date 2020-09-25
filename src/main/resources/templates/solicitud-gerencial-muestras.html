@@ -67,15 +67,50 @@
 										    </select>
 										</div>
 										
+										<div class='card col-md-6' style="display: none" id ="contenedor-frente" >
+                                       <div class='image-upload'>
+                                          <label for='file-input'> <img  id="img1"
+                                             class='card-img-top' 
+                                             onerror="/dist/img/preview.png"
+                                             >
+                                          </label>
+                                       </div>
+                                       <div class='card-body'>
+                                          <p id="text-img1" class='card-text'></p>
+                                       </div>
+                                    </div>
+                                    <div class='card col-md-6' style="display: none" id ="contenedor-espalda">
+                                       <div class='image-upload'>
+                                          <label for='file-input'> <img  id="img2"
+                                             class='card-img-top' 
+                                             onerror="/dist/img/preview.png">
+                                          </label>
+                                       </div>
+                                       <div class='card-body'>
+                                          <p id="text-img2" class='card-text'></p>
+                                       </div>
+                                    </div>
+										
 										<div class="col-md-12 row   justify-content-center" id="elimnar333">
 										
 										</div>
-										<div class="form-group col-md-4">
+										<div class="form-group col-md-6">
 										   <label for="coorTela">Tela</label> 
 										   <select class="form-control selectpicker coorTela" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="coorTela" >
 										     </select>
 										</div>
 										
+										 <div class='card col-md-6' style="display: none" id ="contenedor-tela">
+                                       <div class='image-upload'>
+                                          <label for='file-input'> <img  id="img3"
+                                             class='card-img-top' 
+                                             onerror="/dist/img/preview.png">
+                                          </label>
+                                       </div>
+                                       <div class='card-body'>
+                                          <p class='card-text'>TELA</p>
+                                       </div>
+                                    </div>
 										
 										
 										 <input type="hidden"  id="pedido" name="pedido"  th:field="${objetoDetalle.idPedido}" >
@@ -85,11 +120,11 @@
 										
 										
 										
-										<div class="form-group col-sm-4">
+										<div class="form-group col-sm-6">
                                             <label for="coorNumero">Talla</label> 
                                             <input type="number" class="form-control" id="coortalla" placeholder="1"  value="1" name="coortalla" >
                                         </div>
-                                        <div class="form-group col-sm-4">
+                                        <div class="form-group col-sm-6">
                                             <label for="coorNumero">Largo</label> 
                                             <input type="text" class="form-control" id="coorlargo" placeholder="1" value="1"  name="coorlargo" >
                                         </div>
@@ -215,7 +250,16 @@
 		    
 		    
 		    $("#coorPrenda").change(function(){
-		        // Guardamos el select dependientes
+		    	
+		    	document.getElementById("contenedor-espalda").style.display = "none";
+		    	
+		    	document.getElementById("contenedor-frente").style.display = "none";
+		    	
+		    	document.getElementById("contenedor-tela").style.display = "none";
+		    	
+		    	$("#elimnar").empty();
+		    	
+		    	$("#elimnar333").empty();
 		        var modelo = $("#coorModelo");
 		        var tela = $("#coorTela");
 
@@ -317,7 +361,7 @@
 		     console.log("idsss    " +  valordetela)
 		     console.log("idsss   "+prenda)
 		        
-		         $.ajax({
+		        /* $.ajax({
                 data: { idtela : valordetela,
                 idprenda :prenda	},
                 url:   '/validacion-compocision-tela',
@@ -361,7 +405,7 @@
                     alert('Ocurrio un error en el servidor ..');
                     prenda.prop('disabled', false);
                 }
-            });
+            });*/
 		     
 		        
 		    	
@@ -522,14 +566,22 @@
                     $(r).each(function(i, v){
                     	console.log("RORTULUS="+i)
 
-                    	$("#elimnar22").append('<div class="form-group col-sm-3">'+
-								   '<label for="coorAdorno">'+v[1]+'</label>'+
-								   '<select   name="'+v[0]+'"  id="material_'+i+'"  class="form-control selectCustom '+v[0]+'"  data-live-search="true" required>'+
-								  
-								      
-								    '</select>'+
-								'</div>');
+  
                     	
+                    	
+                    	$("#elimnar22").append('<div class="form-group col-sm-3">'+
+ 							   '<label for="coorAdorno">'+v[1]+'</label>'+
+ 							   '<select  onchange="imagenTelasConv(this.value,'+v[0]+')"  title="Seleccione una.." name="'+v[0]+'"  id="material_'+i+'"  class="form-control selectCustom '+v[0]+'"  data-live-search="true" required>'+
+ 							  
+ 							      
+ 							    '</select>'+
+ 							    
+ 							    '<div class="image-upload">'+
+ 							    '<label for="file-input">'+
+ 							    '<img  id="img-tela-convi-'+v[0]+'" name="img-tela-convi-'+v[0]+'" class="card-img-top" src="/dist/img/preview.png">'+
+ 							    '</label>'+
+                  '</div>'+
+ 							'</div>');
                     	
                     	
                         $.ajax({
@@ -610,6 +662,45 @@
 
   if($(this).val() != '')
   {
+	  $.ajax({
+          url : "/mostrar-ruta-imagen-tela",
+          type : "GET",
+          data: { id : $(this).val()},
+          success: function(data){
+          	
+          	document.getElementById("contenedor-tela").style.display = "block";
+     		
+          	document.getElementById("img3").style.maxWidth = "18rem";
+          	document.getElementById("img3").style.maxHeight = "18rem";
+     		 document.getElementById("img3").src ="/dist/img/preview.png";
+     		
+     		 if ( data != null && data != '' && data.length >1){
+     			
+     			$.ajax({
+      			    url:"https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/"+data,
+      			    type:'HEAD',
+      			    error: function()
+      			    {
+      			        //file not exists
+      			    	document.getElementById("img3").src ="/dist/img/preview.png";
+      			    	
+      			    	
+      			    },
+      			    success: function()
+      			    {
+      			        //file exists
+      			    	document.getElementById("img3").src="https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/"+data;
+      			    }
+      			});
+     		 }	
+          	
+         	 
+          },
+          error : function(xhr,errmsg,err) {
+            console.log(xhr.status + ": " + xhr.responseText);
+          }
+        });
+	  
       $.ajax({
           data: { id : $('#coorModelo').val() },
           url:   '/mostrar-materiales-prenda-extra2',
@@ -700,13 +791,103 @@
 
 
   $("#coorModelo").change(function(){
-		    	console.log("id tela"+$(this).val())
-       
-		    	$("#elimnar333").empty()
-		    	
-		    	
-		    
-		    	
+	  
+
+  	
+  	
+  	$("#elimnar").empty();
+  	$("#elimnar22").empty();
+  	$("#elimnar222").empty();
+  	
+  	$(".coorTela").val(null);
+	    $(".coorTela").selectpicker("refresh");
+	    document.getElementById("contenedor-tela").style.display = "none";
+  	
+  	
+  	 $.ajax({
+           url : "/mostrar-ruta-imagen",
+           type : "GET",
+           data: { id : $('#coorModelo').val(), tipo:'Frente' , tipo2:'Delantero'},
+           success: function(data){
+          	 
+          		 document.getElementById("contenedor-frente").style.display = "block";
+          		 document.getElementById("img1").style.maxWidth = "18rem";
+          		 document.getElementById("img1").style.maxHeight = "18rem";
+          		 document.getElementById("img1").src ="/dist/img/preview.png";
+          		 
+          		 console.log(data);
+          		 if ( data[0][0] != null && data[0][0] != '' && data[0][0].length >1){
+          			
+          			$.ajax({
+           			    url:"https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/prendas/"+data[0][0],
+           			    type:'HEAD',
+           			    error: function()
+           			    {
+           			        //file not exists
+           			    	document.getElementById("img1").src ="/dist/img/preview.png";
+           			    	$("#text-img1").text("Sin imagen");
+           			    },
+           			    success: function()
+           			    {
+           			        //file exists
+           			    	
+           			    	
+           			    	document.getElementById("img1").src="https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/prendas/"+data[0][0];
+           			    	
+           			    	$("#text-img1").text(data[0][1]);
+           			    	
+           			    	
+           			    }
+           			});
+          		 	} 
+           },
+           error : function(xhr,errmsg,err) {
+             console.log(xhr.status + ": " + xhr.responseText);
+           }
+         });
+  	 
+  	 $.ajax({
+           url : "/mostrar-ruta-imagen",
+           type : "GET",
+           data: { id : $('#coorModelo').val(), tipo:'Espalda' ,tipo2:'Trasero'},
+           success: function(data){
+          	
+          	 document.getElementById("contenedor-espalda").style.display = "block";
+      		 document.getElementById("img2").style.maxWidth = "18rem";
+      		 document.getElementById("img2").style.maxHeight = "18rem";
+      		 
+      		 document.getElementById("img2").src ="/dist/img/preview.png";
+      		
+      		 if ( data[0][0] != null && data[0][0] != '' && data[0][0].length >1){
+      			
+      			$.ajax({
+       			    url:"https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/prendas/"+data[0][0],
+       			    type:'HEAD',
+       			    error: function()
+       			    {
+       			        //file not exists
+       			    	document.getElementById("img2").src ="/dist/img/preview.png";
+       			    	$("#text-img2").text("Sin imagen");
+       			    },
+       			    success: function()
+       			    {
+       			        //file exists
+       			    	document.getElementById("img2").src="https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/prendas/	"+data[0][0];
+       			    	$("#text-img2").text(data[0][1]);
+       			    }
+       			});
+      		 }
+          	 
+          	 
+          	 
+          	 
+           },
+           error : function(xhr,errmsg,err) {
+             console.log(xhr.status + ": " + xhr.responseText);
+           }
+         });
+  	$("#elimnar333").empty()
+  	
 
         if($(this).val() != '')
         {
@@ -735,7 +916,7 @@
 
                     	$("#elimnar333").append('<div class="form-group col-sm-3">'+
  							   '<label id="label_'+i+'" for="coorAdorno">'+v[1]+'</label>'+
- 							   '<select onchange="selected('+i+');"  id="select'+i+'" value="'+v[0]+'" class="form-control selectpicker '+v[2]+'"  data-live-search="true" title="Seleciona uno..." data-live-search-normalize="true" required>'+
+ 							   '<select onchange="selected('+i+');"  id="select'+i+'" value="'+v[0]+'" class="form-control selectpicker '+v[2]+'"  data-live-search="true"  data-live-search-normalize="true" required>'+
  							  
  							      
  							    '</select>'+
@@ -873,7 +1054,7 @@ function selected(id){
 			 
 			 if ( $(dato).val() == null || $(dato).val() == ""  ){
 				 alert("Hello! I am an alert box!!");
-				 return;
+				 return 0;
 			 }
 			 else{
 			 datosMateriales.push({'id_material':$(dato).attr('name'), 'color':$(dato).val()});
@@ -890,7 +1071,7 @@ function selected(id){
 	    			 
 	    			 if ( $(dato1).val() == null || $(dato1).val() == ""  ){
 	    				 alert("Hello! I am an alert box!!");
-	    				 return;
+	    				 return 0;
 	    			 }
 	    			 else{
 	    			 datosMateriales22.push({'id_tela':$(dato1).val()});
@@ -910,7 +1091,7 @@ function selected(id){
 	    			 
 	    			 if ( $(dat).val() == null || $(dat).val() == ""  ){
 	    				 alert("Hello! I am an alert box!!");
-	    				 return;
+	    				 return 0;
 	    			 }
 	    			 else{
 	    				 datosMateriales222.push({'id_forro':$(dat).val()});
@@ -1161,7 +1342,44 @@ function selected(id){
 	 
 	 
 	 
-	
+	 
+	 function imagenTelasConv(idTela, idSelect){
+		 
+		 console.log("holaa soy idTela "+idTela);
+		 console.log("holaa soy Select "+idSelect);
+		 $.ajax({
+	         url : "/mostrar-ruta-imagen-tela",
+	         type : "GET",
+	         data: { id : idTela},
+	         success: function(data){
+	  
+	    		 if ( data != null && data != '' && data.length >1){
+	    			
+	    			$.ajax({
+	     			    url:"https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/"+data,
+	     			    type:'HEAD',
+	     			    error: function()
+	     			    {
+	     			        //file not exists
+	     			    	document.getElementById("img-tela-convi-"+idSelect).src ="/dist/img/preview.png";
+	     			    	
+	     			    	
+	     			    },
+	     			    success: function()
+	     			    {
+	     			        //file exists
+	     			    	document.getElementById("img-tela-convi-"+idSelect).src="https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/"+data;
+	     			    }
+	     			});
+	    		 }	
+	         	
+	        	 
+	         },
+	         error : function(xhr,errmsg,err) {
+	           console.log(xhr.status + ": " + xhr.responseText);
+	         }
+	       });
+	 }
 
 	 
 	
