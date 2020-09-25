@@ -1031,8 +1031,14 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				// esta es la grande
 				PdfPTable tablesplit = new PdfPTable(1);
 				PdfPTable tableFirmas = new PdfPTable(1);
+				PdfPTable tablesplit2 = new PdfPTable(1);
 				PdfPCell observaciones = new PdfPCell();
-				
+				PdfPCell tituloTablaFirmas = new PdfPCell(new Phrase("CONDICIONES:", HelveticaBold));
+		    	tituloTablaFirmas.setHorizontalAlignment(Element.ALIGN_LEFT);
+				tituloTablaFirmas.setVerticalAlignment(Element.ALIGN_CENTER);
+				tituloTablaFirmas.setBorder(0);
+				tituloTablaFirmas.setPaddingTop(18f);
+				tablesplit2.addCell(tituloTablaFirmas);
 		    	try {
 		    		observaciones = new PdfPCell(new Phrase(model.get("Observaciones").toString(), Helvetica));
 		    	}
@@ -1043,16 +1049,10 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	observaciones.setBorder(0);
 		    	observaciones.setPaddingTop(10f);
 		    	observaciones.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
-		    	tableFirmas.addCell(observaciones);
-		    	
+		    	tablesplit2.addCell(observaciones);
+		    	tablesplit2.setWidthPercentage(100);
 		    	PdfPTable tablaFooter1 = new PdfPTable(1);
-		    	tablaFooter1.setWidthPercentage(100);
-		    	PdfPCell tituloTablaFirmas = new PdfPCell(new Phrase("CONDICIONES", HelveticaBold));
-		    	tituloTablaFirmas.setHorizontalAlignment(Element.ALIGN_LEFT);
-				tituloTablaFirmas.setVerticalAlignment(Element.ALIGN_CENTER);
-				tituloTablaFirmas.setBorder(0);
-				tituloTablaFirmas.setPaddingTop(18f);
-		    	tablaFooter1.addCell(tituloTablaFirmas);
+		    	
 		    	tablaFooter1.setWidthPercentage(100);
 		    	PdfPCell leyenda2 = new PdfPCell(new Phrase("* Estos precios son más I.V.A.", letraCondiciones));
 		    	PdfPCell leyenda3 = new PdfPCell(new Phrase("* El pago será de 45% días hábiles para un máximo de 50 personas y de 60 días hábiles para un número mayor; a partir del anticipo, toma de tallas, modelos y colores autorizados por uds.", letraCondiciones));
@@ -1068,6 +1068,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	leyenda6.setBorder(0);
 		    	leyenda7.setBorder(0);
 		    	leyenda2.setPadding(1.5f);
+		    	leyenda2.setPaddingTop(20f);
 		    	leyenda3.setPadding(1.5f);
 		    	leyenda4.setPadding(1.5f);
 		    	leyenda5.setPadding(1.5f);
@@ -1175,6 +1176,9 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				
 				cellsplit = new PdfPCell(tablesplit);
 				cellsplit.setBorder(PdfPCell.NO_BORDER);
+				PdfPCell cellsplit2 = new PdfPCell(tablesplit2);
+				cellsplit2.setBorder(PdfPCell.NO_BORDER);
+				tableFirmas.addCell(cellsplit2);
 				tableFirmas.addCell(cellsplit);
 				tableFirmas.setWidthPercentage(100);
 		    	
