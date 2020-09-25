@@ -423,7 +423,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				Total += Float.valueOf(aux[19].toString());
 				PdfPCell nombrePrenda = new PdfPCell(new Phrase(aux[2].toString(), Helvetica));
 				PdfPCell nombreTela = new PdfPCell(new Phrase(aux[7].toString(), Helvetica));
-				PdfPCell precioPrenda = new PdfPCell(new Phrase(aux[17].toString(), HelveticaBold));
+				PdfPCell precioPrenda = new PdfPCell(new Phrase(aux[17].toString()+"0", HelveticaBold));
 //				nombrePrenda.setPadding(3f);
 //				precioPrenda.setPadding(3f);
 				vacio.setBorderColorBottom(borderTable);
@@ -455,7 +455,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			if(totales) {
 				
 				PdfPCell totalTitulo = new PdfPCell(new Phrase("Total", HelveticaBold));
-				PdfPCell totalNumero = new PdfPCell(new Phrase("" + Total, HelveticaBold));
+				PdfPCell totalNumero = new PdfPCell(new Phrase("" + Total+"0", HelveticaBold));
 //				totalTitulo.setPadding(3f);
 //				totalNumero.setPadding(3f);
 				vacio.setBorder(0);
@@ -478,13 +478,15 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		//Si pasa aqui es porque es una desglosada por tipo de prenda xd
 		else if(tipoCotizacion.equalsIgnoreCase("2")) {
 			//Se declara la tabla
-			tablaPrendas = new PdfPTable(7);
+			tablaPrendas = new PdfPTable(1);
 			tablaPrendas.setWidthPercentage(100);
-			tablaPrendas.setWidths(new float[] { 2.8f, 4f, 3f, 3f, 5f, 2.2f, 2.5f });
+			
 			PdfPCell vacia = new PdfPCell(new Phrase(" "));
 			vacia.setBorder(0);
 			vacia.setPadding(3f);
-			
+			PdfPTable bloques = new PdfPTable(7);
+			bloques.setWidths(new float[] { 2.8f, 4f, 3f, 3f, 5f, 2.2f, 2.5f });
+			bloques.setWidthPercentage(100);
 			float Subtotal = 0;
 			float IVA = 0;
 			float Total = 0;
@@ -497,7 +499,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				if(contadorCoord==Integer.parseInt(aux[9].toString())) {
 					if(SubtotalporCoord!=0) {
 						PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
-						PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord, HelveticaBold));
+						PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord+"0", HelveticaBold));
 						cuerpoCoord.setBorderColorBottom(borderTable);
 						cuerpoCoord.setBorderWidthBottom(2);
 						cuerpoCoord.setBorder(Rectangle.BOTTOM);
@@ -509,15 +511,23 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 						TotalLetra.setBorder(Rectangle.BOTTOM);
 						TotalLetra.setBorderColorBottom(borderTable);
 						TotalLetra.setBorderWidthBottom(2);
-						tablaPrendas.addCell(vacia);
-						tablaPrendas.addCell(vacia);
-						tablaPrendas.addCell(vacia);
-						tablaPrendas.addCell(vacia);
-						tablaPrendas.addCell(vacia);
-						tablaPrendas.addCell(TotalLetra);
-						tablaPrendas.addCell(cuerpoCoord);
+						bloques.addCell(vacia);
+						bloques.addCell(vacia);
+						bloques.addCell(vacia);
+						bloques.addCell(vacia);
+						bloques.addCell(vacia);
+						bloques.addCell(TotalLetra);
+						bloques.addCell(cuerpoCoord);
 						SubtotalporCoord=0;
+						
+						PdfPCell cuerpoBloque = new PdfPCell(bloques);
+						cuerpoBloque.setBorder(0);
+						tablaPrendas.addCell(cuerpoBloque);
 					}
+					
+					bloques = new PdfPTable(7);
+					bloques.setWidths(new float[] { 2.8f, 4f, 3f, 3f, 5f, 2.2f, 2.5f });
+					bloques.setWidthPercentage(100);
 					
 					PdfPCell cuerpoCoord = new PdfPCell(new Phrase("Coordinado " + aux[9].toString(), HelveticaBold));
 					PdfPCell vacio = new PdfPCell();
@@ -527,13 +537,13 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 					vacio.setBorder(0);
 					vacio.setPaddingBottom(10f);
 					vacio.setPaddingTop(8f);
-					tablaPrendas.addCell(cuerpoCoord);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
+					bloques.addCell(cuerpoCoord);
+					bloques.addCell(vacio);
+					bloques.addCell(vacio);
+					bloques.addCell(vacio);
+					bloques.addCell(vacio);
+					bloques.addCell(vacio);
+					bloques.addCell(vacio);
 					
 					PdfPCell Cabezero1 = new PdfPCell(new Phrase("Cantidad", subtitulos));
 					PdfPCell Cabezero2 = new PdfPCell(new Phrase("Modelo", subtitulos));
@@ -584,13 +594,13 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 					Cabezero7.setVerticalAlignment(Element.ALIGN_CENTER);
 					Cabezero7.setBorderWidthBottom(2f);
 					Cabezero7.setBorderColor(borderGray);
-					tablaPrendas.addCell(Cabezero1);
-					tablaPrendas.addCell(Cabezero2);
-					tablaPrendas.addCell(Cabezero3);
-					tablaPrendas.addCell(Cabezero4);
-					tablaPrendas.addCell(Cabezero5);
-					tablaPrendas.addCell(Cabezero6);
-					tablaPrendas.addCell(Cabezero7);
+					bloques.addCell(Cabezero1);
+					bloques.addCell(Cabezero2);
+					bloques.addCell(Cabezero3);
+					bloques.addCell(Cabezero4);
+					bloques.addCell(Cabezero5);
+					bloques.addCell(Cabezero6);
+					bloques.addCell(Cabezero7);
 					
 					contadorCoord++;
 					
@@ -613,8 +623,8 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 					cuerpo4 = new PdfPCell(new Phrase("Por definir", Helvetica));
 					cuerpo5 = new PdfPCell(new Phrase(aux[7].toString(), Helvetica));
 				}
-				PdfPCell cuerpo6 = new PdfPCell(new Phrase("$" + aux[26].toString(), Helvetica));
-				PdfPCell cuerpo7 = new PdfPCell(new Phrase("$" + aux[27].toString(), HelveticaBold));
+				PdfPCell cuerpo6 = new PdfPCell(new Phrase("$" + aux[26].toString()+"0", Helvetica));
+				PdfPCell cuerpo7 = new PdfPCell(new Phrase("$" + aux[27].toString()+"0", HelveticaBold));
 				cuerpo1.setBorderColorBottom(borderTable);
 				cuerpo1.setBorderWidthBottom(2);
 				cuerpo1.setBorder(Rectangle.BOTTOM);
@@ -650,13 +660,13 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				cuerpo7.setBorder(Rectangle.BOTTOM);
 				cuerpo7.setPaddingBottom(10f);
 				cuerpo7.setPaddingTop(8f);
-				tablaPrendas.addCell(cuerpo1);
-				tablaPrendas.addCell(cuerpo2);
-				tablaPrendas.addCell(cuerpo3);
-				tablaPrendas.addCell(cuerpo4);
-				tablaPrendas.addCell(cuerpo5);
-				tablaPrendas.addCell(cuerpo6);
-				tablaPrendas.addCell(cuerpo7);
+				bloques.addCell(cuerpo1);
+				bloques.addCell(cuerpo2);
+				bloques.addCell(cuerpo3);
+				bloques.addCell(cuerpo4);
+				bloques.addCell(cuerpo5);
+				bloques.addCell(cuerpo6);
+				bloques.addCell(cuerpo7);
 				
 			}
 			descuentoCargo = Float.parseFloat(cotitotal.getDescuentoMonto());
@@ -668,14 +678,14 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				
 			
 				PdfPCell subTotalLetra = new PdfPCell(new Phrase("Subtotal:", subtitulos));
-				PdfPCell subTotalNumero = new PdfPCell(new Phrase("$" + Subtotal, HelveticaBold));
+				PdfPCell subTotalNumero = new PdfPCell(new Phrase("$" + Subtotal+"0", HelveticaBold));
 				PdfPCell descuentoLetra = new PdfPCell(new Phrase("Descuento/ Cargo", subtitulos));
-				PdfPCell descuentoNumero = new PdfPCell(new Phrase("$" + descuentoCargo, HelveticaBold));
+				PdfPCell descuentoNumero = new PdfPCell(new Phrase("$" + descuentoCargo+"0", HelveticaBold));
 				PdfPCell ivaLetra = new PdfPCell(new Phrase("I.V.A: ", subtitulos));
-				PdfPCell ivaNumero = new PdfPCell(new Phrase("$" + IVA, HelveticaBold));
+				PdfPCell ivaNumero = new PdfPCell(new Phrase("$" + IVA+"0", HelveticaBold));
 				PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
-				PdfPCell TotalNumero = new PdfPCell(new Phrase("$" + Total, HelveticaBold));
-				PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord, HelveticaBold));
+				PdfPCell TotalNumero = new PdfPCell(new Phrase("$" + Total+"0", HelveticaBold));
+				PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord+"0", HelveticaBold));
 				cuerpoCoord.setBorderColorBottom(borderTable);
 				cuerpoCoord.setBorderWidthBottom(2);
 				cuerpoCoord.setBorder(Rectangle.BOTTOM);
@@ -727,61 +737,69 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				TotalNumero.setPaddingBottom(10f);
 				TotalNumero.setPaddingTop(8f);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
 				TotalLetra.setBorderColorBottom(borderTable);
-				tablaPrendas.addCell(TotalLetra);
-				tablaPrendas.addCell(cuerpoCoord);
+				bloques.addCell(TotalLetra);
+				bloques.addCell(cuerpoCoord);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(subTotalLetra);
-				tablaPrendas.addCell(subTotalNumero);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(subTotalLetra);
+				bloques.addCell(subTotalNumero);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(descuentoLetra);
-				tablaPrendas.addCell(descuentoNumero);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(descuentoLetra);
+				bloques.addCell(descuentoNumero);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(ivaLetra);
-				tablaPrendas.addCell(ivaNumero);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(ivaLetra);
+				bloques.addCell(ivaNumero);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
 				TotalLetra.setBorderColorBottom(borderGray);
-				tablaPrendas.addCell(TotalLetra);
-				tablaPrendas.addCell(TotalNumero);
-			}	
+				bloques.addCell(TotalLetra);
+				bloques.addCell(TotalNumero);
+				
+				
+			}
+			PdfPCell cuerpoBloque = new PdfPCell(bloques);
+			cuerpoBloque.setBorder(0);
+			tablaPrendas.addCell(cuerpoBloque);
 		}
 		else {
-			tablaPrendas = new PdfPTable(5);
+			tablaPrendas = new PdfPTable(1);
 			tablaPrendas.setWidthPercentage(100);
-			tablaPrendas.setWidths(new float[] { 2.8f, 5f, 6f, 2.2f, 2.5f });
+			
+			PdfPTable bloques = new PdfPTable(5);
+			bloques.setWidths(new float[] { 2.8f, 5f, 6f, 2.2f, 2.5f });
+			bloques.setWidthPercentage(100);
 			PdfPCell vacia = new PdfPCell(new Phrase(" "));
 			vacia.setBorder(0);
 			vacia.setPadding(3f);
@@ -798,7 +816,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				if(contadorCoord==Integer.parseInt(aux[9].toString())) {
 					if(SubtotalporCoord!=0) {
 						PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
-						PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord, HelveticaBold));
+						PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord+"0", HelveticaBold));
 						cuerpoCoord.setBorderColorBottom(borderTable);
 						cuerpoCoord.setBorderWidthBottom(2);
 						cuerpoCoord.setBorder(Rectangle.BOTTOM);
@@ -810,13 +828,21 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 						TotalLetra.setBorder(Rectangle.BOTTOM);
 						TotalLetra.setBorderColorBottom(borderTable);
 						TotalLetra.setBorderWidthBottom(2);
-						tablaPrendas.addCell(vacia);
-						tablaPrendas.addCell(vacia);
-						tablaPrendas.addCell(vacia);
-						tablaPrendas.addCell(TotalLetra);
-						tablaPrendas.addCell(cuerpoCoord);
+						bloques.addCell(vacia);
+						bloques.addCell(vacia);
+						bloques.addCell(vacia);
+						bloques.addCell(TotalLetra);
+						bloques.addCell(cuerpoCoord);
 						SubtotalporCoord=0;
+						
+						PdfPCell cuerpoBloque = new PdfPCell(bloques);
+						cuerpoBloque.setBorder(0);
+						tablaPrendas.addCell(cuerpoBloque);
 					}
+					
+					bloques = new PdfPTable(5);
+					bloques.setWidths(new float[] { 2.8f, 5f, 6f, 2.2f, 2.5f });
+					bloques.setWidthPercentage(100);
 					
 					PdfPCell cuerpoCoord = new PdfPCell(new Phrase("Coordinado " + aux[9].toString(), HelveticaBold));
 					PdfPCell vacio = new PdfPCell();
@@ -826,11 +852,11 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 					vacio.setBorder(0);
 					vacio.setPaddingBottom(10f);
 					vacio.setPaddingTop(8f);
-					tablaPrendas.addCell(cuerpoCoord);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
+					bloques.addCell(cuerpoCoord);
+					bloques.addCell(vacio);
+					bloques.addCell(vacio);
+					bloques.addCell(vacio);
+					bloques.addCell(vacio);
 					
 					PdfPCell Cabezero1 = new PdfPCell(new Phrase("Cantidad", subtitulos));
 					PdfPCell Cabezero2 = new PdfPCell(new Phrase("Prenda", subtitulos));
@@ -867,11 +893,11 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 					Cabezero5.setVerticalAlignment(Element.ALIGN_CENTER);
 					Cabezero5.setBorderWidthBottom(2f);
 					Cabezero5.setBorderColor(borderGray);
-					tablaPrendas.addCell(Cabezero1);
-					tablaPrendas.addCell(Cabezero2);
-					tablaPrendas.addCell(Cabezero3);
-					tablaPrendas.addCell(Cabezero4);
-					tablaPrendas.addCell(Cabezero5);
+					bloques.addCell(Cabezero1);
+					bloques.addCell(Cabezero2);
+					bloques.addCell(Cabezero3);
+					bloques.addCell(Cabezero4);
+					bloques.addCell(Cabezero5);
 					
 					
 					contadorCoord++;
@@ -882,8 +908,8 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				PdfPCell cuerpo1 = new PdfPCell(new Phrase(aux[10].toString(), Helvetica));
 				PdfPCell cuerpo2 = new PdfPCell(new Phrase(aux[2].toString(), Helvetica));
 				PdfPCell cuerpo3 = new PdfPCell(new Phrase(aux[7].toString(), Helvetica));
-				PdfPCell cuerpo4 = new PdfPCell(new Phrase("$" + aux[26].toString(), Helvetica));
-				PdfPCell cuerpo5 = new PdfPCell(new Phrase("$" + aux[27].toString(), HelveticaBold));
+				PdfPCell cuerpo4 = new PdfPCell(new Phrase("$" + aux[26].toString()+"0", Helvetica));
+				PdfPCell cuerpo5 = new PdfPCell(new Phrase("$" + aux[27].toString()+"0", HelveticaBold));
 				cuerpo1.setBorderColorBottom(borderTable);
 				cuerpo1.setBorderWidthBottom(2);
 				cuerpo1.setBorder(Rectangle.BOTTOM);
@@ -910,11 +936,11 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				cuerpo5.setBorder(Rectangle.BOTTOM);
 				cuerpo5.setPaddingBottom(10f);
 				cuerpo5.setPaddingTop(8f);
-				tablaPrendas.addCell(cuerpo1);
-				tablaPrendas.addCell(cuerpo2);
-				tablaPrendas.addCell(cuerpo3);
-				tablaPrendas.addCell(cuerpo4);
-				tablaPrendas.addCell(cuerpo5);
+				bloques.addCell(cuerpo1);
+				bloques.addCell(cuerpo2);
+				bloques.addCell(cuerpo3);
+				bloques.addCell(cuerpo4);
+				bloques.addCell(cuerpo5);
 			}
 			descuentoCargo = Float.parseFloat(cotitotal.getDescuentoMonto());
 			IVA = (int)( Subtotal * ( iva/100.0f ));
@@ -925,14 +951,14 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				
 				
 				PdfPCell subTotalLetra = new PdfPCell(new Phrase("Subtotal:", subtitulos));
-				PdfPCell subTotalNumero = new PdfPCell(new Phrase("$" + Subtotal, HelveticaBold));
+				PdfPCell subTotalNumero = new PdfPCell(new Phrase("$" + Subtotal+"0", HelveticaBold));
 				PdfPCell descuentoLetra = new PdfPCell(new Phrase("Descuento/ Cargo", subtitulos));
-				PdfPCell descuentoNumero = new PdfPCell(new Phrase("$" + descuentoCargo, HelveticaBold));
+				PdfPCell descuentoNumero = new PdfPCell(new Phrase("$" + descuentoCargo+"0", HelveticaBold));
 				PdfPCell ivaLetra = new PdfPCell(new Phrase("I.V.A: ", subtitulos));
-				PdfPCell ivaNumero = new PdfPCell(new Phrase("$" + IVA, HelveticaBold));
+				PdfPCell ivaNumero = new PdfPCell(new Phrase("$" + IVA+"0", HelveticaBold));
 				PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
-				PdfPCell TotalNumero = new PdfPCell(new Phrase("$" + Total, HelveticaBold));
-				PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord, HelveticaBold));
+				PdfPCell TotalNumero = new PdfPCell(new Phrase("$" + Total+"0", HelveticaBold));
+				PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord+"0", HelveticaBold));
 				cuerpoCoord.setBorderColorBottom(borderTable);
 				cuerpoCoord.setBorderWidthBottom(2);
 				cuerpoCoord.setBorder(Rectangle.BOTTOM);
@@ -984,45 +1010,48 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				TotalNumero.setPaddingBottom(10f);
 				TotalNumero.setPaddingTop(8f);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
 				TotalLetra.setBorderColorBottom(borderTable);
-				tablaPrendas.addCell(TotalLetra);
-				tablaPrendas.addCell(cuerpoCoord);
+				bloques.addCell(TotalLetra);
+				bloques.addCell(cuerpoCoord);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(subTotalLetra);
-				tablaPrendas.addCell(subTotalNumero);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(subTotalLetra);
+				bloques.addCell(subTotalNumero);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(descuentoLetra);
-				tablaPrendas.addCell(descuentoNumero);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(descuentoLetra);
+				bloques.addCell(descuentoNumero);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(ivaLetra);
-				tablaPrendas.addCell(ivaNumero);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(ivaLetra);
+				bloques.addCell(ivaNumero);
 				
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
-				tablaPrendas.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
+				bloques.addCell(vacia);
 				TotalLetra.setBorderColorBottom(borderGray);
-				tablaPrendas.addCell(TotalLetra);
-				tablaPrendas.addCell(TotalNumero);
+				bloques.addCell(TotalLetra);
+				bloques.addCell(TotalNumero);
 			}	
 			
+			PdfPCell cuerpoBloque = new PdfPCell(bloques);
+			cuerpoBloque.setBorder(0);
+			tablaPrendas.addCell(cuerpoBloque);
 		}
 		
 		
@@ -1033,7 +1062,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				PdfPTable tableFirmas = new PdfPTable(1);
 				PdfPTable tablesplit2 = new PdfPTable(1);
 				PdfPCell observaciones = new PdfPCell();
-				PdfPCell tituloTablaFirmas = new PdfPCell(new Phrase("CONDICIONES:", HelveticaBold));
+				PdfPCell tituloTablaFirmas = new PdfPCell(new Phrase("OBSERVACIONES:", HelveticaBold));
 		    	tituloTablaFirmas.setHorizontalAlignment(Element.ALIGN_LEFT);
 				tituloTablaFirmas.setVerticalAlignment(Element.ALIGN_CENTER);
 				tituloTablaFirmas.setBorder(0);
@@ -1052,7 +1081,12 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tablesplit2.addCell(observaciones);
 		    	tablesplit2.setWidthPercentage(100);
 		    	PdfPTable tablaFooter1 = new PdfPTable(1);
-		    	
+		    	tituloTablaFirmas = new PdfPCell(new Phrase("CONDICIONES:", HelveticaBold));
+		    	tituloTablaFirmas.setHorizontalAlignment(Element.ALIGN_LEFT);
+				tituloTablaFirmas.setVerticalAlignment(Element.ALIGN_CENTER);
+				tituloTablaFirmas.setBorder(0);
+				tituloTablaFirmas.setPaddingTop(18f);
+				tablaFooter1.addCell(tituloTablaFirmas);
 		    	tablaFooter1.setWidthPercentage(100);
 		    	PdfPCell leyenda2 = new PdfPCell(new Phrase("* Estos precios son más I.V.A.", letraCondiciones));
 		    	PdfPCell leyenda3 = new PdfPCell(new Phrase("* El pago será de 45% días hábiles para un máximo de 50 personas y de 60 días hábiles para un número mayor; a partir del anticipo, toma de tallas, modelos y colores autorizados por uds.", letraCondiciones));
