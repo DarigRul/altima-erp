@@ -29,6 +29,7 @@ import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.BaseFont;
@@ -98,6 +99,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		Font TitulosOscuros = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 12, 0, textDarkGray);
 		Font datosGris = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 9, 0, colorDatos);
 		Font Helvetica = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 9);
+		Font letraCondiciones = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 8);
 
 		/*
 		 * 
@@ -120,7 +122,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	PdfPTable tablaNotaria = new PdfPTable(2);
     	tablaNotaria.setWidthPercentage(100);
     	PdfPCell numeroCotizacion = new PdfPCell(new Phrase("No. 25895", HelveticaBold));
-    	PdfPCell lugarCotizacion = new PdfPCell(new Phrase(model.get("TituloCotizacion").toString(), TitulosOscuros));
+    	PdfPCell lugarCotizacion = new PdfPCell(new Phrase("", TitulosOscuros));
     	numeroCotizacion.setBorder(0);
     	lugarCotizacion.setBorder(0);
 		numeroCotizacion.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -134,15 +136,9 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		logo.scalePercent(25f);
 		PdfPCell logoImg = new PdfPCell(new Phrase(""));
 		PdfPCell tituloDocumento = new PdfPCell();
-		if(tipoCotizacion.equalsIgnoreCase("1")) {
-			tituloDocumento = new PdfPCell(new Phrase("LISTA DE PRECIOS", TitulosOscuros));
-		}
-		else if(tipoCotizacion.equalsIgnoreCase("2")) {
-			tituloDocumento = new PdfPCell(new Phrase("COTIZACIÓN DESGLOSADA POR MODELO", TitulosOscuros));
-		}
-		else {
-			tituloDocumento = new PdfPCell(new Phrase("COTIZACIÓN DESGLOSADA", TitulosOscuros));
-		}
+		
+		tituloDocumento = new PdfPCell(new Phrase(model.get("TituloCotizacion").toString(), TitulosOscuros));
+		
 		PdfPCell fechaCotizacion2 = new PdfPCell(new Phrase(fecha.substring(0, 1).toUpperCase() + fecha.substring(1), Helvetica));
 		logoImg.setPaddingBottom(10f);
 		logoImg.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -150,21 +146,21 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		logoImg.setBorderWidthBottom(2f);
 		logoImg.setBorderColor(borderGray);
 		tituloDocumento.setHorizontalAlignment(Element.ALIGN_CENTER);
-    	tituloDocumento.setVerticalAlignment(Element.ALIGN_TOP);
+    	tituloDocumento.setVerticalAlignment(Element.ALIGN_CENTER);
 		tituloDocumento.setBackgroundColor(backgroundWhite);
     	tituloDocumento.setBorder(0);
     	tituloDocumento.setBorder(Rectangle.BOTTOM);
     	tituloDocumento.setBorderWidthBottom(2f);
 		tituloDocumento.setBorderColor(borderGray);
-		tituloDocumento.setPaddingBottom(16f);
+		tituloDocumento.setPaddingBottom(13f);
 		fechaCotizacion2.setBorder(0);
 		fechaCotizacion2.setBorderWidthBottom(2f);
-		fechaCotizacion2.setPaddingBottom(6f);
+		fechaCotizacion2.setPaddingBottom(13f);
 		fechaCotizacion2.setBorderColor(borderGray);
 		fechaCotizacion2.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		fechaCotizacion2.setVerticalAlignment(Element.ALIGN_BOTTOM);
+		fechaCotizacion2.setVerticalAlignment(Element.ALIGN_CENTER);
 		
-		fechaCotizacion2.setPaddingTop(13f);
+		fechaCotizacion2.setPaddingTop(4f);
 		tableInfo.addCell(logoImg);
 		tableInfo.addCell(tituloDocumento);
 		tableInfo.addCell(fechaCotizacion2);
@@ -173,18 +169,18 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		tablaHeader1.setWidthPercentage(100);
 		tablaHeader1.setSpacingAfter(8f);
     	PdfPCell celd = new PdfPCell(new Phrase("DATOS GENERALES DE LA EMPRESA", TitulosOscuros));
-    	celd.setHorizontalAlignment(Element.ALIGN_LEFT);
-    	celd.setVerticalAlignment(Element.ALIGN_CENTER);
-    	celd.setBackgroundColor(backgroundWhite);
-    	celd.setPaddingTop(-8f);
-		celd.setBorder(0);
-		tablaHeader1.addCell(celd);
+//    	celd.setHorizontalAlignment(Element.ALIGN_LEFT);
+//    	celd.setVerticalAlignment(Element.ALIGN_CENTER);
+//    	celd.setBackgroundColor(backgroundWhite);
+//    	celd.setPaddingTop(-8f);
+//		celd.setBorder(0);
+//		tablaHeader1.addCell(celd);
 		
 		if(cliente.getApellidoPaterno()==null || cliente.getApellidoMaterno()==null) {
-			celd = new PdfPCell(new Phrase("Cliente:         "+cliente.getNombre(), TitulosOscuros));
+			celd = new PdfPCell(new Phrase(cliente.getNombre(), TitulosOscuros));
 		}
 		else {
-			celd = new PdfPCell(new Phrase("Cliente:         "+cliente.getNombre()+" " +cliente.getApellidoPaterno()+" " +cliente.getApellidoMaterno(), TitulosOscuros));
+			celd = new PdfPCell(new Phrase(cliente.getNombre()+" " +cliente.getApellidoPaterno()+" " +cliente.getApellidoMaterno(), TitulosOscuros));
 		}
 		
 		celd.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -354,11 +350,11 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	PdfPTable tablaDatosCotizacion = new PdfPTable(1);
 		tablaDatosCotizacion.setWidthPercentage(100);
 		tablaDatosCotizacion.setSpacingAfter(8f);
-    	PdfPCell tituloTabla = new PdfPCell(new Phrase("DATOS DE LA COTIZACIÓN", TitulosOscuros));
-    	tituloTabla.setHorizontalAlignment(Element.ALIGN_LEFT);
-		tituloTabla.setVerticalAlignment(Element.ALIGN_CENTER);
-		tituloTabla.setBorder(0);
-		tablaDatosCotizacion.addCell(tituloTabla);
+//    	PdfPCell tituloTabla = new PdfPCell(new Phrase("DATOS DE LA COTIZACIÓN", TitulosOscuros));
+//    	tituloTabla.setHorizontalAlignment(Element.ALIGN_LEFT);
+//		tituloTabla.setVerticalAlignment(Element.ALIGN_CENTER);
+//		tituloTabla.setBorder(0);
+//		tablaDatosCotizacion.addCell(tituloTabla);
 
 
 		PdfPTable tablaHeader3 = new PdfPTable(1);
@@ -525,12 +521,10 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 					
 					PdfPCell cuerpoCoord = new PdfPCell(new Phrase("Coordinado " + aux[9].toString(), HelveticaBold));
 					PdfPCell vacio = new PdfPCell();
-					cuerpoCoord.setBorderWidthBottom(0);
-					cuerpoCoord.setBorder(Rectangle.BOTTOM);
+					cuerpoCoord.setBorder(0);
 					cuerpoCoord.setPaddingBottom(10f);
 					cuerpoCoord.setPaddingTop(8f);
-					vacio.setBorderWidthBottom(0);
-					vacio.setBorder(Rectangle.BOTTOM);
+					vacio.setBorder(0);
 					vacio.setPaddingBottom(10f);
 					vacio.setPaddingTop(8f);
 					tablaPrendas.addCell(cuerpoCoord);
@@ -824,6 +818,19 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 						SubtotalporCoord=0;
 					}
 					
+					PdfPCell cuerpoCoord = new PdfPCell(new Phrase("Coordinado " + aux[9].toString(), HelveticaBold));
+					PdfPCell vacio = new PdfPCell();
+					cuerpoCoord.setBorder(0);
+					cuerpoCoord.setPaddingBottom(10f);
+					cuerpoCoord.setPaddingTop(8f);
+					vacio.setBorder(0);
+					vacio.setPaddingBottom(10f);
+					vacio.setPaddingTop(8f);
+					tablaPrendas.addCell(cuerpoCoord);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
 					
 					PdfPCell Cabezero1 = new PdfPCell(new Phrase("Cantidad", subtitulos));
 					PdfPCell Cabezero2 = new PdfPCell(new Phrase("Prenda", subtitulos));
@@ -866,23 +873,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 					tablaPrendas.addCell(Cabezero4);
 					tablaPrendas.addCell(Cabezero5);
 					
-					PdfPCell cuerpoCoord = new PdfPCell(new Phrase("Coordinado " + aux[9].toString(), HelveticaBold));
-					PdfPCell vacio = new PdfPCell();
-					cuerpoCoord.setBorderColorBottom(borderTable);
-					cuerpoCoord.setBorderWidthBottom(2);
-					cuerpoCoord.setBorder(Rectangle.BOTTOM);
-					cuerpoCoord.setPaddingBottom(10f);
-					cuerpoCoord.setPaddingTop(8f);
-					vacio.setBorderColorBottom(borderTable);
-					vacio.setBorderWidthBottom(2);
-					vacio.setBorder(Rectangle.BOTTOM);
-					vacio.setPaddingBottom(10f);
-					vacio.setPaddingTop(8f);
-					tablaPrendas.addCell(cuerpoCoord);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
-					tablaPrendas.addCell(vacio);
+					
 					contadorCoord++;
 					
 				}
@@ -1040,29 +1031,35 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				// esta es la grande
 				PdfPTable tablesplit = new PdfPTable(1);
 				PdfPTable tableFirmas = new PdfPTable(1);
+				PdfPCell observaciones = new PdfPCell();
+				
+		    	try {
+		    		observaciones = new PdfPCell(new Phrase(model.get("Observaciones").toString(), Helvetica));
+		    	}
+		    	catch(Exception e) {
+		    		observaciones = new PdfPCell(new Phrase("", Helvetica));
+		    	}
+		    	
+		    	observaciones.setBorder(0);
+		    	observaciones.setPaddingTop(10f);
+		    	observaciones.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+		    	tableFirmas.addCell(observaciones);
+		    	
 		    	PdfPTable tablaFooter1 = new PdfPTable(1);
 		    	tablaFooter1.setWidthPercentage(100);
-		    	PdfPCell tituloTablaFirmas = new PdfPCell(new Phrase("CONDICIONES", TitulosOscuros));
+		    	PdfPCell tituloTablaFirmas = new PdfPCell(new Phrase("CONDICIONES", HelveticaBold));
 		    	tituloTablaFirmas.setHorizontalAlignment(Element.ALIGN_LEFT);
 				tituloTablaFirmas.setVerticalAlignment(Element.ALIGN_CENTER);
 				tituloTablaFirmas.setBorder(0);
 				tituloTablaFirmas.setPaddingTop(18f);
 		    	tablaFooter1.addCell(tituloTablaFirmas);
 		    	tablaFooter1.setWidthPercentage(100);
-		    	PdfPCell leyenda2 = new PdfPCell(new Phrase("* Estos precios son más I.V.A.", Helvetica));
-		    	PdfPCell leyenda3 = new PdfPCell(new Phrase("* El pago será de 45% días hábiles para un máximo de 50 personas y de 60 días hábiles para un número mayor; a partir del anticipo, toma de tallas, modelos y colores autorizados por uds.", Helvetica));
-		    	PdfPCell leyenda4 = new PdfPCell(new Phrase("* Los uniformes son sobre talla y no sobre medida.", Helvetica));
-		    	PdfPCell leyenda5 = new PdfPCell(new Phrase("* Los ajustes se entregarán en un máximo de 3 semanas a partir de su toma total.", Helvetica));
+		    	PdfPCell leyenda2 = new PdfPCell(new Phrase("* Estos precios son más I.V.A.", letraCondiciones));
+		    	PdfPCell leyenda3 = new PdfPCell(new Phrase("* El pago será de 45% días hábiles para un máximo de 50 personas y de 60 días hábiles para un número mayor; a partir del anticipo, toma de tallas, modelos y colores autorizados por uds.", letraCondiciones));
+		    	PdfPCell leyenda4 = new PdfPCell(new Phrase("* Los uniformes son sobre talla y no sobre medida.", letraCondiciones));
+		    	PdfPCell leyenda5 = new PdfPCell(new Phrase("* Los ajustes se entregarán en un máximo de 3 semanas a partir de su toma total.", letraCondiciones));
 		    	PdfPCell leyenda6 = new PdfPCell(new Phrase("* Para el tiempo de entrega no se contarán la semana santa y las ultimas dos semanas de Diciembre.", Helvetica));
-		    	PdfPCell leyenda7 = new PdfPCell(new Phrase("* Vigencia de la cotización: 15 días.", Helvetica));
-		    	PdfPCell tituloObservaciones = new PdfPCell(new Phrase("Observaciones, Especificaciones, Nota especial", TitulosOscuros));
-		    	PdfPCell observaciones = new PdfPCell();
-		    	try {
-		    		observaciones = new PdfPCell(new Phrase(model.get("Observaciones").toString(), Helvetica));
-		    	}
-		    	catch(Exception e) {
-		    		observaciones = new PdfPCell(new Phrase("Ninguno", Helvetica));
-		    	}
+		    	PdfPCell leyenda7 = new PdfPCell(new Phrase("* Vigencia de la cotización: 15 días.", letraCondiciones));		    	
 		    	
 		    	leyenda2.setBorder(0);
 		    	leyenda3.setBorder(0);
@@ -1070,32 +1067,25 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	leyenda5.setBorder(0);
 		    	leyenda6.setBorder(0);
 		    	leyenda7.setBorder(0);
-		    	tituloObservaciones.setBorder(0);
-		    	observaciones.setBorder(0);
-		    	leyenda2.setPadding(3f);
-		    	leyenda3.setPadding(3f);
-		    	leyenda4.setPadding(3f);
-		    	leyenda5.setPadding(3f);
-		    	leyenda6.setPadding(3f);
-		    	leyenda7.setPadding(3f);
-		    	tituloObservaciones.setPadding(3f);
-		    	observaciones.setPadding(3f);
+		    	leyenda2.setPadding(1.5f);
+		    	leyenda3.setPadding(1.5f);
+		    	leyenda4.setPadding(1.5f);
+		    	leyenda5.setPadding(1.5f);
+		    	leyenda6.setPadding(1.5f);
+		    	leyenda7.setPadding(1.5f);
 		    	leyenda2.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    	leyenda3.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    	leyenda4.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    	leyenda5.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    	leyenda6.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    	leyenda7.setHorizontalAlignment(Element.ALIGN_LEFT);
-		    	tituloObservaciones.setHorizontalAlignment(Element.ALIGN_LEFT);
-		    	observaciones.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+		    
 		    	tablaFooter1.addCell(leyenda2);
 		    	tablaFooter1.addCell(leyenda3);
 		    	tablaFooter1.addCell(leyenda4);
 		    	tablaFooter1.addCell(leyenda5);
 		    	tablaFooter1.addCell(leyenda6);
 				tablaFooter1.addCell(leyenda7);
-				tablaFooter1.addCell(tituloObservaciones);
-				tablaFooter1.addCell(observaciones);
 				
 		    	//Segunda tabla de las firmas
 		    	PdfPTable tablaFooter2 = new PdfPTable(3);
@@ -1108,10 +1098,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	leyenda8.setBorder(0);
 		    	espacioBlanco2.setBorder(0);
 		    	espacioBlanco3.setBorder(0);
-		    	espacioBlanco1.setPadding(3f);
-		    	leyenda8.setPadding(3f);
-		    	espacioBlanco2.setPadding(3f);
-		    	espacioBlanco3.setPadding(3f);
+		    	leyenda8.setPadding(1.5f);
 		    	espacioBlanco1.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    	leyenda8.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	espacioBlanco2.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -1129,13 +1116,11 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	
 		    	PdfPCell firmaImgVentas = new PdfPCell(firmaVentas);
 		    	firmaImgVentas.setBorder(0);
-		    	firmaImgVentas.setPadding(3f);
 		    	firmaImgVentas.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	tablaFooter2.addCell(firmaImgVentas);
 		    	
 		    	PdfPCell firmaActual = new PdfPCell(new Phrase(" "));
 		    	firmaActual.setBorder(0);
-		    	firmaActual.setPadding(3f);
 		    	Image firma = Image.getInstance("src/main/resources/static/dist/img/firma.png");
 		    	
 		    	firma.scalePercent(10f);
@@ -1143,7 +1128,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	tablaFooter2.addCell(firmaActual);
 		    	PdfPCell firmaImg = new PdfPCell(firma);
 		    	firmaImg.setBorder(0);
-		    	firmaImg.setPadding(3f);
+		    	firmaImg.setPaddingTop(1.5f);
 		    	firmaImg.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	tablaFooter2.addCell(firmaImg);
 		    	//Espacios para firmar
@@ -1151,8 +1136,6 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	PdfPCell espacioFirma2 = new PdfPCell(new Phrase("________________________"));
 		    	espacioFirma1.setBorder(0);
 		    	espacioFirma2.setBorder(0);
-		    	espacioFirma1.setPadding(3f);
-		    	espacioFirma2.setPadding(3f);
 		    	espacioFirma1.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	espacioFirma2.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	tablaFooter2.addCell(espacioFirma1);
@@ -1163,10 +1146,8 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	PdfPCell nombreFirma2 = new PdfPCell(new Phrase("Jorge Armando Cottone Morales", Helvetica));
 		    	nombreFirma1.setBorder(0);
 				nombreFirma1.setHorizontalAlignment(Element.ALIGN_CENTER);
-				nombreFirma1.setPaddingBottom(0.1f);
 		    	nombreFirma2.setBorder(0);
 				nombreFirma2.setHorizontalAlignment(Element.ALIGN_CENTER);
-				nombreFirma2.setPaddingBottom(0.1f);
 		    	tablaFooter2.addCell(nombreFirma1);
 		    	tablaFooter2.addCell(espacioBlanco3);
 		    	tablaFooter2.addCell(nombreFirma2);
@@ -1219,7 +1200,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 
 			document.newPage();
 			PdfPTable tableCV = new PdfPTable(1);
-			PdfPCell tituloCV = new PdfPCell(new Phrase("Notaria 33", TitulosOscuros));
+			PdfPCell tituloCV = celd;
 			tituloCV.setHorizontalAlignment(Element.ALIGN_LEFT);
 			tituloCV.setVerticalAlignment(Element.ALIGN_CENTER);
 			tituloCV.setBorder(0);
@@ -1244,25 +1225,46 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			EspacioCV.setBorder(0);
 			EspacioCV.setPadding(15f);
 			tableCV.addCell(EspacioCV);
-
+			Font negrita = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 11);
+			Chunk ALTIMA = new Chunk("ALTIMA", negrita);
+			Chunk Altima = new Chunk("ALTIMA.", negrita);
 			
-			PdfPCell ContenidoCV = new PdfPCell(new Phrase("Somos una empresa joven y dinámica especializada en el diseño y confección de uniformes corporativos e institucionales.\r\n" + "\r\n" +
-														   "En ALTIMA entendemos plenamente las necesidades de las empresas y las expectativas de las usuarias finales " + 
-														   "de nuestros uniformes. Por eso, el principal objetivo que tenemos es ofrecer soluciones versátiles para cada " + 
-														   "tipo de necesidades y satisfacer con creces las expectativas de buen gusto, actualidad y distinción de quienes " + 
-														   "visten uniformes ALTIMA.\r\n" + "\r\n" + 
-														   "En consecuencia, aplicamos rigurosos controles de calidad en la selección de las telas que utilizamos y en la " + 
-														   "ejecución de los distintos procesos de corte, confección y acabados; asimismo proyectamos las últimas " + 
-														   "tendencias de la moda en el diseno de cada una de las prendas que elaboramos. Es así que podemos ofrecer " + 
-														   "a la mujer ejecutiva uniformes que puede lucir con satisfacción y agrado dentro y fuera de su ámbito de trabajo.\r\n" + "\r\n" + 
-														   "Coincidimos con usted en que el capital más valioso de su empresa es su personal y en que la buena imagen " + 
-														   "del mismo es una inversión que contribuye significativamente a crear y mantener entre sus clientes y " + 
-														   "proveedores una percepción positiva de su negocio.\r\n" + "\r\n" + 
-														   "Por lo mismo, lo invitamos a que conozca en detalle las ventajas competitivas de nuestros productos y servicio " + 
-														   "y nos brinde pronto la oportunidad de demostrarles porque AL TIMA sera siempre su mejor inversión en " + 
-														   "uniformes corporativos e institucionales.\r\n" + "\r\n" + 
-														   "Llámenos y con gusto uno de nuestros ejecutivos de cuenta le visitara, brindándoles el servicio y atención " + 
-														   "especializada que su empresa merece", Titulos));
+			Paragraph textoCompleto1 = new Paragraph("Somos una empresa joven y dinámica especializada en el diseño y confección de uniformes corporativos e institucionales.\r\n" + "\r\n" +
+					   "En ", Titulos);
+			
+			Paragraph textoCompleto2 = new Paragraph(" entendemos plenamente las necesidades de las empresas y las expectativas de los usuarios finales " + 
+					   "de nuestros uniformes. Por eso, el principal objetivo que tenemos es ofrecer soluciones versátiles para cada " + 
+					   "tipo de necesidades y satisfacer con creces las expectativas de buen gusto, actualidad y distinción de quienes " + 
+					   "visten uniformes ", Titulos);
+			textoCompleto2.add(Altima);
+			Paragraph textoCompleto3 = new Paragraph("\r\n" + 
+					   "En consecuencia, aplicamos rigurosos controles de calidad en la selección de las telas que utilizamos y en la " + 
+					   "ejecución de los distintos procesos de corte, confección y acabados; asimismo proyectamos las últimas " + 
+					   "tendencias de la moda en el diseno de cada una de las prendas que elaboramos. Es así que podemos ofrecer " + 
+					   "a los usuarios ejecutivos, uniformes que puede lucir con satisfacción y agrado dentro y fuera de su ámbito de trabajo.\r\n" + "\r\n" + 
+					   "Coincidimos con usted en que el capital más valioso de su empresa es su personal y en que la buena imagen " + 
+					   "del mismo es una inversión que contribuye significativamente a crear y mantener entre sus clientes y " + 
+					   "proveedores una percepción positiva de su negocio.\r\n" + "\r\n" + 
+					   "Por lo mismo, lo invitamos a que conozca en detalle las ventajas competitivas de nuestros productos y servicio " + 
+					   "y nos brinde pronto la oportunidad de demostrarles porque ", Titulos);
+			
+			Paragraph textoCompleto4 = new Paragraph(" será siempre su mejor inversión en " + 
+					   "uniformes corporativos e institucionales.\r\n" + "\r\n" + 
+					   "Llámenos y con gusto uno de nuestros ejecutivos comerciales le visitara, brindándoles el servicio y atención " + 
+					   "especializada que su empresa merece", Titulos);
+			textoCompleto1.add(ALTIMA);
+			textoCompleto1.add(textoCompleto2);
+			
+			textoCompleto2.add(textoCompleto3);
+			textoCompleto3.add(ALTIMA);
+			textoCompleto3.add(textoCompleto4);
+			
+			Paragraph textoCompleto = new Paragraph();
+			textoCompleto = textoCompleto1;
+			textoCompleto.add(textoCompleto3);
+			
+			
+			PdfPCell ContenidoCV = new PdfPCell(textoCompleto);
 			ContenidoCV.setBorder(0);
 			ContenidoCV.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
 			ContenidoCV.setPaddingTop(10f);
@@ -1361,12 +1363,130 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			document.add(espacio);
 			document.add(tablaPrendas);
 			document.add(tableFirmas);
-
 			document.add(espacio);
+
+			document.newPage();
+			PdfPTable tableCV = new PdfPTable(1);
+			PdfPCell tituloCV = celd;
+			tituloCV.setHorizontalAlignment(Element.ALIGN_LEFT);
+			tituloCV.setVerticalAlignment(Element.ALIGN_CENTER);
+			tituloCV.setBorder(0);
+			tituloCV.setPaddingTop(28f);
+			tableCV.addCell(tituloCV);
+			
+			tituloCV = new PdfPCell(new Phrase("At'n: " + cliente.getNombreContacto(), TitulosOscuros));
+			tituloCV.setHorizontalAlignment(Element.ALIGN_LEFT);
+			tituloCV.setVerticalAlignment(Element.ALIGN_CENTER);
+			tituloCV.setBorder(0);
+			tituloCV.setPaddingTop(18f);
+			tableCV.addCell(tituloCV);
+			
+			tituloCV = new PdfPCell(new Phrase("Presente:", TitulosOscuros));
+			tituloCV.setHorizontalAlignment(Element.ALIGN_LEFT);
+			tituloCV.setVerticalAlignment(Element.ALIGN_CENTER);
+			tituloCV.setBorder(0);
+			tituloCV.setPaddingTop(18f);
+			tableCV.addCell(tituloCV);
+			
+			PdfPCell EspacioCV = new PdfPCell();
+			EspacioCV.setBorder(0);
+			EspacioCV.setPadding(15f);
+			tableCV.addCell(EspacioCV);
+			Font negrita = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 11);
+			Chunk ALTIMA = new Chunk("ALTIMA", negrita);
+			Chunk Altima = new Chunk("ALTIMA.", negrita);
+			
+			Paragraph textoCompleto1 = new Paragraph("Somos una empresa joven y dinámica especializada en el diseño y confección de uniformes corporativos e institucionales.\r\n" + "\r\n" +
+					   "En ", Titulos);
+			
+			Paragraph textoCompleto2 = new Paragraph(" entendemos plenamente las necesidades de las empresas y las expectativas de los usuarios finales " + 
+					   "de nuestros uniformes. Por eso, el principal objetivo que tenemos es ofrecer soluciones versátiles para cada " + 
+					   "tipo de necesidades y satisfacer con creces las expectativas de buen gusto, actualidad y distinción de quienes " + 
+					   "visten uniformes ", Titulos);
+			textoCompleto2.add(Altima);
+			Paragraph textoCompleto3 = new Paragraph("\r\n" + 
+					   "En consecuencia, aplicamos rigurosos controles de calidad en la selección de las telas que utilizamos y en la " + 
+					   "ejecución de los distintos procesos de corte, confección y acabados; asimismo proyectamos las últimas " + 
+					   "tendencias de la moda en el diseno de cada una de las prendas que elaboramos. Es así que podemos ofrecer " + 
+					   "a los usuarios ejecutivos, uniformes que puede lucir con satisfacción y agrado dentro y fuera de su ámbito de trabajo.\r\n" + "\r\n" + 
+					   "Coincidimos con usted en que el capital más valioso de su empresa es su personal y en que la buena imagen " + 
+					   "del mismo es una inversión que contribuye significativamente a crear y mantener entre sus clientes y " + 
+					   "proveedores una percepción positiva de su negocio.\r\n" + "\r\n" + 
+					   "Por lo mismo, lo invitamos a que conozca en detalle las ventajas competitivas de nuestros productos y servicio " + 
+					   "y nos brinde pronto la oportunidad de demostrarles porque ", Titulos);
+			
+			Paragraph textoCompleto4 = new Paragraph(" será siempre su mejor inversión en " + 
+					   "uniformes corporativos e institucionales.\r\n" + "\r\n" + 
+					   "Llámenos y con gusto uno de nuestros ejecutivos comerciales le visitara, brindándoles el servicio y atención " + 
+					   "especializada que su empresa merece", Titulos);
+			textoCompleto1.add(ALTIMA);
+			textoCompleto1.add(textoCompleto2);
+			
+			textoCompleto2.add(textoCompleto3);
+			textoCompleto3.add(ALTIMA);
+			textoCompleto3.add(textoCompleto4);
+			
+			Paragraph textoCompleto = new Paragraph();
+			textoCompleto = textoCompleto1;
+			textoCompleto.add(textoCompleto3);
+			
+			
+			PdfPCell ContenidoCV = new PdfPCell(textoCompleto);
+			ContenidoCV.setBorder(0);
+			ContenidoCV.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+			ContenidoCV.setPaddingTop(10f);
+			ContenidoCV.setPaddingBottom(10f);
+			tableCV.addCell(ContenidoCV);
+			
+			EspacioCV = new PdfPCell();
+			EspacioCV.setBorder(0);
+			EspacioCV.setPadding(30f);
+			tableCV.addCell(EspacioCV);
+			
+			PdfPCell firmaGerente = new PdfPCell(new Phrase(" "));
+			firmaGerente.setBorder(0);
+			firmaGerente.setPadding(3f);
+	    	Image imgfirmaGerente = Image.getInstance("src/main/resources/static/dist/img/firma.png");
+	    	
+	    	imgfirmaGerente.scalePercent(10f);
+	    	
+	    	tableCV.addCell(firmaGerente);
+	    	PdfPCell firmaImgGerente = new PdfPCell(imgfirmaGerente);
+	    	firmaImgGerente.setBorder(0);
+	    	firmaImgGerente.setPadding(3f);
+	    	firmaImgGerente.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	tableCV.addCell(firmaImgGerente);
+	    	//Espacios para firmar
+	    	PdfPCell espacioFirmaGerente = new PdfPCell(new Phrase("________________________"));
+	    	espacioFirmaGerente.setBorder(0);
+	    	espacioFirmaGerente.setBorder(0);
+	    	espacioFirmaGerente.setPadding(3f);
+	    	espacioFirmaGerente.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	tableCV.addCell(espacioFirmaGerente);
+			
+	    	PdfPCell nombreFirmaGerente = new PdfPCell(new Phrase("Adán Gomez", Helvetica));
+	    	PdfPCell puestoFirmaGerente = new PdfPCell(new Phrase("Director General", Helvetica));
+	    	nombreFirmaGerente.setBorder(0);
+	    	nombreFirmaGerente.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	nombreFirmaGerente.setPaddingBottom(0.1f);
+	    	puestoFirmaGerente.setBorder(0);
+	    	puestoFirmaGerente.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	puestoFirmaGerente.setPaddingBottom(0.1f);
+	    	tableCV.addCell(nombreFirmaGerente);
+	    	tableCV.addCell(puestoFirmaGerente);
+	    	
+	    	
+			document.add(tableCV);
+			
 			document.newPage();
 			PdfReader reader = new PdfReader(FILE1);
-			PdfImportedPage page = writer.getImportedPage(reader, 1); 
+			PdfImportedPage page = writer.getImportedPage(reader, 3); 
 			PdfContentByte cb = writer.getDirectContent();
+			cb.addTemplate(page, 0, 0);
+			document.newPage();
+			reader = new PdfReader(FILE1);
+			page = writer.getImportedPage(reader, 2); 
+			cb = writer.getDirectContent();
 			cb.addTemplate(page, 0, 0);
 			document.close();
 			enviarCorreoService.enviarCorreoArchivoAdjuntoConMime("dtu_test@uniformes-altima.com.mx", correo, "Envio de Cotización", "A continuación se anexa un informe de la cotización solicitada.", baos, "Cotizacion" + (String) model.get("id") + "_" + formatter.print(jodaTime) + ".pdf");
