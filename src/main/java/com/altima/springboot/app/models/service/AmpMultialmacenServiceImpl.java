@@ -25,8 +25,12 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 
 	@Override
 	@Transactional
-	public void save(AmpMultialmacen entity) {
-		repository.save(entity);
+	public void save(AmpMultialmacen multialmacen){
+		if(multialmacen.getExistencia()<0){
+			System.out.println("si entra al error");
+			throw new RuntimeException("La cantidad debe ser mayor o igual a 0");
+		}
+		repository.save(multialmacen);
 	}
 
 	@Override
@@ -87,6 +91,13 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 	public List<EntradasSalidasDTO> findAllMovimientos() {
 		// TODO Auto-generated method stub
 		return em.createNativeQuery("call alt_pr_movimientos_amp()",EntradasSalidasDTO.class).getResultList();
+	}
+
+	@Override
+	@Transactional
+	public Long findIdMultialmacen(Long idAlmacenLogico, Long idArticulo, String tipo) {
+		// TODO Auto-generated method stub
+		return repository.findByIdAlmacenLogicoAndTipoAndIdArticulo(idAlmacenLogico, tipo, idArticulo).getIdAMultialmacen();
 	}
 
 

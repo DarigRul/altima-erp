@@ -25,6 +25,8 @@ public interface IAmpMultialmacenService {
 
 	List<ArticulosMultialmacenDto> findArticulosByMultialmacen(Long idAlmacenLogico);
 
-	List<EntradasSalidasDTO> findAllMovimientos() ;
+	List<EntradasSalidasDTO> findAllMovimientos();
+
+	Long findIdMultialmacen(Long idAlmacenLogico,Long idArticulo,String tipo);
 
 }

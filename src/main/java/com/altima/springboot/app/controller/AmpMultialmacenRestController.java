@@ -45,6 +45,7 @@ public class AmpMultialmacenRestController {
 				multialmacen.setIdAlmacenLogico(AlmacenLogico);
 				multialmacen.setIdArticulo(Articulo);
 				multialmacen.setTipo(TipoPost);
+				multialmacen.setExistencia(0L);
 				multialmacen.setEstatus("1");
 				AmpMultialmacenService.save(multialmacen);
 				result = true;

@@ -2,6 +2,7 @@ package com.altima.springboot.app.controller;
 
 import com.altima.springboot.app.models.entity.AmpEntrada;
 import com.altima.springboot.app.models.entity.AmpEntradaDetalle;
+import com.altima.springboot.app.models.entity.AmpMultialmacen;
 import com.altima.springboot.app.models.entity.AmpSalida;
 import com.altima.springboot.app.models.entity.AmpSalidaDetalle;
 import com.altima.springboot.app.models.service.IAmpEntradaDetalleService;
@@ -68,6 +69,7 @@ public class EntradaSalidaAMPController {
 			entrada.setIdText("ENT" + (10000 + entrada.getIdEntrada()));
 			entradaService.save(entrada);
 			for (int i = 0; i < movimientosArray.length(); i++) {
+				Long idMultialmacen=null;
 				AmpEntradaDetalle entradaDetalle = new AmpEntradaDetalle();
 				JSONObject movimientosJson = movimientosArray.getJSONObject(i);
 				entradaDetalle.setTipo(movimientosJson.getString("tipo"));
@@ -75,6 +77,10 @@ public class EntradaSalidaAMPController {
 				entradaDetalle.setIdEntrada(entrada.getIdEntrada());
 				entradaDetalle.setIdArticulo(Long.parseLong(movimientosJson.getString("id")));
 				entradaDetalleService.save(entradaDetalle);
+				idMultialmacen=multialmacenService.findIdMultialmacen(entrada.getIdAlmacenLogico(), entradaDetalle.getIdArticulo(), entradaDetalle.getTipo());
+				AmpMultialmacen multialmacen = multialmacenService.findById(idMultialmacen);
+				multialmacen.setExistencia(multialmacen.getExistencia()+entradaDetalle.getCantidad());
+				multialmacenService.save(multialmacen);
 			}
 			
 		} catch (Exception e) {
@@ -85,7 +91,8 @@ public class EntradaSalidaAMPController {
 
 	@Transactional
 	@PostMapping("/postMovimientosSalidaAlmacen")
-	public String postMovimientosSalidaAlmacen(@RequestParam String cabecero, @RequestParam String movimientos) {
+	public String postMovimientosSalidaAlmacen(@RequestParam String cabecero, @RequestParam String movimientos)
+			throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		JSONArray cabeceroArray = new JSONArray(cabecero);
 		JSONObject cabeceroJson = cabeceroArray.getJSONObject(0);
@@ -104,6 +111,7 @@ public class EntradaSalidaAMPController {
 			salida.setIdText("SAL" + (10000 + salida.getIdSalida()));
 			salidaService.save(salida);
 			for (int i = 0; i < movimientosArray.length(); i++) {
+				Long idMultialmacen = null;
 				AmpSalidaDetalle salidaDetalle = new AmpSalidaDetalle();
 				JSONObject movimientosJson = movimientosArray.getJSONObject(i);
 				salidaDetalle.setTipo(movimientosJson.getString("tipo"));
@@ -111,11 +119,19 @@ public class EntradaSalidaAMPController {
 				salidaDetalle.setIdSalida(salida.getIdSalida());
 				salidaDetalle.setIdArticulo(Long.parseLong(movimientosJson.getString("id")));
 				salidaDetalleService.save(salidaDetalle);
+				idMultialmacen = multialmacenService.findIdMultialmacen(salida.getIdAlmacenLogico(),
+						salidaDetalle.getIdArticulo(), salidaDetalle.getTipo());
+				AmpMultialmacen multialmacen = multialmacenService.findById(idMultialmacen);
+				multialmacen.setExistencia(multialmacen.getExistencia() - salidaDetalle.getCantidad());
+				multialmacenService.save(multialmacen);
 			}
-			
 		} catch (Exception e) {
+			//TODO: handle exception
 			return "redirect:/movimientos-amp";
 		}
+
+
+		
 		return "redirect:/movimientos-amp";
 
 	}
