@@ -57,7 +57,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		 * Variables del controller y de tiempo
 		 * 
 		 */
-		document.setMargins(40f, 40f, 40f, 100f);
+		document.setMargins(40f, 40f, 10f, 100f);
 		
 		@SuppressWarnings("unchecked")
 		List<Object[]> prendas = (List<Object[]>) model.get("ListaCotizacionPrendas");
@@ -94,7 +94,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		Color textDarkGray = new Color(33,37,41);
 		Font HelveticaBold = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 9);
 		Font subtitulos = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 9, 0, textDarkGray);
-		Font Titulos = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 12, 0, TitulosBlancos);
+		Font Titulos = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 11, 0);
 		Font TitulosOscuros = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 12, 0, textDarkGray);
 		Font datosGris = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 9, 0, colorDatos);
 		Font Helvetica = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 9);
@@ -120,7 +120,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	PdfPTable tablaNotaria = new PdfPTable(2);
     	tablaNotaria.setWidthPercentage(100);
     	PdfPCell numeroCotizacion = new PdfPCell(new Phrase("No. 25895", HelveticaBold));
-    	PdfPCell lugarCotizacion = new PdfPCell(new Phrase("", HelveticaBold));
+    	PdfPCell lugarCotizacion = new PdfPCell(new Phrase(model.get("TituloCotizacion").toString(), TitulosOscuros));
     	numeroCotizacion.setBorder(0);
     	lugarCotizacion.setBorder(0);
 		numeroCotizacion.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -138,7 +138,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			tituloDocumento = new PdfPCell(new Phrase("LISTA DE PRECIOS", TitulosOscuros));
 		}
 		else if(tipoCotizacion.equalsIgnoreCase("2")) {
-			tituloDocumento = new PdfPCell(new Phrase("COTIZACIÓN DESGLOSADA POR TIPO DE PRENDA", TitulosOscuros));
+			tituloDocumento = new PdfPCell(new Phrase("COTIZACIÓN DESGLOSADA POR MODELO", TitulosOscuros));
 		}
 		else {
 			tituloDocumento = new PdfPCell(new Phrase("COTIZACIÓN DESGLOSADA", TitulosOscuros));
@@ -147,21 +147,23 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		logoImg.setPaddingBottom(10f);
 		logoImg.setHorizontalAlignment(Element.ALIGN_LEFT);
 		logoImg.setBorder(0);
-		logoImg.setBorderWidthBottom(3f);
+		logoImg.setBorderWidthBottom(2f);
 		logoImg.setBorderColor(borderGray);
 		tituloDocumento.setHorizontalAlignment(Element.ALIGN_CENTER);
-    	tituloDocumento.setVerticalAlignment(Element.ALIGN_CENTER);
+    	tituloDocumento.setVerticalAlignment(Element.ALIGN_TOP);
 		tituloDocumento.setBackgroundColor(backgroundWhite);
     	tituloDocumento.setBorder(0);
     	tituloDocumento.setBorder(Rectangle.BOTTOM);
-    	tituloDocumento.setBorderWidthBottom(3f);
+    	tituloDocumento.setBorderWidthBottom(2f);
 		tituloDocumento.setBorderColor(borderGray);
-		tituloDocumento.setPaddingTop(13f);
-		tituloDocumento.setPaddingBottom(10f);
+		tituloDocumento.setPaddingBottom(16f);
 		fechaCotizacion2.setBorder(0);
-		fechaCotizacion2.setBorderWidthBottom(3f);
+		fechaCotizacion2.setBorderWidthBottom(2f);
+		fechaCotizacion2.setPaddingBottom(6f);
 		fechaCotizacion2.setBorderColor(borderGray);
 		fechaCotizacion2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+		fechaCotizacion2.setVerticalAlignment(Element.ALIGN_BOTTOM);
+		
 		fechaCotizacion2.setPaddingTop(13f);
 		tableInfo.addCell(logoImg);
 		tableInfo.addCell(tituloDocumento);
@@ -179,10 +181,10 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		tablaHeader1.addCell(celd);
 		
 		if(cliente.getApellidoPaterno()==null || cliente.getApellidoMaterno()==null) {
-			celd = new PdfPCell(new Phrase("Cliente:         "+cliente.getNombre(), HelveticaBold));
+			celd = new PdfPCell(new Phrase("Cliente:         "+cliente.getNombre(), TitulosOscuros));
 		}
 		else {
-			celd = new PdfPCell(new Phrase("Cliente:         "+cliente.getNombre()+" " +cliente.getApellidoPaterno()+" " +cliente.getApellidoMaterno(), HelveticaBold));
+			celd = new PdfPCell(new Phrase("Cliente:         "+cliente.getNombre()+" " +cliente.getApellidoPaterno()+" " +cliente.getApellidoMaterno(), TitulosOscuros));
 		}
 		
 		celd.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -366,7 +368,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
     	nombre.setBorder(0);
     	leyenda.setBorder(0);
     	leyenda.setPaddingBottom(-5f);
-    	nombre.setHorizontalAlignment(Element.ALIGN_LEFT);
+    	nombre.setHorizontalAlignment(Element.ALIGN_CENTER);
     	leyenda.setHorizontalAlignment(Element.ALIGN_LEFT);
     	tablaHeader3.addCell(nombre);
     	tablaHeader3.addCell(leyenda);
@@ -397,18 +399,21 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			nombrePrendaCabezero.setPaddingBottom(8f);
 			nombrePrendaCabezero.setPaddingTop(6f);
 			nombrePrendaCabezero.setHorizontalAlignment(Element.ALIGN_CENTER);
+			nombrePrendaCabezero.setVerticalAlignment(Element.ALIGN_CENTER);
 			nombrePrendaCabezero2.setBorderColor(borderGray);
 			nombrePrendaCabezero2.setBorder(0);
 			nombrePrendaCabezero2.setBorderWidthBottom(2f);
 			nombrePrendaCabezero2.setPaddingBottom(8f);
 			nombrePrendaCabezero2.setPaddingTop(6f);
 			nombrePrendaCabezero2.setHorizontalAlignment(Element.ALIGN_CENTER);
+			nombrePrendaCabezero2.setVerticalAlignment(Element.ALIGN_CENTER);
 			precioPrendaCabezero.setBorderColor(borderGray);
 			precioPrendaCabezero.setBorder(0);
 			precioPrendaCabezero.setBorderWidthBottom(2f);
 			precioPrendaCabezero.setPaddingBottom(8f);
 			precioPrendaCabezero.setPaddingTop(6f);
 			precioPrendaCabezero.setHorizontalAlignment(Element.ALIGN_CENTER);
+			precioPrendaCabezero.setVerticalAlignment(Element.ALIGN_CENTER);
 			
 			
 			
@@ -429,28 +434,21 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				nombrePrenda.setBorderColorBottom(borderTable);
 				nombrePrenda.setBorderWidthBottom(2);
 				nombrePrenda.setBorder(Rectangle.BOTTOM);
-				nombrePrenda.setPaddingBottom(18f);
+				nombrePrenda.setPaddingBottom(12f);
 				nombrePrenda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				nombrePrenda.setBorderColorBottom(borderTable);
-				nombrePrenda.setBorderWidthBottom(2);
-				nombrePrenda.setBorder(Rectangle.BOTTOM);
-				nombrePrenda.setPaddingBottom(18f);
-				nombrePrenda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				nombrePrenda.setVerticalAlignment(Element.ALIGN_CENTER);
 				nombreTela.setBorderColorBottom(borderTable);
 				nombreTela.setBorderWidthBottom(2);
 				nombreTela.setBorder(Rectangle.BOTTOM);
-				nombreTela.setPaddingBottom(18f);
+				nombreTela.setPaddingBottom(12f);
 				nombreTela.setHorizontalAlignment(Element.ALIGN_CENTER);
-				nombreTela.setBorderColorBottom(borderTable);
-				nombreTela.setBorderWidthBottom(2);
-				nombreTela.setBorder(Rectangle.BOTTOM);
-				nombreTela.setPaddingBottom(18f);
-				nombreTela.setHorizontalAlignment(Element.ALIGN_CENTER);
+				nombreTela.setVerticalAlignment(Element.ALIGN_CENTER);
 				precioPrenda.setBorderColorBottom(borderTable);
 				precioPrenda.setBorderWidthBottom(2);
-				precioPrenda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				precioPrenda.setBorder(Rectangle.BOTTOM);
-				precioPrenda.setPaddingBottom(18f);
+				precioPrenda.setPaddingBottom(12f);
+				precioPrenda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				precioPrenda.setVerticalAlignment(Element.ALIGN_CENTER);
 				tablaPrendas.addCell(nombrePrenda);
 				tablaPrendas.addCell(nombreTela);
 				tablaPrendas.addCell(vacio);
@@ -484,66 +482,145 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		//Si pasa aqui es porque es una desglosada por tipo de prenda xd
 		else if(tipoCotizacion.equalsIgnoreCase("2")) {
 			//Se declara la tabla
-			tablaPrendas = new PdfPTable(5);
+			tablaPrendas = new PdfPTable(7);
 			tablaPrendas.setWidthPercentage(100);
-			tablaPrendas.setWidths(new float[] { 2.8f, 6f, 1.5f, 2.2f, 1.5f });
+			tablaPrendas.setWidths(new float[] { 2.8f, 4f, 3f, 3f, 5f, 2.2f, 2.5f });
 			PdfPCell vacia = new PdfPCell(new Phrase(" "));
 			vacia.setBorder(0);
 			vacia.setPadding(3f);
-			
-			PdfPCell Cabezero1 = new PdfPCell(new Phrase("No. Coordinado", subtitulos));
-			PdfPCell Cabezero2 = new PdfPCell(new Phrase("Descripción", subtitulos));
-			PdfPCell Cabezero3 = new PdfPCell(new Phrase("Cantidad", subtitulos));
-			PdfPCell Cabezero4 = new PdfPCell(new Phrase("Pre. Unitario", subtitulos));
-			PdfPCell Cabezero5 = new PdfPCell(new Phrase("Total", subtitulos));
-			Cabezero1.setBorder(0);
-			Cabezero1.setPaddingBottom(8f);
-			Cabezero1.setPaddingTop(6f);
-			Cabezero1.setVerticalAlignment(Element.ALIGN_CENTER);
-			Cabezero1.setBorderWidthBottom(2f);
-			Cabezero1.setBorderColor(borderGray);
-			Cabezero2.setBorder(0);
-			Cabezero2.setPaddingBottom(8f);
-			Cabezero2.setPaddingTop(6f);
-			Cabezero2.setVerticalAlignment(Element.ALIGN_CENTER);
-			Cabezero2.setBorderWidthBottom(2f);
-			Cabezero2.setBorderColor(borderGray);
-			Cabezero3.setBorder(0);
-			Cabezero3.setPaddingBottom(8f);
-			Cabezero3.setPaddingTop(6f);
-			Cabezero3.setVerticalAlignment(Element.ALIGN_CENTER);
-			Cabezero3.setBorderWidthBottom(2f);
-			Cabezero3.setBorderColor(borderGray);
-			Cabezero4.setBorder(0);
-			Cabezero4.setPaddingBottom(8f);
-			Cabezero4.setPaddingTop(6f);
-			Cabezero4.setVerticalAlignment(Element.ALIGN_CENTER);
-			Cabezero4.setBorderWidthBottom(2f);
-			Cabezero4.setBorderColor(borderGray);
-			Cabezero5.setBorder(0);
-			Cabezero5.setPaddingBottom(8f);
-			Cabezero5.setPaddingTop(6f);
-			Cabezero5.setVerticalAlignment(Element.ALIGN_CENTER);
-			Cabezero5.setBorderWidthBottom(2f);
-			Cabezero5.setBorderColor(borderGray);
-			tablaPrendas.addCell(Cabezero1);
-			tablaPrendas.addCell(Cabezero2);
-			tablaPrendas.addCell(Cabezero3);
-			tablaPrendas.addCell(Cabezero4);
-			tablaPrendas.addCell(Cabezero5);
 			
 			float Subtotal = 0;
 			float IVA = 0;
 			float Total = 0;
 			float descuentoCargo = 0;
+			int contadorCoord = 1;
+			float SubtotalporCoord = 0;
 			for(int con = 0; con < prendas.size(); con++) {
 				Object[] aux = (Object[]) prendas.get(con);
+				
+				if(contadorCoord==Integer.parseInt(aux[9].toString())) {
+					if(SubtotalporCoord!=0) {
+						PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
+						PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord, HelveticaBold));
+						cuerpoCoord.setBorderColorBottom(borderTable);
+						cuerpoCoord.setBorderWidthBottom(2);
+						cuerpoCoord.setBorder(Rectangle.BOTTOM);
+						cuerpoCoord.setPaddingBottom(10f);
+						cuerpoCoord.setPaddingTop(8f);
+						TotalLetra.setPaddingBottom(10f);
+						TotalLetra.setPaddingTop(8f);
+						TotalLetra.setBorder(0); 
+						TotalLetra.setBorder(Rectangle.BOTTOM);
+						TotalLetra.setBorderColorBottom(borderTable);
+						TotalLetra.setBorderWidthBottom(2);
+						tablaPrendas.addCell(vacia);
+						tablaPrendas.addCell(vacia);
+						tablaPrendas.addCell(vacia);
+						tablaPrendas.addCell(vacia);
+						tablaPrendas.addCell(vacia);
+						tablaPrendas.addCell(TotalLetra);
+						tablaPrendas.addCell(cuerpoCoord);
+						SubtotalporCoord=0;
+					}
+					
+					PdfPCell cuerpoCoord = new PdfPCell(new Phrase("Coordinado " + aux[9].toString(), HelveticaBold));
+					PdfPCell vacio = new PdfPCell();
+					cuerpoCoord.setBorderWidthBottom(0);
+					cuerpoCoord.setBorder(Rectangle.BOTTOM);
+					cuerpoCoord.setPaddingBottom(10f);
+					cuerpoCoord.setPaddingTop(8f);
+					vacio.setBorderWidthBottom(0);
+					vacio.setBorder(Rectangle.BOTTOM);
+					vacio.setPaddingBottom(10f);
+					vacio.setPaddingTop(8f);
+					tablaPrendas.addCell(cuerpoCoord);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					
+					PdfPCell Cabezero1 = new PdfPCell(new Phrase("Cantidad", subtitulos));
+					PdfPCell Cabezero2 = new PdfPCell(new Phrase("Modelo", subtitulos));
+					PdfPCell Cabezero3 = new PdfPCell(new Phrase("Tela", subtitulos));
+					PdfPCell Cabezero4 = new PdfPCell(new Phrase("Color", subtitulos));
+					PdfPCell Cabezero5 = new PdfPCell(new Phrase("Familia de Composición", subtitulos));
+					PdfPCell Cabezero6 = new PdfPCell(new Phrase("Pre. Unitario", subtitulos));
+					PdfPCell Cabezero7 = new PdfPCell(new Phrase("Total", subtitulos));
+					Cabezero1.setBorder(0);
+					Cabezero1.setPaddingBottom(8f);
+					Cabezero1.setPaddingTop(6f);
+					Cabezero1.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero1.setBorderWidthBottom(2f);
+					Cabezero1.setBorderColor(borderGray);
+					Cabezero2.setBorder(0);
+					Cabezero2.setPaddingBottom(8f);
+					Cabezero2.setPaddingTop(6f);
+					Cabezero2.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero2.setBorderWidthBottom(2f);
+					Cabezero2.setBorderColor(borderGray);
+					Cabezero3.setBorder(0);
+					Cabezero3.setPaddingBottom(8f);
+					Cabezero3.setPaddingTop(6f);
+					Cabezero3.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero3.setBorderWidthBottom(2f);
+					Cabezero3.setBorderColor(borderGray);
+					Cabezero4.setBorder(0);
+					Cabezero4.setPaddingBottom(8f);
+					Cabezero4.setPaddingTop(6f);
+					Cabezero4.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero4.setBorderWidthBottom(2f);
+					Cabezero4.setBorderColor(borderGray);
+					Cabezero5.setBorder(0);
+					Cabezero5.setPaddingBottom(8f);
+					Cabezero5.setPaddingTop(6f);
+					Cabezero5.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero5.setBorderWidthBottom(2f);
+					Cabezero5.setBorderColor(borderGray);
+					Cabezero6.setBorder(0);
+					Cabezero6.setPaddingBottom(8f);
+					Cabezero6.setPaddingTop(6f);
+					Cabezero6.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero6.setBorderWidthBottom(2f);
+					Cabezero6.setBorderColor(borderGray);
+					Cabezero7.setBorder(0);
+					Cabezero7.setPaddingBottom(8f);
+					Cabezero7.setPaddingTop(6f);
+					Cabezero7.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero7.setBorderWidthBottom(2f);
+					Cabezero7.setBorderColor(borderGray);
+					tablaPrendas.addCell(Cabezero1);
+					tablaPrendas.addCell(Cabezero2);
+					tablaPrendas.addCell(Cabezero3);
+					tablaPrendas.addCell(Cabezero4);
+					tablaPrendas.addCell(Cabezero5);
+					tablaPrendas.addCell(Cabezero6);
+					tablaPrendas.addCell(Cabezero7);
+					
+					contadorCoord++;
+					
+				}
+				SubtotalporCoord += Float.valueOf(aux[27].toString());
+				
 				Subtotal += Float.valueOf(aux[27].toString());
-				PdfPCell cuerpo1 = new PdfPCell(new Phrase(aux[9].toString(), Helvetica));
-				PdfPCell cuerpo2 = new PdfPCell(new Phrase(aux[4].toString() + "-" + aux[7].toString(), Helvetica));
-				PdfPCell cuerpo3 = new PdfPCell(new Phrase(aux[10].toString(), Helvetica));
-				PdfPCell cuerpo4 = new PdfPCell(new Phrase("$" + aux[26].toString(), Helvetica));
-				PdfPCell cuerpo5 = new PdfPCell(new Phrase("$" + aux[27].toString(), HelveticaBold));
+				PdfPCell cuerpo1 = new PdfPCell(new Phrase(aux[10].toString(), Helvetica));
+				PdfPCell cuerpo2 = new PdfPCell(new Phrase(aux[4].toString(), Helvetica));
+				PdfPCell cuerpo3 = new PdfPCell();
+				PdfPCell cuerpo4 = new PdfPCell();
+				PdfPCell cuerpo5 = new PdfPCell();
+				try {
+					cuerpo3 = new PdfPCell(new Phrase(aux[6].toString(), Helvetica));
+					cuerpo4 = new PdfPCell(new Phrase(aux[8].toString(), Helvetica));
+					cuerpo5 = new PdfPCell(new Phrase("Por definir", Helvetica));
+				}
+				catch(Exception e){
+					cuerpo3 = new PdfPCell(new Phrase("Por definir", Helvetica));
+					cuerpo4 = new PdfPCell(new Phrase("Por definir", Helvetica));
+					cuerpo5 = new PdfPCell(new Phrase(aux[7].toString(), Helvetica));
+				}
+				PdfPCell cuerpo6 = new PdfPCell(new Phrase("$" + aux[26].toString(), Helvetica));
+				PdfPCell cuerpo7 = new PdfPCell(new Phrase("$" + aux[27].toString(), HelveticaBold));
 				cuerpo1.setBorderColorBottom(borderTable);
 				cuerpo1.setBorderWidthBottom(2);
 				cuerpo1.setBorder(Rectangle.BOTTOM);
@@ -569,11 +646,23 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				cuerpo5.setBorder(Rectangle.BOTTOM);
 				cuerpo5.setPaddingBottom(10f);
 				cuerpo5.setPaddingTop(8f);
+				cuerpo6.setBorderColorBottom(borderTable);
+				cuerpo6.setBorderWidthBottom(2);
+				cuerpo6.setBorder(Rectangle.BOTTOM);
+				cuerpo6.setPaddingBottom(10f);
+				cuerpo6.setPaddingTop(8f);
+				cuerpo7.setBorderColorBottom(borderTable);
+				cuerpo7.setBorderWidthBottom(2);
+				cuerpo7.setBorder(Rectangle.BOTTOM);
+				cuerpo7.setPaddingBottom(10f);
+				cuerpo7.setPaddingTop(8f);
 				tablaPrendas.addCell(cuerpo1);
 				tablaPrendas.addCell(cuerpo2);
 				tablaPrendas.addCell(cuerpo3);
 				tablaPrendas.addCell(cuerpo4);
 				tablaPrendas.addCell(cuerpo5);
+				tablaPrendas.addCell(cuerpo6);
+				tablaPrendas.addCell(cuerpo7);
 				
 			}
 			descuentoCargo = Float.parseFloat(cotitotal.getDescuentoMonto());
@@ -592,6 +681,12 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				PdfPCell ivaNumero = new PdfPCell(new Phrase("$" + IVA, HelveticaBold));
 				PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
 				PdfPCell TotalNumero = new PdfPCell(new Phrase("$" + Total, HelveticaBold));
+				PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord, HelveticaBold));
+				cuerpoCoord.setBorderColorBottom(borderTable);
+				cuerpoCoord.setBorderWidthBottom(2);
+				cuerpoCoord.setBorder(Rectangle.BOTTOM);
+				cuerpoCoord.setPaddingBottom(10f);
+				cuerpoCoord.setPaddingTop(8f);
 				
 				subTotalLetra.setPaddingBottom(10f);
 				subTotalLetra.setPaddingTop(8f);
@@ -637,24 +732,54 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				TotalNumero.setBorderWidthBottom(2);
 				TotalNumero.setPaddingBottom(10f);
 				TotalNumero.setPaddingTop(8f);
+				
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				TotalLetra.setBorderColorBottom(borderTable);
+				tablaPrendas.addCell(TotalLetra);
+				tablaPrendas.addCell(cuerpoCoord);
+				
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(subTotalLetra);
 				tablaPrendas.addCell(subTotalNumero);
+				
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(descuentoLetra);
 				tablaPrendas.addCell(descuentoNumero);
+				
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(ivaLetra);
 				tablaPrendas.addCell(ivaNumero);
+				
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				TotalLetra.setBorderColorBottom(borderGray);
 				tablaPrendas.addCell(TotalLetra);
 				tablaPrendas.addCell(TotalNumero);
 			}	
@@ -662,63 +787,111 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		else {
 			tablaPrendas = new PdfPTable(5);
 			tablaPrendas.setWidthPercentage(100);
-			tablaPrendas.setWidths(new float[] { 2.8f, 6f, 6f, 2.2f, 1.5f });
+			tablaPrendas.setWidths(new float[] { 2.8f, 5f, 6f, 2.2f, 2.5f });
 			PdfPCell vacia = new PdfPCell(new Phrase(" "));
 			vacia.setBorder(0);
 			vacia.setPadding(3f);
-			
-			PdfPCell Cabezero1 = new PdfPCell(new Phrase("No. Coordinado", subtitulos));
-			PdfPCell Cabezero2 = new PdfPCell(new Phrase("Prenda", subtitulos));
-			PdfPCell Cabezero3 = new PdfPCell(new Phrase("Familia de Composición", subtitulos));
-			PdfPCell Cabezero4 = new PdfPCell(new Phrase("Cantidad", subtitulos));
-			PdfPCell Cabezero5 = new PdfPCell(new Phrase("Total", subtitulos));
-			Cabezero1.setBorder(0);
-			Cabezero1.setPaddingBottom(8f);
-			Cabezero1.setPaddingTop(6f);
-			Cabezero1.setVerticalAlignment(Element.ALIGN_CENTER);
-			Cabezero1.setBorderWidthBottom(2f);
-			Cabezero1.setBorderColor(borderGray);
-			Cabezero2.setBorder(0);
-			Cabezero2.setPaddingBottom(8f);
-			Cabezero2.setPaddingTop(6f);
-			Cabezero2.setVerticalAlignment(Element.ALIGN_CENTER);
-			Cabezero2.setBorderWidthBottom(2f);
-			Cabezero2.setBorderColor(borderGray);
-			Cabezero3.setBorder(0);
-			Cabezero3.setPaddingBottom(8f);
-			Cabezero3.setPaddingTop(6f);
-			Cabezero3.setVerticalAlignment(Element.ALIGN_CENTER);
-			Cabezero3.setBorderWidthBottom(2f);
-			Cabezero3.setBorderColor(borderGray);
-			Cabezero4.setBorder(0);
-			Cabezero4.setPaddingBottom(8f);
-			Cabezero4.setPaddingTop(6f);
-			Cabezero4.setVerticalAlignment(Element.ALIGN_CENTER);
-			Cabezero4.setBorderWidthBottom(2f);
-			Cabezero4.setBorderColor(borderGray);
-			Cabezero5.setBorder(0);
-			Cabezero5.setPaddingBottom(8f);
-			Cabezero5.setPaddingTop(6f);
-			Cabezero5.setVerticalAlignment(Element.ALIGN_CENTER);
-			Cabezero5.setBorderWidthBottom(2f);
-			Cabezero5.setBorderColor(borderGray);
-			tablaPrendas.addCell(Cabezero1);
-			tablaPrendas.addCell(Cabezero2);
-			tablaPrendas.addCell(Cabezero3);
-			tablaPrendas.addCell(Cabezero4);
-			tablaPrendas.addCell(Cabezero5);
 			
 			float Subtotal = 0;
 			float descuentoCargo = 0;
 			float IVA = 0;
 			float Total = 0;
+			int contadorCoord=1;
+			float SubtotalporCoord = 0;
 			for(int con = 0; con < prendas.size(); con++) {
 				Object[] aux = (Object[]) prendas.get(con);
+				
+				if(contadorCoord==Integer.parseInt(aux[9].toString())) {
+					if(SubtotalporCoord!=0) {
+						PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
+						PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord, HelveticaBold));
+						cuerpoCoord.setBorderColorBottom(borderTable);
+						cuerpoCoord.setBorderWidthBottom(2);
+						cuerpoCoord.setBorder(Rectangle.BOTTOM);
+						cuerpoCoord.setPaddingBottom(10f);
+						cuerpoCoord.setPaddingTop(8f);
+						TotalLetra.setPaddingBottom(10f);
+						TotalLetra.setPaddingTop(8f);
+						TotalLetra.setBorder(0); 
+						TotalLetra.setBorder(Rectangle.BOTTOM);
+						TotalLetra.setBorderColorBottom(borderTable);
+						TotalLetra.setBorderWidthBottom(2);
+						tablaPrendas.addCell(vacia);
+						tablaPrendas.addCell(vacia);
+						tablaPrendas.addCell(vacia);
+						tablaPrendas.addCell(TotalLetra);
+						tablaPrendas.addCell(cuerpoCoord);
+						SubtotalporCoord=0;
+					}
+					
+					
+					PdfPCell Cabezero1 = new PdfPCell(new Phrase("Cantidad", subtitulos));
+					PdfPCell Cabezero2 = new PdfPCell(new Phrase("Prenda", subtitulos));
+					PdfPCell Cabezero3 = new PdfPCell(new Phrase("Familia de Composición", subtitulos));
+					PdfPCell Cabezero4 = new PdfPCell(new Phrase("Pre. Unitario", subtitulos));
+					PdfPCell Cabezero5 = new PdfPCell(new Phrase("Total", subtitulos));
+					Cabezero1.setBorder(0);
+					Cabezero1.setPaddingBottom(8f);
+					Cabezero1.setPaddingTop(6f);
+					Cabezero1.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero1.setBorderWidthBottom(2f);
+					Cabezero1.setBorderColor(borderGray);
+					Cabezero2.setBorder(0);
+					Cabezero2.setPaddingBottom(8f);
+					Cabezero2.setPaddingTop(6f);
+					Cabezero2.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero2.setBorderWidthBottom(2f);
+					Cabezero2.setBorderColor(borderGray);
+					Cabezero3.setBorder(0);
+					Cabezero3.setPaddingBottom(8f);
+					Cabezero3.setPaddingTop(6f);
+					Cabezero3.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero3.setBorderWidthBottom(2f);
+					Cabezero3.setBorderColor(borderGray);
+					Cabezero4.setBorder(0);
+					Cabezero4.setPaddingBottom(8f);
+					Cabezero4.setPaddingTop(6f);
+					Cabezero4.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero4.setBorderWidthBottom(2f);
+					Cabezero4.setBorderColor(borderGray);
+					Cabezero5.setBorder(0);
+					Cabezero5.setPaddingBottom(8f);
+					Cabezero5.setPaddingTop(6f);
+					Cabezero5.setVerticalAlignment(Element.ALIGN_CENTER);
+					Cabezero5.setBorderWidthBottom(2f);
+					Cabezero5.setBorderColor(borderGray);
+					tablaPrendas.addCell(Cabezero1);
+					tablaPrendas.addCell(Cabezero2);
+					tablaPrendas.addCell(Cabezero3);
+					tablaPrendas.addCell(Cabezero4);
+					tablaPrendas.addCell(Cabezero5);
+					
+					PdfPCell cuerpoCoord = new PdfPCell(new Phrase("Coordinado " + aux[9].toString(), HelveticaBold));
+					PdfPCell vacio = new PdfPCell();
+					cuerpoCoord.setBorderColorBottom(borderTable);
+					cuerpoCoord.setBorderWidthBottom(2);
+					cuerpoCoord.setBorder(Rectangle.BOTTOM);
+					cuerpoCoord.setPaddingBottom(10f);
+					cuerpoCoord.setPaddingTop(8f);
+					vacio.setBorderColorBottom(borderTable);
+					vacio.setBorderWidthBottom(2);
+					vacio.setBorder(Rectangle.BOTTOM);
+					vacio.setPaddingBottom(10f);
+					vacio.setPaddingTop(8f);
+					tablaPrendas.addCell(cuerpoCoord);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					tablaPrendas.addCell(vacio);
+					contadorCoord++;
+					
+				}
+				SubtotalporCoord += Float.valueOf(aux[27].toString());
 				Subtotal += Float.valueOf(aux[27].toString());
-				PdfPCell cuerpo1 = new PdfPCell(new Phrase(aux[9].toString(), Helvetica));
-				PdfPCell cuerpo2 = new PdfPCell(new Phrase(aux[2].toString() + "-" + aux[7].toString(), Helvetica));
+				PdfPCell cuerpo1 = new PdfPCell(new Phrase(aux[10].toString(), Helvetica));
+				PdfPCell cuerpo2 = new PdfPCell(new Phrase(aux[2].toString(), Helvetica));
 				PdfPCell cuerpo3 = new PdfPCell(new Phrase(aux[7].toString(), Helvetica));
-				PdfPCell cuerpo4 = new PdfPCell(new Phrase(aux[10].toString(), Helvetica));
+				PdfPCell cuerpo4 = new PdfPCell(new Phrase("$" + aux[26].toString(), Helvetica));
 				PdfPCell cuerpo5 = new PdfPCell(new Phrase("$" + aux[27].toString(), HelveticaBold));
 				cuerpo1.setBorderColorBottom(borderTable);
 				cuerpo1.setBorderWidthBottom(2);
@@ -768,7 +941,13 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				PdfPCell ivaNumero = new PdfPCell(new Phrase("$" + IVA, HelveticaBold));
 				PdfPCell TotalLetra = new PdfPCell(new Phrase("Total:", subtitulos));
 				PdfPCell TotalNumero = new PdfPCell(new Phrase("$" + Total, HelveticaBold));
-				
+				PdfPCell cuerpoCoord = new PdfPCell(new Phrase("$" + SubtotalporCoord, HelveticaBold));
+				cuerpoCoord.setBorderColorBottom(borderTable);
+				cuerpoCoord.setBorderWidthBottom(2);
+				cuerpoCoord.setBorder(Rectangle.BOTTOM);
+				cuerpoCoord.setPaddingBottom(10f);
+				cuerpoCoord.setPaddingTop(8f);
+
 				subTotalLetra.setPaddingBottom(10f);
 				subTotalLetra.setPaddingTop(8f);
 				subTotalLetra.setBorder(0);
@@ -813,24 +992,42 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 				TotalNumero.setBorderWidthBottom(2);
 				TotalNumero.setPaddingBottom(10f);
 				TotalNumero.setPaddingTop(8f);
+				
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				TotalLetra.setBorderColorBottom(borderTable);
+				tablaPrendas.addCell(TotalLetra);
+				tablaPrendas.addCell(cuerpoCoord);
+				
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				tablaPrendas.addCell(vacia);
+				
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(subTotalLetra);
 				tablaPrendas.addCell(subTotalNumero);
+				
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(descuentoLetra);
 				tablaPrendas.addCell(descuentoNumero);
+				
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(ivaLetra);
 				tablaPrendas.addCell(ivaNumero);
+				
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
 				tablaPrendas.addCell(vacia);
+				TotalLetra.setBorderColorBottom(borderGray);
 				tablaPrendas.addCell(TotalLetra);
 				tablaPrendas.addCell(TotalNumero);
 			}	
@@ -858,31 +1055,48 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		    	PdfPCell leyenda5 = new PdfPCell(new Phrase("* Los ajustes se entregarán en un máximo de 3 semanas a partir de su toma total.", Helvetica));
 		    	PdfPCell leyenda6 = new PdfPCell(new Phrase("* Para el tiempo de entrega no se contarán la semana santa y las ultimas dos semanas de Diciembre.", Helvetica));
 		    	PdfPCell leyenda7 = new PdfPCell(new Phrase("* Vigencia de la cotización: 15 días.", Helvetica));
+		    	PdfPCell tituloObservaciones = new PdfPCell(new Phrase("Observaciones, Especificaciones, Nota especial", TitulosOscuros));
+		    	PdfPCell observaciones = new PdfPCell();
+		    	try {
+		    		observaciones = new PdfPCell(new Phrase(model.get("Observaciones").toString(), Helvetica));
+		    	}
+		    	catch(Exception e) {
+		    		observaciones = new PdfPCell(new Phrase("Ninguno", Helvetica));
+		    	}
+		    	
 		    	leyenda2.setBorder(0);
 		    	leyenda3.setBorder(0);
 		    	leyenda4.setBorder(0);
 		    	leyenda5.setBorder(0);
 		    	leyenda6.setBorder(0);
 		    	leyenda7.setBorder(0);
+		    	tituloObservaciones.setBorder(0);
+		    	observaciones.setBorder(0);
 		    	leyenda2.setPadding(3f);
 		    	leyenda3.setPadding(3f);
 		    	leyenda4.setPadding(3f);
 		    	leyenda5.setPadding(3f);
 		    	leyenda6.setPadding(3f);
 		    	leyenda7.setPadding(3f);
+		    	tituloObservaciones.setPadding(3f);
+		    	observaciones.setPadding(3f);
 		    	leyenda2.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    	leyenda3.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    	leyenda4.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    	leyenda5.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    	leyenda6.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    	leyenda7.setHorizontalAlignment(Element.ALIGN_LEFT);
+		    	tituloObservaciones.setHorizontalAlignment(Element.ALIGN_LEFT);
+		    	observaciones.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
 		    	tablaFooter1.addCell(leyenda2);
 		    	tablaFooter1.addCell(leyenda3);
 		    	tablaFooter1.addCell(leyenda4);
 		    	tablaFooter1.addCell(leyenda5);
 		    	tablaFooter1.addCell(leyenda6);
 				tablaFooter1.addCell(leyenda7);
-
+				tablaFooter1.addCell(tituloObservaciones);
+				tablaFooter1.addCell(observaciones);
+				
 		    	//Segunda tabla de las firmas
 		    	PdfPTable tablaFooter2 = new PdfPTable(3);
 		    	tablaFooter2.setWidthPercentage(90);
@@ -1002,15 +1216,103 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 			document.add(tablaPrendas);
 			document.add(tableFirmas);
 			document.add(espacio);
+
+			document.newPage();
+			PdfPTable tableCV = new PdfPTable(1);
+			PdfPCell tituloCV = new PdfPCell(new Phrase("Notaria 33", TitulosOscuros));
+			tituloCV.setHorizontalAlignment(Element.ALIGN_LEFT);
+			tituloCV.setVerticalAlignment(Element.ALIGN_CENTER);
+			tituloCV.setBorder(0);
+			tituloCV.setPaddingTop(28f);
+			tableCV.addCell(tituloCV);
+			
+			tituloCV = new PdfPCell(new Phrase("At'n: " + cliente.getNombreContacto(), TitulosOscuros));
+			tituloCV.setHorizontalAlignment(Element.ALIGN_LEFT);
+			tituloCV.setVerticalAlignment(Element.ALIGN_CENTER);
+			tituloCV.setBorder(0);
+			tituloCV.setPaddingTop(18f);
+			tableCV.addCell(tituloCV);
+			
+			tituloCV = new PdfPCell(new Phrase("Presente:", TitulosOscuros));
+			tituloCV.setHorizontalAlignment(Element.ALIGN_LEFT);
+			tituloCV.setVerticalAlignment(Element.ALIGN_CENTER);
+			tituloCV.setBorder(0);
+			tituloCV.setPaddingTop(18f);
+			tableCV.addCell(tituloCV);
+			
+			PdfPCell EspacioCV = new PdfPCell();
+			EspacioCV.setBorder(0);
+			EspacioCV.setPadding(15f);
+			tableCV.addCell(EspacioCV);
+
+			
+			PdfPCell ContenidoCV = new PdfPCell(new Phrase("Somos una empresa joven y dinámica especializada en el diseño y confección de uniformes corporativos e institucionales.\r\n" + "\r\n" +
+														   "En ALTIMA entendemos plenamente las necesidades de las empresas y las expectativas de las usuarias finales " + 
+														   "de nuestros uniformes. Por eso, el principal objetivo que tenemos es ofrecer soluciones versátiles para cada " + 
+														   "tipo de necesidades y satisfacer con creces las expectativas de buen gusto, actualidad y distinción de quienes " + 
+														   "visten uniformes ALTIMA.\r\n" + "\r\n" + 
+														   "En consecuencia, aplicamos rigurosos controles de calidad en la selección de las telas que utilizamos y en la " + 
+														   "ejecución de los distintos procesos de corte, confección y acabados; asimismo proyectamos las últimas " + 
+														   "tendencias de la moda en el diseno de cada una de las prendas que elaboramos. Es así que podemos ofrecer " + 
+														   "a la mujer ejecutiva uniformes que puede lucir con satisfacción y agrado dentro y fuera de su ámbito de trabajo.\r\n" + "\r\n" + 
+														   "Coincidimos con usted en que el capital más valioso de su empresa es su personal y en que la buena imagen " + 
+														   "del mismo es una inversión que contribuye significativamente a crear y mantener entre sus clientes y " + 
+														   "proveedores una percepción positiva de su negocio.\r\n" + "\r\n" + 
+														   "Por lo mismo, lo invitamos a que conozca en detalle las ventajas competitivas de nuestros productos y servicio " + 
+														   "y nos brinde pronto la oportunidad de demostrarles porque AL TIMA sera siempre su mejor inversión en " + 
+														   "uniformes corporativos e institucionales.\r\n" + "\r\n" + 
+														   "Llámenos y con gusto uno de nuestros ejecutivos de cuenta le visitara, brindándoles el servicio y atención " + 
+														   "especializada que su empresa merece", Titulos));
+			ContenidoCV.setBorder(0);
+			ContenidoCV.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+			ContenidoCV.setPaddingTop(10f);
+			ContenidoCV.setPaddingBottom(10f);
+			tableCV.addCell(ContenidoCV);
+			
+			EspacioCV = new PdfPCell();
+			EspacioCV.setBorder(0);
+			EspacioCV.setPadding(30f);
+			tableCV.addCell(EspacioCV);
+			
+			PdfPCell firmaGerente = new PdfPCell(new Phrase(" "));
+			firmaGerente.setBorder(0);
+			firmaGerente.setPadding(3f);
+	    	Image imgfirmaGerente = Image.getInstance("src/main/resources/static/dist/img/firma.png");
+	    	
+	    	imgfirmaGerente.scalePercent(10f);
+	    	
+	    	tableCV.addCell(firmaGerente);
+	    	PdfPCell firmaImgGerente = new PdfPCell(imgfirmaGerente);
+	    	firmaImgGerente.setBorder(0);
+	    	firmaImgGerente.setPadding(3f);
+	    	firmaImgGerente.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	tableCV.addCell(firmaImgGerente);
+	    	//Espacios para firmar
+	    	PdfPCell espacioFirmaGerente = new PdfPCell(new Phrase("________________________"));
+	    	espacioFirmaGerente.setBorder(0);
+	    	espacioFirmaGerente.setBorder(0);
+	    	espacioFirmaGerente.setPadding(3f);
+	    	espacioFirmaGerente.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	tableCV.addCell(espacioFirmaGerente);
+			
+	    	PdfPCell nombreFirmaGerente = new PdfPCell(new Phrase("Adán Gomez", Helvetica));
+	    	PdfPCell puestoFirmaGerente = new PdfPCell(new Phrase("Director General", Helvetica));
+	    	nombreFirmaGerente.setBorder(0);
+	    	nombreFirmaGerente.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	nombreFirmaGerente.setPaddingBottom(0.1f);
+	    	puestoFirmaGerente.setBorder(0);
+	    	puestoFirmaGerente.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    	puestoFirmaGerente.setPaddingBottom(0.1f);
+	    	tableCV.addCell(nombreFirmaGerente);
+	    	tableCV.addCell(puestoFirmaGerente);
+	    	
+	    	
+			document.add(tableCV);
+			
 			document.newPage();
 			PdfReader reader = new PdfReader(FILE1);
-			PdfImportedPage page = writer.getImportedPage(reader, 1); 
+			PdfImportedPage page = writer.getImportedPage(reader, 3); 
 			PdfContentByte cb = writer.getDirectContent();
-			cb.addTemplate(page, 0, 0);
-			document.newPage();
-			reader = new PdfReader(FILE1);
-			page = writer.getImportedPage(reader, 3); 
-			cb = writer.getDirectContent();
 			cb.addTemplate(page, 0, 0);
 			document.newPage();
 			reader = new PdfReader(FILE1);

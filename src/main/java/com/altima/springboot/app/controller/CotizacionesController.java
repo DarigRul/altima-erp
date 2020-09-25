@@ -272,6 +272,8 @@ public class CotizacionesController {
 	public String listGeneral(@PathVariable(value = "id") Long id, @PathVariable(value = "totales") boolean totales, @PathVariable(value = "cv") boolean cv, @PathVariable(value = "mail") String mail, Model model) {
 		
 		model.addAttribute("tipo", cotizacionService.findOne(id).getTipoCotizacion());
+		model.addAttribute("TituloCotizacion", cotizacionService.findOne(id).getTituloCotizacion());
+		model.addAttribute("Observaciones", cotizacionService.findOne(id).getObservaciones());
 		model.addAttribute("id", cotizacionService.findOne(id).getIdText());
 		model.addAttribute("cotizacionTotal", cotizacionTotalService.findByCotizacion(id));
 		model.addAttribute("cliente", clienteService.findOne(cotizacionService.findOne(id).getIdCliente()));
