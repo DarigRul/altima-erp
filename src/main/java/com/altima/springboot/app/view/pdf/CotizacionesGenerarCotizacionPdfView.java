@@ -1345,6 +1345,7 @@ public class CotizacionesGenerarCotizacionPdfView extends AbstractPdfView{
 		if(!correo.equalsIgnoreCase("nulo")) {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			document = new Document(PageSize.A4);
+			document.setMargins(40f, 40f, 10f, 100f);
 			writer =  PdfWriter.getInstance(document, baos);
 			HeaderFooterCotizacionesPdfView event = new HeaderFooterCotizacionesPdfView();
 			writer.setPageEvent(event);
