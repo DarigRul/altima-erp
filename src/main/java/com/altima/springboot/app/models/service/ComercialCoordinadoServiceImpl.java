@@ -73,6 +73,7 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Override
 	@Transactional
 	public List<Object []> findAllEmpresa(Long id) {
+		
 		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + 
 				"	coordinado.id_coordinado,\r\n" + 
 				"	coordinado.id_text,\r\n" + 
@@ -81,6 +82,7 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"	alt_comercial_coordinado AS coordinado \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
+				"  AND coordinado.estatus = 1"+
 				"	AND coordinado.id_pedido ="+id).getResultList();
 		return re;
 		
@@ -257,13 +259,19 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 
 	@Transactional(readOnly = true)
 	@Override
-	public ComercialCoordinado findOneCoorSPF(Long idPedido) {
+	public ComercialCoordinado findOneCoorSPF(String idText) {
 		
-		ComercialCoordinado re =(ComercialCoordinado) em.createQuery("from ComercialCoordinado where id_pedido="+idPedido).getSingleResult();
+
+		ComercialCoordinado spf = null;
 	
-	
-		return re;
+		try {
+			return  (ComercialCoordinado) em.createQuery("from ComercialCoordinado where idText='"+idText+"'").getSingleResult();
+			}
+			catch(Exception e) {
+				return spf;
+			}
 		
+
 	}
 	
 	//P R E N D A  C O O R D I N A D O S

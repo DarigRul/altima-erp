@@ -23,7 +23,7 @@ public interface IComercialCoordinadoService {
 	List<Object []> coloresMateriales(Long idMaterial, Long idTela ,  Long idCoorPrenda);
 	public Integer ContadorCoordinadoCliente (Long id);
 	// buscar coordinado por id de pedido, funcionara para los SFP
-	ComercialCoordinado findOneCoorSPF(Long idPedido);
+	ComercialCoordinado findOneCoorSPF(String idText);
 	
 	// Tabla Coordinado prenda 
 	List<Object []> findAllCoorPrenda(Long id );

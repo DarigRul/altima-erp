@@ -18,10 +18,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialCoordinado;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
+import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.entity.ComercialSpfEmpleado;
+import com.altima.springboot.app.models.service.IAdminConfiguracionPedidoService;
+import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialSpfEmpleadoService;
 
@@ -34,6 +39,12 @@ public class ComercialSpfEmpleadoController {
 	
 	@Autowired
 	private IComercialCoordinadoService CoordinadoService;
+	
+	@Autowired
+	private ICargaPedidoService cargaPedidoService;
+	
+	@Autowired
+	private IAdminConfiguracionPedidoService configService;
 
 	@GetMapping("/empleados-spf/{id}")
 	public String ListaEmpleadosSPF(@PathVariable(value = "id") Long id,Model model){
@@ -134,33 +145,39 @@ public class ComercialSpfEmpleadoController {
 		}
 		
 		@GetMapping("/agregar-falda-spf/{id}")
-		public String addCoordinados(@PathVariable(value = "id") Long id,Map<String, Object> model) {
-			ComercialCoordinado res = null;
-			Integer contador = CoordinadoService.ContadorCoordinadoCliente(id);
-			if ( contador ==0) {
+		public String addCoordinados(@PathVariable(value = "id") Long id,Map<String, Object> model, RedirectAttributes redirectAttrs) {
+			ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+			ComercialCoordinado coorSPF = CoordinadoService.findOneCoorSPF("COORSPF"+pedido.getIdPedido());
+	
+		
+			if ( coorSPF == null) {
+				System.out.println("entro al iffff");
 				ComercialCoordinado coor = new ComercialCoordinado () ;
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				Date date = new Date();
 				DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				coor.setEstatus("1");
-				coor.setIdPedido(id);
-				coor.setNumeroCoordinado(String.valueOf((contador + 1)));
+				coor.setEstatus("2");
+				coor.setIdPedido( pedido.getIdPedido());
+				coor.setNumeroCoordinado(String.valueOf((1)));
 				coor.setCreadoPor(auth.getName());
 				coor.setFechaCreacion(hourdateFormat.format(date));
 				coor.setUltimaFechaModificacion(hourdateFormat.format(date));
-				coor.setIdText("COORSPF" + ((contador + 1) + 100));
+				coor.setIdText("COORSPF" + pedido.getIdPedido());
 				CoordinadoService.save(coor);
-			}
-			
-			else {
-				 res =CoordinadoService.findOneCoorSPF(id);
+				coorSPF= coor;
 				
 			}
+			
+			
 			ComercialCoordinadoPrenda prenda = new ComercialCoordinadoPrenda();
-			prenda.setIdCoordinado(res.getIdCoordinado());
+			prenda.setIdCoordinado(coorSPF.getIdCoordinado());
 			model.put("prenda", prenda);
-			model.put("listPrendas", CoordinadoService.findAllPrenda("Falda"));
-			model.put("listCoorPrenda", CoordinadoService.findAllCoorPrenda(res.getIdCoordinado()));
+			
+			if (  CoordinadoService.findAllCoorPrenda(coorSPF.getIdCoordinado()).isEmpty() ) {
+				model.put("listPrendas", CoordinadoService.findAllPrenda("Falda"));
+			}
+			
+			model.put("listCoorPrenda", CoordinadoService.findAllCoorPrenda(coorSPF.getIdCoordinado()));
 
 			return "agregar-coordinado";
 		}
