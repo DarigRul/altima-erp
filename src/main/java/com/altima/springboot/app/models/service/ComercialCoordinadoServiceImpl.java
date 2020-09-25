@@ -93,6 +93,14 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 		// TODO Auto-generated method stub
 		return em.createQuery("from DisenioLookup where tipo_lookup='Familia Prenda' and estatus=1 ORDER BY nombre_lookup ").getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<DisenioLookup> findAllPrenda(String tipo) {
+		// TODO Auto-generated method stub
+		return em.createQuery("from DisenioLookup where tipo_lookup='Familia Prenda' and estatus=1 and  nombre_lookup like '%"+tipo+"%' ORDER BY nombre_lookup ").getResultList();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -247,6 +255,16 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 		
 	}
 
+	@Transactional(readOnly = true)
+	@Override
+	public ComercialCoordinado findOneCoorSPF(Long idPedido) {
+		
+		ComercialCoordinado re =(ComercialCoordinado) em.createQuery("from ComercialCoordinado where id_pedido="+idPedido).getSingleResult();
+	
+	
+		return re;
+		
+	}
 	
 	//P R E N D A  C O O R D I N A D O S
 	@SuppressWarnings("unchecked")
