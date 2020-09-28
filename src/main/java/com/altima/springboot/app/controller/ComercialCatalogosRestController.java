@@ -44,11 +44,12 @@ public class ComercialCatalogosRestController {
         modeloLookup.setNombreLookup(modeloAtributos[0]);
         modeloLookup.setAtributo1(modeloAtributos[1]);
         modeloLookup.setAtributo2(modeloAtributos[2]);
+        modeloLookup.setEstatus(1);
         
         try {
             modeloLookup.setIdText("");
             comercialLookupService.save(modeloLookup);
-            modeloLookup.setIdText("Mod"+(10000+modeloLookup.getIdLookup()));
+            modeloLookup.setIdText("MOD"+(10000+modeloLookup.getIdLookup()));
             comercialLookupService.save(modeloLookup);
 
         } catch (Exception e) {
@@ -74,6 +75,24 @@ public class ComercialCatalogosRestController {
         return "Success";
     }
     
+    @GetMapping("/bajarModelo")
+    public Object bajarModelo(@RequestParam(name = "idLookup")Long id) throws Exception{
+        ComercialLookup modelo = comercialLookupService.findOne(id);
+        modelo.setEstatus(0);
+        comercialLookupService.save(modelo);
+        //System.out.println(preciobaja.getEstatus());
+        return comercialLookupService.findOne(id);
+        
+    }
+
+    @GetMapping("/altaModelo")
+    public Object altaModelo(@RequestParam(name = "idLookup")Long id) throws Exception{
+        ComercialLookup modelo = comercialLookupService.findOne(id);
+        modelo.setEstatus(1);
+        comercialLookupService.save(modelo);
+        return comercialLookupService.findOne(id);
+    }
+
     @GetMapping("getPrecios")
     public List<ComercialLookup> getPrecios(@RequestParam String tipoLookup){
         return comercialLookupService.findByTipoLookup(tipoLookup);
@@ -89,14 +108,15 @@ public class ComercialCatalogosRestController {
         ComercialLookup precioLookup =new ComercialLookup();
         String[] precioAtributos = precio.split(",");
         precioLookup.setCreadoPor(auth.getName());
-        precioLookup.setTipoLookup("Precio");
-        precioLookup.setDescripcionLookup(precioAtributos[0]);
-        precioLookup.setAtributo2(precioAtributos[1]);
+        precioLookup.setTipoLookup("Bordado");
+        precioLookup.setNombreLookup(precioAtributos[0]);
+        precioLookup.setAtributo1(precioAtributos[1]);
+        precioLookup.setEstatus(1);
 
         try{
             precioLookup.setIdText("");
             comercialLookupService.save(precioLookup);
-            precioLookup.setIdText("Pre"+(10000+precioLookup.getIdLookup()));
+            precioLookup.setIdText("BORD"+(10000+precioLookup.getIdLookup()));
             comercialLookupService.save(precioLookup);
         }catch (Exception e){
             return "Error "+e;
@@ -128,8 +148,8 @@ public class ComercialCatalogosRestController {
     public String patchPrecio(@RequestParam String precio){
         String[] precioAtributos = precio.split(",");
         ComercialLookup precioLookup = comercialLookupService.findOne(Long.parseLong(precioAtributos[0]));
-        precioLookup.setDescripcionLookup(precioAtributos[1]);
-        precioLookup.setAtributo2(precioAtributos[2]);
+        precioLookup.setNombreLookup(precioAtributos[1]);
+        precioLookup.setAtributo1(precioAtributos[2]);
         try{
             comercialLookupService.save(precioLookup);
             
@@ -160,11 +180,11 @@ public class ComercialCatalogosRestController {
         ivaLookup.setCreadoPor(auth.getName());
         ivaLookup.setTipoLookup("Iva");
         ivaLookup.setAtributo1(ivaAtributos[0]);
-
+        ivaLookup.setEstatus(1);
         try{
             ivaLookup.setIdText("");
             comercialLookupService.save(ivaLookup);
-            ivaLookup.setIdText("Iva"+(10000+ivaLookup.getIdLookup()));
+            ivaLookup.setIdText("IVA"+(10000+ivaLookup.getIdLookup()));
             comercialLookupService.save(ivaLookup);
         }catch (Exception e){
             return "Error "+e;

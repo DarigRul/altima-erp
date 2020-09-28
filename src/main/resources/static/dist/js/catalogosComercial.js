@@ -160,8 +160,8 @@ function listarModelos() {
             data[i].atributo2,
             '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
             '<button onclick="editarModelo(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-            '<button onclick="bajarModelo()" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' +
-            '<button onclick="altaModelo()" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>'
+            (data[i].estatus == 1 ? '<button onclick="bajarModelo(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+            (data[i].estatus == 0 ? '<button onclick="altaModelo(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
           ]
         ).draw();
       }
@@ -230,8 +230,8 @@ function agregarModelo() {
                     data[i].atributo2,
                     '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
                     '<button onclick="editarModelo(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                    '<button onclick="bajarModelo()" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' +
-                    '<button onclick="altaModelo()" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>'
+                    (data[i].estatus == 1 ? '<button onclick="bajarModelo(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                    (data[i].estatus == 0 ? '<button onclick="altaModelo(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                   ]
                 ).draw();
               }
@@ -335,8 +335,8 @@ function editarModelo(idLookup) {
                           data[i].atributo2,
                           '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
                           '<button onclick="editarModelo(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                          '<button onclick="bajarModelo()" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' +
-                          '<button onclick="altaModelo()" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>'
+                          (data[i].estatus == 1 ? '<button onclick="bajarModelo(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                          (data[i].estatus == 0 ? '<button onclick="altaModelo(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                         ]
                       ).draw();
                     }
@@ -378,48 +378,91 @@ function editarModelo(idLookup) {
   });
 }
 
-function bajarModelo() {
+function bajarModelo(idLookup) {
+  // alert(idLookup);
   Swal.fire({
-    title: "¿Deseas dar de baja al modelo?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
+      title: "¿Deseas dar de baja al Modelo?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
   }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Modelo dado de baja correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
+      if (result.value) {
+
+          $.ajax({
+              method: "GET",
+              url: "/bajarModelo",
+              data: {
+                  "_csrf": $('#token').val(),
+                  "idLookup": idLookup
+              },
+              success: (data) => {
+
+              },
+              error: function(data) {
+                  alert("Error en el servidor");
+              }
+          });
+
+          Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Modelo dado de baja correctamente",
+              showConfirmButton: false,
+              timer: 2500,
+          });
+          setTimeout(function() {
+              location.reload();
+          }, 2300);
+      }
   });
 }
-function altaModelo() {
+
+function altaModelo(idLookup) {
   Swal.fire({
-    title: "¿Deseas dar de alta al modelo?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
+      title: "¿Deseas dar de alta al Modelo?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
   }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Modelo dado de alta correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
+      if (result.value) {
+
+          $.ajax({
+              type: "GET",
+              url: "/altaModelo",
+              data: {
+                  "_csrf": $('#token').val(),
+                  "idLookup": idLookup
+              },
+              success: (data) => {
+
+              },
+              error: function(data) {
+                  alert("Error en el servidor")
+              }
+          });
+
+
+          Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Modelo dado de alta correctamente",
+              showConfirmButton: false,
+              timer: 2500,
+          });
+          setTimeout(function() {
+              location.reload();
+          }, 2300);
+      }
   });
 }
+
+
 
 // Habilitar campos para Precio
 function listarPrecios() {
@@ -427,7 +470,7 @@ function listarPrecios() {
       method: "GET",
       url: "/getPrecios",
       data: {
-          "tipoLookup": "Precio"
+          "tipoLookup": "Bordado"
       },
       success: (data) => {
           tablePrecios.rows().remove().draw();
@@ -435,8 +478,8 @@ function listarPrecios() {
               tablePrecios.row.add(
                   [
                       data[i].idText,
-                      data[i].descripcionLookup,
-                      data[i].atributo2,
+                      data[i].nombreLookup,
+                      data[i].atributo1,
                       '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
                       '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
                       (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
@@ -490,7 +533,7 @@ function agregarPrecio() {
                       method: "GET",
                       url: "/getPrecios",
                       data: {
-                          "tipoLookup": "Precio"
+                          "tipoLookup": "Bordado"
                       },
                       success: (data) => {
                           tablePrecios.rows().remove().draw();
@@ -498,8 +541,8 @@ function agregarPrecio() {
                               tablePrecios.row.add(
                                   [
                                       data[i].idText,
-                                      data[i].descripcionLookup,
-                                      data[i].atributo2,
+                                      data[i].nombreLookup,
+                                      data[i].atributo1,
                                       '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
                                       '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
                                       (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
@@ -552,11 +595,11 @@ function editarPrecio(idLookup) {
               html: '<div class="row">' +
                   '<div class="form-group col-md-6">' +
                   '<label for="descripcionPrecioE">Descripci&oacute;n</label>' +
-                  '<input type="text" value="' + data.descripcionLookup + '" class="form-control" id="descripcionPrecioE" placeholder="Especificar">' +
+                  '<input type="text" value="' + data.nombreLookup + '" class="form-control" id="descripcionPrecioE" placeholder="Especificar">' +
                   '</div>' +
                   '<div class="form-group col-md-6">' +
                   '<label for="numeroPrecioE">Precio</label>' +
-                  '<input type="number" value="' + data.atributo2 + '" class="form-control" id="numeroPrecioE" placeholder="30">' +
+                  '<input type="number" value="' + data.atributo1 + '" class="form-control" id="numeroPrecioE" placeholder="30">' +
                   '</div>' +
                   '</div>',
               showCancelButton: true,
@@ -584,7 +627,7 @@ function editarPrecio(idLookup) {
                                   method: "GET",
                                   url: "/getPrecios",
                                   data: {
-                                      "tipoLookup": "Precio"
+                                      "tipoLookup": "Bordado"
                                   },
                                   success: (data) => {
                                       tablePrecios.rows().remove().draw();
@@ -592,8 +635,8 @@ function editarPrecio(idLookup) {
                                           tablePrecios.row.add(
                                               [
                                                   data[i].idText,
-                                                  data[i].descripcionLookup,
-                                                  data[i].atributo2,
+                                                  data[i].nombreLookup,
+                                                  data[i].atributo1,
                                                   '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
                                                   '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
                                                   (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
