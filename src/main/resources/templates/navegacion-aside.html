@@ -173,6 +173,16 @@
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_HISTORICO_LISTAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_HISTORICO_AGREGAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_HISTORICO_EDITAR'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_HISTORICO_ELIMINAR'')')})">
+                                    <a th:href="${'/solicitud-de-modelos'}" class="nav-link" id="navMueSol">
+                                        <i class="nav-icon fas fa-clipboard"></i>
+                                        <p>Solicitud de modelos</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_CATALOGO_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_CATALOGO_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_CATALOGO_EDITAR'')')}) or 
