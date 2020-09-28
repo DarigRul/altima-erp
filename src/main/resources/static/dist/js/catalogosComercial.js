@@ -422,208 +422,592 @@ function altaModelo() {
 }
 
 // Habilitar campos para Precio
-$("#detallePrecio").on("shown.bs.modal", function () {
+function listarPrecios() {
+  $.ajax({
+      method: "GET",
+      url: "/getPrecios",
+      data: {
+          "tipoLookup": "Precio"
+      },
+      success: (data) => {
+          tablePrecios.rows().remove().draw();
+          for (i in data) {
+              tablePrecios.row.add(
+                  [
+                      data[i].idText,
+                      data[i].descripcionLookup,
+                      data[i].atributo2,
+                      '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                      '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                      (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                      (data[i].estatus == 0 ? '<button onclick="altaPrecio(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                  ]
+              ).draw();
+          }
+      }
+  });
+}
+
+$("#detallePrecio").on("shown.bs.modal", function() {
   $(document).off("focusin.modal");
 });
+
 function agregarPrecio() {
   Swal.fire({
-    title: "Nuevo precio",
-    html: '<div class="row">' +
-      '<div class="form-group col-md-6">' +
-      '<label for="descripcionPrecio">Descripci&oacute;n</label>' +
-      '<input type="text" class="form-control" id="descripcionPrecio" placeholder="Especificar">' +
-      '</div>' +
-      '<div class="form-group col-md-6">' +
-      '<label for="numeroPrecio">Precio</label>' +
-      '<input type="number" class="form-control" id="numeroPrecio" placeholder="30">' +
-      '</div>' +
-      '</div>',
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
+      title: "Nuevo precio",
+      html: '<div class="row">' +
+          '<div class="form-group col-md-6">' +
+          '<label for="descripcionPrecio">Descripci&oacute;n</label>' +
+          '<input type="text" class="form-control" id="descripcionPrecio" placeholder="Especificar">' +
+          '</div>' +
+          '<div class="form-group col-md-6">' +
+          '<label for="numeroPrecio">Precio</label>' +
+          '<input type="number" class="form-control" id="numeroPrecio" placeholder="30">' +
+          '</div>' +
+          '</div>',
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
   }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Precio agregado correctamente",
-        showConfirmButton: false,
-        timer: 2500,
+      var descripcionPrecio = $('#descripcionPrecio').val();
+      var numeroPrecio = $('#numeroPrecio').val();
+      const precio = descripcionPrecio + "," + numeroPrecio;
+      //alert(precio.join());
+      //alert(descripcionPrecio + "" + numeroPrecio);
+      //metodo post para guardar precio
+      $.ajax({
+          type: "POST",
+          url: "/postPrecio",
+          data: {
+              "_csrf": $('#token').val(),
+              "precio": precio
+          },
+          success: (data) => {
+              if (data === 'success') {
+                  $.ajax({
+                      method: "GET",
+                      url: "/getPrecios",
+                      data: {
+                          "tipoLookup": "Precio"
+                      },
+                      success: (data) => {
+                          tablePrecios.rows().remove().draw();
+                          for (i in data) {
+                              tablePrecios.row.add(
+                                  [
+                                      data[i].idText,
+                                      data[i].descripcionLookup,
+                                      data[i].atributo2,
+                                      '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                      '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                      (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                                      (data[i].estatus == 0 ? '<button onclick="altaPrecio(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                                  ]
+                              ).draw();
+                          }
+                      }
+                  });
+                  if (result.value) {
+                      swal.fire({
+                          position: "center",
+                          icon: "success",
+                          title: "Precio Bordado agregado correctamente",
+                          showConfirmButton: false,
+                          timer: 2500,
+                      });
+                  }
+
+              } else {
+                  swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: '¡Error de datos!'
+                  })
+              }
+          },
+          error: function(data) {
+              swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: '¡Hay un problema en el servidor!',
+              })
+          }
       });
-    }
   });
 }
-function editarPrecio() {
-  Swal.fire({
-    title: "Editar precio",
-    html: '<div class="row">' +
-      '<div class="form-group col-md-6">' +
-      '<label for="descripcionPrecioE">Descripci&oacute;n</label>' +
-      '<input type="text" class="form-control" id="descripcionPrecioE" placeholder="Especificar">' +
-      '</div>' +
-      '<div class="form-group col-md-6">' +
-      '<label for="numeroPrecioE">Precio</label>' +
-      '<input type="number" class="form-control" id="numeroPrecioE" placeholder="30">' +
-      '</div>' +
-      '</div>',
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
-  }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Precio editado correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
+
+function editarPrecio(idLookup) {
+
+  $.ajax({
+      method: "GET",
+      url: "/getPrecio",
+      data: {
+          "id": idLookup
+      },
+      success: (data) => {
+          Swal.fire({
+              title: "Editar precio",
+              html: '<div class="row">' +
+                  '<div class="form-group col-md-6">' +
+                  '<label for="descripcionPrecioE">Descripci&oacute;n</label>' +
+                  '<input type="text" value="' + data.descripcionLookup + '" class="form-control" id="descripcionPrecioE" placeholder="Especificar">' +
+                  '</div>' +
+                  '<div class="form-group col-md-6">' +
+                  '<label for="numeroPrecioE">Precio</label>' +
+                  '<input type="number" value="' + data.atributo2 + '" class="form-control" id="numeroPrecioE" placeholder="30">' +
+                  '</div>' +
+                  '</div>',
+              showCancelButton: true,
+              confirmButtonText: "Confirmar",
+              cancelButtonText: "Cancelar",
+              confirmButtonColor: "#0288d1",
+              cancelButtonColor: "#dc3545",
+          }).then((result) => {
+              if (result.value) {
+                  var descripcionPrecio = $('#descripcionPrecioE').val();
+                  var numeroPrecio = $('#numeroPrecioE').val();
+                  const precio = idLookup + "," + descripcionPrecio + "," + numeroPrecio;
+                  //alert(precio);
+
+                  $.ajax({
+                      type: "PATCH",
+                      url: "/patchPrecio",
+                      data: {
+                          "_csrf": $('#token').val(),
+                          "precio": precio
+                      },
+                      success: (data) => {
+                          if (data === 'success') {
+                              $.ajax({
+                                  method: "GET",
+                                  url: "/getPrecios",
+                                  data: {
+                                      "tipoLookup": "Precio"
+                                  },
+                                  success: (data) => {
+                                      tablePrecios.rows().remove().draw();
+                                      for (i in data) {
+                                          tablePrecios.row.add(
+                                              [
+                                                  data[i].idText,
+                                                  data[i].descripcionLookup,
+                                                  data[i].atributo2,
+                                                  '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                                  '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                                  (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                                                  (data[i].estatus == 0 ? '<button onclick="altaPrecio(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                                              ]
+                                          ).draw();
+                                      }
+                                  }
+                              });
+                              if (result.value) {
+                                  swal.fire({
+                                      position: "center",
+                                      icon: "success",
+                                      title: "Precio Bordado editado correctamente",
+                                      showConfirmButton: false,
+                                      timer: 2500,
+                                  });
+                              }
+
+                          } else {
+                              swal.fire({
+                                  icon: 'error',
+                                  title: 'Error',
+                                  text: '¡Error de datos!'
+                              })
+                          }
+                      },
+                      error: function(data) {
+                          swal.fire({
+                              icon: 'error',
+                              title: 'Error',
+                              text: '¡Hay un problema en el servidor!',
+                          })
+                      }
+                  });
+
+
+
+              }
+          });
+      }
   });
 }
-function bajarPrecio() {
+
+
+
+function bajarPrecio(idLookup) {
+  // alert(idLookup);
   Swal.fire({
-    title: "¿Deseas dar de baja al precio?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
+      title: "¿Deseas dar de baja al precio?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
   }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Precio dado de baja correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
+      if (result.value) {
+          $.ajax({
+              method: "GET",
+              url: "/bajarPrecio",
+              data: {
+                  "_csrf": $('#token').val(),
+                  "idLookup": idLookup
+              },
+              success: (data) => {
+
+              },
+              error: function(data) {
+                  alert("Error en el servidor");
+              }
+          });
+          Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Precio dado de baja correctamente",
+              showConfirmButton: false,
+              timer: 2500,
+          });
+          setTimeout(function() {
+              location.reload();
+          }, 2300);
+      }
   });
 }
-function altaPrecio() {
+
+function altaPrecio(idLookup) {
   Swal.fire({
-    title: "¿Deseas dar de alta al precio?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
+      title: "¿Deseas dar de alta al precio?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
   }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Precio dado de alta correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
+      if (result.value) {
+          $.ajax({
+              type: "GET",
+              url: "/altaPrecio",
+              data: {
+                  "csrf": $('#token').val(),
+                  "idLookup": idLookup
+              },
+              success: (data) => {
+
+              },
+              error: function(data) {
+                  alert("Error en el servidor")
+              }
+          });
+          Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "Precio dado de alta correctamente",
+              showConfirmButton: false,
+              timer: 2500,
+          });
+          setTimeout(function() {
+              location.reload();
+          }, 2300);
+      }
   });
 }
 
 // Habilitar campos para IVA
-$("#detalleIVA").on("shown.bs.modal", function () {
+function listarIvas() {
+  $.ajax({
+      method: "GET",
+      url: "/getIvas",
+      data: {
+          "tipoLookup": "Iva"
+      },
+      success: (data) => {
+          tableIvas.rows().remove().draw();
+          for (i in data) {
+              tableIvas.row.add(
+                  [
+                      data[i].idText,
+                      data[i].atributo1,
+                      '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                      '<button onclick="editarIVA(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                      (data[i].estatus == 1 ? '<button onclick="bajarIVA(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                      (data[i].estatus == 0 ? '<button onclick="altaIVA(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                  ]
+              ).draw();
+          }
+      }
+  });
+}
+$("#detalleIVA").on("shown.bs.modal", function() {
   $(document).off("focusin.modal");
 });
+
 function agregarIVA() {
   Swal.fire({
-    title: "Nuevo IVA",
-    html: '<div class="row">' +
-      '<div class="form-group col-md-12">' +
-      '<label for="numeroPorcentaje">Porcentaje</label>' +
-      '<input type="number" class="form-control" id="numeroPorcentaje" placeholder="16">' +
-      '</div>' +
-      '</div>',
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
+      title: "Nuevo IVA",
+      html: '<div class="row">' +
+          '<div class="form-group col-md-12">' +
+          '<label for="numeroPorcentaje">Porcentaje</label>' +
+          '<input type="number" class="form-control" id="numeroPorcentaje" placeholder="16">' +
+          '</div>' +
+          '</div>',
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
   }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "IVA agregado correctamente",
-        showConfirmButton: false,
-        timer: 2500,
+
+      var numeroPorcentaje = $('#numeroPorcentaje').val();
+      const iva = numeroPorcentaje;
+      //alert(precio.join());
+      //alert(numeroPorcentaje);
+      //metodo post para guardar iva
+      $.ajax({
+          type: "POST",
+          url: "/postIva",
+          data: {
+              "_csrf": $('#token').val(),
+              "iva": iva
+          },
+          success: (data) => {
+              if (data === 'success') {
+                  $.ajax({
+                      method: "GET",
+                      url: "/getIvas",
+                      data: {
+                          "tipoLookup": "Iva"
+                      },
+                      success: (data) => {
+                          tableIvas.rows().remove().draw();
+                          for (i in data) {
+                              tableIvas.row.add(
+                                  [
+                                      data[i].idText,
+                                      data[i].atributo1,
+                                      '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                      '<button onclick="editarIVA(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                      (data[i].estatus == 1 ? '<button onclick="bajarIVA(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                                      (data[i].estatus == 0 ? '<button onclick="altaIVA(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                                  ]
+                              ).draw();
+                          }
+                      }
+                  });
+
+
+                  if (result.value) {
+                      swal.fire({
+                          position: "center",
+                          icon: "success",
+                          title: "Precio Bordado agregado correctamente",
+                          showConfirmButton: false,
+                          timer: 2500,
+                      });
+                  }
+              } else {
+                  swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: '¡Error de datos!',
+                  })
+              }
+          },
+          error: function(data) {
+              swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: '¡Hay un problema en el servidor!',
+              })
+          }
       });
-    }
   });
 }
-function editarIVA() {
-  Swal.fire({
-    title: "Editar IVA",
-    html: '<div class="row">' +
-      '<div class="form-group col-md-12">' +
-      '<label for="numeroPorcentajeE">Porcentaje</label>' +
-      '<input type="number" class="form-control" id="numeroPorcentajeE" placeholder="16">' +
-      '</div>' +
-      '</div>',
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
-  }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "IVA editado correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
+
+function editarIVA(idLookup) {
+  $.ajax({
+      method: "GET",
+      url: "/getIva",
+      data: {
+          "id": idLookup
+      },
+      success: (data) => {
+          Swal.fire({
+              title: "Editar IVA",
+              html: '<div class="row">' +
+                  '<div class="form-group col-md-12">' +
+                  '<label for="numeroPorcentajeE">Porcentaje</label>' +
+                  '<input type="number" value="' + data.atributo1 + '" class="form-control" id="numeroPorcentajeE" placeholder="16">' +
+                  '</div>' +
+                  '</div>',
+              showCancelButton: true,
+              confirmButtonText: "Confirmar",
+              cancelButtonText: "Cancelar",
+              confirmButtonColor: "#0288d1",
+              cancelButtonColor: "#dc3545",
+          }).then((result) => {
+              if (result.value) {
+                  var numeroPorcentaje = $('#numeroPorcentajeE').val();
+                  const iva = idLookup + "," + numeroPorcentaje;
+                  //alert(iva);
+
+                  $.ajax({
+                      type: "PATCH",
+                      url: "/patchIva",
+                      data: {
+                          "_csrf": $('#token').val(),
+                          "iva": iva
+                      },
+                      success: (data) => {
+                          if (data === 'success') {
+                              $.ajax({
+                                  method: "GET",
+                                  url: "/getIvas",
+                                  data: {
+                                      "tipoLookup": "Iva"
+                                  },
+                                  success: (data) => {
+                                      tableIvas.rows().remove().draw();
+                                      for (i in data) {
+                                          tableIvas.row.add(
+                                              [
+                                                  data[i].idText,
+                                                  data[i].atributo1,
+                                                  '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                                  '<button onclick="editarIVA(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                                  (data[i].estatus == 1 ? '<button onclick="bajarIVA(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                                                  (data[i].estatus == 0 ? '<button onclick="altaIVA(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                                              ]
+                                          ).draw();
+                                      }
+                                  }
+                              });
+
+
+                              if (result.value) {
+                                  swal.fire({
+                                      position: "center",
+                                      icon: "success",
+                                      title: "Precio Bordado editado correctamente",
+                                      showConfirmButton: false,
+                                      timer: 2500,
+                                  });
+                              }
+                          } else {
+                              swal.fire({
+                                  icon: 'error',
+                                  title: 'Error',
+                                  text: '¡Error de datos!',
+                              })
+                          }
+                      },
+                      error: function(data) {
+                          swal.fire({
+                              icon: 'error',
+                              title: 'Error',
+                              text: '¡Hay un problema en el servidor!',
+                          })
+                      }
+                  });
+
+
+
+
+              }
+          });
+
+      }
+
   });
 }
-function bajarIVA() {
+
+function bajarIVA(idLookup) {
+  // alert(idLookup);
   Swal.fire({
-    title: "¿Deseas dar de baja al IVA?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
+      title: "¿Deseas dar de baja al IVA?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
   }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "IVA dado de baja correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
+      if (result.value) {
+
+          $.ajax({
+              method: "GET",
+              url: "/bajarIVA",
+              data: {
+                  "_csrf": $('#token').val(),
+                  "idLookup": idLookup
+              },
+              success: (data) => {
+
+              },
+              error: function(data) {
+                  alert("Error en el servidor");
+              }
+          });
+
+          Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "IVA dado de baja correctamente",
+              showConfirmButton: false,
+              timer: 2500,
+          });
+          setTimeout(function() {
+              location.reload();
+          }, 2300);
+      }
   });
 }
-function altaIVA() {
+
+function altaIVA(idLookup) {
   Swal.fire({
-    title: "¿Deseas dar de alta al IVA?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
+      title: "¿Deseas dar de alta al IVA?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#0288d1",
+      cancelButtonColor: "#dc3545",
   }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "IVA dado de alta correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
+      if (result.value) {
+
+          $.ajax({
+              type: "GET",
+              url: "/altaIVA",
+              data: {
+                  "_csrf": $('#token').val(),
+                  "idLookup": idLookup
+              },
+              success: (data) => {
+
+              },
+              error: function(data) {
+                  alert("Error en el servidor")
+              }
+          });
+
+
+          Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "IVA dado de alta correctamente",
+              showConfirmButton: false,
+              timer: 2500,
+          });
+          setTimeout(function() {
+              location.reload();
+          }, 2300);
+      }
   });
 }
 
