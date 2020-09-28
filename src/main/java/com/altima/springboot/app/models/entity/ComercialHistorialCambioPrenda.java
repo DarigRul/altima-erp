@@ -45,9 +45,6 @@ public class ComercialHistorialCambioPrenda implements Serializable{
 	
 	@Column(name="ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
-
-	@Column(name="descripcion_ruta")
-	private String descripcionRuta;
 	
 	@Column(name="estatus")
 	private String Estatus;
@@ -114,14 +111,6 @@ public class ComercialHistorialCambioPrenda implements Serializable{
 
 	public void setUltimaFechaModificacion(String ultimaFechaModificacion) {
 		this.ultimaFechaModificacion = ultimaFechaModificacion;
-	}
-
-	public String getDescripcionRuta() {
-		return descripcionRuta;
-	}
-
-	public void setDescripcionRuta(String descripcionRuta) {
-		this.descripcionRuta = descripcionRuta;
 	}
 
 	public String getEstatus() {
