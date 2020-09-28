@@ -22,12 +22,12 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
               with font-awesome or any other icon font library -->
-                <!-- <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}">
+                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}">
                     <a th:href="${'/'}" class="nav-link" id="navDashboard">
                         <i class="nav-icon fas fa-tachometer-alt text-altima" id="iDashboard"></i>
                         <p>Dashboard</p>
                     </a>
-                </li> -->
+                </li>
                 <li class="nav-item">
                     <a th:href="${'/calendario'}" class="nav-link" id="navCalendario">
                         <i class="nav-icon fas fa-calendar text-altima" id="iCalendario"></i>
