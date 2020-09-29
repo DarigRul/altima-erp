@@ -1448,8 +1448,8 @@ function listarTickets() {
                     [
                         data[i].idText,
                         data[i].nombreLookup,
-                        data[i].atributo1,
-                        data[i].atributo2,
+                        (data[i].atributo1==1?"Si":"No"),
+                        (data[i].atributo2==1?"Si":"No"),
                         '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
                         '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
                         (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
@@ -1502,8 +1502,8 @@ function agregarTicket() {
         cancelButtonColor: "#dc3545",
     }).then((result) => {
         var descripcionTicket = $('#descripcionTicket').val();
-        var auxiliarTicket = $('#auxiliarTicket').val();
-        var solicitanteTicket = $('#solicitanteTicket').val();
+        var auxiliarTicket = $('input:checkbox[id=auxiliarTicketE]:checked').val();
+        var solicitanteTicket = $('input:checkbox[id=solicitanteTicketE]:checked').val();
         const ticket = descripcionTicket + "," + auxiliarTicket + "," + solicitanteTicket;
         //alert(auxiliarTicket + " " + solicitanteTicket);
         //metodo post para guardar mi ticket
@@ -1512,7 +1512,9 @@ function agregarTicket() {
             url: "/postTicket",
             data: {
                 "_csrf": $('#token').val(),
-                "ticket": ticket
+                "ticket": ticket,
+                auxiliarTicket: auxiliarTicket,
+                solicitanteTicket: solicitanteTicket
             },
             success: (data) => {
                 if (data === 'Success') {
@@ -1529,8 +1531,8 @@ function agregarTicket() {
                                     [
                                         data[i].idText,
                                         data[i].nombreLookup,
-                                        data[i].atributo1,
-                                        data[i].atributo2,
+                                        (data[i].atributo1==1?"Si":"No"),
+                                        (data[i].atributo2==1?"Si":"No"),
                                         '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
                                         '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
                                         (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
@@ -1594,7 +1596,7 @@ function editarTicket(idLookup) {
                     '</div>' +
                     '<div class="form-group col-md-6">' +
                     '<div class="form-check">' +
-                    '<input class="form-check-input" type="checkbox" value="' + data.atributo1 + '" id="auxiliarTicketE">' +
+                    '<input class="form-check-input" type="checkbox" value="0" id="auxiliarTicketE">' +
                     '<label class="form-check-label" for="auxiliarTicketE">' +
                     'Auxiliar' +
                     '</label>' +
@@ -1602,7 +1604,7 @@ function editarTicket(idLookup) {
                     '</div>' +
                     '<div class="form-group col-md-6">' +
                     '<div class="form-check">' +
-                    '<input class="form-check-input" type="checkbox" value="' + data.atributo2 + '" id="solicitanteTicketE">' +
+                    '<input class="form-check-input" type="checkbox" value="0" id="solicitanteTicketE">' +
                     '<label class="form-check-label" for="solicitanteTicketE">' +
                     'Solicitante' +
                     '</label>' +
@@ -1617,8 +1619,8 @@ function editarTicket(idLookup) {
             }).then((result) => {
                 if (result.value) {
                     var descripcionTicket = $('#descripcionTicketE').val();
-                    var auxiliarTicket = $('#auxiliarTicketE').val();
-                    var solicitanteTicket = $('#solicitanteTicketE').val();
+                    var auxiliarTicket = $('input:checkbox[id=auxiliarTicketE]:checked').val();
+                    var solicitanteTicket = $('input:checkbox[id=solicitanteTicketE]:checked').val();
                     const ticket = idLookup + "," + descripcionTicket + "," + auxiliarTicket + "," + solicitanteTicket;
                     //alert(ticket);
                     $.ajax({
@@ -1626,7 +1628,9 @@ function editarTicket(idLookup) {
                         url: "/patchTicket",
                         data: {
                             "_csrf": $('#token').val(),
-                            "ticket": ticket
+                            "ticket": ticket,
+                            auxiliarTicket: auxiliarTicket,
+                            solicitanteTicket: solicitanteTicket
                         },
                         success: (data) => {
                             if (data === 'Success') {
@@ -1639,12 +1643,13 @@ function editarTicket(idLookup) {
                                     success: (data) => {
                                         tableTicket.rows().remove().draw();
                                         for (i in data) {
+
                                             tableTicket.row.add(
                                                 [
                                                     data[i].idText,
                                                     data[i].nombreLookup,
-                                                    data[i].atributo1,
-                                                    data[i].atributo2,
+                                                    (data[i].atributo1==1?"Si":"No"),
+                                                    (data[i].atributo2==1?"Si":"No"),
                                                     '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
                                                     '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
                                                     (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +

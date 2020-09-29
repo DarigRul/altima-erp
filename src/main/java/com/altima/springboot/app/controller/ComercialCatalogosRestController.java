@@ -439,16 +439,23 @@ public class ComercialCatalogosRestController {
     }
 
     @PostMapping("postTicket")
-    public String postTicket(@RequestParam String ticket) {
+    public String postTicket(@RequestParam String ticket,
+    		@RequestParam(name="auxiliarTicket", required=false)Long auxiliarTicket,
+	  		@RequestParam(name="solicitanteTicket", required=false)Long solicitanteTicket) {
         //TODO: process POST request
+    	
+    	
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ComercialLookup ticketLookup=new ComercialLookup();
         String[] ticketAtributos = ticket.split(",");
+        
+
+    	
         ticketLookup.setCreadoPor(auth.getName());
         ticketLookup.setTipoLookup("Ticket");
         ticketLookup.setNombreLookup(ticketAtributos[0]);
-        ticketLookup.setAtributo1(ticketAtributos[1]);
-        ticketLookup.setAtributo2(ticketAtributos[2]);
+        ticketLookup.setAtributo1((auxiliarTicket==null)?"0":"1");
+        ticketLookup.setAtributo2((solicitanteTicket==null)?"0":"1");
 
         try {
             ticketLookup.setIdText("");
@@ -480,12 +487,15 @@ public class ComercialCatalogosRestController {
     }
 
     @PatchMapping("patchTicket")
-    public String patchTicket(@RequestParam String ticket){
+    public String patchTicket(@RequestParam String ticket,
+    		@RequestParam(name="auxiliarTicket", required=false)Long auxiliarTicket,
+	  		@RequestParam(name="solicitanteTicket", required=false)Long solicitanteTicket){
         String[] ticketAtributos = ticket.split(",");
+        
         ComercialLookup ticketLookup = comercialLookupService.findOne(Long.parseLong(ticketAtributos[0]));
         ticketLookup.setNombreLookup(ticketAtributos[1]);
-        ticketLookup.setAtributo1(ticketAtributos[2]);
-        ticketLookup.setAtributo2(ticketAtributos[3]);
+        ticketLookup.setAtributo1((auxiliarTicket==null)?"0":"1");
+        ticketLookup.setAtributo2((solicitanteTicket==null)?"0":"1");
         try {
             comercialLookupService.save(ticketLookup);
         } catch (Exception e) {
