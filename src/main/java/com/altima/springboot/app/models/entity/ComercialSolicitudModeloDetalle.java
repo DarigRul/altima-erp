@@ -32,4 +32,35 @@ public class ComercialSolicitudModeloDetalle implements Serializable{
 	@Column(name="id_modelo")
 	private Long idModelo;
 
+	public Long getIdSolicitudModeloDetalle() {
+		return idSolicitudModeloDetalle;
+	}
+
+	public void setIdSolicitudModeloDetalle(Long idSolicitudModeloDetalle) {
+		this.idSolicitudModeloDetalle = idSolicitudModeloDetalle;
+	}
+
+	public Long getIdSolicitudModelo() {
+		return idSolicitudModelo;
+	}
+
+	public void setIdSolicitudModelo(Long idSolicitudModelo) {
+		this.idSolicitudModelo = idSolicitudModelo;
+	}
+
+	public Long getIdModelo() {
+		return idModelo;
+	}
+
+	public void setIdModelo(Long idModelo) {
+		this.idModelo = idModelo;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
+	
+
 }
