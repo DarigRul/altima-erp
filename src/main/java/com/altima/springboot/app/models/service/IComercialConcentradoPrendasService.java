@@ -34,4 +34,6 @@ public interface IComercialConcentradoPrendasService
 	void save(ComercialConcetradoPrenda ccp);
 	
 	void delete(String[] idModelos, Long id, Long idCoordinado) throws NoSuchFieldException, SecurityException;
+	
+	ComercialConcetradoPrenda findOne (Long id);
 }

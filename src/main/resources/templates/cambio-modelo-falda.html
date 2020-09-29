@@ -57,39 +57,21 @@
                                                 <th>Folio</th>
                                                 <th>Nombre del empleado</th>
                                                 <th>Coordinado</th>
-                                                <th>Modelo</th>
-                                                <th>Cambio</th>
+                                                <th>Modelo Actual</th>
+                                                <th>Modelo Anterior</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             
-                                                
-                                            <tr>
-                                                <td>EMP10003 </td>
-                                                <td >Sandra</td>
-                                                <td >1</td>
-                                                <td >PAN10078</td>
-                                                 <td >FALDA10029</td>
-                                               
-                                            </tr>
-                                            
-                                             <tr>
-                                                <td>EMP10004 </td>
-                                                <td >Francisca</td>
-                                                <td >1</td>
-                                                <td >PAN10078</td>
-                                                <td >FALDA10029</td>
-                                                
-                                            </tr>
-                                            
-                                             <tr>
-                                                <td>EMP10005 </td>
-                                                <td >Lorena</td>
-                                                <td >1</td>
-                                                <td >PAN10078</td>
-                                                <td >FALDA10029</td>
-                                                
-                                            </tr>
+                                          <tr th:each="lista, ilista: ${lista}">
+												<td th:text="${lista[1]}"></td>
+												<td  th:text="${lista[2]}"></td>
+												<td th:text="${lista[3]}"></td>												
+												<td th:text="${lista[4]}"></td>
+												<td th:text="${lista[5]}"></td>
+												
+												
+											</tr>
                                                 
                                                 
                                             
@@ -112,6 +94,8 @@
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
     <script th:src="@{/dist/js/tablaGeneral.js}"></script>
+    
+    <script th:src="@{/dist/js/cambioFalda.js}"></script>
     <script>
         $('#iComercial').removeClass('text-altima');
         $('#menuComercial').addClass('menu-open');
