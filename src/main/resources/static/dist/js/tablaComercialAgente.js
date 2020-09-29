@@ -49,6 +49,6 @@ $(document).ready(function() {
                 }
             }
         });
-    new $.fn.dataTable.FixedHeader(tableAgente);
+    //new $.fn.dataTable.FixedHeader(tableAgente);
 
 });

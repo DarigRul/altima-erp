@@ -1434,141 +1434,368 @@ function altaIVA(idLookup) {
 
 
 
-// Habilitar campos para Ticket
-$("#detalleTicket").on("shown.bs.modal", function () {
-  $(document).off("focusin.modal");
+function listarTickets() {
+    $.ajax({
+        method: "GET",
+        url: "/getTickets",
+        data: {
+            "tipoLookup": "Ticket"
+        },
+        success: (data) => {
+            tableTicket.rows().remove().draw();
+            for (i in data) {
+                tableTicket.row.add(
+                    [
+                        data[i].idText,
+                        data[i].nombreLookup,
+                        data[i].atributo1,
+                        data[i].atributo2,
+                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                        '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                        (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+                        (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+                    ]
+                ).draw();
+            }
+
+        }
+
+    });
+}
+
+$("#detalleTicket").on("shown.bs.modal", function() {
+    $(document).off("focusin.modal");
 });
+
 function agregarTicket() {
-  Swal.fire({
-    title: "Nuevo ticket",
-    html: '<div class="row">' +
-      '<div class="form-group col-md-12">' +
-      '<label for="descripcionTicket">Descripci&oacute;n</label>' +
-      '<input type="text" placeholder="Especificar" class="form-control" id="descripcionTicket">' +
-      '</div>' +
-      '<div class="form-group col-md-12">' +
-      '<h4>¿Qui&eacute;n puede agregar?</h4>' +
-      '</div>' +
-      '<div class="form-group col-md-6">' +
-      '<div class="form-check">' +
-      '<input class="form-check-input" type="checkbox" value="" id="auxiliarTicket">' +
-      '<label class="form-check-label" for="auxiliarTicket">' +
-      'Auxiliar' +
-      '</label>' +
-      '</div>' +
-      '</div>' +
-      '<div class="form-group col-md-6">' +
-      '<div class="form-check">' +
-      '<input class="form-check-input" type="checkbox" value="" id="solicitanteTicket">' +
-      '<label class="form-check-label" for="solicitanteTicket">' +
-      'Solicitante' +
-      '</label>' +
-      '</div>' +
-      '</div>' +
-      '</div>',
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
-  }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Ticket agregado correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
-  });
+    Swal.fire({
+        title: "Nuevo ticket",
+        html: '<div class="row">' +
+            '<div class="form-group col-md-12">' +
+            '<label for="descripcionTicket">Descripci&oacute;n</label>' +
+            '<input type="text" placeholder="Especificar" class="form-control" id="descripcionTicket">' +
+            '</div>' +
+            '<div class="form-group col-md-12">' +
+            '<h4>¿Qui&eacute;n puede agregar?</h4>' +
+            '</div>' +
+            '<div class="form-group col-md-6">' +
+            '<div class="form-check">' +
+            '<input class="form-check-input" type="checkbox" value="0" id="auxiliarTicket" onchange="checkboxauxiliar(this.value)">' +
+            '<label class="form-check-label" for="auxiliarTicket">' +
+            'Auxiliar' +
+            '</label>' +
+            '</div>' +
+            '</div>' +
+            '<div class="form-group col-md-6">' +
+            '<div class="form-check">' +
+            '<input class="form-check-input" type="checkbox" value="0" id="solicitanteTicket" onchange="checkboxsolicitante(this.value)">' +
+            '<label class="form-check-label" for="solicitanteTicket">' +
+            'Solicitante' +
+            '</label>' +
+            '</div>' +
+            '</div>' +
+            '</div>',
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "#0288d1",
+        cancelButtonColor: "#dc3545",
+    }).then((result) => {
+        var descripcionTicket = $('#descripcionTicket').val();
+        var auxiliarTicket = $('#auxiliarTicket').val();
+        var solicitanteTicket = $('#solicitanteTicket').val();
+        const ticket = descripcionTicket + "," + auxiliarTicket + "," + solicitanteTicket;
+        //alert(auxiliarTicket + " " + solicitanteTicket);
+        //metodo post para guardar mi ticket
+        $.ajax({
+            type: "POST",
+            url: "/postTicket",
+            data: {
+                "_csrf": $('#token').val(),
+                "ticket": ticket
+            },
+            success: (data) => {
+                if (data === 'Success') {
+                    $.ajax({
+                        method: "GET",
+                        url: "/getTickets",
+                        data: {
+                            "tipoLookup": "Ticket"
+                        },
+                        success: (data) => {
+                            tableTicket.rows().remove().draw();
+                            for (i in data) {
+                                tableTicket.row.add(
+                                    [
+                                        data[i].idText,
+                                        data[i].nombreLookup,
+                                        data[i].atributo1,
+                                        data[i].atributo2,
+                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                        '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                        (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+                                        (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+                                    ]
+                                ).draw();
+                            }
+
+                        }
+
+                    });
+                    if (result.value) {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: "Ticket agregado correctamente",
+                            showConfirmButton: false,
+                            timer: 2500,
+                        });
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: '¡Error de datos!',
+                    })
+                }
+            },
+            error: function(data) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '¡Hay un problema en el servidor!',
+                })
+            }
+        });
+
+
+    });
+
 }
-function editarTicket() {
-  Swal.fire({
-    title: "Editar ticket",
-    html: '<div class="row">' +
-      '<div class="form-group col-md-12">' +
-      '<label for="descripcionTicketE">Descripci&oacute;n</label>' +
-      '<input type="text" placeholder="Especificar" class="form-control" id="descripcionTicketE">' +
-      '</div>' +
-      '<div class="form-group col-md-12">' +
-      '<h4>¿Qui&eacute;n puede agregar?</h4>' +
-      '</div>' +
-      '<div class="form-group col-md-6">' +
-      '<div class="form-check">' +
-      '<input class="form-check-input" type="checkbox" value="" id="auxiliarTicketE">' +
-      '<label class="form-check-label" for="auxiliarTicketE">' +
-      'Auxiliar' +
-      '</label>' +
-      '</div>' +
-      '</div>' +
-      '<div class="form-group col-md-6">' +
-      '<div class="form-check">' +
-      '<input class="form-check-input" type="checkbox" value="" id="solicitanteTicketE">' +
-      '<label class="form-check-label" for="solicitanteTicketE">' +
-      'Solicitante' +
-      '</label>' +
-      '</div>' +
-      '</div>' +
-      '</div>',
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
-  }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Ticket editado correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
-  });
+
+function editarTicket(idLookup) {
+    //alert(idLookup);
+    $.ajax({
+        method: "GET",
+        url: "/getTicket",
+        data: {
+            "id": idLookup
+        },
+        success: (data) => {
+            Swal.fire({
+                title: "Editar ticket",
+                html: '<div class="row">' +
+                    '<div class="form-group col-md-12">' +
+                    '<label for="descripcionTicketE">Descripci&oacute;n</label>' +
+                    '<input type="text" value="' + data.nombreLookup + '" placeholder="Especificar" class="form-control" id="descripcionTicketE">' +
+                    '</div>' +
+                    '<div class="form-group col-md-12">' +
+                    '<h4>¿Qui&eacute;n puede agregar?</h4>' +
+                    '</div>' +
+                    '<div class="form-group col-md-6">' +
+                    '<div class="form-check">' +
+                    '<input class="form-check-input" type="checkbox" value="' + data.atributo1 + '" id="auxiliarTicketE">' +
+                    '<label class="form-check-label" for="auxiliarTicketE">' +
+                    'Auxiliar' +
+                    '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="form-group col-md-6">' +
+                    '<div class="form-check">' +
+                    '<input class="form-check-input" type="checkbox" value="' + data.atributo2 + '" id="solicitanteTicketE">' +
+                    '<label class="form-check-label" for="solicitanteTicketE">' +
+                    'Solicitante' +
+                    '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>',
+                showCancelButton: true,
+                confirmButtonText: "Confirmar",
+                cancelButtonText: "Cancelar",
+                confirmButtonColor: "#0288d1",
+                cancelButtonColor: "#dc3545",
+            }).then((result) => {
+                if (result.value) {
+                    var descripcionTicket = $('#descripcionTicketE').val();
+                    var auxiliarTicket = $('#auxiliarTicketE').val();
+                    var solicitanteTicket = $('#solicitanteTicketE').val();
+                    const ticket = idLookup + "," + descripcionTicket + "," + auxiliarTicket + "," + solicitanteTicket;
+                    //alert(ticket);
+                    $.ajax({
+                        type: "PATCH",
+                        url: "/patchTicket",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            "ticket": ticket
+                        },
+                        success: (data) => {
+                            if (data === 'Success') {
+                                $.ajax({
+                                    method: "GET",
+                                    url: "/getTickets",
+                                    data: {
+                                        "tipoLookup": "Ticket"
+                                    },
+                                    success: (data) => {
+                                        tableTicket.rows().remove().draw();
+                                        for (i in data) {
+                                            tableTicket.row.add(
+                                                [
+                                                    data[i].idText,
+                                                    data[i].nombreLookup,
+                                                    data[i].atributo1,
+                                                    data[i].atributo2,
+                                                    '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                                    '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                                    (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+                                                    (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+                                                ]
+                                            ).draw();
+                                        }
+
+                                    }
+
+                                });
+                                if (result.value) {
+                                    Swal.fire({
+                                        position: "center",
+                                        icon: "success",
+                                        title: "Ticket editado correctamente",
+                                        showConfirmButton: false,
+                                        timer: 2500,
+                                    });
+                                }
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: '¡Error de datos!',
+                                })
+                            }
+                        },
+                        error: function(data) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: '¡Hay un problema en el servidor!',
+                            })
+                        }
+                    });
+                }
+            });
+
+        }
+
+    });
+
 }
-function bajarTicket() {
-  Swal.fire({
-    title: "¿Deseas dar de baja al ticket?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
-  }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Ticket dado de baja correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
-  });
+
+function bajarTicket(idLookup) {
+    //alert(idLookup);
+    Swal.fire({
+        title: "¿Deseas dar de baja al ticket?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "#0288d1",
+        cancelButtonColor: "#dc3545",
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                method: "GET",
+                url: "/bajarTicket",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+
+                },
+                error: function(data) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: '¡Hay un problema en el servidor!',
+                    })
+                }
+            });
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Ticket dado de baja correctamente",
+                showConfirmButton: false,
+                timer: 2500,
+            });
+            setTimeout(function() {
+                location.reload();
+            }, 2300);
+        }
+    });
 }
-function altaTicket() {
-  Swal.fire({
-    title: "¿Deseas dar de alta al ticket?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
-  }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Ticket dado de alta correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
+
+function altaTicket(idLookup) {
+    Swal.fire({
+        title: "¿Deseas dar de alta al ticket?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "#0288d1",
+        cancelButtonColor: "#dc3545",
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                method: "GET",
+                url: "/altaTicket",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idLookup": idLookup
+                },
+                success: (data) => {
+
+                },
+                error: function(data) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: '¡Hay un problema en el servidor!',
+                    })
+                    alert("Error de servidor");
+                }
+            });
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Ticket dado de alta correctamente",
+                showConfirmButton: false,
+                timer: 2500,
+            });
+            setTimeout(function() {
+                location.reload();
+            }, 2300);
+        }
+    });
+}
+
+function checkboxsolicitante(valor) {
+
+    if (valor == 0) {
+        document.getElementById("solicitanteTicket").value = 1;
+    } else {
+        document.getElementById("solicitanteTicket").value = 0;
     }
-  });
+
+}
+
+function checkboxauxiliar(valor) {
+
+    if (valor == 0) {
+        document.getElementById("auxiliarTicket").value = 1;
+    } else {
+        document.getElementById("auxiliarTicket").value = 0;
+    }
+
 }
 
 

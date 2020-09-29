@@ -426,4 +426,73 @@ public class ComercialCatalogosRestController {
     }
     
     
+  //Capmpos para Ticket
+    @GetMapping("getTickets")
+    public List<ComercialLookup> getTickets(@RequestParam String tipoLookup){
+        return comercialLookupService.findByTipoLookup(tipoLookup);
+    }
+
+    @GetMapping("getTicket")
+    public ComercialLookup getTicket(@RequestParam Long id){
+        ComercialLookup ticket= comercialLookupService.findOne(id);
+        return ticket;
+    }
+
+    @PostMapping("postTicket")
+    public String postTicket(@RequestParam String ticket) {
+        //TODO: process POST request
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        ComercialLookup ticketLookup=new ComercialLookup();
+        String[] ticketAtributos = ticket.split(",");
+        ticketLookup.setCreadoPor(auth.getName());
+        ticketLookup.setTipoLookup("Ticket");
+        ticketLookup.setNombreLookup(ticketAtributos[0]);
+        ticketLookup.setAtributo1(ticketAtributos[1]);
+        ticketLookup.setAtributo2(ticketAtributos[2]);
+
+        try {
+            ticketLookup.setIdText("");
+            comercialLookupService.save(ticketLookup);
+            ticketLookup.setIdText("TICKET"+(10000+ticketLookup.getIdLookup()));
+            comercialLookupService.save(ticketLookup);
+            
+        } catch (Exception e) {
+            //TODO: handle exception
+            return "Error "+e;
+        }
+        return "Success";
+    }
+
+    @GetMapping("/bajarTicket")
+    public Object bajarTicket(@RequestParam(name = "idLookup") Long id) throws Exception {
+        ComercialLookup ticketbaja= comercialLookupService.findOne(id);
+        ticketbaja.setEstatus(0);
+        comercialLookupService.save(ticketbaja);
+        return comercialLookupService.findOne(id);
+    }
+
+    @GetMapping("/altaTicket")
+    public Object altaTicket(@RequestParam(name="idLookup")Long id) throws Exception{
+        ComercialLookup ticketalta= comercialLookupService.findOne(id);
+        ticketalta.setEstatus(1);
+        comercialLookupService.save(ticketalta);
+        return comercialLookupService.findOne(id);
+    }
+
+    @PatchMapping("patchTicket")
+    public String patchTicket(@RequestParam String ticket){
+        String[] ticketAtributos = ticket.split(",");
+        ComercialLookup ticketLookup = comercialLookupService.findOne(Long.parseLong(ticketAtributos[0]));
+        ticketLookup.setNombreLookup(ticketAtributos[1]);
+        ticketLookup.setAtributo1(ticketAtributos[2]);
+        ticketLookup.setAtributo2(ticketAtributos[3]);
+        try {
+            comercialLookupService.save(ticketLookup);
+        } catch (Exception e) {
+            //TODO: handle exception
+            return "Error "+e;
+        }
+        return "Success";
+    }
+    
 }
