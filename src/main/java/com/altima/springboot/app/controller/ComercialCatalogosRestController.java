@@ -1,10 +1,22 @@
 package com.altima.springboot.app.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
-
+import com.altima.springboot.app.models.entity.ComercialAgentesVenta;
 import com.altima.springboot.app.models.entity.ComercialLookup;
+import com.altima.springboot.app.models.entity.HrDepartamento;
+import com.altima.springboot.app.models.entity.HrEmpleado;
+import com.altima.springboot.app.models.entity.HrLookup;
+import com.altima.springboot.app.models.entity.HrPuesto;
+import com.altima.springboot.app.models.service.IComercialAgentesVentaService;
 import com.altima.springboot.app.models.service.IComercialLookupService;
+import com.altima.springboot.app.models.service.IHrDepartamentoService;
+import com.altima.springboot.app.models.service.IHrEmpleadoService;
+import com.altima.springboot.app.models.service.IHrLookupService;
+import com.altima.springboot.app.models.service.IHrPuestoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,6 +26,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @RestController
@@ -22,6 +36,193 @@ public class ComercialCatalogosRestController {
     @Autowired
     IComercialLookupService comercialLookupService;
 
+    @Autowired
+    private IHrEmpleadoService empleadoService;
+    
+    @Autowired
+    private IHrPuestoService puestoService;
+    
+    @Autowired
+    private IHrDepartamentoService depaService;
+    
+    @Autowired
+    private IHrLookupService lookupService;
+    
+    @Autowired
+    private IComercialAgentesVentaService agentesVenta;
+    
+    @RequestMapping(value = "/puestoAgentes", method = RequestMethod.GET)
+    public List<HrPuesto> puestoAgentes(@RequestParam(name="idDepartamento")Long idDepartamento){
+    	
+    	return puestoService.findAllPuestoByDepartamento(idDepartamento);
+    }
+    
+    @RequestMapping(value = "/departamentoAgentes", method = RequestMethod.GET)
+    public List<HrDepartamento> departamentoAgentes(@RequestParam(name="idArea")Long idArea){
+    	
+    	return depaService.findAllDepartamentosByArea(idArea);
+    }
+    
+    @RequestMapping(value = "/areaAgentes", method = RequestMethod.GET)
+    public List<HrLookup> areaAgentes(){
+    	return lookupService.findAllByTipoLookup("Area");
+    }
+    
+    @RequestMapping(value ="/EmpleadosCatalogoComercial", method = RequestMethod.GET)
+    public List<Object[]> listEmpleados(@RequestParam(name="idPuesto")Long idPuesto,
+    									  @RequestParam(name="idDepartamento")Long idDepartamento,
+    									  @RequestParam(name="idLookup")Long idLookup){
+    	
+    	return empleadoService.findAllByPuestoDepartamentoArea(idPuesto, idDepartamento, idLookup);
+    }
+    
+    
+    @RequestMapping(value = "/empleadosAgentes", method = RequestMethod.GET)
+    public List<Object[]> findAllEmpleados(){
+    	
+    	return agentesVenta.findAllByNombreEmpleado();
+    }
+    
+    @RequestMapping(value = "/ExtraerDatosAgenteCatalogo", method = RequestMethod.GET)
+    public ComercialAgentesVenta ExtraerDatosAgenteCatalogo(@RequestParam(name="idEmpleado")Long idEmpleado){
+    	
+    	return agentesVenta.findOne(idEmpleado);
+    }
+    
+    @RequestMapping(value = "/ExtraerPuestoAgenteCatalogo", method = RequestMethod.GET)
+    public Object[] ExtraerPuestoAgenteCatalogo(@RequestParam(name="idEmpleado")Long idEmpleado){
+    	
+    	return empleadoService.findDatosPuesto(idEmpleado);
+    }
+    
+    
+    @RequestMapping(value ="/guardarAgenteCatalogo", method = RequestMethod.GET)
+    public int guardarAgenteCatalogo(@RequestParam(name="idEmpleado")Long idEmpleado,
+    									  		@RequestParam(name="foraneo", required=false)Long foraneo,
+    									  		@RequestParam(name="licitacion", required=false)Long licitacion){
+    	
+    	System.out.println(idEmpleado);
+    	System.out.println(foraneo);
+    	System.out.println(licitacion);
+    	try {
+    		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    		Date date = new Date();
+    		
+    		if(agentesVenta.finduplicated(idEmpleado).equals("1")) {
+    			return 2;
+    		}
+    		else {
+    			ComercialAgentesVenta ventas = new ComercialAgentesVenta();
+        		
+        		ventas.setIdEmpleado(idEmpleado.toString());
+        		ventas.setForaneo((foraneo==null)?"0":"1");
+        		ventas.setLicitacion((licitacion==null)?"0":"1");
+        		ventas.setCreadoPor(auth.getName());
+        		ventas.setActualizadoPor(auth.getName());
+        		ventas.setFechaCreacion(dateFormat.format(date));
+        		ventas.setUltimaFechaModificacion(dateFormat.format(date));
+        		ventas.setEstatus("1");
+        		
+        		agentesVenta.save(ventas);
+        		
+        		return 1;
+    		}
+    	}
+    	catch(Exception e) {
+    		return 3;
+    	}
+    	finally {
+    		
+    	}
+    }
+    
+    @RequestMapping(value ="/editarAgenteCatalogo", method = RequestMethod.GET)
+    public int editarAgenteCatalogo(@RequestParam(name="idEmpleado")Long idEmpleado,
+    								@RequestParam(name="foraneo", required=false)Long foraneo,
+    								@RequestParam(name="licitacion", required=false)Long licitacion){
+    	
+    	System.out.println(idEmpleado);
+    	System.out.println(foraneo);
+    	System.out.println(licitacion);
+    	try {
+    		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    		Date date = new Date();
+    		
+    		if(agentesVenta.finduplicated(idEmpleado).equals("1")) {
+    			
+    			ComercialAgentesVenta ventas = agentesVenta.findOne(idEmpleado);
+        		System.out.println("si");
+        		ventas.setIdEmpleado(idEmpleado.toString());
+        		System.out.println("si");
+        		ventas.setForaneo((foraneo==null)?"0":"1");
+        		System.out.println("si");
+        		ventas.setLicitacion((licitacion==null)?"0":"1");
+        		System.out.println("si");
+        		ventas.setActualizadoPor(auth.getName());
+        		System.out.println("si");
+        		ventas.setUltimaFechaModificacion(dateFormat.format(date));
+        		
+        		agentesVenta.save(ventas);
+    			return 1;
+    		}
+    		else {
+        		
+        		return 2;
+    		}
+    	}
+    	catch(Exception e) {
+    		System.out.println(e);
+    		return 3;
+    	}
+    	finally {
+    		
+    	}
+    }
+    
+    @RequestMapping(value = "/bajaAgenteVentasCatalogoComercial", method = RequestMethod.GET)
+    public int bajaAgenteVentasCatalogoComercial(@RequestParam(name="idEmpleado")Long idEmpleado){
+    	
+    	try {
+    		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    		Date date = new Date();
+    		ComercialAgentesVenta agente = agentesVenta.findOne(idEmpleado);
+    		agente.setEstatus("0");
+    		agente.setActualizadoPor(auth.getName());
+    		agente.setUltimaFechaModificacion(dateFormat.format(date));
+    		
+    		agentesVenta.save(agente);
+    		return 1;
+    	}
+    	catch(Exception e) {
+    		System.out.println(e);
+    		return 0;
+    	}
+    }
+    
+    @RequestMapping(value = "/altaAgenteVentasCatalogoComercial", method = RequestMethod.GET)
+    public int altaAgenteVentasCatalogoComercial(@RequestParam(name="idEmpleado")Long idEmpleado){
+    	
+    	try {
+    		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    		Date date = new Date();
+    		ComercialAgentesVenta agente = agentesVenta.findOne(idEmpleado);
+    		agente.setEstatus("1");
+    		agente.setActualizadoPor(auth.getName());
+    		agente.setUltimaFechaModificacion(dateFormat.format(date));
+    		
+    		agentesVenta.save(agente);
+    		return 1;
+    	}
+    	catch(Exception e) {
+    		System.out.println(e);
+    		return 0;
+    	}
+    }
+    
     @GetMapping("getModelos")
     public List<ComercialLookup> getModelos(@RequestParam String tipoLookup){
         return comercialLookupService.findByTipoLookup(tipoLookup);

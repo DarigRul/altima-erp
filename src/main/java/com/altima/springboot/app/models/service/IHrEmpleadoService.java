@@ -26,4 +26,8 @@ public interface IHrEmpleadoService {
 
 	List<Object> findAllByPuestoWithoutAgenteLogued(String nombrePuesto, Long idAgente);
 
+	List<Object[]> findAllByPuestoDepartamentoArea(Long idPuesto, Long idDepartamento, Long idLookup);
+
+	Object[] findDatosPuesto(Long idEmpleado);
+
 }

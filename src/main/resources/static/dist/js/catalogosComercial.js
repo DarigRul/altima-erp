@@ -1,104 +1,429 @@
-// Habilitar campos para Agente
-$("#detalleAgente").on("shown.bs.modal", function () {
-  $(document).off("focusin.modal");
+$(document).ready(function() {
+
+	ListAgentesVenta();
+
 });
+
+function listarAreaAgentes(idArea, idDepartamento, idPuesto, idEmpleado){
+	
+	$.ajax({
+		method: "GET",
+	    url: "/areaAgentes",
+	    data: {
+	    },
+	    success:(data) => {
+	    	$('#areaAgente').find("option").remove();
+	    	for (i in data){
+	    		$('#areaAgente').append("<option value="+data[i].idLookup+">"+data[i].nombreLookup+"</option>");
+	    		
+	    	}
+	    	$('#areaAgente').selectpicker("refresh");
+	    	$('#areaAgente option[value="'+idArea+'"]').attr("selected", true);
+	    	$('#areaAgente').selectpicker("refresh");
+	    	ListDepa(idDepartamento, idPuesto, idEmpleado);
+	    },
+	    error:(e) =>{
+	    	
+	    }
+	});
+	
+}
+
+$('#areaAgente').on('change', function(){
+	ListDepa();
+})
+
+function ListDepa(idDepartamento, idPuesto, idEmpleado){
+	$('#depaAgente').find("option").remove();
+	var idArea = $('#areaAgente').val();
+	$.ajax({
+		method: "GET",
+	    url: "/departamentoAgentes",
+	    data: {
+	    	idArea: idArea
+	    },
+	    success:(data) => {
+	    	
+	    	for (i in data){
+	    		
+	    		$('#depaAgente').append("<option value="+data[i].idDepartamento+">"+data[i].nombreDepartamento+"</option>");
+	    	}
+	    	$('#depaAgente').selectpicker("refresh");
+	    	$('#depaAgente option[value="'+idDepartamento+'"]').attr("selected", true);
+	    	$('#depaAgente').selectpicker("refresh");
+	    	ListPuestos(idPuesto, idEmpleado);
+	    },
+	    error:(e) =>{
+	    	
+	    }
+	});
+}
+
+$('#depaAgente').on('change', function (){
+	ListPuestos();
+})
+
+function ListPuestos(idPuesto, idEmpleado){
+	$('#puestoAgente').find("option").remove();
+	var idDepartamento = $('#depaAgente').val();
+	$.ajax({
+		method: "GET",
+	    url: "/puestoAgentes",
+	    data: {
+	    	idDepartamento: idDepartamento
+	    },
+	    success:(data) => {
+	    	for (i in data){
+	    		$('#puestoAgente').append("<option value="+data[i].idPuesto+">"+data[i].nombrePuesto+"</option>");
+	    	}
+	    	$('#puestoAgente').selectpicker("refresh");
+	    	$('#puestoAgente option[value="'+idPuesto+'"]').attr("selected", true);
+	    	$('#puestoAgente').selectpicker("refresh");
+	    	ListEmpleados(idEmpleado);
+	    },
+	    error:(e) =>{
+	    	
+	    }
+	});
+}
+
+$('#puestoAgente').on('change', function (){
+	ListEmpleados();
+})
+
+function ListEmpleados(idEmpleado){
+	$('#nombreAgente').find("option").remove();
+	var idArea = $('#areaAgente').val();
+	var idDepartamento = $('#depaAgente').val();
+	var idPuesto = $('#puestoAgente').val();
+	
+	$.ajax({
+		method: "GET",
+	    url: "/EmpleadosCatalogoComercial",
+	    data: {
+	    	idLookup: idArea,
+	    	idDepartamento: idDepartamento,
+	    	idPuesto: idPuesto
+	    },
+	    success:(data) => {
+	    	for (i in data){
+	    		$('#nombreAgente').append("<option value="+data[i][0]+">"+data[i][2] +" "+ data[i][3] +" "+ data[i][4]+"</option>");
+	    	}
+	    	$('#nombreAgente').selectpicker("refresh");
+	    	$('#nombreAgente option[value="'+idEmpleado+'"]').attr("selected", true);
+	    	$('#nombreAgente').selectpicker("refresh");
+	    	
+	    	if(idEmpleado){
+
+	         	 Swal.fire({
+	                  title: 'Cargando ',
+	                  html: 'Por favor espere',// add html attribute if you want or remove
+	                  allowOutsideClick: false,
+	                  timerProgressBar: true,
+	                  showConfirmButton: false,
+ 	    		      timer: 2
+	              });
+	   		    
+	   	}
+	    },
+	    error:(e) =>{
+	    }
+	});
+}
+
+function ListAgentesVenta(){
+	$.ajax({
+		method: "GET",
+	    url: "/empleadosAgentes",
+	    data: {
+	    },
+	    success:(data) => {
+	    	$('#borrarTablaAgentes').remove();
+	        $('#crearTablaAgentes').append(" <div id='borrarTablaAgentes'>" +
+	                "<table class='table table-striped table-bordered' id='tablaAgentesVenta' style='width: 100%'>" +
+	                    "<thead>" +
+	                        "<tr>" +
+	                            "<th>Clave</th>" +
+	                            "<th>Nombre</th>" +
+	                            "<th>For&aacute;neo</th>" +
+	                            "<th>Licitaci&oacute;n</th>" +
+	                            "<th>Acciones</th>" +
+	                        "</tr>" +
+	                    "</thead>" +
+	                 "</table>" +
+	              "</div>");
+	        var a;
+            var b = [];
+	    	for (i in data){
+	    		 var creacion = data[i][8] == null ? "" : data[i][8];
+                 a = [
+                     "<tr>" +
+                     "<td>" + data[i][1] + "</td>",
+                     "<td>" + data[i][2]+" "+data[i][3] + " " + data[i][4] + "</td>",
+                     "<td>" + (data[i][5]==1?'Si':'No') +"</td>",
+                     "<td>" + (data[i][6]==1?'Si':'No') +"</td>",
+                     "<td style='text-align: center'>" +
+                     "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][7] + " <br /><strong>Fecha de creación:</strong> " + data[i][9] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
+                     "<button onclick='editarAgente("+ data[i][0] +")' class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" +
+                     (data[i][11] == 1 ?"<button onclick='bajarAgente("+ data[i][0] +")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>":" ") +
+                     (data[i][11] == 0 ?"<button onclick='altaAgente("+ data[i][0] +")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de alta'><i class='fas fa-caret-up'></i></button>":" ") +
+                     "</td>" +
+                     "<tr>"
+                 ];
+                 b.push(a);
+                 
+	    	}
+
+	        var tablaAgentesVenta = $('#tablaAgentesVenta').DataTable({
+                "data": b,
+                "ordering": false,
+                "pageLength": 5,
+                "responsive": true,
+                "stateSave": true,
+                "drawCallback": function() {
+                    $('.popoverxd').popover({
+                        container: 'body',
+                        trigger: 'hover'
+                    });
+                },
+                "columnDefs": [{
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 3,
+                        className: 'dt-body-center'
+                    }
+                ],
+                "lengthMenu": [
+                    [5, 10, 25, 50, 100],
+                    [5, 10, 25, 50, 100]
+                ],
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                    "buttons": {
+                        "copy": "Copiar",
+                        "colvis": "Visibilidad"
+                    }
+                }
+            });
+	        
+           // new $.fn.dataTable.FixedHeader(tablaAgentesVenta);
+		},
+		error:(e) =>{
+		    	
+		}
+	
+	});
+}
+$('#detalleAgente').on('shown.bs.modal', function() {
+	ListAgentesVenta();
+});
+
 function agregarAgente() {
-  Swal.fire({
-    title: "Nuevo agente",
-    html: '<div class="row">' +
-      '<div class="form-group col-md-12">' +
-      '<label for="nombreAgente">Nombre</label>' +
-      '<select class="form-control" id="nombreAgente">' +
-      '<option value="1">Agente 1</option>' +
-      '<option value="1">Agente 2</option>' +
-      '</select>' +
-      '</div>' +
-      '<div class="form-group col-md-12">' +
-      '<h4>Caracter&iacute;stica de venta</h4>' +
-      '</div>' +
-      '<div class="form-group col-md-6">' +
-      '<div class="form-check">' +
-      '<input class="form-check-input" type="checkbox" value="" id="foraneoAgente">' +
-      '<label class="form-check-label" for="foraneoAgente">' +
-      'For&aacute;neos' +
-      '</label>' +
-      '</div>' +
-      '</div>' +
-      '<div class="form-group col-md-6">' +
-      '<div class="form-check">' +
-      '<input class="form-check-input" type="checkbox" value="" id="licitacionAgente">' +
-      '<label class="form-check-label" for="licitacionAgente">' +
-      'Licitaciones' +
-      '</label>' +
-      '</div>' +
-      '</div>' +
-      '</div>',
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
-  }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Agente agregado correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
-  });
+	$('#agregarAgente').modal('toggle');
+	$('#foraneoAgente').prop("checked",false);
+	$('#licitacionAgente').prop("checked",false);
+	$('#idAgenteCatalogoComercial').val("");
+	listarAreaAgentes();
 }
-function editarAgente() {
-  Swal.fire({
-    title: "Editar agente",
-    html: '<div class="row">' +
-      '<div class="form-group col-md-12">' +
-      '<label for="nombreAgenteE">Nombre</label>' +
-      '<select class="form-control" id="nombreAgenteE">' +
-      '<option value="1">Agente 1</option>' +
-      '<option value="1">Agente 2</option>' +
-      '</select>' +
-      '</div>' +
-      '<div class="form-group col-md-12">' +
-      '<h4>Caracter&iacute;stica de venta</h4>' +
-      '</div>' +
-      '<div class="form-group col-md-6">' +
-      '<div class="form-check">' +
-      '<input class="form-check-input" type="checkbox" value="" id="foraneoAgenteE">' +
-      '<label class="form-check-label" for="foraneoAgenteE">' +
-      'For&aacute;neos' +
-      '</label>' +
-      '</div>' +
-      '</div>' +
-      '<div class="form-group col-md-6">' +
-      '<div class="form-check">' +
-      '<input class="form-check-input" type="checkbox" value="" id="licitacionAgenteE">' +
-      '<label class="form-check-label" for="licitacionAgenteE">' +
-      'Licitaciones' +
-      '</label>' +
-      '</div>' +
-      '</div>' +
-      '</div>',
-    showCancelButton: true,
-    confirmButtonText: "Confirmar",
-    cancelButtonText: "Cancelar",
-    confirmButtonColor: "#0288d1",
-    cancelButtonColor: "#dc3545",
-  }).then((result) => {
-    if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Agente editado correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
-    }
-  });
+
+function editarAgente(id) {
+	$('#agregarAgente').modal('toggle');
+	$('#foraneoAgente').prop("checked",false);
+	$('#licitacionAgente').prop("checked",false);
+	$('#idAgenteCatalogoComercial').val(id);
+	
+	$.ajax({
+		method: "GET",
+	    url: "/ExtraerPuestoAgenteCatalogo",
+	    data: {
+	    	idEmpleado: id
+	    },
+	    success:(data) => {
+	    	if(data[3]!=null || data[3]!=undefined || data[3]!=''){
+
+	         	 Swal.fire({
+	                  title: 'Cargando ',
+	                  html: 'Por favor espere',// add html attribute if you want or remove
+	                  allowOutsideClick: false,
+	                  timerProgressBar: true,
+	                  onBeforeOpen: () => {
+	                      Swal.showLoading()
+	                  },
+	              });
+	   		    
+	   	}
+	    	listarAreaAgentes(data[3], data[2], data[1], data[0]);
+	    }
+	});
+	
+	$.ajax({
+		method: "GET",
+	    url: "/ExtraerDatosAgenteCatalogo",
+	    data: {
+	    	idEmpleado: id
+	    },
+	    success:(data) => {
+	    	if(data.foraneo==1){
+	    		$('#foraneoAgente').prop("checked",true);
+	    	}
+	    	if(data.licitacion==1){
+	    		$('#licitacionAgente').prop("checked",true);
+	    	}
+	    }
+	});
 }
-function bajarAgente() {
+
+function guardarInformacionAgente(){
+	
+	var idEmpleado = $('#nombreAgente').val();
+	var foraneo = $('input:checkbox[id=foraneoAgente]:checked').val();
+	var licitacion = $('input:checkbox[id=licitacionAgente]:checked').val();
+	
+	//registro nuevo
+	if($('#idAgenteCatalogoComercial').val()=='' || $('#idAgenteCatalogoComercial').val()==null || $('#idAgenteCatalogoComercial').val()==undefined){
+		$.ajax({
+			method: "GET",
+		    url: "/guardarAgenteCatalogo",
+		    data: {
+		    	idEmpleado: idEmpleado,
+		    	foraneo: foraneo,
+		    	licitacion: licitacion
+		    },
+		    beforeSend: function () {
+	        	 Swal.fire({
+	                 title: 'Cargando ',
+	                 html: 'Por favor espere',// add html attribute if you want or remove
+	                 allowOutsideClick: false,
+	                 timerProgressBar: true,
+	                 onBeforeOpen: () => {
+	                     Swal.showLoading()
+	                 },
+	             });
+		    },
+		    success:(data) => {
+		    	if(data==1){
+   	    		 Swal.fire({
+   	    		        position: "center",
+   	    		        icon: "success",
+   	    		        title: "Agente agregado correctamente",
+   	    		        showConfirmButton: false,
+   	    		        timer: 2500,
+   	    		        onClose:()=>{
+   	    		        	$('#agregarAgente').modal('toggle');
+   	    		        	ListAgentesVenta();
+   	    		        }
+   	    		      });
+	   	    	}
+	   	    	else{
+	   	    		 Swal.fire({
+	   	    		        position: "center",
+	   	    		        icon: "error",
+	   	    		        title: "Ya existe ese agente en la lista",
+	   	    		        showConfirmButton: false,
+	   	    		        timer: 2500
+	   	    		      });
+	   	    	}
+		    },
+		    error:(e) =>{
+		    	
+		    }
+		});
+	}
+	//registro existente
+	else{
+		$.ajax({
+			method: "GET",
+		    url: "/editarAgenteCatalogo",
+		    data: {
+		    	idEmpleado: idEmpleado,
+		    	foraneo: foraneo,
+		    	licitacion: licitacion
+		    },
+		    beforeSend: function () {
+	        	 Swal.fire({
+	                 title: 'Cargando ',
+	                 html: 'Por favor espere',// add html attribute if you want or remove
+	                 allowOutsideClick: false,
+	                 timerProgressBar: true,
+	                 onBeforeOpen: () => {
+	                     Swal.showLoading()
+	                 },
+	        	 });
+		    },
+		    success:(data) => {
+		    	if(data==1){
+	   	    		 Swal.fire({
+	   	    		        position: "center",
+	   	    		        icon: "success",
+	   	    		        title: "Agente editado correctamente",
+	   	    		        showConfirmButton: false,
+	   	    		        timer: 2500,
+	   	    		        onClose:()=>{
+	   	    		        	$('#agregarAgente').modal('toggle');
+	   	    		        	ListAgentesVenta();
+	   	    		        }
+	   	    		      });
+		   	    }
+	   	    	else{
+	   	    		 Swal.fire({
+	   	    		        position: "center",
+	   	    		        icon: "error",
+	   	    		        title: "Hubo un problema al guardar la información",
+	   	    		        showConfirmButton: false,
+	   	    		        timer: 2500,
+	   	    		      });
+	   	    	}
+		    },
+		    error:(e) =>{
+		    	
+		    }
+		});
+	}
+}
+
+$('#ValidarInformacionAgenteCatalogo').on("click", function(){
+	if($('#areaAgente').val()=='' || $('#areaAgente').val()==null || $('#areaAgente').val()==undefined ||
+	   $('#depaAgente').val()=='' || $('#depaAgente').val()==null || $('#depaAgente').val()==undefined || 
+	   $('#puestoAgente').val()=='' || $('#puestoAgente').val()==null || $('#puestoAgente').val()==undefined || 
+	   $('#nombreAgente').val()=='' || $('#nombreAgente').val()==null || $('#nombreAgente').val()==undefined ){
+		Swal.fire({
+	        position: "center",
+	        icon: "error",
+	        title: "Debe llenar todos los selectores",
+	        showConfirmButton: false,
+	        timer: 2500
+	      })
+	}
+	else{
+		guardarInformacionAgente();
+	}
+	
+})
+
+function bajarAgente(id) {
   Swal.fire({
     title: "¿Deseas dar de baja al agente?",
     icon: "warning",
@@ -109,17 +434,44 @@ function bajarAgente() {
     cancelButtonColor: "#dc3545",
   }).then((result) => {
     if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Agente dado de baja correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
+    	var idEmpleado = id;
+    	$.ajax({
+    		method: "GET",
+    	    url: "/bajaAgenteVentasCatalogoComercial",
+    	    data: {
+    	    	idEmpleado:idEmpleado
+    	    },
+    	    success:(data) => {
+    	    	if(data==1){
+    	    		 Swal.fire({
+    	    		        position: "center",
+    	    		        icon: "success",
+    	    		        title: "Agente dado de baja correctamente",
+    	    		        showConfirmButton: false,
+    	    		        timer: 2500,
+    	    		        onClose:()=>{
+    	    		        	ListAgentesVenta();
+    	    		        }
+    	    		      });
+    	    	}
+    	    	else{
+    	    		 Swal.fire({
+    	    		        position: "center",
+    	    		        icon: "error",
+    	    		        title: "No se pudo dar de baja",
+    	    		        showConfirmButton: false,
+    	    		        timer: 2500,
+    	    		      });
+    	    	}
+    	    },
+    	    error:(e) =>{
+    		}
+    	});
     }
   });
 }
-function altaAgente() {
+
+function altaAgente(id) {
   Swal.fire({
     title: "¿Deseas dar de alta al agente?",
     icon: "warning",
@@ -130,13 +482,39 @@ function altaAgente() {
     cancelButtonColor: "#dc3545",
   }).then((result) => {
     if (result.value) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Agente dado de alta correctamente",
-        showConfirmButton: false,
-        timer: 2500,
-      });
+    	var idEmpleado = id;
+    	$.ajax({
+    		method: "GET",
+    	    url: "/altaAgenteVentasCatalogoComercial",
+    	    data: {
+    	    	idEmpleado:idEmpleado
+    	    },
+    	    success:(data) => {
+    	    	if(data==1){
+    	    		 Swal.fire({
+    	    		        position: "center",
+    	    		        icon: "success",
+    	    		        title: "Agente dado de alta correctamente",
+    	    		        showConfirmButton: false,
+    	    		        timer: 2500,
+    	    		        onClose:()=>{
+    	    		        	ListAgentesVenta();
+    	    		        }
+    	    		      });
+    	    	}
+    	    	else{
+    	    		 Swal.fire({
+    	    		        position: "center",
+    	    		        icon: "error",
+    	    		        title: "No se pudo dar de alta",
+    	    		        showConfirmButton: false,
+    	    		        timer: 2500,
+    	    		      });
+    	    	}
+    	    },
+    	    error:(e) =>{
+    		}
+    	});
     }
   });
 }

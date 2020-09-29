@@ -56,6 +56,13 @@ public class HrPuestoServiceImpl implements IHrPuestoService {
 	public List<HrDepartamento> findAllDepartamentos() {
 		return em.createQuery("from HrDepartamento").getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<HrPuesto> findAllPuestoByDepartamento(Long idDepartamento) {
+		return em.createQuery("from HrPuesto WHERE idDepartamento = "+idDepartamento).getResultList();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

@@ -25,4 +25,6 @@ public interface IHrDepartamentoService {
 
 	Boolean duplicateDepartamento(String nombreDepartamento, String nomArea);
 
+	List<HrDepartamento> findAllDepartamentosByArea(Long idArea);
+
 }

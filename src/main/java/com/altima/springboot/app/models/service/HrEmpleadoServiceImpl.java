@@ -68,6 +68,26 @@ public class HrEmpleadoServiceImpl implements IHrEmpleadoService {
 						+ "AND empleado.id_empleado!="+idAgente).getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> findAllByPuestoDepartamentoArea(Long idPuesto, Long idDepartamento, Long idLookup) {
+		// TODO Auto-generated method stub
+
+		return em.createNativeQuery("SELECT empleado.id_empleado,\n" + 
+									"		empleado.id_text,\n" + 
+									"		empleado.nombre_persona, \n" + 
+									"		empleado.apellido_materno, \n" + 
+									"		empleado.apellido_paterno \n" + 
+									"FROM alt_hr_empleado AS empleado\n" + 
+									"INNER JOIN alt_hr_puesto puesto ON empleado.id_puesto = puesto.id_puesto\n" + 
+									"INNER JOIN alt_hr_departamento depa ON puesto.id_departamento = depa.id_departamento\n" + 
+									"INNER JOIN alt_hr_lookup lookup ON depa.id_area = lookup.id_lookup\n" + 
+									
+									"WHERE puesto.id_puesto ="+idPuesto+" \n" + 
+									"AND depa.id_departamento ="+idDepartamento+" \n" + 
+									"AND lookup.id_lookup = "+idLookup).getResultList();
+	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -99,6 +119,21 @@ public class HrEmpleadoServiceImpl implements IHrEmpleadoService {
 	public List<HrEmpleado> findAllEmpleado() {
 		// TODO Auto-generated method stub
 		return repository.findAllEmpleados();
+	}
+	
+	@Override
+	@Transactional
+	public Object[] findDatosPuesto(Long idEmpleado) {
+		// TODO Auto-generated method stub
+		return (Object[]) em.createNativeQuery("SELECT  empleado.id_empleado, \n" + 
+											   "		puesto.id_puesto, \n" + 
+											   "		depa.id_departamento, \n" + 
+											   "		lookup.id_lookup FROM alt_hr_empleado AS empleado\n" + 
+											   "INNER JOIN alt_hr_puesto puesto ON empleado.id_puesto = puesto.id_puesto\n" + 
+											   "INNER JOIN alt_hr_departamento depa ON puesto.id_departamento = depa.id_departamento\n" + 
+											   "INNER JOIN alt_hr_lookup lookup ON depa.id_area = lookup.id_lookup\n" + 
+											   "\n" + 
+											   "WHERE empleado.id_empleado = "+idEmpleado).getSingleResult();
 	}
 
 }
