@@ -44,12 +44,6 @@ public class ComercialSolicitudModelo implements Serializable{
 	@Column(name="hora_salida_altima")
 	private String horaSalidaAltima;
 	
-	@Column(name="cantidad_modelo_caballero")
-	private Long cantidadModeloCaballero;
-	
-	@Column(name="cantidad_modelo_dama")
-	private Long cantidadModeloDama;
-	
 	@Column(name="creado_por")
 	private String creadoPor;
 	
@@ -121,21 +115,6 @@ public class ComercialSolicitudModelo implements Serializable{
 		this.horaSalidaAltima = horaSalidaAltima;
 	}
 
-	public Long getCantidadModeloCaballero() {
-		return cantidadModeloCaballero;
-	}
-
-	public void setCantidadModeloCaballero(Long cantidadModeloCaballero) {
-		this.cantidadModeloCaballero = cantidadModeloCaballero;
-	}
-
-	public Long getCantidadModeloDama() {
-		return cantidadModeloDama;
-	}
-
-	public void setCantidadModeloDama(Long cantidadModeloDama) {
-		this.cantidadModeloDama = cantidadModeloDama;
-	}
 
 	public String getCreadoPor() {
 		return creadoPor;
