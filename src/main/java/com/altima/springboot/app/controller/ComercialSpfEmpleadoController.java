@@ -151,7 +151,7 @@ public class ComercialSpfEmpleadoController {
 				RedirectAttributes redirectAttrs, Model m) {
 			ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
 			ComercialCoordinado coorSPF = CoordinadoService.findOneCoorSPF("COORSPF"+pedido.getIdPedido());
-	
+			m.addAttribute("idPrincipal",pedido.getIdPedido());
 		
 			if ( coorSPF == null) {
 				System.out.println("entro al iffff");

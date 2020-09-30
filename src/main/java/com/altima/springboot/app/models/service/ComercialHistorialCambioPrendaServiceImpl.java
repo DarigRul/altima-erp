@@ -77,23 +77,6 @@ public class ComercialHistorialCambioPrendaServiceImpl implements IComercialHist
 @Transactional
 public List<Object[]> coordinadoEmpleado(Long idEmpleado) {
 	
-	System.out.println(""
-			+ "SELECT\r\n" + 
-			"	coor.id_coordinado,\r\n" + 
-			"	coor.id_text \r\n" + 
-			"FROM\r\n" + 
-			"	alt_comercial_concetrado_prenda AS conse,\r\n" + 
-			"	alt_comercial_coordinado_prenda AS coor_prenda,\r\n" + 
-			"	alt_comercial_coordinado AS coor \r\n" + 
-			"WHERE\r\n" + 
-			"	1 = 1 \r\n" + 
-			"	AND conse.id_coordinado_prenda = coor_prenda.id_coordinado_prenda \r\n" + 
-			"	AND coor_prenda.id_coordinado = coor.id_coordinado \r\n" + 
-			"	AND conse.id_empleado = "+idEmpleado+" \r\n" + 
-			"GROUP BY\r\n" + 
-			"	coor.id_coordinado \r\n" + 
-			"ORDER BY\r\n" + 
-			"	coor.id_coordinado");
 	List<Object[]> re= em.createNativeQuery(""
 			+ "SELECT\r\n" + 
 			"	coor.id_coordinado,\r\n" + 

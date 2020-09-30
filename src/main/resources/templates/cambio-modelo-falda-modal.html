@@ -41,7 +41,7 @@
 						</select>
 					</div>
 					
-					<input type=hidden th:value="*{idPrincipal}" id ="idPrincipal" name ="idPrincipal">
+					<input type="hidden" th:value="*{idPrincipal}" id ="idPrincipal" name ="idPrincipal">
 					<input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
 					<div class="form-group col-sm-12"> <a th:href="@{/coordinados}" class="btn btn-danger ">Cancelar</a>
 						<input type="button" class="btn btn-primary next-step float-right" value="Guardar" onclick='agregar()'> </div>

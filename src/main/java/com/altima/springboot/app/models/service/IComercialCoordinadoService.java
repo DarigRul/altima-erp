@@ -63,6 +63,10 @@ public interface IComercialCoordinadoService {
 		 String precioPrenda(Long idCoor , Long idPrenda , Long idTela);
 		 
 		List<Object[]> findAllComposicion(Long id);
+		
+		// listado de tela en spf
+		
+		List<Object []> findAllTelaSPF(Long idPedio);
 }
 
 

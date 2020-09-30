@@ -17,6 +17,7 @@ import com.altima.springboot.app.models.entity.ComercialConcetradoPrenda;
 import com.altima.springboot.app.models.entity.ComercialCotizacionPrenda;
 import com.altima.springboot.app.models.entity.ComercialHistorialCambioPrenda;
 import com.altima.springboot.app.models.service.IComercialConcentradoPrendasService;
+import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialHistorialCambioPrendaService;
 
 @RestController
@@ -27,6 +28,9 @@ public class ControllerCambioModeloRest {
 
 	@Autowired
 	private IComercialConcentradoPrendasService concentradoPrendasService;
+	
+	@Autowired
+	private IComercialCoordinadoService CoordinadoService;
 	
 	@RequestMapping(value="/listar-coordinado", method = RequestMethod.GET)
 	public List<Object []> listarCoordinado (Long idEmpleado){
@@ -71,5 +75,15 @@ public class ControllerCambioModeloRest {
 		
 		return true;
 	}
+	
+	@RequestMapping(value = "/mostrar-tela-SPF", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> telaPrimera(Long idPedido) {
+
+		System.out.println("/mostrar-tela-SPF "+idPedido);
+
+		return CoordinadoService.findAllTelaSPF(idPedido);
+	}
+
 }
 

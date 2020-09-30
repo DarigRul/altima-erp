@@ -72,8 +72,9 @@ $(document).ready(function() {
 	        	
 	        	
 	          $.ajax({
-	                data: { id : prenda.val() },
-	                url:   '/mostrar-tela-primera',
+	                data: { idPedido :  $("#idPrincipal").val() },
+	                // esta en el controller ControllerCambioModeloRest
+	                url:   '/mostrar-tela-SPF',
 	                type:  'GET',
 	                beforeSend: function () 
 	                {
