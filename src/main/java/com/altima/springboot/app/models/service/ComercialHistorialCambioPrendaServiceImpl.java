@@ -127,18 +127,23 @@ public List<Object[]> modelo(Long idEmpleado, Long idCoor) {
 @SuppressWarnings("unchecked")
 @Override
 @Transactional
-public List<Object[]> cambio(Long idPedido, Long idExcluir) {
+public List<Object[]> cambio(Long idPedido, Long idExcluir, Long idCoor) {
 	
 	List<Object[]> re= em.createNativeQuery(""
 			+ "SELECT\r\n" + 
 			"	coor_prenda.id_coordinado_prenda,\r\n" + 
 			"IF\r\n" + 
-			"	( coor.id_text = 'COORSPF46', CONCAT('Extra ', prenda.id_text ), prenda.id_text ) \r\n" + 
+			"	(\r\n" + 
+			"		coor.id_text = 'COORSPF"+idPedido+"',\r\n" + 
+			"		CONCAT( 'Extra ', prenda.id_text, '-', tela.id_text ),\r\n" + 
+			"		CONCAT( prenda.id_text, '-', tela.id_text ) \r\n" + 
+			"	) \r\n" + 
 			"FROM\r\n" + 
 			"	alt_comercial_coordinado_prenda AS coor_prenda,\r\n" + 
 			"	alt_comercial_coordinado AS coor,\r\n" + 
 			"	alt_disenio_prenda AS prenda,\r\n" + 
-			"	alt_disenio_lookup AS look \r\n" + 
+			"	alt_disenio_lookup AS look,\r\n" + 
+			"	alt_disenio_tela AS tela \r\n" + 
 			"WHERE\r\n" + 
 			"	1 = 1 \r\n" + 
 			"	AND coor_prenda.id_coordinado = coor.id_coordinado \r\n" + 
@@ -146,7 +151,9 @@ public List<Object[]> cambio(Long idPedido, Long idExcluir) {
 			"	AND look.id_lookup = prenda.id_familia_prenda \r\n" + 
 			"	AND ( look.nombre_lookup LIKE '%Falda%' || look.nombre_lookup LIKE '%Pantalon%' ) \r\n" + 
 			"	AND coor.id_pedido = "+idPedido+" \r\n" + 
+			"	AND ( coor.id_coordinado = "+idCoor+" || coor.id_text = 'COORSPF"+idPedido+"' ) \r\n" + 
 			"	AND coor_prenda.id_coordinado_prenda NOT IN ( SELECT conse.id_coordinado_prenda FROM alt_comercial_concetrado_prenda AS conse WHERE conse.id_concentrado_prenda = "+idExcluir+" ) \r\n" + 
+			"	AND tela.id_tela = coor_prenda.id_tela \r\n" + 
 			"ORDER BY\r\n" + 
 			"	prenda.id_text").getResultList();
 	return re;

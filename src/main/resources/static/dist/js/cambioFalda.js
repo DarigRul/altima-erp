@@ -57,13 +57,15 @@ function listarModelo(id, aux) {
 
 function listarCambio(id, aux) {
 	var idPrincipal = $('#idPrincipal').val();
+	var idCoor = $('#Coordinado').val();
     $.ajax({
         method: "GET",
         url: "/listar-cambios-posibles",
         data: {
             "_csrf": $('#token').val(),
             "modelo": id,
-            "idPrincipal":idPrincipal
+            "idPrincipal":idPrincipal,
+            "idCoor":idCoor
         },
         success: (data) => {
             $('#cambio').empty();

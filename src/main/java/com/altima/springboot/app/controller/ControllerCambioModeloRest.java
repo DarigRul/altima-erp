@@ -45,8 +45,8 @@ public class ControllerCambioModeloRest {
 	}
 	
 	@RequestMapping(value="/listar-cambios-posibles", method = RequestMethod.GET)
-	public List<Object []> listarCambiosPosibles (Long modelo, Long idPrincipal){	
-		return serviceCambio.cambio(idPrincipal, modelo);
+	public List<Object []> listarCambiosPosibles (Long modelo, Long idPrincipal, Long idCoor){	
+		return serviceCambio.cambio(idPrincipal, modelo, idCoor);
 	}
 	
 	@SuppressWarnings("null")

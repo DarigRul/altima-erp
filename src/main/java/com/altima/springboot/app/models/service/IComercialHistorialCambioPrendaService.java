@@ -18,7 +18,7 @@ List<ComercialHistorialCambioPrenda> findAll (Long id);
 	
 	List<Object []> modelo(Long idEmpleado, Long idCoor);
 	
-	List<Object []> cambio(Long idPedido, Long idExcluir);
+	List<Object []> cambio(Long idPedido, Long idExcluir , Long idCoor);
 	
 	List<Object []> vista(Long idSPF);
 	
