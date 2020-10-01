@@ -234,30 +234,30 @@ public class BordadosAgenteVentasController {
 		}
 	  
 	  
-	  @GetMapping("/eliminar_bordado/{id}/{idB}")
-		public String deleteBordado(@PathVariable("id") Long idparteBordado, @PathVariable("idB") Long idBordado, RedirectAttributes redirectAttrs) {
+	  @GetMapping("/eliminar_bordado/{id}")
+		public String deleteBordado(@PathVariable("id") Long idBordado, RedirectAttributes redirectAttrs) {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			Date date = new Date();
 			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			
+			bordadoService.delete(idBordado);
+			
+			redirectAttrs.addFlashAttribute("title", "Bordado Eliminado correctamente").addFlashAttribute("icon",
+					"warning");
+			return "redirect:/bordados";
+		}
+		
+		
+		@GetMapping("/eliminar_parte_bordado/{id}/{idB}")
+		public String deleteBordadoParte(@PathVariable("id") Long idparteBordado, @PathVariable("idB") Long idBordado, RedirectAttributes redirectAttrs) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");			
 			bordadoService.deleteParteBordado(idparteBordado);
 			
 			redirectAttrs.addFlashAttribute("title", "Bordado Eliminado correctamente").addFlashAttribute("icon",
 					"warning");
 			return "redirect:/bordados/"+idBordado;
-		}
-		
-		
-		@GetMapping("/eliminar_parte_bordado/{id}")
-		public String deleteBordadoParte(@PathVariable("id") Long idBordadoParte, RedirectAttributes redirectAttrs) {
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			Date date = new Date();
-			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");			
-		    bordadoService.deleteParteBordado(idBordadoParte);
-			
-			redirectAttrs.addFlashAttribute("title", "Bordado Eliminado correctamente").addFlashAttribute("icon",
-					"warning");
-			return "redirect:/bordados/"+idBordadoParte ;
 		}
 		
 		
