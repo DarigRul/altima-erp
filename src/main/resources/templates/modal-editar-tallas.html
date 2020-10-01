@@ -1,26 +1,85 @@
 <script type="text/javascript">
-function configurarmodal(prenda,idprenda,talla,largo){
-	//console.log(document.getElementById("empleado").text);
-	
-	var empleadonombre=document.getElementById("empleado");
-	 var i = empleadonombre.selectedIndex;
-	 empleadonombre.options[i].text;
-	var empleadonomb=empleadonombre.options[i].text;
-	 var nombreempleado = document.getElementById("nombreempleado");
-	nombreempleado.setAttribute("value",empleadonomb);
-	 var nombreprenda = document.getElementById("nombreprenda");
-		nombreprenda.setAttribute("value",prenda);
-		 var vtalla = document.getElementById("talla22");
-		
-			vtalla.setAttribute("title",talla);
-			$('#talla22').selectpicker('destroy').selectpicker();
-			 var vlargo = document.getElementById("largo22");
-				vlargo.setAttribute("title",largo);
-				$('#largo22').selectpicker('destroy').selectpicker();
-				 var idprendaedit = document.getElementById("idprendaedit");
-					idprendaedit.setAttribute("value",idprenda);
-					//
+function configurarmodal(prenda, idprenda, talla, largo) {
+   
+    if (document.getElementById("genero").value.length < 0 || document.getElementById("genero").value == null || document.getElementById("genero").value == "") {
+        $("#largo22").empty();
+        Swal
+            .fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Primero seleccione el genero',
+                showConfirmButton: false,
+                timer: 3000
+            })
+
+    } else {
+
+        var empleadonombre = document.getElementById("empleado");
+        var i = empleadonombre.selectedIndex;
+        empleadonombre.options[i].text;
+        var empleadonomb = empleadonombre.options[i].text;
+        var nombreempleado = document.getElementById("nombreempleado");
+        nombreempleado.setAttribute("value", empleadonomb);
+        var nombreprenda = document.getElementById("nombreprenda");
+        nombreprenda.setAttribute("value", prenda);
+        var vtalla = document.getElementById("talla22");
+
+        vtalla.setAttribute("title", talla);
+        $('#talla22').selectpicker('destroy').selectpicker();
+        var vlargo = document.getElementById("largo22");
+        vlargo.setAttribute("title", largo);
+        $('#largo22').selectpicker('destroy').selectpicker();
+        var idprendaedit = document.getElementById("idprendaedit");
+        idprendaedit.setAttribute("value", idprenda);
+
+
+        $('#talla22').empty();
+        $('#largo22').empty();
+
+        $.ajax({
+            type: "GET",
+            url: "/obtener-posicion-prenda",
+            data: {
+                "Prenda": $("#nombreprenda").val()
+            },
+            success: (data) => {
+                var posicion = data;
+                $.ajax({
+                    type: "GET",
+                    url: "/obtener-tallas",
+                    data: {
+                        "Posicion": posicion,
+                        "Genero": $("#genero").val()
+                    },
+                    success: (data) => {
+                        var select = document.getElementById("talla22");
+                        for (index in data) {
+                            select.options[select.options.length] = new Option(data[index].nombreLookup, data[index].idLookup);
+                        }
+                        $('#talla22').selectpicker('refresh');
+                    }
+                }); 
+            }
+        });
+
+      
+        $.ajax({
+            type: "GET",
+            url: "/obtener-largo-talla",
+
+            success: (data) => {
+                var select = document.getElementById("largo22");
+                for (index in data) {
+                    select.options[select.options.length] = new Option(data[index].nombreLookup, data[index].idLookup);
+                }
+                $('#largo22').selectpicker('refresh');
+            }
+        }); 
+
+    } 
 }
+
+
 </script>
 
 <!-- Modal -->
@@ -43,14 +102,12 @@ function configurarmodal(prenda,idprenda,talla,largo){
                         <label for="cargaEmpresa">Prenda</label>
                         <input type="text" disabled value="" id="nombreprenda" class="form-control">
                       </div>
-					  <div class="form-group col-md-6">
-                        <label>Talla</label>
-                          <select required
+					 <div class="form-group col-md-6">
+                        <label for="cargaEmpresa">Talla</label> 
+                        <select required
                           class="form-control selectpicker" data-live-search="true"
-                          title="" name="talla22" id="talla22">
-                          <option th:each="talla : ${talla}"
-                            th:value="${talla.IdLookup}"
-                            th:text="${talla.nombreLookup}" th:selected="false" />
+                          title="" name="cargaTipopedido" id="talla22">
+                         
                         </select>
                       </div>
                       <div class="form-group col-md-6">
@@ -58,9 +115,7 @@ function configurarmodal(prenda,idprenda,talla,largo){
                         <select required
                           class="form-control selectpicker" data-live-search="true"
                           title="" name="cargaTipopedido" id="largo22">
-                          <option th:each="largo : ${largo}"
-                            th:value="${largo.IdLookup}"
-                            th:text="${largo.nombreLookup}" th:selected="false" />
+                          
                         </select>
                       </div>
 				</div>

@@ -16,6 +16,7 @@ import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
 import com.altima.springboot.app.models.service.IAdminConfiguracionPedidoService;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialConcentradoTallaService;
+import com.altima.springboot.app.models.service.IDisenioLookupService;
 import com.altima.springboot.app.models.service.IProduccionLookupService;
 import com.altima.springboot.app.models.service.IServicioClienteLookupService;
 
@@ -30,7 +31,10 @@ public class ConcentradoTallasController {
 
 	@Autowired
 	IProduccionLookupService ProduccionLookupService;
-
+	
+	@Autowired
+	IDisenioLookupService DisenioLookupService;
+	
 	@Autowired
 	IAdminConfiguracionPedidoService configService;
 
@@ -103,6 +107,7 @@ public class ConcentradoTallasController {
 			model.addAttribute("talla", ProduccionLookupService.findAllByType("Talla"));
 			model.addAttribute("largo", ProduccionLookupService.findAllByType("Largo"));
 			model.addAttribute("especificacion", ServicioClienteLookupService.findAllByType("Especificacion"));
+		    model.addAttribute("genero", DisenioLookupService.findByTipoLookup("Familia Genero"));
 		} else if (config.getTipoPedido() == 2) {
 
 			model.addAttribute("empleados", ComClienteEmpleadoService.findAllClientesSPF(idpedido));
@@ -110,6 +115,8 @@ public class ConcentradoTallasController {
 			model.addAttribute("talla", ProduccionLookupService.findAllByType("Talla"));
 			model.addAttribute("largo", ProduccionLookupService.findAllByType("Largo"));
 			model.addAttribute("especificacion", ServicioClienteLookupService.findAllByType("Especificacion"));
+		    model.addAttribute("genero", DisenioLookupService.findByTipoLookup("Familia Genero"));
+
 		}
 
 		return "agregar-concentrado-de-tallas";
@@ -122,6 +129,8 @@ public class ConcentradoTallasController {
 		model.addAttribute("idspf", ConcentradoTallaService.findSPF(idpedido));
 		model.addAttribute("idempleado", idempleado);
 		model.addAttribute("idpedido", idpedido);
+	    model.addAttribute("genero", DisenioLookupService.findByTipoLookup("Familia Genero"));
+
 		if (ConcentradoTallaService.findSPF(idpedido) == null) {
 
 			model.addAttribute("empleados", ComClienteEmpleadoService.findAllEmpleadosEmpresaWithoutSPF(idpedido));

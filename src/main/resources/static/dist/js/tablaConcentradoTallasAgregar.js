@@ -76,6 +76,7 @@ function muestraPrendas() {
 			$("#prenda").append("<option value='" + id + "'>" + name + "</option>");
 
 		}
+		$('#prenda').selectpicker('refresh');
 
 		// ///////////////////777
 
@@ -729,6 +730,68 @@ function guardar() {
 		location.reload();
 	}
 }
+function insercionesposteriores(){
+	
+	$( "#prenda" ).change(function() {
+		
+		removeOptions(document.getElementById('talla'));
+		$('#talla').selectpicker('refresh');
+   	 var prenda2=prenda.options[prenda.selectedIndex].text;
+   	 console.log(prenda2);
+   	console.log( $("#genero").val());
+   	var selectobjectemp;
+		selectobjectemp = document.getElementById("empleado");
+		selectobjectemp.disabled = true;
+		$('#empleado').selectpicker('refresh');
+		var selectobjectprend;
+		selectobjectprend = document.getElementById("prenda");
+		console.log(selectobjectprend);
+		selectobjectprend.disabled = true;
+		$('#prenda').selectpicker('refresh');
+		var selectobjectgenero;
+		selectobjectgenero = document.getElementById("genero");
+		console.log(selectobjectgenero);
+		selectobjectgenero.disabled = true;
+		$('#genero').selectpicker('refresh');
+		///////////////////////////////777
+		$.ajax({
+       type: "GET",
+       url: "/obtener-posicion-prenda",
+       data:{ "Prenda": prenda2},
+       success: (data) => {
+       	var posicion=data;
+       	console.log(posicion);
+       	$.ajax({
+               type: "GET",
+               url: "/obtener-tallas",
+               data:{ "Posicion": posicion,
+               	"Genero": $("#genero").val()},
+               success: (data) => {
+               	console.log(data);
+               	var select = document.getElementById("talla");
+               	for(index in data) {
+               	    select.options[select.options.length] = new Option(data[index].nombreLookup, data[index].idLookup);
+               	}
+               	$('.selectpicker').selectpicker('refresh');
+               }
+       	});//////////////quitar; sino funciona
+       }
+	});
+		
+   	
+   	////////////////poner los 2 ajax get
+   	////despues bloquear genero y al botonazo desbloquear prenda
+   	});
+	
+}
+
+function removeOptions(selectElement) {
+	   var i, L = selectElement.options.length - 1;
+	   for(i = L; i >= 0; i--) {
+	      selectElement.remove(i);
+	   }
+	}
+
 
 function GuardarPrendaTalla() {
 	$('#cargaTipopedido10').val();
@@ -775,6 +838,8 @@ function GuardarPrendaTalla() {
 				function (data) {
 					var x = document.getElementById("prenda");
 					x.remove(x.selectedIndex);
+					var y = document.getElementById("talla");
+					y.remove(y.selectedIndex);
 					listarPrendas(empleado, pedido);
 					var selectobject;
 					selectobject = document.getElementById("empleado");
@@ -786,6 +851,17 @@ function GuardarPrendaTalla() {
 						showConfirmButton: false,
 						timer: 2500
 					})
+					/////////////777
+					var selectobjectprend2;
+					selectobjectprend2 = document.getElementById("prenda");
+					console.log(selectobjectprend2);
+					selectobjectprend2.disabled = false;
+					$('#prenda').selectpicker('refresh');
+					$("#talla").empty();
+					insercionesposteriores();
+					//listarPrendas(empleado, pedido);
+
+					/////////////77777
 				});
 	} else {
 		Swal.fire({
@@ -794,7 +870,7 @@ function GuardarPrendaTalla() {
 			showConfirmButton: false,
 			timer: 2500
 		})
-		listarPrendas(empleado, pedido);
+		//listarPrendas(empleado, pedido);
 		var selectobject;
 		selectobject = document.getElementById("empleado");
 		selectobject.disabled = true;

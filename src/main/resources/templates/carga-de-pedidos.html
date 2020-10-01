@@ -293,7 +293,13 @@
                                                 class="fas fa-exchange-alt"></i></a>
                                                 
                                                 
-                                                <a th:href="@{/concentrado-de-tallas/}+${pedidos[0]}"
+                                                  <a th:if="${pedidos[10] == null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+0"
+                                                class="btn btn-warning popoverxd" data-container="body"
+                                                data-placement="top"
+                                                data-content="Concentrado por tallas"><i
+                                                class="fas fa-ruler-combined"></i></a> 
+                                                
+                                                 <a th:if="${pedidos[10] != null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+${pedidos[10]}"
                                                 class="btn btn-warning popoverxd" data-container="body"
                                                 data-placement="top"
                                                 data-content="Concentrado por tallas"><i
