@@ -46,7 +46,7 @@ public class ComercialBordadoServiceImpl implements ComercialBordadoService {
 	@Override
 	public ComercialBordado findOne(Long id) {
 		// TODO Auto-generated method stub
-		return em.find(ComercialBordado.class, id);
+		return repository.findById(id).orElse(null);
 	}
 	
 	
@@ -60,13 +60,13 @@ public class ComercialBordadoServiceImpl implements ComercialBordadoService {
 	@Transactional
 	public void deleteParteBordado(Long id) {
 		// TODO Auto-generated method stub
-		em.remove(findOne(id));
+		em.remove(findOneParteBordado(id));
 	}
 	
 	@Override
 	public ComercialBordadoParteBordado findOneParteBordado(Long id) {
 		// TODO Auto-generated method stub
-		return em.find(ComercialBordadoParteBordado.class, id);
+		return repositoryParteBordado.findById(id).orElse(null);
 	}
 	
 	
@@ -87,7 +87,7 @@ public class ComercialBordadoServiceImpl implements ComercialBordadoService {
 	public List<ComercialLookup> findListaLookupComercial() {
 		
 		return em.createQuery(
-				" FROM ComercialLookup WHERE Estatus=1 and tipoLookup='Bordado' order by nombreLookup")
+				" FROM ComercialLookup WHERE Estatus=1 and tipoLookup='Personalizado' order by nombreLookup")
 				.getResultList();
 	}
 	
@@ -124,7 +124,8 @@ public class ComercialBordadoServiceImpl implements ComercialBordadoService {
 				"				pt.partes_bordado as parte,\r\n" + 
 				"				pt.numero_hilo as hilo,\r\n" + 
 				"				pt.color as color,\r\n" + 
-				"				pt.id_bordado_parte_bordado as idbord\r\n" + 
+				"				pt.id_bordado_parte_bordado as idbord,\r\n" +
+				"				pt.id_bordado \r\n" +	
 				"				FROM alt_comercial_bordado_parte_bordado pt  WHERE pt.estatus=1 AND pt.id_bordado="+ id)
 				.getResultList();
 	}

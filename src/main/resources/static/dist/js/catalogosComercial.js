@@ -848,7 +848,7 @@ function listarPrecios() {
       method: "GET",
       url: "/getPrecios",
       data: {
-          "tipoLookup": "Bordado"
+          "tipoLookup": "Personalizado"
       },
       success: (data) => {
           tablePrecios.rows().remove().draw();
@@ -911,7 +911,7 @@ function agregarPrecio() {
                       method: "GET",
                       url: "/getPrecios",
                       data: {
-                          "tipoLookup": "Bordado"
+                          "tipoLookup": "Personalizado"
                       },
                       success: (data) => {
                           tablePrecios.rows().remove().draw();
@@ -934,7 +934,7 @@ function agregarPrecio() {
                       swal.fire({
                           position: "center",
                           icon: "success",
-                          title: "Precio Bordado agregado correctamente",
+                          title: "Precio de personalizado agregado correctamente",
                           showConfirmButton: false,
                           timer: 2500,
                       });
@@ -1005,7 +1005,7 @@ function editarPrecio(idLookup) {
                                   method: "GET",
                                   url: "/getPrecios",
                                   data: {
-                                      "tipoLookup": "Bordado"
+                                      "tipoLookup": "Personalizado"
                                   },
                                   success: (data) => {
                                       tablePrecios.rows().remove().draw();
@@ -1028,7 +1028,7 @@ function editarPrecio(idLookup) {
                                   swal.fire({
                                       position: "center",
                                       icon: "success",
-                                      title: "Precio Bordado editado correctamente",
+                                      title: "Precio de personalizado editado correctamente",
                                       showConfirmButton: false,
                                       timer: 2500,
                                   });
@@ -1227,7 +1227,7 @@ function agregarIVA() {
                       swal.fire({
                           position: "center",
                           icon: "success",
-                          title: "Precio Bordado agregado correctamente",
+                          title: "Precio de iva agregado correctamente",
                           showConfirmButton: false,
                           timer: 2500,
                       });
@@ -1315,7 +1315,7 @@ function editarIVA(idLookup) {
                                   swal.fire({
                                       position: "center",
                                       icon: "success",
-                                      title: "Precio Bordado editado correctamente",
+                                      title: "Precio de iva editado correctamente",
                                       showConfirmButton: false,
                                       timer: 2500,
                                   });
@@ -1480,7 +1480,7 @@ function agregarTicket() {
             '</div>' +
             '<div class="form-group col-md-6">' +
             '<div class="form-check">' +
-            '<input class="form-check-input" type="checkbox" value="0" id="auxiliarTicket" onchange="checkboxauxiliar(this.value)">' +
+            '<input class="form-check-input" type="checkbox" value="0" id="auxiliarTicket">' +
             '<label class="form-check-label" for="auxiliarTicket">' +
             'Auxiliar' +
             '</label>' +
@@ -1488,7 +1488,7 @@ function agregarTicket() {
             '</div>' +
             '<div class="form-group col-md-6">' +
             '<div class="form-check">' +
-            '<input class="form-check-input" type="checkbox" value="0" id="solicitanteTicket" onchange="checkboxsolicitante(this.value)">' +
+            '<input class="form-check-input" type="checkbox" value="0" id="solicitanteTicket">' +
             '<label class="form-check-label" for="solicitanteTicket">' +
             'Solicitante' +
             '</label>' +
@@ -1501,76 +1501,77 @@ function agregarTicket() {
         confirmButtonColor: "#0288d1",
         cancelButtonColor: "#dc3545",
     }).then((result) => {
-        var descripcionTicket = $('#descripcionTicket').val();
-        var auxiliarTicket = $('input:checkbox[id=auxiliarTicketE]:checked').val();
-        var solicitanteTicket = $('input:checkbox[id=solicitanteTicketE]:checked').val();
-        const ticket = descripcionTicket + "," + auxiliarTicket + "," + solicitanteTicket;
-        //alert(auxiliarTicket + " " + solicitanteTicket);
-        //metodo post para guardar mi ticket
-        $.ajax({
-            type: "POST",
-            url: "/postTicket",
-            data: {
-                "_csrf": $('#token').val(),
-                "ticket": ticket,
-                auxiliarTicket: auxiliarTicket,
-                solicitanteTicket: solicitanteTicket
-            },
-            success: (data) => {
-                if (data === 'Success') {
-                    $.ajax({
-                        method: "GET",
-                        url: "/getTickets",
-                        data: {
-                            "tipoLookup": "Ticket"
-                        },
-                        success: (data) => {
-                            tableTicket.rows().remove().draw();
-                            for (i in data) {
-                                tableTicket.row.add(
-                                    [
-                                        data[i].idText,
-                                        data[i].nombreLookup,
-                                        (data[i].atributo1==1?"Si":"No"),
-                                        (data[i].atributo2==1?"Si":"No"),
-                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                                        '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                                        (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
-                                        (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
-                                    ]
-                                ).draw();
-                            }
+    	if (result.value) {
+	        var descripcionTicket = $('#descripcionTicket').val();
+	        var auxiliarTicket = $('input:checkbox[id=auxiliarTicket]:checked').val();
+	        var solicitanteTicket = $('input:checkbox[id=solicitanteTicket]:checked').val();
+	        const ticket = descripcionTicket + "," + auxiliarTicket + "," + solicitanteTicket;
+	        //alert(auxiliarTicket + " " + solicitanteTicket);
+	        //metodo post para guardar mi ticket
+	        $.ajax({
+	            type: "POST",
+	            url: "/postTicket",
+	            data: {
+	                "_csrf": $('#token').val(),
+	                "ticket": ticket,
+	                auxiliarTicket: auxiliarTicket,
+	                solicitanteTicket: solicitanteTicket
+	            }, 
+	            success: (data) => {
+	                if (data === 'Success') {
+	                    $.ajax({
+	                        method: "GET",
+	                        url: "/getTickets",
+	                        data: {
+	                            "tipoLookup": "Ticket"
+	                        },
+	                        success: (data) => {
+	                            tableTicket.rows().remove().draw();
+	                            for (i in data) {
+	                                tableTicket.row.add(
+	                                    [
+	                                        data[i].idText,
+	                                        data[i].nombreLookup,
+	                                        (data[i].atributo1==1?"Si":"No"),
+	                                        (data[i].atributo2==1?"Si":"No"),
+	                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+	                                        '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+	                                        (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+	                                        (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+	                                    ]
+	                                ).draw();
+	                            }
+	
+	                        }
+	
+	                    });
+	                    if (result.value) {
+	                        Swal.fire({
+	                            position: "center",
+	                            icon: "success",
+	                            title: "Ticket agregado correctamente",
+	                            showConfirmButton: false,
+	                            timer: 2500,
+	                        });
+	                    }
+	                } else {
+	                    Swal.fire({
+	                        icon: 'error',
+	                        title: 'Error',
+	                        text: '¡Error de datos!',
+	                    })
+	                }
+	            },
+	            error: function(data) {
+	                Swal.fire({
+	                    icon: 'error',
+	                    title: 'Error',
+	                    text: '¡Hay un problema en el servidor!',
+	                })
+	            }
+	        });
 
-                        }
-
-                    });
-                    if (result.value) {
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "Ticket agregado correctamente",
-                            showConfirmButton: false,
-                            timer: 2500,
-                        });
-                    }
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: '¡Error de datos!',
-                    })
-                }
-            },
-            error: function(data) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: '¡Hay un problema en el servidor!',
-                })
-            }
-        });
-
-
+    	}
     });
 
 }
@@ -1714,8 +1715,53 @@ function bajarTicket(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
+    		    beforeSend: function () {
+   	        	 Swal.fire({
+   	                 title: 'Cargando ',
+   	                 html: 'Por favor espere',// add html attribute if you want or remove
+   	                 allowOutsideClick: false,
+   	                 timerProgressBar: true,
+   	                 onBeforeOpen: () => {
+   	                     Swal.showLoading()
+   	                 },
+   	             });
+    		    },
                 success: (data) => {
-
+	                	$.ajax({
+	                        method: "GET",
+	                        url: "/getTickets",
+	                        data: {
+	                            "tipoLookup": "Ticket"
+	                        },
+	                        success: (data) => {
+	                            tableTicket.rows().remove().draw();
+	                            for (i in data) {
+	
+	                                tableTicket.row.add(
+	                                    [
+	                                        data[i].idText,
+	                                        data[i].nombreLookup,
+	                                        (data[i].atributo1==1?"Si":"No"),
+	                                        (data[i].atributo2==1?"Si":"No"),
+	                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+	                                        '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+	                                        (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+	                                        (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+	                                    ]
+	                                ).draw();
+	                            }
+	                            if (result.value) {
+	                                Swal.fire({
+	                                    position: "center",
+	                                    icon: "success",
+	                                    title: "Ticket dado de baja correctamente",
+	                                    showConfirmButton: false,
+	                                    timer: 2500,
+	                                });
+	                            }
+	                        }
+	                    });
+                	
                 },
                 error: function(data) {
                     Swal.fire({
@@ -1724,17 +1770,7 @@ function bajarTicket(idLookup) {
                         text: '¡Hay un problema en el servidor!',
                     })
                 }
-            });
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Ticket dado de baja correctamente",
-                showConfirmButton: false,
-                timer: 2500,
-            });
-            setTimeout(function() {
-                location.reload();
-            }, 2300);
+          });
         }
     });
 }
@@ -1757,8 +1793,55 @@ function altaTicket(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
+    		    beforeSend: function () {
+   	        	 Swal.fire({
+   	                 title: 'Cargando ',
+   	                 html: 'Por favor espere',// add html attribute if you want or remove
+   	                 allowOutsideClick: false,
+   	                 timerProgressBar: true,
+   	                 onBeforeOpen: () => {
+   	                     Swal.showLoading()
+   	                 },
+   	             });
+    		    },
                 success: (data) => {
-
+	                	$.ajax({
+	                        method: "GET",
+	                        url: "/getTickets",
+	                        data: {
+	                            "tipoLookup": "Ticket"
+	                        },
+	                        success: (data) => {
+	                        	
+	                            tableTicket.rows().remove().draw();
+	                            for (i in data) {
+	
+	                                tableTicket.row.add(
+	                                    [
+	                                        data[i].idText,
+	                                        data[i].nombreLookup,
+	                                        (data[i].atributo1==1?"Si":"No"),
+	                                        (data[i].atributo2==1?"Si":"No"),
+	                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+	                                        '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
+	                                        (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+	                                        (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+	                                    ]
+	                                ).draw();
+	                            }
+	
+	                            if (result.value) {
+	                                Swal.fire({
+	                                    position: "center",
+	                                    icon: "success",
+	                                    title: "Ticket dado de alta correctamente",
+	                                    showConfirmButton: false,
+	                                    timer: 2500,
+	                                });
+	                            }
+	                        }
+	
+	                    });
                 },
                 error: function(data) {
                     Swal.fire({
@@ -1768,39 +1851,7 @@ function altaTicket(idLookup) {
                     })
                     alert("Error de servidor");
                 }
-            });
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Ticket dado de alta correctamente",
-                showConfirmButton: false,
-                timer: 2500,
-            });
-            setTimeout(function() {
-                location.reload();
-            }, 2300);
+        });
         }
     });
 }
-
-function checkboxsolicitante(valor) {
-
-    if (valor == 0) {
-        document.getElementById("solicitanteTicket").value = 1;
-    } else {
-        document.getElementById("solicitanteTicket").value = 0;
-    }
-
-}
-
-function checkboxauxiliar(valor) {
-
-    if (valor == 0) {
-        document.getElementById("auxiliarTicket").value = 1;
-    } else {
-        document.getElementById("auxiliarTicket").value = 0;
-    }
-
-}
-
-

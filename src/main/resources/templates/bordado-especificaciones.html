@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered" style="max-width: 55%;" role="document">
       <div class="modal-content modal-rounded-body">
         <div class="modal-header bg-altima modal-rounded-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Especificaciones del bordado</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Especificaciones del personalizado</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -17,11 +17,11 @@
                 <input type="hidden" class="form-control" id="idBordadoParte" th:field="*{idBordado}"  >
                 
                 
-                    <label for="parteBordado">Parte del bordado</label>
+                    <label for="parteBordado">Parte del personalizado</label>
                     <input type="text" class="form-control" id="parteBordado" placeholder="Arriba" th:field="*{partesBordado}"  >
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="hiloBordado">No. hilo</label>
+                    <label for="hiloBordado">No. material</label>
                     <input type="number" class="form-control" id="hiloBordado" placeholder="57" th:field="*{numeroHilo}"  >
                 </div>
                 <div class="form-group col-md-4">
@@ -45,8 +45,8 @@
             <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>Partes del bordado</th>
-                        <th>No. hilo</th>
+                        <th>Partes del personalizado</th>
+                        <th>No. material</th>
                         <th>Color</th>
                         <th>Acciones</th>
                     </tr>

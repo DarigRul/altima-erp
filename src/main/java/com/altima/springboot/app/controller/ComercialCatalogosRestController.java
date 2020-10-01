@@ -309,7 +309,7 @@ public class ComercialCatalogosRestController {
         ComercialLookup precioLookup =new ComercialLookup();
         String[] precioAtributos = precio.split(",");
         precioLookup.setCreadoPor(auth.getName());
-        precioLookup.setTipoLookup("Bordado");
+        precioLookup.setTipoLookup("Personalizado");
         precioLookup.setNombreLookup(precioAtributos[0]);
         precioLookup.setAtributo1(precioAtributos[1]);
         precioLookup.setEstatus(1);
@@ -449,13 +449,15 @@ public class ComercialCatalogosRestController {
         ComercialLookup ticketLookup=new ComercialLookup();
         String[] ticketAtributos = ticket.split(",");
         
-
+        System.out.println(auxiliarTicket);
+        System.out.println(solicitanteTicket);
     	
         ticketLookup.setCreadoPor(auth.getName());
         ticketLookup.setTipoLookup("Ticket");
         ticketLookup.setNombreLookup(ticketAtributos[0]);
         ticketLookup.setAtributo1((auxiliarTicket==null)?"0":"1");
         ticketLookup.setAtributo2((solicitanteTicket==null)?"0":"1");
+        ticketLookup.setEstatus(1);
 
         try {
             ticketLookup.setIdText("");
