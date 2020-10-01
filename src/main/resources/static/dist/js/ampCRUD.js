@@ -697,7 +697,7 @@ function agregarAlmacenLogico(){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  if($('#nombreLogico').val().length<0 && $('#almacenFisicoLogico').val().length<0 && $('#salidaLogico').val().length<0 && $('#entradaLogico').val().length<0){
+			  if($('#nombreLogico').val().length>0 && $('#almacenFisicoLogico').val().length>0 && $('#salidaLogico').val().length>0 && $('#entradaLogico').val().length>0){
 				  $.ajax({
                       type: "POST",
                       url: "/guardar-almacen-logico",
@@ -1204,7 +1204,7 @@ function agregarAlmacenFisico(){
 		}).then((result) => {
 			
 		  if (result.value) {
-			  if($('#nombreFisico').val().length<0 && $('#encargadoFisico').val().length<0){
+			  if($('#nombreFisico').val().length>0 && $('#encargadoFisico').val().length>0){
 				  $.ajax({
                       type: "POST",
                       url: "/guardar-almacen-fisico",
