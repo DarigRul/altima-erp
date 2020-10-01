@@ -21,7 +21,11 @@ function listarCoordinados(id, aux) {
           //  location.reload();
         }
     });
-    //listarModelo
+    $('#modelo-consentrado').val(null);
+    $('#modelo-consentrado').selectpicker('refresh');
+    
+    $('#cambio').val(null);
+    $('#cambio').selectpicker('refresh');
 }
 
 function listarModelo(id, aux) {
@@ -50,7 +54,8 @@ function listarModelo(id, aux) {
             location.reload();
         }
     });
-    //listarModelo
+    $('#cambio').val(null);
+    $('#cambio').selectpicker('refresh');
 
 }
 
@@ -135,4 +140,20 @@ function agregar(){
           })   
 	}
 
+}
+
+function limpiar(){ 
+	
+	$('#idEmpleado').val(null);
+    $('#idEmpleado').selectpicker('refresh');
+	
+	$('#Coordinado').val(null);
+    $('#Coordinado').selectpicker('refresh');
+	
+	$('#modelo-consentrado').val(null);
+    $('#modelo-consentrado').selectpicker('refresh');
+    
+    $('#cambio').val(null);
+    $('#cambio').selectpicker('refresh');
+	
 }

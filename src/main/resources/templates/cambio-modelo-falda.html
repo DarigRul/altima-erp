@@ -24,7 +24,7 @@
                         <div class="col-sm-6">
                             <h1>
                                 Cambio de modelo - Falda &nbsp;<a th:href="${'/carga-de-pedidos'}" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
-                            &nbsp;<a data-target="#cambio-modelo" data-toggle="modal"   class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Cambio</a>
+                            &nbsp;<a data-target="#cambio-modelo" data-toggle="modal" onclick="limpiar()"   class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Cambio</a>
                             </h1>
                         </div>
                         <div th:insert="cambio-modelo-falda-modal"></div>
@@ -65,7 +65,7 @@
                                             
                                           <tr th:each="lista, ilista: ${lista}">
 												<td th:text="${lista[1]}"></td>
-												<td  th:text="${lista[2]}"></td>
+												<td th:text="${lista[2]}"></td>
 												<td th:text="${lista[3]}"></td>												
 												<td th:text="${lista[4]}"></td>
 												<td th:text="${lista[5]}"></td>

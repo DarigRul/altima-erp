@@ -587,16 +587,18 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Override
 	@Transactional
 	public List<Object[]> findAllTelaSPF(Long idPedido) {
+	
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\n" + 
 				"	tela.id_tela,\n" + 
-				"	CONCAT( tela.id_text, ' ', tela.nombre_tela ) \n" + 
+				"	CONCAT( tela.id_text, ' ', tela.nombre_tela ) AS tela \n" + 
 				"FROM\n" + 
 				"	alt_comercial_coordinado AS coor,\n" + 
 				"	alt_comercial_coordinado_prenda AS coor_prenda,\n" + 
 				"	alt_disenio_tela AS tela,\n" + 
 				"	alt_disenio_prenda AS prenda,\n" + 
-				"	alt_disenio_lookup AS look \n" + 
+				"	alt_disenio_lookup AS look,\n" + 
+				"	alt_disenio_lookup AS lookGenero \n" + 
 				"WHERE\n" + 
 				"	1 = 1 \n" + 
 				"	AND coor.id_coordinado = coor_prenda.id_coordinado \n" + 
@@ -604,9 +606,26 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"	AND prenda.id_prenda = coor_prenda.id_prenda \n" + 
 				"	AND look.id_lookup = prenda.id_familia_prenda \n" + 
 				"	AND look.nombre_lookup LIKE '%Pantalon%' \n" + 
+				"	AND lookGenero.id_lookup = prenda.id_genero \n" + 
+				"	AND lookGenero.nombre_lookup = 'Dama' \n" + 
 				"	AND tela.estatus_tela = 1 \n" + 
 				"	AND tela.estatus = 1 \n" + 
-				"	AND coor.id_pedido = "+idPedido).getResultList();
+				"	AND coor.id_pedido = "+idPedido+" \n" + 
+				"	AND tela.id_tela NOT IN (\n" + 
+				"	SELECT\n" + 
+				"		coor_prenda.id_tela \n" + 
+				"	FROM\n" + 
+				"		alt_comercial_coordinado AS coor,\n" + 
+				"		alt_comercial_coordinado_prenda AS coor_prenda \n" + 
+				"	WHERE\n" + 
+				"		1 = 1 \n" + 
+				"		AND coor.id_coordinado = coor_prenda.id_coordinado \n" + 
+				"		AND coor.id_text = 'COORSPF"+idPedido+"' \n" + 
+				"	) \n" + 
+				"GROUP BY\n" + 
+				"	tela.id_tela \n" + 
+				"ORDER BY\n" + 
+				"	tela").getResultList();
 		return re;
 	}
 }
