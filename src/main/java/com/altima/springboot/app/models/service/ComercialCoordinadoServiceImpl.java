@@ -99,9 +99,42 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<DisenioLookup> findAllPrenda(String tipo) {
-		// TODO Auto-generated method stub
-		return em.createQuery("from DisenioLookup where tipo_lookup='Familia Prenda' and estatus=1 and  nombre_lookup like '%"+tipo+"%' ORDER BY nombre_lookup ").getResultList();
+	public List<Object []> findAllPrenda(String tipo, String idTextCoor) {
+		List<Object []> lista = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	look.id_lookup as idLookup,\n" + 
+				"	look.nombre_lookup as nombreLookup \n" + 
+				"FROM\n" + 
+				"	alt_disenio_prenda AS prenda,\n" + 
+				"	alt_comercial_coordinado AS coor,\n" + 
+				"	alt_comercial_coordinado_prenda AS coor_prenda,\n" + 
+				"	alt_disenio_lookup AS look \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND coor_prenda.id_coordinado = coor.id_coordinado \n" + 
+				"	AND coor_prenda.id_prenda = prenda.id_prenda \n" + 
+				"	AND prenda.id_familia_prenda = look.id_lookup \n" + 
+				"	AND coor.id_text = '"+idTextCoor+"' \n" + 
+				"GROUP BY\n" + 
+				"	prenda.id_prenda").getResultList();
+		if ( lista.isEmpty() ) {
+			return em.createNativeQuery(""
+					+ "SELECT\n" + 
+					"	id_lookup,\n" + 
+					"	nombre_lookup \n" + 
+					"FROM\n" + 
+					"	alt_disenio_lookup \n" + 
+					"WHERE\n" + 
+					"	tipo_lookup = 'Familia Prenda' \n" + 
+					"	AND estatus = 1 \n" + 
+					"	AND nombre_lookup LIKE '%"+tipo+"%' \n" + 
+					"ORDER BY\n" + 
+					"	nombre_lookup").getResultList();
+		}
+		else {
+			return lista;
+		}
+		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -112,6 +145,39 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"				from alt_disenio_prenda as prenda  \r\n" + 
 				"				where prenda.id_familia_prenda="+id).getResultList();
 		return re;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> findAllModeloSPF(Long id, Long idPedido) {
+		List<Object[]> lista  = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	prenda.id_prenda,\n" + 
+				"	CONCAT(prenda.id_text,' ',prenda.descripcion_prenda)\n" + 
+				"	\n" + 
+				"FROM\n" + 
+				"	alt_disenio_prenda AS prenda,\n" + 
+				"	alt_comercial_coordinado AS coor,\n" + 
+				"	alt_comercial_coordinado_prenda AS coor_prenda \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND coor_prenda.id_coordinado = coor.id_coordinado \n" + 
+				"	AND coor_prenda.id_prenda = prenda.id_prenda \n" + 
+				"	AND coor.id_text = 'COORSPF"+idPedido+"' \n" + 
+				"GROUP BY\n" + 
+				"	prenda.id_prenda").getResultList(); 
+		
+		if (lista.isEmpty()) {
+			List<Object[]> re = em.createNativeQuery("Select  prenda.id_prenda, CONCAT(prenda.id_text,' ', prenda.descripcion_prenda) as nombre \r\n" + 
+					"				from alt_disenio_prenda as prenda  \r\n" + 
+					"				where prenda.id_familia_prenda="+id).getResultList();
+			return re;
+		}
+		else {
+			return lista;
+		}
+		
 	}
 
 	@SuppressWarnings("unchecked")
