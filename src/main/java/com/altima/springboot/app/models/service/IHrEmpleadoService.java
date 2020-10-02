@@ -2,6 +2,7 @@ package com.altima.springboot.app.models.service;
 
 import java.util.List;
 
+import com.altima.springboot.app.dto.AgenteVentasListDTO;
 import com.altima.springboot.app.models.entity.HrEmpleado;
 
 public interface IHrEmpleadoService {
@@ -29,5 +30,7 @@ public interface IHrEmpleadoService {
 	List<Object[]> findAllByPuestoDepartamentoArea(Long idPuesto, Long idDepartamento, Long idLookup);
 
 	Object[] findDatosPuesto(Long idEmpleado);
+
+	public List<AgenteVentasListDTO> findAllAgenteVentas();
 
 }

@@ -309,7 +309,7 @@ public class ComercialCatalogosRestController {
         ComercialLookup precioLookup =new ComercialLookup();
         String[] precioAtributos = precio.split(",");
         precioLookup.setCreadoPor(auth.getName());
-        precioLookup.setTipoLookup("Personalizado");
+        precioLookup.setTipoLookup("Bordado");
         precioLookup.setNombreLookup(precioAtributos[0]);
         precioLookup.setAtributo1(precioAtributos[1]);
         precioLookup.setEstatus(1);
@@ -449,15 +449,13 @@ public class ComercialCatalogosRestController {
         ComercialLookup ticketLookup=new ComercialLookup();
         String[] ticketAtributos = ticket.split(",");
         
-        System.out.println(auxiliarTicket);
-        System.out.println(solicitanteTicket);
+
     	
         ticketLookup.setCreadoPor(auth.getName());
         ticketLookup.setTipoLookup("Ticket");
         ticketLookup.setNombreLookup(ticketAtributos[0]);
         ticketLookup.setAtributo1((auxiliarTicket==null)?"0":"1");
         ticketLookup.setAtributo2((solicitanteTicket==null)?"0":"1");
-        ticketLookup.setEstatus(1);
 
         try {
             ticketLookup.setIdText("");
@@ -505,6 +503,11 @@ public class ComercialCatalogosRestController {
             return "Error "+e;
         }
         return "Success";
+    }
+
+    @GetMapping("getComercialLookupByTipo")
+    public List<ComercialLookup> getComercialLookupByTipo(@RequestParam String tipoLookup){
+        return comercialLookupService.findByTipoLookup(tipoLookup);
     }
     
 }

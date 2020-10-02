@@ -7,6 +7,8 @@ import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.altima.springboot.app.dto.AgenteVentasListDTO;
 import com.altima.springboot.app.models.entity.HrEmpleado;
 import com.altima.springboot.app.repository.HrEmpleadoRepository;
 
@@ -135,5 +137,11 @@ public class HrEmpleadoServiceImpl implements IHrEmpleadoService {
 											   "\n" + 
 											   "WHERE empleado.id_empleado = "+idEmpleado).getSingleResult();
 	}
-
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<AgenteVentasListDTO> findAllAgenteVentas() {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT ahe.id_empleado as id_agente_ventas,CONCAT(ahe.nombre_persona,' ',ahe.apellido_paterno,' ',ahe.apellido_materno) as nombre_agente_ventas FROM alt_comercial_agentes_venta acav INNER JOIN alt_hr_empleado ahe ON ahe.id_empleado=acav.id_empleado WHERE ahe.estatus=1 AND acav.estatus=1",AgenteVentasListDTO.class).getResultList();
+	}
 }

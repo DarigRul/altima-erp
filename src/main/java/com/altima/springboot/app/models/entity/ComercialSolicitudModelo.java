@@ -32,9 +32,6 @@ public class ComercialSolicitudModelo implements Serializable{
 	@Column(name="id_agente")
 	private Long idAgente;
 	
-	@Column(name="id_modelo")
-	private Long idModelo;
-	
 	@Column(name="id_cliente")
 	private Long idCliente;
 	
@@ -53,7 +50,7 @@ public class ComercialSolicitudModelo implements Serializable{
 	@Column(name="fecha_creacion")
 	private String fechaCreacion;
 	
-	@Column(name="ultima_fecha_actualizacion")
+	@Column(name="ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
 	
 	@Column(name="estatus")
@@ -83,13 +80,6 @@ public class ComercialSolicitudModelo implements Serializable{
 		this.idAgente = idAgente;
 	}
 
-	public Long getIdModelo() {
-		return idModelo;
-	}
-
-	public void setIdModelo(Long idModelo) {
-		this.idModelo = idModelo;
-	}
 
 	public Long getIdCliente() {
 		return idCliente;

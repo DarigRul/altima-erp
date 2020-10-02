@@ -253,3 +253,4 @@ $('#guardarMovimientos').click(function () {
     }
 
 });
+

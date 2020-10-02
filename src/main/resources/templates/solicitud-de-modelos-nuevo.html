@@ -1,106 +1,114 @@
-<div class="modal fade" id="nuevaSolicitudModelo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="nuevaSolicitudModelo" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content modal-rounded-body">
         <div class="modal-header bg-altima modal-rounded-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Nueva solicitud</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" onclick="clearTables()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
             <div class="row">
                 
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
+                    <label for="clienteNuevo">Agente de ventas</label>
+                    <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="agenteVentas"></select>
+                </div>
+                <div class="form-group col-md-3">
                     <label for="clienteNuevo">Cliente</label>
-                    <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="clienteNuevo"></select>
+                    <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="cliente"></select>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label for="fechacitaNuevo">Fecha y hora cita</label>
-                    <input type="datetime-local" class="form-control" id="fechacitaNuevo">
+                    <input type="datetime-local" class="form-control" id="fechaCita">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label for="altimaNuevo">Hora salida Altima</label>
-                    <input type="datetime-local" class="form-control" id="altimaNuevo">
-                </div>
-                <div class="form-group col-md-12" style="margin-bottom: 0px;"><hr></div>
-                <div class="form-group col-md-6">
-                    <label for="modeloNuevo">Modelo</label>
-                    <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="modeloNuevo"></select>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="cantidadNuevo">Cantidad</label>
-                    <div class="input-group mb-3">
-                        <input type="number" placeholder="120" class="form-control" id="cantidadNuevo">
-                        <div class="input-group-append" style="margin-left: 10px;">
-                            <button class="btn icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
-                        </div>
-                      </div>
+                    <input type="time" class="form-control" id="horaSalida">
                 </div>
                 <div class="form-group col-md-12">
-                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Modelo</th>
-                                <th>Cantidad</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Modelo 0001</td>
-                                <td>62</td>
-                                <td class="text-center">
-                                    <button class="btn icon-btn btn-danger text-white" type="button"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
-                                </td>
-                            </tr>    
-                        </tbody>
-                    </table>
-                </div>
+                  <label for="modeloNuevo2">Modelo</label>
+                  <div class="input-group mb-3">
+                      <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="modeloNuevoAgente"></select>
+                      <div class="input-group-append" style="margin-left: 10px;">
+                          <button class="btn icon-btn btn-altima text-white" type="button" id="agregarNuevoModelo"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+                      </div>
+                    </div>
+              </div>
+              <div class="form-group col-md-12">
+                  <table class="table-striped table-bordered tablaModelos" style="width: 100%;">
+                      <thead>
+                          <tr>
+                              <th>Modelo</th>
+                              <th>Acciones</th>
+                          </tr>
+                      </thead>
+                  </table>
+              </div>
             </div>          
         </div>
         <div class="modal-footer modal-rounded-footer">
 			<a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Cancelar</a>
-			<a class="btn icon-btn btn-altima text-white" type="submit"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</a>
+			<button class="btn icon-btn btn-altima text-white" type="button" id="guardarAgente"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
 		</div>
       </div>
     </div>
   </div>
-  <div class="modal fade" id="asignarModelo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal fade" id="asignarModelo" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content modal-rounded-body">
         <div class="modal-header bg-altima modal-rounded-header">
           <h5 class="modal-title">Asignaci&oacute;n de modelo</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" onclick="clearTables()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
-          </button>
+          </button> 
         </div>
         <div class="modal-body modal-rounded-body">
             <div class="row">
                 <div class="form-group col-md-12">
                     <label for="modeloNuevo2">Modelo</label>
                     <div class="input-group mb-3">
-                        <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="modeloNuevo2"></select>
+                        <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="modeloNuevo"></select>
                         <div class="input-group-append" style="margin-left: 10px;">
-                            <button class="btn icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+                            <button class="btn icon-btn btn-altima text-white" type="button" id="agregarModelo"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
                         </div>
                       </div>
                 </div>
                 <div class="form-group col-md-12">
-                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                    <table class="table-striped table-bordered tablaModelosMuestrario" style="width: 100%;">
                         <thead>
                             <tr>
                                 <th>Modelo</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
+                    </table>
+                </div>
+            </div>          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="detalleModelo" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content modal-rounded-body">
+        <div class="modal-header bg-altima modal-rounded-header">
+          <h5 class="modal-title">Detalle de modelo</h5>
+          <button type="button" class="close" data-dismiss="modal" onclick="clearTables()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal-rounded-body">
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <table class="table-striped table-bordered tablaModelosDetalle" style="width: 100%;">
+                        <thead>
                             <tr>
-                                <td>Modelo 0001</td>
-                                <td class="text-center">
-                                    <button class="btn icon-btn btn-danger text-white" type="button"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
-                                </td>
-                            </tr>    
-                        </tbody>
+                                <th>Modelo</th>
+                                <th>N&uacute;mero de telefono</th>
+                            </tr>
+                        </thead>
                     </table>
                 </div>
             </div>          
