@@ -662,13 +662,13 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 				+ "                    AND prenda.id_familia_prenda = look.id_lookup\r\n"
 				+ "          AND coor_prenda.estatus = 1\r\n"
 				+ "          and coor_prenda.id_coordinado = alt_comercial_coordinado.id_coordinado\r\n"
-				+ "          and alt_comercial_coordinado.id_pedido = " + idpedido + "\r\n" + " GROUP BY nombre_prenda    ) as query4\r\n"
+				+ "          and alt_comercial_coordinado.id_pedido = " + idpedido + "\r\n" + "    ) as query4\r\n"
 				+ "  ) as query2\r\n" + "\r\n" + "where\r\n"
 				+ "   query1.id_coordinado_prenda = query2.id_coordinado_prenda) as query5\r\n" + "  	left join\r\n"
 				+ "		alt_comercial_concentrado_tallas on query5.id_coordinado_prenda=alt_comercial_concentrado_tallas.id_prenda_cliente\r\n"
 				+ "		and query5.id_empleado=alt_comercial_concentrado_tallas.id_empleado_pedido\r\n"
 				+ "		where alt_comercial_concentrado_tallas.id_empleado_pedido is null\r\n"
-				+ "		and alt_comercial_concentrado_tallas.id_prenda_cliente is null ORDER BY FIELD('nombre prenda','Vestido','Sweater','Gabardina','Abrigo','Camisa','Blusa','Chaleco','Falda','Pantalón','Saco')DESC")
+				+ "		and alt_comercial_concentrado_tallas.id_prenda_cliente is null GROUP BY query5.nombre_prenda ORDER BY FIELD('nombre prenda','Vestido','Sweater','Gabardina','Abrigo','Camisa','Blusa','Chaleco','Falda','Pantalón','Saco')DESC")
 				.getResultList();
 	}
 

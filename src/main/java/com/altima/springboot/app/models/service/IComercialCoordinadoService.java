@@ -16,8 +16,11 @@ public interface IComercialCoordinadoService {
 	ComercialCoordinado findOne(Long id);
 	List<Object []> findAllEmpresa(Long id);
 	List<DisenioLookup> findAllPrenda();
-	List<DisenioLookup> findAllPrenda(String tipo);
+	List<Object []> findAllPrenda(String tipo , String idTextCoor);
 	List<Object []> findAllModelo(Long id);
+	
+	List<Object []> findAllModeloSPF(Long id, Long idPedido);
+	
 	List<Object []> findAllTela(Long id);
 	List<Object []> materialesPorPrenda(Long id);
 	List<Object []> coloresMateriales(Long idMaterial, Long idTela ,  Long idCoorPrenda);

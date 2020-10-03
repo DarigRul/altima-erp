@@ -52,6 +52,12 @@ public class CoordinadoController {
 	public List<Object[]> modelo(Long id) {
 		return CoordinadoService.findAllModelo(id);
 	}
+	
+	@RequestMapping(value = "/mostrar-modelo-spf", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> modeloSPF(Long id, Long  idPedido) {
+		return CoordinadoService.findAllModeloSPF(id, idPedido);
+	}
 
 	@RequestMapping(value = "/mostrar-tela", method = RequestMethod.GET)
 	@ResponseBody

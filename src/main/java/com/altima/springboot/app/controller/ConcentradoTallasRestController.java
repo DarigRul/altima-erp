@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialConcentradoTalla;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
-import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.ProduccionLookup;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
 import com.altima.springboot.app.models.service.IAdminConfiguracionPedidoService;

@@ -38,8 +38,8 @@ $(document).ready(function() {
 	        	
 	        	
 	        	 $.ajax({
-		                data: { id : prenda.val() },
-		                url:   '/mostrar-modelo',
+		                data: { id : prenda.val(), 'idPedido': $("#idPrincipal").val()  },
+		                url:   '/mostrar-modelo-spf',
 		                type:  'GET',
 		                beforeSend: function () 
 		                {
@@ -1147,5 +1147,4 @@ function selected(id){
            console.log(xhr.status + ": " + xhr.responseText);
          }
        });
- }
- 
+ } 

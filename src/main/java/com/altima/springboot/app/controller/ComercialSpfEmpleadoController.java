@@ -176,11 +176,8 @@ public class ComercialSpfEmpleadoController {
 			prenda.setIdCoordinado(coorSPF.getIdCoordinado());
 			model.put("prenda", prenda);
 			
-			if (  CoordinadoService.findAllTelaSPF(coorSPF.getIdCoordinado()).isEmpty() ) {
-				
-				m.addAttribute("validacion", false);
-			}
-			model.put("listPrendas", CoordinadoService.findAllPrenda("Falda"));
+			
+			model.put("listPrendas", CoordinadoService.findAllPrenda("Falda",coorSPF.getIdText() ));
 			model.put("listCoorPrenda", CoordinadoService.findAllCoorPrenda(coorSPF.getIdCoordinado()));
 
 			
