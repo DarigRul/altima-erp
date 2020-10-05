@@ -112,8 +112,10 @@
                                                                 <input type="hidden" class="form-control" id="idBordado" th:field="*{estatus_bordado}">
                                                                 <input type="hidden" class="form-control" id="idBordado" th:field="*{rutaBordado}">
                                                                 <input type="hidden" class="form-control" id="idBordado" th:field="*{rutaPonchado}">
-                                                                <button type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
-                                                                           class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                                                                <a id="validar1Parte" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                                                           class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</a>
+                                                                <button style="display:none;" type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                                                           class="btn-glyphicon fas fa-plus img-circle text-altima" id="guardar1Parte"></span>Agregar</button>
                                                             </div>
                                                           </div>
                                         </div>
@@ -356,6 +358,31 @@ $(".input2").on("change", function() {
          });
     	
     })
+    
+    </script>
+    
+    <script type="text/javascript">
+    	$('#validar1Parte').on('click',function (){
+    		
+    		if($('#clienteBordado').val()== '' || $('#clienteBordado').val()== null || $('#clienteBordado').val()== undefined || 
+    				$('#coorLookup').val()== '' || $('#coorLookup').val()== null || $('#coorLookup').val()== undefined || 
+    				$('#tamanoBordado').val()== '' || $('#tamanoBordado').val()== null || $('#tamanoBordado').val()== undefined ||
+    				$('#precioBordado').val()== '' || $('#precioBordado').val()== null || $('#precioBordado').val()== undefined){
+    			
+    			Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Debe llenar los datos correctamente correctamente',
+                    showConfirmButton: false,
+                    timer: 2500
+                    })
+    		}
+    		else{
+    			$('#guardar1Parte').click();
+    		}
+    		
+    	})
+    
     
     </script>
     

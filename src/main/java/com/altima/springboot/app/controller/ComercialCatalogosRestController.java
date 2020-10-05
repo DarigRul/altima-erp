@@ -317,7 +317,7 @@ public class ComercialCatalogosRestController {
         try{
             precioLookup.setIdText("");
             comercialLookupService.save(precioLookup);
-            precioLookup.setIdText("BORD"+(10000+precioLookup.getIdLookup()));
+            precioLookup.setIdText("PER"+(10000+precioLookup.getIdLookup()));
             comercialLookupService.save(precioLookup);
         }catch (Exception e){
             return "Error "+e;

@@ -161,7 +161,7 @@ public class BordadosAgenteVentasController {
 		bordadoService.save(objetoBordado);
 		System.out.println("si pelo el save");
 		
-		redirectAttrs.addFlashAttribute("title", "Bordado agregado  correctamente").addFlashAttribute("icon",
+		redirectAttrs.addFlashAttribute("title", "Personalizado agregado correctamente").addFlashAttribute("icon",
 				"success");
 
 		return "redirect:bordados/"+objetoBordado.getIdBordado();
@@ -225,7 +225,7 @@ public class BordadosAgenteVentasController {
 		    bordadoService.saveParte(objetoBordadoParte);
 			System.out.println("Si pelo el saveParte de uno a muchos");
 			
-			redirectAttrs.addFlashAttribute("title", "Parte del bordado agregado  correctamente").addFlashAttribute("icon",
+			redirectAttrs.addFlashAttribute("title", "Parte del personalizado agregado  correctamente").addFlashAttribute("icon",
 					"success");
 
 			
@@ -242,7 +242,7 @@ public class BordadosAgenteVentasController {
 			
 			bordadoService.delete(idBordado);
 			
-			redirectAttrs.addFlashAttribute("title", "Bordado Eliminado correctamente").addFlashAttribute("icon",
+			redirectAttrs.addFlashAttribute("title", "Personalizado Eliminado correctamente").addFlashAttribute("icon",
 					"warning");
 			return "redirect:/bordados";
 		}
@@ -255,7 +255,7 @@ public class BordadosAgenteVentasController {
 			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");			
 			bordadoService.deleteParteBordado(idparteBordado);
 			
-			redirectAttrs.addFlashAttribute("title", "Bordado Eliminado correctamente").addFlashAttribute("icon",
+			redirectAttrs.addFlashAttribute("title", "Personalizado Eliminado correctamente").addFlashAttribute("icon",
 					"warning");
 			return "redirect:/bordados/"+idBordado;
 		}
@@ -378,7 +378,7 @@ public class BordadosAgenteVentasController {
 				bordadoService.save(objetoBordado);
 				System.out.println("si pelo el save");
 				
-				redirectAttrs.addFlashAttribute("title", "Bordado agregado  correctamente").addFlashAttribute("icon",
+				redirectAttrs.addFlashAttribute("title", "Personalizado agregado  correctamente").addFlashAttribute("icon",
 						"success");
 
 				return "redirect:bordados/"+objetoBordado.getIdBordado();
