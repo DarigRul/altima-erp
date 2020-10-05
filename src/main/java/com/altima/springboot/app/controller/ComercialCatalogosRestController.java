@@ -309,7 +309,7 @@ public class ComercialCatalogosRestController {
         ComercialLookup precioLookup =new ComercialLookup();
         String[] precioAtributos = precio.split(",");
         precioLookup.setCreadoPor(auth.getName());
-        precioLookup.setTipoLookup("Bordado");
+        precioLookup.setTipoLookup("Personalizado");
         precioLookup.setNombreLookup(precioAtributos[0]);
         precioLookup.setAtributo1(precioAtributos[1]);
         precioLookup.setEstatus(1);
