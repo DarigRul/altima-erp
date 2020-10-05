@@ -2,6 +2,7 @@ package com.altima.springboot.app.controller;
 
 import java.util.List;
 
+import com.altima.springboot.app.component.AuthComponent;
 import com.altima.springboot.app.dto.AgenteVentasListDTO;
 import com.altima.springboot.app.dto.ComercialSolicitudModeloDTO;
 import com.altima.springboot.app.dto.ComercialSolicitudModeloDetalleDTO;
@@ -10,6 +11,7 @@ import com.altima.springboot.app.models.entity.ComercialSolicitudModeloDetalle;
 import com.altima.springboot.app.models.service.IComercialSolicitudModeloDetalleService;
 import com.altima.springboot.app.models.service.IComercialSolicitudModeloService;
 import com.altima.springboot.app.models.service.IHrEmpleadoService;
+import com.altima.springboot.app.models.service.UsuarioServiceImpl;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,6 +36,9 @@ public class MuestrarioSolicitudModelosRestController {
 
     @Autowired
     IComercialSolicitudModeloDetalleService solicitudModeloDetalleService;
+
+    @Autowired
+    UsuarioServiceImpl usuarioService;
 
     @GetMapping("getAgenteVentas")
     public List<AgenteVentasListDTO> index() {
@@ -118,7 +123,7 @@ public class MuestrarioSolicitudModelosRestController {
             solicitud.setIdCliente(Long.parseLong(solicitudJson.getString("idCliente")));
             solicitud.setFechaCita(solicitudJson.getString("fechaCita"));
             solicitud.setHoraSalidaAltima(solicitudJson.getString("horaSalida"));
-            solicitud.setEstatus("1");
+            solicitud.setEstatus("0");
             solicitud.setIdText("SOLMOD");
             solicitudModeloService.save(solicitud);
             solicitud.setIdText("SOLMOD" + (10000 + solicitud.getIdSolicitudModelo()));
@@ -138,12 +143,22 @@ public class MuestrarioSolicitudModelosRestController {
     }
 
     @PatchMapping("patchSolicitudModeloEstatus")
-    public String patchSolicitudModeloEstatus(@RequestParam Long idSolicitud) {
+    public String patchSolicitudModeloEstatus(@RequestParam Long idSolicitud, @RequestParam String tipo) {
 
         try {
-            ComercialSolicitudModelo solicitud =solicitudModeloService.findOne(idSolicitud);
-            solicitud.setEstatus("2");
-            solicitudModeloService.save(solicitud);
+
+            if (tipo.equals("Aceptar")) {
+                ComercialSolicitudModelo solicitud = solicitudModeloService.findOne(idSolicitud);
+                solicitud.setEstatus("1");
+                solicitudModeloService.save(solicitud);
+            } else if (tipo.equals("Rechazar")) {
+                ComercialSolicitudModelo solicitud = solicitudModeloService.findOne(idSolicitud);
+                solicitud.setEstatus("2");
+                solicitudModeloService.save(solicitud);
+            } else {
+                return "Error";
+            }
+
         } catch (Exception e) {
             // TODO: handle exception
             return "Error";

@@ -51,9 +51,9 @@ public class ComercialSolicitudModeloServiceImpl implements IComercialSolicitudM
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
-    public List<ComercialSolicitudModeloDTO> findAllSolicitud() {
+    public List<ComercialSolicitudModeloDTO> findAllSolicitud(Long idAgente) {
         // TODO Auto-generated method stub
-        return em.createNativeQuery("call alt_pr_solicitud_modelo()",ComercialSolicitudModeloDTO.class).getResultList();
+        return em.createNativeQuery("call alt_pr_solicitud_modelo("+idAgente+")",ComercialSolicitudModeloDTO.class).getResultList();
     }
 
 

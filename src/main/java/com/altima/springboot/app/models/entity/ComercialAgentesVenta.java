@@ -17,7 +17,7 @@ public class ComercialAgentesVenta implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name="id_empleado")
-	private String idEmpleado;
+	private Long idEmpleado;
 	
 	@Column(name="foraneo")
 	private String foraneo;
@@ -40,13 +40,6 @@ public class ComercialAgentesVenta implements Serializable{
 	@Column(name="estatus")
 	private String estatus;
 
-	public String getIdEmpleado() {
-		return idEmpleado;
-	}
-
-	public void setIdEmpleado(String idEmpleado) {
-		this.idEmpleado = idEmpleado;
-	}
 
 	public String getForaneo() {
 		return foraneo;
@@ -106,5 +99,13 @@ public class ComercialAgentesVenta implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Long getIdEmpleado() {
+		return idEmpleado;
+	}
+
+	public void setIdEmpleado(Long idEmpleado) {
+		this.idEmpleado = idEmpleado;
 	}
 }

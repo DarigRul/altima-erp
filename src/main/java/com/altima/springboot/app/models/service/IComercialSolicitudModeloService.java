@@ -14,5 +14,5 @@ public interface IComercialSolicitudModeloService {
 	
 	ComercialSolicitudModelo findOne(Long idSolicitud);
 
-	List<ComercialSolicitudModeloDTO> findAllSolicitud();
+	List<ComercialSolicitudModeloDTO> findAllSolicitud(Long idAgente);
 }

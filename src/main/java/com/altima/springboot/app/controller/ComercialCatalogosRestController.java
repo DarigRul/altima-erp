@@ -115,7 +115,7 @@ public class ComercialCatalogosRestController {
     		else {
     			ComercialAgentesVenta ventas = new ComercialAgentesVenta();
         		
-        		ventas.setIdEmpleado(idEmpleado.toString());
+        		ventas.setIdEmpleado(idEmpleado);
         		ventas.setForaneo((foraneo==null)?"0":"1");
         		ventas.setLicitacion((licitacion==null)?"0":"1");
         		ventas.setCreadoPor(auth.getName());
@@ -154,7 +154,7 @@ public class ComercialCatalogosRestController {
     			
     			ComercialAgentesVenta ventas = agentesVenta.findOne(idEmpleado);
         		System.out.println("si");
-        		ventas.setIdEmpleado(idEmpleado.toString());
+        		ventas.setIdEmpleado(idEmpleado);
         		System.out.println("si");
         		ventas.setForaneo((foraneo==null)?"0":"1");
         		System.out.println("si");

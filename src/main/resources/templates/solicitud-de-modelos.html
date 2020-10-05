@@ -22,7 +22,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>
+                            <h1 sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_MODELOS_AGREGAR','ROLE_ADMINISTRADOR')">
                                 Solicitud de modelos&nbsp;
                                 <button data-toggle="modal" data-target="#nuevaSolicitudModelo" id="nuevaSolicitud"
                                     class="btn btn-sm icon-btn btn-altima text-white"><span
@@ -53,12 +53,13 @@
                                     <h3 class="card-title">Listado de solicitudes</h3>
                                 </div>
                                 <div class="card-body">
+                                    
                                     <table class="table tablaGeneral table-striped table-bordered" style="width: 100%">
                                         <thead>
                                             <tr>
                                                 <!-- <th>Folio</th> -->
                                                 <th>Fecha solicitud</th>
-                                                <th>Agente de ventas</th>
+                                                <th th:if="${auth}==''">Agente de ventas</th>
                                                 <th>Cliente</th>
                                                 <th>Fecha y hora cita</th>
                                                 <th>Hora salida Altima</th>
@@ -70,7 +71,7 @@
                                             <tr th:each=" solicitud: ${solicitudes}">
                                                 <!-- <td th:text="${solicitud.idText}"></td> -->
                                                 <td th:text="${solicitud.fechaCreacion}">02/08/2020 04:16 P.M.</td>
-                                                <td th:text="${solicitud.nombreAgente}">Juanito Perez</td>
+                                                <td th:if="${auth}==''" th:text="${solicitud.nombreAgente}">Juanito Perez</td>
                                                 <td th:text="${solicitud.nombreCliente}">DTI Consultores</td>
                                                 <td th:text="${solicitud.fechaCita}">14/05/2020 09:00 A.M.</td>
                                                 <td th:text="${solicitud.horaSalidaAltima}">14/05/2020 07:00 A.M.</td>
@@ -82,17 +83,25 @@
                                                         id="verDetalleModelo" th:attr="onclick=|verDetallePedidoModelo('${solicitud.idSolicitudModelo}')|">
                                                         <i class="fas fa-info"></i>
                                                     </button>
-                                                    <button data-toggle="modal" data-target="#asignarModelo"
+                                                    <button sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_MODELOS_EDITAR','ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#asignarModelo"
                                                         class="btn btn-primary btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Asignar modelo"
+                                                        th:disabled="${solicitud.estatus}!='En espera'?true:false"
                                                         th:attr="onclick=|asignarModelos('${solicitud.idSolicitudModelo}')|" >
                                                         <i class="fas fa-address-book"></i>
                                                     </button>
-                                                    <button th:attr="onclick=|aceptarSolicitud('${solicitud.idSolicitudModelo}')|"
+                                                    <button sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_MODELOS_ACEPTAR','ROLE_ADMINISTRADOR')" th:attr="onclick=|aceptarSolicitud('${solicitud.idSolicitudModelo}','Aceptar')|"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Enviar">
+                                                        th:disabled="${solicitud.estatus}!='En espera'?true:false"
+                                                        data-placement="top" data-content="Aceptar">
                                                         <i class="fas fa-user-check"></i>
                                                     </button>
+                                                    <button sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_MODELOS_CANCELAR','ROLE_ADMINISTRADOR')" th:attr="onclick=|aceptarSolicitud('${solicitud.idSolicitudModelo}','Rechazar')|"
+                                                    class="btn btn-danger btn-sm btn-circle popoverxd"
+                                                    th:disabled="${solicitud.estatus}!='En espera'?true:false"
+                                                    data-placement="top" data-content="Cancelar">
+                                                    <i class="fas fa-user-check"></i>
+                                                </button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -121,41 +130,6 @@
         $("#menuMuestrario").addClass("menu-open");
         $("#navMuestrario").addClass("active");
         $("#navMueSol").addClass("active");
-    </script>
-    <script>
-        function aceptarSolicitud(idSolicitud) {
-            Swal.fire({
-                title: '¿Seguro que quieres Aceptar la solicitud?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.value) {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Solicitud enviada correctamente',
-                        showConfirmButton: false,
-                        timer: 2500
-                    })
-
-                    $.ajax({
-                        type: "PATCH",
-                        url: "patchSolicitudModeloEstatus",
-                        data: {
-                            'idSolicitud':idSolicitud,
-                            '_csrf': $('[name=_csrf]').val(),
-                        },
-                        success: function (response) {
-                            location.reload();
-                        }
-                    });
-                }
-            });
-        }
     </script>
 </body>
 

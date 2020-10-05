@@ -33,7 +33,7 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 	@Transactional
 	public ComercialAgentesVenta findOne(Long idEmpleado) {
 		// TODO Auto-generated method stub
-		return (ComercialAgentesVenta) em.createQuery("FROM ComercialAgentesVenta WHERE idEmpleado="+idEmpleado).getSingleResult();
+		return repository.findById(idEmpleado).orElse(null);
 	}
 
 	@Override

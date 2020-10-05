@@ -247,6 +247,36 @@ $('#nuevaSolicitud').click(function (e) {
     $('#agenteVentas option').remove();
     $('#cliente option').remove();
     $('#modeloNuevoAgente option').remove();
+    if ($('#agenteVentas').val()=="" || $('#agenteVentas').val()==null) {
+        $.ajax({
+            type: "GET",
+            url: "/getAgenteVentas",
+            success: function (data) {
+                data.forEach(function (data) {
+                    //aqui va el codigo
+    
+                    $("#agenteVentas").append("<option value='" + data.idAgenteVentas + "'>" + data.nombreAgenteVentas + "</option>")
+                })
+                $('#agenteVentas').selectpicker('refresh');
+            }
+        });
+    } else {
+        $.ajax({
+            type: "GET",
+            url: "/ListarClientesporAgente",
+            data: {
+                'idAgente': $('#agenteVentas').val()
+            },
+            success: function (data) {
+                data.forEach(function (data) {
+                    //aqui va el codigo
+    
+                    $("#cliente").append("<option value='" + data[0] + "'>" + data[1] + "</option>")
+                })
+                $('#cliente').selectpicker('refresh');
+            }
+        });
+    }
     $.ajax({
         type: "GET",
         url: "/getComercialLookupByTipo",
@@ -261,19 +291,6 @@ $('#nuevaSolicitud').click(function (e) {
             $('#modeloNuevoAgente').selectpicker('refresh');
         }
     });
-    $.ajax({
-        type: "GET",
-        url: "/getAgenteVentas",
-        success: function (data) {
-            data.forEach(function (data) {
-                //aqui va el codigo
-
-                $("#agenteVentas").append("<option value='" + data.idAgenteVentas + "'>" + data.nombreAgenteVentas + "</option>")
-            })
-            $('#agenteVentas').selectpicker('refresh');
-        }
-    });
-
 });
 
 $('#agregarNuevoModelo').click(function (e) {
@@ -401,4 +418,39 @@ function verDetallePedidoModelo(idSolicitud) {
 
 function clearTables() {
     tablaModelosDetalle.rows().remove().draw();
+}
+
+function aceptarSolicitud(idSolicitud,tipo) {
+    Swal.fire({
+        title: '¿Seguro que quieres Aceptar la solicitud?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Solicitud enviada correctamente',
+                showConfirmButton: false,
+                timer: 2500
+            })
+
+            $.ajax({
+                type: "PATCH",
+                url: "patchSolicitudModeloEstatus",
+                data: {
+                    'idSolicitud':idSolicitud,
+                    '_csrf': $('[name=_csrf]').val(),
+                    'tipo':tipo
+                },
+                success: function (response) {
+                    location.reload();
+                }
+            });
+        }
+    });
 }
