@@ -73,8 +73,7 @@ public class ProduccionCatalogosController {
 	
 	@PostMapping("/guardar-catalogo-produccion")
 	public String guardacatalogo(String nomenclatura , String descripcion,
-			String num_talla, String id_genero,String genero, 
-			String ubicacion, String descripcionProceso ,String origenProceso,
+			String num_talla, String id_genero,String genero,String descripcionProceso ,String origenProceso,
 			String maquilero, String telefono) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -138,7 +137,7 @@ public class ProduccionCatalogosController {
 			talla.setCreadoPor(auth.getName());
 			talla.setFechaCreacion(dateFormat.format(date));
 			talla.setEstatus("1");
-			talla.setDescripcionLookup(ubicacion);
+			//talla.setDescripcionLookup(ubicacion);
 			talla.setAtributo1(id_genero);
 			talla.setAtributo2(genero);
 			LookupService.save(talla);
@@ -231,7 +230,7 @@ public class ProduccionCatalogosController {
 			resp=LookupService.findDuplicate(Lookup, Tipo);
 			
 			if ( Tipo.equals("Talla")) {
-				resp=LookupService.findDuplicate(Lookup, Tipo, Atributo1, Atributo2 , descripcion);
+				resp=LookupService.findDuplicate(Lookup, Tipo, Atributo1, Atributo2 );
 			}
 			if (Tipo.equals("Proceso")) {
 				resp=LookupService.findDuplicate(Lookup, Tipo, descripcion);

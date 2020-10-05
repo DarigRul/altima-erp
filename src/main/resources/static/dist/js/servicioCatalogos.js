@@ -15,13 +15,7 @@ function addTalla(){
 				      
 				   '</select>'+
 				  '</div>'+
-				  '<div class="form-group col-sm-12">'+
-				  	'<label for="ubicacionTalla">Ubicaci&oacute;n de prendas</label>'+
-				  	'<select class="form-control" id="ubicacionTalla" name="ubicacionTalla">'+
-				      '<option value="Inferior">Inferior</option>'+
-				      '<option value="Superior">Superior</option>'+
-				   '</select>'+
-				  '</div>'+
+				
 			  '</div>',
 		  inputAttributes: {
 		    autocapitalize: 'off'
@@ -31,7 +25,7 @@ function addTalla(){
 		  cancelButtonText: 'Cancelar',
 		  showLoaderOnConfirm: true,
 		  preConfirm: (talla) => {
-			  if(document.getElementById("talla").value.length<1 || document.getElementById("generoTalla").value.length<1 || document.getElementById("ubicacionTalla").value.length<1 ){
+			  if(document.getElementById("talla").value.length<1 || document.getElementById("generoTalla").value.length<1){
 					Swal.showValidationMessage(
 							`Complete todos los campos`
 					)
@@ -39,12 +33,11 @@ function addTalla(){
 		  },
 		  allowOutsideClick: () => !Swal.isLoading()
 		}).then((result) => {
-		  if (result.value &&  document.getElementById("generoTalla").value && document.getElementById("ubicacionTalla").value && document.getElementById("talla").value) {
+		  if (result.value &&  document.getElementById("generoTalla").value  && document.getElementById("talla").value) {
 			  var talla = document.getElementById("talla").value;
 			  var select = document.getElementById("generoTalla");
 			  var id_genero = select.value;
 			  var genero = select.options[select.selectedIndex].innerText;
-			  var ubicacion =document.getElementById("ubicacionTalla").value; 
 			  
 			  
 			  $.ajax({
@@ -56,8 +49,7 @@ function addTalla(){
 						'Lookup': talla,
 						'Tipo': "Talla",
 						'Atributo1': id_genero,
-						'Atributo2': genero,
-						'descripcion': ubicacion
+						'Atributo2': genero
 						
 
 
@@ -74,7 +66,6 @@ function addTalla(){
 								"_csrf": $('#token').val(),
 								'num_talla': talla,
 								'genero': genero,
-								'ubicacion': ubicacion,
 								'id_genero': id_genero
 
 							}
