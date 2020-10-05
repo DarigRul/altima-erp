@@ -101,11 +101,11 @@ public class ProduccionLookupServiceImpl implements IProduccionLookupService {
 	
 	@Override
 	@Transactional
-	public boolean findDuplicate(String Lookup,String Tipo,String atributo1, String atributo2, String descripcion){
+	public boolean findDuplicate(String Lookup,String Tipo,String atributo1, String atributo2){
 		boolean duplicate;
 		@SuppressWarnings("unchecked")
 		
-		List<ProduccionLookup> result = em.createQuery("from ProduccionLookup where nombreLookup='"+Lookup+"' and tipoLookup='"+Tipo+"' and atributo1='"+atributo1+"' and atributo2='"+atributo2+"' and descripcion_lookup='"+descripcion+"'" ).getResultList();
+		List<ProduccionLookup> result = em.createQuery("from ProduccionLookup where nombreLookup='"+Lookup+"' and tipoLookup='"+Tipo+"' and atributo1='"+atributo1+"' and atributo2='"+atributo2+"'" ).getResultList();
 		
 		if(result.isEmpty()) {
 			duplicate=false;
