@@ -54,13 +54,13 @@
 													<th>Tela</th>
 													<th>Composici&oacute;n</th>
 													<th>Color</th>
-													<th>Precio bordados</th>
+													<th>Precio de personalizado</th>
 													<th>Precio</th>
 													<th>% adicional</th>
 													<th>Monto adicional</th>
 													<th>Precio final</th>
 													<th>Observaciones</th>
-													<th>Bordado</th>
+													<th>Personalizado</th>
 											</thead>
 											<tbody>
 											 <tr th:each="listCoor: ${listCoor}">
@@ -113,7 +113,7 @@
 														<a data-toggle="modal" onclick=" obser (this);" th:obser ="${listCoor[12]}" th:id_prenda ="${listCoor[0]}"    data-target="#observacionesDetallePrecios" class="btn btn-primary text-white btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver observaciones"><i class="fas fa-eye" style="margin-left:-1px"></i></a>
 													</td>
 													<td class="text-center">
-														<a data-toggle="modal"  th:onclick="'bordados('+${listCoor[0]}+')'" data-target="#modalBordado" class="btn btn-primary text-white btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Bordados"><i class="flaticon-needle-with-thread-to-sew-clothes" style="margin-left:-2px"></i></a>
+														<a data-toggle="modal"  th:onclick="'bordados('+${listCoor[0]}+')'" data-target="#modalBordado" class="btn btn-primary text-white btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Personalizados"><i class="flaticon-needle-with-thread-to-sew-clothes" style="margin-left:-2px"></i></a>
 													</td>
 											 </tr>
 											 

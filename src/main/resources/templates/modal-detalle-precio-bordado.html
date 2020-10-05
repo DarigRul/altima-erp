@@ -3,7 +3,7 @@
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Lista de bordados</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Lista de personalizados</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="history.go(0);"  > <span aria-hidden="true">&times;</span> </button>
 			</div>
 			<form id="formBordado" name="formBordado"  th:action="@{/guardar-bordado}" method="POST" enctype="multipart/form-data">
@@ -11,7 +11,7 @@
 				<div class="modal-body">
 					<div class="row">
 					 <div class="form-group col-md-6">
-              <label for="solicitante">Bordado</label>
+              <label for="solicitante">Personalizado</label>
               <select class="form-control selectpicker" onchange="bordado_precio(this.value)" data-live-search="true" data-live-search-normalize="true"
                 title="Selecciona uno..." id="idBordado" name="idBordado" >
                 
@@ -28,7 +28,7 @@
 							<input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
 
 						<div class="form-group col-md-12">
-							<label for="exampleInputFile">Subir ubicaci&oacute;n del bordado</label>
+							<label for="exampleInputFile">Subir ubicaci&oacute;n del personalizado</label>
 							<div class="input-group">
 								<div class="custom-file">
 									<input type="file" required name="imagenTela" class="form-control border p-1" id="imagenTela" />
