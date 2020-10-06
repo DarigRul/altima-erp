@@ -507,7 +507,7 @@ public class ComercialCatalogosRestController {
 
     @GetMapping("getComercialLookupByTipo")
     public List<ComercialLookup> getComercialLookupByTipo(@RequestParam String tipoLookup){
-        return comercialLookupService.findByTipoLookup(tipoLookup);
+        return comercialLookupService.findByTipoLookupAndEstatus(tipoLookup);
     }
     
 }

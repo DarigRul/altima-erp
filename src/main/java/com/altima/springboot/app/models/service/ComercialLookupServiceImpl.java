@@ -54,7 +54,12 @@ public class ComercialLookupServiceImpl implements IComercialLookupService {
         return repository.findByTipoLookup(tipoLookup);
     }
 
-    
+    @Override
+    @Transactional(readOnly = true)
+    public List<ComercialLookup> findByTipoLookupAndEstatus(String tipoLookup) {
+        // TODO Auto-generated method stub
+        return repository.findByTipoLookupAndEstatus(tipoLookup);
+    }
 
 
     
