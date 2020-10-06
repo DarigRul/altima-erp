@@ -24,4 +24,8 @@ public interface IAmpLoookupService {
 	List<Object []> listarLinea(Long id);
 	
 	String nombreCategoria(Long id);
+
+	List<AmpLookup> findAllMovements();
+
+	List<AmpLookup> findMovementsDuplicate(String movimiento, String tipo);
 }
