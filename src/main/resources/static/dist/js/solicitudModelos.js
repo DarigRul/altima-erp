@@ -422,7 +422,7 @@ function clearTables() {
 
 function aceptarSolicitud(idSolicitud,tipo) {
     Swal.fire({
-        title: '¿Seguro que quieres Aceptar la solicitud?',
+        title: '¿Seguro que quieres '+ tipo +' la solicitud?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
