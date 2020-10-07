@@ -39,7 +39,7 @@
 							</div>
 						</div>
 						<div class="form-group col-md-4">
-							<label for="coorSurcusalModal">Sucursal</label> <select
+							<label for="coorSurcusalModal">Sucursal</label> <select required
 								class="form-control selectpicker" data-live-search="true"
 								id="coorSucursalModal" name="get_sucursal_id_modal">
 								<option th:each="getlistSucursal, iterstat: ${getlistSucursal}"
@@ -50,7 +50,7 @@
 						<div class="form-group col-md-4">
 							<label for="coorPrendaModal">Raz&oacute;n social</label> <select
 								class="form-control selectpicker" data-live-search="true"
-								id="coorPrendaModal" name="get_factura_id_modal">
+								id="coorPrendaModal" name="get_factura_id_modal" required>
 								<option th:each="getlistfactura, iterstat: ${getlistfactura}"
 									th:value="${getlistfactura.idClienteFacturaF}"
 									th:text="${getlistfactura.razon_socialF}"></option>
