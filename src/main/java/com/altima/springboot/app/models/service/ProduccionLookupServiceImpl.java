@@ -129,7 +129,7 @@ public class ProduccionLookupServiceImpl implements IProduccionLookupService {
 	@SuppressWarnings("unchecked")
 	public List<ProduccionLookup> findAllByType(String Posicion,String Genero ,String Tipo) {
 		// TODO Auto-generated method stub
-		return em.createQuery("from ProduccionLookup where Estatus=1 and tipoLookup='Talla' and descripcionLookup='"+Posicion+"' and atributo1='"+Genero+"' ").getResultList();
+		return em.createQuery("from ProduccionLookup where Estatus=1 and tipoLookup='Talla' and atributo1='"+Genero+"' ").getResultList();
 	}
 
 

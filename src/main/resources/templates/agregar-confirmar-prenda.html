@@ -442,10 +442,8 @@ Utilizar cubre polvo en colores claros.
                                                                             <td>
                                                                                 <input type="number" th:id="'CantidadMaterial-' + ${mat[10]}" class="form-control" th:value="${mat[5]=='Pieza'||mat[5]=='Rollo'}?${#numbers.formatInteger(mat[9],1)}:${mat[9]}" step='any' th:attr="onchange=|CambiarCantidadMaterial('${mat[10]}')|" />
 																			</td>
-																			<td>
-                                                                                <input type="number" th:id="'CantidadMaterialR-' + ${mat[10]}" class="form-control" th:value="${mat[5]=='Pieza'||mat[5]=='Rollo'}?${#numbers.formatInteger(mat[13],1)}:${mat[13]}" step='any' th:attr="onchange=|CambiarCantidadMaterialR('${mat[10]}')|" />
-                                                                            </td>
                                                                             <td class="tdcenter">
+																				<button></button>
                                                                             	<button type="button" th:if="${mat[12]}==1" th:unless="${accion}=='copiar'" th:attr="onclick=|getMaterialesByTipo('${mat[11]}','${mat[0]}','${mat[8]}')|" data-toggle="modal" id="modal_material" data-target="#modalMateriales" class="btn icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar material</button>
                                                                                 <button type="button" th:attr="onclick=|QuitarMaterial('${mat[10]}')|" class="btn icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
                                                                             </td>
