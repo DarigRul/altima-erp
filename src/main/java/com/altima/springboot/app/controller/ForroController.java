@@ -32,6 +32,8 @@ import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.DisenioMaterial;
 //import com.altima.springboot.app.models.entity.DisenioProceso;
 import com.altima.springboot.app.models.entity.DisenioTela;
+import com.altima.springboot.app.models.service.IAmpInventarioProovedorService;
+import com.altima.springboot.app.models.service.IComprasProveedorService;
 import com.altima.springboot.app.models.service.IDisenioCalidadService;
 import com.altima.springboot.app.models.service.IDisenioFamiliaComposicionForroService;
 import com.altima.springboot.app.models.service.IDisenioForroService;
@@ -58,7 +60,8 @@ public class ForroController {
 	private IUploadService UploadService;
 	@Autowired
 	private IDisenioFamiliaComposicionForroService ComposicionForroService;
-	
+	@Autowired
+	private IAmpInventarioProovedorService ProveedorSerivice;
 	@Autowired
 	IDisenioCalidadService disenioCalidad;
 	
@@ -214,7 +217,7 @@ public class ForroController {
 		model.addAttribute("listLookupsMed", listLookupsMed);
 		System.out.println("Entra a la consulta de forro composicion");
 		model.addAttribute("form", "forro");
-		
+		model.addAttribute("proveedor", ProveedorSerivice.Proveedores());
 		
 		return"agregar-material";   
 	}
