@@ -136,7 +136,7 @@ function AgregarElementoListaMateriales() {
 				var identidad = id + '_' + data[0][1];
 				var temp = {
 					identidad: identidad, id: data[0][0], NoMaterial: data[0][1], Nombre: data[0][2], Clasificacion: data[0][3], Tamanio: data[0][5] + ' ' + data[0][4],
-					Modelo: data[0][6], Proceso: data[0][7], cantidad: 1
+					Modelo: data[0][6], Proceso: data[0][7], cantidad: 1,cantidadRepuesto: 0
 				};
 				objeto_materiales.push(temp);
 				console.log(temp);
@@ -149,6 +149,7 @@ function AgregarElementoListaMateriales() {
 					"<td>" + data[0][6] + "</td>" +
 					"<td>" + data[0][7] + "</td>" +
 					"<td><input class='form-control' step='any' type='number' id='CantidadMaterial-" + identidad + "' value='1' onchange=\"CambiarCantidadMaterial(\'" + identidad + "\');\"/></td>" +
+					"<td><input class='form-control' step='any' type='number' id='CantidadMaterialR-" + identidad + "' value='0' onchange=\"CambiarCantidadMaterialR(\'" + identidad + "\');\"/></td>" +
 					"<td class='tdcenter'>" +
 					"<button type='button' onclick=\"QuitarMaterial(\'" + identidad + "\');\" class='btn icon-btn btn-danger text-white btn_remove'><span class='btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button>" +
 					"</td>" +
@@ -181,6 +182,23 @@ function CambiarCantidadMaterial(identidad) {
 		document.getElementById('CantidadMaterial-' + identidad).value=1;
 	}
 	console.log(objeto_materiales[CambiarCantidad]);
+}
+function CambiarCantidadMaterialR(identidad) {
+	var cantidad = $('#CantidadMaterialR-' + identidad).val();
+	var CambiarCantidad = objeto_materiales.map(function (item) { return item.identidad; }).indexOf(identidad);
+
+	objeto_materiales[CambiarCantidad].cantidadRepuesto = 0;
+	objeto_materiales[CambiarCantidad].cantidadRepuesto = cantidad;
+	if(cantidad<0){
+		Swal.fire({
+			icon: 'error',
+			title: 'Error',
+			text: 'La cantidad debe de ser mayor o igual a 0!'
+		  })
+		objeto_materiales[CambiarCantidad].cantidadRepuesto = 1;
+		document.getElementById('CantidadMaterialR-' + identidad).value=1;
+	}
+	console.log(objeto_materiales);
 }
 
 
