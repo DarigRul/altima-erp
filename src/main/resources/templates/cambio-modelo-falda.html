@@ -24,7 +24,7 @@
                         <div class="col-sm-6">
                             <h1>
                                 Cambio de modelo - Falda &nbsp;<a th:href="${'/carga-de-pedidos'}" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
-                            &nbsp;<a data-target="#cambio-modelo" data-toggle="modal"   class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Cambio</a>
+                            &nbsp;<a data-target="#cambio-modelo" data-toggle="modal" onclick="limpiar()"   class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Cambio</a>
                             </h1>
                         </div>
                         <div th:insert="cambio-modelo-falda-modal"></div>
@@ -57,39 +57,21 @@
                                                 <th>Folio</th>
                                                 <th>Nombre del empleado</th>
                                                 <th>Coordinado</th>
-                                                <th>Modelo</th>
-                                                <th>Cambio</th>
+                                                <th>Modelo Actual</th>
+                                                <th>Modelo Anterior</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             
-                                                
-                                            <tr>
-                                                <td>EMP10003 </td>
-                                                <td >Sandra</td>
-                                                <td >1</td>
-                                                <td >PAN10078</td>
-                                                 <td >FALDA10029</td>
-                                               
-                                            </tr>
-                                            
-                                             <tr>
-                                                <td>EMP10004 </td>
-                                                <td >Francisca</td>
-                                                <td >1</td>
-                                                <td >PAN10078</td>
-                                                <td >FALDA10029</td>
-                                                
-                                            </tr>
-                                            
-                                             <tr>
-                                                <td>EMP10005 </td>
-                                                <td >Lorena</td>
-                                                <td >1</td>
-                                                <td >PAN10078</td>
-                                                <td >FALDA10029</td>
-                                                
-                                            </tr>
+                                          <tr th:each="lista, ilista: ${lista}">
+												<td th:text="${lista[1]}"></td>
+												<td th:text="${lista[2]}"></td>
+												<td th:text="${lista[3]}"></td>												
+												<td th:text="${lista[4]}"></td>
+												<td th:text="${lista[5]}"></td>
+												
+												
+											</tr>
                                                 
                                                 
                                             
@@ -112,6 +94,8 @@
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
     <script th:src="@{/dist/js/tablaGeneral.js}"></script>
+    
+    <script th:src="@{/dist/js/cambioFalda.js}"></script>
     <script>
         $('#iComercial').removeClass('text-altima');
         $('#menuComercial').addClass('menu-open');

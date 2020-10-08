@@ -54,17 +54,16 @@ public class ProduccionConsumoTallaServiceImpl implements IProduccionConsumoTall
 	@Override
 	@Transactional
 	public List<Object[]> tallas(Long id) {
+		
+		
 		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + 
 				"	talla.id_lookup,\r\n" + 
 				"	talla.nombre_lookup \r\n" + 
 				"FROM\r\n" + 
 				"	alt_disenio_prenda AS prenda,\r\n" + 
-				"	alt_produccion_lookup AS talla,\r\n" + 
-				"	alt_disenio_lookup AS lookup \r\n" + 
+				"	alt_produccion_lookup AS talla\r\n" +
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
-				"	AND prenda.id_familia_prenda = lookup.id_lookup \r\n" + 
-				"	AND lookup.atributo_1 = talla.descripcion_lookup \r\n" + 
 				"	AND talla.tipo_lookup = 'Talla' \r\n" + 
 				"	AND prenda.id_genero = talla.atributo_1 \r\n" + 
 				"	AND prenda.id_prenda = "+id+" \r\n" + 
@@ -125,6 +124,21 @@ public class ProduccionConsumoTallaServiceImpl implements IProduccionConsumoTall
 	public List<Object[]> Consumo_Talla(Long id , String Cabezal){
 		List<Object[]> queryresult;
 		 
+		System.out.println("SELECT\r\n" + 
+					"	look2.nombre_lookup,\r\n" + 
+					Cabezal +
+					"	\r\n" + 
+					"FROM\r\n" + 
+					"	alt_produccion_consumo_talla AS consumo,\r\n" + 
+					"	alt_produccion_lookup AS look,\r\n" + 
+					"	alt_produccion_lookup AS look2 \r\n" + 
+					"WHERE\r\n" + 
+					"	1 = 1 \r\n" + 
+					"	AND look2.id_lookup = consumo.id_talla \r\n" + 
+					"	AND consumo.id_tipo_largo = look.id_lookup \r\n" + 
+					"	AND consumo.id_prenda = "+id+" \r\n" + 
+					"GROUP BY\r\n" + 
+					"	look2.nombre_lookup");
 			queryresult = em.createNativeQuery("SELECT\r\n" + 
 					"	look2.nombre_lookup,\r\n" + 
 					Cabezal +

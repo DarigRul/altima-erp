@@ -193,15 +193,31 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Transactional
 	public List<ProduccionDetallePedido> tabla(Long Id) {
 
-		return em.createNativeQuery("SELECT\r\n" + "    lk.nombre_lookup AS Famili,\r\n"
-				+ "    p.detalle_prenda AS Modelo,\r\n" + "    t.nombre_tela AS tela,\r\n" + "    dp.descripcion,\r\n"
-				+ "    dp.largo,\r\n" + "    dp.talla,\r\n" + "    dp.id_detalle_pedido,\r\n" + "    COUNT(*),\r\n"
-				+ "    p.id_prenda,\r\n" + "    p.id_text_prospecto\r\n" + "FROM\r\n"
-				+ "    alt_produccion_detalle_pedido dp\r\n" + "INNER JOIN alt_disenio_prenda p ON\r\n"
-				+ "    dp.id_prenda = p.id_prenda\r\n" + "INNER JOIN alt_disenio_lookup lk ON\r\n"
-				+ "    p.id_familia_prenda = lk.id_lookup\r\n" + "INNER JOIN alt_disenio_tela t ON\r\n"
-				+ "    dp.id_tela = t.id_tela\r\n" + "WHERE\r\n" + "    dp.id_pedido =" + Id + "\r\n" + "GROUP BY\r\n"
-				+ "    p.id_prenda,\r\n" + "    dp.talla,\r\n" + "    dp.largo,\r\n" + "    t.id_tela;")
+		
+		return em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	lk.nombre_lookup AS Famili,\n" + 
+				"	p.descripcion_prenda AS Modelo,\n" + 
+				"	t.nombre_tela AS tela,\n" + 
+				"	dp.descripcion,\n" + 
+				"	dp.largo,\n" + 
+				"	dp.talla,\n" + 
+				"	dp.id_detalle_pedido,\n" + 
+				"	COUNT(*),\n" + 
+				"	p.id_prenda,\n" + 
+				"	p.id_text_prospecto \n" + 
+				"FROM\n" + 
+				"	alt_produccion_detalle_pedido dp\n" + 
+				"	INNER JOIN alt_disenio_prenda p ON dp.id_prenda = p.id_prenda\n" + 
+				"	INNER JOIN alt_disenio_lookup lk ON p.id_familia_prenda = lk.id_lookup\n" + 
+				"	INNER JOIN alt_disenio_tela t ON dp.id_tela = t.id_tela \n" + 
+				"WHERE\n" + 
+				"	dp.id_pedido = "+Id+" \n" + 
+				"GROUP BY\n" + 
+				"	p.id_prenda,\n" + 
+				"	dp.talla,\n" + 
+				"	dp.largo,\n" + 
+				"	t.id_tela;")
 				.getResultList();
 	}
 
@@ -209,20 +225,45 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public List<Object[]> detallesMatariales(Long id) {
-		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + "    material.nombre_material AS material,\r\n"
-				+ "    CM.color AS color,\r\n" + "    CM.color_codigo AS codigo\r\n" + "FROM\r\n"
-				+ "    alt_disenio_material AS material\r\n"
-				+ "INNER JOIN alt_produccion_detalle_pedido_material AS CM\r\n" + "ON\r\n"
-				+ "    material.id_material = CM.id_material\r\n" + "WHERE\r\n" + "    CM.id_pedido_detalle = " + id
-				+ "\r\n" + "UNION\r\n" + "SELECT\r\n" + "    tela.nombre_tela AS material,\r\n"
-				+ "    tela.color AS color,\r\n" + "    tela.codigo_color AS codigo\r\n" + "FROM\r\n"
-				+ "    alt_produccion_detalle_pedido_tela AS pdt\r\n" + "INNER JOIN alt_disenio_tela AS tela\r\n"
-				+ "ON\r\n" + "    pdt.id_tela = tela.id_tela\r\n" + "WHERE\r\n" + "    pdt.id_detalle_pedido =" + id
-				+ "\r\n" + "    \r\n" + "    \r\n" + "    UNION\r\n" + "SELECT\r\n"
-				+ "    forro.nombre_forro AS material,\r\n" + "    forro.color AS color,\r\n"
-				+ "    forro.codigo_color AS codigo\r\n" + "FROM\r\n"
-				+ "    alt_produccion_detalle_pedido_forro AS pdf\r\n" + "INNER JOIN alt_disenio_forro AS forro\r\n"
-				+ "ON\r\n" + "    pdf.id_forro = forro.id_forro\r\n" + "WHERE\r\n" + "    pdf.id_detalle_pedido =" + id)
+		
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	material.nombre_material AS material,\n" + 
+				"	CM.color AS color,\n" + 
+				"	CM.color_codigo AS codigo \n" + 
+				"FROM\n" + 
+				"	alt_disenio_material AS material\n" + 
+				"	INNER JOIN alt_produccion_detalle_pedido_material AS CM ON material.id_material = CM.id_material \n" + 
+				"WHERE\n" + 
+				"	CM.id_pedido_detalle = "+id+" UNION ALL\n" + 
+				"SELECT\n" + 
+				"	tela.nombre_tela AS material,\n" + 
+				"	tela.color AS color,\n" + 
+				"	tela.codigo_color AS codigo \n" + 
+				"FROM\n" + 
+				"	alt_produccion_detalle_pedido_tela AS pdt\n" + 
+				"	INNER JOIN alt_disenio_tela AS tela ON pdt.id_tela = tela.id_tela \n" + 
+				"WHERE\n" + 
+				"	pdt.id_detalle_pedido = "+id+" UNION ALL\n" + 
+				"SELECT\n" + 
+				"	forro.nombre_forro AS material,\n" + 
+				"	forro.color AS color,\n" + 
+				"	forro.codigo_color AS codigo \n" + 
+				"FROM\n" + 
+				"	alt_produccion_detalle_pedido_forro AS pdf\n" + 
+				"	INNER JOIN alt_disenio_forro AS forro ON pdf.id_forro = forro.id_forro \n" + 
+				"WHERE\n" + 
+				"	pdf.id_detalle_pedido = "+id+" UNION ALL\n" + 
+				"SELECT\n" + 
+				"	CONCAT( 'Tela principal','-',tela.nombre_tela ) AS material,\n" + 
+				"	tela.color AS color,\n" + 
+				"	tela.codigo_color AS codigo \n" + 
+				"FROM\n" + 
+				"	alt_produccion_detalle_pedido AS pedido,\n" + 
+				"	alt_disenio_tela AS tela \n" + 
+				"WHERE\n" + 
+				"	tela.id_tela = pedido.id_tela \n" + 
+				"	AND pedido.id_detalle_pedido = "+id)
 				.getResultList();
 		return re;
 	}

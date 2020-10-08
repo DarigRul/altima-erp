@@ -13,6 +13,7 @@ import com.altima.springboot.app.models.entity.HrLookup;
 import com.altima.springboot.app.repository.HrDepartamentoRepository;
 
 @Service
+@SuppressWarnings("unchecked")
 public class HrDepartamentoServiceImpl implements IHrDepartamentoService {
 	@Autowired
 	EntityManager em;
@@ -43,21 +44,25 @@ public class HrDepartamentoServiceImpl implements IHrDepartamentoService {
 		repository.deleteById(id);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public List<HrLookup> findAllAreas() {
 		return em.createQuery("from HrLookup").getResultList();
 	}
+	
+	@Override
+	@Transactional
+	public List<HrDepartamento> findAllDepartamentosByArea(Long idArea) {
+		return em.createQuery("from HrDepartamento WHERE idArea = "+idArea).getResultList();
+	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	@Transactional
 	public List<HrLookup> findAllEmpresas(String tipo) {
 		return em.createQuery("from HrLookup where tipoLookup='" + tipo + "'").getResultList();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> listarDepartamentos() {
 		List<Object[]> mv;
@@ -75,7 +80,6 @@ public class HrDepartamentoServiceImpl implements IHrDepartamentoService {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Boolean duplicateDepartamento(String nombreDepartamento, String nomArea) {
 		boolean d;
 		List<HrLookup> result = em.createNativeQuery("SELECT" +

@@ -15,6 +15,8 @@ public interface IDisenioLookupService {
 	void delete(Long id);
 	
 	DisenioLookup findOne(Long id);
+
+	public Object findClothesPosition(String prenda);
 	
 
 }

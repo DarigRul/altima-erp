@@ -161,7 +161,7 @@ public class BordadosAgenteVentasController {
 		bordadoService.save(objetoBordado);
 		System.out.println("si pelo el save");
 		
-		redirectAttrs.addFlashAttribute("title", "Bordado agregado  correctamente").addFlashAttribute("icon",
+		redirectAttrs.addFlashAttribute("title", "Personalizado agregado correctamente").addFlashAttribute("icon",
 				"success");
 
 		return "redirect:bordados/"+objetoBordado.getIdBordado();
@@ -225,7 +225,7 @@ public class BordadosAgenteVentasController {
 		    bordadoService.saveParte(objetoBordadoParte);
 			System.out.println("Si pelo el saveParte de uno a muchos");
 			
-			redirectAttrs.addFlashAttribute("title", "Parte del bordado agregado  correctamente").addFlashAttribute("icon",
+			redirectAttrs.addFlashAttribute("title", "Parte del personalizado agregado  correctamente").addFlashAttribute("icon",
 					"success");
 
 			
@@ -240,30 +240,24 @@ public class BordadosAgenteVentasController {
 			Date date = new Date();
 			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			
-			ComercialBordado objetoBordado = bordadoService.findOne(idBordado);
-			objetoBordado.setEstatus("0");
-			bordadoService.save(objetoBordado);
+			bordadoService.delete(idBordado);
 			
-
-			
-			
-			
-			redirectAttrs.addFlashAttribute("title", "Bordado Eliminado correctamente").addFlashAttribute("icon",
+			redirectAttrs.addFlashAttribute("title", "Personalizado Eliminado correctamente").addFlashAttribute("icon",
 					"warning");
 			return "redirect:/bordados";
 		}
 		
 		
-		@GetMapping("/eliminar_parte_bordado/{id}")
-		public String deleteBordadoParte(@PathVariable("id") Long idBordadoParte, RedirectAttributes redirectAttrs) {
+		@GetMapping("/eliminar_parte_bordado/{id}/{idB}")
+		public String deleteBordadoParte(@PathVariable("id") Long idparteBordado, @PathVariable("idB") Long idBordado, RedirectAttributes redirectAttrs) {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			Date date = new Date();
 			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");			
-		    bordadoService.deleteParteBordado(idBordadoParte);
+			bordadoService.deleteParteBordado(idparteBordado);
 			
-			redirectAttrs.addFlashAttribute("title", "Bordado Eliminado correctamente").addFlashAttribute("icon",
+			redirectAttrs.addFlashAttribute("title", "Personalizado Eliminado correctamente").addFlashAttribute("icon",
 					"warning");
-			return "redirect:/bordados/"+idBordadoParte ;
+			return "redirect:/bordados/"+idBordado;
 		}
 		
 		
@@ -384,7 +378,7 @@ public class BordadosAgenteVentasController {
 				bordadoService.save(objetoBordado);
 				System.out.println("si pelo el save");
 				
-				redirectAttrs.addFlashAttribute("title", "Bordado agregado  correctamente").addFlashAttribute("icon",
+				redirectAttrs.addFlashAttribute("title", "Personalizado agregado  correctamente").addFlashAttribute("icon",
 						"success");
 
 				return "redirect:bordados/"+objetoBordado.getIdBordado();

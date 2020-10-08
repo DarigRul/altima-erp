@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;" role="document">
       <div class="modal-content modal-rounded-body">
         <div class="modal-header bg-altima modal-rounded-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Nuevo bordado</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Nuevo personalizado</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -19,7 +19,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="tipoBordado">Bordado</label>
+                    <label for="tipoBordado">Personalizado</label>
                     <select class="form-control selectpicker" data-live-search="true" th:field="*{idLookup}" data-live-search-normalize="true" title="Selecciona uno..." id="tipoBordado">
                      <option th:each="listLookup:${listLookup}" th:value="${listLookup.idLookup}"
                          th:text="${listLookup.nombreLookup}"></option>

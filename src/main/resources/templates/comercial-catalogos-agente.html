@@ -21,33 +21,73 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Clave</th>
-                            <th>Nombre</th>
-                            <th>For&aacute;neo</th>
-                            <th>Licitaci&oacute;n</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Nancy M.</td>
-                          <td>Si/No</td>
-                          <td>Si/No</td>
-                          <td class="text-center">
-                              <button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>
-                              <button onclick="editarAgente()" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-                              <button onclick="bajarAgente()" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-                              <button onclick="altaAgente()" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="modal-body" id="crearTablaAgentes">
+	            <div id="borrarTablaAgentes">
+	                <table class="table table-striped table-bordered" style="width: 100%;">
+	                </table>
+	            </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="agregarAgente" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary" id="titleModal">
+                <h5 class="modal-title cartLess" id="exampleModalLongTitle">Agente de ventas</h5>
+                <button type="button" class="close cartLess" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            	<div class="modal-body row">
+			    	<div class="form-group col-md-4">
+				      <label for="areaAgente">&Aacute;rea</label>
+				      <select class="form-control selectpicker" title="Seleccione uno..." id="areaAgente">
+				      </select>
+				    </div>
+					<div class="form-group col-md-4">
+					    <label for="depaAgente">Departamento</label>
+					    <select class="form-control selectpicker" title="Seleccione uno..." id="depaAgente">
+					    </select>
+				    </div>
+				    <div class="form-group col-md-4">
+				    	<label for="PuestoAgente">Puesto</label>
+				      	<select class="form-control selectpicker" title="Seleccione uno..." id="puestoAgente">
+				      	</select>
+				    </div>
+			      	<div class="form-group col-md-12">
+				      <label for="nombreAgente">Nombre</label>
+				      <select class="form-control selectpicker" title="Seleccione uno..." id="nombreAgente">
+				      </select>
+			      	</div>
+			      	<div class="form-group col-md-12">
+			      		<h4>Caracter&iacute;stica de venta</h4>
+			      	</div>
+			    	<div class="form-group col-md-6">
+			      		<div class="form-check">
+			      			<input class="form-check-input" type="checkbox" value="1" id="foraneoAgente">
+			      			<label class="form-check-label" for="foraneoAgente">
+			      			For&aacute;neos
+			      			</label>
+			      		</div>
+			     	</div>
+				   	<div class="form-group col-md-6">
+				    <div class="form-check">
+				      	<input class="form-check-input" type="checkbox" value="1" id="licitacionAgente">
+				      	<label class="form-check-label" for="licitacionAgente">
+				      	Licitaciones
+				      	</label>
+				    </div>
+			    </div>
+			</div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancelar</button>
+            	<button type="button" id="ValidarInformacionAgenteCatalogo" class="btn btn-primary">Enviar</button>
+            </div>
+        </div>
+        <input type="hidden" id="idAgenteCatalogoComercial">
+    </div>
+</div>
+

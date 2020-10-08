@@ -437,13 +437,14 @@ Utilizar cubre polvo en colores claros.
                                                                             <td th:text="${mat[4]}"></td>
                                                                             <td th:text="${mat[5]}"></td>
                                                                             <td th:text="${mat[6]}"></td>
-                                                                            <td th:text="${mat[7]}"></td>
+																			<td th:text="${mat[7]}"></td>
                                                                             <td>
                                                                                 <input type="number" th:id="'CantidadMaterial-' + ${mat[10]}" class="form-control" th:value="${mat[5]=='Pieza'||mat[5]=='Rollo'}?${#numbers.formatInteger(mat[9],1)}:${mat[9]}" step='any' th:attr="onchange=|CambiarCantidadMaterial('${mat[10]}')|" />
-                                                                            </td>
+																			</td>
                                                                             <td class="tdcenter">
-                                                                            	<button type="button" th:if="${mat[12]}==1" th:unless="${accion}=='copiar'" th:attr="onclick=|getMaterialesByTipo('${mat[11]}','${mat[0]}','${mat[8]}')|" data-toggle="modal" id="modal_material" data-target="#modalMateriales" class="btn icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar material</button>
-                                                                                <button type="button" th:attr="onclick=|QuitarMaterial('${mat[10]}')|" class="btn icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
+																				<button type="button" th:if="${mat[14]}=='Botón'" th:unless="${accion}=='copiar'" data-toggle="modal" id="modal_cantidad_repuesto" th:attr="onclick=|cantidadRepuesto('${mat[10]}')|" data-target="#modalCantidadRepuesto" class="btn btn-primary btn-circle btn-sm popoverxd"><i class="flaticon4-clothes-button-with-four-holes"></i></button>
+                                                                            	<button type="button" th:if="${mat[12]}==1" th:unless="${accion}=='copiar'" th:attr="onclick=|getMaterialesByTipo('${mat[11]}','${mat[0]}','${mat[8]}')|" data-toggle="modal" id="modal_material" data-target="#modalMateriales" class="btn btn-primary btn-circle btn-sm popoverxd"><i class="fas fa-plus"></i></button>
+                                                                                <button type="button" th:attr="onclick=|QuitarMaterial('${mat[10]}')|" class="btn btn-danger btn-circle btn-sm text-white popoverxd"><i class="fas fa-times"></i></button>
                                                                             </td>
                                                                         </tr>
 																	</tbody>
@@ -451,6 +452,7 @@ Utilizar cubre polvo en colores claros.
 															</div>
 														</div>
 														<div th:insert="modal-materiales-select"></div>
+														<div th:insert="modal-prenda-cantidad-repuesto"></div>
 														<!-- <ul class="float-right">
 															<li class="list-inline-item">
 															
@@ -1107,7 +1109,8 @@ alert($('#contenido').val());
                     Tamanio: materiales[i][4] + ' ' + materiales[i][5],
                     Modelo: materiales[i][7],
                     Proceso: materiales[i][8],
-                    cantidad: materiales[i][9]
+					cantidad: materiales[i][9],
+					cantidadRepuesto:materiales[i][13]
                 };
                 objeto_materiales.push(temp);
             }

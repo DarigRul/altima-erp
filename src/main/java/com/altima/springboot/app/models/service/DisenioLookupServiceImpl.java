@@ -56,5 +56,13 @@ public class DisenioLookupServiceImpl implements IDisenioLookupService {
 		// TODO Auto-generated method stub
 		return em.find(DisenioLookup.class, id);
 	}
+
+	@Override
+	@Transactional
+	public Object findClothesPosition(String prenda) {
+		return em.createNativeQuery("select atributo_1 From alt_disenio_lookup where nombre_lookup LIKE '%"+prenda+"%' and tipo_lookup='Familia Prenda' LIMIT 1 ").getSingleResult();
+	}
+	
+	
 	
 }

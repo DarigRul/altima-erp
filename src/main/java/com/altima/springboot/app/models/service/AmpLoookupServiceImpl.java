@@ -15,11 +15,12 @@ import com.altima.springboot.app.repository.AmpLookupRepository;
 public class AmpLoookupServiceImpl implements IAmpLoookupService {
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	@Autowired
 	private AmpLookupRepository repository;
+
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public List<AmpLookup> findAll() {
 		// TODO Auto-generated method stub
 		return (List<AmpLookup>) repository.findAll();
@@ -46,87 +47,92 @@ public class AmpLoookupServiceImpl implements IAmpLoookupService {
 		// TODO Auto-generated method stub
 		return repository.findById(id).orElse(null);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	@OrderBy("idLookup ASC")
 	public List<AmpLookup> findAllLookup(String Tipo) {
-		return em.createQuery("from AmpLookup where tipo_lookup='"+Tipo+"' and estatus=1").getResultList();
+		return em.createQuery("from AmpLookup where tipo_lookup='" + Tipo + "' and estatus=1").getResultList();
 	}
-	
+
 	@Override
 	@Transactional
-	public AmpLookup findLastLookupByType(String Tipo){
-		return (AmpLookup) em.createQuery("from AmpLookup where tipo_lookup='"+Tipo+"' ORDER BY idLookup DESC").setMaxResults(1).getSingleResult();
+	public AmpLookup findLastLookupByType(String Tipo) {
+		return (AmpLookup) em.createQuery("from AmpLookup where tipo_lookup='" + Tipo + "' ORDER BY idLookup DESC")
+				.setMaxResults(1).getSingleResult();
 	}
-	 
-	
+
 	@Override
 	@Transactional
-	public boolean findDuplicate(String Lookup,String Tipo){
+	public boolean findDuplicate(String Lookup, String Tipo) {
 		boolean duplicate;
 		@SuppressWarnings("unchecked")
-		
-		List<AmpLookup> result = em.createQuery("from AmpLookup where nombreLookup='"+Lookup+"' and tipoLookup='"+Tipo+"'").getResultList();
-		if(result.isEmpty()) {
-			duplicate=false;
-			
+
+		List<AmpLookup> result = em
+				.createQuery("from AmpLookup where nombreLookup='" + Lookup + "' and tipoLookup='" + Tipo + "'")
+				.getResultList();
+		if (result.isEmpty()) {
+			duplicate = false;
+
+		} else {
+			duplicate = true;
 		}
-		else {
-			duplicate=true;
-		}
-		 return duplicate;
+		return duplicate;
 	}
-	
+
 	@Override
 	@Transactional
-	public boolean findDuplicate(String Lookup,String Tipo,String atributo){
-		
+	public boolean findDuplicate(String Lookup, String Tipo, String atributo) {
+
 		boolean duplicate;
 		@SuppressWarnings("unchecked")
-		List<AmpLookup> result = em.createQuery("from AmpLookup where nombreLookup='"+Lookup+"' and tipoLookup='"+Tipo+"' and atributo1='"+atributo+"'").getResultList();
-		if(result.isEmpty()) {
-			duplicate=false;
+		List<AmpLookup> result = em.createQuery("from AmpLookup where nombreLookup='" + Lookup + "' and tipoLookup='"
+				+ Tipo + "' and atributo1='" + atributo + "'").getResultList();
+		if (result.isEmpty()) {
+			duplicate = false;
+		} else {
+			duplicate = true;
 		}
-		else {
-			duplicate=true;
-		}
-		 return duplicate;
+		return duplicate;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	@OrderBy("idLookup ASC")
-	public List<Object []> listarLinea(Long id) {
-		return em.createNativeQuery(""
-				+ "SELECT\n" + 
-				"	linea.id_lookup,\n" + 
-				"	linea.nombre_lookup \n" + 
-				"FROM\n" + 
-				"	alt_amp_lookup AS linea,\n" + 
-				"	alt_amp_lookup AS cate \n" + 
-				"WHERE\n" + 
-				"	1 = 1 \n" + 
-				"	AND linea.tipo_lookup = 'Linea' \n" + 
-				"	AND linea.descripcion_lookup = cate.id_lookup \n" + 
-				"	AND linea.estatus = 1 \n" + 
-				"	AND cate.id_lookup = "+id).getResultList();
+	public List<Object[]> listarLinea(Long id) {
+		return em.createNativeQuery("" + "SELECT\n" + "	linea.id_lookup,\n" + "	linea.nombre_lookup \n" + "FROM\n"
+				+ "	alt_amp_lookup AS linea,\n" + "	alt_amp_lookup AS cate \n" + "WHERE\n" + "	1 = 1 \n"
+				+ "	AND linea.tipo_lookup = 'Linea' \n" + "	AND linea.descripcion_lookup = cate.id_lookup \n"
+				+ "	AND linea.estatus = 1 \n" + "	AND cate.id_lookup = " + id).getResultList();
 	}
-	
+
 	@Override
 	@Transactional
 	public String nombreCategoria(Long id) {
 
-		return em.createNativeQuery(""
-				+ "SELECT DISTINCT\n" + 
-				"	nombre_lookup \n" + 
-				"FROM\n" + 
-				"	alt_amp_lookup as look\n" + 
-				"WHERE\n" + 
-				"	look.id_lookup="+id).getResultList().toString();
+		return em
+				.createNativeQuery("" + "SELECT DISTINCT\n" + "	nombre_lookup \n" + "FROM\n"
+						+ "	alt_amp_lookup as look\n" + "WHERE\n" + "	look.id_lookup=" + id)
+				.getResultList().toString();
 
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<AmpLookup> findAllMovements() {
+		// TODO Auto-generated method stub
+		return em.createQuery("From AmpLookup where tipoLookup IN('Entrada','Salida')").getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AmpLookup> findMovementsDuplicate(String movimiento, String tipo) {
+		// TODO Auto-generated method stub
+		return em.createQuery("From AmpLookup where nombreLookup='" + movimiento + "' and tipoLookup='" + tipo + "' ")
+				.getResultList();
+	}
+
 }

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head th:include="navegacion-head :: header">
+      <title id="pageTitle">Carga de pedidos | Altima</title>
+   </head>
+   <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+      <!-- Site wrapper -->
+      <div class="wrapper">
+         <!-- Navbar -->
+         <div th:insert="navegacion-nav"></div>
+         <!-- /.navbar -->
+         <!-- Modal -->
+         <div th:insert="navegacion-logout"></div>
+         <!-- Main Sidebar Container -->
+         <div th:insert="navegacion-aside"></div>
+         <!-- Content Wrapper. Contains page content -->
+         <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+               <div class="container-fluid">
+                  <div class="row mb-2">
+                     <div class="col-sm-6">
+                        <h1>
+                           Agregar falda&nbsp;<a th:href="${'/carga-de-pedidos'}" 
+                              class="btn btn-sm icon-btn btn-danger text-white"><span
+                              class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                        </h1>
+                     </div>
+                     <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                           <li class="breadcrumb-item altima">Altima</li>
+                           <li class="breadcrumb-item active">Comercial</li>
+                           <li class="breadcrumb-item active">Agentes de Venta</li>
+                           <li class="breadcrumb-item active">Carga de Pedidos</li>
+                        </ol>
+                     </div>
+                  </div>
+               </div>
+               <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-12">
+                        <!-- Default box -->
+                        <div class="card">
+                           <div class="card-header bg-altima">
+                              <h3 id="h3Title" class="card-title">Agregar falda</h3>
+                           </div>
+                           <div class="card-body">
+                              <form  >
+                                 <div class="row">
+                                    <div class="form-group col-md-6">
+                                       <label for="coorPrenda">Famila Prenda</label> 
+                                       <select
+                                          class="form-control selectpicker coorPrenda"
+                                          data-live-search="true" id="coorPrenda" title="Selecciona uno...">
+                                          
+                                          <option th:each="listPrendas: ${listPrendas}"
+                                             th:value="${listPrendas[0]}"
+                                             th:text="${listPrendas[1]}"></option>
+                                       </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                       <label for="coorModelo">Modelo</label> 
+                                       <select
+                                          class="form-control selectpicker coorModelo"
+                                          data-live-search="true" id="coorModelo" name="coorModelo" title="Selecciona uno...">
+                                         
+                                       </select>
+                                    </div>
+                                    <div class='card col-md-6' style="display: none" id ="contenedor-frente" >
+                                       <div class='image-upload'>
+                                          <label for='file-input'> <img  id="img1"
+                                             class='card-img-top' 
+                                             onerror="/dist/img/preview.png"
+                                             >
+                                          </label>
+                                       </div>
+                                       <div class='card-body'>
+                                          <p id="text-img1" class='card-text'></p>
+                                       </div>
+                                    </div>
+                                    <div class='card col-md-6' style="display: none" id ="contenedor-espalda">
+                                       <div class='image-upload'>
+                                          <label for='file-input'> <img  id="img2"
+                                             class='card-img-top' 
+                                             onerror="/dist/img/preview.png">
+                                          </label>
+                                       </div>
+                                       <div class='card-body'>
+                                          <p id="text-img2" class='card-text'></p>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-12 row   justify-content-center"
+                                       id="elimnar333"></div>
+                                   
+                                       <div class="form-group col-md-6">
+                                          <label for="coorTela">Tela</label> 
+                                          <select
+                                             class="form-control selectpicker coorTela"
+                                             data-live-search="true" id="coorTela" title="Selecciona uno...">
+                                           
+                                          </select>
+                                       </div>
+                                       
+                                       <div class='card col-md-6' style="display: none" id ="contenedor-tela">
+                                       <div class='image-upload'>
+                                          <label for='file-input'> <img  id="img3"
+                                             class='card-img-top' 
+                                             onerror="/dist/img/preview.png">
+                                          </label>
+                                       </div>
+                                       <div class='card-body'>
+                                          <p class='card-text'>TELA</p>
+                                       </div>
+                                    </div>
+                                    
+                                    
+                                 </div>
+                                 <input type="hidden" name="_csrf" id="token"
+                                    th:value="${_csrf.token}" />
+                                 <div class="col-md-12 row   justify-content-center"
+                                    id="elimnar"></div>
+                                 <div class="col-md-12 row   justify-content-center"
+                                    id="elimnar22"></div>
+                                 <div class="col-md-12 row   justify-content-center"
+                                    id="elimnar222"></div>
+                                 <div class="col-md-12 row   justify-content-center"
+                                    id="escript">
+                                    <input id="coorCoordinado" type="hidden"
+                                       th:field="*{prenda.idCoordinado}" />
+                                 </div>
+                                 <div class="row" id="elimnar" tabindex="0"></div>
+                                 <div class="row">
+                                    <div class="form-group col-md-12">
+                                       <button type="button" onclick="agregar()"
+                                          class="btn icon-btn btn-altima text-white float-right">
+                                       <span
+                                          class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar
+                                       </button>
+                                    </div>
+                                 </div>
+                              </form>
+                              
+                              <input id="idSPF" name="idSPF" type="hidden"
+                                       th:value="${idSPF}" />
+                                       
+                                       <input type="hidden" th:value="*{idPrincipal}" id ="idPrincipal" name ="idPrincipal">
+                          
+                              <div class="form-group col-md-12">
+                                 <table class="table tablaPrenda table-striped table-bordered">
+                                    <thead>
+                                       <tr>
+                                          <th>Famila Prenda</th>
+                                          <th>Modelo</th>
+                                          <th>Tela</th>
+                                          <th>Acciones</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr th:each="listCoorPrenda: ${listCoorPrenda}">
+                                          <td th:text="${listCoorPrenda[1]}"></td>
+                                          <td th:text="${listCoorPrenda[2]}"></td>
+                                          <td th:text="${listCoorPrenda[3]}"></td>
+                                          <td class="tdcenter"><a
+                                             th:onclick="'detalles(' + ${listCoorPrenda[0] } + ');'"
+                                             class="btn btn-info text-white btn-circle btn-sm popoverxd"
+                                             data-container="body" data-toggle="popover"
+                                             data-placement="top" data-content="Ver detalles">
+                                             <i class="fas fa-info"></i>
+                                             </a> &nbsp; <a th:if="${listCoorPrenda[4]  == '1'}"
+                                                th:href="@{/delete-falda-spf/}+ ${listCoorPrenda[0]} +'/'+${idSPF} "
+                                                class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
+                                                data-container="body" data-toggle="popover"
+                                                data-placement="top" data-content="Eliminar">
+                                             <i class="fas fa-times"></i>
+                                             </a>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                           <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <!-- /.content -->
+         </div>
+         <!-- /.content-wrapper -->
+         <div th:insert="navegacion-footer"></div>
+      </div>
+      <!-- ./wrapper -->
+      <div th:replace="navegacion-scripts"></div>
+      <script src="/dist/js/bootstrap-select.min.js"></script>
+      <!-- SweetAlert -->
+      <script th:src="@{/dist/js/sweetalert.js}"></script>
+      <script th:src="@{/dist/js/agregarFalda.js}"></script>
+      <script>
+         $("#iComercial").removeClass("text-altima");
+         $("#menuComercial").addClass("menu-open");
+         $("#navComercial").addClass("active-altima");
+         $("#menuVenta").addClass("menu-open");
+         $("#navVenta").addClass("active");
+         $("#navVenta4").addClass("active");
+         $("#menuCarga").addClass("menu-open");
+         $("#navsubVenta2").addClass("active");
+      </script>
+      <script th:if="${icon != null}" th:inline="javascript">
+         Swal.fire({
+            	  position: 'center',
+                  icon: /*[[${icon}]]*/,
+                  title: /*[[${title}]]*/,
+                  showConfirmButton: false,
+                  timer: 1250
+            });
+      </script>
+      <div class="modal fade" id="baja" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+               <div class="modal-body">
+                  <button type="button" class="close" data-dismiss="modal"
+                     aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                  Deseas eliminar?
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-danger mr-auto"
+                     data-dismiss="modal">Cancelar</button>
+                  <a id="btnDelteYes" class="btn btn-primary">Confirmar</a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script>
+         $(".btn-delete").on("click", function (e) {
+             e.preventDefault();
+             var href = $(this).attr("href");
+             $("#baja #btnDelteYes").attr("href", href);
+             $("#baja").modal();
+         });
+      </script>
+      <div class="modal fade" id="detalles" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-lg"
+            role="document">
+            <div class="modal-content" id="contenedorTablaContador">
+               <div class="modal-body">
+                  <h1>Detalles</h1>
+                  <div class="tab-content">
+                     <div class="modal-body" id="quitarDetalles">
+                        <table class="table table-bordered" id="idtableDetalle"
+                           style="width: 100%;"></table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="modal fade" id="baja" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+               <div class="modal-body">
+                  <button type="button" class="close" data-dismiss="modal"
+                     aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                  Deseas eliminar?
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-danger mr-auto"
+                     data-dismiss="modal">Cancelar</button>
+                  <a id="btnDelteYes" class="btn btn-primary">Confirmar</a>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

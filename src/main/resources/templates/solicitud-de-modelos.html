@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Solicitud de modelos | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_MODELOS_AGREGAR','ROLE_ADMINISTRADOR')">
+                                Solicitud de modelos&nbsp;
+                                <button data-toggle="modal" data-target="#nuevaSolicitudModelo" id="nuevaSolicitud"
+                                    class="btn btn-sm icon-btn btn-altima text-white"><span
+                                        class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nueva
+                                    solicitud</button>
+                            </h1>
+                        </div>
+                        <div th:insert="solicitud-de-modelos-nuevo"></div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">Muestrario</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de solicitudes</h3>
+                                </div>
+                                <div class="card-body">
+                                    
+                                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <!-- <th>Folio</th> -->
+                                                <th>Fecha solicitud</th>
+                                                <th th:if="${auth}==''">Agente de ventas</th>
+                                                <th>Cliente</th>
+                                                <th>Fecha y hora cita</th>
+                                                <th>Hora salida Altima</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each=" solicitud: ${solicitudes}">
+                                                <!-- <td th:text="${solicitud.idText}"></td> -->
+                                                <td th:text="${solicitud.fechaCreacion}">02/08/2020 04:16 P.M.</td>
+                                                <td th:if="${auth}==''" th:text="${solicitud.nombreAgente}">Juanito Perez</td>
+                                                <td th:text="${solicitud.nombreCliente}">DTI Consultores</td>
+                                                <td th:text="${solicitud.fechaCita}">14/05/2020 09:00 A.M.</td>
+                                                <td th:text="${solicitud.horaSalidaAltima}">14/05/2020 07:00 A.M.</td>
+                                                <td th:text="${solicitud.estatus}">En espera</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-info btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Detalles"
+                                                        data-toggle="modal" data-target="#detalleModelo"
+                                                        id="verDetalleModelo" th:attr="onclick=|verDetallePedidoModelo('${solicitud.idSolicitudModelo}')|">
+                                                        <i class="fas fa-info"></i>
+                                                    </button>
+                                                    <button sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_MODELOS_EDITAR','ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#asignarModelo"
+                                                        class="btn btn-primary btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Asignar modelo"
+                                                        th:disabled="${solicitud.estatus}!='En espera'?true:false"
+                                                        th:attr="onclick=|asignarModelos('${solicitud.idSolicitudModelo}')|" >
+                                                        <i class="fas fa-address-book"></i>
+                                                    </button>
+                                                    <button sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_MODELOS_ACEPTAR','ROLE_ADMINISTRADOR')" th:attr="onclick=|aceptarSolicitud('${solicitud.idSolicitudModelo}','Aceptar')|"
+                                                        class="btn btn-success btn-sm btn-circle popoverxd"
+                                                        th:disabled="${solicitud.estatus}!='En espera'?true:false"
+                                                        data-placement="top" data-content="Aceptar">
+                                                        <i class="fas fa-user-check"></i>
+                                                    </button>
+                                                    <button sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_MODELOS_CANCELAR','ROLE_ADMINISTRADOR')" th:attr="onclick=|aceptarSolicitud('${solicitud.idSolicitudModelo}','Rechazar')|"
+                                                    class="btn btn-danger btn-sm btn-circle popoverxd"
+                                                    th:disabled="${solicitud.estatus}!='En espera'?true:false"
+                                                    data-placement="top" data-content="Cancelar">
+                                                    <i class="fas fa-user-check"></i>
+                                                </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-footer-->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/tablaListarModelos.js"></script>
+    <script src="/dist/js/solicitudModelos.js"></script>
+    <script>
+        $("#iComercial").removeClass("text-altima");
+        $("#menuComercial").addClass("menu-open");
+        $("#navComercial").addClass("active-altima");
+        $("#menuMuestrario").addClass("menu-open");
+        $("#navMuestrario").addClass("active");
+        $("#navMueSol").addClass("active");
+    </script>
+</body>
+
+</html>

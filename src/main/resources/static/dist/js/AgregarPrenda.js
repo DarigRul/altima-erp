@@ -1,33 +1,33 @@
-$(document).ready(function () {	
-	
+$(document).ready(function () {
+
 	//Validacion para que no se repita el nombre de la prenda
-	$( "#DescripcionPrenda" ).keyup(function(key) {
-		  $.ajax({
-				type: "GET",
-				url: "/validacion_descripcion_prenda",
-				data: { valor: this.value },
-				success: (data) => {
-console.log($('#NombreOriginalPrenda').val());
-					if($('#NombreOriginalPrenda').val() == this.value){
-						//
-					}
-					else{
-						  if(data){
-							  $('#WarningNombrePrenda').css("display", "none");
-							  BanderaDescripcionRepetida = true;
-						  }
-						  else{
-							  $('#WarningNombrePrenda').css("display", "inline");
-							  BanderaDescripcionRepetida = false;
-						  }
-					}
-				},
-				error: (e) => {
-					console.log(e);
+	$("#DescripcionPrenda").keyup(function (key) {
+		$.ajax({
+			type: "GET",
+			url: "/validacion_descripcion_prenda",
+			data: { valor: this.value },
+			success: (data) => {
+				console.log($('#NombreOriginalPrenda').val());
+				if ($('#NombreOriginalPrenda').val() == this.value) {
+					//
 				}
-			});
+				else {
+					if (data) {
+						$('#WarningNombrePrenda').css("display", "none");
+						BanderaDescripcionRepetida = true;
+					}
+					else {
+						$('#WarningNombrePrenda').css("display", "inline");
+						BanderaDescripcionRepetida = false;
+					}
+				}
+			},
+			error: (e) => {
+				console.log(e);
+			}
+		});
 	});
-	
+
 	$("#file").change(function () {
 		var $this = $(this), $clone = $this.clone();
 		$this.after($clone).appendTo($('#ContenedorFrente'));
@@ -136,7 +136,7 @@ function AgregarElementoListaMateriales() {
 				var identidad = id + '_' + data[0][1];
 				var temp = {
 					identidad: identidad, id: data[0][0], NoMaterial: data[0][1], Nombre: data[0][2], Clasificacion: data[0][3], Tamanio: data[0][5] + ' ' + data[0][4],
-					Modelo: data[0][6], Proceso: data[0][7], cantidad: 1
+					Modelo: data[0][6], Proceso: data[0][7], cantidad: 1, cantidadRepuesto: 0
 				};
 				objeto_materiales.push(temp);
 				console.log(temp);
@@ -171,31 +171,47 @@ function CambiarCantidadMaterial(identidad) {
 
 	objeto_materiales[CambiarCantidad].cantidad = 0;
 	objeto_materiales[CambiarCantidad].cantidad = cantidad;
-	if(cantidad<=0){
+	if (cantidad <= 0) {
 		Swal.fire({
 			icon: 'error',
 			title: 'Error',
 			text: 'La cantidad debe de ser mayor a 0!'
-		  })
+		})
 		objeto_materiales[CambiarCantidad].cantidad = 1;
-		document.getElementById('CantidadMaterial-' + identidad).value=1;
+		document.getElementById('CantidadMaterial-' + identidad).value = 1;
 	}
 	console.log(objeto_materiales[CambiarCantidad]);
+}
+function CambiarCantidadMaterialR(identidad) {
+	var cantidad = $('#CantidadMaterialR-' + identidad).val();
+	var CambiarCantidad = objeto_materiales.map(function (item) { return item.identidad; }).indexOf(identidad);
+
+	objeto_materiales[CambiarCantidad].cantidadRepuesto = 0;
+	objeto_materiales[CambiarCantidad].cantidadRepuesto = cantidad;
+	if (cantidad < 0) {
+		Swal.fire({
+			icon: 'error',
+			title: 'Error',
+			text: 'La cantidad debe de ser mayor o igual a 0!'
+		})
+		objeto_materiales[CambiarCantidad].cantidadRepuesto = 1;
+		document.getElementById('CantidadMaterialR-' + identidad).value = 1;
+	}
+	console.log(objeto_materiales);
 }
 
 
 function Guardar() {
-	
+
 	$('#ElDeGuardar').remove();
 	$('#Guardando').css('display', 'block');
-	
+
 	RecogerDatosPrimeraParte();
 	RecogerDatosSegundaParte();
 	var token = $('#token').val();
 	var header = $('#token').val();
-	
-	if(accion == "editar")
-	{
+
+	if (accion == "editar") {
 		//Solicitud Ajax
 		$.ajax({
 			type: "POST",
@@ -218,7 +234,7 @@ function Guardar() {
 						"objeto_marcadores": RecogerDatosTerceraParte(),
 						"clientes": JSON.stringify($('#ClientePrenda').val()),
 						"accion": accion,
-						"idPrenda" : data
+						"idPrenda": data
 					},
 					success: (data) => {
 						$('#BotonBloquearGuardar').prop('disabled', false);
@@ -232,11 +248,10 @@ function Guardar() {
 			failure: function (errMsg) {
 				alert(errMsg);
 			}
-		});	
+		});
 	}
-	
-	if(accion == "agregar")
-	{
+
+	if (accion == "agregar") {
 		//Solicitud Ajax
 		$.ajax({
 			type: "POST",
@@ -258,7 +273,7 @@ function Guardar() {
 						"objeto_marcadores": RecogerDatosTerceraParte(),
 						"clientes": JSON.stringify($('#ClientePrenda').val()),
 						"accion": $('#accionPag').val(),
-						"idPrenda" : data
+						"idPrenda": data
 					},
 					success: (data) => {
 						$('#BotonBloquearGuardar').prop('disabled', false);
@@ -274,11 +289,10 @@ function Guardar() {
 			failure: function (errMsg) {
 				alert(errMsg);
 			}
-		});	
+		});
 	}
-	
-	if(accion == "copiar")
-	{
+
+	if (accion == "copiar") {
 		console.log(objeto_prenda);
 		//Solicitud Ajax
 		$.ajax({
@@ -301,7 +315,7 @@ function Guardar() {
 						"objeto_marcadores": RecogerDatosTerceraParte(),
 						"clientes": JSON.stringify($('#ClientePrenda').val()),
 						"accion": accion,
-						"idPrenda" : data
+						"idPrenda": data
 					},
 					success: (data) => {
 						$('#BotonBloquearGuardar').prop('disabled', false);
@@ -315,104 +329,103 @@ function Guardar() {
 			failure: function (errMsg) {
 				alert(errMsg);
 			}
-		});	
+		});
 	}
 }
 //Esta valida que los campos esten llenos dentro de la primer pestaña
 function ValidarPrimerPestana() {
-	if ($('#DescripcionPrenda').val() != "" && $('#DetallePrenda').val() != "" && $('#GeneroPrenda').val() != "" 
-		&& $('#file-input-1').val() != "" && $('#file-input-2').val() != "" && BanderaDescripcionRepetida) 
-	{	
+	if ($('#DescripcionPrenda').val() != "" && $('#DetallePrenda').val() != "" && $('#GeneroPrenda').val() != ""
+		&& $('#file-input-1').val() != "" && $('#file-input-2').val() != "" && BanderaDescripcionRepetida) {
 		var nombres = [];
 		var idContenedores = [];
 		var bandera = true;
 		var banderaImagenes = true;
-		
+
 		//Validacion de los nombres de imagen
-		if(accion == "editar"){
+		if (accion == "editar") {
 			//Se obtienen los divs visibles
-			for(var i = 1; i < 7; i++){
-				if( $('#Contenedor-' + i).css('display') == 'block' ){
+			for (var i = 1; i < 7; i++) {
+				if ($('#Contenedor-' + i).css('display') == 'block') {
 					nombres[i] = $('#name-edit-' + i).val();
 					idContenedores[i] = i;
 				}
 			}
 		}
-		else{
+		else {
 			//Se obtienen los divs visibles
-			for(var i = 1; i < 7; i++){
-				if( $('#Contenedor-' + i).css('display') == 'block' ){
+			for (var i = 1; i < 7; i++) {
+				if ($('#Contenedor-' + i).css('display') == 'block') {
 					nombres[i] = $('#name-' + i).val();
 					idContenedores[i] = i;
 				}
 			}
 		}
-		
+
 		//Se ordena el array
 		nombres = nombres.filter(item => item);
-		
+
 		//Se recorren los que estan visibles y si coincide alguno, se pone falso
-		for(j = 1; j < ((nombres.length) + 1); j++){
-			for(h = 1; h < ((nombres.length) + 1); h++){
-				if(nombres[j] == nombres[h] && j != h){
+		for (j = 1; j < ((nombres.length) + 1); j++) {
+			for (h = 1; h < ((nombres.length) + 1); h++) {
+				if (nombres[j] == nombres[h] && j != h) {
 					bandera = false;
 					console.log("aqui");
 				}
 			}
 		}
-		
+
 		//Se recorren los contenedores visibles, si no tienen imganes se ponen falso
-		if(accion == "editar"){
-			for(k = 1; k < idContenedores.length; k++){
-				if($("#img-edit-" + k).attr('src') == "/dist/img/preview.png" && k != 1 && k != 2){
-					banderaImagenes = false;
-					console.log("esta vacia la: " + k);
-				}
-			}	
-		}
-		else{
-			for(k = 1; k < idContenedores.length; k++){
-				if($("#img-" + k).attr('src') == "/dist/img/preview.png" && k != 1 && k != 2){
+		if (accion == "editar") {
+			for (k = 1; k < idContenedores.length; k++) {
+				if ($("#img-edit-" + k).attr('src') == "/dist/img/preview.png" && k != 1 && k != 2) {
 					banderaImagenes = false;
 					console.log("esta vacia la: " + k);
 				}
 			}
 		}
-		
+		else {
+			for (k = 1; k < idContenedores.length; k++) {
+				if ($("#img-" + k).attr('src') == "/dist/img/preview.png" && k != 1 && k != 2) {
+					banderaImagenes = false;
+					console.log("esta vacia la: " + k);
+				}
+			}
+		}
+
 		//Se recorren los contenedores visibles, si no tienen nombre las imagenes se ponen falso
-		if(accion == "editar"){
-			for(k = 1; k < idContenedores.length; k++){
-				if($('#name-edit-' + k).val() == "" && k != 1 && k != 2){
-					banderaImagenes = false;
-				}
-			}	
-		}
-		else{
-			for(k = 1; k < idContenedores.length; k++){
-				if($('#name-' + k).val() == "" && k != 1 && k != 2){
+		if (accion == "editar") {
+			for (k = 1; k < idContenedores.length; k++) {
+				if ($('#name-edit-' + k).val() == "" && k != 1 && k != 2) {
 					banderaImagenes = false;
 				}
 			}
 		}
-		
-		if(bandera){
-			if(banderaImagenes){
+		else {
+			for (k = 1; k < idContenedores.length; k++) {
+				if ($('#name-' + k).val() == "" && k != 1 && k != 2) {
+					banderaImagenes = false;
+				}
+			}
+		}
+
+		if (bandera) {
+			if (banderaImagenes) {
 				$('#SiguientePrimeraPestana').click();
 			}
-			else{
+			else {
 				Swal.fire({
 					icon: 'error',
 					title: 'Error',
 					text: 'Debes llenar todos los campos correctamente.!'
-				  })
+				})
 			}
 		}
-		else{
+		else {
 			Swal.fire({
 				icon: 'error',
 				title: 'Error',
 				text: 'Los nombres de las imagenes no se deben repetir.!'
-			  })
+			})
 		}
 	}
 	else {
@@ -420,13 +433,13 @@ function ValidarPrimerPestana() {
 			icon: 'error',
 			title: 'Error',
 			text: 'Debes llenar todos los campos correctamente.!'
-		  })
+		})
 	}
 }
 //Esto solo valida que los campos esten llenos dentro de la segunda pestaña
 function ValidarSegundaPestana() {
-	
-	var rowCount = $('#tablita tr').length;	
+
+	var rowCount = $('#tablita tr').length;
 	if ($('#DetalleConfeccion').val() != "" && rowCount > 0) {
 		$('#SiguienteSegundaPestana').click();
 	}
@@ -435,7 +448,7 @@ function ValidarSegundaPestana() {
 			icon: 'error',
 			title: 'Error',
 			text: 'Debes llenar todos los campos correctamente.'
-		  })
+		})
 	}
 }
 //Esto valida que la tercer pestana, de materiales, tenga al menos un material
@@ -446,85 +459,83 @@ function ValidarTerceraPestana() {
 			icon: 'error',
 			title: 'Error',
 			text: 'Debes agregar un material.'
-		  })
+		})
 	}
 	else {
-		
+
 		var HayTelaPrincipal = false;
-		
-		for(i = 0; i < objeto_materiales.length; i++){
-			if(objeto_materiales[i].Nombre == "Tela principal" || objeto_materiales[i].Nombre == "Tela Principal"){
+
+		for (i = 0; i < objeto_materiales.length; i++) {
+			if (objeto_materiales[i].Nombre == "Tela principal" || objeto_materiales[i].Nombre == "Tela Principal") {
 				HayTelaPrincipal = true;
 			}
 		}
-		
-		if(HayTelaPrincipal){
+
+		if (HayTelaPrincipal) {
 			$('#AlertaTerceraPestana').css('display', 'none');
 			$('#SiguienteTerceraPestana').click();
 			//AsignarID(id);	
 		}
-		else{
+		else {
 			Swal.fire({
 				icon: 'error',
 				title: 'Error',
 				text: 'Debes agregar una tela principal!'
-			  })
+			})
 		}
 	}
 }
 function ValidarCuartaPestana() {
-	var j=0;
-	var validacion=true;
+	var j = 0;
+	var validacion = true;
 	$('#CuerpoPatronaje tr').each(function () {
 		j++;
 	});
-	if (j== 0) {
+	if (j == 0) {
 		//$('#AlertaCuartaPestana').css('display', 'block');
 		Swal.fire({
 			icon: 'error',
 			title: 'Error',
 			text: 'Debes agregar un elemento.'
-		  })
+		})
 	}
 	else {
 		//Se deshabilita el boton
 		//$('#AlertaCuartaPestana').css('display', 'none');
 		$('#CuerpoPatronaje tr').each(function () {
-			if($('#CantidadTela'+$(this).find('td').eq(0).html()).val()=="" || $('#CantidadForro'+$(this).find('td').eq(0).html()).val()==""||$('#CantidadEntretela'+$(this).find('td').eq(0).html()).val()=="" || $('#CantidadTelaSecundaria'+$(this).find('td').eq(0).html()).val()=="" || $('#CantidadForroSecundario'+$(this).find('td').eq(0).html()).val()==""){
+			if ($('#CantidadTela' + $(this).find('td').eq(0).html()).val() == "" || $('#CantidadForro' + $(this).find('td').eq(0).html()).val() == "" || $('#CantidadEntretela' + $(this).find('td').eq(0).html()).val() == "" || $('#CantidadTelaSecundaria' + $(this).find('td').eq(0).html()).val() == "" || $('#CantidadForroSecundario' + $(this).find('td').eq(0).html()).val() == "") {
 				Swal.fire({
 					icon: 'error',
 					title: 'Error',
 					text: 'Todos los campos deben de estar llenos!'
-				  })
-				  
-						objeto_patronajes=[];
-						console.log("que pedo con esta pus "+objeto_patronajes);
-						validacion=false;
-						return true;
+				})
+
+				objeto_patronajes = [];
+				console.log("que pedo con esta pus " + objeto_patronajes);
+				validacion = false;
+				return true;
 			}
-			if($('#CantidadTela'+$(this).find('td').eq(0).html()).val()<0 || $('#CantidadForro'+$(this).find('td').eq(0).html()).val()<0 || $('#CantidadEntretela'+$(this).find('td').eq(0).html()).val()<0 || $('#CantidadTelaSecundaria'+$(this).find('td').eq(0).html()).val()<0 || $('#CantidadForroSecundario'+$(this).find('td').eq(0).html()).val()<0){
+			if ($('#CantidadTela' + $(this).find('td').eq(0).html()).val() < 0 || $('#CantidadForro' + $(this).find('td').eq(0).html()).val() < 0 || $('#CantidadEntretela' + $(this).find('td').eq(0).html()).val() < 0 || $('#CantidadTelaSecundaria' + $(this).find('td').eq(0).html()).val() < 0 || $('#CantidadForroSecundario' + $(this).find('td').eq(0).html()).val() < 0) {
 				Swal.fire({
 					icon: 'error',
 					title: 'Error',
 					text: 'No puede haber cantidades negativas!'
-				  })
-				  
-						objeto_patronajes=[];
-						console.log("que pedo con esta pus "+objeto_patronajes);
-						validacion=false;
-						return true;
+				})
+
+				objeto_patronajes = [];
+				console.log("que pedo con esta pus " + objeto_patronajes);
+				validacion = false;
+				return true;
 			}
-			if(validacion===true)
-			{
-				_id=$(this).find('td').eq(0).html();
-				var temp = {id: $(this).find('td').eq(0).html(), cantidadTela: $('#CantidadTela'+$(this).find('td').eq(0).html()).val(), cantidadForro: $('#CantidadForro'+$(this).find('td').eq(0).html()).val(), cantidadEntretela: $('#CantidadEntretela'+$(this).find('td').eq(0).html()).val(), cantidadTelaSecundaria: $('#CantidadTelaSecundaria'+$(this).find('td').eq(0).html()).val(), cantidadForroSecundario: $('#CantidadForroSecundario'+$(this).find('td').eq(0).html()).val()  };
+			if (validacion === true) {
+				_id = $(this).find('td').eq(0).html();
+				var temp = { id: $(this).find('td').eq(0).html(), cantidadTela: $('#CantidadTela' + $(this).find('td').eq(0).html()).val(), cantidadForro: $('#CantidadForro' + $(this).find('td').eq(0).html()).val(), cantidadEntretela: $('#CantidadEntretela' + $(this).find('td').eq(0).html()).val(), cantidadTelaSecundaria: $('#CantidadTelaSecundaria' + $(this).find('td').eq(0).html()).val(), cantidadForroSecundario: $('#CantidadForroSecundario' + $(this).find('td').eq(0).html()).val() };
 				objeto_patronajes.push(temp);
 			}
 		});
-		if(validacion===true)
-		{
+		if (validacion === true) {
 			$('#SiguienteCuartaPestana').click();
-			$('#BotonBloquearGuardar').prop('disabled', true);	
+			$('#BotonBloquearGuardar').prop('disabled', true);
 		}
 	}
 }
@@ -541,7 +552,7 @@ function ValidarCantidadesPatronaje() {
 			icon: 'error',
 			title: 'Error',
 			text: 'Debes agregar las cantidades.'
-		  })
+		})
 	}
 }
 //Cambios Uriel ***********************Marcadores
@@ -551,26 +562,26 @@ function guardarMarcador() {
 	var fila = "<tr><td style='display: none;'>" + _id + "</td><td>" + _text + "</td><td class='text-center'>" + '<button type="button" name="remove" id="' + _id + '"onclick="eliminarMarcador(this)" class="btn icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td></tr>';
 	var campo_id;
 	$('#tablita tr').each(function () {
-		if($(this).find('td').eq(0).html()!=null){
+		if ($(this).find('td').eq(0).html() != null) {
 			console.log("entra1");
-			if(campo_id==null){
-				campo_id=$(this).find('td').eq(0).html()
+			if (campo_id == null) {
+				campo_id = $(this).find('td').eq(0).html()
 			}
-			else{
-				campo_id=$(this).find('td').eq(0).html()+","+campo_id;
+			else {
+				campo_id = $(this).find('td').eq(0).html() + "," + campo_id;
 			}
 		}
 	});
-	if(campo_id!=null){
-		console.log("entra2 "+campo_id);
-		for(var j=0;j<=campo_id.split(",").length;j++){
-			if(_id==campo_id.split(",")[j]){
-				console.log("entra3 "+_id);
+	if (campo_id != null) {
+		console.log("entra2 " + campo_id);
+		for (var j = 0; j <= campo_id.split(",").length; j++) {
+			if (_id == campo_id.split(",")[j]) {
+				console.log("entra3 " + _id);
 				Swal.fire({
 					icon: 'error',
 					title: 'Error',
 					text: 'Ya has agregado ese marcador.'
-				  })
+				})
 				return false;
 			}
 		}
@@ -588,37 +599,37 @@ function eliminarMarcador(t) {
 function guardarPatronaje() {
 	var _id = document.getElementById("ListaPatronaje").value;
 	var _text = document.getElementById("ListaPatronaje").options[document.getElementById("ListaPatronaje").selectedIndex].text;
-	var fila = "<tr><td style='display: none;'>" +_id + "</td>"+
-		"<td>" + _text + "</td>"+
-		"<td>" + '<input type="number" class="form-control" min="0" placeholder="10" value="0" id="CantidadTela'+_id+'">' + "</td>"+
-		"<td>" + '<input type="number" class="form-control" min="0" placeholder="10" value="0" id="CantidadTelaSecundaria'+_id+'">' + "</td>"+
-		"<td>" + '<input type="number" class="form-control" min="0" placeholder="10" value="0" id="CantidadForro'+_id+'">' + "</td>"+
-		"<td>" + '<input type="number" class="form-control" min="0" placeholder="10" value="0" id="CantidadForroSecundario'+_id+'">' + "</td>"+
-		"<td>" + '<input type="number" class="form-control" min="0" placeholder="10" value="0" id="CantidadEntretela'+_id+'">' + "</td>"+
-		"<td class='tdcenter'>" +'<button type="button" name="remove" id="' +_id + '"onclick="eliminarPatronaje(this)" class="btn icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>'+
+	var fila = "<tr><td style='display: none;'>" + _id + "</td>" +
+		"<td>" + _text + "</td>" +
+		"<td>" + '<input type="number" class="form-control" min="0" placeholder="10" value="0" id="CantidadTela' + _id + '">' + "</td>" +
+		"<td>" + '<input type="number" class="form-control" min="0" placeholder="10" value="0" id="CantidadTelaSecundaria' + _id + '">' + "</td>" +
+		"<td>" + '<input type="number" class="form-control" min="0" placeholder="10" value="0" id="CantidadForro' + _id + '">' + "</td>" +
+		"<td>" + '<input type="number" class="form-control" min="0" placeholder="10" value="0" id="CantidadForroSecundario' + _id + '">' + "</td>" +
+		"<td>" + '<input type="number" class="form-control" min="0" placeholder="10" value="0" id="CantidadEntretela' + _id + '">' + "</td>" +
+		"<td class='tdcenter'>" + '<button type="button" name="remove" id="' + _id + '"onclick="eliminarPatronaje(this)" class="btn icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>' +
 		'</tr>';
 	var campo_id;
 	$('#CuerpoPatronaje tr').each(function () {
-		if($(this).find('td').eq(0).html()!=null){
+		if ($(this).find('td').eq(0).html() != null) {
 			console.log("entra1");
-			if(campo_id==null){
-				campo_id=$(this).find('td').eq(0).html()
+			if (campo_id == null) {
+				campo_id = $(this).find('td').eq(0).html()
 			}
-			else{
-				campo_id=$(this).find('td').eq(0).html()+","+campo_id;
+			else {
+				campo_id = $(this).find('td').eq(0).html() + "," + campo_id;
 			}
 		}
 	});
-	if(campo_id!=null){
-		console.log("entra2 "+campo_id);
-		for(var j=0;j<=campo_id.split(",").length;j++){
-			if(_id==campo_id.split(",")[j]){
-				console.log("entra3 "+_id);
+	if (campo_id != null) {
+		console.log("entra2 " + campo_id);
+		for (var j = 0; j <= campo_id.split(",").length; j++) {
+			if (_id == campo_id.split(",")[j]) {
+				console.log("entra3 " + _id);
 				Swal.fire({
 					icon: 'error',
 					title: 'Error',
 					text: 'Ya has agregado ese elemento.'
-				  })
+				})
 				return false;
 			}
 		}
@@ -635,8 +646,8 @@ function eliminarPatronaje(t) {
 }
 
 
-function ReloadList(){
-	
+function ReloadList() {
+
 	$('#BotonRecargaListas').html("cargando awanta...");
 	//Se rescatan valores de los selects actuales si es que los tienen
 	var TipoPrenda = $('#TipoPrenda').val();
@@ -645,7 +656,7 @@ function ReloadList(){
 	var MarcadorPrenda = $('#marcador_').val();
 	var MaterialesPrenda = $('#ListaDeMateriales').val();
 	var PatronajePrenda = $('#ListaPatronaje').val();
-	
+
 	//Se limpian los select 
 	var SelectTipoPrenda = $('#TipoPrenda');
 	SelectTipoPrenda.selectpicker('val', '');
@@ -665,7 +676,7 @@ function ReloadList(){
 	var SelectListaPatronaje = $('#ListaPatronaje');
 	SelectListaPatronaje.selectpicker('val', '');
 	SelectListaPatronaje.find('option').remove();
-	
+
 	//Se obtienen las nuevas listas
 	$.ajax({
 		type: "GET",
@@ -673,58 +684,58 @@ function ReloadList(){
 		data: {
 			"_csrf": $('#token').val()
 		},
-		success: (res) => {			
-			
+		success: (res) => {
+
 			//Select de Prenda
-			for(i = 0; i < res[0].length; i++){
+			for (i = 0; i < res[0].length; i++) {
 				SelectTipoPrenda.append("<option value='" + res[0][i][0] + "'>" + res[0][i][1] + "</option>");
 			}
 			SelectTipoPrenda.val(TipoPrenda);
 			SelectTipoPrenda.selectpicker("refresh");
-			
+
 			//Select de Genero
-			for(i = 0; i < res[1].length; i++){
+			for (i = 0; i < res[1].length; i++) {
 				SelectGeneroPrenda.append("<option value='" + res[1][i].idLookup + "'>" + res[1][i].nombreLookup + "</option>");
 			}
 			SelectGeneroPrenda.val(GeneroPrenda);
 			SelectGeneroPrenda.selectpicker("refresh");
-			
+
 			//Select de Cliente
-			for(i = 0; i < res[2].length; i++){
+			for (i = 0; i < res[2].length; i++) {
 				SelectClientePrenda.append("<option value='" + res[2][i].idCliente + "'>" + res[2][i].nombre + "</option>");
 			}
 			SelectClientePrenda.append("<option value='0'>Cliente General</option>");
 			SelectClientePrenda.val(ClientePrenda);
 			SelectClientePrenda.selectpicker("refresh");
-			
+
 			//Select de Marcadores
-			for(i = 0; i < res[3].length; i++){
+			for (i = 0; i < res[3].length; i++) {
 				Selectmarcador_.append("<option value='" + res[3][i].idLookup + "'>" + res[3][i].nombreLookup + "</option>");
 			}
 			Selectmarcador_.val(MarcadorPrenda);
 			Selectmarcador_.selectpicker("refresh");
-			
+
 			//Select de Materiales
-			for(i = 0; i < res[4].length; i++){
+			for (i = 0; i < res[4].length; i++) {
 				SelectListaDeMateriales.append("<option value='" + res[4][i][0] + "'>" + res[4][i][1] + "</option>");
 			}
 			SelectListaDeMateriales.val(MaterialesPrenda);
 			SelectListaDeMateriales.selectpicker("refresh");
-			
+
 			//Select de Patronajes
-			for(i = 0; i < res[5].length; i++){
+			for (i = 0; i < res[5].length; i++) {
 				SelectListaPatronaje.append("<option value='" + res[5][i][0] + "'>" + res[5][i][2] + "</option>");
 			}
 			SelectListaPatronaje.val(PatronajePrenda);
 			SelectListaPatronaje.selectpicker("refresh");
-			
+
 			$('#BotonRecargaListas').html("Reload again");
 		},
 		failure: function (errMsg) {
 			alert(errMsg);
 		}
 	});
-	
+
 	//Se actualizan las listas con  refresh
 	$('#GeneroPrenda').selectpicker("refresh");
 	$('#ClientePrenda').selectpicker("refresh");
@@ -786,150 +797,132 @@ function ReloadList(){
 *
 ***/
 
-function AgregarImagen()
-{
-	for(var i = 1; i < 7; i++)
-	{
-		if( $('#Contenedor-' + i).css('display') == 'none' )
-		{
+function AgregarImagen() {
+	for (var i = 1; i < 7; i++) {
+		if ($('#Contenedor-' + i).css('display') == 'none') {
 			$('#Contenedor-' + i).css('display', 'block');
 			break;
 		}
-		else
-		{
+		else {
 			console.log("ya esta visible");
 		}
 	}
-	
-	if($('#Contenedor-1').css('display') == 'block' && $('#Contenedor-2').css('display') == 'block' && $('#Contenedor-3').css('display') == 'block'
-		&& $('#Contenedor-4').css('display') == 'block' && $('#Contenedor-5').css('display') == 'block' && $('#Contenedor-6').css('display') == 'block')
-	{
+
+	if ($('#Contenedor-1').css('display') == 'block' && $('#Contenedor-2').css('display') == 'block' && $('#Contenedor-3').css('display') == 'block'
+		&& $('#Contenedor-4').css('display') == 'block' && $('#Contenedor-5').css('display') == 'block' && $('#Contenedor-6').css('display') == 'block') {
 		$('#ContenedorBotonAgregarOtro').hide();
 	}
 }
 
-function AgregarImagenEditar()
-{
-	for(var i = 1; i < 7; i++)
-	{
-		if( $('#Contenedor-' + i).css('display') == 'none' )
-		{
+function AgregarImagenEditar() {
+	for (var i = 1; i < 7; i++) {
+		if ($('#Contenedor-' + i).css('display') == 'none') {
 			$('#Contenedor-' + i).css('display', 'block');
 			break;
 		}
-		else
-		{
+		else {
 			console.log("ya esta visible");
 		}
 	}
-	
-	if($('#Contenedor-1').css('display') == 'block' && $('#Contenedor-2').css('display') == 'block' && $('#Contenedor-3').css('display') == 'block'
-		&& $('#Contenedor-4').css('display') == 'block' && $('#Contenedor-5').css('display') == 'block' && $('#Contenedor-6').css('display') == 'block')
-	{
+
+	if ($('#Contenedor-1').css('display') == 'block' && $('#Contenedor-2').css('display') == 'block' && $('#Contenedor-3').css('display') == 'block'
+		&& $('#Contenedor-4').css('display') == 'block' && $('#Contenedor-5').css('display') == 'block' && $('#Contenedor-6').css('display') == 'block') {
 		$('#ContenedorBotonAgregarOtro').hide();
 	}
 }
 
-function QuitarImagenEdit(id)
-{
+function QuitarImagenEdit(id) {
 	$('#Contenedor-' + id).hide();
 	$('#status-input-edit-' + id).val("delete");
 	$('#name-edit-' + id).val('');
 	$('#file-input-edit-' + id).val('');
-	
+
 	//Se quita la previsualizacion de la imagen
 	$('#img-edit-' + id).remove();
 	$('#contenedor-imagen-' + id).append("<img class='card-img-top' id='img-edit-" + id + "'  src='/dist/img/preview.png' style='max-width: 289px !important; max-height: 289px !important; width: auto !important; height: auto !important;'>");
-	
-	if($('#Contenedor-1').css('display') == 'block' && $('#Contenedor-2').css('display') == 'block' && $('#Contenedor-3').css('display') == 'block'
-		&& $('#Contenedor-4').css('display') == 'block' && $('#Contenedor-5').css('display') == 'block' && $('#Contenedor-6').css('display') == 'block')
-	{
+
+	if ($('#Contenedor-1').css('display') == 'block' && $('#Contenedor-2').css('display') == 'block' && $('#Contenedor-3').css('display') == 'block'
+		&& $('#Contenedor-4').css('display') == 'block' && $('#Contenedor-5').css('display') == 'block' && $('#Contenedor-6').css('display') == 'block') {
 		$('#ContenedorBotonAgregarOtro').hide();
 	}
-	else
-	{
+	else {
 		$('#ContenedorBotonAgregarOtro').show();
 	}
 }
 
-function QuitarImagen(id)
-{
+function QuitarImagen(id) {
 	$('#Contenido-' + id).remove();
 
 	$('#Contenedor-' + id).hide();
 
-	$('#Contenedor-' + id).append("<div class='card' style='width: 18rem;' id='Contenido-" + id + "'>" +   																					
-										"<div class='image-upload-" + id + "'>" + 
-	  										"<label for='file-input-" + id + "'>" +  
-	  											"<img class='card-img-top' id='img-" + id + "' src='/dist/img/preview.png'>" +  
-	  										"</label>" +  
-	  										"<input id='file-input-" + id + "' name='file-input-" + id +"' onchange='PreviewImage(this, " + id + ");' type='file' style='display:none'/>" + 
-	  									"</div>" +
-										"<div class='card-body'>" +  
-											"<p class='card-text'><input type='text' id='name-" + id + "' name='name-" + id + "' class='form-control' placeholder='Nombre de Imagen'></p>" +  																							
-											"<button class='btn btn-danger' onclick='QuitarImagen(" + id + ")'>Eliminar</button>" + 
-										"</div>" +  
-									"</div>");
-	
-	if($('#Contenedor-1').css('display') == 'block' && $('#Contenedor-2').css('display') == 'block' && $('#Contenedor-3').css('display') == 'block'
-		&& $('#Contenedor-4').css('display') == 'block' && $('#Contenedor-5').css('display') == 'block' && $('#Contenedor-6').css('display') == 'block')
-	{
+	$('#Contenedor-' + id).append("<div class='card' style='width: 18rem;' id='Contenido-" + id + "'>" +
+		"<div class='image-upload-" + id + "'>" +
+		"<label for='file-input-" + id + "'>" +
+		"<img class='card-img-top' id='img-" + id + "' src='/dist/img/preview.png'>" +
+		"</label>" +
+		"<input id='file-input-" + id + "' name='file-input-" + id + "' onchange='PreviewImage(this, " + id + ");' type='file' style='display:none'/>" +
+		"</div>" +
+		"<div class='card-body'>" +
+		"<p class='card-text'><input type='text' id='name-" + id + "' name='name-" + id + "' class='form-control' placeholder='Nombre de Imagen'></p>" +
+		"<button class='btn btn-danger' onclick='QuitarImagen(" + id + ")'>Eliminar</button>" +
+		"</div>" +
+		"</div>");
+
+	if ($('#Contenedor-1').css('display') == 'block' && $('#Contenedor-2').css('display') == 'block' && $('#Contenedor-3').css('display') == 'block'
+		&& $('#Contenedor-4').css('display') == 'block' && $('#Contenedor-5').css('display') == 'block' && $('#Contenedor-6').css('display') == 'block') {
 		$('#ContenedorBotonAgregarOtro').hide();
 	}
-	else
-	{
+	else {
 		$('#ContenedorBotonAgregarOtro').show();
 	}
 
 }
 
-function PreviewImage(input, id)
-{
+function PreviewImage(input, id) {
 	var nombre = input.value;
 	if (/\s/.test(nombre.substring(12))) {
-		 Swal.fire({
-				icon: 'error',
-				title: 'Error',
-				text: 'Por seguridad, no deben haber espacios en las imagenes que subas'
-			  })
+		Swal.fire({
+			icon: 'error',
+			title: 'Error',
+			text: 'Por seguridad, no deben haber espacios en las imagenes que subas'
+		})
 	}
-	else{
-		 if (input.files && input.files[0]) {
-			    var reader = new FileReader();
-	
-			    reader.onload = function(e) {
-			      $('#img-' + id).attr('src', e.target.result);
-			    }
-	
-			 reader.readAsDataURL(input.files[0]); 
-		 }
+	else {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function (e) {
+				$('#img-' + id).attr('src', e.target.result);
+			}
+
+			reader.readAsDataURL(input.files[0]);
+		}
 	}
-		 
+
 }
 
-function PreviewImageEdit(input, id)
-{
+function PreviewImageEdit(input, id) {
 	var nombre = input.value;
 	if (/\s/.test(nombre.substring(12))) {
-		 Swal.fire({
-				icon: 'error',
-				title: 'Error',
-				text: 'Por seguridad, no deben haber espacios en las imagenes que subas'
-			  })
+		Swal.fire({
+			icon: 'error',
+			title: 'Error',
+			text: 'Por seguridad, no deben haber espacios en las imagenes que subas'
+		})
 	}
-	else{
-		
+	else {
+
 		$('#status-input-edit-' + id).val("Alter");
-		
-		 if (input.files && input.files[0]) {
-			    var reader = new FileReader();
-	
-			    reader.onload = function(e) {
-			      $('#img-edit-' + id).attr('src', e.target.result);
-			    }
-	
-			 reader.readAsDataURL(input.files[0]); 
-		 }
+
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function (e) {
+				$('#img-edit-' + id).attr('src', e.target.result);
+			}
+
+			reader.readAsDataURL(input.files[0]);
+		}
 	}
 }
 
@@ -971,82 +964,82 @@ function LimpiarInput2() {
 }
 var id_material_prenda;
 
-function getMaterialesByTipo(idTipoMaterial,idMaterial,idMaterialPrenda){
+function getMaterialesByTipo(idTipoMaterial, idMaterial, idMaterialPrenda) {
 	Swal.fire({
 		title: 'Cargando',
 		allowEscapeKey: false,
 		allowOutsideClick: false,
 		onOpen: () => {
-		Swal.showLoading();
+			Swal.showLoading();
 		}
-	  })
+	})
 	console.log("si entra nmz");
 	tableMaterialExtra.rows().remove().draw();
-	id_material_prenda=idMaterialPrenda;
+	id_material_prenda = idMaterialPrenda;
 	$('#_materiales option').remove();
-	$('#_materiales').selectpicker('refresh'); 
-    $.ajax({
-        method: "GET",
-           url: "/getMaterialesByTipo",
-           
-           data: {
+	$('#_materiales').selectpicker('refresh');
+	$.ajax({
+		method: "GET",
+		url: "/getMaterialesByTipo",
 
-			   "_csrf": $('#token').val(),
-			   "idTipoMaterial": idTipoMaterial,
-			   "idMaterial": idMaterial
-           },
-           success: (data) => {
+		data: {
+
+			"_csrf": $('#token').val(),
+			"idTipoMaterial": idTipoMaterial,
+			"idMaterial": idMaterial
+		},
+		success: (data) => {
 			tableMaterialExtra.rows().remove().draw();
-				for(i in data){
-					$("#_materiales").append("<option value='"+data[i][0]+"'>"+data[i][1]+"</option>")
-				}
-				$('#_materiales').selectpicker('refresh'); 
-				//Swal.close();
-           },
-          
-           error: (e) => {
+			for (i in data) {
+				$("#_materiales").append("<option value='" + data[i][0] + "'>" + data[i][1] + "</option>")
+			}
+			$('#_materiales').selectpicker('refresh');
+			//Swal.close();
+		},
+
+		error: (e) => {
 			alert("error alv");
 			//Swal.close();
-           }
-	   });
+		}
+	});
 
-	   $.ajax({
-        method: "GET",
-           url: "/getMaterialesExtra",
-           
-           data: {
-			   "_csrf": $('#token').val(),
-			   "idMaterialPrenda": idMaterialPrenda
-           },
-           success: (data) => {
+	$.ajax({
+		method: "GET",
+		url: "/getMaterialesExtra",
+
+		data: {
+			"_csrf": $('#token').val(),
+			"idMaterialPrenda": idMaterialPrenda
+		},
+		success: (data) => {
 			tableMaterialExtra.rows().remove().draw();
-			for(i in data){
-				tableMaterialExtra.row.add( [
+			for (i in data) {
+				tableMaterialExtra.row.add([
 					data[i][0],
 					data[i][1],
 					data[i][2],
-					"<button type='button' onclick='eliminarMaterialExtra("+data[i][3]+")' class='btn icon-btn btn-danger text-white btn_remove'><span class='btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button>"
-				] ).draw( false );
+					"<button type='button' onclick='eliminarMaterialExtra(" + data[i][3] + ")' class='btn icon-btn btn-danger text-white btn_remove'><span class='btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button>"
+				]).draw(false);
 			}
 			Swal.close();
-           },
-          
-           error: (e) => {
+		},
+
+		error: (e) => {
 			alert("error alv");
 			Swal.close();
-           }
-	   });
-	}
+		}
+	});
+}
 
-$("#agregar_material_extra").click(function(){
+$("#agregar_material_extra").click(function () {
 	Swal.fire({
 		title: 'Cargando!',
 		onBeforeOpen: () => {
-		  Swal.showLoading()
+			Swal.showLoading()
 		},
-	  })
-	
-	var id_material=document.getElementById("_materiales").value
+	})
+
+	var id_material = document.getElementById("_materiales").value
 	console.log();
 	$.ajax({
 		type: "POST",
@@ -1054,17 +1047,17 @@ $("#agregar_material_extra").click(function(){
 		data: {
 			"_csrf": $('#token').val(),
 			"id_material": id_material,
-			"id_material_prenda":id_material_prenda
+			"id_material_prenda": id_material_prenda
 		},
 		success: (data) => {
 			tableMaterialExtra.rows().remove().draw();
-			for(i in data){
-				tableMaterialExtra.row.add( [
+			for (i in data) {
+				tableMaterialExtra.row.add([
 					data[i][0],
 					data[i][1],
 					data[i][2],
-					"<button type='button' onclick='eliminarMaterialExtra("+data[i][3]+")' class='btn icon-btn btn-danger text-white'><span class='btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button>"
-				] ).draw( false );
+					"<button type='button' onclick='eliminarMaterialExtra(" + data[i][3] + ")' class='btn icon-btn btn-danger text-white'><span class='btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button>"
+				]).draw(false);
 			}
 			Swal.close();
 		},
@@ -1074,47 +1067,84 @@ $("#agregar_material_extra").click(function(){
 				icon: 'error',
 				title: 'Error',
 				text: '¡Registro duplicado!',
-			  })
+			})
 		}
 	});
 
 });
 
-function eliminarMaterialExtra(idMaterialExtra){
+function eliminarMaterialExtra(idMaterialExtra) {
 	Swal.fire({
 		title: 'Cargando!',
 		onBeforeOpen: () => {
-		  Swal.showLoading()
+			Swal.showLoading()
 		},
-	  })
-	var idMaterialPrenda=id_material_prenda;
+	})
+	var idMaterialPrenda = id_material_prenda;
 	tableMaterialExtra.rows().remove().draw();
 	$.ajax({
-        method: "DELETE",
-           url: "/deleteMaterialesExtra",
-           
-           data: {
+		method: "DELETE",
+		url: "/deleteMaterialesExtra",
 
-			   "_csrf": $('#token').val(),
-			   "idMaterialExtra": idMaterialExtra,
-			   "idMaterialPrenda":idMaterialPrenda
-           },
-           success: (data) => {
+		data: {
+
+			"_csrf": $('#token').val(),
+			"idMaterialExtra": idMaterialExtra,
+			"idMaterialPrenda": idMaterialPrenda
+		},
+		success: (data) => {
 			console.log(data);
-			for(i in data){
-				tableMaterialExtra.row.add( [
+			for (i in data) {
+				tableMaterialExtra.row.add([
 					data[i][0],
 					data[i][1],
 					data[i][2],
-					"<button type='button' onclick='eliminarMaterialExtra("+data[i][3]+")' class='btn icon-btn btn-danger text-white btn_remove'><span class='btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button>"
-				] ).draw( false );
+					"<button type='button' onclick='eliminarMaterialExtra(" + data[i][3] + ")' class='btn icon-btn btn-danger text-white btn_remove'><span class='btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button>"
+				]).draw(false);
 			}
 			Swal.close();
-           },
-          
-           error: (e) => {
+		},
+
+		error: (e) => {
 			alert("error alv");
 			Swal.close();
-           }
-	   });
+		}
+	});
 }
+//Agregar Cantidad Repuesto
+var idRepuesto;
+function cantidadRepuesto(id) {
+	var material = objeto_materiales.map(function (item) { return item.identidad; }).indexOf(id);
+	idRepuesto = material;
+	$("#cantidadRepuestoInput").val(objeto_materiales[material].cantidadRepuesto);
+
+
+}
+$("#agregarCantidadRepuesto").click(function (e) {
+	if ($('#cantidadRepuestoInput').val() > objeto_materiales[idRepuesto].cantidad) {
+		Swal.fire({
+			icon: 'error',
+			title: 'Error',
+			text: 'La cantidad de repuesto debe ser menor a la cantidad!',
+		})
+	}
+	else if ($('#cantidadRepuestoInput').val() < 0) {
+		Swal.fire({
+			icon: 'error',
+			title: 'Error',
+			text: 'La cantidad de repuesto debe ser mayor o igual a 0!',
+		})
+	}
+	else {
+		Swal.fire({
+			icon: 'success',
+			title: 'La cantidad se guardo correctamente',
+			showConfirmButton: false,
+			timer: 2000
+		})
+		objeto_materiales[idRepuesto].cantidadRepuesto = $('#cantidadRepuestoInput').val();
+		console.log(objeto_materiales[idRepuesto]);
+		$('#modalCantidadRepuesto').modal('toggle');
+	}
+});
+

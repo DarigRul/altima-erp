@@ -1,7 +1,8 @@
 <aside class="main-sidebar sidebar-light-primary elevation-4">
     <!-- Brand Logo -->
     <a th:href="${'/'}" class="brand-link bg-altima">
-        <img src="/dist/img/AltimaLogo.png" alt="Altima Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8;" />
+        <img src="/dist/img/AltimaLogo.png" alt="Altima Logo" class="brand-image img-circle elevation-3"
+            style="opacity: 0.8;" />
         <span class="brand-text font-weight-light">Altima</span>
     </a>
     <!-- Sidebar -->
@@ -13,8 +14,8 @@
             </div>
             <div class="info" sec:authorize="isAuthenticated()">
                 <a class="d-block" sec:authentication="name">
-					Administrador
-				</a>
+                    Administrador
+                </a>
             </div>
         </div>
         <!-- Sidebar Menu -->
@@ -22,12 +23,12 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
               with font-awesome or any other icon font library -->
-                <!-- <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}">
+                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}">
                     <a th:href="${'/'}" class="nav-link" id="navDashboard">
                         <i class="nav-icon fas fa-tachometer-alt text-altima" id="iDashboard"></i>
                         <p>Dashboard</p>
                     </a>
-                </li> -->
+                </li>
                 <li class="nav-item">
                     <a th:href="${'/calendario'}" class="nav-link" id="navCalendario">
                         <i class="nav-icon fas fa-calendar text-altima" id="iCalendario"></i>
@@ -173,6 +174,13 @@
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUD_MODELOS_LISTAR'')')})">
+                                          <a th:href="${'/solicitud-de-modelos'}" class="nav-link" id="navMueSol">
+                                              <i class="nav-icon fas fa-clipboard"></i>
+                                              <p>Solicitud de modelos</p>
+                                          </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_CATALOGO_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_CATALOGO_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_CATALOGO_EDITAR'')')}) or 
@@ -244,6 +252,13 @@
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUD_MODELOS_LISTAR'')')})">
+                                          <a th:href="${'/solicitud-de-modelos'}" class="nav-link" id="navMueSol">
+                                              <i class="nav-icon fas fa-clipboard"></i>
+                                              <p>Solicitud de modelos</p>
+                                          </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_EDITAR'')')}) or 
@@ -260,7 +275,7 @@
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_ELIMINAR'')')})">
                                     <a th:href="${'/bordados'}" class="nav-link" id="navVenFlu">
                                         <i class="nav-icon flaticon-needle-with-thread-to-sew-clothes"></i>
-                                        <p>Bordados</p>
+                                        <p>Personalizados</p>
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 

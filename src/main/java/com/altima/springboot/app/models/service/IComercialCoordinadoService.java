@@ -16,12 +16,17 @@ public interface IComercialCoordinadoService {
 	ComercialCoordinado findOne(Long id);
 	List<Object []> findAllEmpresa(Long id);
 	List<DisenioLookup> findAllPrenda();
+	List<Object []> findAllPrenda(String tipo , String idTextCoor);
 	List<Object []> findAllModelo(Long id);
+	
+	List<Object []> findAllModeloSPF(Long id, Long idPedido);
+	
 	List<Object []> findAllTela(Long id);
 	List<Object []> materialesPorPrenda(Long id);
 	List<Object []> coloresMateriales(Long idMaterial, Long idTela ,  Long idCoorPrenda);
 	public Integer ContadorCoordinadoCliente (Long id);
-	
+	// buscar coordinado por id de pedido, funcionara para los SFP
+	ComercialCoordinado findOneCoorSPF(String idText);
 	
 	// Tabla Coordinado prenda 
 	List<Object []> findAllCoorPrenda(Long id );
@@ -61,6 +66,10 @@ public interface IComercialCoordinadoService {
 		 String precioPrenda(Long idCoor , Long idPrenda , Long idTela);
 		 
 		List<Object[]> findAllComposicion(Long id);
+		
+		// listado de tela en spf
+		
+		List<Object []> findAllTelaSPF(Long idPedio);
 }
 
 

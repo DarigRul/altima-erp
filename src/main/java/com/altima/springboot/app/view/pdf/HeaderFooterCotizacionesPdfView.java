@@ -115,8 +115,8 @@ public class HeaderFooterCotizacionesPdfView extends PdfPageEventHelper {
 			tablaImagen.setWidths(new float[] { 4f, 10f });
 			tablaImagen.setTotalWidth(400f);
 			tablaRayaRoja.setTotalWidth(400f);
-			tablaImagen.writeSelectedRows(0, -1, 110, 80, writer.getDirectContent());
-			tablaRayaRoja.writeSelectedRows(0, -1, 100, 90, writer.getDirectContent());
+			tablaImagen.writeSelectedRows(0, -1, 110, 60, writer.getDirectContent());
+			tablaRayaRoja.writeSelectedRows(0, -1, 100, 70, writer.getDirectContent());
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

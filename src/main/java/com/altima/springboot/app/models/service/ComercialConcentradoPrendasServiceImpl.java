@@ -9,6 +9,8 @@ import javax.persistence.NoResultException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.altima.springboot.app.models.entity.ComercialCliente;
 import com.altima.springboot.app.models.entity.ComercialClienteEmpleado;
 import com.altima.springboot.app.models.entity.ComercialConcetradoPrenda;
 import com.altima.springboot.app.models.entity.ComercialCoordinado;
@@ -213,6 +215,12 @@ public class ComercialConcentradoPrendasServiceImpl implements IComercialConcent
 	public List<ComercialCoordinado> findCoordinadofromPedido(Long id) {
 		// TODO Auto-generated method stub
 		return em.createQuery("from ComercialCoordinado where idCoordinado = " + id).getResultList();
+	}
+	
+	@Override
+	public ComercialConcetradoPrenda findOne(Long id) {
+		// TODO Auto-generated method stub
+		return repository.findById(id).orElse(null);
 	}
 }
 

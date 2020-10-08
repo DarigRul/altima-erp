@@ -7,6 +7,8 @@ import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.altima.springboot.app.dto.AgenteVentasListDTO;
 import com.altima.springboot.app.models.entity.HrEmpleado;
 import com.altima.springboot.app.repository.HrEmpleadoRepository;
 
@@ -68,6 +70,26 @@ public class HrEmpleadoServiceImpl implements IHrEmpleadoService {
 						+ "AND empleado.id_empleado!="+idAgente).getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> findAllByPuestoDepartamentoArea(Long idPuesto, Long idDepartamento, Long idLookup) {
+		// TODO Auto-generated method stub
+
+		return em.createNativeQuery("SELECT empleado.id_empleado,\n" + 
+									"		empleado.id_text,\n" + 
+									"		empleado.nombre_persona, \n" + 
+									"		empleado.apellido_paterno, \n" + 
+									"		empleado.apellido_materno \n" + 
+									"FROM alt_hr_empleado AS empleado\n" + 
+									"INNER JOIN alt_hr_puesto puesto ON empleado.id_puesto = puesto.id_puesto\n" + 
+									"INNER JOIN alt_hr_departamento depa ON puesto.id_departamento = depa.id_departamento\n" + 
+									"INNER JOIN alt_hr_lookup lookup ON depa.id_area = lookup.id_lookup\n" + 
+									
+									"WHERE puesto.id_puesto ="+idPuesto+" \n" + 
+									"AND depa.id_departamento ="+idDepartamento+" \n" + 
+									"AND lookup.id_lookup = "+idLookup).getResultList();
+	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -100,5 +122,26 @@ public class HrEmpleadoServiceImpl implements IHrEmpleadoService {
 		// TODO Auto-generated method stub
 		return repository.findAllEmpleados();
 	}
-
+	
+	@Override
+	@Transactional
+	public Object[] findDatosPuesto(Long idEmpleado) {
+		// TODO Auto-generated method stub
+		return (Object[]) em.createNativeQuery("SELECT  empleado.id_empleado, \n" + 
+											   "		puesto.id_puesto, \n" + 
+											   "		depa.id_departamento, \n" + 
+											   "		lookup.id_lookup FROM alt_hr_empleado AS empleado\n" + 
+											   "INNER JOIN alt_hr_puesto puesto ON empleado.id_puesto = puesto.id_puesto\n" + 
+											   "INNER JOIN alt_hr_departamento depa ON puesto.id_departamento = depa.id_departamento\n" + 
+											   "INNER JOIN alt_hr_lookup lookup ON depa.id_area = lookup.id_lookup\n" + 
+											   "\n" + 
+											   "WHERE empleado.id_empleado = "+idEmpleado).getSingleResult();
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<AgenteVentasListDTO> findAllAgenteVentas() {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT ahe.id_empleado as id_agente_ventas,CONCAT(ahe.nombre_persona,' ',ahe.apellido_paterno,' ',ahe.apellido_materno) as nombre_agente_ventas FROM alt_comercial_agentes_venta acav INNER JOIN alt_hr_empleado ahe ON ahe.id_empleado=acav.id_empleado WHERE ahe.estatus=1 AND acav.estatus=1",AgenteVentasListDTO.class).getResultList();
+	}
 }

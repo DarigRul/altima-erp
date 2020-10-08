@@ -219,7 +219,7 @@ $(document).ready(function() {
        		 if ( data != null && data != '' && data.length >1){
        			
        			$.ajax({
-        			    url:"https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/"+data,
+        			    url:"https://res.cloudinary.com/dti-consultores/image/upload/v1595530979/telas/"+data,
         			    type:'HEAD',
         			    error: function()
         			    {
@@ -231,7 +231,7 @@ $(document).ready(function() {
         			    success: function()
         			    {
         			        //file exists
-        			    	document.getElementById("img3").src="https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/"+data;
+        			    	document.getElementById("img3").src="https://res.cloudinary.com/dti-consultores/image/upload/v1595530979/telas/"+data;
         			    }
         			});
        		 }	
@@ -583,7 +583,7 @@ $("#coorModelo").change(function(){
                 		 if ( data[0][0] != null && data[0][0] != '' && data[0][0].length >1){
                 			
                 			$.ajax({
-                 			    url:"https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/prendas/"+data[0][0],
+                 			    url:"https://res.cloudinary.com/dti-consultores/image/upload/v1595530979/prendas/"+data[0][0],
                  			    type:'HEAD',
                  			    error: function()
                  			    {
@@ -596,7 +596,7 @@ $("#coorModelo").change(function(){
                  			        //file exists
                  			    	
                  			    	
-                 			    	document.getElementById("img1").src="https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/prendas/"+data[0][0];
+                 			    	document.getElementById("img1").src="https://res.cloudinary.com/dti-consultores/image/upload/v1595530979/prendas/"+data[0][0];
                  			    	
                  			    	$("#text-img1").text(data[0][1]);
                  			    	
@@ -625,7 +625,7 @@ $("#coorModelo").change(function(){
             		 if ( data[0][0] != null && data[0][0] != '' && data[0][0].length >1){
             			
             			$.ajax({
-             			    url:"https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/prendas/"+data[0][0],
+             			    url:"https://res.cloudinary.com/dti-consultores/image/upload/v1595530979/prendas/"+data[0][0],
              			    type:'HEAD',
              			    error: function()
              			    {
@@ -636,7 +636,7 @@ $("#coorModelo").change(function(){
              			    success: function()
              			    {
              			        //file exists
-             			    	document.getElementById("img2").src="https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/prendas/	"+data[0][0];
+             			    	document.getElementById("img2").src="https://res.cloudinary.com/dti-consultores/image/upload/v1595530979/prendas/	"+data[0][0];
              			    	$("#text-img2").text(data[0][1]);
              			    }
              			});
@@ -1122,7 +1122,7 @@ function selected(id){
     		 if ( data != null && data != '' && data.length >1){
     			
     			$.ajax({
-     			    url:"https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/"+data,
+     			    url:"https://res.cloudinary.com/dti-consultores/image/upload/v1595530979/telas/"+data,
      			    type:'HEAD',
      			    error: function()
      			    {
@@ -1134,7 +1134,7 @@ function selected(id){
      			    success: function()
      			    {
      			        //file exists
-     			    	document.getElementById("img-tela-convi-"+idSelect).src="https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/"+data;
+     			    	document.getElementById("img-tela-convi-"+idSelect).src="https://res.cloudinary.com/dti-consultores/image/upload/v1595530979/telas/"+data;
      			    }
      			});
     		 }	

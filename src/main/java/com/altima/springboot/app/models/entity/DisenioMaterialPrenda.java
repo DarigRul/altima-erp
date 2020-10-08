@@ -43,6 +43,9 @@ public class DisenioMaterialPrenda implements Serializable{
 	
 	@Column(name="cantidad")
 	private String cantidad;
+
+	@Column(name="cantidad_repuesto")
+	private String cantidadRepuesto;
 	
 	@Column(name="fecha_creacion")
 	private String fechaCreacion;
@@ -120,58 +123,11 @@ public class DisenioMaterialPrenda implements Serializable{
 		return serialVersionUID;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((actualizadoPor == null) ? 0 : actualizadoPor.hashCode());
-		result = prime * result + ((cantidad == null) ? 0 : cantidad.hashCode());
-		result = prime * result + ((creadoPor == null) ? 0 : creadoPor.hashCode());
-		result = prime * result + ((idMaterial == null) ? 0 : idMaterial.hashCode());
-		result = prime * result + ((idMaterialPrenda == null) ? 0 : idMaterialPrenda.hashCode());
-		result = prime * result + ((idPrenda == null) ? 0 : idPrenda.hashCode());
-		return result;
+	public String getCantidadRepuesto() {
+		return cantidadRepuesto;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		DisenioMaterialPrenda other = (DisenioMaterialPrenda) obj;
-		if (actualizadoPor == null) {
-			if (other.actualizadoPor != null)
-				return false;
-		} else if (!actualizadoPor.equals(other.actualizadoPor))
-			return false;
-		if (cantidad == null) {
-			if (other.cantidad != null)
-				return false;
-		} else if (!cantidad.equals(other.cantidad))
-			return false;
-		if (creadoPor == null) {
-			if (other.creadoPor != null)
-				return false;
-		} else if (!creadoPor.equals(other.creadoPor))
-			return false;
-		if (idMaterial == null) {
-			if (other.idMaterial != null)
-				return false;
-		} else if (!idMaterial.equals(other.idMaterial))
-			return false;
-		if (idMaterialPrenda == null) {
-			if (other.idMaterialPrenda != null)
-				return false;
-		} else if (!idMaterialPrenda.equals(other.idMaterialPrenda))
-			return false;
-		if (idPrenda == null) {
-			if (other.idPrenda != null)
-				return false;
-		} else if (!idPrenda.equals(other.idPrenda))
-			return false;
-		return true;
+	public void setCantidadRepuesto(String cantidadRepuesto) {
+		this.cantidadRepuesto = cantidadRepuesto;
 	}
 	}

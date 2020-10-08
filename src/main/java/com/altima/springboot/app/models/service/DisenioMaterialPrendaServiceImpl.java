@@ -42,6 +42,7 @@ public class DisenioMaterialPrendaServiceImpl implements IDisenioMaterialPrendaS
 		if(dmpOld != null) {
 			dmpOld.setActualizadoPor(dmp.getActualizadoPor());
 			dmpOld.setCantidad(dmp.getCantidad());
+			dmpOld.setCantidadRepuesto(dmp.getCantidadRepuesto());
 			dmpOld.setUltimaFechaModificacion(dmp.getUltimaFechaModificacion());
 			repository.save(dmpOld);
 		}

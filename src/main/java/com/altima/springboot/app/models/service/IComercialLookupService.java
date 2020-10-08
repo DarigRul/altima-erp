@@ -15,4 +15,6 @@ public interface IComercialLookupService {
     void delete(Long id);
 
     List<ComercialLookup> findByTipoLookup(String tipoLookup);
+
+    public List<ComercialLookup> findByTipoLookupAndEstatus(String tipoLookup);
 }

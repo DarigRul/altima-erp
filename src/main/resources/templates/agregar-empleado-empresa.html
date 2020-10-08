@@ -133,7 +133,7 @@
 											</table>
 										</div>
 									</form>
-									<form  action="#" th:action="@{'/cargarregistroempleado/'+${idPedido}+'/'+${idcliente}}"  method="post">
+									<form th:if="${form}==true" action="#" th:action="@{'/cargarregistroempleado/'+${idPedido}+'/'+${idcliente}}"  method="post">
 								
 											<div class="form-group col-sm-12">
 											<a th:href="@{'/carga-de-pedidos'}" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>

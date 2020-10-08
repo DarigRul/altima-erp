@@ -4,6 +4,7 @@ $(document).ready(function () {
 	listarClasificacion();
 	listarAlmacenesfisicos();
 	listarAlmaceneslogicos();
+	listarMovimientos();
 
 });
 $('#detalleClasificacion').on('shown.bs.modal', function () {
@@ -197,6 +198,9 @@ function agregarLinea(){
 	})
 }
 
+$('#detalleMovimientos').on('shown.bs.modal', function () {
+	$(document).off('focusin.modal');
+});
 
 function agregarMovimiento(){
 	Swal.fire({
@@ -221,74 +225,60 @@ function agregarMovimiento(){
 		    autocapitalize: 'off'
 		  },
 		  showCancelButton: true,
-		  confirmButtonText: 'Agregar',
-		  cancelButtonText: 'Cancelar',
-		  showLoaderOnConfirm: true,
-		  preConfirm: (linea) => {
-			  
-			  if(document.getElementById("movimiento").value.length<1 ){
-					Swal.showValidationMessage(
-							`Complete todos los campos`
-					)
-				}
-		  
-		  },
-		  allowOutsideClick: () => !Swal.isLoading()
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
-		  if (result.value && document.getElementById("movimiento").value ) {
-				var movimiento = document.getElementById("movimiento").value;
-				var tipo = document.getElementById("tipo").value;
-				
-			  $.ajax({
-					type: "GET",
-					url: "/verificar-duplicado-amp",
-					data: {
-						'Lookup': movimiento,
-						'Tipo': "Movimiento"
+			
+		  if (result.value) {
+			  if($('#movimiento').val().length>0 && $('#tipo').val().length>0){
+				  $.ajax({
+                      type: "POST",
+                      url: "/guardar-movimiento",
+                      data: {
+                          "_csrf": $('#token').val(),
+                          'Movimiento': $('#movimiento').val(),
+                          'Tipo': $('#tipo').val()
 
+                      }
 
-					}
-
-				}).done(function (data) {
-					if(data==false){
-
-						$.ajax({
-							type: "POST",
-							url: "/guardar-catalogo-amp",
-							data: {
-								"_csrf": $('#token').val(),
-								'movimiento': movimiento,
-								'tipo':tipo
-
-							}
-
-						}).done(function (data) {
-							listarClasificacion();
-						});
-						Swal.fire({
-							position: 'center',
-							icon: 'success',
-							title: 'Insertado correctamente',
-							showConfirmButton: false,
-							timer: 1250
-						})
-						// / window.setTimeout(function(){location.reload()}, 2000);
-					}// /fin segundoif
-					else{
-						Swal.fire({
-							position: 'center',
-							icon: 'error',
-							title: 'registro duplicado no se ha insertado',
-							showConfirmButton: false,
-							timer: 1250
-						})
-
-					}
-				});
+                  }).done(function(data) {
+                	  if(data==true){
+                	  Swal.fire({
+    					  position: 'center',
+    					  icon: 'success',
+    					  title: 'Ingresado correctamente',
+    					  showConfirmButton: false,
+    					  timer: 2500
+    					})  }
+                	  else{
+                		  Swal.fire({
+        					  position: 'center',
+        					  icon: 'error',
+        					  title: 'Registro duplicado o algo ha salido mal reintente',
+        					  showConfirmButton: false,
+        					  timer: 2500
+        					})  
+                	  }
+                	  //listarColores();
+                	  listarMovimientos();
+                  });
+		
+			  }
+			  else{
+				  Swal.fire({
+					  position: 'center',
+					  icon: 'error',
+					  title: 'Ingrese todos los campos requeridos',
+					  showConfirmButton: false,
+					  timer: 1500
+					})  
+				  
+			  }
+			
 		  }
 		});
-	
-
 }
 
 function agregarAlmacen(){
@@ -566,20 +556,29 @@ function addMovimiento(){
 		  }
 		});
 }
-function editMovimiento(){
+function editMovimiento(
+idlookup,		
+nombrelookup,
+tipolookup
+
+){
 	Swal.fire({
 		  title: 'Editar Movimiento',
 		  html:
 			  '<div class="row">'+
 			  '<div class="form-group col-sm-6">'+
 			  	'<label for="descripcionMovimientoEditar">Descripci&oacute;n</label>'+
-			  	'<input type="text" class="form-control" id="descripcionMovimientoEditar" placeholder="Trazo">'+
+			  	'<input type="text" class="form-control" id="descripcionMovimientoEditar" value="'+nombrelookup+'" placeholder="Trazo">'+
 			  '</div>'+
 			  '<div class="form-group col-sm-6">'+
 			  	'<label for="origenMovimientoEditar">Tipo de movimiento</label>'+
 			  	'<select class="form-control" id="origenMovimientoEditar">'+
-			      '<option>Entrada</option>'+
-			      '<option>Salida</option>'+
+			  	'<option ' + 
+			       (tipolookup == "Entrada" ? 'value="Entrada"' : 'value="Salida"') +
+			       '>' + (tipolookup == "Entrada" ? "Entrada" : "Salida")+ '</option>'+
+			       '<option ' + 
+			       (tipolookup == "Entrada" ? 'value="Salida"' : 'value="Entrada"') +
+			       '>' +(tipolookup == "Entrada" ? "Salida" : "Entrada")+ '</option>'+
 			   '</select>'+
 			  '</div>'+
 		  '</div>',
@@ -587,36 +586,54 @@ function editMovimiento(){
 		    autocapitalize: 'off'
 		  },
 		  showCancelButton: true,
-		  confirmButtonText: 'Agregar',
-		  cancelButtonText: 'Cancelar',
-		  showLoaderOnConfirm: true,
-		  preConfirm: (login) => {
-		    return fetch(`//api.github.com/users/${login}`)
-		      .then(response => {
-		        if (!response.ok) {
-		          throw new Error(response.statusText)
-		        }
-		        return response.json()
-		      })
-		      .catch(error => {
-		        Swal.showValidationMessage(
-		          `Request failed: ${error}`
-		        )
-		      })
-		  },
-		  allowOutsideClick: () => !Swal.isLoading()
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Movimiento editado correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
+			  $.ajax({
+					type: "POST",
+					url: "/editar-movimiento",
+					data: {
+						"_csrf": $('#token').val(),
+						'Id': idlookup,
+						'Nombre': $('#descripcionMovimientoEditar').val(),
+						'Tipo': $('#origenMovimientoEditar').val(),
+						
+					}
+
+				}).done(function (data) {
+					if(data==true){
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Almac&eacute;n l&oacute;gico editado correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarMovimientos();
+						
+					}
+					
+					
+					else{
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'Registro duplicado algo ha salido mal reintente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarMovimientos();
+					}
+					
+				});
 		  }
 		});
 }
+
+
 
 function deleteMovimiento(){
 	Swal.fire({
@@ -697,7 +714,7 @@ function agregarAlmacenLogico(){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  if($('#nombreLogico').val().length<0 && $('#almacenFisicoLogico').val().length<0 && $('#salidaLogico').val().length<0 && $('#entradaLogico').val().length<0){
+			  if($('#nombreLogico').val().length>0 && $('#almacenFisicoLogico').val().length>0 && $('#salidaLogico').val().length>0 && $('#entradaLogico').val().length>0){
 				  $.ajax({
                       type: "POST",
                       url: "/guardar-almacen-logico",
@@ -1204,7 +1221,7 @@ function agregarAlmacenFisico(){
 		}).then((result) => {
 			
 		  if (result.value) {
-			  if($('#nombreFisico').val().length<0 && $('#encargadoFisico').val().length<0){
+			  if($('#nombreFisico').val().length>0 && $('#encargadoFisico').val().length>0){
 				  $.ajax({
                       type: "POST",
                       url: "/guardar-almacen-fisico",
@@ -1563,6 +1580,209 @@ function altaAlmacenFisico(id){
 		  }
 		});
 }
+////////////////////7777
+
+function bajaMovimiento(id){
+	Swal.fire({
+		  title: '¿Deseas dar de baja?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  $.ajax({
+					type: "POST",
+					url: "/baja-movimiento",
+					data: {
+						"_csrf": $('#token').val(),
+						'Id': id
+					}
+
+				}).done(function (data) {
+					if(data==true){
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Dado de baja correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarMovimientos();
+						
+					}
+					
+					
+					else{
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'Algo ha salido mal reintente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarMovimientos();
+					}
+					
+				});
+			  
+			 
+		  }
+		});
+}
+function altaMovimiento(id){
+	Swal.fire({
+		  title: '¿Deseas dar de alta?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  $.ajax({
+					type: "POST",
+					url: "/alta-movimiento",
+					data: {
+						"_csrf": $('#token').val(),
+						'Id': id 
+					}
+
+				}).done(function (data) {
+					if(data==true){
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Dado de alta correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarMovimientos();
+						
+					}
+					
+					
+					else{
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'Algo ha salido mal reintente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarMovimientos();
+					}
+					
+				});
+			  
+		  }
+		});
+}
+////////////////////7777
+
+function listarMovimientos() {
+
+    $.ajax({
+        method: "GET",
+        url: "/get-all-amp-movimientos",
+        success: (data) => {
+            $('#quitar21').remove();
+            $('#contenedorTablamovimientos').append("<div class='modal-body' id='quitar21'>" +
+                "<table class='table table-striped table-bordered' id='idtable21' style='width:100%'>" +
+                "<thead>" +
+                "<tr>" +
+                "<th>Descripción</th>" +
+                "<th>Tipo de movimiento</th>" +
+                "<th>Acciones</th>" +
+                "</tr>" +
+                "</thead>" +
+                "</table>" + "</div>");
+            var a;
+            var b = [];
+           
+                for (i in data) {
+                    //var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
+                    a = [
+                        "<tr>" +
+                        "<td>" + data[i].nombreLookup + "</td>",
+                        "<td>" + data[i].tipoLookup + "</td>",
+                        "<td style='text-align: center;'>" +
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + data[i].actualizadoPor + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
+                        "<button onclick='editMovimiento(\"" + data[i].idLookup + "\",\"" + data[i].nombreLookup + "\",\"" + data[i].tipoLookup + "\");'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        (data[i].estatus == 1 ? "<button onclick='bajaMovimiento(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                        (data[i].estatus == 0 ? "<button onclick='altaMovimiento(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
+
+                        "</td>" +
+                        "<tr>"
+                    ];
+                    b.push(a);
+                }
+           
+            var tablaMarcador = $('#idtable21').DataTable({
+                "data": b,
+                "ordering": false,
+                "pageLength": 5,
+                "responsive": true,
+                "stateSave": true,
+                "drawCallback": function() {
+                    $('.popoverxd').popover({
+                        container: 'body',
+                        trigger: 'hover'
+                    });
+                },
+                "columnDefs": [{
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 2,
+                        className: 'dt-body-center'
+                    }
+                ],
+                "lengthMenu": [
+                    [5, 10, 25, 50, 100],
+                    [5, 10, 25, 50, 100]
+                ],
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    
+                    "buttons": {
+                        "copy": "Copiar",
+                        "colvis": "Visibilidad"
+                    }
+                }
+            });
+            new $.fn.dataTable.FixedHeader(tablaMarcador);
+        },
+        error: (e) => {
+
+        }
+    })
+}
+//////////////////////77acaba listar
+
+
+
 function abrirMapeo(){
 	$('#detalleMapeo').modal('show');
 }

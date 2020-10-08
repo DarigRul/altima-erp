@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialConcentradoTalla;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
+import com.altima.springboot.app.models.entity.ProduccionLookup;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
 import com.altima.springboot.app.models.service.IAdminConfiguracionPedidoService;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialConcentradoTallaService;
+import com.altima.springboot.app.models.service.IDisenioLookupService;
 import com.altima.springboot.app.models.service.IProduccionLookupService;
 import com.altima.springboot.app.models.service.IServicioClienteLookupService;
 
@@ -40,6 +42,9 @@ public class ConcentradoTallasRestController {
 
 	@Autowired
 	private ICargaPedidoService cargaPedidoService;
+	
+	@Autowired
+	IDisenioLookupService DisenioLookupService;
 
 	@PostMapping("/guardar-concentrado-tallas")
 	public String guardarcontentradotallas(Model model, String Nombre,
@@ -294,5 +299,23 @@ public class ConcentradoTallasRestController {
 		}
 		return respuesta;
 	}
-
+   @GetMapping("/obtener-posicion-prenda")
+   public String PosicionPrenda(String Prenda) {
+	   
+	  Object posicionprenda= DisenioLookupService.findClothesPosition(Prenda);
+	  
+	  return posicionprenda.toString();
+	   
+   }
+	
+   @GetMapping("/obtener-tallas")
+   public List<ProduccionLookup> ObtenerTallas(String Posicion,String Genero) {
+	   return ProduccionLookupService.findAllByType(Posicion, Genero, "Talla");
+   }
+   
+   @GetMapping("/obtener-largo-talla")
+   public List<ProduccionLookup> ObtenerLargoTalla() {
+	   return ProduccionLookupService.findAllByType("Largo");
+   }
+   
 }

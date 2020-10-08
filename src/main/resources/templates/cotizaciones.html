@@ -160,6 +160,7 @@
 						</div><br>
 						<div class="custom-control" id="ContenedorBotonParaEnviar">
 				    		<!--  -->
+				    		<div id="borrarContenido"></div>
 				    		<button class="btn btn-primary" type="button" disabled id='ContenedorBotonParaEnviarCargando' style="display: none;">
   								<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 	  								Enviando Correo...
@@ -226,9 +227,11 @@
 			data: { id: id },
 			success: (data) => {
 				$('#CorreoParaCotizacion').val(data);
-				$( "#CorreoParaCotizacion" ).prop( "disabled", false );
-				$('#ContenedorBotonParaEnviar').append("<button id='ActuallyBotonEnviar' class='btn btn-success' onclick='EnviarCorreoCotizacion(" + id + ")'>Enviar</button><br>"+
-													   "<span style='color:red'>Si desea enviar varios correos, por favor separe por coma simple</span>");
+				$('#borrarContenido').remove();
+				$('#ContenedorBotonParaEnviar').append("<div id='borrarContenido'></div>");
+				$("#CorreoParaCotizacion" ).prop( "disabled", false );
+				$('#borrarContenido').append("<button id='ActuallyBotonEnviar' class='btn btn-success' onclick='EnviarCorreoCotizacion(" + id + ")'>Enviar</button><br>"+
+													   "<span id='avisoCorreo' style='color:red'>Si desea enviar varios correos, por favor separe por coma simple</span>");
 			},
 			error: (e) => {
 				alert(e);

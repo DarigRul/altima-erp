@@ -194,7 +194,7 @@ public class AgregarEmpleadoEmpresaController {
 			ComercialClienteEmpleadoobj.setCreadoPor("Shinigami");
 			ComercialClienteEmpleadoobj.setActualizadoPor("Yaz");
 			comercialClienteEmpleadoRepository.save(ComercialClienteEmpleadoobj);
-			  
+			System.out.println(i+"si cuenta");
 			  
 		}
 
@@ -340,6 +340,7 @@ public class AgregarEmpleadoEmpresaController {
 
 		redirectAttributes.addFlashAttribute("message",
 				"archivo subido correctamente " + file.getOriginalFilename() + "!");
+		mp.put("form", true);
 
 		return "agregar-empleado-empresa";
 	}

@@ -60,15 +60,13 @@ public class ProduccionConsumoTallaCombinacionTelaServiceImpl implements IProduc
 				"	talla.nombre_lookup \r\n" + 
 				"FROM\r\n" + 
 				"	alt_disenio_prenda AS prenda,\r\n" + 
-				"	alt_produccion_lookup AS talla,\r\n" + 
-				"	alt_disenio_lookup AS lookup \r\n" + 
+				"	alt_produccion_lookup AS talla\r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
-				"	AND prenda.id_familia_prenda = lookup.id_lookup \r\n" + 
-				"	AND lookup.atributo_1 = talla.descripcion_lookup \r\n" + 
 				"	AND talla.tipo_lookup = 'Talla' \r\n" + 
 				"	AND prenda.id_genero = talla.atributo_1 \r\n" + 
-				"	AND prenda.id_prenda = "+id+" \r\n" ).getResultList();
+				"	AND prenda.id_prenda = "+id+" \r\n" +
+				"	AND NOT EXISTS ( SELECT * FROM alt_produccion_consumo_talla_combinacion_tela AS con WHERE con.id_talla = talla.id_lookup AND con.id_prenda = "+id+" )").getResultList();
 		return re;
 	}
 	

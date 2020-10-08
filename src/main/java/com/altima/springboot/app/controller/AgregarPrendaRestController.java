@@ -286,6 +286,7 @@ public class AgregarPrendaRestController {
 
 		// Se guardan Muchos a Muchos de Materiales
 		JSONArray materiales = new JSONArray(objeto_materiales);
+		
 		Long IdMateriales[] = new Long[materiales.length()];
 		int contadorMateriales = 0;
 		for (int i = 0; i < materiales.length(); i++) {
@@ -296,6 +297,7 @@ public class AgregarPrendaRestController {
 			mdp.setCreadoPor(auth.getName());
 			mdp.setActualizadoPor(auth.getName());
 			mdp.setCantidad(material.get("cantidad").toString());
+			mdp.setCantidadRepuesto(material.get("cantidadRepuesto").toString());
 			mdp.setFechaCreacion(dtf.format(now));
 			mdp.setUltimaFechaModificacion(dtf.format(now));
 			materialPrendaService.save(mdp);
@@ -308,7 +310,7 @@ public class AgregarPrendaRestController {
 
 		// Se guardan Muchos a Muchos de Patronaje
 		JSONArray patronajes = new JSONArray(objeto_patronaje);
-		System.out.println(objeto_patronaje);
+		
 		Long IdPatronajes[] = new Long[patronajes.length()];
 		int contadorPatronajes = 0;
 		for (int i = 0; i < patronajes.length(); i++) {

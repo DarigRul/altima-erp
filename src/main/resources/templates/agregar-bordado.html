@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-    <title id="pageTitle">Bordados | Altima</title>
+    <title id="pageTitle">Personalizados | Altima</title>
 </head>
 <style>
 #form1{width:auto}.alert{text-align:center}#blah{max-height:150px;height:auto;width:auto;display:block;margin-left:auto;margin-right:auto;padding:5px}#img_contain{border-radius:5px;width:auto}.input-group1{margin-left:calc(calc(100vw - 450px)/ 2);margin-top:20px;width:320px}.imgInp{width:150px;padding:10px;background-color:#d3d3d3}.loading{animation:blinkingText ease 2.5s infinite}@keyframes blinkingText{0%{color:#000}50%{color:#transparent}99%{color:transparent}100%{color:#000}}.custom-file-label{cursor:pointer}
@@ -25,7 +25,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Bordados&nbsp;
+                            <h1>Personalizados
                                 <a th:href="@{/bordados}" class="btn btn-sm icon-btn btn-danger text-white"><span
                                         class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
                             </h1>
@@ -35,7 +35,7 @@
                                 <li class="breadcrumb-item altima">Altima</li>
                                 <li class="breadcrumb-item active">Comercial</li>
                                 <li class="breadcrumb-item active">Agentes de venta</li>
-                                <li class="breadcrumb-item active">Bordados</li>
+                                <li class="breadcrumb-item active">Personalizados</li>
                             </ol>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                             <!-- Default box -->
                             <div class="card">
                                 <div class="card-header bg-altima">
-                                    <h3 class="card-title">Nuevo bordado</h3>
+                                    <h3 class="card-title">Nuevo personalizado</h3>
                                 </div>
                                 <div class="card-body">
                               <form class="row" id="bordadoForm" th:object="${objetoBordado}" th:action="@{/guardar_bordado}" enctype="multipart/form-data" method="post" >
@@ -64,7 +64,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="tipoBordado">Bordado</label>
+                                            <label for="tipoBordado">Personalizado</label>
                                             <select class="form-control selectpicker" data-live-search="true" th:field="*{idLookup}" data-live-search-normalize="true" title="Selecciona uno..." id="coorLookup">
                                              <option th:each="listLookup:${listLookup}" th:value="${listLookup.idLookup}"
                                                  th:text="${listLookup.nombreLookup}"></option>
@@ -112,8 +112,10 @@
                                                                 <input type="hidden" class="form-control" id="idBordado" th:field="*{estatus_bordado}">
                                                                 <input type="hidden" class="form-control" id="idBordado" th:field="*{rutaBordado}">
                                                                 <input type="hidden" class="form-control" id="idBordado" th:field="*{rutaPonchado}">
-                                                                <button type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
-                                                                           class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                                                                <a id="validar1Parte" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                                                           class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</a>
+                                                                <button style="display:none;" type="submit" class="btn btn-sm icon-btn btn-altima text-white"><span
+                                                                           class="btn-glyphicon fas fa-plus img-circle text-altima" id="guardar1Parte"></span>Agregar</button>
                                                             </div>
                                                           </div>
                                         </div>
@@ -131,11 +133,11 @@
                                         <input type="hidden" class="form-control" id="idBordadoParte" th:field="*{idBordado}"  >
                                         
                                         
-                                            <label for="parteBordado">Parte del bordado</label>
+                                            <label for="parteBordado">Parte del personalizado</label>
                                             <input type="text" class="form-control" id="parteBordado" placeholder="Arriba" th:field="*{partesBordado}"  >
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="hiloBordado">No. hilo</label>
+                                            <label for="hiloBordado">No. material</label>
                                             <input type="text" class="form-control" id="hiloBordado" placeholder="Hilo" th:field="*{numeroHilo}"  >
                                         </div>
                                         <div class="form-group col-md-4">
@@ -159,8 +161,8 @@
                                             <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
                                                 <thead>
                                                     <tr>
-                                                        <th>Partes del bordado</th>
-                                                        <th>No. hilo</th>
+                                                        <th>Partes del personalizado</th>
+                                                        <th>No. material</th>
                                                         <th>Color</th>
                                                         <th>Acciones</th>
                                                     </tr>
@@ -173,7 +175,7 @@
                                                         <td class="text-center">
                                                         
 
-                                                        <a th:href="@{/eliminar_bordado/}+${mt[3]}"><button type="button" class="btn btn-sm icon-btn btn-danger text-white"><span
+                                                        <a th:href="@{/eliminar_parte_bordado/}+${mt[3]}+'/'+${mt[4]}"><button type="button" class="btn btn-sm icon-btn btn-danger text-white"><span
                                                                     class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></a>
                                                         </td>
                                                     </tr>
@@ -356,6 +358,31 @@ $(".input2").on("change", function() {
          });
     	
     })
+    
+    </script>
+    
+    <script type="text/javascript">
+    	$('#validar1Parte').on('click',function (){
+    		
+    		if($('#clienteBordado').val()== '' || $('#clienteBordado').val()== null || $('#clienteBordado').val()== undefined || 
+    				$('#coorLookup').val()== '' || $('#coorLookup').val()== null || $('#coorLookup').val()== undefined || 
+    				$('#tamanoBordado').val()== '' || $('#tamanoBordado').val()== null || $('#tamanoBordado').val()== undefined ||
+    				$('#precioBordado').val()== '' || $('#precioBordado').val()== null || $('#precioBordado').val()== undefined){
+    			
+    			Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Debe llenar los datos correctamente correctamente',
+                    showConfirmButton: false,
+                    timer: 2500
+                    })
+    		}
+    		else{
+    			$('#guardar1Parte').click();
+    		}
+    		
+    	})
+    
     
     </script>
     

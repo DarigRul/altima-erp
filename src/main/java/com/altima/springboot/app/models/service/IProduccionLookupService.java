@@ -22,8 +22,10 @@ public interface IProduccionLookupService {
 
 	ProduccionLookup findLastLookupByType(String Tipo);
 
-	boolean findDuplicate(String Lookup, String Tipo, String atributo1,String atributo2, String descripcion);
+	boolean findDuplicate(String Lookup, String Tipo, String atributo1,String atributo2);
 
 	List<ProduccionLookup> findAllByType(String Tipo);
+
+	List<ProduccionLookup> findAllByType(String Posicion, String Genero, String Tipo);
 
 }

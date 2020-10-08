@@ -25,15 +25,25 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 	@Override
 	@Transactional
 	public List<Object []> findAll() {
-		
-		List<Object[]> re = em.createNativeQuery(""
+	List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\n" + 
 				"	material.id_material,\n" + 
 				"	material.id_text,\n" + 
 				"	material.nombre_material AS nombre,\n" + 
 				"	lookAMP.nombre_lookup AS clasficacion,\n" + 
 				"	look.nombre_lookup,\n" + 
-				"	'0',\n" + 
+				"	(\n" + 
+				"	SELECT\n" + 
+				"	if ( SUM( multi.existencia ) is null , 0,SUM( multi.existencia ) )\n" + 
+				"		\n" + 
+				"	FROM\n" + 
+				"		alt_amp_multialmacen AS multi \n" + 
+				"	WHERE\n" + 
+				"		1 = 1 \n" + 
+				"		AND multi.id_articulo = material.id_material \n" + 
+				"		AND multi.tipo = 'material' \n" + 
+				"		AND multi.estatus = 1 \n" + 
+				"	) AS existencias,\n" + 
 				"	look2.nombre_lookup AS medida,\n" + 
 				"	material.estatus,\n" + 
 				"	'm' \n" + 
@@ -47,7 +57,6 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 				"	AND material.id_tipo_material = look.id_lookup \n" + 
 				"	AND look.atributo_2 = lookAMP.id_lookup \n" + 
 				"	AND material.id_unidad_medida = look2.id_lookup \n" + 
-				//"	AND material.estatus = 1 \n" + 
 				"	AND material.estatus_material = 1 UNION\n" + 
 				"SELECT\n" + 
 				"	tela.id_tela,\n" + 
@@ -55,7 +64,17 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 				"	tela.nombre_tela AS nombre,\n" + 
 				"	'Materia Prima' AS clasficacion,\n" + 
 				"	'Tela',\n" + 
-				"	'0',\n" + 
+				"	(\n" + 
+				"	SELECT\n" + 
+				"		if ( SUM( multi.existencia ) is null , 0,SUM( multi.existencia ) )\n" + 
+				"	FROM\n" + 
+				"		alt_amp_multialmacen AS multi \n" + 
+				"	WHERE\n" + 
+				"		1 = 1 \n" + 
+				"		AND multi.id_articulo = tela.id_tela\n" + 
+				"		AND multi.tipo = 'tela' \n" + 
+				"		AND multi.estatus = 1 \n" + 
+				"	) AS existencias,\n" + 
 				"	look.nombre_lookup AS medida,\n" + 
 				"	tela.estatus,\n" + 
 				"	't' \n" + 
@@ -65,7 +84,6 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 				"WHERE\n" + 
 				"	1 = 1 \n" + 
 				"	AND look.id_lookup = tela.id_unidad_medida \n" + 
-				//"	AND tela.estatus = 1 \n" + 
 				"	AND tela.estatus_tela = 1 UNION\n" + 
 				"SELECT\n" + 
 				"	forro.id_forro,\n" + 
@@ -73,7 +91,17 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 				"	forro.nombre_forro AS nombre,\n" + 
 				"	'Materia Prima' AS clasficacion,\n" + 
 				"	'Forro',\n" + 
-				"	'0',\n" + 
+				"	(\n" + 
+				"	SELECT\n" + 
+				"		if ( SUM( multi.existencia ) is null , 0,SUM( multi.existencia ) )\n" + 
+				"	FROM\n" + 
+				"		alt_amp_multialmacen AS multi \n" + 
+				"	WHERE\n" + 
+				"		1 = 1 \n" + 
+				"		AND multi.id_articulo = forro.id_forro \n" + 
+				"		AND multi.tipo = 'forro' \n" + 
+				"		AND multi.estatus = 1 \n" + 
+				"	) AS existencias,\n" + 
 				"	look.nombre_lookup AS medida,\n" + 
 				"	forro.estatus,\n" + 
 				"	'f' \n" + 
@@ -83,7 +111,6 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 				"WHERE\n" + 
 				"	1 = 1 \n" + 
 				"	AND look.id_lookup = forro.id_unidad_medida \n" + 
-				//"	AND forro.estatus = 1 \n" + 
 				"	AND forro.estatus_forro = 1 UNION\n" + 
 				"SELECT\n" + 
 				"	inventario.id_inventario,\n" + 
@@ -91,7 +118,17 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 				"	inventario.articulo AS nombre,\n" + 
 				"	look_clas.nombre_lookup AS clasficacion,\n" + 
 				"	look.nombre_lookup,\n" + 
-				"	'0',\n" + 
+				"	(\n" + 
+				"	SELECT\n" + 
+				"		if ( SUM( multi.existencia ) is null , 0,SUM( multi.existencia ) )\n" + 
+				"	FROM\n" + 
+				"		alt_amp_multialmacen AS multi \n" + 
+				"	WHERE\n" + 
+				"		1 = 1 \n" + 
+				"		AND multi.id_articulo = inventario.id_inventario\n" + 
+				"		AND multi.tipo = 'materialAlmacen' \n" + 
+				"		AND multi.estatus = 1 \n" + 
+				"	) AS existencias,\n" + 
 				"	look2.nombre_lookup AS medida,\n" + 
 				"	inventario.estatus,\n" + 
 				"	'aa' \n" + 
@@ -108,6 +145,7 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 				"ORDER BY\n" + 
 				"	clasficacion,\n" + 
 				"	nombre ASC").getResultList();
+		
 		return re;
 	}
 

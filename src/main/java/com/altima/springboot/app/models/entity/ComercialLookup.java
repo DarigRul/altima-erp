@@ -56,7 +56,7 @@ public class ComercialLookup implements Serializable{
 	private String ultimaFechaModificacion;
 	
 	@Column(name="estatus")
-	private Integer Estatus;
+	private int Estatus;
 	
 	@Column(name="atributo_1")
 	private String atributo1;
@@ -139,11 +139,11 @@ public class ComercialLookup implements Serializable{
 		this.ultimaFechaModificacion = ultimaFechaModificacion;
 	}
 
-	public Integer getEstatus() {
+	public int getEstatus() {
 		return Estatus;
 	}
 
-	public void setEstatus(Integer estatus) {
+	public void setEstatus(int estatus) {
 		Estatus = estatus;
 	}
 

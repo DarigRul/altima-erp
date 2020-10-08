@@ -39,6 +39,101 @@ public class CatalogosAmpRestControllerV2 {
 		return AlmacenFisicoService.findAll();
 	}
 
+	@PostMapping("/guardar-movimiento")
+	public Boolean GuardarMovimiento(String Movimiento, String Tipo) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		boolean result = false;
+
+		if (LookupService.findMovementsDuplicate(Movimiento, Tipo).size() <= 0) {
+			try {
+				AmpLookup movimiento = new AmpLookup();
+				movimiento.setNombreLookup(Movimiento);
+				;
+				movimiento.setTipoLookup(Tipo);
+				movimiento.setEstatus(1);
+				movimiento.setCreadoPor(auth.getName());
+				movimiento.setFechaCreacion(dateFormat.format(date));
+				LookupService.save(movimiento);
+				result = true;
+			} catch (Exception e) {
+				// TODO: handle exception
+				result = false;
+			}
+		} else {
+			result = false;
+		}
+		return result;
+	}
+
+	@PostMapping("/editar-movimiento")
+	public Boolean EditarMovimiento(Long Id, String Nombre, String Tipo) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		boolean result = false;
+
+		if (LookupService.findMovementsDuplicate(Nombre, Tipo).size() <= 0) {
+			try {
+				AmpLookup movimiento = LookupService.findOne(Id);
+				movimiento.setNombreLookup(Nombre);
+				;
+				movimiento.setTipoLookup(Tipo);
+				movimiento.setActualizadoPor(auth.getName());
+				movimiento.setUltimaFechaModificacion(dateFormat.format(date));
+				LookupService.save(movimiento);
+				result = true;
+			} catch (Exception e) {
+				// TODO: handle exception
+				result = false;
+			}
+		} else {
+			result = false;
+		}
+		return result;
+	}
+
+	@PostMapping("/baja-movimiento")
+	public boolean BajaMovimiento(Long Id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		boolean result = false;
+		try {
+			AmpLookup movimiento = LookupService.findOne(Id);
+			movimiento.setEstatus(0);
+			movimiento.setActualizadoPor(auth.getName());
+			movimiento.setUltimaFechaModificacion(dateFormat.format(date));
+			LookupService.save(movimiento);
+			result = true;
+
+		} catch (Exception e) {
+			result = false;
+		}
+		return result;
+	}
+
+	@PostMapping("/alta-movimiento")
+	public boolean AltaMovimiento(Long Id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		boolean result = false;
+		try {
+			AmpLookup movimiento = LookupService.findOne(Id);
+			movimiento.setEstatus(1);
+			movimiento.setActualizadoPor(auth.getName());
+			movimiento.setUltimaFechaModificacion(dateFormat.format(date));
+			LookupService.save(movimiento);
+			result = true;
+
+		} catch (Exception e) {
+			result = false;
+		}
+		return result;
+	}
+
 	@PostMapping("/guardar-almacen-fisico")
 	public Boolean GuardarAlmacenFisico(String Nombre, Long Encargado) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -162,6 +257,12 @@ public class CatalogosAmpRestControllerV2 {
 	public List<Object[]> ObtenerAlmacenLogico() {
 
 		return AlmacenLogicoService.findAllAMPLogico();
+	}
+
+	@GetMapping("/get-all-amp-movimientos")
+	public List<AmpLookup> ObtenerMovimientos() {
+
+		return LookupService.findAllMovements();
 	}
 
 	@PostMapping("/baja-almacen")

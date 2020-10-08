@@ -26,4 +26,6 @@ public interface IHrPuestoService {
 	public boolean duplicatePuesto(String nombrePuesto, String nomPlazas, String sueldos, String perfiles,
 			String departamento, Boolean checkbox, String idPuesto);
 
+	List<HrPuesto> findAllPuestoByDepartamento(Long idDepartamento);
+
 }
