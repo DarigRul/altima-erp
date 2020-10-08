@@ -62,9 +62,20 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 	@Override
 	@Transactional
 	public List<Object[]> findAllAMPLogicItem(Long articulo, String tipo) {
-		return em.createNativeQuery(
-				"SELECT am.id_multialmacen,al.nombre_almacen_logico,am.id_articulo FROM alt_amp_multialmacen  am, alt_amp_almacen_logico al where am.id_almacen_logico=al.id_almacen_logico and am.id_articulo="
-						+ articulo + " and am.tipo='" + tipo + "'")
+		
+		return em.createNativeQuery(""
+				+ "SELECT\r\n" + 
+				"	am.id_multialmacen,\r\n" + 
+				"	al.nombre_almacen_logico,\r\n" + 
+				"	am.id_articulo,\r\n" + 
+				"	am.existencia \r\n" + 
+				"FROM\r\n" + 
+				"	alt_amp_multialmacen am,\r\n" + 
+				"	alt_amp_almacen_logico al \r\n" + 
+				"WHERE\r\n" + 
+				"	am.id_almacen_logico = al.id_almacen_logico \r\n" + 
+				"	AND am.id_articulo = "+articulo+" \r\n" + 
+				"	AND am.tipo = '"+tipo+"'")
 				.getResultList();
 	}
 
