@@ -146,7 +146,8 @@
         <!-- /.content-wrapper -->
         <input type="hidden" th:value="${idPedido}" id="idPedido">
          <input type="hidden" id="idEmpleado">
-
+		 <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? true:false">
+		 <input type="hidden" id="rolValidacionFalda" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_VALIDACION_FALDA'')')}? true:false">
         <div th:insert="navegacion-footer"></div>
     </div>
     <!-- ./wrapper -->
