@@ -225,10 +225,10 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"				WHERE\n" + 
 				"					1 = 1\n" + 
 				"					AND look.id_lookup = material.id_tipo_material \n" + 
+				"					AND look.atributo_1 = 1 \n" +
+				"					AND material.estatus = 1 \n" + 
 				"					AND look.nombre_lookup NOT IN ( 'Tela Material' ) \n" + 
 				"					AND look.nombre_lookup NOT IN ( 'Forro Material' )  \n" + 
-			
-				"					AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' )  \n" + 
 				"					AND material.id_material = material_prenda.id_material \n" + 
 				"					AND material.id_proceso = adl.id_lookup \n" + 
 				"					AND material_prenda.id_prenda = "+id).getResultList();
