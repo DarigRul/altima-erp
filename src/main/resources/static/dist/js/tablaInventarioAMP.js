@@ -1,30 +1,3 @@
-(function() {
-    var _div = document.createElement('div');
-    jQuery.fn.dataTable.ext.type.search.html = function(data) {
-        _div.innerHTML = data;
-        return _div.textContent ?
-            _div.textContent
-            .replace(/[áÁàÀâÂäÄãÃåÅæÆ]/g, 'a')
-            .replace(/[çÇ]/g, 'c')
-            .replace(/[éÉèÈêÊëË]/g, 'e')
-            .replace(/[íÍìÌîÎïÏîĩĨĬĭ]/g, 'i')
-            .replace(/[ñÑ]/g, 'n')
-            .replace(/[óÓòÒôÔöÖœŒ]/g, 'o')
-            .replace(/[ß]/g, 's')
-            .replace(/[úÚùÙûÛüÜ]/g, 'u')
-            .replace(/[ýÝŷŶŸÿ]/g, 'n') :
-            _div.innerText
-            .replace(/[áÁàÀâÂäÄãÃåÅæÆ]/g, 'a')
-            .replace(/[çÇ]/g, 'c')
-            .replace(/[éÉèÈêÊëË]/g, 'e')
-            .replace(/[íÍìÌîÎïÏîĩĨĬĭ]/g, 'i')
-            .replace(/[ñÑ]/g, 'n')
-            .replace(/[óÓòÒôÔöÖœŒ]/g, 'o')
-            .replace(/[ß]/g, 's')
-            .replace(/[úÚùÙûÛüÜ]/g, 'u')
-            .replace(/[ýÝŷŶŸÿ]/g, 'n');
-    };
-});
 $(document).ready(function() {
     $('#tablaAMPInv thead tr').clone(true).appendTo('#tablaAMPInv thead');
     $('#tablaAMPInv thead tr:eq(1) th').each(function(i) {
@@ -52,22 +25,27 @@ $(document).ready(function() {
                     trigger: 'hover'
                 });
             },
-            "columnDefs": [{
-                "type": "html",
-                "targets": '_all'
-            }],
+            "columnDefs": [
+                { "width": "10%", "targets": 0 },
+                { "width": "25%", "targets": 1},
+                { "width": "15%", "targets": 2 },
+                { "width": "10%", "targets": 3 },
+                { "width": "10%", "targets": 4 },
+                { "width": "10%", "targets": 5 },
+                { "width": "20%", "targets": 6 },
+              ],
             "lengthMenu": [
                 [5, 10, 25, 50, 100],
                 [5, 10, 25, 50, 100]
             ],
             "language": {
                 "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sLengthMenu": "Mostrar MENU registros",
                 "sZeroRecords": "No se encontraron resultados",
                 "sEmptyTable": "Ningún dato disponible en esta tabla =(",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfo": "Mostrando registros del START al END de un total de TOTAL registros",
                 "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoFiltered": "(filtrado de un total de MAX registros)",
                 "sInfoPostFix": "",
                 "sSearch": "Buscar:",
                 "sUrl": "",
@@ -91,11 +69,4 @@ $(document).ready(function() {
         });
     new $.fn.dataTable.FixedHeader(table);
 
-});
-// Remove accented character from search input as well
-$('#example_filter input[type=search]').keyup(function() {
-    var table = $('#tablaAMPInv').DataTable();
-    table.search(
-        jQuery.fn.DataTable.ext.type.search.html(this.value)
-    ).draw();
 });

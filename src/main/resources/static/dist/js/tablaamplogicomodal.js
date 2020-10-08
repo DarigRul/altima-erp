@@ -5,6 +5,7 @@ $(document).ready(function () {
 });
 
 function articulo(id,tipo){
+	
 	var id2=id;
 	var tipo2=tipo;
 	$('#articulo').val(id2); 
@@ -66,7 +67,10 @@ function agregarmultialmacen(){
 };
 
 
-function tablamulti(articulo,tipo){
+function tablamulti(articulo,tipo, nombre , global){
+	
+	$('#articuloAlmacen').val(nombre); 
+	$('#existenciaGlobal').val(global); 
 	var tipoparam;
 	if(tipo=="aa"){
 		tipoparam="materialAlmacen";
@@ -98,7 +102,8 @@ function tablamulti(articulo,tipo){
 					"<thead>" +
 					"<tr>" +
 					"<th>Almacén lógico</th>" +
-					"<th></th>" +
+					"<th>Existencia</th>" +
+					"<th>Acciones</th>" +
 					"</tr>" +
 					"</thead>" +
 					"</table>" + "</div>");
@@ -111,8 +116,11 @@ function tablamulti(articulo,tipo){
 				a = [
 					"<tr>" +
 					"<td>" + data[i][1] + "</td>",
+					
+					"<td>" + data[i][3] + "</td>",
 					"<td>" +
 					"<button onclick='EliminarMultialmacen(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Eliminar'><i class='fas fa-minus-circle'></i></button>"   +
+					'<button class="btn btn-altima btn-circle btn-sm popoverxd ubicacionButton" data-container="body" data-placement="top" data-content="Ver ubicaci&oacute;n de almac&eacute;n"><i class="fas fa-map-marker-alt"></i></button>'+
 					"</td>" +
 					"<tr>"
 					];
