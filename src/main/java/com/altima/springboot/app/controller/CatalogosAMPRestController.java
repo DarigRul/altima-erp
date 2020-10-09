@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,8 +56,18 @@ public class CatalogosAMPRestController {
 	@ResponseBody
 	public List<AmpLookup> listarlookup(String Tipo) {
 
+	
 		return LookupService.findAllLookup(Tipo);
 	}
+	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
+	@RequestMapping(value = "/listar-amp-linea", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object []> listarlookuplinea(String Tipo) {
+
+		return LookupService.findAllLinea();
+	}
+	
 	
 	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_ELIMINAR"})
 	@PostMapping("/baja-catalogo-amp")
@@ -229,5 +240,37 @@ public class CatalogosAMPRestController {
 		
 
 	
+	}
+	
+	
+
+	@PostMapping("/editar-catalogo-amp")
+	public String editacatalogo(Long idLookup, String linea, String Clasificacion) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		AmpLookup Linea = null;
+		AmpLookup clas = null;
+	
+		if (linea != null && idLookup > 0) {
+			Linea = LookupService.findOne(idLookup);
+			Linea.setNombreLookup(StringUtils.capitalize(linea));
+			Linea.setDescripcionLookup(Clasificacion);
+			Linea.setUltimaFechaModificacion(dateFormat.format(date));
+			Linea.setActualizadoPor(auth.getName());
+			LookupService.save(Linea);
+			return "redirect:catalogos";
+		}
+		
+		if (Clasificacion != null && idLookup > 0) {
+			clas = LookupService.findOne(idLookup);
+			clas.setNombreLookup(StringUtils.capitalize(Clasificacion));
+			clas.setUltimaFechaModificacion(dateFormat.format(date));
+			clas.setActualizadoPor(auth.getName());
+			LookupService.save(clas);
+			return "redirect:catalogos";
+		}
+	
+		return "redirect:catalogos";
 	}
 }

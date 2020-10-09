@@ -28,4 +28,6 @@ public interface IAmpLoookupService {
 	List<AmpLookup> findAllMovements();
 
 	List<AmpLookup> findMovementsDuplicate(String movimiento, String tipo);
+	
+	List<Object []> findAllLinea();
 }

@@ -5,6 +5,7 @@ $(document).ready(function () {
 	listarAlmacenesfisicos();
 	listarAlmaceneslogicos();
 	listarMovimientos();
+	listarLineas();
 
 });
 $('#detalleClasificacion').on('shown.bs.modal', function () {
@@ -138,8 +139,6 @@ function agregarLinea(){
 					data: {
 						'Lookup': linea,
 						'Tipo': "Linea"
-
-
 					}
 
 				}).done(function (data) {
@@ -156,7 +155,7 @@ function agregarLinea(){
 							}
 
 						}).done(function (data) {
-							listarClasificacion();
+							listarLineas();
 						});
 						Swal.fire({
 							position: 'center',
@@ -392,7 +391,6 @@ function agregarAlmacen(){
 }
 
 function listarClasificacion() {
-	console.log ("jhola");
 	$.ajax({
 		method: "GET",
 		url: "/listar-amp",
@@ -415,7 +413,7 @@ function listarClasificacion() {
 					"</table>" + "</div>");
 			var a;
 			var b = [];
-			if(rolAdmin==1){
+			
 				for (i in data) {
 					var creacion =data[i].actualizadoPor==null?"":data[i].actualizadoPor;
 
@@ -425,37 +423,17 @@ function listarClasificacion() {
 						"<td>" + data[i].nombreLookup + "</td>",
 						"<td style='text-align: center'>" +
 						"<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>"+data[i].creadoPor+" <br /><strong>Fecha de creación:</strong> "+data[i].fechaCreacion+"<br><strong>Modificado por:</strong>"+creacion+"<br><strong>Fecha de modicación:</strong>"+data[i].ultimaFechaModificacion+"'><i class='fas fa-info'></i></button> " +
-						" <button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
-						(data[i].estatus == 1 ? "<button onclick='bajarColor(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " " ) +
-						(data[i].estatus == 0 ? "<button onclick='reactivar(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " " ) +
+						" <button onclick='editarClas(\"" + data[i].idLookup + "\",\"" + data[i].nombreLookup + "\");'  class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+						(data[i].estatus == 1 ? "<button onclick='bajarClasificacion(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " " ) +
+						(data[i].estatus == 0 ? "<button onclick='subirClasificacion(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " " ) +
 						"</td>" +
 
 						"<tr>"
 						];
 					b.push(a);
 				}
-			}
-			else{
-				for (i in data) {
-					var creacion =data[i].actualizadoPor==null?"":data[i].actualizadoPor;
-					if(data[i].estatus==1){
-						a = [
-							"<tr>" +
-							"<td>" + data[i].idText + "</td>",
-							"<td>" + data[i].nombreLookup + "</td>",
-							"<td style='text-align: center'>" +
-							"<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>"+data[i].creadoPor+" <br /><strong>Fecha de creación:</strong> "+data[i].fechaCreacion+"<br><strong>Modificado por:</strong>"+creacion+"<br><strong>Fecha de modicación:</strong>"+data[i].ultimaFechaModificacion+"'><i class='fas fa-info'></i></button> " +
-							(rolEditar == 1 ? "<button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" : " ") +
-							(rolEliminar == 1 ? "<button onclick='bajarColor(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
-							"</td>" +
+			
 
-							"<tr>"
-							];
-						b.push(a);
-
-					}
-				}
-			}
 			var tablaColores = $('#idtable2').DataTable({
 				"data": b,
 				"ordering": false,
@@ -503,6 +481,160 @@ function listarClasificacion() {
 
 		}
 	})
+}
+
+function bajarClasificacion(id){
+	Swal.fire({
+		  title: '¿Deseas dar de baja la clasificaci&oacute;n?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  $.ajax({
+					type: "POST",
+					url: "/baja-catalogo-amp",
+					data: {
+						"_csrf": $('#token').val(),
+						'idcatalogo': id
+					}
+
+				}).done(function (data) {
+					
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Clasificaci&oacute;n dado de baja correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarClasificacion();
+				
+				});
+			  
+		  }
+		});
+}
+function subirClasificacion(id){
+Swal.fire({
+	  title: '¿Deseas dar de alta la clasificaci&oacute;n?',
+	  icon: 'warning',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  confirmButtonText: 'Confirmar',
+	  cancelButtonText: 'Cancelar'
+	}).then((result) => {
+	  if (result.value) {
+		  $.ajax({
+				type: "POST",
+				url: "/reactivar-catalogo-amp",
+				data: {
+					"_csrf": $('#token').val(),
+					'idcatalogo': id
+				}
+
+			}).done(function (data) {
+				
+					 Swal.fire({
+						  position: 'center',
+						  icon: 'success',
+						  title: 'Clasificaci&oacute;n dado de alta correctamente',
+						  showConfirmButton: false,
+						  timer: 2500
+						});
+					 listarClasificacion();
+			
+			});
+		  
+	  }
+	});
+}
+
+function editarClas (id, nombre){
+	Swal.fire({
+		  title: 'Ediatr clasificaci&oacute;n',
+		  html:
+			  '<div class="row">'+
+				  '<div class="form-group col-sm-12">'+
+				  	'<label for="descripcionMovimiento">Nombre</label>'+
+				  	'<input type="text" class="form-control" id="clasificacion" name="clasificacion" value="'+nombre+'" placeholder="Clasificacion">'+
+				  	'<input type="hidden" class="form-control" id="idLook" name="idLook" value="'+id+'" placeholder="Clasificacion">'+
+				  '</div>'+
+				  
+			  '</div>',
+		  inputAttributes: {
+		    autocapitalize: 'off'
+		  },
+		  showCancelButton: true,
+		  confirmButtonText: 'Agregar',
+		  cancelButtonText: 'Cancelar',
+		  showLoaderOnConfirm: true,
+		  preConfirm: (clasificacion) => {
+			  
+			  if(document.getElementById("clasificacion").value.length<1){
+					Swal.showValidationMessage(
+							`Complete todos los campos`
+					)
+				}
+		  
+		  },
+		  allowOutsideClick: () => !Swal.isLoading()
+		}).then((result) => {
+		  if (result.value && document.getElementById("clasificacion").value ) {
+				var clasificacion = document.getElementById("clasificacion").value;
+				var id = document.getElementById("idLook").value;
+			  $.ajax({
+					type: "GET",
+					url: "/verificar-duplicado-amp",
+					data: {
+						'Lookup': clasificacion,
+						'Tipo': "Clasificacion"
+
+
+					}
+
+				}).done(function (data) {
+					if(data==false){
+
+						$.ajax({
+							type: "POST",
+							url: "/editar-catalogo-amp",
+							data: {
+								"_csrf": $('#token').val(),
+								'Clasificacion': clasificacion,
+								'idLookup' : id
+
+							}
+
+						}).done(function (data) {
+							listarClasificacion();
+						});
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'Actualizado correctamente',
+							showConfirmButton: false,
+							timer: 1250
+						})
+						// / window.setTimeout(function(){location.reload()}, 2000);
+					}// /fin segundoif
+					else{
+						Swal.fire({
+							position: 'center',
+							icon: 'error',
+							title: 'registro duplicado no se ha actualizado',
+							showConfirmButton: false,
+							timer: 1250
+						})
+
+					}
+				});
+		  }
+		});
 }
 
 function addMovimiento(){
@@ -632,6 +764,7 @@ tipolookup
 		  }
 		});
 }
+
 
 
 
@@ -1785,4 +1918,229 @@ function listarMovimientos() {
 
 function abrirMapeo(){
 	$('#detalleMapeo').modal('show');
+}
+
+function listarLineas(){
+	console.log ("jhola");
+	$.ajax({
+		method: "GET",
+		url: "/listar-amp-linea",
+		data:{
+			"Tipo":"Linea"
+		} ,
+		success: (data) => {
+			var tabla = $('#tableLinea').DataTable();
+			tabla.clear();
+    	    
+            $(data).each(function(i, v){ // indice, valor
+            	tabla.row.add([	
+            		v[1],
+            		v[2],
+            		v[3],
+            		"<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>"+v[5]+" <br /><strong>Fecha de creación:</strong> "+v[6]+"<br><strong>Modificado por:</strong>"+v[7]+"<br><strong>Fecha de modicación:</strong>"+v[8]+"'><i class='fas fa-info'></i></button> " +
+            		"<button onclick='editarLinea(\"" + v[0] + "\",\"" + v[2] + "\",\"" + v[9] + "\");'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+            		(v[4] == 1 ? "<button onclick='bajarlinea(" + v[0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " " ) +
+					(v[4] == 0 ? "<button onclick='reactivarlinea(" + v[0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " " ) 
+           		  
+           		 ]).node().id ="row";
+           	tabla.draw( false );
+            	//fila = '<tr> <td>'+v[1]+'</td>  <td >'+ v[2] +'</td> <td >'+ v[3] +'</td> <td >'+ v[4] +'</td>  </tr>' ;
+            	
+            	
+            	
+            })
+		},
+		error: (e) => {
+
+		}
+	})
+}
+
+$('#detalleLinea').on('shown.bs.modal', function () {
+	$(document).off('focusin.modal');
+});
+function editarLinea (id, nombre,clasificacion){
+	
+	Swal.fire({
+		  title: 'Editar l&iacute;nea',
+		  html:
+			  '<div class="row">'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="descripcionMovimiento">Nombre</label>'+
+				  	'<input type="text" class="form-control" id="linea" value="'+nombre+'" name="linea" placeholder="Linea">'+
+				  	'<input type="hidden" class="form-control" id="idlookup" name="idlookup" value="'+id+'" name="id" placeholder="Linea">'+
+				  '</div>'+
+				  
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="ubicacionTalla">Clasificaci&oacute;n</label>'+
+				  	'<select class="form-control" id="clasificacion" value="'+clasificacion+'" name="clasificacion">'+
+				      
+				   '</select>'+
+				  '</div>'+
+				  
+			  '</div>',
+			  showCancelButton: true,
+		        cancelButtonColor: '#dc3545',
+		        cancelButtonText: 'Cancelar',
+		        confirmButtonText: 'Actualizar',
+		        confirmButtonColor: '#0288d1',
+		        preConfirm: (nombre) => {
+		            if (document.getElementById("linea").value.length < 1) {
+		                Swal.showValidationMessage(
+		                    `Complete todos los campos`
+		                )
+		            }
+		        }
+		    }).then((result) => {
+		        if (result.value && document.getElementById("linea").value) {
+		            var linea = document.getElementById("linea").value;
+
+		            var idLookup = document.getElementById("idlookup").value;
+		            var clasificacion = document.getElementById("clasificacion").value;
+		            $.ajax({
+		            type: "GET",
+					url: "/verificar-duplicado-amp",
+					data: {
+						'Lookup': linea,
+						'Tipo': "Linea"
+					}
+
+		            }).done(function(data) {
+		                if (data == false) {
+		                    $.ajax({
+		                        type: "POST",
+		                        url:"/editar-catalogo-amp",
+		                        data: {
+		                            "_csrf": $('#token').val(),
+		                            'linea': linea,
+		                            'idLookup': idLookup,
+		                            'Clasificacion': clasificacion
+		                                // ,'Descripcion':Descripcion
+		                        }
+
+		                    }).done(function(data) {
+		                        listarLineas();
+		                    });
+		                    Swal.fire({
+		                            position: 'center',
+		                            icon: 'success',
+		                            title: 'Editado correctamente',
+		                            showConfirmButton: false,
+		                            timer: 1250
+		                        })
+		                        // window.setTimeout(function(){location.reload()}, 2000);
+		                } // /fin segundoif
+		                else {
+		                    Swal.fire({
+		                        position: 'center',
+		                        icon: 'error',
+		                        title: 'Registro duplicado no se ha editado',
+		                        showConfirmButton: false,
+		                        timer: 1250
+		                    })
+
+		                }
+		            });
+		        } // fin if
+		    });
+	
+	$.ajax({
+		method: "GET",
+		url: "/listar-amp",
+		data:{
+			"Tipo":"Clasificacion"
+		} ,
+		success: (data) => {
+			$.each(data, function(key, val) {
+				
+				if (val.idLookup == clasificacion  ){
+					$('#clasificacion').append('<option selected value="' + val.idLookup + '">'+val.nombreLookup+'</option>');
+				}
+				else{
+					$('#clasificacion').append('<option value="' + val.idLookup + '">'+val.nombreLookup+'</option>');
+				}
+	    		
+	    		
+			
+			})
+	    		//$('.selectpicker').selectpicker(["refresh"]);
+	    	
+
+		},
+		error: (e) => {
+
+		}
+	})
+	
+}
+function bajarlinea(id){
+	Swal.fire({
+		  title: '¿Deseas dar de baja la l&iacute;nea?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  $.ajax({
+					type: "POST",
+					url: "/baja-catalogo-amp",
+					data: {
+						"_csrf": $('#token').val(),
+						'idcatalogo': id
+					}
+
+				}).done(function (data) {
+					
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'L&iacute;nea dado de baja correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarLineas();
+				
+				});
+			  
+		  }
+		});
+}
+
+function reactivarlinea(id){
+	Swal.fire({
+		  title: '¿Deseas dar de alta la l&iacute;nea?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  $.ajax({
+					type: "POST",
+					url: "/reactivar-catalogo-amp",
+					data: {
+						"_csrf": $('#token').val(),
+						'idcatalogo': id
+					}
+
+				}).done(function (data) {
+					
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'L&iacute;nea dado de alta correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarLineas();
+				
+				});
+			  
+		  }
+		});
 }

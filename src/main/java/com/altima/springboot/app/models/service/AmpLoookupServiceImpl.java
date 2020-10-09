@@ -53,7 +53,7 @@ public class AmpLoookupServiceImpl implements IAmpLoookupService {
 	@Transactional
 	@OrderBy("idLookup ASC")
 	public List<AmpLookup> findAllLookup(String Tipo) {
-		return em.createQuery("from AmpLookup where tipo_lookup='" + Tipo + "' and estatus=1").getResultList();
+		return em.createQuery("from AmpLookup where tipo_lookup='" + Tipo + "' ").getResultList();
 	}
 
 	@Override
@@ -135,4 +135,39 @@ public class AmpLoookupServiceImpl implements IAmpLoookupService {
 				.getResultList();
 	}
 
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	@OrderBy("idLookup ASC")
+	public List<Object []> findAllLinea() {
+		return em.createNativeQuery(""
+				+ "SELECT\n" + 
+				"	amp.id_lookup,\n" + 
+				"	amp.id_text,\n" + 
+				"	amp.nombre_lookup,\n" + 
+				"	clasificacion.nombre_lookup AS descripcion_lookup,\n" + 
+				"	amp.estatus,\n" + 
+				"	amp.creado_por,\n" + 
+				"	DATE_FORMAT( amp.fecha_creacion, '%Y-%m-%d %T' ),\n" + 
+				"IF\n" + 
+				"	( amp.actualizado_por IS NULL, '', amp.actualizado_por ),\n" + 
+				"IF\n" + 
+				"	(\n" + 
+				"		amp.ultima_fecha_modificacion IS NULL,\n" + 
+				"		' ',\n" + 
+				"	DATE_FORMAT( amp.ultima_fecha_modificacion, '%Y-%m-%d %T' )),\n" + 
+				"	clasificacion.id_lookup as id_clas \n" + 
+				"FROM\n" + 
+				"	alt_amp_lookup AS amp,\n" + 
+				"	alt_amp_lookup AS clasificacion \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND clasificacion.id_lookup = amp.descripcion_lookup \n" + 
+				"	AND amp.tipo_lookup = 'Linea' \n" + 
+				"ORDER BY\n" + 
+				"	amp.id_text,\n" + 
+				"	amp.nombre_lookup ASC").getResultList();
+		
+	}
 }
