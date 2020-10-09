@@ -40,6 +40,9 @@ public class ComercialPedidoInformacion implements Serializable{
 	
 	@Column(name="id_pedido")
 	private Long idPedido;
+
+	@Column(name="validacion")
+	private Boolean validacion;
 	
 	public Long getIdPedido() {
 		return idPedido;
@@ -302,6 +305,14 @@ public class ComercialPedidoInformacion implements Serializable{
 
 	public void setEstatus(String estatus) {
 		this.estatus = estatus;
+	}
+
+	public Boolean getValidacion() {
+		return validacion;
+	}
+
+	public void setValidacion(Boolean validacion) {
+		this.validacion = validacion;
 	}
 	
 	

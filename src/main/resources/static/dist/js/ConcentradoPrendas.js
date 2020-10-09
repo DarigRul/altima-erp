@@ -1,5 +1,18 @@
+var validacion;
 $(document).ready(function () {
 
+	$.ajax({
+		type: "GET",
+		url: `/getEstatusValidacion/${$('#idPedido').val()}`,
+		success: function (data) {
+			if (data==true) {
+				validacion=true;
+			} 
+			else{
+				validacion=false;
+			}
+		}
+	});
 	//Esto elimina los puntos y simbolos raros del input
 	$("#cantidadPrendas").keypress(function (e) {
 		if (e["originalEvent"]["key"] == "." || e["originalEvent"]["key"] == "-" || e["originalEvent"]["key"] == "e" ||
@@ -271,7 +284,7 @@ function AgregarPrendaEmpleado() {
 			$("#BotonAgregar1").prop('disabled', false);
 			return false;
 		}
-		if ($("#rolAdmin").val() == 'false' && $("#rolValidacionFalda").val() == 'false') {
+		if (!validacion) {
 			if (PrendasEmpleado[i]["tipo"] == 'Pantalón' && PrendasEmpleado[i]["cantidad"] >= 1  && temp["tipo"] == 'Falda' && temp["cantidad"] > 0) {
 				Swal.fire({
 					icon: 'error',
@@ -295,6 +308,7 @@ function AgregarPrendaEmpleado() {
 				return false;
 			}
 		}
+
 	}
 
 	if (!repetido) {
