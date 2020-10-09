@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.altima.springboot.app.models.service.IAmpExplosionMaterialesService;
 
@@ -27,8 +28,9 @@ public class AMPExplosionMaterialesController {
         return"materia-prima";
     }
 
-    @GetMapping("/materiales-explosionar")
-    public String MaterialesExplostionarList(){
+    @GetMapping("/materiales-explosionar/{idpedido}")
+    public String MaterialesExplostionarList(@PathVariable("idpedido") Long idpedido,Model model ){
+    	model.addAttribute("materiales", AmpExplosionMaterialesService.findTotalMaterials(idpedido));
         return"materiales-explosionar";
     }
 }
