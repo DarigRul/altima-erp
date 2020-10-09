@@ -1,4 +1,4 @@
-$(document).ready(function() {
+ 	$(document).ready(function() {
     $('#tablaAMPInv thead tr').clone(true).appendTo('#tablaAMPInv thead');
     $('#tablaAMPInv thead tr:eq(1) th').each(function(i) {
         var title = $(this).text();
@@ -40,10 +40,10 @@ $(document).ready(function() {
             ],
             "language": {
                 "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar MENU registros",
+                "sLengthMenu": "Mostrar _MENU_ registros",
                 "sZeroRecords": "No se encontraron resultados",
                 "sEmptyTable": "Ningún dato disponible en esta tabla =(",
-                "sInfo": "Mostrando registros del START al END de un total de TOTAL registros",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
                 "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
                 "sInfoFiltered": "(filtrado de un total de MAX registros)",
                 "sInfoPostFix": "",
