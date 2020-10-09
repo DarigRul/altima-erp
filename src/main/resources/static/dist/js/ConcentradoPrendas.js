@@ -272,7 +272,7 @@ function AgregarPrendaEmpleado() {
 			return false;
 		}
 		if ($("#rolAdmin").val() == 'false' && $("#rolValidacionFalda").val() == 'false') {
-			if (PrendasEmpleado[i]["tipo"] == 'Pantalón' && temp["tipo"] == 'Falda' && temp["cantidad"] > 0) {
+			if (PrendasEmpleado[i]["tipo"] == 'Pantalón' && PrendasEmpleado[i]["cantidad"] >= 1  && temp["tipo"] == 'Falda' && temp["cantidad"] > 0) {
 				Swal.fire({
 					icon: 'error',
 					title: 'Error',
@@ -283,7 +283,7 @@ function AgregarPrendaEmpleado() {
 				$("#BotonAgregar1").prop('disabled', false);
 				return false;
 			}
-			else if (PrendasEmpleado[i]["tipo"] == 'Falda' && temp["tipo"] == 'Pantalón' && temp["cantidad"] > 0) {
+			else if (PrendasEmpleado[i]["tipo"] == 'Falda' && PrendasEmpleado[i]["cantidad"] >= 1 &&  temp["tipo"] == 'Pantalón' && temp["cantidad"] > 0) {
 				Swal.fire({
 					icon: 'error',
 					title: 'Error',
