@@ -76,11 +76,13 @@
                                                 <td th:text="${material[6]}">Metros</td>
                                                 <td th:text="${material[7]}">Independiente</td>
                                                 <td th:text="${material[9]}">Cafe</td>
-                                                <td th:text="${material[17]}">85.6</td>
-                                                <td>84.6</td>
-                                                <td>15.5</td>
-                                                <td>97.3</td>
-                                                <td>Faltante</td>
+                                                <td th:text="${material[21]}">85.6</td>
+                                                <td th:text="${material[18]}">84.6</td>
+                                                <td th:text="${material[20]}">15.5</td>
+                                                <td th:text="${material[22]}">97.3</td>
+                                                <td th:if="${material[22] > 0 }">Faltante</td>
+                                                 <td th:if="${material[22] == 0 }">Completo</td>
+                                                  <td th:if="${material[22] == null }">Faltante</td>
                                                 <td class="text-center">
                                                     <button id="modalAlmacenMaterial"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
