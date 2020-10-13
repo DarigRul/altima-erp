@@ -104,7 +104,7 @@ public class InventarioAMPController {
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		DecimalFormat df = new  DecimalFormat ("00000");
-		String unique = LookService.nombreCategoria(inventario.getIdLinea());
+		String unique = LookService.nombreCategoria(inventario.getIdClasificacion());
 		System.out.println("aqui esta el result de la query pref " + unique);
 		String prefijo = unique.substring(1, 4);
 		System.out.println("aqui esta el prefijo" + prefijo);
@@ -134,7 +134,7 @@ public class InventarioAMPController {
 			InventarioSerivice.save(inventario);
 			
 			//inventario.setIdText(inventario.getArticulo().substring(0,3) + df.format(inventario.getIdInventario()));
-			inventario.setIdText(prefijo.toUpperCase() + (inventario.getIdInventario() + 10000));
+			inventario.setIdText(prefijo.toUpperCase() + (InventarioSerivice.SumClas(inventario.getIdClasificacion()) + 10000));
 			InventarioSerivice.save(inventario);
 			redirectAttrs.addFlashAttribute("title", "Inventario guardado correctamente").addFlashAttribute("icon", "success");
 		}

@@ -167,5 +167,18 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 
 		return repository.findById(id).orElse(null);
 	}
+	
+	@Override
+	@Transactional
+	public Integer SumClas(Long id) {
+	String re =  em.createNativeQuery("SELECT\n" + 
+			"	COUNT( articulo ) \n" + 
+			"FROM\n" + 
+			"	alt_amp_inventario \n" + 
+			"WHERE\n" + 
+			"	id_clasificacion ="+ id).getSingleResult().toString();
+		int i=Integer.parseInt(re);  
+		return i++;
+	}
 
 }

@@ -51,9 +51,14 @@ public class AmpLoookupServiceImpl implements IAmpLoookupService {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	@OrderBy("idLookup ASC")
+	@OrderBy("nombreLookup ASC")
 	public List<AmpLookup> findAllLookup(String Tipo) {
-		return em.createQuery("from AmpLookup where tipo_lookup='" + Tipo + "' ").getResultList();
+		if (Tipo.equals("Clasificacion")) {
+			return em.createQuery("from AmpLookup where tipo_lookup='" + Tipo + "' and nombre_lookup !='Habilitación' ORDER BY nombre_lookup ASC").getResultList();
+		}
+		else {
+			return em.createQuery("from AmpLookup where tipo_lookup='" + Tipo + "' ORDER BY nombre_lookup ASC ").getResultList();
+		}
 	}
 
 	@Override

@@ -119,7 +119,7 @@ function tablamulti(articulo,tipo, nombre , global){
 					
 					"<td>" + data[i][3] + "</td>",
 					"<td>" +
-					"<button onclick='EliminarMultialmacen(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Eliminar'><i class='fas fa-minus-circle'></i></button>"   +
+					"<button onclick='EliminarMultialmacen(" + data[i][0] + " , " + data[i][3] + " )' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Eliminar'><i class='fas fa-minus-circle'></i></button>"   +
 					'<button class="btn btn-altima btn-circle btn-sm popoverxd ubicacionButton" data-container="body" data-placement="top" data-content="Ver ubicaci&oacute;n de almac&eacute;n"><i class="fas fa-map-marker-alt"></i></button>'+
 					"</td>" +
 					"<tr>"
@@ -187,10 +187,19 @@ function tablamulti(articulo,tipo, nombre , global){
 
 }
 
-function EliminarMultialmacen(idmultialmacen){
+function EliminarMultialmacen(idmultialmacen , cantidad){
 	var articulo= $('#articulo').val();
 	var tipo= $('#tipo').val();
-
+if ( cantidad >0){
+	Swal.fire({
+		position: 'center',
+		icon: 'error',
+		title: 'No es posible eliminar ya que cuenta con registro.',
+		showConfirmButton: false,
+		timer: 1500
+	})  
+	return 0;
+}
 
 	$.ajax({
 		type: "DELETE",
