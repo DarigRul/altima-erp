@@ -70,9 +70,9 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 				"		total_prendas_pedido.*,\r\n" + 
 				"		( total_prendas_pedido.TOTAL * alt_disenio_material_prenda.cantidad ) AS total22,\r\n" + 
 				"		am.id_multialmacen id_multialmacen_apartado,\r\n" + 
-				"		( alt_amp_multialmacen.existencia - am.existencia ) disponible_actual #am.existencia son apartados\r\n" + 
+				"		(sum(if(alt_amp_multialmacen.id_almacen_logico<>9,alt_amp_multialmacen.existencia,0))-am.existencia) disponible_actual #am.existencia son apartados\r\n" + 
 				"		,\r\n" + 
-				"		alt_amp_multialmacen.existencia disponible_inicio,\r\n" + 
+				"		SUM(IF(alt_amp_multialmacen.id_almacen_logico<>9, alt_amp_multialmacen.existencia,0)) disponible_inicio,\r\n" + 
 				"		am.existencia apartados \r\n" + 
 				"	FROM\r\n" + 
 				"		(\r\n" + 
