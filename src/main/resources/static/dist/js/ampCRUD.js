@@ -6,7 +6,7 @@ $(document).ready(function () {
 	listarAlmaceneslogicos();
 	listarMovimientos();
 	listarLineas();
-
+	//listarPasillos();
 });
 $('#detalleClasificacion').on('shown.bs.modal', function () {
 	$(document).off('focusin.modal');
@@ -1436,7 +1436,7 @@ function listarAlmacenesfisicos() {
                         "<button onclick='editarAlmacenFisico(\"" + data[i][3] + "\",\"" + data[i][0] + "\",\"" + data[i][1] + "\",\"" + data[i][2] + "\");'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
                         (data[i][8] == 1 ? "<button onclick='bajaAlmacenFisico(" + data[i][1] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
                         (data[i][8] == 0 ? "<button onclick='altaAlmacenFisico(" + data[i][1] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
-                        "<button onclick='abrirMapeo()' class='btn btn-altima btn-circle btn-sm popoverxd' data-content='Mapeo' data-placement='top'><i class='fas fa-map' style='margin-left: -1px;'></i></button>"+
+                        "<button onclick='abrirMapeo(" + data[i][1] + ")' class='btn btn-altima btn-circle btn-sm popoverxd' data-content='Mapeo' data-placement='top'><i class='fas fa-map' style='margin-left: -1px;'></i></button>"+
 
                         "</td>" +
                         "<tr>"
@@ -1916,8 +1916,188 @@ function listarMovimientos() {
 
 
 
-function abrirMapeo(){
+function abrirMapeo(id){
+	
+	
+	$.ajax({
+		method: "GET",
+		url: "/listar-ubicacion-almacen",
+		data:{
+			"id":id
+		} ,
+		success: (data) => {
+			var tabla = $('#tableUbicacion').DataTable();
+			tabla.clear();
+    	    
+            $(data).each(function(i, v){ // indice, valor
+            	tabla.row.add([	
+            		v.nombre,
+            		
+            		  (v.estatus == 1 ? "<button onclick='bajaAlta(" + v.idUbicacion + ", 0)' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                      (v.estatus == 0 ? "<button onclick='bajaAlta(" + v.idUbicacion+ ", 1)' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") 
+            		
+           		 ]).node().id ="row";
+           	tabla.draw( false );
+            	
+            	
+            	
+            })
+		},
+		error: (e) => {
+
+		}
+	})
+
+	
+	$('#idAlmacen').val(id);
+	  $('#fila').val(null);
+  	$('#casillero').val(null);
+  	$('#anaquel').val(null);
 	$('#detalleMapeo').modal('show');
+}
+function bajaAlta(id , accion){
+	if ( accion == 0){accion ='baja'}
+	if ( accion == 1){accion ='alta'}
+	Swal.fire({
+		  title: '¿Deseas dar de '+accion+' esta ubicaci&oacute;n?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  $.ajax({
+					type: "POST",
+					url: "/baja-alta-ubicacion",
+					data: {
+						"_csrf": $('#token').val(),
+						'id': id,
+						'accion':accion
+					}
+
+				}).done(function (data) {
+					
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Ubicacion dado de '+accion+' correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 abrirMapeo($('#idAlmacen').val());
+				
+				});
+			  
+		  }
+		});
+}
+function validarUbiacion(){
+	
+	if ( $('#anaquel').val() == null || $('#anaquel').val() == '' || $('#anaquel').val() <0 ){
+		Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Ingresa un Anaquel',
+            showConfirmButton: false,
+            timer: 1250
+          }) 
+      		//document.fvalida.nombre.focus()
+      		return 0;
+	}
+	
+	if ( $('#fila').val() == null || $('#fila').val() == '' || $('#fila').val() <0 ){
+		Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Ingresa una fila',
+            showConfirmButton: false,
+            timer: 1250
+          }) 
+      		//document.fvalida.nombre.focus()
+      		return 0;
+	}
+	if ( $('#casillero').val() == null || $('#casillero').val() == '' || $('#casillero').val() <0 ){
+		Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Ingresa un casillero',
+            showConfirmButton: false,
+            timer: 1250
+          }) 
+      		//document.fvalida.nombre.focus()
+      		return 0;
+	}
+	if ( $('#idAlmacen').val() == null || $('#idAlmacen').val() == '' || $('#idAlmacen').val() <0 ){
+		Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Erroooooooooor',
+            showConfirmButton: false,
+            timer: 1250
+          }) 
+      		//document.fvalida.nombre.focus()
+      		return 0;
+	}
+
+}
+
+function agregarUbicacion ( ){
+	
+	
+	
+	if ( validarUbiacion() != 0 ){
+		
+	
+		
+		
+		$.ajax({
+	        type: "POST",
+	        url:"/agregar-ubicacion-almacen",
+	        data: { 
+	        	"idAlmacen":$('#idAlmacen').val(),
+	        	"fila":$('#fila').val(),
+	        	"casillero":$('#casillero').val(),
+	        	"anaquel":$('#anaquel').val(),
+	             "_csrf": $('#token').val()
+	        },
+	        beforeSend: function () {
+	        	
+	        	 document.getElementById("btn-estatus").disabled=true;
+	        	 Swal.fire({
+	                 title: 'Guardando ',
+	                 html: 'Por favor espere',// add html attribute if you want or
+												// remove
+	                 allowOutsideClick: false,
+	                 timerProgressBar: true,
+	                 onBeforeOpen: () => {
+	                     Swal.showLoading()
+	                 },
+	             });
+	        },
+	     
+	        success: function(data) {
+	        	
+	        	
+	        	 Swal.fire({
+	        		 position: 'center',
+	     				icon: 'success',
+	     				title: 'Agregado correctamente',
+	     				showConfirmButton: false,
+						timer: 1250
+	                 
+	             });
+	       },
+	       complete: function() {
+	    	   document.getElementById("btn-estatus").disabled=false;
+	    	   abrirMapeo($('#idAlmacen').val());
+	    
+		    },
+	    })
+		
+		
+	}
 }
 
 function listarLineas(){
@@ -2144,3 +2324,427 @@ function reactivarlinea(id){
 		  }
 		});
 }
+
+/*
+function agregarPasillos(){
+	Swal.fire({
+		  title: 'Nuevo Pasillo',
+		  html:
+			  '<div class="row">'+
+				  '<div class="form-group col-sm-12">'+
+				  	'<label for="descripcionMovimiento">Nombre</label>'+
+				  	'<input type="text" class="form-control" id="pasillo" name="Pasillo" placeholder="Pasillo">'+
+				  '</div>'+
+				  
+				  '<div class="form-group col-sm-12">'+
+				  	'<label for="ubicacionTalla">Almac&eacute;n f&iacute;sico</label>'+
+				  	'<select class="form-control" id="idAlmacen" name="idAlmacen">'+
+				  
+			  '</div>',
+		  inputAttributes: {
+		    autocapitalize: 'off'
+		  },
+		  showCancelButton: true,
+		  confirmButtonText: 'Agregar',
+		  cancelButtonText: 'Cancelar',
+		  showLoaderOnConfirm: true,
+		  preConfirm: (clasificacion) => {
+			  
+			  if(document.getElementById("pasillo").value.length<1){
+					Swal.showValidationMessage(
+							`Complete todos los campos`
+					)
+				}
+		  
+		  },
+		  allowOutsideClick: () => !Swal.isLoading()
+		}).then((result) => {
+		  if (result.value && document.getElementById("pasillo").value ) {
+				var pasillo = document.getElementById("pasillo").value;
+				var idAlmacen = document.getElementById("idAlmacen").value;
+			  $.ajax({
+					type: "GET",
+					url: "/verificar-duplicado-amp",
+					data: {
+						'Lookup': pasillo,
+						'Tipo': "Pasillo",
+						'atributo': idAlmacen
+
+
+					}
+
+				}).done(function (data) {
+					if(data==false){
+
+						$.ajax({
+							type: "POST",
+							url: "/guardar-catalogo-amp",
+							data: {
+								"_csrf": $('#token').val(),
+								'pasillo': pasillo,
+								'idAlmacen': idAlmacen
+
+							}
+
+						}).done(function (data) {
+							listarClasificacion();
+						});
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'Insertado correctamente',
+							showConfirmButton: false,
+							timer: 1250
+						})
+						// / window.setTimeout(function(){location.reload()}, 2000);
+					}// /fin segundoif
+					else{
+						Swal.fire({
+							position: 'center',
+							icon: 'error',
+							title: 'registro duplicado no se ha insertado',
+							showConfirmButton: false,
+							timer: 1250
+						})
+
+					}
+				});
+		  }
+		});
+	
+	$.ajax({
+		method: "GET",
+		url: "/listar-almacenes-fisicos",
+		data:{} ,
+		success: (data) => {
+			$.each(data, function(key, val) {
+	    		$('#idAlmacen').append('<option value="' + val[0] + '">'+val[1]+'</option>');})
+	    		//$('.selectpicker').selectpicker(["refresh"]);
+		},
+		error: (e) => {
+
+		}
+	})
+}
+
+function listarPasillos(){
+	console.log ("jhola");
+	$.ajax({
+		method: "GET",
+		url: "/listar-amp-pasillos",
+		data:{} ,
+		success: (data) => {
+			var tabla = $('#tablePasillo').DataTable();
+			tabla.clear();
+    	    
+            $(data).each(function(i, v){ // indice, valor
+            	tabla.row.add([	
+            		v[1],
+            		v[2],
+            		v[3],
+            		"<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>"+v[5]+" <br /><strong>Fecha de creación:</strong> "+v[6]+"<br><strong>Modificado por:</strong>"+v[7]+"<br><strong>Fecha de modicación:</strong>"+v[8]+"'><i class='fas fa-info'></i></button> " +
+            		"<button onclick='editarPasillos(\"" + v[0] + "\",\"" + v[2] + "\",\"" + v[9] + "\");'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+            		(v[4] == 1 ? "<button onclick='bajarPasillo(" + v[0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " " ) +
+					(v[4] == 0 ? "<button onclick='reactivarPasillo(" + v[0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " " ) 
+           		  
+           		 ]).node().id ="row";
+           	tabla.draw( false );
+            	//fila = '<tr> <td>'+v[1]+'</td>  <td >'+ v[2] +'</td> <td >'+ v[3] +'</td> <td >'+ v[4] +'</td>  </tr>' ;
+            	
+            	
+            	
+            })
+		},
+		error: (e) => {
+
+		}
+	})
+}
+function bajarPasillo(id){
+	Swal.fire({
+		  title: '¿Deseas dar de baja el pasiilo?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  $.ajax({
+					type: "POST",
+					url: "/baja-catalogo-amp",
+					data: {
+						"_csrf": $('#token').val(),
+						'idcatalogo': id
+					}
+
+				}).done(function (data) {
+					
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Pasillo dado de baja correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarPasillos();
+				
+				});
+			  
+		  }
+		});
+}
+
+function reactivarPasillo(id){
+	Swal.fire({
+		  title: '¿Deseas dar de alta el pasillo?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  $.ajax({
+					type: "POST",
+					url: "/reactivar-catalogo-amp",
+					data: {
+						"_csrf": $('#token').val(),
+						'idcatalogo': id
+					}
+
+				}).done(function (data) {
+					
+						 Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Pasillo dado de alta correctamente',
+							  showConfirmButton: false,
+							  timer: 2500
+							});
+						 listarPasillos();
+				
+				});
+			  
+		  }
+		});
+}
+
+$('#detallePasillos').on('shown.bs.modal', function () {
+	$(document).off('focusin.modal');
+});
+function editarPasillos(id, nombre,idAlmacen){
+	Swal.fire({
+		  title: 'Editar pasillo',
+		  html:
+			  '<div class="row">'+
+				  '<div class="form-group col-sm-12">'+
+				  	'<label for="descripcionMovimiento">Nombre</label>'+
+				  	'<input type="text" class="form-control" id="pasillo" name="pasillo" value="'+nombre+'" placeholder="Pasillo">'+
+				  	'<input type="hidden" class="form-control" id="idLookup" name="idLookup" value="'+id+'" placeholder="Pasillo">'+
+				  '</div>'+
+				  
+				  '<div class="form-group col-sm-12">'+
+				  	'<label for="ubicacionTalla">Almac&eacute;n f&iacute;sico</label>'+
+				  	'<select class="form-control" id="idAlmacen" name="idAlmacen">'+
+				  
+			  '</div>',
+		  inputAttributes: {
+		    autocapitalize: 'off'
+		  },
+		  showCancelButton: true,
+		  confirmButtonText: 'Agregar',
+		  cancelButtonText: 'Cancelar',
+		  showLoaderOnConfirm: true,
+		  preConfirm: (pasillo) => {
+			  
+			  if(document.getElementById("pasillo").value.length<1){
+					Swal.showValidationMessage(
+							`Complete todos los campos`
+					)
+				}
+		  
+		  },
+		  allowOutsideClick: () => !Swal.isLoading()
+		}).then((result) => {
+		  if (result.value && document.getElementById("pasillo").value ) {
+			  var idLookup = document.getElementById("idLookup").value;
+				var pasillo = document.getElementById("pasillo").value;
+				var idAlmacen = document.getElementById("idAlmacen").value;
+			  $.ajax({
+					type: "GET",
+					url: "/verificar-duplicado-amp",
+					data: {
+						'Lookup': pasillo,
+						'Tipo': "Pasillo",
+						'atributo': idAlmacen
+
+
+					}
+
+				}).done(function (data) {
+					if(data==false){
+
+						$.ajax({
+							type: "POST",
+							url: "/editar-catalogo-amp",
+							data: {
+								"_csrf": $('#token').val(),
+								'pasillo': pasillo,
+								'idAlmacen': idAlmacen,
+								'idLookup':idLookup
+
+							}
+
+						}).done(function (data) {
+							listarPasillos();
+						});
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'Actualizado correctamente',
+							showConfirmButton: false,
+							timer: 1250
+						})
+						// / window.setTimeout(function(){location.reload()}, 2000);
+					}// /fin segundoif
+					else{
+						Swal.fire({
+							position: 'center',
+							icon: 'error',
+							title: 'registro duplicado no se ha insertado',
+							showConfirmButton: false,
+							timer: 1250
+						})
+
+					}
+				});
+		  }
+		});
+	
+	$.ajax({
+		method: "GET",
+		url: "/listar-almacenes-fisicos",
+		data:{} ,
+		success: (data) => {
+			$.each(data, function(key, val) {
+				
+				if (idAlmacen== val[0] ){
+					$('#idAlmacen').append('<option selected value="' + val[0] + '">'+val[1]+'</option>');	
+				}
+				else{
+					$('#idAlmacen').append('<option value="' + val[0] + '">'+val[1]+'</option>');
+				}
+	    		
+			})
+	    		//$('.selectpicker').selectpicker(["refresh"]);
+		},
+		error: (e) => {
+
+		}
+	})
+}
+
+
+function agregarRack(){
+	Swal.fire({
+		  title: 'Nuevo Rack',
+		  html:
+			  '<div class="row">'+
+				  '<div class="form-group col-sm-12">'+
+				  	'<label for="descripcionMovimiento">Nombre</label>'+
+				  	'<input type="text" class="form-control" id="rack" name="rack" placeholder="Pasillo">'+
+				  '</div>'+
+				  
+				  '<div class="form-group col-sm-12">'+
+				  	'<label for="ubicacionTalla">Almac&eacute;n f&iacute;sico</label>'+
+				  	'<select class="form-control" id="idAlmacen" name="idAlmacen">'+
+				  
+			  '</div>',
+		  inputAttributes: {
+		    autocapitalize: 'off'
+		  },
+		  showCancelButton: true,
+		  confirmButtonText: 'Agregar',
+		  cancelButtonText: 'Cancelar',
+		  showLoaderOnConfirm: true,
+		  preConfirm: (clasificacion) => {
+			  
+			  if(document.getElementById("pasillo").value.length<1){
+					Swal.showValidationMessage(
+							`Complete todos los campos`
+					)
+				}
+		  
+		  },
+		  allowOutsideClick: () => !Swal.isLoading()
+		}).then((result) => {
+		  if (result.value && document.getElementById("pasillo").value ) {
+				var pasillo = document.getElementById("pasillo").value;
+				var idAlmacen = document.getElementById("idAlmacen").value;
+			  $.ajax({
+					type: "GET",
+					url: "/verificar-duplicado-amp",
+					data: {
+						'Lookup': pasillo,
+						'Tipo': "Pasillo",
+						'atributo': idAlmacen
+
+
+					}
+
+				}).done(function (data) {
+					if(data==false){
+
+						$.ajax({
+							type: "POST",
+							url: "/guardar-catalogo-amp",
+							data: {
+								"_csrf": $('#token').val(),
+								'pasillo': pasillo,
+								'idAlmacen': idAlmacen
+
+							}
+
+						}).done(function (data) {
+							listarClasificacion();
+						});
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'Insertado correctamente',
+							showConfirmButton: false,
+							timer: 1250
+						})
+						// / window.setTimeout(function(){location.reload()}, 2000);
+					}// /fin segundoif
+					else{
+						Swal.fire({
+							position: 'center',
+							icon: 'error',
+							title: 'registro duplicado no se ha insertado',
+							showConfirmButton: false,
+							timer: 1250
+						})
+
+					}
+				});
+		  }
+		});
+	
+	$.ajax({
+		method: "GET",
+		url: "/listar-almacenes-fisicos",
+		data:{} ,
+		success: (data) => {
+			$.each(data, function(key, val) {
+	    		$('#idAlmacen').append('<option value="' + val[0] + '">'+val[1]+'</option>');})
+	    		//$('.selectpicker').selectpicker(["refresh"]);
+		},
+		error: (e) => {
+
+		}
+	})
+}*/
