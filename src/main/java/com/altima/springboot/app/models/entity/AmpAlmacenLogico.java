@@ -38,6 +38,9 @@ public class AmpAlmacenLogico implements Serializable{
 	@Column(name="nombre_almacen_logico")
 	private String nombreAlmacenLogico;
 	
+	@Column(name="tipo")
+	private String tipo;
+	
 	@Column(name="creado_por")
 	private String creadoPor;
 	
@@ -52,6 +55,16 @@ public class AmpAlmacenLogico implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
 	public Long getIdAlmacenLogico() {
 		return idAlmacenLogico;
