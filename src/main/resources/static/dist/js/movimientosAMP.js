@@ -126,11 +126,10 @@ $('#agregarArticulo').click(function () {
         'id': id
     }
 
-    $('#articuloMovimiento').find('[value='+ temp.id +']').remove();
-    $('#articuloMovimiento').selectpicker('refresh');
 
-    const found = movimientos.find(element => element.idText==temp.idText);
-    if (found!=null) {
+
+    const found = movimientos.find(element => element.idText == temp.idText);
+    if (found != null) {
         return false;
     }
 
@@ -149,6 +148,8 @@ $('#agregarArticulo').click(function () {
                 text: 'La cantidad debe ser mayor a 0!',
             })
         } else {
+            $('#articuloMovimiento').find('[value=' + temp.id + ']').remove();
+            $('#articuloMovimiento').selectpicker('refresh');
             var fila = table.row.add(
                 [cantidad,
                     idText,
@@ -166,7 +167,7 @@ $('#agregarArticulo').click(function () {
 
 function deleteMovimiento(fila, id) {
     // Se agrega al select
-    const found = movimientos.find(element => element.id+element.tipo==id);
+    const found = movimientos.find(element => element.id + element.tipo == id);
     console.log(found);
     $("#articuloMovimiento").append("<option value='" + found.id + "' data-tipo='" + found.tipo + "'data-idText='" + found.idText + "'data-unidadMedida='" + found.unidadMedida + "'>" + found.descripcion + "</option>");
     $('#articuloMovimiento').selectpicker('refresh');
@@ -188,7 +189,7 @@ $('#guardarMovimientos').click(function () {
     var concepto = $('#conceptoMovimiento').val()
     var idAlmacenLogico = $('#almacenLogicoMovimiento').val()
     console.log(movimientos);
-    if (movimientos[0]==null || tipoMovimiento == null || concepto == null || idAlmacenLogico == null || fechaMovimiento == null || tipoMovimiento == "" || concepto == "" || idAlmacenLogico == "" || fechaMovimiento == "") {
+    if (movimientos[0] == null || tipoMovimiento == null || concepto == null || idAlmacenLogico == null || fechaMovimiento == null || tipoMovimiento == "" || concepto == "" || idAlmacenLogico == "" || fechaMovimiento == "") {
         Swal.fire({
             icon: 'error',
             title: 'Error',

@@ -22,7 +22,8 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Entradas y Salidas <a th:href="@{/agregar-movimientos-amp}"><button class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar inventario"><i class="fas fa-plus"></i></button></a></h1>
+							<h1>Entradas y Salidas <a th:href="@{/agregar-movimientos-amp}"><button class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar inventario"><i class="fas fa-plus"></i></button></a>
+								<a th:href="@{'/traspasos-multialmacen-amp'}" class="btn btn-sm icon-btn btn-altima text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-exchange-alt img-circle text-altima"></span>Traspasos</a></h1>							
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -82,14 +83,15 @@
 					</div>
                 </div>
                 <!-- Main row -->
-            </section>
+			</section>
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
         <div th:insert="navegacion-footer"></div>
     </div>
-    <div th:replace="navegacion-scripts"></div>
-    <script src="dist/js/tablaGeneral.js"></script>
+	<div th:replace="navegacion-scripts"></div>
+	<script src="dist/js/tablaGeneral.js"></script>
+    
 	<script>
 		$('#iComercial').removeClass('text-altima');
 		$('#navComercial').addClass('active-altima');
@@ -97,7 +99,7 @@
 		$('#menuAMP').addClass('menu-open');
 		$('#navAMP').addClass('active');
 		$('#navAMPEntSal').addClass('active');
-	</script>
+	</scrip>
 </body>
 
 </html>

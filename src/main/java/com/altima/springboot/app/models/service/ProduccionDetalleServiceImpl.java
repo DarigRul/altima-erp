@@ -301,7 +301,6 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 				+ "	alt_disenio_lookup adl ,\r\n" + "	alt_disenio_lookup AS look \r\n" + "WHERE\r\n" + "	1 = 1 \r\n"
 				+ "	AND look.id_lookup = material.id_clasificacion\r\n"
 				+ "	AND look.nombre_lookup  IN ( 'Combinación' ) \r\n"
-				+ "	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \r\n"
 				+ "	AND material.id_material = material_prenda.id_material \r\n"
 				+ "	AND material.id_proceso = adl.id_lookup \r\n" + "	AND material_prenda.id_prenda = " + id)
 				.getResultList();
@@ -316,8 +315,7 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 		List<Object[]> re = em.createNativeQuery("SELECT material.id_material,material.nombre_material  \r\n"
 				+ "				FROM alt_disenio_material_prenda as material_prenda , alt_disenio_material as material , alt_disenio_lookup adl\r\n"
 				+ "				WHERE 1=1\r\n" + "			\r\n"
-				+ "            AND  material.nombre_material ='Forro principal' \r\n"
-				+ "			AND (adl.nombre_lookup='Corte' OR adl.nombre_lookup='Confección')\r\n"
+				+ "            AND  (material.nombre_material ='Forro Principal' or material.nombre_material ='Forro Combinación') \r\n"
 				+ "			AND material.id_material = material_prenda.id_material \r\n"
 				+ "			AND material.id_proceso = adl.id_lookup\r\n" + "			AND material_prenda.id_prenda="
 				+ id).getResultList();
@@ -367,9 +365,8 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 				+ "	alt_disenio_lookup adl \n" + "WHERE\n" + "	1 = 1 \n"
 				+ "	AND material.nombre_material NOT IN ( 'Tela principal' ) \n"
 				+ "	AND material.nombre_material NOT IN ( 'Forro principal' ) \n"
-				+ "	AND material.nombre_material NOT IN ( 'Tela combinacion' ) \n" +
+				+ "	AND material.nombre_material NOT IN ( 'Tela combinacion' ) \n" 
 
-				"	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \n"
 				+ "	AND material.id_material = material_prenda.id_material \n"
 				+ "	AND material.id_proceso = adl.id_lookup \n" + "	AND material_prenda.id_material_prenda = " + id
 				+ "     \n" + "\n" + "\n" + "\n" + "UNION\n" + "\n" + "SELECT\n" + "	material.id_material,\n"
@@ -378,9 +375,8 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 				+ "	alt_disenio_lookup adl \n" + "WHERE\n" + "	1 = 1 \n"
 				+ "	AND material.nombre_material NOT IN ( 'Tela principal' ) \n"
 				+ "	AND material.nombre_material NOT IN ( 'Forro principal' ) \n"
-				+ "	AND material.nombre_material NOT IN ( 'Tela combinacion' ) \n" +
+				+ "	AND material.nombre_material NOT IN ( 'Tela combinacion' ) \n" 
 
-				"	AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' ) \n"
 				+ "	AND material.id_material = material_prenda.id_material \n"
 				+ "	AND material.id_proceso = adl.id_lookup \n" + "	AND material_prenda.id_material_prenda = " + id)
 				.getResultList();
