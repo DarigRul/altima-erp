@@ -87,7 +87,7 @@
                                                  <td th:if="${material[22] == 0 }">Completo</td>
                                                   <td th:if="${material[22] == null }">Faltante</td>
                                                 <td class="text-center">
-                                                    <button id="modalAlmacenMaterial"
+                                                    <button data-toggle="modal" data-target="#materialesAlmacen" 
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Stock general"><i
                                                         class="fas fa-store-alt" style="margin-left: -3px;"></i></button>
@@ -112,6 +112,7 @@
     </div>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/ExplosionMaterialesHabilitacion.js"></script>
     <script>
         $('#iComercial').removeClass('text-altima');
         $('#navComercial').addClass('active-altima');
@@ -119,9 +120,7 @@
         $('#menuAMP').addClass('menu-open');
         $('#navAMP').addClass('active');
         $('#navAMPExp').addClass('active');
-        $(document).on('click', '#modalAlmacenMaterial', function () {
-            $('#materialesAlmacen').modal('show');
-        });
+       
     </script>
 </body>
 
