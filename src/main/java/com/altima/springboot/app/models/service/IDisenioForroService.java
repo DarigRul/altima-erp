@@ -24,4 +24,5 @@ public interface IDisenioForroService {
 	
 	public String buscar_forro(String nombre);
 
+	public Integer disponibles(Long id);
 }

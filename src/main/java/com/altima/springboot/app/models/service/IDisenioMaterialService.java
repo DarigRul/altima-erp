@@ -71,5 +71,6 @@ public interface IDisenioMaterialService {
 	public int countForrosActivos();
 
 	public List<Object[]> findMaterialByTipo(Long idTipoMaterial,Long idMaterial); 
+	public Integer disponibles(Long id);
 }
 

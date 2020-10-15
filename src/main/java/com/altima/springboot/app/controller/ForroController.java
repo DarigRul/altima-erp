@@ -247,18 +247,27 @@ public class ForroController {
 	//Metodo para dar de baja un forro
 	@GetMapping("/delete-forro/{id}") 
 	public String deleteMaterial(@PathVariable("id") Long idForro, RedirectAttributes redirectAttrs) {
-		Date date = new Date();
-		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		DisenioForro forro = forroService.findOne(idForro);
-		forro.setEstatus("0");
-		forro.setActualizadoPor(auth.getName());
-		forro.setUltimaFechaModificacion(hourdateFormat.format(date));
-		forroService.save(forro);
-		redirectAttrs
-        .addFlashAttribute("title", "Forro dado de baja correctamente")
-        .addFlashAttribute("icon", "success");
-		return "redirect:/materiales";
+		if (forroService.disponibles(idForro) ==0 ){
+			Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			DisenioForro forro = forroService.findOne(idForro);
+			forro.setEstatus("0");
+			forro.setActualizadoPor(auth.getName());
+			forro.setUltimaFechaModificacion(hourdateFormat.format(date));
+			forroService.save(forro);
+			redirectAttrs
+        	.addFlashAttribute("title", "Forro dado de baja correctamente")
+        	.addFlashAttribute("icon", "success");
+			return "redirect:/materiales";
+		}
+		else{
+			redirectAttrs
+			.addFlashAttribute("title", "No es posible eliminar, cuenta con existencias.")
+			.addFlashAttribute("icon", "error");
+			  return "redirect:/materiales";
+		}
+		
 	}
 	
 	//Metodo para dar de alta un forro

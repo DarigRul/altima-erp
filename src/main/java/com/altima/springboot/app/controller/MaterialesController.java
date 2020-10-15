@@ -560,20 +560,28 @@ public class MaterialesController {
 	}
 
 	// Metodo para dar de baja un material
-	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_MATERIALES_ELIMINAR" })
+	
 	@GetMapping("/delete-material/{id}")
 	public String deleteMaterial(@PathVariable("id") Long idMaterial, RedirectAttributes redirectAttrs) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Date date = new Date();
-		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-
-		DisenioMaterial material = disenioMaterialService.findOne(idMaterial);
-		material.setEstatus("0");
-		material.setActualizadoPor(auth.getName());
-		material.setUltimaFechaModificacion(hourdateFormat.format(date));
-		disenioMaterialService.save(material);
-		redirectAttrs.addFlashAttribute("title", "Material dado de baja correctamente").addFlashAttribute("icon",
-				"success");
+		if (disenioMaterialService.disponibles(idMaterial) ==0 ){
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	
+			DisenioMaterial material = disenioMaterialService.findOne(idMaterial);
+			material.setEstatus("0");
+			material.setActualizadoPor(auth.getName());
+			material.setUltimaFechaModificacion(hourdateFormat.format(date));
+			disenioMaterialService.save(material);
+			redirectAttrs.addFlashAttribute("title", "Material dado de baja correctamente").addFlashAttribute("icon",
+					"success");
+		
+		}else{
+			redirectAttrs
+			.addFlashAttribute("title", "No es posible eliminar, cuenta con existencias.")
+			.addFlashAttribute("icon", "error");
+			  
+		}
 		return "redirect:/materiales";
 	}
 }
