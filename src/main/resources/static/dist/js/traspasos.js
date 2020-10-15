@@ -202,8 +202,11 @@ $('#guardarTraspasos').click(function () {
   var movimientoSalida = $('#movimientoSalida').val()
   var almacenDestinoTraspaso = $('#almacenDestinoTraspaso').val()
   var movimientoEntrada = $('#movimientoEntrada').val()
+  var fechaMovimiento = $('#fechaMovimiento').val()
+  var observaciones = $('#observacionesMovimientos').val()
+
   console.log(movimientos);
-  if (almacenOrigenTraspaso[0] == null || movimientoSalida == null || almacenDestinoTraspaso == null || movimientoEntrada == null || almacenOrigenTraspaso == "" || movimientoSalida == "" || almacenDestinoTraspaso == "" || movimientoEntrada == "") {
+  if (movimientos[0] == null || almacenOrigenTraspaso[0] == null || movimientoSalida == null || almacenDestinoTraspaso == null || movimientoEntrada == null || fechaMovimiento == null ||  almacenOrigenTraspaso == "" || movimientoSalida == "" || almacenDestinoTraspaso == "" || movimientoEntrada == "" || fechaMovimiento == "") {
       Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -215,7 +218,10 @@ $('#guardarTraspasos').click(function () {
           'almacenOrigenTraspaso': almacenOrigenTraspaso,
           'movimientoSalida': movimientoSalida,
           'almacenDestinoTraspaso': almacenDestinoTraspaso,
-          'movimientoEntrada': movimientoEntrada
+          'movimientoEntrada': movimientoEntrada,
+          'observaciones':observaciones,
+          'fechaMovimiento':fechaMovimiento
+
       }
       movimientoCabecero.push(temp);
           $.ajax({
@@ -223,7 +229,7 @@ $('#guardarTraspasos').click(function () {
               url: "postTraspasos",
               data: {
                   'cabecero': JSON.stringify(movimientoCabecero),
-                  'movimientos': JSON.stringify( ),
+                  'movimientos': JSON.stringify(movimientos),
                   '_csrf': $('[name=_csrf]').val()
               },
               success: function (msg) {
@@ -234,7 +240,8 @@ $('#guardarTraspasos').click(function () {
                   $(location).attr('href', '/movimientos-amp')
               },
               error: (e) => {
-                  alert(e);
+                console.log(e);
+                $(location).attr('href', '/movimientos-amp')
               }
           });
 

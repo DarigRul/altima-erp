@@ -22,7 +22,7 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1>Traspasos <a th:href="@{/multialmacen-amp}"><button
+							<h1>Traspasos <a th:href="@{/movimientos-amp}"><button
 										class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
 										data-placement="right" data-content="Regresar"><i
 											class="fas fa-arrow-left"></i></button></a></h1>
@@ -81,6 +81,15 @@
 													id="movimientoEntrada">
 												</select>
 											</div>
+										</div>
+										<div class="form-group col-md-5">
+											<label for="cantidadMovimiento">Fecha</label>
+											<input type="date" class="form-control" id="fechaMovimiento">
+										</div>
+										<div class="form-group col-md-7">
+											<label for="cantidadMovimiento">Observaciones</label>
+											<input type="text" class="form-control" id="observacionesMovimientos"
+												placeholder="">
 										</div>
 										<div class="form-group col-md-4">
 											<label for="cantidadMovimiento">Cantidad</label>

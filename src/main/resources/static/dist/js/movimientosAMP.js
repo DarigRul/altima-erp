@@ -217,14 +217,45 @@ $('#guardarMovimientos').click(function () {
                 success: function (msg) {
 
                     if (msg == "Error") {
-                        alert("Error en el servidor");
-                        $(location).attr('href', '/movimientos-amp')
+                        Swal.fire({
+
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Un error ocurrio durante la entrada verifique los datos!',
+                            showConfirmButton: false,
+                            timer: 2500
+                        }).then((result) => {
+                            // Reload the Page
+                            $(location).attr('href', '/movimientos-amp')
+    
+                          });
                     }
-                    $(location).attr('href', '/movimientos-amp')
+                    Swal.fire({
+
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Entrada generada correctamente!',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then((result) => {
+                        // Reload the Page
+                        $(location).attr('href', '/movimientos-amp')
+
+                      });
                 },
                 error: (e) => {
-                    alert(e);
-                    $(location).attr('href', '/movimientos-amp')
+                    Swal.fire({
+
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Un error ocurrio durante la entrada verifique los datos!',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then((result) => {
+                        // Reload the Page
+                        $(location).attr('href', '/movimientos-amp')
+
+                      });
                 }
             });
         } else {
@@ -239,14 +270,46 @@ $('#guardarMovimientos').click(function () {
                 success: function (msg) {
 
                     if (msg == "Error") {
-                        alert("Error en el servidor");
-                        $(location).attr('href', '/movimientos-amp')
+                        Swal.fire({
+
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Un error ocurrio durante la salida verifique los datos!',
+                            showConfirmButton: false,
+                            timer: 2500
+                        }).then((result) => {
+                            // Reload the Page
+                            $(location).attr('href', '/movimientos-amp')
+
+                          });
+
                     }
-                    $(location).attr('href', '/movimientos-amp')
+                    Swal.fire({
+
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Salida generada correctamente!',
+                        showConfirmButton: false,
+                        timer:2500
+                    }).then((result) => {
+                        // Reload the Page
+                        $(location).attr('href', '/movimientos-amp')
+
+                      });
                 },
                 error: (e) => {
-                    alert(e);
-                    $(location).attr('href', '/movimientos-amp')
+                    Swal.fire({
+
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Un error ocurrio durante la salida verifique los datos!',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then((result) => {
+                        // Reload the Page
+                        $(location).attr('href', '/movimientos-amp')
+
+                      });
                 }
             });
         }
