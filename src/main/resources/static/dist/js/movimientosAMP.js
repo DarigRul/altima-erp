@@ -37,14 +37,34 @@ function listarConceptos(movimiento) {
 }
 
 window.onload = function () {
-    $('#almacenFisicoMovimiento').val("");
-    // let params = {
-    //     "Tipo": movimiento
-    // };
 
-    // let query = Object.keys(params)
-    //     .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-    //     .join('&');
+    var today = new Date();
+    var sevendays = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var dd2 = sevendays.getDate()-7;
+    var mm2 = sevendays.getMonth() + 1; //January is 0!
+    var yyyy2 = sevendays.getFullYear();
+    if (dd2 < 10) {
+        dd2 = '0' + dd2
+    }
+    if (mm2 < 10) {
+        mm2 = '0' + mm2
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+    sevendays= yyyy2 + '-' + mm2 + '-' + dd2;
+    document.getElementById("fechaMovimiento").setAttribute("max", today);
+    document.getElementById("fechaMovimiento").setAttribute("min", sevendays);
+
+    $('#almacenFisicoMovimiento').val("");
 
     let url = '/get-all-amp-logico';
 
@@ -227,8 +247,8 @@ $('#guardarMovimientos').click(function () {
                         }).then((result) => {
                             // Reload the Page
                             $(location).attr('href', '/movimientos-amp')
-    
-                          });
+
+                        });
                     }
                     Swal.fire({
 
@@ -241,7 +261,7 @@ $('#guardarMovimientos').click(function () {
                         // Reload the Page
                         $(location).attr('href', '/movimientos-amp')
 
-                      });
+                    });
                 },
                 error: (e) => {
                     Swal.fire({
@@ -255,7 +275,7 @@ $('#guardarMovimientos').click(function () {
                         // Reload the Page
                         $(location).attr('href', '/movimientos-amp')
 
-                      });
+                    });
                 }
             });
         } else {
@@ -281,7 +301,7 @@ $('#guardarMovimientos').click(function () {
                             // Reload the Page
                             $(location).attr('href', '/movimientos-amp')
 
-                          });
+                        });
 
                     }
                     Swal.fire({
@@ -290,12 +310,12 @@ $('#guardarMovimientos').click(function () {
                         icon: 'success',
                         title: 'Salida generada correctamente!',
                         showConfirmButton: false,
-                        timer:2500
+                        timer: 2500
                     }).then((result) => {
                         // Reload the Page
                         $(location).attr('href', '/movimientos-amp')
 
-                      });
+                    });
                 },
                 error: (e) => {
                     Swal.fire({
@@ -309,7 +329,7 @@ $('#guardarMovimientos').click(function () {
                         // Reload the Page
                         $(location).attr('href', '/movimientos-amp')
 
-                      });
+                    });
                 }
             });
         }
