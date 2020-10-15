@@ -64,6 +64,7 @@ public class CalidadController {
 	private IUploadService uploadFileService;
 
 	//Método para verificar el tipo de material
+
 	private String tipo(String tipo){
 		String tipoint="tipo";
 		if(tipo.equals("tela")){
@@ -83,7 +84,7 @@ public class CalidadController {
 		model.addAttribute("listCalidades", disenioCalidad.findAllWithIdTextTela());
 		return "calidad";
 	}
-
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_CALIDAD_DESCARGA"})
 	@GetMapping(value = "/uploads/plantillasCalidad/{filename:.+}")
 	public ResponseEntity<Resource> descargarPlantillascalidad(@PathVariable String filename) {
 
@@ -459,7 +460,7 @@ public class CalidadController {
 		}
 	}
 	
-	@Secured({"ROLE_DISENIO_CALIDAD_LISTAR", "ROLE_ADMINISTRADOR"})
+	@Secured({"ROLE_DISENIO_CALIDAD_DETALLE", "ROLE_ADMINISTRADOR"})
 	@RequestMapping(value = "/detalle-calidad/{tipo}/{id}", method = RequestMethod.GET)
 	public String infoPruebasCalidad(@PathVariable(name = "id") Long id,@PathVariable(name = "tipo") String tipo, Model model) {
 		try {

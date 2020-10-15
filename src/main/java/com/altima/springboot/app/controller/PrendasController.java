@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,7 @@ public class PrendasController {
 		return "prendas";
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_LISTAR"})
 	@GetMapping("/detalle-prenda/{id}")
 	public String infoClothes(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
 		DisenioPrenda prenda = disenioPrendaService.findOne(id);
@@ -69,6 +71,7 @@ public class PrendasController {
 		return "detalle-prenda";
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_AGREGAR"})
 	@GetMapping("agregar-prenda")
 	public String addClothes(Model model, Map<String, Object> m) {
 		DisenioPrenda prenda = new DisenioPrenda();
@@ -86,6 +89,7 @@ public class PrendasController {
 		return "agregar-confirmar-prenda";
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_CONFIRMAR_PRENDA"})
 	@RequestMapping(value = "/confirmar-prenda/{id}")
 	public String confirmar(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
 		DisenioPrenda disenio = new DisenioPrenda();
@@ -100,6 +104,7 @@ public class PrendasController {
 		return "agregar-confirmar-prenda";
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_EDITAR"})
 	@RequestMapping(value = "/editar-prenda/{id}")
 	public String editar(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
 		DisenioPrenda disenio = new DisenioPrenda();
@@ -125,6 +130,7 @@ public class PrendasController {
 		return "agregar-confirmar-prenda";
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_COPIAR"})
 	@RequestMapping(value = "/copiar-prenda/{id}")
 	public String copiar(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
 		DisenioPrenda disenio = new DisenioPrenda();

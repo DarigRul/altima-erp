@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -72,6 +73,7 @@ public class PrecioPrendaController {
 		return "redirect:/lista-precios/"+precio.getIdPrenda();
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_COSTO"})
 	@GetMapping("costo-prenda/{id}")
 	public String costoPrenda(@PathVariable(value = "id") Long id, Model model) {
 
@@ -81,6 +83,7 @@ public class PrecioPrendaController {
 		return "costo-prenda";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_PRECIO"})
 	@GetMapping("/lista-precios/{id}")
 	public String listaPrecio(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
 		model.addAttribute("listaPrecios", disenioListaPrecioPrendaService.listaPrecioPrenda(id));
