@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.altima.springboot.app.models.entity.AmpAlmacenLogico;
+import com.altima.springboot.app.models.entity.ComercialCoordinadoMaterial;
 import com.altima.springboot.app.repository.AmpAlmacenLogicoRepository;
 
 @Service
@@ -68,6 +69,51 @@ public List<Object[]> findAllAMPLogico() {
 public List<AmpAlmacenLogico> findAMPLogicoDuplicate(Long AlmacenFisico, String Nombre, Long Entrada, Long Salida) {
 	return em.createQuery("From AmpAlmacenLogico where idAlmacenFisico="+AlmacenFisico+" and nombreAlmacenLogico='"+Nombre+"' and idMovimientoEntrada="+Entrada+" and idMovimientoSalida="+Salida+" ").getResultList();
 }
+
+@Override
+public boolean existHabilitacion() {
 	
+
+	try {
+		String valos= em.createNativeQuery("SELECT\r\n" + 
+				"	logico.nombre_almacen_logico\r\n" + 
+				"FROM\r\n" + 
+				"	alt_amp_almacen_logico AS logico \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND logico.estatus = 1 \r\n" + 
+				"	AND logico.tipo =2").getSingleResult().toString();
+
+	return true;	
+	}
+		catch(Exception e) {
+			
+			return false;
+		}
+	
+}
+
+@Override
+public boolean existMaterial() {
+	
+
+	try {
+		String valos= em.createNativeQuery("SELECT\r\n" + 
+				"	logico.nombre_almacen_logico\r\n" + 
+				"FROM\r\n" + 
+				"	alt_amp_almacen_logico AS logico \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND logico.estatus = 1 \r\n" + 
+				"	AND logico.tipo =3").getSingleResult().toString();
+		
+	return true;	
+	}
+		catch(Exception e) {
+			return false;
+		
+	
+}
+}
 	
 }

@@ -839,6 +839,12 @@ function agregarAlmacenLogico(){
 				  	'<option>seleccione una salida</option>'+
 				  	'</select>'+
 				  '</div>'+
+				  '<div class="form-group col-sm-12" id ="divTipo" style="display: none">'+
+				  	'<label for="salidaLogico">Tipo Apartado</label>'+
+				  	'<select "'+selectTIPO()+'"  class="form-control"  title="Selecciona uno..." id="tipo" name="tipo">'+
+				  	
+				  	'</select>'+
+				  '</div>'+
 			  '</div>',
 		  showCancelButton: true,
 		  confirmButtonColor: '#3085d6',
@@ -847,7 +853,11 @@ function agregarAlmacenLogico(){
 		  cancelButtonText: 'Cancelar'
 		}).then((result) => {
 		  if (result.value) {
-			  if($('#nombreLogico').val().length>0 && $('#almacenFisicoLogico').val().length>0 && $('#salidaLogico').val().length>0 && $('#entradaLogico').val().length>0){
+			  if($('#nombreLogico').val().length>0 
+					  && $('#almacenFisicoLogico').val().length>0 
+					  && $('#salidaLogico').val().length>0 
+					  && $('#entradaLogico').val().length>0
+					  && $('#tipo').val().length>0){
 				  $.ajax({
                       type: "POST",
                       url: "/guardar-almacen-logico",
@@ -857,6 +867,7 @@ function agregarAlmacenLogico(){
                           'AlmacenFisico': $('#almacenFisicoLogico').val(),
                           'Salida': $('#salidaLogico').val(),
                         	  'Entrada': $('#entradaLogico').val(),
+                        	  'tipo': $('#tipo').val(),
                           
                       }
 
@@ -896,7 +907,46 @@ function agregarAlmacenLogico(){
 		  }
 		});
 }
+function selectTIPO(){
+	
+	$.ajax({
+	    type: "GET",
+	    url: "/validar-select-tipo",
+	    data:{} ,
+	    success: (data) => {
+	    	
+	    	console.log (data);
+	    	var select = document.getElementById("tipo");
+	    	if ( data =='Material y habilitacion'){
+	    		select.options[select.options.length] = new Option('Seleccione un tipo', '0');
+	    		 select.options[select.options.length] = new Option('Apartado Habilitacion', '2');
+	    		 select.options[select.options.length] = new Option('Apartado Material', '3');
+	    		 document.getElementById("divTipo").style.display = "block";
+	    	}
+	    	else if ( data =='Habilitacion'){
+	    		select.options[select.options.length] = new Option('Seleccione un tipo', '0');
+	    		 select.options[select.options.length] = new Option('Apartado Habilitacion', '2');
+	    		 document.getElementById("divTipo").style.display = "block";
+	    	}
+	    	else if ( data =='Material'){
+	    		select.options[select.options.length] = new Option('Seleccione un tipo', '0');
+	    		 select.options[select.options.length] = new Option('Apartado Material', '3');
+	    		 document.getElementById("divTipo").style.display = "block";
+	    	}
+	    	else{
+	    		select.options[select.options.length] = new Option('1', '1');
+	    		
+	    		document.getElementById("divTipo").style.display = "none";
 
+	    	}
+	    	
+	    	
+	    },
+	    error: (e) => {
+	    	
+	    }
+	});
+}
 function almaceneslogicosselect(){
 	$.ajax({
 	    type: "GET",
@@ -1103,6 +1153,7 @@ function editarAlmacenLogico(
 				  	'<option value="'+idsalida+'">'+salida+'</option>'+
 				  	'</select>'+
 				  '</div>'+
+				  
 			  '</div>',
 		  showCancelButton: true,
 		  confirmButtonColor: '#3085d6',
