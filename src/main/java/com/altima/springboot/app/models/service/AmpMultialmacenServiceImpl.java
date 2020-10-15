@@ -111,5 +111,31 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 		return repository.findByIdAlmacenLogicoAndTipoAndIdArticulo(idAlmacenLogico, tipo, idArticulo).getIdAMultialmacen();
 	}
 
+	@Override
+	@Transactional
+	public Integer disponibles (Long id, String materia) {
+
+		String re = em.createNativeQuery(""
+				+ "SELECT\r\n" + 
+				"	IF (SUM( multi.existencia ) IS NULL,0,SUM( multi.existencia)) \r\n" + 
+				"FROM\r\n" + 
+				"	alt_amp_almacen_logico AS almacen,\r\n" + 
+				"	alt_amp_multialmacen AS multi \r\n" + 
+				"WHERE\r\n" + 
+				"	multi.id_almacen_logico = almacen.id_almacen_logico \r\n" + 
+				"	AND multi.tipo = '"+materia+"' \r\n" + 
+				"	AND multi.id_articulo ="+id+"\r\n" + 
+				"	AND almacen.tipo !=2\r\n" + 
+				"	AND almacen.tipo !=3")
+				.getSingleResult().toString();
+
+		if (re.isEmpty() || re== null) {
+			return 0;
+		} else {
+			double d = Double.parseDouble(re);
+			return (int) d;
+		}
+
+	}
 
 }

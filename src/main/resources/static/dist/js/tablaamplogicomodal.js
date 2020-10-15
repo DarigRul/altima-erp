@@ -89,6 +89,24 @@ function tablamulti(articulo,tipo, nombre , global){
 
 	$.ajax({
 		method: "GET",
+		url: "/multialmacen-articulos-disponibles",
+		data: {
+
+			'articulo':articulo,
+			'tipo':tipoparam
+		},
+		success: (data) => {			
+			$('#disponibleAlmacen').val(data);
+
+		},
+		error: (e) => {
+
+		}
+	})
+	
+	
+	$.ajax({
+		method: "GET",
 		url: "/multialmacen-articulos",
 		data: {
 

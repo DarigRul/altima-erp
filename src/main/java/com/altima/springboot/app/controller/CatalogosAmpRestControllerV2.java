@@ -187,7 +187,7 @@ public class CatalogosAmpRestControllerV2 {
 	}
 
 	@PostMapping("/guardar-almacen-logico")
-	public Boolean GuardarAlmacenLogico(Long AlmacenFisico, String Nombre, Long Entrada, Long Salida) {
+	public Boolean GuardarAlmacenLogico(Long AlmacenFisico, String Nombre, Long Entrada, Long Salida, String tipo) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -202,6 +202,7 @@ public class CatalogosAmpRestControllerV2 {
 				almacenlogico.setCreadoPor(auth.getName());
 				almacenlogico.setFechaCreacion(dateFormat.format(date));
 				almacenlogico.setEstatus("1");
+				almacenlogico.setTipo(tipo);
 				AlmacenLogicoService.save(almacenlogico);
 				result = true;
 			} catch (Exception e) {
@@ -323,4 +324,24 @@ public class CatalogosAmpRestControllerV2 {
 		return result;
 	}
 
+	@GetMapping("/validar-select-tipo")
+	public String validarMateriayHabilitacion() {
+
+		if ( AlmacenLogicoService.existHabilitacion() == false && AlmacenLogicoService.existMaterial() == false) {
+			
+			return "Material y habilitacion";
+		}
+		 if (AlmacenLogicoService.existHabilitacion() == false ) {
+			 System.out.println("Controller de habi"+"-----------");
+			return "Habilitacion";
+		}
+		 if (AlmacenLogicoService.existMaterial() == false) {
+			 System.out.println("Controller de mate"+"-----------");
+			return "Material";
+		}
+		
+		return "No aplica";	
+		
+		
+	}
 }

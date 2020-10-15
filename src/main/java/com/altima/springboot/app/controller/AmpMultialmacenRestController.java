@@ -79,4 +79,10 @@ public class AmpMultialmacenRestController {
 
 		return AmpMultialmacenService.findArticulosByMultialmacen(idAlmacenLogico);
 	}
+	
+	@GetMapping("/multialmacen-articulos-disponibles")
+	public Integer disponibles(Long articulo, String tipo) {
+
+		return AmpMultialmacenService.disponibles(articulo, tipo);
+	}
 }
