@@ -91,4 +91,9 @@ public class AmpMultialmacenRestController {
 	public Float getExistenciaArticulo(@RequestParam Long idAlmacenLogico,@RequestParam Long idArticulo,@RequestParam String Tipo) {
 		return AmpMultialmacenService.existenciaArticuloByAlmacen(idAlmacenLogico, idArticulo, Tipo);
 	}
+
+	@GetMapping("getExistArticuloInAlmacen")
+	public String getExistArticuloInAlmacen(@RequestParam Long idAlmacenLogico,@RequestParam Long idArticulo,@RequestParam String Tipo) {
+		return AmpMultialmacenService.existArticuloInAlmacen(idAlmacenLogico, idArticulo, Tipo);
+	}
 }

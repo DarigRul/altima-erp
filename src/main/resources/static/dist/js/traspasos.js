@@ -143,7 +143,7 @@ $('#almacenOrigenTraspaso').change(function () {
     .then(function (data) {
       data.forEach(function (data) {
         //aqui va el codigo
-        $("#articuloTraspaso").append("<option value='" + data.idMaterial + "' data-tipo='" + data.tipo + "'data-idText='" + data.idText + "'data-unidadMedida='" + data.unidadMedida + "'>" + data.nombreMaterial + "</option>")
+        $("#articuloTraspaso").append("<option value='" + data.idMaterial + "' data-tipo='" + data.tipo + "'data-idText='" + data.idText + "'data-unidadMedida='" + data.unidadMedida + "'>" +data.idText+"-"+ data.nombreMaterial + "</option>")
       })
       $('#articuloTraspaso').selectpicker('refresh');
     })
@@ -176,13 +176,25 @@ $('#agregarArticulo').click(function () {
   }
 
   //validacion
-  if (id == null || cantidad == null || id == "" || cantidad == "") {
+  if (id == null || cantidad == null || id == "" || cantidad == "" || $('#almacenOrigenTraspaso').val() == "" || $('#almacenDestinoTraspaso').val() == "" || $('#almacenOrigenTraspaso').val() == null || $('#almacenDestinoTraspaso').val() == null) {
     Swal.fire({
       icon: 'error',
       title: 'Error',
       text: 'Todos los campos deben de estar llenos!',
     })
   } else {
+    if ($('#almacenOrigenTraspaso').val() == $('#almacenDestinoTraspaso').val()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Los Almacenes no pueden ser los mismos!',
+      })
+      return false;
+    }
+    $('#almacenOrigenTraspaso').prop("disabled", true);
+    $('#almacenDestinoTraspaso').prop("disabled", true);
+    $('#almacenOrigenTraspaso').selectpicker('refresh');
+    $('#almacenDestinoTraspaso').selectpicker('refresh');
     if (cantidad <= 0) {
       Swal.fire({
         icon: 'error',
@@ -193,33 +205,52 @@ $('#agregarArticulo').click(function () {
 
       $.ajax({
         type: "Get",
-        url: "/getExistenciaArticulo",
+        url: "/getExistArticuloInAlmacen",
         data: {
-          idAlmacenLogico: $('#almacenOrigenTraspaso').val(),
+          idAlmacenLogico: $('#almacenDestinoTraspaso').val(),
           idArticulo: id,
           Tipo: tipo
-
         },
         success: function (response) {
-          if ((response - cantidad) < 0) {
+          if (response=="true") {
+            $.ajax({
+              type: "Get",
+              url: "/getExistenciaArticulo",
+              data: {
+                idAlmacenLogico: $('#almacenOrigenTraspaso').val(),
+                idArticulo: id,
+                Tipo: tipo
+      
+              },
+              success: function (response) {
+                if ((response - cantidad) < 0) {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'La cantidad existente es: ' + response
+                  })
+                  return false;
+                }
+                else {
+                  $('#articuloTraspaso').find('[value=' + temp.id + ']').remove();
+                  $('#articuloTraspaso').selectpicker('refresh');
+                  var fila = table.row.add(
+                    [cantidad,
+                      idText,
+                      descripcion,
+                      unidadMedida,
+                      '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>']
+                  ).draw();
+                  movimientos.push(temp);
+                }
+              }
+            });
+          } else {
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'La cantidad existente es: ' + response
+              text: 'El Articulo no puede estar en este almacen!',
             })
-            return false;
-          }
-          else {
-            $('#articuloTraspaso').find('[value=' + temp.id + ']').remove();
-            $('#articuloTraspaso').selectpicker('refresh');
-            var fila = table.row.add(
-              [cantidad,
-                idText,
-                descripcion,
-                unidadMedida,
-                '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>']
-            ).draw();
-            movimientos.push(temp);
           }
         }
       });

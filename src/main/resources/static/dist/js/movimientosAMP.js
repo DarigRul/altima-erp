@@ -137,6 +137,7 @@ $('#agregarArticulo').click(function () {
     var id = $('#articuloMovimiento').val();
     var cantidad = $('#cantidadMovimiento').val();
     console.log(id);
+
     var temp = {
         'idText': idText,
         'unidadMedida': unidadMedida,
@@ -153,13 +154,17 @@ $('#agregarArticulo').click(function () {
     }
 
     //validacion
-    if (id == null || cantidad == null || id == "" || cantidad == "") {
+    if (id == null || cantidad == null || id == "" || cantidad == "" || $('#tipoMovimiento').val()==null || $('#tipoMovimiento').val()=="") {
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'Todos los campos deben de estar llenos!',
         })
     } else {
+        $('#tipoMovimiento').prop( "disabled", true );
+        $('#almacenLogicoMovimiento').prop( "disabled", true );
+        $('#tipoMovimiento').selectpicker('refresh');
+        $('#almacenLogicoMovimiento').selectpicker('refresh');
         if (cantidad <= 0) {
             Swal.fire({
                 icon: 'error',
