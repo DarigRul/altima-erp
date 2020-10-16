@@ -213,9 +213,9 @@
                                     <div th:class="${material[1]}" >
                                         <div class="card box-shadow">
                                             <div class="food-img" style="text-align: center;" th:switch="${material[3]}">
-												<img th:case="'Tela'" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/telas/' + ${material[8]}}" alt="" title="">
-												<img th:case="'Forro'" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1595530979/forros/' + ${material[8]}}" alt="" title="">
-												<img th:case="*" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dstky13uz/image/upload/v1596493418/material/' + ${material[8]}}" alt="" title="">
+												<img th:case="'Tela'" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dti-consultores/image/upload/v1594948361/telas/' +${material[8]}}" alt="" title="">
+												<img th:case="'Forro'" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dti-consultores/image/upload/v1594948361/forros/'+${material[8]}}" alt="" title="">
+												<img th:case="*" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dti-consultores/image/upload/v1594948361/material/' + ${material[8]}}" alt="" title="">
                                             </div>
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
