@@ -138,4 +138,11 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 
 	}
 
+	@Override
+	@Transactional
+	public Float existenciaArticuloByAlmacen(Long idAlmacenLogico, Long idArticulo, String Tipo) {
+		// TODO Auto-generated method stub
+		return (Float) em.createNativeQuery("call alt_pr_existencia_articulo("+idAlmacenLogico+","+idArticulo+",'"+Tipo+"')").getSingleResult();
+	}
+
 }

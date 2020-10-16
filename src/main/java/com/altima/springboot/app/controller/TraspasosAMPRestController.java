@@ -72,17 +72,12 @@ public class TraspasosAMPRestController {
 				AmpMultialmacen multialmacenSalida = multialmacenService.findById(idMultialmacenSalida);
 				AmpMultialmacen multialmacenEntrada = multialmacenService.findById(idMultialmacenEntrada);
 				multialmacenSalida.setExistencia(multialmacenSalida.getExistencia() - traspasoDetalle.getCantidad());
-				multialmacenEntrada.setExistencia(multialmacenSalida.getExistencia() + traspasoDetalle.getCantidad());
+				multialmacenEntrada.setExistencia(multialmacenEntrada.getExistencia() + traspasoDetalle.getCantidad());
 				multialmacenService.save(multialmacenSalida);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
-			redirectAttrs.addFlashAttribute("title", "Un error ocurrio durante el traspaso verifique los datos!")
-					.addFlashAttribute("icon", "warning");
 			return "Error";
 		}
-		redirectAttrs.addFlashAttribute("title", "Traspaso generado correctamente").addFlashAttribute("icon",
-				"success");
 		return "Success";
 	}
 

@@ -119,7 +119,7 @@ $('#almacenLogicoMovimiento').change(function () {
         .then(function (data) {
             data.forEach(function (data) {
                 //aqui va el codigo
-                $("#articuloMovimiento").append("<option value='" + data.idMaterial + "' data-tipo='" + data.tipo + "'data-idText='" + data.idText + "'data-unidadMedida='" + data.unidadMedida + "'>" + data.nombreMaterial + "</option>")
+                $("#articuloMovimiento").append("<option value='" + data.idMaterial + "' data-tipo='" + data.tipo + "'data-idText='" + data.idText + "'data-unidadMedida='" + data.unidadMedida + "'>"+ data.idText+'-'+ data.nombreMaterial + "</option>")
             })
             $('#articuloMovimiento').selectpicker('refresh');
         })
@@ -147,7 +147,6 @@ $('#agregarArticulo').click(function () {
     }
 
 
-
     const found = movimientos.find(element => element.idText == temp.idText);
     if (found != null) {
         return false;
@@ -167,18 +166,42 @@ $('#agregarArticulo').click(function () {
                 title: 'Error',
                 text: 'La cantidad debe ser mayor a 0!',
             })
-        } else {
-            $('#articuloMovimiento').find('[value=' + temp.id + ']').remove();
-            $('#articuloMovimiento').selectpicker('refresh');
-            var fila = table.row.add(
-                [cantidad,
-                    idText,
-                    descripcion,
-                    unidadMedida,
-                    '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>' +
-                    '<a data-toggle="modal" data-target="#cambioProveedor" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Proveedor"><i class="fas fa-store text-white" style="margin-left: -2px;"></i></a>']
-            ).draw();
-            movimientos.push(temp);
+        } 
+
+        else {
+            $.ajax({
+                type: "Get",
+                url: "/getExistenciaArticulo",
+                data: {
+                    idAlmacenLogico:$('#almacenLogicoMovimiento').val(),
+                    idArticulo:id,
+                    Tipo:tipo
+        
+                },
+                success: function (response) {
+                    if((response-cantidad)<0 && $('#tipoMovimiento').val()=='Salida'){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'La cantidad existente es: '+response
+                        })
+                        return false;
+                    }
+                    else{
+                        $('#articuloMovimiento').find('[value=' + temp.id + ']').remove();
+                        $('#articuloMovimiento').selectpicker('refresh');
+                        var fila = table.row.add(
+                            [cantidad,
+                                idText,
+                                descripcion,
+                                unidadMedida,
+                                '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>' +
+                                '<a data-toggle="modal" data-target="#cambioProveedor" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Proveedor"><i class="fas fa-store text-white" style="margin-left: -2px;"></i></a>']
+                        ).draw();
+                        movimientos.push(temp);
+                    }
+                }
+            });
         }
 
     }

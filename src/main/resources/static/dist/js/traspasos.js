@@ -2,6 +2,31 @@ var movimientos = [];
 var movimientoCabecero = [];
 window.onload = function () {
 
+  var today = new Date();
+  var sevendays = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1; //January is 0!
+  var yyyy = today.getFullYear();
+  if (dd < 10) {
+    dd = '0' + dd
+  }
+  if (mm < 10) {
+    mm = '0' + mm
+  }
+  var dd2 = sevendays.getDate() - 7;
+  var mm2 = sevendays.getMonth() + 1; //January is 0!
+  var yyyy2 = sevendays.getFullYear();
+  if (dd2 < 10) {
+    dd2 = '0' + dd2
+  }
+  if (mm2 < 10) {
+    mm2 = '0' + mm2
+  }
+
+  today = yyyy + '-' + mm + '-' + dd;
+  sevendays = yyyy2 + '-' + mm2 + '-' + dd2;
+  document.getElementById("fechaMovimiento").setAttribute("max", today);
+  document.getElementById("fechaMovimiento").setAttribute("min", sevendays);
   let url = '/get-all-amp-logico';
 
   fetch(url)
@@ -165,16 +190,40 @@ $('#agregarArticulo').click(function () {
         text: 'La cantidad debe ser mayor a 0!',
       })
     } else {
-      $('#articuloTraspaso').find('[value=' + temp.id + ']').remove();
-      $('#articuloTraspaso').selectpicker('refresh');
-      var fila = table.row.add(
-        [cantidad,
-          idText,
-          descripcion,
-          unidadMedida,
-          '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>']
-      ).draw();
-      movimientos.push(temp);
+
+      $.ajax({
+        type: "Get",
+        url: "/getExistenciaArticulo",
+        data: {
+          idAlmacenLogico: $('#almacenOrigenTraspaso').val(),
+          idArticulo: id,
+          Tipo: tipo
+
+        },
+        success: function (response) {
+          if ((response - cantidad) < 0) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'La cantidad existente es: ' + response
+            })
+            return false;
+          }
+          else {
+            $('#articuloTraspaso').find('[value=' + temp.id + ']').remove();
+            $('#articuloTraspaso').selectpicker('refresh');
+            var fila = table.row.add(
+              [cantidad,
+                idText,
+                descripcion,
+                unidadMedida,
+                '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>']
+            ).draw();
+            movimientos.push(temp);
+          }
+        }
+      });
+
     }
 
   }
@@ -206,44 +255,76 @@ $('#guardarTraspasos').click(function () {
   var observaciones = $('#observacionesMovimientos').val()
 
   console.log(movimientos);
-  if (movimientos[0] == null || almacenOrigenTraspaso[0] == null || movimientoSalida == null || almacenDestinoTraspaso == null || movimientoEntrada == null || fechaMovimiento == null ||  almacenOrigenTraspaso == "" || movimientoSalida == "" || almacenDestinoTraspaso == "" || movimientoEntrada == "" || fechaMovimiento == "") {
-      Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Todos los campos deben de estar llenos!',
-      })
+  if (movimientos[0] == null || almacenOrigenTraspaso[0] == null || movimientoSalida == null || almacenDestinoTraspaso == null || movimientoEntrada == null || fechaMovimiento == null || almacenOrigenTraspaso == "" || movimientoSalida == "" || almacenDestinoTraspaso == "" || movimientoEntrada == "" || fechaMovimiento == "") {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Todos los campos deben de estar llenos!',
+    })
   }
   else {
-      temp = {
-          'almacenOrigenTraspaso': almacenOrigenTraspaso,
-          'movimientoSalida': movimientoSalida,
-          'almacenDestinoTraspaso': almacenDestinoTraspaso,
-          'movimientoEntrada': movimientoEntrada,
-          'observaciones':observaciones,
-          'fechaMovimiento':fechaMovimiento
+    temp = {
+      'almacenOrigenTraspaso': almacenOrigenTraspaso,
+      'movimientoSalida': movimientoSalida,
+      'almacenDestinoTraspaso': almacenDestinoTraspaso,
+      'movimientoEntrada': movimientoEntrada,
+      'observaciones': observaciones,
+      'fechaMovimiento': fechaMovimiento
 
-      }
-      movimientoCabecero.push(temp);
-          $.ajax({
-              type: "POST",
-              url: "postTraspasos",
-              data: {
-                  'cabecero': JSON.stringify(movimientoCabecero),
-                  'movimientos': JSON.stringify(movimientos),
-                  '_csrf': $('[name=_csrf]').val()
-              },
-              success: function (msg) {
+    }
+    movimientoCabecero.push(temp);
+    $.ajax({
+      type: "POST",
+      url: "postTraspasos",
+      data: {
+        'cabecero': JSON.stringify(movimientoCabecero),
+        'movimientos': JSON.stringify(movimientos),
+        '_csrf': $('[name=_csrf]').val()
+      },
+      success: function (msg) {
 
-                  if (msg == "Error") {
-                      alert("Error en el servidor");
-                  }
-                  $(location).attr('href', '/movimientos-amp')
-              },
-              error: (e) => {
-                console.log(e);
-                $(location).attr('href', '/movimientos-amp')
-              }
+        if (msg == "Error") {
+          Swal.fire({
+
+            position: 'center',
+            icon: 'error',
+            title: 'Un error ocurrio durante el transpaso verifique los datos!',
+            showConfirmButton: false,
+            timer: 2500
+          }).then((result) => {
+            // Reload the Page
+            $(location).attr('href', '/movimientos-amp')
+
           });
+        }
+        Swal.fire({
+
+          position: 'center',
+          icon: 'success',
+          title: 'Transpaso generado correctamente!',
+          showConfirmButton: false,
+          timer: 2500
+        }).then((result) => {
+          // Reload the Page
+          $(location).attr('href', '/movimientos-amp')
+
+        });
+      },
+      error: (e) => {
+        Swal.fire({
+
+          position: 'center',
+          icon: 'error',
+          title: 'Un error ocurrio durante el transpaso verifique los datos!',
+          showConfirmButton: false,
+          timer: 2500
+        }).then((result) => {
+          // Reload the Page
+          $(location).attr('href', '/movimientos-amp')
+
+        });
+      }
+    });
 
   }
 

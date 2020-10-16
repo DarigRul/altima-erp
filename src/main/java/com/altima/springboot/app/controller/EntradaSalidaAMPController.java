@@ -22,7 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class EntradaSalidaAMPController {
@@ -51,7 +50,7 @@ public class EntradaSalidaAMPController {
 
 	@Transactional
 	@PostMapping("/postMovimientosEntradaAlmacen")
-	public String postMovimientosEntradaAlmacen(@RequestParam String cabecero, @RequestParam String movimientos,RedirectAttributes redirectAttrs) {
+	public String postMovimientosEntradaAlmacen(@RequestParam String cabecero, @RequestParam String movimientos) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		JSONArray cabeceroArray = new JSONArray(cabecero);
 		JSONObject cabeceroJson = cabeceroArray.getJSONObject(0);
@@ -70,7 +69,7 @@ public class EntradaSalidaAMPController {
 			entrada.setIdText("ENT" + (10000 + entrada.getIdEntrada()));
 			entradaService.save(entrada);
 			for (int i = 0; i < movimientosArray.length(); i++) {
-				Long idMultialmacen = null;
+				Long idMultialmacen=null;
 				AmpEntradaDetalle entradaDetalle = new AmpEntradaDetalle();
 				JSONObject movimientosJson = movimientosArray.getJSONObject(i);
 				entradaDetalle.setTipo(movimientosJson.getString("tipo"));
@@ -78,31 +77,27 @@ public class EntradaSalidaAMPController {
 				entradaDetalle.setIdEntrada(entrada.getIdEntrada());
 				entradaDetalle.setIdArticulo(Long.parseLong(movimientosJson.getString("id")));
 				entradaDetalleService.save(entradaDetalle);
-				idMultialmacen = multialmacenService.findIdMultialmacen(entrada.getIdAlmacenLogico(),
-						entradaDetalle.getIdArticulo(), entradaDetalle.getTipo());
+				idMultialmacen=multialmacenService.findIdMultialmacen(entrada.getIdAlmacenLogico(), entradaDetalle.getIdArticulo(), entradaDetalle.getTipo());
 				AmpMultialmacen multialmacen = multialmacenService.findById(idMultialmacen);
-				multialmacen.setExistencia(multialmacen.getExistencia() + entradaDetalle.getCantidad());
+				multialmacen.setExistencia(multialmacen.getExistencia()+entradaDetalle.getCantidad());
 				multialmacenService.save(multialmacen);
 			}
-
+			
 		} catch (Exception e) {
-			redirectAttrs.addFlashAttribute("title", "Un error ocurrio durante la entrada verifique los datos!")
-			.addFlashAttribute("icon", "warning");
 			return "redirect:/movimientos-amp";
 		}
-		redirectAttrs.addFlashAttribute("title", "Entrada generada correctamente").addFlashAttribute("icon",
-		"success");
 		return "redirect:/movimientos-amp";
 	}
 
 	@Transactional
 	@PostMapping("/postMovimientosSalidaAlmacen")
-	public String postMovimientosSalidaAlmacen(@RequestParam String cabecero, @RequestParam String movimientos,RedirectAttributes redirectAttrs)
+	public String postMovimientosSalidaAlmacen(@RequestParam String cabecero, @RequestParam String movimientos)
 			throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		JSONArray cabeceroArray = new JSONArray(cabecero);
 		JSONObject cabeceroJson = cabeceroArray.getJSONObject(0);
 		JSONArray movimientosArray = new JSONArray(movimientos);
+		System.out.println("entra a la salida");
 		try {
 			AmpSalida salida = new AmpSalida();
 			salida.setIdAlmacenLogico(Long.parseLong(cabeceroJson.getString("idAlmacenLogico")));
@@ -132,13 +127,12 @@ public class EntradaSalidaAMPController {
 				multialmacenService.save(multialmacen);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
-			redirectAttrs.addFlashAttribute("title", "Un error ocurrio durante la salida verifique los datos!")
-			.addFlashAttribute("icon", "warning");
+			//TODO: handle exception
 			return "redirect:/movimientos-amp";
 		}
-		redirectAttrs.addFlashAttribute("title", "Salida generada correctamente").addFlashAttribute("icon",
-		"success");
+
+
+		
 		return "redirect:/movimientos-amp";
 
 	}
