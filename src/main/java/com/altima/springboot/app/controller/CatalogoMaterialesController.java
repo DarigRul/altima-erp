@@ -20,7 +20,7 @@ public class CatalogoMaterialesController {
     @GetMapping("/catalogos-materiales-agentes")
     public String getMateriales(Model model){
         model.addAttribute("materiales", disenioMaterialService.disenioMaterial());
-        model.addAttribute("muestrario", inventarioService.listCatalogoInventario());
+       // model.addAttribute("muestrario", inventarioService.listCatalogoInventario());
         return("catalogos-materiales-agentes");
     } 
     
