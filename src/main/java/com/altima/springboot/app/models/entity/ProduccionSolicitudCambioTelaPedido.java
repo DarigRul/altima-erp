@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "alt_solicitud_cambio_tela_pedido")
+@Table(name = "alt_produccion_solicitud_cambio_tela_pedido")
 public class ProduccionSolicitudCambioTelaPedido implements Serializable{
 
 	/**
