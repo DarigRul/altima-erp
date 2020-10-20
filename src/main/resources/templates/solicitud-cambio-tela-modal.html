@@ -1,0 +1,49 @@
+<!-- Modal -->
+<div class="modal fade" id="cambioFecha" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content modal-rounded-body">
+        <div class="modal-header bg-altima modal-rounded-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Cambio de tela</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="">
+        <div class="modal-body">
+            <div class="row">
+            
+            
+                <div class="form-group col-md-4">
+                    <label for="numeroPedido">N&uacute;mero de pedido</label>
+                    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" onchange="infoPedido(this.value)" data-live-search-normalize="true" id="numeroPedido">
+                      
+                     </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="clientePedido">Cliente</label>
+                    <input type="text" class="form-control" disabled id="clientePedido">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="fechaPedido">Fecha de entrega del pedido</label>
+                    <input type="text" class="form-control" disabled id="fechaPedido">
+                  </div>
+                  
+                  <div class="form-group col-md-12">
+                    <label for="motivoPedido">Motivo</label>
+                    <input type="text" placeholder="Espeficar" class="form-control" id="motivoPedido">
+                  </div>
+                  <input type="hidden" name="_csrf" id="token"
+                                    th:value="${_csrf.token}" />
+                  
+            </div>
+        </div>
+        <div class="modal-footer modal-rounded-footer">
+            <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span
+                class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+        <button id ="btn-guarda" onclick="agregarSolicitud();" type="button" class="btn icon-btn btn-altima text-white float-right"><span
+                class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>

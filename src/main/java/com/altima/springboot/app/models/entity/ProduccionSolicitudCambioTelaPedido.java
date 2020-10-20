@@ -49,6 +49,9 @@ public class ProduccionSolicitudCambioTelaPedido implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	@Column(name="estatus_envio")
+	private String estatusEnvio;
 
 	public Long getIdTelaPedido() {
 		return idTelaPedido;
@@ -124,6 +127,14 @@ public class ProduccionSolicitudCambioTelaPedido implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getEstatusEnvio() {
+		return estatusEnvio;
+	}
+
+	public void setEstatusEnvio(String estatusEnvio) {
+		this.estatusEnvio = estatusEnvio;
 	}
 	
 	
