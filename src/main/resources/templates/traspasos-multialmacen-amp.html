@@ -7,7 +7,7 @@
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
 	<!-- Site wrapper -->
-	<div class="wrapper" id="app">
+	<div class="wrapper">
 		<!-- Navbar -->
 		<div th:insert="navegacion-nav"></div>
 		<!-- /.navbar -->
@@ -110,7 +110,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="form-group col-md-12">
+										<div class="form-group col-md-12" id="app">
 											<table class="table tablaTraspasos table-striped table-bordered"
 												style="width:100%">
 												<thead>
@@ -145,9 +145,11 @@
 			<!-- /.content -->
 		</div>
 		<!-- /.content-wrapper -->
+		<div th:insert="modal-traspaso-ubicacion"></div>
 		<div th:insert="navegacion-footer"></div>
 	</div>
 	<div th:replace="navegacion-scripts"></div>
+
 	<script src="dist/js/traspasos.js"></script>
 	<script src="dist/js/tablaTraspasos.js"></script>
 	<script>

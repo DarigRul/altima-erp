@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.altima.springboot.app.dto.PedidoInformacionDTO;
 import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.repository.CargaPedidoRepository;
@@ -381,6 +382,13 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 			return false;
 		}
 
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<PedidoInformacionDTO> findByEmpleado(Long idEmpleado) {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT acpi.id_pedido_informacion,acpi.id_text,acpi.fecha_entrega,concat(acc.nombre,' ',ifnull(acc.apellido_paterno,''),' ',ifnull(acc.apellido_materno,'')) as cliente FROM alt_comercial_pedido_informacion acpi INNER JOIN alt_hr_usuario ahu on ahu.id_usuario=acpi.id_usuario INNER JOIN alt_hr_empleado ahe on ahe.id_empleado=ahu.id_empleado INNER join alt_comercial_cliente acc on acc.id_cliente=acpi.id_empresa where ahe.id_empleado=:idEmpleado",PedidoInformacionDTO.class).setParameter("idEmpleado", idEmpleado).getResultList();
 	}
 
 }

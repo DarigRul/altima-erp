@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.poi.hpsf.Decimal;
 
+import com.altima.springboot.app.dto.PedidoInformacionDTO;
 import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 
@@ -49,4 +50,8 @@ public interface ICargaPedidoService {
 	
 	Integer validarPiezasStock(Long id);
 	boolean validarBordadoStock(Long id);
+
+	//getbyuser
+	List<PedidoInformacionDTO> findByEmpleado(Long idEmpleado);
+
 }

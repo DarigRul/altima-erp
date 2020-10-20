@@ -42,8 +42,8 @@ window.onload = function () {
     .then(function (data) {
       data.forEach(function (data) {
         //aqui va el codigo
-        $("#almacenOrigenTraspaso").append("<option value='" + data[0] + "' data-id='" + data[3] + "'>" + data[1] + "</option>")
-        $("#almacenDestinoTraspaso").append("<option value='" + data[0] + "' data-id='" + data[3] + "'>" + data[1] + "</option>")
+        $("#almacenOrigenTraspaso").append("<option value='" + data[0] + "' data-id='" + data[2] + "'>" + data[1] + "</option>")
+        $("#almacenDestinoTraspaso").append("<option value='" + data[0] + "' data-id='" + data[2] + "'>" + data[1] + "</option>")
       })
       $('#almacenOrigenTraspaso').selectpicker('refresh');
       $('#almacenDestinoTraspaso').selectpicker('refresh');
@@ -143,7 +143,7 @@ $('#almacenOrigenTraspaso').change(function () {
     .then(function (data) {
       data.forEach(function (data) {
         //aqui va el codigo
-        $("#articuloTraspaso").append("<option value='" + data.idMaterial + "' data-tipo='" + data.tipo + "'data-idText='" + data.idText + "'data-unidadMedida='" + data.unidadMedida + "'>" +data.idText+"-"+ data.nombreMaterial + "</option>")
+        $("#articuloTraspaso").append("<option value='" + data.idMaterial + "' data-tipo='" + data.tipo + "'data-idText='" + data.idText + "'data-unidadMedida='" + data.unidadMedida + "'>" + data.idText + "-" + data.nombreMaterial + "</option>")
       })
       $('#articuloTraspaso').selectpicker('refresh');
     })
@@ -212,7 +212,7 @@ $('#agregarArticulo').click(function () {
           Tipo: tipo
         },
         success: function (response) {
-          if (response=="true") {
+          if (response == "true") {
             $.ajax({
               type: "Get",
               url: "/getExistenciaArticulo",
@@ -220,7 +220,7 @@ $('#agregarArticulo').click(function () {
                 idAlmacenLogico: $('#almacenOrigenTraspaso').val(),
                 idArticulo: id,
                 Tipo: tipo
-      
+
               },
               success: function (response) {
                 if ((response - cantidad) < 0) {
@@ -239,7 +239,10 @@ $('#agregarArticulo').click(function () {
                       idText,
                       descripcion,
                       unidadMedida,
-                      '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>']
+                      '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>' +
+                      '<button onClick="abrirUbicacion()" type="button" data-toggle="modal" id="modal_ubicacion" data-target="#modalUbicacion" class="btn btn-primary btn-circle btn-sm popoverxd"><i class="fas fa-thumbtack"></i></button>'
+
+                    ]
                   ).draw();
                   movimientos.push(temp);
                 }
@@ -359,4 +362,30 @@ $('#guardarTraspasos').click(function () {
 
   }
 
+});
+
+function abrirUbicacion() {
+
+}
+
+$('#almacenDestinoTraspaso').change(function (e) {
+  $('#selectUbicacion option').remove();
+  $('#selectUbicacion').selectpicker('refresh');
+  e.preventDefault();
+  $.ajax({
+    method: "GET",
+    url: "/listar-ubicacion-almacen",
+    data: {
+      "id": $(this).children('option:selected').data('id')
+    },
+    success: (data) => {
+
+      data.forEach(function (data) {
+        $("#selectUbicacion").append("<option value='" + data.idMaterial + "'>" + data.nombre + "</option>")
+      });
+      $('#selectUbicacion').selectpicker('refresh');
+
+
+    }
+  })
 });
