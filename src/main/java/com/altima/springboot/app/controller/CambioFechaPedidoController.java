@@ -23,7 +23,8 @@ public class CambioFechaPedidoController {
     public String CambioFechaPedido(Model m)
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.getAuthorities().toString().contains("ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_GERENCIA")||auth.getAuthorities().toString().contains("ROLE_ADMINISTRADOR")) {
+        String roles =auth.getAuthorities().toString();
+        if (roles.contains("ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_GERENCIA")||roles.contains("ROLE_ADMINISTRADOR")) {
             m.addAttribute("solicitudes", cambioFechaService.findAllDetalle(0L));
         } else {
 
