@@ -772,6 +772,12 @@
                                 <p>Pedidos de muestra</p>
                             </a>
                         </li>
+                         <li class="nav-item" >
+                            <a th:href="${'/telas'}" class="nav-link" id="navProduccionTelas">
+                                <i class="nav-icon-custom flaticon-curling-hair-with-tissue-roll"></i>
+                                <p>Telas</p>
+                            </a>
+                        </li>
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TELAS_FALTANTES_LISTAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TELAS_FALTANTES_AGREGAR'')')}) or

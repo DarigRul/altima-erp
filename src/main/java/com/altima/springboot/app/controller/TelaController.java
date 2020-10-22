@@ -427,4 +427,14 @@ public class TelaController {
 			  return "redirect:/materiales";
 		}
 	}
+	
+	//Listar telas en pantalla de producción
+	
+		@GetMapping("/telas")
+		public String ListTelasProduccion(Model model) {
+			
+			model.addAttribute("ListTelas", disenioTelaService.findAll());
+			
+			return "telas";
+		}
 }

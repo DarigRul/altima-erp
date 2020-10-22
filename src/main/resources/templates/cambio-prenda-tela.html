@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
    <head th:include="navegacion-head :: header">
-      <title id="pageTitle">Carga de pedidos | Altima</title>
+      <title id="pageTitle">Cambio de tela | Altima</title>
    </head>
    <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
       <!-- Site wrapper -->
@@ -21,7 +21,7 @@
                   <div class="row mb-2">
                      <div class="col-sm-6">
                         <h1>
-                           Coordinados&nbsp;<a href="javascript:history.back(-1);"
+                           Cambios prenda<a href="javascript:history.back(-1);"
                               class="btn btn-sm icon-btn btn-danger text-white"><span
                               class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
                         </h1>
@@ -53,18 +53,18 @@
                                  <div class="row">
                                     <div class="form-group col-md-6">
                                        <label for="coorPrenda">Famila Prenda</label> 
-                                       <select
+                                       <select disabled
                                           class="form-control selectpicker coorPrenda"
                                           data-live-search="true" id="coorPrenda" title="Selecciona uno...">
                                           
                                           <option th:each="listPrendas: ${listPrendas}"
                                              th:value="${listPrendas.idLookup}"
-                                             th:text="${listPrendas.nombreLookup}"></option>
+                                             th:text="${listPrendas.nombreLookup} " ></option>
                                        </select>
                                     </div>
                                     <div class="form-group col-md-6">
                                        <label for="coorModelo">Modelo</label> 
-                                       <select
+                                       <select disabled
                                           class="form-control selectpicker coorModelo"
                                           data-live-search="true" id="coorModelo" name="coorModelo" title="Selecciona uno...">
                                          
@@ -142,6 +142,12 @@
                                        </button>
                                     </div>
                                  </div>
+                                 
+                                 <input type="hidden" name="aux_prenda" id="aux_prenda" />
+                                            <input type="hidden" name="aux_modelo" id="aux_modelo" />
+                                            <input type="hidden" name="aux_tela" id="aux_tela" />
+                                            
+                                 <input type="hidden" name="id_coordinado_prenda" id="id_coordinado_prenda" />
                               </form>
                               <div class="form-group col-md-12">
                                  <table class="table tablaPrenda table-striped table-bordered">
@@ -158,19 +164,15 @@
                                           <td th:text="${listCoorPrenda[1]}"></td>
                                           <td th:text="${listCoorPrenda[2]}"></td>
                                           <td th:text="${listCoorPrenda[3]}"></td>
-                                          <td class="tdcenter"><a
-                                             th:onclick="'detalles(' + ${listCoorPrenda[0] } + ');'"
-                                             class="btn btn-info text-white btn-circle btn-sm popoverxd"
-                                             data-container="body" data-toggle="popover"
-                                             data-placement="top" data-content="Ver detalles">
-                                             <i class="fas fa-info"></i>
-                                             </a> &nbsp; <a th:if="${listCoorPrenda[4]  == '1'}"
-                                                th:href="@{/delete-modelo/}+ ${listCoorPrenda[0]}"
-                                                class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
-                                                data-container="body" data-toggle="popover"
-                                                data-placement="top" data-content="Eliminar">
-                                             <i class="fas fa-times"></i>
-                                             </a>
+                                          <td class="tdcenter">
+                                          
+                                            <a	th:onclick="'verificarEditar(' + ${listCoorPrenda[0] } + ');'"
+                                            
+                                            	class="btn btn-warning btn-circle btn-sm popoverxd" 
+                                               	data-container="body" data-toggle="popover" data-placement="top" 
+                                               	data-content="Editar"><i class="fas fa-pen"></i>
+                                            </a>
+                                            
                                           </td>
                                        </tr>
                                     </tbody>
@@ -194,7 +196,7 @@
       <script src="/dist/js/bootstrap-select.min.js"></script>
       <!-- SweetAlert -->
       <script th:src="@{/dist/js/sweetalert.js}"></script>
-      <script th:src="@{/dist/js/coordinadoDinamico.js}"></script>
+      <script th:src="@{/dist/js/cambio-falda-prenda.js}"></script>
       <script>
          $("#iComercial").removeClass("text-altima");
          $("#menuComercial").addClass("menu-open");

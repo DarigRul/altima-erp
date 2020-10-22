@@ -92,13 +92,13 @@
     </div>
     <div class="col-sm-6" th:style="${forro}=='true'?'display: none;':''">
         <div class="form-group">
-            <label style="font-size: 15px;">Medida final del hilo</label>
+            <label style="font-size: 15px;">Medida incial del hilo</label>
             <input type="number" class="form-control" id="medidaHiloPruebaVapor" onchange="HiloFusion()" placeholder="23.2" th:readonly="${read}" th:value="${medidaHiloPruebaVapor}">
         </div>
     </div>
     <div class="col-sm-6" th:style="${forro}=='true'?'display: none;':''">
         <div class="form-group">
-            <label style="font-size: 15px;">Medida final de la trama</label>
+            <label style="font-size: 15px;">Medida inicial de la trama</label>
             <input type="number" class="form-control" id="finalTramaPruebaVapor" onchange="TramaFusion()" placeholder="23.2" th:readonly="${read}" th:value="${finalTramaPruebaVapor}">
         </div>
     </div>
@@ -107,25 +107,25 @@
     </div>
     <div class="col-sm-3" th:style="${forro}=='true'?'display: none;':''">
         <div class="form-group">
-            <label style="font-size: 15px;">Diferencia hilo</label>
+            <label style="font-size: 15px;">Medida fianl del hilo</label>
             <input type="number" class="form-control" id="diferenciaHiloPruebaVapor" onchange="HiloFusion()" placeholder="23.2" th:readonly="${read}" th:value="${diferenciaHiloPruebaVapor}">
         </div>
     </div>
     <div class="col-sm-3" th:style="${forro}=='true'?'display: none;':''">
         <div class="form-group">
-            <label style="font-size: 15px;">(100cm/_____cm)</label>
+            <label style="font-size: 15px;">Diferencia de medida del hilo (%)</label>
             <input type="text" class="form-control" id="finalHiloMedPruebaVapor"  placeholder="23.2" readonly="readonly" th:value="${finalHiloMedPruebaVapor==null}?'':${finalHiloMedPruebaVapor}+'%'">
         </div>
     </div>
     <div class="col-sm-3" th:style="${forro}=='true'?'display: none;':''">
         <div class="form-group">
-            <label style="font-size: 15px;">Diferencia trama</label>
+            <label style="font-size: 15px;">Medida final de la trama</label>
             <input type="number" class="form-control" id="diferenciaTramaPruebaVapor" onchange="TramaFusion()" placeholder="23.2" th:readonly="${read}" th:value="${diferenciaTramaPruebaVapor}">
         </div>
     </div>
     <div class="col-sm-3" th:style="${forro}=='true'?'display: none;':''"> 
         <div class="form-group">
-            <label style="font-size: 15px;">(100cm/_____cm)</label>
+            <label style="font-size: 15px;">Diferencia de medida de la trama (%)</label>
             <input type="text" class="form-control" id="finalTramaMedPruebaVapor" placeholder="23.2" readonly="readonly" th:value="${finalTramaMedPruebaVapor==null}?'':${finalTramaMedPruebaVapor}+'%'">
         </div>
     </div>
@@ -140,13 +140,13 @@
     </div>
     <div class="col-sm-6">
         <div class="form-group">
-            <label style="font-size: 15px;">Medida final del hilo</label>
+            <label style="font-size: 15px;">Medida inicial del hilo</label>
             <input type="number" class="form-control" id="medidaHiloPlanchaVapor" onchange="HiloVapor()" placeholder="23.2" th:readonly="${read}" th:value="${medidaHiloPlanchaVapor}">
         </div>
     </div>
     <div class="col-sm-6">
         <div class="form-group">
-            <label style="font-size: 15px;">Medida final de la trama</label>
+            <label style="font-size: 15px;">Medida inicial de la trama</label>
             <input type="number" class="form-control" id="medidaTramaPlanchaVapor" onchange="TramaVapor()" placeholder="23.2" th:readonly="${read}" th:value="${medidaTramaPlanchaVapor}">
         </div>
     </div>
@@ -155,25 +155,25 @@
     </div>
     <div class="col-sm-3">
         <div class="form-group">
-            <label style="font-size: 15px;">Diferencia hilo</label>
+            <label style="font-size: 15px;">Medida final del hilo</label>
             <input type="number" class="form-control" id="diferenciaHiloPlanchaVapor" onchange="HiloVapor()" placeholder="23.2" th:readonly="${read}" th:value="${diferenciaHiloPlanchaVapor}">
         </div>
     </div>
     <div class="col-sm-3">
         <div class="form-group">
-            <label style="font-size: 15px;">(100cm/_____cm)</label>
+            <label style="font-size: 15px;">Diferencia de medida del hilo (%)</label>
             <input type="text" class="form-control" id="finalHiloMedPlanchaVapor" placeholder="23.2" readonly="readonly" th:value="${finalHiloMedPlanchaVapor==null}?'':${finalHiloMedPlanchaVapor}+'%'">
         </div>
     </div>
     <div class="col-sm-3">
         <div class="form-group">
-            <label style="font-size: 15px;">Diferencia trama</label>
+            <label style="font-size: 15px;">Medida final de la trama</label>
             <input type="number" class="form-control" id="diferenciaTramaPlanchaVapor" onchange="TramaVapor()" placeholder="23.2" th:readonly="${read}" th:value="${diferenciaTramaPlanchaVapor}">
         </div>
     </div>
     <div class="col-sm-3">
         <div class="form-group">
-            <label style="font-size: 15px;">(100cm/_____cm)</label>
+            <label style="font-size: 15px;">Diferencia de medida de la trama (%)</label>
             <input type="text" class="form-control" id="finalTramaMedPlanchaVapor" placeholder="23.2" readonly="readonly" th:value="${finalTramaMedPlanchaVapor==null}?'':${finalTramaMedPlanchaVapor}+'%'">
         </div>
     </div>

@@ -40,8 +40,8 @@ public class ProduccionCoordinadoPrenda implements Serializable{
 	@Column(name="tipo_precio_cotizacion")
 	private String tipoPrecioCotizacion;
 	
-	@Column(name="id_coordinado")
-	private Long idCoordinado;
+	@Column(name="id_coordinado_prenda_cambio")
+	private Long idCoordinadoPrendaCambio;
 	
 	@Column(name="adicional")
 	private String adicional;
@@ -121,12 +121,14 @@ public class ProduccionCoordinadoPrenda implements Serializable{
 		this.tipoPrecioCotizacion = tipoPrecioCotizacion;
 	}
 
-	public Long getIdCoordinado() {
-		return idCoordinado;
+	
+
+	public Long getIdCoordinadoPrendaCambio() {
+		return idCoordinadoPrendaCambio;
 	}
 
-	public void setIdCoordinado(Long idCoordinado) {
-		this.idCoordinado = idCoordinado;
+	public void setIdCoordinadoPrendaCambio(Long idCoordinadoPrendaCambio) {
+		this.idCoordinadoPrendaCambio = idCoordinadoPrendaCambio;
 	}
 
 	public String getAdicional() {
