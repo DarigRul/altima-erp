@@ -42,7 +42,7 @@ public class CambioTelaController {
 			model.put("listPrendas", CoordinadoService.findAllPrenda());
 
 			model.put("listCoorPrenda", CoordinadoService.findAllCoorPrenda(id));
-			return "agregar-coordinado";
+			return "cambio-prenda-tela";
 		}
 
 }

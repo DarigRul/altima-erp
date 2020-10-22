@@ -3,17 +3,38 @@ package com.altima.springboot.app.models.service;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.altima.springboot.app.models.entity.ProduccionCoordinadoForro;
+import com.altima.springboot.app.models.entity.ProduccionCoordinadoMaterial;
+import com.altima.springboot.app.models.entity.ProduccionCoordinadoPrenda;
+import com.altima.springboot.app.models.entity.ProduccionCoordinadoTela;
 import com.altima.springboot.app.models.entity.ProduccionSolicitudCambioTelaPedido;
+import com.altima.springboot.app.repository.ProduccionCoordinadoForroRepository;
+import com.altima.springboot.app.repository.ProduccionCoordinadoMaterialRepository;
+import com.altima.springboot.app.repository.ProduccionCoordinadoPrendaRepository;
+import com.altima.springboot.app.repository.ProduccionCoordinadoTelaRepository;
 import com.altima.springboot.app.repository.ProduccionSolicitudCambioTelaPedidoRepository;
 @Service
 public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProduccionSolicitudCambioTelaPedidoService {
 
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Autowired
+	ProduccionCoordinadoPrendaRepository repositoryPrenda;
+	
+	@Autowired
+	ProduccionCoordinadoMaterialRepository repositoryMaterial;
+	
+	@Autowired
+	ProduccionCoordinadoTelaRepository repositoryTelaMaterial;
+	
+	@Autowired
+	ProduccionCoordinadoForroRepository repositoryForroMaterial;
 
 	@Autowired
 	private ProduccionSolicitudCambioTelaPedidoRepository repository;
@@ -102,6 +123,98 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 		return re;
 	}
 
+	@Override
+	public void saveCoorPrenda(ProduccionCoordinadoPrenda prenda) {
+		repositoryPrenda.save(prenda);
+		
+	}
 	
+	@Override
+	public void saveCoorMaterial(ProduccionCoordinadoMaterial material) {
+		repositoryMaterial.save(material);
+		
+	}
+	@Override
+	public  void saveTelaMaterial(ProduccionCoordinadoTela telamaterial){
+    	
+    	repositoryTelaMaterial.save(telamaterial);
+		
+	}
+	@Override
+  	public  void saveForroMaterial(ProduccionCoordinadoForro forromaterial){
+      	
+      	repositoryForroMaterial.save(forromaterial);
+  		
+  	}
+	@Override
+	public ProduccionCoordinadoPrenda BuscarCambio(Long id) {
+		
+		
+
+		try {
+			
+			return  (ProduccionCoordinadoPrenda)em.createQuery("from ProduccionCoordinadoPrenda  where id_coordinado_prenda_cambio="+id).getSingleResult();
+			}
+			catch(Exception e) {
+				
+				return null;
+			}
+		
+		 
+				
+	}
+	
+	@Override
+	@Transactional
+	public void deletePrenda(Long id) {
+		// eliminar materales 
+		  Query query = em.createNativeQuery("DELETE\r\n" + 
+		  		"	material\r\n" + 
+		  		"FROM\r\n" + 
+		  		"	alt_produccion_coordinado_prenda AS prenda,\r\n" + 
+		  		"	alt_produccion_coordinado_material AS material \r\n" + 
+		  		"WHERE\r\n" + 
+		  		"	1 = 1 \r\n" + 
+		  		"	AND material.id_coordinado_prenda= prenda.id_coordinado_prenda\r\n" + 
+		  		"	AND prenda.id_coordinado_prenda_cambio = "+id);
+		 query.executeUpdate();
+		 
+		// eliminar tela 
+		  Query queryTela = em.createNativeQuery("DELETE\r\n" + 
+		  		"tela\r\n" + 
+		  		"FROM\r\n" + 
+		  		"	alt_produccion_coordinado_prenda AS prenda,\r\n" + 
+		  		"	alt_produccion_coordinado_tela AS tela \r\n" + 
+		  		"WHERE\r\n" + 
+		  		"	1 = 1 \r\n" + 
+		  		"	AND tela.id_coordinado_prenda= prenda.id_coordinado_prenda\r\n" + 
+		  		"	AND prenda.id_coordinado_prenda_cambio = "+id);
+		 queryTela.executeUpdate();
+		 
+		// eliminar forro 
+		  Query queryForro = em.createNativeQuery("DELETE\r\n" + 
+		  		"forro\r\n" + 
+		  		"FROM\r\n" + 
+		  		"	alt_produccion_coordinado_prenda AS prenda,\r\n" + 
+		  		"	alt_produccion_coordinado_forro AS forro \r\n" + 
+		  		"WHERE\r\n" + 
+		  		"	1 = 1 \r\n" + 
+		  		"	AND forro.id_coordinado_prenda= prenda.id_coordinado_prenda\r\n" + 
+		  		"	AND prenda.id_coordinado_prenda_cambio = "+id);
+		 queryForro.executeUpdate();
+		 
+		 
+		// eliminar forro 
+		  Query queryPrenda = em.createNativeQuery(""
+		  		+ "DELETE\r\n" + 
+		  		"prenda\r\n" + 
+		  		"FROM\r\n" + 
+		  		"	alt_produccion_coordinado_prenda AS prenda\r\n" + 
+		  		"WHERE\r\n" + 
+		  		"	1 = 1 \r\n" + 
+		  		"	AND prenda.id_coordinado_prenda_cambio = "+id);
+		  queryPrenda.executeUpdate();
+	
+	}
 
 }

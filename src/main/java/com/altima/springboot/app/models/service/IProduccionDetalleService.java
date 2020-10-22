@@ -72,5 +72,8 @@ public interface IProduccionDetalleService {
 	
 	
 	public String validacion(Long idt, Long idp);
+	
+	
+	List<Object[]> findListMatExCambioTela(Long idCooPrenda, Long idMaterial);
 
 }
