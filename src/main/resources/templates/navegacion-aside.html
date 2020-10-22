@@ -35,7 +35,7 @@
                         <p>Calendario</p>
                     </a>
                 </li>
-                <li class="nav-item" sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA','ROLE_ADMINISTRADOR')">
+                <li class="nav-item" sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA','ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_GERENCIA','ROLE_ADMINISTRADOR')">
                     <a th:href="${'/cambio-fecha-pedido'}" class="nav-link" id="navCal">
                         <i class="nav-icon fas fa-calendar text-altima" id="iCal"></i>
                         <p>Cambio de fecha de pedido</p>

@@ -15,6 +15,6 @@ public interface IComercialSolicitudCambioFechaService {
 	
     ComercialSolicitudCambioFecha findOne(Long id);    
 
-    List<ComercialSolicitudCambioFechaDTO> findAllDetalle();
+    List<ComercialSolicitudCambioFechaDTO> findAllDetalle(Long idAgente);
     
 }

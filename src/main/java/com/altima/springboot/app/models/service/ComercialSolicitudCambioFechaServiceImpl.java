@@ -53,9 +53,9 @@ public class ComercialSolicitudCambioFechaServiceImpl implements IComercialSolic
     @Override
     @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
-    public List<ComercialSolicitudCambioFechaDTO> findAllDetalle() {
+    public List<ComercialSolicitudCambioFechaDTO> findAllDetalle(Long idAgente) {
         // TODO Auto-generated method stub
-        return em.createNativeQuery("CALL `alt_pr_solicitud_cambio_fecha`();",ComercialSolicitudCambioFechaDTO.class).getResultList();
+        return em.createNativeQuery("CALL `alt_pr_solicitud_cambio_fecha`(:idAgente);",ComercialSolicitudCambioFechaDTO.class).setParameter("idAgente", idAgente).getResultList();
     }
 
 }

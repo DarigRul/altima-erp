@@ -43,13 +43,13 @@ public class SolicitudCambioFechaRestController {
     @PostMapping("postSolicitudCambioFecha")
     public String postSolicitudCambioFecha(@RequestParam String solicitud) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		JSONArray solicitudArray = new JSONArray(solicitud);
+        JSONArray solicitudArray = new JSONArray(solicitud);
         JSONObject solicitudJson = solicitudArray.getJSONObject(0);
         Formatter fmt = new Formatter();
 
         System.out.println(solicitud);
         try {
-            ComercialSolicitudCambioFecha solicitudCambio =new ComercialSolicitudCambioFecha();
+            ComercialSolicitudCambioFecha solicitudCambio = new ComercialSolicitudCambioFecha();
             solicitudCambio.setCreadoPor(auth.getName());
             solicitudCambio.setActualizadoPor(auth.getName());
             solicitudCambio.setIdPedidoInformacion(Long.parseLong(solicitudJson.get("selectPedido").toString()));
@@ -59,30 +59,59 @@ public class SolicitudCambioFechaRestController {
             solicitudCambio.setEstatus("0");
             solicitudCambio.setIdText("idText");
             cambioFechaService.save(solicitudCambio);
-            solicitudCambio.setIdText("SOL"+fmt.format("%05d",solicitudCambio.getIdSolicitudCambioFecha()));
+            solicitudCambio.setIdText("SOL" + fmt.format("%05d", solicitudCambio.getIdSolicitudCambioFecha()));
             cambioFechaService.save(solicitudCambio);
             fmt.close();
-		} catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
-			return "Error";
-		}
-		return "Success";
+            return "Error";
+        }
+        return "Success";
     }
 
     @PatchMapping("patchSolicitudCambioFechaAceptar")
-    public void patchSolicitudCambioFechaAceptar(@RequestParam Long idSolicitudCambioFecha) {
-        ComercialSolicitudCambioFecha solicitud= cambioFechaService.findOne(idSolicitudCambioFecha);
-        ComercialPedidoInformacion pedido= pedidoService.findOne(solicitud.getIdPedidoInformacion());
-        solicitud.setEstatus("1");
-        pedido.setFechaEntrega(solicitud.getFechaNueva());
-        cambioFechaService.save(solicitud);
-        pedidoService.save(pedido);
+    public String patchSolicitudCambioFechaAceptar(@RequestParam Long idSolicitudCambioFecha) {
+        try {
+            ComercialSolicitudCambioFecha solicitud = cambioFechaService.findOne(idSolicitudCambioFecha);
+            ComercialPedidoInformacion pedido = pedidoService.findOne(solicitud.getIdPedidoInformacion());
+            solicitud.setEstatus("1");
+            pedido.setFechaEntrega(solicitud.getFechaNueva());
+            cambioFechaService.save(solicitud);
+            pedidoService.save(pedido);
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println(e);
+            return "Error";
+        }
+        return "Success";
     }
+
     @PatchMapping("patchSolicitudCambioFechaRechazar")
-    public void patchSolicitudCambioFechaRechazar(@RequestParam Long idSolicitudCambioFecha) {
-        ComercialSolicitudCambioFecha solicitud= cambioFechaService.findOne(idSolicitudCambioFecha);
-        solicitud.setEstatus("2");
-        cambioFechaService.save(solicitud);
+    public String patchSolicitudCambioFechaRechazar(@RequestParam Long idSolicitudCambioFecha) {
+        try {
+            ComercialSolicitudCambioFecha solicitud = cambioFechaService.findOne(idSolicitudCambioFecha);
+            solicitud.setEstatus("2");
+            cambioFechaService.save(solicitud);
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println(e);
+            return "Error";
+        }
+        return "Success";
     }
-    
+
+    @PatchMapping("patchSolicitudCambioFecha")
+    public String patchSolicitudCambioFecha(@RequestParam Long idSolicitudCambioFecha, @RequestParam String fecha) {
+        try {
+            ComercialSolicitudCambioFecha solicitud = cambioFechaService.findOne(idSolicitudCambioFecha);
+            solicitud.setFechaNueva(fecha);
+            cambioFechaService.save(solicitud);
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println(e);
+            return "Error";
+        }
+        return "Success";
+    }
+
 }

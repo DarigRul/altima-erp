@@ -12,27 +12,29 @@
       <form action="">
         <div class="modal-body">
           <div class="row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-12" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')">
               <label for="numeroPedido">Agente</label>
-              <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true"
+              <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" :disabled="!buttonEdit&&!buttonSave||buttonEdit"
                 data-live-search-normalize="true" id="selectAgente" v-model="selectAgente" @change="getPedidos">
-                <option v-for="agente in agentes" v-bind:value="agente.idAgenteVentas">  
+                <option v-for="agente in agentes" v-bind:value="agente.idAgenteVentas">
                   {{agente.nombreAgenteVentas}}
                 </option>
               </select>
             </div>
+            <input type="hidden" th:value="${auth}" id="selectAgenteVal" sec:authorize="!hasAnyRole('ROLE_ADMINISTRADOR')">
+            <input type="hidden" value="0" id="selectAgenteVal" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')">
             <div class="form-group col-md-4">
               <label for="numeroPedido">N&uacute;mero de pedido</label>
-              <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true"
+              <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" :disabled="!buttonEdit&&!buttonSave||buttonEdit"
                 data-live-search-normalize="true" id="selectPedido" v-model="selectPedido" @change="getPedidoSelect">
-                <option v-for="pedido in pedidos" v-bind:value="pedido.idPedidoInformacion">  
+                <option v-for="pedido in pedidos" v-bind:value="pedido.idPedidoInformacion">
                   {{pedido.idText}}
                 </option>
               </select>
             </div>
             <div class="form-group col-md-4">
               <label for="clientePedido">Cliente</label>
-              <input type="text" class="form-control" disabled id="clientePedido" v-bind:value="pedido.cliente">
+              <input type="text" class="form-control" disabled id="clientePedido" v-bind:value="pedido.cliente" >
             </div>
             <div class="form-group col-md-4">
               <label for="fechaPedido">Fecha de entrega del pedido</label>
@@ -40,19 +42,25 @@
             </div>
             <div class="form-group col-md-6">
               <label for="cambioFechaPedido">Nueva fecha de entrega</label>
-              <input type="date" class="form-control" id="nuevaFechaEntrega" v-model="nuevaFechaEntrega">
+              <input type="date" class="form-control" id="nuevaFechaEntrega" v-model="nuevaFechaEntrega" :disabled="!buttonEdit&&!buttonSave">
             </div>
             <div class="form-group col-md-6">
               <label for="motivoPedido">Motivo</label>
-              <input type="text" placeholder="Espeficar" v-model="motivo" class="form-control" id="motivoPedido">
+              <input type="text" placeholder="Espeficar" v-model="motivo" class="form-control" id="motivoPedido" :disabled="!buttonEdit&&!buttonSave||buttonEdit">
             </div>
           </div>
         </div>
         <div class="modal-footer modal-rounded-footer">
           <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span
               class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-          <button @click="postSolicitud" type="button" class="btn icon-btn btn-altima text-white float-right"><span
+          <button v-if="buttonSave" @click="postSolicitud" type="button"
+            class="btn icon-btn btn-altima text-white float-right"><span
               class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+
+          <button v-if="buttonEdit" @click="patchSolicitud" type="button"
+            class="btn icon-btn btn-altima text-white float-right"><span
+              class="btn-glyphicon fas fa-save img-circle text-altima"></span>Editar</button>
+
         </div>
       </form>
     </div>

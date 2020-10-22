@@ -24,7 +24,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>Cambio de fecha de pedido&nbsp;
-                                <button @click="getAgentes" data-toggle="modal" data-target="#cambioFecha"
+                                <button v-on="selectAgente==0 ? { click: getAgentes } : { click: getPedidos}" data-toggle="modal" data-target="#cambioFecha"
                                     class="btn btn-sm icon-btn btn-altima text-white"><span
                                         class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo
                                     cambio</button>
@@ -56,7 +56,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Folio</th>
-                                                <th>Solicitante</th>
+                                                <th sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_GERENCIA','ROLE_ADMINISTRADOR')">Solicitante</th>
                                                 <th>Fecha de solicitud</th>
                                                 <th>Cliente</th>
                                                 <th>Pedido</th>
@@ -68,7 +68,7 @@
                                         <tbody>
                                             <tr th:each=" solicitud: ${solicitudes}">
                                                 <td th:text="${solicitud.idText}">CAMFE0001</td>
-                                                <td th:text="${solicitud.agente}">Agente 1</td>
+                                                <td sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_GERENCIA','ROLE_ADMINISTRADOR')" th:text="${solicitud.agente}">Agente 1</td>
                                                 <td th:text="${solicitud.fechaCreacion}">14/08/2020 09:00 a.m.</td>
                                                 <td th:text="${solicitud.cliente}">DTI Consultores</td>
                                                 <td th:text="${solicitud.folioPedido}">PED100045</td>
@@ -77,7 +77,7 @@
                                                 <td class="text-center">
                                                     <button
                                                         sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_EDITAR','ROLE_ADMINISTRADOR')"
-                                                        th:@click="|getSolicitud('${solicitud.idSolicitudCambioFecha}')|"
+                                                        th:@click="|getSolicitud('${solicitud.idSolicitudCambioFecha}','${solicitud.idText}','${solicitud.cliente}')|"
                                                         data-toggle="modal" data-target="#cambioFecha"
                                                         class="btn btn-warning btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Cambiar fecha"><i
