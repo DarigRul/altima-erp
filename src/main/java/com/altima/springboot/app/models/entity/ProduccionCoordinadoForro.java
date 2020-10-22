@@ -12,31 +12,31 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "alt_produccion_solicitud_cambio_tela_pedido")
-public class ProduccionSolicitudCambioTelaPedido implements Serializable{
+@Table(name = "alt_produccion_coordinado_forro")
+public class ProduccionCoordinadoForro implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
-	@Column(name="id_tela_pedido")
+	@Column(name="id_coordinado_forro")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
 	@GenericGenerator(name="native",strategy="native")
-	private Long idTelaPedido;
+	private Long idCoordinadoForro;
 	
-	@Column(name="id_pedido")
-	private Long id_pedido;
+	@Column(name="id_coordinado_prenda")
+	private Long idCoordinadoPrenda;
 	
-	@Column(name="id_text")
-	private String idText;
+	@Column(name="id_forro")
+	private Long idForro;
 	
-	@Column(name="motivo")
-	private String motivo;
+	@Column(name="descripcion")
+	private String descripcion;
 	
 	@Column(name="creado_por")
-	private String creadoPor;
+	private String creado_por;
 	
 	@Column(name="actualizado_por")
 	private String actualizadoPor;
@@ -49,48 +49,45 @@ public class ProduccionSolicitudCambioTelaPedido implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
-	
-	@Column(name="estatus_envio")
-	private String estatusEnvio;
 
-	public Long getIdTelaPedido() {
-		return idTelaPedido;
+	public Long getIdCoordinadoForro() {
+		return idCoordinadoForro;
 	}
 
-	public void setIdTelaPedido(Long idTelaPedido) {
-		this.idTelaPedido = idTelaPedido;
+	public void setIdCoordinadoForro(Long idCoordinadoForro) {
+		this.idCoordinadoForro = idCoordinadoForro;
 	}
 
-	public Long getId_pedido() {
-		return id_pedido;
+	public Long getIdCoordinadoPrenda() {
+		return idCoordinadoPrenda;
 	}
 
-	public void setId_pedido(Long id_pedido) {
-		this.id_pedido = id_pedido;
+	public void setIdCoordinadoPrenda(Long idCoordinadoPrenda) {
+		this.idCoordinadoPrenda = idCoordinadoPrenda;
 	}
 
-	public String getIdText() {
-		return idText;
+	public Long getIdForro() {
+		return idForro;
 	}
 
-	public void setIdText(String idText) {
-		this.idText = idText;
+	public void setIdForro(Long idForro) {
+		this.idForro = idForro;
 	}
 
-	public String getMotivo() {
-		return motivo;
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setMotivo(String motivo) {
-		this.motivo = motivo;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
-	public String getCreadoPor() {
-		return creadoPor;
+	public String getCreado_por() {
+		return creado_por;
 	}
 
-	public void setCreadoPor(String creadoPor) {
-		this.creadoPor = creadoPor;
+	public void setCreado_por(String creado_por) {
+		this.creado_por = creado_por;
 	}
 
 	public String getActualizadoPor() {
@@ -128,16 +125,7 @@ public class ProduccionSolicitudCambioTelaPedido implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	
 
-	public String getEstatusEnvio() {
-		return estatusEnvio;
-	}
-
-	public void setEstatusEnvio(String estatusEnvio) {
-		this.estatusEnvio = estatusEnvio;
-	}
-	
-	
-	
-	
 }

@@ -10,30 +10,35 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-
 @Entity
-@Table(name = "alt_produccion_solicitud_cambio_tela_pedido")
-public class ProduccionSolicitudCambioTelaPedido implements Serializable{
+@Table(name = "alt_produccion_coordinado_material")
+public class ProduccionCoordinadoMaterial implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
-	@Column(name="id_tela_pedido")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
+	@Column(name="id_coordinado_material")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@GenericGenerator(name="native",strategy="native")
-	private Long idTelaPedido;
+	private Long idCoordinadoMaterial;
 	
-	@Column(name="id_pedido")
-	private Long id_pedido;
+	@Column(name="id_material")
+	private Long idMaterial;
 	
-	@Column(name="id_text")
-	private String idText;
+	@Column(name="id_coordinado_prenda")
+	private Long idCoordinadoPrenda;
 	
-	@Column(name="motivo")
-	private String motivo;
+	@Column(name="color")
+	private String color;
+	
+	@Column(name="descripcion")
+	private String descripcion;
+	
+	@Column(name="color_codigo")
+	private String colorCodigo;
 	
 	@Column(name="creado_por")
 	private String creadoPor;
@@ -49,40 +54,53 @@ public class ProduccionSolicitudCambioTelaPedido implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
-	
-	@Column(name="estatus_envio")
-	private String estatusEnvio;
 
-	public Long getIdTelaPedido() {
-		return idTelaPedido;
+	public Long getIdCoordinadoMaterial() {
+		return idCoordinadoMaterial;
 	}
 
-	public void setIdTelaPedido(Long idTelaPedido) {
-		this.idTelaPedido = idTelaPedido;
+	public void setIdCoordinadoMaterial(Long idCoordinadoMaterial) {
+		this.idCoordinadoMaterial = idCoordinadoMaterial;
 	}
 
-	public Long getId_pedido() {
-		return id_pedido;
+	public Long getIdMaterial() {
+		return idMaterial;
 	}
 
-	public void setId_pedido(Long id_pedido) {
-		this.id_pedido = id_pedido;
+	public void setIdMaterial(Long idMaterial) {
+		this.idMaterial = idMaterial;
 	}
 
-	public String getIdText() {
-		return idText;
+	public Long getIdCoordinadoPrenda() {
+		return idCoordinadoPrenda;
 	}
 
-	public void setIdText(String idText) {
-		this.idText = idText;
+	public void setIdCoordinadoPrenda(Long idCoordinadoPrenda) {
+		this.idCoordinadoPrenda = idCoordinadoPrenda;
 	}
 
-	public String getMotivo() {
-		return motivo;
+	public String getColor() {
+		return color;
 	}
 
-	public void setMotivo(String motivo) {
-		this.motivo = motivo;
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getColorCodigo() {
+		return colorCodigo;
+	}
+
+	public void setColorCodigo(String colorCodigo) {
+		this.colorCodigo = colorCodigo;
 	}
 
 	public String getCreadoPor() {
@@ -128,16 +146,8 @@ public class ProduccionSolicitudCambioTelaPedido implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	
+	
 
-	public String getEstatusEnvio() {
-		return estatusEnvio;
-	}
-
-	public void setEstatusEnvio(String estatusEnvio) {
-		this.estatusEnvio = estatusEnvio;
-	}
-	
-	
-	
-	
 }

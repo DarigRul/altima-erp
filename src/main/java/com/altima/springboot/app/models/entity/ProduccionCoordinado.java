@@ -12,28 +12,29 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "alt_produccion_solicitud_cambio_tela_pedido")
-public class ProduccionSolicitudCambioTelaPedido implements Serializable{
+@Table(name = "alt_produccion_coordinado")
+public class ProduccionCoordinado implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
-	@Column(name="id_tela_pedido")
+	@Column(name="id_coordinado")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
 	@GenericGenerator(name="native",strategy="native")
-	private Long idTelaPedido;
+	private Long idCoordinado;
+	
+	@Column(name="numero_coordinado")
+	private String numeroCoordinado;
 	
 	@Column(name="id_pedido")
-	private Long id_pedido;
+	private Long idPedido;
+	
 	
 	@Column(name="id_text")
 	private String idText;
-	
-	@Column(name="motivo")
-	private String motivo;
 	
 	@Column(name="creado_por")
 	private String creadoPor;
@@ -44,29 +45,34 @@ public class ProduccionSolicitudCambioTelaPedido implements Serializable{
 	@Column(name="fecha_creacion")
 	private String fechaCreacion;
 	
-	@Column(name="ultima_fecha_modificacion")
+	@Column(name="ultima_fecha_actualizacion")
 	private String ultimaFechaModificacion;
 	
 	@Column(name="estatus")
 	private String estatus;
-	
-	@Column(name="estatus_envio")
-	private String estatusEnvio;
 
-	public Long getIdTelaPedido() {
-		return idTelaPedido;
+	public Long getIdCoordinado() {
+		return idCoordinado;
 	}
 
-	public void setIdTelaPedido(Long idTelaPedido) {
-		this.idTelaPedido = idTelaPedido;
+	public void setIdCoordinado(Long idCoordinado) {
+		this.idCoordinado = idCoordinado;
 	}
 
-	public Long getId_pedido() {
-		return id_pedido;
+	public String getNumeroCoordinado() {
+		return numeroCoordinado;
 	}
 
-	public void setId_pedido(Long id_pedido) {
-		this.id_pedido = id_pedido;
+	public void setNumeroCoordinado(String numeroCoordinado) {
+		this.numeroCoordinado = numeroCoordinado;
+	}
+
+	public Long getIdPedido() {
+		return idPedido;
+	}
+
+	public void setIdPedido(Long idPedido) {
+		this.idPedido = idPedido;
 	}
 
 	public String getIdText() {
@@ -75,14 +81,6 @@ public class ProduccionSolicitudCambioTelaPedido implements Serializable{
 
 	public void setIdText(String idText) {
 		this.idText = idText;
-	}
-
-	public String getMotivo() {
-		return motivo;
-	}
-
-	public void setMotivo(String motivo) {
-		this.motivo = motivo;
 	}
 
 	public String getCreadoPor() {
@@ -128,16 +126,7 @@ public class ProduccionSolicitudCambioTelaPedido implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	
 
-	public String getEstatusEnvio() {
-		return estatusEnvio;
-	}
-
-	public void setEstatusEnvio(String estatusEnvio) {
-		this.estatusEnvio = estatusEnvio;
-	}
-	
-	
-	
-	
 }
