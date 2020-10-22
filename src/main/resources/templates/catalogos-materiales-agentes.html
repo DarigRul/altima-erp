@@ -31,52 +31,52 @@
         overflow: hidden;
         position: relative;
     }
-    
+
     .food-img img {
         width: 100%;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
     }
-    
+
     .card {
         height: 100%;
     }
-    
+
     .jplist-selected,
     .jplist-selected:hover {
         background-color: #007bff;
         border-color: #007bff;
     }
-    
+
     .btn-group {
         border: 1px solid #dee2e6;
         border-radius: .25rem;
     }
-    
+
     .btn-group button {
         border-left: 1px solid #dee2e6;
         border-collapse: collapse;
     }
-    
+
     .btn-group button:first-child {
         border-left: 0;
     }
-    
+
     .btn-group button.jplist-selected {
         color: #fff;
     }
-    
+
     .input-group label {
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    
+
     .jplist-items-number-0>ul.pagination {
         display: none !important;
     }
-    
+
     .jplist-items-number-0>span[data-type="info"] {
         margin-left: 0 !important;
     }
@@ -144,11 +144,54 @@
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    <label>Filtrar</label>
+                                    <label>Filtro global</label>
                                     <div class="input-group">
-                                        <input data-jplist-control="textbox-filter" data-group="group1" data-name="my-filter-1" data-path=".filter" type="text" value="" placeholder="Buscar..." data-clear-btn-id="tags-clear-btn1" class="form-control" />
+                                        <input data-jplist-control="textbox-filter" data-group="group1"
+                                            data-name="my-filter-1" data-path=".filter" type="text" value=""
+                                            placeholder="Buscar..." data-clear-btn-id="tags-clear-btn1"
+                                            class="form-control" />
                                         <div class="input-group-append">
-                                            <button class="btn btn-altima" type="button" id="tags-clear-btn1">Borrar</button>
+                                            <button class="btn btn-altima" type="button"
+                                                id="tags-clear-btn1">Borrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Filtro Familia de Prenda</label>
+                                    <div class="input-group">
+                                        <input data-jplist-control="textbox-filter" data-group="group1"
+                                            data-name="my-filter-1" data-path=".filter-familia-prenda" type="text"
+                                            value="" placeholder="Buscar..." data-clear-btn-id="tags-clear-btn1"
+                                            class="form-control" />
+                                        <div class="input-group-append">
+                                            <button class="btn btn-altima" type="button"
+                                                id="tags-clear-btn1">Borrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Filtro Color</label>
+                                    <div class="input-group">
+                                        <input data-jplist-control="textbox-filter" data-group="group1"
+                                            data-name="my-filter-1" data-path=".filter-color" type="text" value=""
+                                            placeholder="Buscar..." data-clear-btn-id="tags-clear-btn1"
+                                            class="form-control" />
+                                        <div class="input-group-append">
+                                            <button class="btn btn-altima" type="button"
+                                                id="tags-clear-btn1">Borrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Filtro Familia de Composici&oacute;n</label>
+                                    <div class="input-group">
+                                        <input data-jplist-control="textbox-filter" data-group="group1"
+                                            data-name="my-filter-1" data-path=".filter-composicion" type="text" value=""
+                                            placeholder="Buscar..." data-clear-btn-id="tags-clear-btn1"
+                                            class="form-control" />
+                                        <div class="input-group-append">
+                                            <button class="btn btn-altima" type="button"
+                                                id="tags-clear-btn1">Borrar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -157,7 +200,10 @@
                             <div class="row">
                                 <div class="col flex flex-wrap align-items-start">
                                     <!-- pagination control -->
-                                    <nav data-jplist-control="pagination" data-group="group1" data-items-per-page="12" data-current-page="0" data-disabled-class="disabled" data-selected-class="active" data-jump="top" data-name="pagination1" class="mb-2 mr-3">
+                                    <nav data-jplist-control="pagination" data-group="group1" data-items-per-page="12"
+                                        data-current-page="0" data-disabled-class="disabled"
+                                        data-selected-class="active" data-jump="top" data-name="pagination1"
+                                        class="mb-2 mr-3">
 
                                         <!-- first and previous buttons -->
                                         <ul class="pagination d-inline-flex">
@@ -169,29 +215,35 @@
 
                                         <!-- pages buttons -->
                                         <ul class="pagination d-none d-sm-none d-lg-inline-flex" data-type="pages">
-                                            <li class="page-item" data-type="page"><a class="page-link" href="#">{pageNumber}</a></li>
+                                            <li class="page-item" data-type="page"><a class="page-link"
+                                                    href="#">{pageNumber}</a></li>
                                         </ul>
 
                                         <!-- next and last buttons -->
                                         <ul class="pagination d-inline-flex">
                                             <li class="page-item" data-type="next"><a class="page-link" href="#">›</a>
                                             </li>
-                                            <li class="page-item d-none d-sm-none d-lg-inline-block" data-type="last"><a class="page-link" href="#">»</a></li>
+                                            <li class="page-item d-none d-sm-none d-lg-inline-block" data-type="last"><a
+                                                    class="page-link" href="#">»</a></li>
                                         </ul>
 
                                         <!-- information labels -->
-                                        <span data-type="info" class="d-none d-sm-none d-md-inline-flex badge badge-secondary ml-3 p-2">
+                                        <span data-type="info"
+                                            class="d-none d-sm-none d-md-inline-flex badge badge-secondary ml-3 p-2">
                                             {startItem} - {endItem} de {itemsNumber} muestras
                                         </span>
 
                                         <!-- items per page dropdown -->
-                                        <div class="dropdown d-inline-flex ml-lg-3" data-type="items-per-page-dd" data-opened-class="show">
+                                        <div class="dropdown d-inline-flex ml-lg-3" data-type="items-per-page-dd"
+                                            data-opened-class="show">
 
-                                            <button data-type="panel" class="btn btn-altima dropdown-toggle" type="button">
+                                            <button data-type="panel" class="btn btn-altima dropdown-toggle"
+                                                type="button">
                                                 Dropdown button
                                             </button>
 
-                                            <div data-type="content" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <div data-type="content" class="dropdown-menu"
+                                                aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item" href="#" data-value="6">Mostrar 8 muestras</a>
                                                 <a class="dropdown-item" href="#" data-value="12">Mostrar 16
                                                     muestras</a>
@@ -208,21 +260,33 @@
                     <div class="py-5 bg-light">
                         <div class="container" style="max-width: 1800px;">
                             <div class="row" data-jplist-group="group1">
-                                <div th:each="material : ${materiales}" th:if="${material[6] == '1' && material[7] == 1}" class="col-lg-3 col-sm-6 mb-4" data-jplist-item>
-									<h1 th:text="${material[3]}"></h1>
-                                    <div th:class="${material[1]}" >
+                                <div th:each="material : ${materiales}"
+                                    th:if="${material[6] == '1' && material[7] == 1}" class="col-lg-3 col-sm-6 mb-4"
+                                    data-jplist-item>
+                                    <h1 th:text="${material[3]}"></h1>
+                                    <div th:class="${material[1]}">
                                         <div class="card box-shadow">
-                                            <div class="food-img" style="text-align: center;" th:switch="${material[3]}">
-												<img th:case="'Tela'" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dti-consultores/image/upload/v1594948361/telas/' +${material[8]}}" alt="" title="">
-												<img th:case="'Forro'" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dti-consultores/image/upload/v1594948361/forros/'+${material[8]}}" alt="" title="">
-												<img th:case="*" class="centerImg" style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;" th:src="@{'https://res.cloudinary.com/dti-consultores/image/upload/v1594948361/material/' + ${material[8]}}" alt="" title="">
+                                            <div class="food-img" style="text-align: center;"
+                                                th:switch="${material[3]}">
+                                                <img th:case="'Tela'" class="centerImg"
+                                                    style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;"
+                                                    th:src="@{'https://res.cloudinary.com/dti-consultores/image/upload/v1594948361/telas/' +${material[8]}}"
+                                                    alt="" title="">
+                                                <img th:case="'Forro'" class="centerImg"
+                                                    style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;"
+                                                    th:src="@{'https://res.cloudinary.com/dti-consultores/image/upload/v1594948361/forros/'+${material[8]}}"
+                                                    alt="" title="">
+                                                <img th:case="*" class="centerImg"
+                                                    style="background: 50% 50% no-repeat; width: 132PX;  height: 132px;margin-left: 80px;"
+                                                    th:src="@{'https://res.cloudinary.com/dti-consultores/image/upload/v1594948361/material/' + ${material[8]}}"
+                                                    alt="" title="">
                                             </div>
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
                                                     <h4 class="author-name" th:text="${material[1]}"></h4>
-                                                  
+
                                                 </li>
-                                                
+
                                                 <li class="list-group-item description">
                                                     <ul>
                                                         <li><strong>Nombre: </strong>
@@ -234,29 +298,54 @@
                                                         <li><strong>Unidad de Medida: </strong>
                                                             <a th:text="${material[4]}"></a>
                                                         </li>
+                                                        <li th:if="${material[3]}=='Tela'"><strong>Proveedor: </strong>
+                                                            <a th:text="${material[9]}"></a>
+                                                        </li>
+                                                        <li th:if="${material[3]}=='Tela'"><strong>Color: </strong>
+                                                            <a th:text="${material[10]}"></a>
+                                                        </li>
+                                                        <li th:if="${material[3]}=='Tela'"><strong>Familia de
+                                                                Composici&oacute;n: </strong>
+                                                            <a th:text="${material[11]}"></a>
+                                                        </li>
                                                         <li th:switch="${material[3]}">
-                                                         <button th:case="'Tela'" th:id="${material[0]}" th:idText="${material[1]}" th:nombre="${material[5]}" th:tipo="tela" class="btn icon-btn btn-altima" type="button" onclick=" existencias (this);"><span class="btn-glyphicon spancircle fas fa-warehouse img-circle text-altima"></span>Disponibles</button>
-                                                        <button th:case="'Forro'" th:id="${material[0]}" th:idText="${material[1]}" th:nombre="${material[5]}" th:tipo="forro" class="btn icon-btn btn-altima" type="button" onclick=" existencias (this);"><span class="btn-glyphicon spancircle fas fa-warehouse img-circle text-altima"></span>Disponibles</button>
-                                                        <button th:case="*" th:id="${material[0]}" th:idText="${material[1]}" th:nombre="${material[5]}" th:tipo="material" class="btn icon-btn btn-altima" type="button" onclick=" existencias (this);"><span class="btn-glyphicon spancircle fas fa-warehouse img-circle text-altima"></span>Disponibles</button>
+                                                            <button th:case="'Tela'" th:id="${material[0]}"
+                                                                th:idText="${material[1]}" th:nombre="${material[5]}"
+                                                                th:tipo="tela" class="btn icon-btn btn-altima"
+                                                                type="button" onclick=" existencias (this);"><span
+                                                                    class="btn-glyphicon spancircle fas fa-warehouse img-circle text-altima"></span>Disponibles</button>
+                                                            <button th:case="'Forro'" th:id="${material[0]}"
+                                                                th:idText="${material[1]}" th:nombre="${material[5]}"
+                                                                th:tipo="forro" class="btn icon-btn btn-altima"
+                                                                type="button" onclick=" existencias (this);"><span
+                                                                    class="btn-glyphicon spancircle fas fa-warehouse img-circle text-altima"></span>Disponibles</button>
+                                                            <button th:case="*" th:id="${material[0]}"
+                                                                th:idText="${material[1]}" th:nombre="${material[5]}"
+                                                                th:tipo="material" class="btn icon-btn btn-altima"
+                                                                type="button" onclick=" existencias (this);"><span
+                                                                    class="btn-glyphicon spancircle fas fa-warehouse img-circle text-altima"></span>Disponibles</button>
                                                         </li>
                                                     </ul>
                                                 </li>
                                             </ul>
-                                            
+
                                             <div class="card-body" style="display: none;">
                                                 <span class="filter" th:text="${material[1]}"></span>
                                                 <span class="filter" th:text="${material[2]}"></span>
                                                 <span class="filter" th:text="${material[3]}"></span>
                                                 <span class="filter" th:text="${material[4]}"></span>
                                                 <span class="filter" th:text="${material[5]}"></span>
-
+                                                <span class="filter-familia-prenda" th:text="${material[12]}"></span>
+                                                <span class="filter-composicion" th:text="${material[11]}"></span>
+                                                <span class="filter-color" th:text="${material[10]}"></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- no results control -->
-                                <div class="col text-center" data-jplist-control="no-results" data-group="group1" data-name="no-results">Muestras no encontradas</div>
+                                <div class="col text-center" data-jplist-control="no-results" data-group="group1"
+                                    data-name="no-results">Muestras no encontradas</div>
                             </div>
                         </div>
                     </div>
@@ -268,8 +357,8 @@
         <!-- /.content-wrapper -->
         <div th:insert="navegacion-footer"></div>
     </div>
-    
-    
+
+
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
     <!-- IE / Edge babel polyfill -->
@@ -278,7 +367,7 @@
     <!-- jPList Library -->
     <script src="/dist/jplist/jplist.min.js"></script>
     <script src="/dist/js/catalogosMaterialAgentes.js"></script>
-      <script src="dist/js/sweetalert.js"></script>
+    <script src="dist/js/sweetalert.js"></script>
     <script>
         jplist.init();
     </script>
