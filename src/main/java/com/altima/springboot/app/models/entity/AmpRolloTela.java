@@ -12,8 +12,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "alt_amp_almacen_ubicacion_articulo")
-public class AmpAlmacenUbicacionArticulo implements Serializable{
+@Table(name = "alt_amp_rollo_tela")
+public class AmpRolloTela implements Serializable {
 
 	/**
 	 * 
@@ -21,25 +21,19 @@ public class AmpAlmacenUbicacionArticulo implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@Column(name="id_conteo")
+	@Column(name="id_rollo_tela")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@GenericGenerator(name="native",strategy="native")
-	private Long idConteo;
+	private Long idRolloTela;
 	
-	@Column(name="numero_conteo")
-	private Long numeroConteo;
-	
-	@Column(name="id_ubicacion")
-	private Long idUbicacion;
-	
-	@Column(name="id_articulo")
-	private Long idArticulo;
+	@Column(name="id_text")
+	private String idText;
 	
 	@Column(name="cantidad")
 	private Long cantidad;
 	
-	@Column(name="tipo")
-	private String tipo;
+	@Column(name="lote")
+	private String lote;
 	
 	@Column(name="creado_por")
 	private String creadoPor;
@@ -55,47 +49,21 @@ public class AmpAlmacenUbicacionArticulo implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
-	
-	
 
-	public String getTipo() {
-		return tipo;
+	public Long getIdRolloTela() {
+		return idRolloTela;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setIdRolloTela(Long idRolloTela) {
+		this.idRolloTela = idRolloTela;
 	}
 
-	public Long getIdConteo() {
-		return idConteo;
+	public String getIdText() {
+		return idText;
 	}
 
-	public void setIdConteo(Long idConteo) {
-		this.idConteo = idConteo;
-	}
-
-	public Long getNumeroConteo() {
-		return numeroConteo;
-	}
-
-	public void setNumeroConteo(Long numeroConteo) {
-		this.numeroConteo = numeroConteo;
-	}
-
-	public Long getIdUbicacion() {
-		return idUbicacion;
-	}
-
-	public void setIdUbicacion(Long idUbicacion) {
-		this.idUbicacion = idUbicacion;
-	}
-
-	public Long getIdArticulo() {
-		return idArticulo;
-	}
-
-	public void setIdArticulo(Long idArticulo) {
-		this.idArticulo = idArticulo;
+	public void setIdText(String idText) {
+		this.idText = idText;
 	}
 
 	public Long getCantidad() {
@@ -104,6 +72,14 @@ public class AmpAlmacenUbicacionArticulo implements Serializable{
 
 	public void setCantidad(Long cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public String getLote() {
+		return lote;
+	}
+
+	public void setLote(String lote) {
+		this.lote = lote;
 	}
 
 	public String getCreadoPor() {
@@ -149,8 +125,7 @@ public class AmpAlmacenUbicacionArticulo implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 	
 	
-
-
 }
