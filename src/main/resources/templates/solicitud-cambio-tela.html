@@ -90,12 +90,14 @@
                                                    </button>
 												 
 												 <button
+												 		sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_EDITAR','ROLE_ADMINISTRADOR')"
 												 		th:onclick="|rechazar('${view[0]}')|"
                                                         th:disabled="${view[7]}=='Enviado'?false:true"
                                                         class="btn btn-danger btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Rechazar"><i
                                                             class="fas fa-times"></i></button>
                                                     <button
+                                                    sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_EDITAR','ROLE_ADMINISTRADOR')"
                                                     	th:onclick="|aceptar('${view[0]}')|"
                                                         th:disabled="${view[7]}=='Enviado'?false:true"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
