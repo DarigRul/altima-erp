@@ -58,6 +58,7 @@
                                                 <th>Folio</th>
                                                 <th sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_GERENCIA','ROLE_ADMINISTRADOR')">Solicitante</th>
                                                 <th>Fecha de solicitud</th>
+                                                <th>Fecha cierre</th>
                                                 <th>Cliente</th>
                                                 <th>Pedido</th>
                                                 <th>Fecha entrega de pedido</th>
@@ -70,6 +71,7 @@
                                                 <td th:text="${solicitud.idText}">CAMFE0001</td>
                                                 <td sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_GERENCIA','ROLE_ADMINISTRADOR')" th:text="${solicitud.agente}">Agente 1</td>
                                                 <td th:text="${solicitud.fechaCreacion}">14/08/2020 09:00 a.m.</td>
+                                                <td th:text="${solicitud.fechaCierre}"></td>
                                                 <td th:text="${solicitud.cliente}">DTI Consultores</td>
                                                 <td th:text="${solicitud.folioPedido}">PED100045</td>
                                                 <td th:text="${solicitud.fechaNueva}">17/10/2020</td>

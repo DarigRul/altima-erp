@@ -15,6 +15,7 @@ public class ComercialSolicitudCambioFechaDTO {
     private String folioPedido;
     private String fechaNueva;
     private String estatus;
+    private String fechaCierre;
 
     public Long getIdSolicitudCambioFecha() {
         return idSolicitudCambioFecha;
@@ -78,5 +79,13 @@ public class ComercialSolicitudCambioFechaDTO {
 
     public void setEstatus(String estatus) {
         this.estatus = estatus;
+    }
+
+    public String getFechaCierre() {
+        return fechaCierre;
+    }
+
+    public void setFechaCierre(String fechaCierre) {
+        this.fechaCierre = fechaCierre;
     }
 }
