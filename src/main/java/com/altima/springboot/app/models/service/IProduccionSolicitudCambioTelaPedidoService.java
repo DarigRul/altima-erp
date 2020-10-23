@@ -42,4 +42,6 @@ public interface IProduccionSolicitudCambioTelaPedidoService {
 	
 	List <Object []> QueryExtracionCambios (Long id);
 	void actualizar(Long idActual, Long idCambio , String actualizo, String fecha);
+	
+	List <Object []> detalles (Long id);
 }

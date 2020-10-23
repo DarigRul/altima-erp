@@ -35,7 +35,8 @@ public class CambioTelaController {
 	     if (roles.contains("ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_GERENCIA")||roles.contains("ROLE_ADMINISTRADOR")) {
 	            model.addAttribute("view", CambioTelaService.View(0L));
 	        } else {
-	            model.addAttribute("solicitudes", CambioTelaService.View(this.auth.currentemployeeid()));
+	        	System.out.println("no es el rol de afmin ni gerencia");
+	            model.addAttribute("view", CambioTelaService.View(this.auth.currentemployeeid()));
 	        }
 	     model.addAttribute("auth", this.auth.currentemployeeid());
 	        return"solicitud-cambio-tela";

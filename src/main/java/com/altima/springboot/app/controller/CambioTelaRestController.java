@@ -245,5 +245,10 @@ public class CambioTelaRestController {
     	 //CambioTelaService.deletePrenda(id);
     }
     
+    
+    @GetMapping("/detalles-cambio-tela")
+    public List<Object []> detalles (Long id) {
+    	return CambioTelaService.detalles(id);
+    }
 
 }

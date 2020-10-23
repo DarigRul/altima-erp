@@ -88,7 +88,7 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT \r\n" + 
 				"cliente.nombre,\r\n" + 
-				"	DATE_FORMAT(pedido.fecha_entrega, '%Y-%m-%d %T' )\n" + 
+				"	DATE_FORMAT(pedido.fecha_entrega, '%Y-%m-%d' )\n" + 
 				"FROM \r\n" + 
 				"alt_comercial_pedido_informacion as pedido ,\r\n" + 
 				"alt_comercial_cliente as cliente\r\n" + 
@@ -102,6 +102,30 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Object[]> View(Long idAgente) {
+		System.out.println(""
+				+ "SELECT\r\n" + 
+				"	solicitud.id_tela_pedido,\r\n" + 
+				"	solicitud.id_text AS idSolicitud,\r\n" + 
+				"	CONCAT(ahe.nombre_persona,' ',ahe.apellido_paterno,' ',ahe.apellido_materno) agente,\r\n" + 
+				"	solicitud.fecha_creacion,\r\n" + 
+				"	concat(acc.nombre,' ',ifnull(acc.apellido_paterno,''),'',ifnull(acc.apellido_materno,'')) cliente,\r\n" + 
+				"	acpi.id_text AS idPeido,\r\n" + 
+				"	acpi.fecha_entrega,\r\n" + 
+				"	CASE\r\n" + 
+				"    WHEN solicitud.estatus_envio = 0 THEN \"No enviado\"\r\n" + 
+				"    WHEN solicitud.estatus_envio = 1 THEN \"Enviado\"\r\n" + 
+				"		WHEN solicitud.estatus_envio = 2 THEN \"Aceptado\"\r\n" + 
+				"		WHEN solicitud.estatus_envio = 3 THEN \"Rechazado\"\r\n" + 
+				"END,\r\n" + 
+				"	acpi.id_pedido_informacion \r\n" + 
+				"FROM\r\n" + 
+				"	alt_produccion_solicitud_cambio_tela_pedido solicitud\r\n" + 
+				"	INNER JOIN alt_comercial_pedido_informacion acpi ON acpi.id_pedido_informacion = solicitud.id_pedido\r\n" + 
+				"	INNER JOIN alt_hr_usuario ahu ON ahu.id_usuario = acpi.id_usuario\r\n" + 
+				"	INNER JOIN alt_hr_empleado ahe ON ahe.id_empleado = ahu.id_empleado\r\n" + 
+				"	INNER JOIN alt_comercial_cliente acc ON acc.id_cliente = acpi.id_empresa "+
+				"WHERE IF("+idAgente+"=0,1=1,ahe.id_empleado="+idAgente+")   "
+						+ "ORDER BY id_tela_pedido desc");
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	solicitud.id_tela_pedido,\r\n" + 
@@ -124,7 +148,8 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"	INNER JOIN alt_hr_usuario ahu ON ahu.id_usuario = acpi.id_usuario\r\n" + 
 				"	INNER JOIN alt_hr_empleado ahe ON ahe.id_empleado = ahu.id_empleado\r\n" + 
 				"	INNER JOIN alt_comercial_cliente acc ON acc.id_cliente = acpi.id_empresa "+
-				"WHERE IF("+idAgente+"=0,1=1,ahe.id_empleado="+idAgente+")").getResultList();
+				"WHERE IF("+idAgente+"=0,1=1,ahe.id_empleado="+idAgente+")   "
+						+ "ORDER BY id_tela_pedido desc").getResultList();
 		return re;
 	}
 
@@ -341,4 +366,100 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 		
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Object[]> detalles(Long id) {
+		
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\r\n" + 
+				"	CONCAT( 'Principal ', tela.nombre_tela ),\r\n" + 
+				"	tela.color,\r\n" + 
+				"	tela.codigo_color \r\n" + 
+				"FROM\r\n" + 
+				"	alt_produccion_coordinado_prenda AS prenda,\r\n" + 
+				"	alt_produccion_solicitud_cambio_tela_pedido AS solicitud,\r\n" + 
+				"	alt_disenio_tela AS tela \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND solicitud.id_tela_pedido ="+id+"\r\n" + 
+				"	AND solicitud.id_tela_pedido = prenda.id_solicitud_cambio_tela\r\n" + 
+				"	AND prenda.id_tela = tela.id_tela \r\n" + 
+				"	union all\r\n" + 
+				"	SELECT\r\n" + 
+				"	material.nombre_material,\r\n" + 
+				"	CM.color,\r\n" + 
+				"	CM.color_codigo \r\n" + 
+				"FROM\r\n" + 
+				"	alt_disenio_material AS material,\r\n" + 
+				"	alt_produccion_coordinado_material AS CM,\r\n" + 
+				"	alt_produccion_coordinado_prenda AS CP,\r\n" + 
+				"	alt_produccion_solicitud_cambio_tela_pedido AS sol \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND CM.id_material = material.id_material \r\n" + 
+				"	AND CM.id_coordinado_prenda = CP.id_coordinado_prenda \r\n" + 
+				"	AND CP.id_solicitud_cambio_tela = sol.id_tela_pedido \r\n" + 
+				"	AND sol.id_tela_pedido = "+id+"\r\n" + 
+				"	AND CM.color != (\r\n" + 
+				"	SELECT\r\n" + 
+				"		MaterialActual.color \r\n" + 
+				"	FROM\r\n" + 
+				"		alt_comercial_coordinado_material AS MaterialActual \r\n" + 
+				"	WHERE\r\n" + 
+				"		MaterialActual.id_coordinado_prenda = CP.id_coordinado_prenda_cambio \r\n" + 
+				"	AND MaterialActual.id_material = material.id_material \r\n" + 
+				"	)\r\n" + 
+				"	union all\r\n" + 
+				"	SELECT\r\n" + 
+				"	CONCAT( 'Combinación ', tela.nombre_tela ),\r\n" + 
+				"	tela.color,\r\n" + 
+				"	tela.codigo_color \r\n" + 
+				"FROM\r\n" + 
+				"	alt_produccion_coordinado_tela AS coorTela,\r\n" + 
+				"	alt_disenio_tela AS tela,\r\n" + 
+				"	alt_produccion_coordinado_prenda AS CP,\r\n" + 
+				"	alt_produccion_solicitud_cambio_tela_pedido AS sol \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND tela.id_tela = coorTela.id_tela \r\n" + 
+				"	AND coorTela.id_coordinado_prenda = CP.id_coordinado_prenda \r\n" + 
+				"	AND CP.id_solicitud_cambio_tela = sol.id_tela_pedido \r\n" + 
+				"	AND sol.id_tela_pedido ="+id+"\r\n" + 
+				"	\r\n" + 
+				"	AND tela.id_tela != (\r\n" + 
+				"	SELECT\r\n" + 
+				"		TelaActual.id_tela \r\n" + 
+				"	FROM\r\n" + 
+				"		alt_comercial_coordinado_tela AS TelaActual \r\n" + 
+				"	WHERE\r\n" + 
+				"		TelaActual.id_coordinado_prenda = CP.id_coordinado_prenda_cambio \r\n" + 
+				"	AND TelaActual.id_tela = tela.id_tela \r\n" + 
+				"	)\r\n" + 
+				"	union all\r\n" + 
+				"	SELECT\r\n" + 
+				"	CONCAT( 'Forro ', forro.nombre_forro ),\r\n" + 
+				"	forro.color,\r\n" + 
+				"	forro.codigo_color \r\n" + 
+				"FROM\r\n" + 
+				"	alt_produccion_coordinado_forro AS coorForro,\r\n" + 
+				"	alt_disenio_forro AS forro,\r\n" + 
+				"	alt_produccion_coordinado_prenda AS CP,\r\n" + 
+				"	alt_produccion_solicitud_cambio_tela_pedido AS sol \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND forro.id_forro = coorForro.id_forro \r\n" + 
+				"	AND coorForro.id_coordinado_prenda = CP.id_coordinado_prenda \r\n" + 
+				"	AND CP.id_solicitud_cambio_tela = sol.id_tela_pedido \r\n" + 
+				"	AND sol.id_tela_pedido ="+id+"\r\n" + 
+				"	AND forro.id_forro != (\r\n" + 
+				"	SELECT\r\n" + 
+				"		ForroActual.id_forro \r\n" + 
+				"	FROM\r\n" + 
+				"		alt_comercial_coordinado_forro AS ForroActual \r\n" + 
+				"	WHERE\r\n" + 
+				"		ForroActual.id_coordinado_prenda = CP.id_coordinado_prenda_cambio \r\n" + 
+				"	AND ForroActual.id_forro = forro.id_forro \r\n" + 
+				"	)").getResultList();
+		return re;
+	}
 }

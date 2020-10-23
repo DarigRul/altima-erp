@@ -74,6 +74,15 @@
 												<td th:text="${view[6]}"></td>
 												<td th:text="${view[7]}"></td>
 												 <td class="text-center">
+												 
+												
+												 
+												 <button
+												 class="btn btn-info btn-circle btn-sm text-white popoverxd"
+												  th:onclick="|detalles('${view[0]}')|"
+												 data-container="body" data-toggle="popover" data-placement="top" 
+												 data-content="Detalles"><i class="fas fa-info"></i>
+												 </button>
 												 <button
 												 	th:disabled="${view[7]}=='No enviado'?false:true"
 												 	th:onclick="|editar('${view[8]}','${view[0]}')|"
@@ -130,6 +139,27 @@
 		$('#iComercial').removeClass('text-altima');
 		$('#navSolicitudCambioTela').addClass('active-altima');
 	</script>
+	 
+      
+      <div class="modal fade" id="detalles" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content modal-rounded-body">
+			<div class="modal-header bg-altima modal-rounded-header">
+				<h5 class="modal-title" id="exampleModalLabel">Actualizaci&oacute;n</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+			</div>
+			<div class="modal-content" id="contenedorTablaContador">
+               
+                     <div class="modal-body" id="quitarDetalles">
+                        <table class="table table-bordered" id="idtableDetalle"
+                           style="width: 100%;"></table>
+                     </div>
+                 
+            </div>
+		</div>
+	</div>
+</div>
+      
 </body>
 
 </html>
