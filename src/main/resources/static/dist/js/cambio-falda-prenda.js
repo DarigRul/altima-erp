@@ -894,6 +894,7 @@ function selected(id){
         	'idModelo': idModelo,
         	
         	'idCoordinado': idCoordinado,
+        	'idSolicitud':$('#id_solicitud').val(),
        
         	
              "_csrf": $('#token').val(),
@@ -939,6 +940,7 @@ function selected(id){
 		    url: "/buscar-cambio-existente",
 		    data: { 
 	        	'id': id,
+	        	'idSolicitud':$("#id_solicitud").val(),
 	        	 "_csrf": $('#token').val(),
 	        },
 	        beforeSend: function () {
