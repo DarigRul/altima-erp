@@ -53,7 +53,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Folio</th>
-                                                <th>Solicitante</th>
+                                                <th sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_GERENCIA','ROLE_ADMINISTRADOR')">Solicitante</th>
                                                 <th>Fecha de solicitud</th>
                                                 <th>Cliente</th>
                                                 <th>Pedido</th>
@@ -66,16 +66,41 @@
                                         
                                           <tr th:each="view, i: ${view}">
 												<td th:text="${view[1]}"></td>											
-												<td th:text="${view[2]}"></td>
+												<td sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_GERENCIA','ROLE_ADMINISTRADOR')" th:text="${view[2]}">Agente 1</td>
 												<td th:text="${view[3]}"></td>
 												<td th:text="${view[4]}"></td>
 												<td th:text="${view[5]}"></td>
 												<td th:text="${view[6]}"></td>
 												<td th:text="${view[7]}"></td>
 												 <td class="text-center">
-                                                   <a  th:href="@{/coordinados-cambio-tela/}+${view[8]}"  class="btn btn-warning btn-sm btn-circle popoverxd" data-placement="top" data-content="Cambiar fecha"><i class="fas fa-exchange-alt"></i></a>
-                                                    <button class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
-                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
+												 <button
+												 	th:disabled="${view[7]}=='No enviado'?false:true"
+												 	th:onclick="|editar('${view[8]}','${view[0]}')|"
+												 	sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_EDITAR','ROLE_ADMINISTRADOR')"                         
+                                                     class="btn btn-warning btn-sm btn-circle popoverxd" 
+                                                    data-placement="top" data-content="Cambiar de tela"><i class="fas fa-exchange-alt"></i>
+                                                   </button>
+                                                   
+                                                   <button
+												 	th:disabled="${view[7]}=='No enviado'?false:true"
+												 	th:onclick="|enviar('${view[0]}')|"
+												 	sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_EDITAR','ROLE_ADMINISTRADOR')"                         
+                                                     class="btn btn-altima btn-sm btn-circle popoverxd" 
+                                                    data-placement="top" data-content="Enviar"><i class="fas fa-plane"></i>
+                                                   </button>
+												 
+												 <button
+												 		th:onclick="|rechazar('${view[0]}')|"
+                                                        th:disabled="${view[7]}=='Enviado'?false:true"
+                                                        class="btn btn-danger btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Rechazar"><i
+                                                            class="fas fa-times"></i></button>
+                                                    <button
+                                                    	th:onclick="|aceptar('${view[0]}')|"
+                                                        th:disabled="${view[7]}=='Enviado'?false:true"
+                                                        class="btn btn-success btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Aceptar"><i
+                                                            class="fas fa-check"></i></button>
                                                 </td>
 												
 											</tr>

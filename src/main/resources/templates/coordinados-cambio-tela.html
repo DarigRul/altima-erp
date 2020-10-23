@@ -63,7 +63,7 @@
                                                 <td th:text="${coordinados[1]}"></td>
                                                 <td th:text="${coordinados[2]}"></td>
                                                  <td class="text-center">
-                                                 	<a th:href="@{/cambio-prenda-tela/}+ ${coordinados[0]}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>
+                                                 	<a th:href="@{/cambio-prenda-tela/}+ ${coordinados[0]}+'/'+${id_solicitud}  " class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>
                                                 	
                                                 </td>
                                             </tr>

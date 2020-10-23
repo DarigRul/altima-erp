@@ -72,6 +72,9 @@ public class ProduccionCoordinadoPrenda implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	@Column(name="id_solicitud_cambio_tela")
+	private Long idSolicitudCambioTela;
 
 	public Long getIdCoordinadoPrenda() {
 		return idCoordinadoPrenda;
@@ -213,6 +216,14 @@ public class ProduccionCoordinadoPrenda implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Long getIdSolicitudCambioTela() {
+		return idSolicitudCambioTela;
+	}
+
+	public void setIdSolicitudCambioTela(Long idSolicitudCambioTela) {
+		this.idSolicitudCambioTela = idSolicitudCambioTela;
 	}
 	
 

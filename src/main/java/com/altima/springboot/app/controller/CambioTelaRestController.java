@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoForro;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoMaterial;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoPrenda;
@@ -62,6 +64,7 @@ public class CambioTelaRestController {
     	CambioTelaService.save(cambio);
     	
     	cambio.setIdText("CAMTE"+(cambio.getIdTelaPedido()+1000));
+    	CambioTelaService.save(cambio);
     	return false;
     }
     
@@ -80,6 +83,7 @@ public class CambioTelaRestController {
 			Long idModelo,
 
 			Long idCoordinado,
+			Long idSolicitud,
 
 			HttpServletRequest request,
 			Long idCoorPrendaCambio) {
@@ -112,7 +116,7 @@ public class CambioTelaRestController {
 		objetoCoodinadoPrenda.setEstatus("1");
 		objetoCoodinadoPrenda.setCreadoPor(auth.getName());
 		objetoCoodinadoPrenda.setFechaCreacion(hourdateFormat.format(date));
-
+		objetoCoodinadoPrenda.setIdSolicitudCambioTela(idSolicitud);
 		objetoCoodinadoPrenda.setPrecio(CoordinadoService.precioPrenda(idCoordinado, idModelo, idTela));
 		objetoCoodinadoPrenda.setPrecioFinal(CoordinadoService.precioPrenda(idCoordinado, idModelo, idTela));
 		CambioTelaService.saveCoorPrenda(objetoCoodinadoPrenda);
@@ -182,13 +186,63 @@ public class CambioTelaRestController {
 	}
     
     @GetMapping("/buscar-cambio-existente")
-    public ProduccionCoordinadoPrenda buscarCambioExistente (Long id) {
-    	return CambioTelaService.BuscarCambio(id);
+    public ProduccionCoordinadoPrenda buscarCambioExistente (Long id, Long idSolicitud) {
+    	return CambioTelaService.BuscarCambio(id, idSolicitud);
     }
     
     @GetMapping("/eliminar-cambio-existente")
     public void eliminar (Long id) {
     	 CambioTelaService.deletePrenda(id);
+    }
+    
+    @PostMapping("/enviar-solicitud")
+    public boolean enviar (Long id) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    	ProduccionSolicitudCambioTelaPedido solicitud = CambioTelaService.findOne(id);
+    	solicitud.setEstatusEnvio("1");
+    	solicitud.setActualizadoPor(auth.getName());
+    	solicitud.setUltimaFechaModificacion(hourdateFormat.format(date));
+    	CambioTelaService.save(solicitud);
+    	return false;
+    	 //CambioTelaService.deletePrenda(id);
+    }
+    
+    @PostMapping("/rechazar-solicitud")
+    public boolean rechazar (Long id) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    	ProduccionSolicitudCambioTelaPedido solicitud = CambioTelaService.findOne(id);
+    	solicitud.setEstatusEnvio("3");
+    	solicitud.setActualizadoPor(auth.getName());
+    	solicitud.setUltimaFechaModificacion(hourdateFormat.format(date));
+    	CambioTelaService.save(solicitud);
+    	return false;
+    	 //CambioTelaService.deletePrenda(id);
+    }
+    
+    @PostMapping("/aceptar-solicitud")
+    public boolean aceptar (Long id) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    	
+    	List<Object[]> aux = CambioTelaService.QueryExtracionCambios(id);
+		for (Object[] a : aux) {
+			// a[0] es el id actual
+			//a[1] es el id cambio
+			CambioTelaService.actualizar(Long.valueOf(a[0].toString()), Long.valueOf(a[1].toString()), auth.getName(), hourdateFormat.format(date));
+		
+		}
+    	ProduccionSolicitudCambioTelaPedido solicitud = CambioTelaService.findOne(id);
+    	solicitud.setEstatusEnvio("2");
+    	solicitud.setActualizadoPor(auth.getName());
+    	solicitud.setUltimaFechaModificacion(hourdateFormat.format(date));
+    	CambioTelaService.save(solicitud);
+    	return false;
+    	 //CambioTelaService.deletePrenda(id);
     }
     
 
