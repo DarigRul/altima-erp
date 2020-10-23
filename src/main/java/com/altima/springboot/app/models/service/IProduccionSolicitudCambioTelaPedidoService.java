@@ -17,7 +17,7 @@ public interface IProduccionSolicitudCambioTelaPedidoService {
 
 	ProduccionSolicitudCambioTelaPedido findOne(Long id);
 	
-	List<Object[]> pedidosCerrados ();
+	List<Object[]> pedidosCerrados (Long idUser);
 	
 	List <Object []> infPedido (Long id);
 	

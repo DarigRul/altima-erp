@@ -66,19 +66,23 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<Object[]> pedidosCerrados() {
+	public List<Object[]> pedidosCerrados(Long idUser) {
 		
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
-				"	pedido.id_pedido_informacion,\r\n" + 
-				"	pedido.id_text \r\n" + 
+				"	acpi.id_pedido_informacion,\r\n" + 
+				"	acpi.id_text \r\n" + 
 				"FROM\r\n" + 
-				"	alt_comercial_pedido_informacion AS pedido \r\n" + 
+				"	alt_comercial_pedido_informacion acpi\r\n" + 
+				"	INNER JOIN alt_hr_usuario ahu ON ahu.id_usuario = acpi.id_usuario\r\n" + 
+				"	INNER JOIN alt_hr_empleado ahe ON ahe.id_empleado = ahu.id_empleado\r\n" + 
+				"	INNER JOIN alt_comercial_cliente acc ON acc.id_cliente = acpi.id_empresa \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
-				"	AND pedido.estatus = 2 \r\n" + 
+				"	AND acpi.estatus = 2 \r\n" + 
+				"AND IF("+idUser+"=0,1=1,ahe.id_empleado="+idUser+")   "+
 				"ORDER BY\r\n" + 
-				"	pedido.id_text ASC").getResultList();
+				"	id_pedido_informacion DESC").getResultList();
 		return re;
 	}
 
@@ -102,30 +106,6 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Object[]> View(Long idAgente) {
-		System.out.println(""
-				+ "SELECT\r\n" + 
-				"	solicitud.id_tela_pedido,\r\n" + 
-				"	solicitud.id_text AS idSolicitud,\r\n" + 
-				"	CONCAT(ahe.nombre_persona,' ',ahe.apellido_paterno,' ',ahe.apellido_materno) agente,\r\n" + 
-				"	solicitud.fecha_creacion,\r\n" + 
-				"	concat(acc.nombre,' ',ifnull(acc.apellido_paterno,''),'',ifnull(acc.apellido_materno,'')) cliente,\r\n" + 
-				"	acpi.id_text AS idPeido,\r\n" + 
-				"	acpi.fecha_entrega,\r\n" + 
-				"	CASE\r\n" + 
-				"    WHEN solicitud.estatus_envio = 0 THEN \"No enviado\"\r\n" + 
-				"    WHEN solicitud.estatus_envio = 1 THEN \"Enviado\"\r\n" + 
-				"		WHEN solicitud.estatus_envio = 2 THEN \"Aceptado\"\r\n" + 
-				"		WHEN solicitud.estatus_envio = 3 THEN \"Rechazado\"\r\n" + 
-				"END,\r\n" + 
-				"	acpi.id_pedido_informacion \r\n" + 
-				"FROM\r\n" + 
-				"	alt_produccion_solicitud_cambio_tela_pedido solicitud\r\n" + 
-				"	INNER JOIN alt_comercial_pedido_informacion acpi ON acpi.id_pedido_informacion = solicitud.id_pedido\r\n" + 
-				"	INNER JOIN alt_hr_usuario ahu ON ahu.id_usuario = acpi.id_usuario\r\n" + 
-				"	INNER JOIN alt_hr_empleado ahe ON ahe.id_empleado = ahu.id_empleado\r\n" + 
-				"	INNER JOIN alt_comercial_cliente acc ON acc.id_cliente = acpi.id_empresa "+
-				"WHERE IF("+idAgente+"=0,1=1,ahe.id_empleado="+idAgente+")   "
-						+ "ORDER BY id_tela_pedido desc");
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	solicitud.id_tela_pedido,\r\n" + 

@@ -141,21 +141,18 @@ function aceptar (id){
     })
 }
 
-function SelectPedido(){
-	$.ajax({
-		method:'GET',
-		url:'/listar-pedidos-cerrados',
-		data:{},
-		success: (data)=>{
-			$.each(data, function (key,val){
-				$('#numeroPedido').append('<option value="'+val[0]+'"> '+val[1]+'</option>');
-			})
-			$('#numeroPedido').selectpicker('refresh');
-		},
-		error:(e)=>{			
-		}
-	})
-}
+
+
+$('#cambioFecha').on('hidden.bs.modal', function () {
+	
+	$("#numeroPedido").val(null);
+	$('#numeroPedido').selectpicker('refresh');
+	$("#clientePedido").val(null);
+	$("#fechaPedido").val(null);
+	$("#motivoPedido").val(null);
+	
+   
+});
 function infoPedido (id){
 	$.ajax({
 		method:'GET',

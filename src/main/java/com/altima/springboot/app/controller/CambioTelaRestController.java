@@ -38,10 +38,7 @@ public class CambioTelaRestController {
 	@Autowired
 	private IComercialCoordinadoService CoordinadoService;
 	
-	@GetMapping("/listar-pedidos-cerrados")
-    public List<Object []> getComercialLookupByTipo(){
-        return CambioTelaService.pedidosCerrados();
-    }
+	
     
     @GetMapping("/info-pedido")
     public List<Object []> buscarPedido (Long id) {

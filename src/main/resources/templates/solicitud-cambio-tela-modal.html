@@ -16,7 +16,8 @@
                 <div class="form-group col-md-4">
                     <label for="numeroPedido">N&uacute;mero de pedido</label>
                     <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" onchange="infoPedido(this.value)" data-live-search-normalize="true" id="numeroPedido">
-                      
+                      <option th:each="pedidosClose:${pedidosClose}" th:value="${pedidosClose[0]}"
+								th:text="${pedidosClose[1]}"></option>
                      </select>
                   </div>
                   <div class="form-group col-md-4">
