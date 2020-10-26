@@ -1,7 +1,6 @@
 package com.altima.springboot.app.controller;
 
 import com.altima.springboot.app.models.service.IDisenioMaterialService;
-import com.altima.springboot.app.models.service.IInventarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,14 +12,10 @@ public class CatalogoMaterialesController {
 
     @Autowired
     private IDisenioMaterialService disenioMaterialService;
-    
-    @Autowired
-	private IInventarioService inventarioService;
 
     @GetMapping("/catalogos-materiales-agentes")
     public String getMateriales(Model model){
-        model.addAttribute("materiales", disenioMaterialService.disenioMaterial());
-       // model.addAttribute("muestrario", inventarioService.listCatalogoInventario());
+        model.addAttribute("materiales", disenioMaterialService.disenioMaterialFiltro());
         return("catalogos-materiales-agentes");
     } 
     

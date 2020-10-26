@@ -22,7 +22,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Apartado de telas <button data-toggle="modal" data-target="#nuevaCarga" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></h1>
+                            <h1>Apartado de telas</h1>
                         </div>
                         <div th:insert="modal-apartado-telas"></div>
                         <div class="col-sm-6">
@@ -51,26 +51,26 @@
                                     <table class="table tablaGeneral table-striped table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Folio</th>
+                                                <th>Pedido</th>
                                                 <th>Empresa</th>
                                                 <th>Fecha de entrega</th>
-                                                <th>Estatus</th>
+                                                <th>Solicitante</th>
+                                                <th>Fecha solicitud</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="text-center">
-                                                	<a class="btn btn-info btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>&nbsp;
-                                                	<a th:href="@{/editar-apartado-de-telas}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>&nbsp;
+                                            <tr th:each="pedido: ${ListPedidos}">
+                                                <td th:text="${pedido[1]}">PED10008</td>
+                                                <td th:text="${pedido[2]}">Altima</td>
+                                                <td th:text="${pedido[6]}">17/10/2020</td>
+                                                <td th:text="${pedido[3]}">Uriel Cuatepitzi</td>
+                                                <td th:text="${pedido[9]}">16/10/2020</td>
+                                                <td class="tdcenter">
+                                                	<a class="btn btn-info btn-circle btn-sm text-white popoverxd" th:onclick="'detalleReporte('+${pedido[0]}+')'" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>&nbsp;
+                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Imprimir"><i class="fas fa-pen"></i></a>
                                                 </td>
-                                            </tr>
-                                            
+                                           </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -99,6 +99,12 @@
 		$('#menuVenta').addClass('menu-open');
 		$('#navVenta').addClass('active');
 		$('#navVentaApartado').addClass('active');
+	</script>
+	
+	<script type="text/javascript">
+		function detalleReporte(id){
+			window.open("/detalle-reporte/"+id+"?format=pdf", '_blank');
+		}
 	</script>
 </body>
 

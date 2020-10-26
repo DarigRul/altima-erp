@@ -103,6 +103,15 @@ public class DisenioMaterialServiceImpl implements IDisenioMaterialService {
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<Object[]> disenioMaterialFiltro() {
+		
+		List<Object[]> mv;
+		mv = em.createNativeQuery("{call  alt_pr_materiales_filtro}").getResultList();
+		return mv;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<DisenioLookup> findLookUps() {
 		// TODO Auto-generated method stub
 		return em.createNativeQuery("SELECT * FROM alt_disenio_lookup WHERE tipo_lookup = 'Pieza Trazo' AND estatus = 1 ;")

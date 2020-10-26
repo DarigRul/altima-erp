@@ -26,8 +26,10 @@ public interface IDisenioMaterialService {
 	
 	List<DisenioLookup> findListaClasificacion();
 	
-	public List <Object []> disenioMaterial ();
+	List <Object []> disenioMaterial ();
 	
+	List <Object []> disenioMaterialFiltro();
+
 	List<DisenioLookup> findLookUps();
 	
 	Object findLookUp(Long id);

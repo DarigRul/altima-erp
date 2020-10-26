@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.altima.springboot.app.dto.PedidoInformacionDTO;
 import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.repository.CargaPedidoRepository;
@@ -61,8 +62,9 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 					+ "						IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\n"
 					+ "						cliente.id_cliente, \n" + "						informacion.observacion,\n"
 					+ "						montos_razon(informacion.id_pedido_informacion), \n"
-					+ "						if (informacion.estatus=1 , '1','2'), informacion.fecha_toma_tallas, config.tipo_pedido,informacion.id_pedido,informacion.validacion \n" + "					 \n"
-					+ "					FROM\n" + "						alt_comercial_pedido_informacion informacion\n"
+					+ "						informacion.estatus, informacion.fecha_toma_tallas, config.tipo_pedido,informacion.id_pedido,informacion.validacion \n"
+					+ "					 \n" + "					FROM\n"
+					+ "						alt_comercial_pedido_informacion informacion\n"
 					+ "						INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente \n"
 					+ "	INNER JOIN alt_admin_configuracion_pedido config ON informacion.tipo_pedido = config.id_configuracion_pedido\n"
 					+ "						WHERE\n" + "						1=1\n"
@@ -76,8 +78,8 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 
 							"	cliente.nombre,\n" + "	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\n"
 							+ "	cliente.id_cliente,\n" + "	informacion.observacion,\n"
-							+ "	montos_razon ( informacion.id_pedido_informacion ),\n" + "IF\n"
-							+ "	( informacion.estatus = 1, '1', '2' ),\n" + "	informacion.fecha_toma_tallas,\n"
+							+ "	montos_razon ( informacion.id_pedido_informacion ),\n" 
+							+ "	informacion.estatus,\n" + "	informacion.fecha_toma_tallas,\n"
 							+ "	config.tipo_pedido, \n" + " informacion.id_pedido ,informacion.validacion\n" + "FROM\n"
 							+ "	alt_comercial_pedido_informacion informacion\n"
 							+ "	INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente\n"
@@ -89,6 +91,21 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 					.getResultList();
 		}
 
+		System.out.println(
+			"" + "SELECT\n" + "	informacion.id_pedido_informacion,\n" + "	informacion.id_text,\n" +
+
+					"	cliente.nombre,\n" + "	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\n"
+					+ "	cliente.id_cliente,\n" + "	informacion.observacion,\n"
+					+ "	montos_razon ( informacion.id_pedido_informacion ),\n" 
+					+ "	informacion.estatus,\n" + "	informacion.fecha_toma_tallas,\n"
+					+ "	config.tipo_pedido, \n" + " informacion.id_pedido ,informacion.validacion\n" + "FROM\n"
+					+ "	alt_comercial_pedido_informacion informacion\n"
+					+ "	INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente\n"
+					+ "	INNER JOIN alt_admin_configuracion_pedido config ON informacion.tipo_pedido = config.id_configuracion_pedido\n"
+					+
+
+					"GROUP BY\n" + "	informacion.id_pedido_informacion \n" + "ORDER BY\n"
+					+ "	informacion.fecha_creacion DESC");
 		return re;
 	}
 
@@ -381,6 +398,15 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 			return false;
 		}
 
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<PedidoInformacionDTO> findByEmpleado(Long idEmpleado) {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery(
+				"SELECT acpi.id_pedido_informacion,acpi.id_text,acpi.fecha_entrega,concat(acc.nombre,' ',ifnull(acc.apellido_paterno,''),' ',ifnull(acc.apellido_materno,'')) as cliente FROM alt_comercial_pedido_informacion acpi INNER JOIN alt_hr_usuario ahu on ahu.id_usuario=acpi.id_usuario INNER JOIN alt_hr_empleado ahe on ahe.id_empleado=ahu.id_empleado INNER join alt_comercial_cliente acc on acc.id_cliente=acpi.id_empresa where ahe.id_empleado=:idEmpleado",
+				PedidoInformacionDTO.class).setParameter("idEmpleado", idEmpleado).getResultList();
 	}
 
 }

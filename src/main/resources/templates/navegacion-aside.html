@@ -34,7 +34,7 @@
                         <p>Calendario</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA','ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_GERENCIA','ROLE_ADMINISTRADOR')">
                     <a th:href="${'/cambio-fecha-pedido'}" class="nav-link" id="navCal">
                         <i class="nav-icon fas fa-calendar text-altima" id="iCal"></i>
                         <p>Cambio de fecha de pedido</p>
@@ -470,6 +470,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a th:href="${'/solicitud-cambio-tela'}" class="nav-link" id="navSolicitudCambioTela">
+                                <i class="nav-icon fas fa-file-export" id="iSolicitudCambioTela"></i>
+                                <p>Solicitud de cambio de tela</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a th:href="${'/cotizaciones'}" class="nav-link" id="navCotizaciones">
                                 <i class="nav-icon fas fa-dollar-sign"></i>
                                 <p>Cotizaciones</p>
@@ -773,6 +779,12 @@
                             <a th:href="${'/muestras'}" class="nav-link" id="navProduccion3">
                                 <i class="nav-icon-custom flaticon-sexy-female-dress-black-shape"></i>
                                 <p>Pedidos de muestra</p>
+                            </a>
+                        </li>
+                         <li class="nav-item" >
+                            <a th:href="${'/telas'}" class="nav-link" id="navProduccionTelas">
+                                <i class="nav-icon-custom flaticon-curling-hair-with-tissue-roll"></i>
+                                <p>Telas</p>
                             </a>
                         </li>
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 

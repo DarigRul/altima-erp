@@ -42,9 +42,6 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Autowired
 	ComercialCoordinadoForroRepository repositoryForroMaterial;
 	
-	@Autowired
-	private IUploadService UploadService;
-	
 	@Override
 	public List<ComercialCoordinado> findAll() {
 		// TODO Auto-generated method stub
@@ -211,7 +208,6 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Override
 	@Transactional
 	public List<Object[]> materialesPorPrenda(Long id) {
-		
 		List<Object[]> re = em.createNativeQuery("SELECT\n" + 
 				"					material.id_material, \n" + 
 				"					material.nombre_material, \n" + 
@@ -251,6 +247,8 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"	1 = 1 \r\n" + 
 				"	AND look2.id_lookup = material.id_clasificacion\r\n" + 
 				"    AND material.id_material ="+idMaterial).getSingleResult().toString();
+		
+		
 		
 		if (clasificacion.equals("Dependiente del Color")) {	
 			List<Object[]> re2 = em.createNativeQuery("SELECT\r\n" + 
@@ -488,18 +486,7 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Override
 	@Transactional
 	public void deletePrenda(Long id) {
-		// TODO Auto-generated method stub
-		System.out.println("DELETE\r\n" + 
-		  		"					prenda,\r\n" + 
-		  		"					material\r\n" + 
-		  		"					FROM \r\n" + 
-		  		"						alt_comercial_coordinado_prenda AS prenda, \r\n" + 
-		  		"						alt_comercial_coordinado_material AS material  \r\n" + 
-		  		"					WHERE\r\n" + 
-		  		"						1 = 1  \r\n" + 
-		  		"						AND prenda.id_coordinado_prenda = material.id_coordinado_prenda \r\n" + 
-		  		"						AND prenda.id_coordinado_prenda="+id);
-		
+
 		  Query query = em.createNativeQuery("DELETE\r\n" + 
 		  		"					prenda,\r\n" + 
 		  		"					material\r\n" + 

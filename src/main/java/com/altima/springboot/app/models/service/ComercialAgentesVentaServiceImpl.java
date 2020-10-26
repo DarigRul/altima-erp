@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.models.entity.ComercialAgentesVenta;
+import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.repository.ComercialAgentesVentaRepository;
 
 @SuppressWarnings("unchecked")
@@ -61,5 +62,34 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 		// TODO Auto-generated method stub
 		return em.createNativeQuery("SELECT IF((SELECT COUNT(*) FROM alt_comercial_agentes_venta WHERE id_empleado="+idEmpleado+")>0, 1 , 0)").getSingleResult().toString();
 	}
+	
+	@Override
+	@Transactional
+	public List<Object[]> findAllApartadoTelas() {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT Pedido.id_pedido_informacion, \r\n" + 
+									"		Pedido.id_text,\r\n" + 
+									"		CONCAT(cliente.nombre,' ',IFNULL('',cliente.apellido_paterno),' ',IFNULL('',cliente.apellido_materno)) AS Empresa, \r\n" + 
+									"		CONCAT(empleado.nombre_persona,' ',IFNULL('',empleado.apellido_paterno),' ',IFNULL('',empleado.apellido_materno)) AS Solicitante, \r\n" + 
+									"		Pedido.tipo_pedido, \r\n" + 
+									"		Pedido.fecha_toma_tallas, \r\n" + 
+									"		Pedido.fecha_entrega, \r\n" + 
+									"		Pedido.fecha_anticipo, \r\n" + 
+									"		Pedido.fecha_cierre, \r\n" + 
+									"		Pedido.fecha_creacion, \r\n" + 
+									"		Pedido.ultima_fecha_creacion, \r\n" + 
+									"		Pedido.estatus \r\n" + 
+									"FROM alt_comercial_pedido_informacion AS Pedido\r\n" + 
+									"INNER JOIN alt_comercial_cliente cliente ON Pedido.id_empresa = cliente.id_cliente\r\n" + 
+									"INNER JOIN alt_hr_usuario usuario ON Pedido.id_usuario = usuario.id_usuario\r\n" + 
+									"INNER JOIN alt_hr_empleado empleado ON usuario.id_empleado = empleado.id_empleado\r\n" + 
+									"WHERE Pedido.estatus != 1 ORDER BY Pedido.id_text DESC").getResultList();
+	}
 
+	@Override
+	@Transactional
+	public List<Object[]> findDatosReporteApartadoTelas (Long id){
+		return em.createNativeQuery("Call alt_pr_apartado_telas_reporte("+id+")").getResultList();
+	}
 }
+

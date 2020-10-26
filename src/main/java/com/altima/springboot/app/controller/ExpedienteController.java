@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -197,4 +199,19 @@ public class ExpedienteController {
 		return "detalle-expediente";
 	}
 
+	@GetMapping("/patch-expediente/{id}")
+	public String patchExpediente(@PathVariable Long id) {
+		Date date = new Date();
+
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+
+        String sDate = hourdateFormat.format(date);
+		ComercialPedidoInformacion pedido= cargaPedidoService.findOne(id);
+		pedido.setEstatus("3");
+		pedido.setFechaCierre(sDate);
+		cargaPedidoService.save(pedido);
+		return "redirect:/expediente";
+	}
 }

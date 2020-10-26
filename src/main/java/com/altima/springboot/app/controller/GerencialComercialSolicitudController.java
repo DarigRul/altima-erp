@@ -613,4 +613,12 @@ public class GerencialComercialSolicitudController {
 		
 		
 	}
+	
+	@RequestMapping(value = "/mostrar-lista-materiales-extra-cambio-tela", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> materialesEstraListaCambioTela(Long idCoorPrenda, Long idMaterial) {
+
+
+		return serviceDetallePedido.findListMatExCambioTela(idCoorPrenda,idMaterial);
+	}
 }

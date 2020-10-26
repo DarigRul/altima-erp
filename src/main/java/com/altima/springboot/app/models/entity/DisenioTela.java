@@ -102,7 +102,8 @@ public class DisenioTela implements Serializable{
 	@Column(name="auxiliar_3")
 	private String auxiliar3;
 	
-
+	@Column(name="prueba_encogimiento")
+	private int pruebaEncogimiento;
 	
 
 	public String getAuxiliar1() {
@@ -318,6 +319,14 @@ public class DisenioTela implements Serializable{
 
 	public void setClaveProveedor(String claveProveedor) {
 		this.claveProveedor = claveProveedor;
+	}
+
+	public int getPruebaEncogimiento() {
+		return pruebaEncogimiento;
+	}
+
+	public void setPruebaEncogimiento(int pruebaEncogimiento) {
+		this.pruebaEncogimiento = pruebaEncogimiento;
 	}
 
 

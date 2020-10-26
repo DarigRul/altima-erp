@@ -507,6 +507,29 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> findListMatExCambioTela(Long idCooPrenda, Long idMaterial) {
+
+		List<Object[]> re = em.createNativeQuery("SELECT\n" + 
+				"	material.id_material,\n" + 
+				"	material.nombre_material \n" + 
+				"FROM\n" + 
+				"	alt_comercial_coordinado_material AS coor_mat,\n" + 
+				"	alt_comercial_coordinado_prenda AS coor_pre,\n" + 
+				"	alt_disenio_material AS material \n" + 
+				"WHERE\n" + 
+				"	1 = 1 \n" + 
+				"	AND coor_mat.id_coordinado_prenda = coor_pre.id_coordinado_prenda \n" + 
+				"	AND material.id_material = coor_mat.id_material \n" + 
+				"	AND coor_pre.id_coordinado_prenda = "+idCooPrenda+" \n" + 
+				"	AND material.id_material ="+idMaterial)
+				.getResultList();
+
+		return re;
+
+	}
 	
 }
 		
