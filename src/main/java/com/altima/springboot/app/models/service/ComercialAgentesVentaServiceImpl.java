@@ -83,8 +83,13 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 									"INNER JOIN alt_comercial_cliente cliente ON Pedido.id_empresa = cliente.id_cliente\r\n" + 
 									"INNER JOIN alt_hr_usuario usuario ON Pedido.id_usuario = usuario.id_usuario\r\n" + 
 									"INNER JOIN alt_hr_empleado empleado ON usuario.id_empleado = empleado.id_empleado\r\n" + 
-									"WHERE Pedido.estatus = 1 ORDER BY Pedido.id_text DESC").getResultList();
+									"WHERE Pedido.estatus != 1 ORDER BY Pedido.id_text DESC").getResultList();
 	}
 
+	@Override
+	@Transactional
+	public List<Object[]> findDatosReporteApartadoTelas (Long id){
+		return em.createNativeQuery("Call alt_pr_apartado_telas_reporte("+id+")").getResultList();
+	}
 }
 

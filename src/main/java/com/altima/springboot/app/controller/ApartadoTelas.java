@@ -31,6 +31,7 @@ public class ApartadoTelas {
 	@RequestMapping(value = {"/detalle-reporte/{id}"}, method = RequestMethod.GET)
 	public String detalleReporte(@PathVariable(value="id")Long id, Model model) {
 		
+		model.addAttribute("apartadoTelasReporte", agenteVentaService.findDatosReporteApartadoTelas(id));
 		
 		return "/detalle-reporte";
 	}

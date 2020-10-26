@@ -16,4 +16,6 @@ public interface IComercialAgentesVentaService {
 	String finduplicated(Long idEmpleado);
 
 	List<Object[]> findAllApartadoTelas();
+
+	List<Object[]> findDatosReporteApartadoTelas(Long id);
 }
