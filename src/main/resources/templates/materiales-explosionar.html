@@ -88,7 +88,9 @@
                                                   <td th:if="${material[22] == null }">Faltante</td>
                                                 <td class="text-center">
                                                     <button data-toggle="modal" data-target="#materialesAlmacen" 
-                                                        class="btn btn-success btn-sm btn-circle popoverxd"
+                                                    
+                                                    th:attr="onclick=|tablamulti('${material[0]}')|" 
+                                                         class="btn btn-success btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Stock general"><i
                                                         class="fas fa-store-alt" style="margin-left: -3px;"></i></button>
                                                 </td>
