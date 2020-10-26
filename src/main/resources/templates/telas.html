@@ -65,7 +65,7 @@
                                                 <td th:text="${tela.nombreTela}">Altima</td>
                                                 <td th:text="${tela.color}">17/10/2020</td>
                                                 <td th:text="${tela.estampado}">Uriel Cuatepitzi</td>
-                                                <td >2%</td>
+                                                <td th:text="${tela.pruebaEncogimiento}">2%</td>
                                                 <td class="tdcenter">
                                                 	<a class="btn btn-info btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>&nbsp;
                                                     <a class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'EditarEncogimiento('+${tela.idTela}+')'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar % encogimiento"><i class="fas fa-pen"></i></a>
@@ -73,6 +73,7 @@
                                            </tr>
                                         </tbody>
                                     </table>
+                                    <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -116,7 +117,7 @@
 		        confirmButtonText: 'Agregar',
 		        confirmButtonColor: '#0288d1',
 		        preConfirm: (color) => {
-		            if ($('#encogimientoTela').val()=="" || $('#encogimientoTela').val()=="" || $('#encogimientoTela').val()=="") {
+		            if ($('#encogimientoTela').val()=="" || $('#encogimientoTela').val()==null || $('#encogimientoTela').val()==undefined) {
 		                Swal.showValidationMessage(
 		                    `Complete todos los campos`
 		                )
@@ -124,7 +125,24 @@
 		        }
 		    }).then((result) => {
 		        if (result.value){
-		        	
+		        	var encogiTela = $('#encogimientoTela').val();
+		        	var idTela = id;
+		        	$.ajax({
+		        		method:"POST",
+		        		url:"/agregarPorcentajeEncogimiento",
+		        		data:{"_csrf": $('#token').val(),
+		        			idTela: idTela,
+		        			encogiTela: encogiTela},
+		        		success: (data) => {
+		        			Swal.fire({
+		                         position: 'center',
+		                         icon: 'success',
+		                         title: 'Insertado correctamente',
+		                         showConfirmButton: false,
+		                         timer: 1250
+		                     })
+		        		}
+		        	})
 		        	console.log("si lo hace bien");
 		        	location.reload();
 		        }
