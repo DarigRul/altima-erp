@@ -30,7 +30,7 @@ public class AmpRolloTela implements Serializable {
 	private String idText;
 	
 	@Column(name="cantidad")
-	private Long cantidad;
+	private Float cantidad;
 	
 	@Column(name="lote")
 	private String lote;
@@ -66,11 +66,11 @@ public class AmpRolloTela implements Serializable {
 		this.idText = idText;
 	}
 
-	public Long getCantidad() {
+	public Float getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(Long cantidad) {
+	public void setCantidad(Float cantidad) {
 		this.cantidad = cantidad;
 	}
 
