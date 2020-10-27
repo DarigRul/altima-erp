@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.DisenioMaterial;
+import com.altima.springboot.app.models.entity.DisenioTela;
 import com.altima.springboot.app.models.service.IDisenioTelaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +39,17 @@ public class TelaRestController {
 		
 		return  disenioTelaService.buscar_tela(nombre);
 	}
+    
+    //guardar porcentaje de encogimiento/estiramiento de la tela en pantalla de producción
+    @RequestMapping(value = "/agregarPorcentajeEncogimiento", method = RequestMethod.POST)
+	@ResponseBody
+	public void guardarPorcentajeEncogimiento(@RequestParam(name="encogiTela")int encogiTela, @RequestParam(name="idTela")Long id) throws Exception {
+    	DisenioTela disenioTela = disenioTelaService.findOne(id);
+    	System.out.println(encogiTela);
+    	disenioTela.setPruebaEncogimiento(encogiTela);
+    	
+    	disenioTelaService.save(disenioTela);
+		
+	}
+    
 }
