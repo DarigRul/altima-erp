@@ -29,12 +29,29 @@ public class AmpRolloTela implements Serializable {
 	@Column(name="id_text")
 	private String idText;
 	
+	@Column(name="id_almacen_fisico")
+	private Long idAlmacenFisico;
+	
+	@Column(name="id_tela")
+	private Long idTela;
+	
 	@Column(name="cantidad")
 	private Float cantidad;
+	
+	@Column(name="cantidad_original")
+	private Float cantidadOriginal;
 	
 	@Column(name="lote")
 	private String lote;
 	
+	public Float getCantidadOriginal() {
+		return cantidadOriginal;
+	}
+
+	public void setCantidadOriginal(Float cantidadOriginal) {
+		this.cantidadOriginal = cantidadOriginal;
+	}
+
 	@Column(name="creado_por")
 	private String creadoPor;
 	
@@ -49,6 +66,24 @@ public class AmpRolloTela implements Serializable {
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	
+
+	public Long getIdAlmacenFisico() {
+		return idAlmacenFisico;
+	}
+
+	public void setIdAlmacenFisico(Long idAlmacenFisico) {
+		this.idAlmacenFisico = idAlmacenFisico;
+	}
+
+	public Long getIdTela() {
+		return idTela;
+	}
+
+	public void setIdTela(Long idTela) {
+		this.idTela = idTela;
+	}
 
 	public Long getIdRolloTela() {
 		return idRolloTela;
