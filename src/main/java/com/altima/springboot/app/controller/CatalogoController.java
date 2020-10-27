@@ -5,7 +5,10 @@ import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
+import java.util.TimeZone;
+
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -196,6 +199,7 @@ public class CatalogoController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
+		Formatter fmt = new Formatter();
 		if (Color != null) {
 			DisenioLookup color = new DisenioLookup();
 			DisenioLookup ultimoid = null;
@@ -208,13 +212,13 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				color.setIdText("COL" + "1001");
+				color.setIdText("COL" + "0001");
 			} else {
-
+				System.out.println("entra");
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				color.setIdText("COL" + (cont + 1));
+				color.setIdText("COL" + fmt.format("%04d", (cont + 1)));
 			}
 
 			color.setNombreLookup(StringUtils.capitalize(Color));
@@ -477,6 +481,7 @@ public class CatalogoController {
 			catalogo.save(composicion);
 			return "catalogos";
 		}
+		fmt.close();
 		return "redirect:catalogos";
 
 	}
@@ -662,6 +667,10 @@ public class CatalogoController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+        String sDate = hourdateFormat.format(date);
 		DisenioLookup color = null;
 		DisenioLookup piezatrazo = null;
 		DisenioLookup familiaprenda = null;
@@ -677,7 +686,7 @@ public class CatalogoController {
 			color.setNombreLookup(StringUtils.capitalize(Color));
 			color.setAtributo1(CodigoColor);
 			color.setAtributo2(proveedor);
-			color.setUltimaFechaModificacion(dateFormat.format(date));
+			color.setUltimaFechaModificacion(sDate);
 			color.setActualizadoPor(auth.getName());
 			catalogo.save(color);
 			return "redirect:catalogos";

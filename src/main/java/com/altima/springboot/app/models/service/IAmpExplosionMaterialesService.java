@@ -16,4 +16,6 @@ public interface IAmpExplosionMaterialesService {
 
 	List<Object[]> findTotalMaterials(Long idpedido);
 
+	List<Object[]> findAvailableMaterials(Long IdArticulo);
+
 }
