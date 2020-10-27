@@ -33,7 +33,7 @@ public class AmpMultialmacen implements Serializable{
 	private Long idAlmacenLogico;
 	
 	@Column(name="existencia")
-	private Long existencia;
+	private float existencia;
 	
 	@Column(name="tipo")
 	private String tipo;
@@ -69,12 +69,12 @@ public class AmpMultialmacen implements Serializable{
 		this.idAlmacenLogico = idAlmacenLogico;
 	}
 
-	public Long getExistencia() {
+	public Float getExistencia() {
 		return existencia;
 	}
 
-	public void setExistencia(Long existencia) {
-		this.existencia = existencia;
+	public void setExistencia(float f) {
+		this.existencia = f;
 	}
 
 	public String getTipo() {
