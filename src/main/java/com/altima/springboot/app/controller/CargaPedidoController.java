@@ -424,12 +424,9 @@ public class CargaPedidoController {
 	public String patchPedidoValidacionFalda(@PathVariable Long id,@PathVariable Boolean tipo) {
 
 		Date date = new Date();
-
 		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		hourdateFormat.setTimeZone(timeZone);
-
-        // change tz using formatter
         String sDate = hourdateFormat.format(date);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

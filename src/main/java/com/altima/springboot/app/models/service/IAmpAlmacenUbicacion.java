@@ -5,7 +5,7 @@ import com.altima.springboot.app.models.entity.AmpAlmacenUbicacion;
 
 public interface IAmpAlmacenUbicacion {
 	
-	List<AmpAlmacenUbicacion> findAll(Long id);
+	List<AmpAlmacenUbicacion> findAll(Long id,boolean estatus);
 
 	void save(AmpAlmacenUbicacion ubicacion);
 

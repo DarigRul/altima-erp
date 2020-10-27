@@ -27,8 +27,12 @@ public class AmpAlmacenUbicacionService implements IAmpAlmacenUbicacion {
 	@Override
 	@Transactional
 	@OrderBy("idLookup ASC")
-	public List<AmpAlmacenUbicacion> findAll(Long id) {
+	public List<AmpAlmacenUbicacion> findAll(Long id,boolean estatus) {
+		if (estatus) {
+		return em.createQuery("from AmpAlmacenUbicacion where estatus=1 and id_almacen_fisico="+id).getResultList();
+		} else {
 		return em.createQuery("from AmpAlmacenUbicacion where id_almacen_fisico="+id).getResultList();
+		}
 	}
 
 	@Override

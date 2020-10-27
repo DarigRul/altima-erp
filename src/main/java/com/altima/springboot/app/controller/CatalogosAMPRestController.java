@@ -372,9 +372,9 @@ public class CatalogosAMPRestController {
 	}
 	@RequestMapping(value = "/listar-ubicacion-almacen", method = RequestMethod.GET)
 	@ResponseBody
-	public List<AmpAlmacenUbicacion> listaUbicacion(Long id) {
+	public List<AmpAlmacenUbicacion> listaUbicacion(Long id,@RequestParam(required = false) boolean estatus) {
 
-		return UbicacionService.findAll(id);
+		return UbicacionService.findAll(id,estatus);
 	}
 	
 	@RequestMapping(value = "/baja-alta-ubicacion", method = RequestMethod.POST)

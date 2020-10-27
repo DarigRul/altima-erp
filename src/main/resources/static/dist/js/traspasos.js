@@ -167,7 +167,8 @@ $('#agregarArticulo').click(function () {
     'descripcion': descripcion,
     'tipo': tipo,
     'cantidad': cantidad,
-    'id': id
+    'id': id,
+    'ubicacion': null
   }
 
   const found = movimientos.find(element => element.idText == temp.idText);
@@ -240,7 +241,7 @@ $('#agregarArticulo').click(function () {
                       descripcion,
                       unidadMedida,
                       '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>' +
-                      '<button onClick="abrirUbicacion()" type="button" data-toggle="modal" id="modal_ubicacion" data-target="#modalUbicacion" class="btn btn-primary btn-circle btn-sm popoverxd"><i class="fas fa-thumbtack"></i></button>'
+                      '<button onClick="abrirUbicacion(`' + id + tipo + '`)" type="button" data-toggle="modal" id="modal_ubicacion" data-target="#modalUbicacion" class="btn btn-primary btn-circle btn-sm popoverxd"><i class="fas fa-thumbtack"></i></button>'
 
                     ]
                   ).draw();
@@ -332,7 +333,6 @@ $('#guardarTraspasos').click(function () {
           });
         }
         Swal.fire({
-
           position: 'center',
           icon: 'success',
           title: 'Transpaso generado correctamente!',
@@ -364,7 +364,27 @@ $('#guardarTraspasos').click(function () {
 
 });
 
-function abrirUbicacion() {
+function abrirUbicacion(id) {
+  $('#selectUbicacion option').remove();
+  $('#selectUbicacion').selectpicker('refresh');
+  $.ajax({
+    type: "GET",
+    url: "/listar-ubicacion-almacen",
+    data: {
+      'id': $('#almacenDestinoTraspaso').children('option:selected').data('id'),
+      'estatus': true
+    },
+    success: function (data) {
+      data.forEach(function (data) {
+        //aqui va el codigo
+        $("#selectUbicacion").append("<option value='" + data.idUbicacion + "' data-id='" + id + "'>" + data.nombre + "</option>")
+      })
+      objIndex = movimientos.findIndex((obj => obj.id + obj.tipo == id));
+      console.log(movimientos[objIndex].ubicacion);
+      $(`#selectUbicacion option[value=${movimientos[objIndex].ubicacion}]`).prop('selected', true);
+      $('#selectUbicacion').selectpicker('refresh');
+    }
+  });
 
 }
 
@@ -388,4 +408,26 @@ $('#almacenDestinoTraspaso').change(function (e) {
 
     }
   })
+});
+$("#agregarUbicacion").click(function (e) {
+  e.preventDefault();
+  if ($("#selectUbicacion").val() == null || $("#selectUbicacion").val() == '') {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Todos los campos deben de estar llenos!',
+    })
+  } else {
+    objIndex = movimientos.findIndex((obj => obj.id + obj.tipo == $("#selectUbicacion").children('option:selected').data('id')));
+    movimientos[objIndex].ubicacion = $("#selectUbicacion").val();
+    console.log(movimientos[objIndex]);
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Ubicación agregada correctamente!',
+      showConfirmButton: false,
+      timer: 2500
+    })
+  }
+
 });

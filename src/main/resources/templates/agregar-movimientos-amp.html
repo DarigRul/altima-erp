@@ -106,18 +106,30 @@
 												placeholder="">
 										</div>
 
-										<div class="form-group col-md-4">
+										<div class="form-group col-md-3">
 											<label for="cantidadMovimiento">Cantidad</label>
 											<input type="number" class="form-control" id="cantidadMovimiento"
 												placeholder="4">
 										</div>
-										<div class="form-group col-md-8">
+										<div class="form-group col-md-3">
 											<label for="articuloMovimiento" style="margin-left:2px">Articulo</label>
-											<div class="input-group mb-3">
 												<select class="form-control selectpicker" title="Selecciona uno..."
 													data-live-search="true" data-live-search-normalize="true"
 													id="articuloMovimiento">
-												</select>
+												</select>											
+										</div>
+										<div class="form-group col-md-3">
+											<label for="articuloMovimiento" style="margin-left:2px">Rollo</label>
+												<select class="form-control selectpicker" title="Selecciona uno..."
+													data-live-search="true" data-live-search-normalize="true"
+													id="rollo" disabled>
+												</select>											
+										</div>
+										<div class="form-group col-md-3">
+											<label for="lote" style="margin-left:2px">Lote</label>
+											<div class="input-group mb-3">
+												<input type="text" class="form-control" id="lote" disabled
+												placeholder="LOT892SD">
 												<div class="input-group-append" style="margin-left: 10px;">
 													<button class="btn icon-btn btn-altima text-white" type="button"
 														id="agregarArticulo"><span
@@ -133,7 +145,9 @@
 														<th>Cantidad</th>
 														<th>Clave art&iacute;culo</th>
 														<th>Descripci&oacute;n</th>
+														<th>Rollo</th>
 														<th>UOM</th>
+														<th>Lote</th>
 														<th>Acciones</th>
 													</tr>
 												</thead>

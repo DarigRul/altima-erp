@@ -13,50 +13,48 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "alt_amp_almacen_ubicacion_articulo")
-public class AmpAlmacenUbicacionArticulo implements Serializable{
+public class AmpAlmacenUbicacionArticulo implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="id_conteo")
+	@Column(name = "id_almacen_ubicacion_articulo")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GenericGenerator(name="native",strategy="native")
-	private Long idConteo;
-	
-	@Column(name="numero_conteo")
+	@GenericGenerator(name = "native", strategy = "native")
+	private Long idAlmacenUbicacionArticulo;
+
+	@Column(name = "numero_conteo")
 	private Long numeroConteo;
-	
-	@Column(name="id_ubicacion")
+
+	@Column(name = "id_ubicacion")
 	private Long idUbicacion;
-	
-	@Column(name="id_articulo")
+
+	@Column(name = "id_articulo")
 	private Long idArticulo;
-	
-	@Column(name="cantidad")
+
+	@Column(name = "cantidad")
 	private Long cantidad;
-	
-	@Column(name="tipo")
+
+	@Column(name = "tipo")
 	private String tipo;
-	
-	@Column(name="creado_por")
+
+	@Column(name = "creado_por")
 	private String creadoPor;
-	
-	@Column(name="actualizado_por")
+
+	@Column(name = "actualizado_por")
 	private String actualizadoPor;
-	
-	@Column(name="fecha_creacion")
+
+	@Column(name = "fecha_creacion")
 	private String fechaCreacion;
-	
-	@Column(name="ultima_fecha_modificacion")
+
+	@Column(name = "ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
-	
-	@Column(name="estatus")
+
+	@Column(name = "estatus")
 	private String estatus;
-	
-	
 
 	public String getTipo() {
 		return tipo;
@@ -64,14 +62,6 @@ public class AmpAlmacenUbicacionArticulo implements Serializable{
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
-	}
-
-	public Long getIdConteo() {
-		return idConteo;
-	}
-
-	public void setIdConteo(Long idConteo) {
-		this.idConteo = idConteo;
 	}
 
 	public Long getNumeroConteo() {
@@ -149,8 +139,13 @@ public class AmpAlmacenUbicacionArticulo implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
 
+	public Long getIdAlmacenUbicacionArticulo() {
+		return idAlmacenUbicacionArticulo;
+	}
+
+	public void setIdAlmacenUbicacionArticulo(Long idAlmacenUbicacionArticulo) {
+		this.idAlmacenUbicacionArticulo = idAlmacenUbicacionArticulo;
+	}
 
 }

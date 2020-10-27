@@ -61,7 +61,7 @@ public class TraspasosAMPRestController {
 				AmpTraspasoDetalle traspasoDetalle = new AmpTraspasoDetalle();
 				JSONObject movimientosJson = movimientosArray.getJSONObject(i);
 				traspasoDetalle.setTipo(movimientosJson.getString("tipo"));
-				traspasoDetalle.setCantidad(Long.parseLong(movimientosJson.getString("cantidad")));
+				traspasoDetalle.setCantidad(movimientosJson.getFloat("cantidad"));
 				traspasoDetalle.setIdTraspaso(traspaso.getIdTraspaso());
 				traspasoDetalle.setIdArticulo(Long.parseLong(movimientosJson.getString("id")));
 				traspasoDetalleService.save(traspasoDetalle);

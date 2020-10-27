@@ -1,13 +1,21 @@
 package com.altima.springboot.app.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Formatter;
+import java.util.TimeZone;
+
 import com.altima.springboot.app.models.entity.AmpEntrada;
 import com.altima.springboot.app.models.entity.AmpEntradaDetalle;
 import com.altima.springboot.app.models.entity.AmpMultialmacen;
+import com.altima.springboot.app.models.entity.AmpRolloTela;
 import com.altima.springboot.app.models.entity.AmpSalida;
 import com.altima.springboot.app.models.entity.AmpSalidaDetalle;
 import com.altima.springboot.app.models.service.IAmpEntradaDetalleService;
 import com.altima.springboot.app.models.service.IAmpEntradaService;
 import com.altima.springboot.app.models.service.IAmpMultialmacenService;
+import com.altima.springboot.app.models.service.IAmpRolloTelaService;
 import com.altima.springboot.app.models.service.IAmpSalidaDetalleService;
 import com.altima.springboot.app.models.service.IAmpSalidaService;
 
@@ -36,6 +44,8 @@ public class EntradaSalidaAMPController {
 	IAmpSalidaDetalleService salidaDetalleService;
 	@Autowired
 	IAmpMultialmacenService multialmacenService;
+	@Autowired
+	IAmpRolloTelaService rolloTelaService;
 
 	@GetMapping("/movimientos-amp")
 	public String Index(Model m) {
@@ -69,20 +79,38 @@ public class EntradaSalidaAMPController {
 			entrada.setIdText("ENT" + (10000 + entrada.getIdEntrada()));
 			entradaService.save(entrada);
 			for (int i = 0; i < movimientosArray.length(); i++) {
-				Long idMultialmacen=null;
+				Long idMultialmacen = null;
 				AmpEntradaDetalle entradaDetalle = new AmpEntradaDetalle();
 				JSONObject movimientosJson = movimientosArray.getJSONObject(i);
 				entradaDetalle.setTipo(movimientosJson.getString("tipo"));
-				entradaDetalle.setCantidad(Long.parseLong(movimientosJson.getString("cantidad")));
+				entradaDetalle.setCantidad(movimientosJson.getFloat("cantidad"));
 				entradaDetalle.setIdEntrada(entrada.getIdEntrada());
 				entradaDetalle.setIdArticulo(Long.parseLong(movimientosJson.getString("id")));
 				entradaDetalleService.save(entradaDetalle);
-				idMultialmacen=multialmacenService.findIdMultialmacen(entrada.getIdAlmacenLogico(), entradaDetalle.getIdArticulo(), entradaDetalle.getTipo());
+				idMultialmacen = multialmacenService.findIdMultialmacen(entrada.getIdAlmacenLogico(),
+						entradaDetalle.getIdArticulo(), entradaDetalle.getTipo());
 				AmpMultialmacen multialmacen = multialmacenService.findById(idMultialmacen);
-				multialmacen.setExistencia(multialmacen.getExistencia()+entradaDetalle.getCantidad());
+				multialmacen.setExistencia(multialmacen.getExistencia() + entradaDetalle.getCantidad());
 				multialmacenService.save(multialmacen);
+				if (movimientosJson.getString("tipo").equals("tela")) {
+					Formatter fmt = new Formatter();
+					AmpRolloTela rollo = new AmpRolloTela();
+					rollo.setCantidad(movimientosJson.getFloat("cantidad"));
+					rollo.setEstatus("1");
+					rollo.setLote(movimientosJson.getString("lote"));
+					rollo.setCreadoPor(auth.getName());
+					rollo.setActualizadoPor(auth.getName());
+					rollo.setIdText("idText");
+					rollo.setIdAlmacenFisico(cabeceroJson.getLong("idAlmacenFisico"));
+					System.out.println(cabeceroJson.getInt("idAlmacenFisico"));
+					rollo.setIdTela(Long.parseLong(movimientosJson.getString("id")));
+					rolloTelaService.save(rollo);
+					rollo.setIdText("ROLLO" + fmt.format("%05d", rollo.getIdRolloTela()));
+					rolloTelaService.save(rollo);
+					fmt.close();
+				}
 			}
-			
+
 		} catch (Exception e) {
 			return "redirect:/movimientos-amp";
 		}
@@ -97,7 +125,15 @@ public class EntradaSalidaAMPController {
 		JSONArray cabeceroArray = new JSONArray(cabecero);
 		JSONObject cabeceroJson = cabeceroArray.getJSONObject(0);
 		JSONArray movimientosArray = new JSONArray(movimientos);
-		System.out.println("entra a la salida");
+		Date date = new Date();
+
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+
+        // change tz using formatter
+        String sDate = hourdateFormat.format(date);
+		// System.out.println("entra a la salida "+movimientosArray.toString()+" "+cabeceroJson.toString());
 		try {
 			AmpSalida salida = new AmpSalida();
 			salida.setIdAlmacenLogico(Long.parseLong(cabeceroJson.getString("idAlmacenLogico")));
@@ -116,7 +152,7 @@ public class EntradaSalidaAMPController {
 				AmpSalidaDetalle salidaDetalle = new AmpSalidaDetalle();
 				JSONObject movimientosJson = movimientosArray.getJSONObject(i);
 				salidaDetalle.setTipo(movimientosJson.getString("tipo"));
-				salidaDetalle.setCantidad(Long.parseLong(movimientosJson.getString("cantidad")));
+				salidaDetalle.setCantidad(movimientosJson.getFloat("cantidad"));
 				salidaDetalle.setIdSalida(salida.getIdSalida());
 				salidaDetalle.setIdArticulo(Long.parseLong(movimientosJson.getString("id")));
 				salidaDetalleService.save(salidaDetalle);
@@ -125,14 +161,18 @@ public class EntradaSalidaAMPController {
 				AmpMultialmacen multialmacen = multialmacenService.findById(idMultialmacen);
 				multialmacen.setExistencia(multialmacen.getExistencia() - salidaDetalle.getCantidad());
 				multialmacenService.save(multialmacen);
+				if (movimientosJson.getString("tipo").equals("tela")) {
+					AmpRolloTela rollo = rolloTelaService.findOne(Long.parseLong(movimientosJson.getString("idRollo")));
+					rollo.setUltimaFechaModificacion(sDate);
+					rollo.setActualizadoPor(auth.getName());
+					rollo.setEstatus("0");
+				}
 			}
 		} catch (Exception e) {
-			//TODO: handle exception
+			// TODO: handle exception
 			return "redirect:/movimientos-amp";
 		}
 
-
-		
 		return "redirect:/movimientos-amp";
 
 	}
