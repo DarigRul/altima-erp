@@ -96,12 +96,19 @@
 											<input type="number" class="form-control" id="cantidadTraspaso" min="1"
 												placeholder="4">
 										</div>
-										<div class="form-group col-md-8">
-											<label for="articuloMovimiento" style="margin-left:2px">Articulo</label>
+										<div class="form-group col-md-4">
+											<label for="cantidadMovimiento">Articulo</label>
+											<select class="form-control selectpicker" title="Selecciona uno..."
+											data-live-search="true" data-live-search-normalize="true"
+											id="articuloTraspaso">
+										</select>
+										</div>
+										<div class="form-group col-md-4">
+											<label for="articuloMovimiento" style="margin-left:2px">Rollo</label>
 											<div class="input-group mb-3">
 												<select class="form-control selectpicker" title="Selecciona uno..."
 													data-live-search="true" data-live-search-normalize="true"
-													id="articuloTraspaso">
+													id="rollo" disabled>
 												</select>
 												<div class="input-group-append" style="margin-left: 10px;">
 													<button class="btn icon-btn btn-altima text-white" type="button"
