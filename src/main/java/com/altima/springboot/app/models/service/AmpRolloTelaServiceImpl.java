@@ -27,6 +27,9 @@ public class AmpRolloTelaServiceImpl implements IAmpRolloTelaService {
     @Transactional
     public void save(AmpRolloTela rollo) {
         // TODO Auto-generated method stub
+        if (rollo.getCantidad()<0) {
+            throw new RuntimeException("La cantidad debe ser mayor o igual a 0");
+        }
         repository.save(rollo);
     }
 

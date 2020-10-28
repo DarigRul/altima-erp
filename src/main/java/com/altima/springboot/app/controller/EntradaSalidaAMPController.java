@@ -101,6 +101,7 @@ public class EntradaSalidaAMPController {
 					rollo.setCreadoPor(auth.getName());
 					rollo.setActualizadoPor(auth.getName());
 					rollo.setIdText("idText");
+					rollo.setCantidadOriginal(movimientosJson.getFloat("cantidad"));
 					rollo.setIdAlmacenFisico(cabeceroJson.getLong("idAlmacenFisico"));
 					System.out.println(cabeceroJson.getInt("idAlmacenFisico"));
 					rollo.setIdTela(Long.parseLong(movimientosJson.getString("id")));
@@ -119,8 +120,7 @@ public class EntradaSalidaAMPController {
 
 	@Transactional
 	@PostMapping("/postMovimientosSalidaAlmacen")
-	public String postMovimientosSalidaAlmacen(@RequestParam String cabecero, @RequestParam String movimientos)
-			throws Exception {
+	public String postMovimientosSalidaAlmacen(@RequestParam String cabecero, @RequestParam String movimientos) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		JSONArray cabeceroArray = new JSONArray(cabecero);
 		JSONObject cabeceroJson = cabeceroArray.getJSONObject(0);
@@ -131,9 +131,10 @@ public class EntradaSalidaAMPController {
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		hourdateFormat.setTimeZone(timeZone);
 
-        // change tz using formatter
-        String sDate = hourdateFormat.format(date);
-		// System.out.println("entra a la salida "+movimientosArray.toString()+" "+cabeceroJson.toString());
+		// change tz using formatter
+		String sDate = hourdateFormat.format(date);
+		// System.out.println("entra a la salida "+movimientosArray.toString()+"
+		// "+cabeceroJson.toString());
 		try {
 			AmpSalida salida = new AmpSalida();
 			salida.setIdAlmacenLogico(Long.parseLong(cabeceroJson.getString("idAlmacenLogico")));
@@ -163,13 +164,19 @@ public class EntradaSalidaAMPController {
 				multialmacenService.save(multialmacen);
 				if (movimientosJson.getString("tipo").equals("tela")) {
 					AmpRolloTela rollo = rolloTelaService.findOne(Long.parseLong(movimientosJson.getString("idRollo")));
+					rollo.setCantidad(rollo.getCantidad() - movimientosJson.getFloat("cantidad"));
 					rollo.setUltimaFechaModificacion(sDate);
 					rollo.setActualizadoPor(auth.getName());
-					rollo.setEstatus("0");
+					if (rollo.getCantidad() == 0) {
+						rollo.setEstatus("0");
+					}
+					rolloTelaService.save(rollo);
+
 				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 			return "redirect:/movimientos-amp";
 		}
 

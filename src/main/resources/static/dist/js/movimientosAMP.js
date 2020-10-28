@@ -131,16 +131,16 @@ $('#almacenLogicoMovimiento').change(function () {
 
 //Agregamos el Articulo
 $('#agregarArticulo').click(function () {
-    if ($("#tipoMovimiento").val()=="Salida") {
+    if ($("#tipoMovimiento").val() == "Salida") {
         var idText = $('#articuloMovimiento').children('option:selected').data('idtext');
         var unidadMedida = $('#articuloMovimiento').children('option:selected').data('unidadmedida');
         var descripcion = $('#articuloMovimiento').children('option:selected').text();
         var tipo = $('#articuloMovimiento').children('option:selected').data('tipo');
         var id = $('#articuloMovimiento').val();
-        var cantidad = $('#rollo').children('option:selected').data('cantidad');
+        var cantidad = $('#cantidadMovimiento').val();
         var lote = $('#rollo').children('option:selected').data('lote');
-        var rollo=$('#rollo').children('option:selected').data('idtext');
-        var idRollo=$("#rollo").val();
+        var rollo = $('#rollo').children('option:selected').data('idtext');
+        var idRollo = $("#rollo").val();
     } else {
         var idText = $('#articuloMovimiento').children('option:selected').data('idtext');
         var unidadMedida = $('#articuloMovimiento').children('option:selected').data('unidadmedida');
@@ -149,8 +149,8 @@ $('#agregarArticulo').click(function () {
         var id = $('#articuloMovimiento').val();
         var cantidad = $('#cantidadMovimiento').val();
         var lote = $("#lote").val();
-        var rollo=null;
-        var idRollo=null;
+        var rollo = null;
+        var idRollo = null;
     }
 
     console.log(id);
@@ -163,8 +163,8 @@ $('#agregarArticulo').click(function () {
         'cantidad': cantidad,
         'id': id,
         'lote': lote,
-        'rollo':rollo,
-        'idRollo':idRollo
+        'rollo': rollo,
+        'idRollo': idRollo
     }
 
 
@@ -175,7 +175,22 @@ $('#agregarArticulo').click(function () {
             title: 'Error',
             text: 'Todos los campos deben de estar llenos!',
         })
-    } else {
+    }
+    else if((lote==null || lote == "") && $('#tipoMovimiento').val() == 'Entrada' && tipo=='tela'){
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Todos los campos deben de estar llenos!',
+        })
+    }
+    else if((rollo==null || rollo == "") && $('#tipoMovimiento').val() == 'Salida' && tipo=='tela') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Todos los campos deben de estar llenos!',
+        })
+    } 
+        else {
         $('#tipoMovimiento').prop("disabled", true);
         $('#almacenLogicoMovimiento').prop("disabled", true);
         $('#tipoMovimiento').selectpicker('refresh');
@@ -199,6 +214,10 @@ $('#agregarArticulo').click(function () {
 
                 },
                 success: function (response) {
+                    if(tipo!='tela'){
+                        $('#articuloMovimiento').find('[value=' + temp.id + ']').remove();
+                        $('#articuloMovimiento').selectpicker('refresh');
+                    }
                     if ((response - cantidad) < 0 && $('#tipoMovimiento').val() == 'Salida') {
                         Swal.fire({
                             icon: 'error',
@@ -207,12 +226,20 @@ $('#agregarArticulo').click(function () {
                         })
                         return false;
                     }
+                    else if (($('#rollo').children('option:selected').data('cantidad') - cantidad) < 0 && $('#tipoMovimiento').val() == 'Salida'&&tipo=='tela') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'La cantidad existente es: ' + $('#rollo').children('option:selected').data('cantidad')
+                        })
+                        return false;
+                    }
                     else {
                         var fila = table.row.add(
                             [cantidad,
                                 idText,
                                 descripcion,
-                                rollo==null?'N/A':rollo,
+                                rollo == null ? 'N/A' : rollo,
                                 unidadMedida,
                                 tipo === 'tela' ? lote : 'N/A',
                                 '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>' +
@@ -230,6 +257,14 @@ $('#agregarArticulo').click(function () {
 });
 
 function deleteMovimiento(fila, id) {
+
+    const found = movimientos.find(element => element.id + element.tipo == id);
+    console.log(found);
+    if (found.tipo!='tela') {
+        $("#articuloMovimiento").append("<option value='" + found.id + "' data-tipo='" + found.tipo + "'data-idText='" + found.idText + "'data-unidadMedida='" + found.unidadMedida + "'>" + found.descripcion + "</option>");
+        $('#articuloMovimiento').selectpicker('refresh'); 
+    }
+
     // Se elimina el objeto del array de objetos
     var removeIndex = movimientos.map(function (item) { return item.id + item.tipo; }).indexOf(id);
     movimientos.splice(removeIndex, 1);
@@ -389,26 +424,30 @@ $("#articuloMovimiento").change(function (e) {
         $("#lote").prop("disabled", true);
     }
     //salida rollo
-    if ($("#tipoMovimiento").val() == 'Salida') {
+    if ($("#tipoMovimiento").val() == 'Salida' && $(this).children('option:selected').data('tipo') == 'tela') {
         $("#rollo").prop("disabled", false);
-        $("#cantidadMovimiento").prop("disabled", true);
         $("#lote").prop("disabled", true);
         $.ajax({
             type: "GET",
             url: "/getRolloByidAlmacenFisico",
-            data: {'idAlmacenFisico':$("#almacenLogicoMovimiento").children('option:selected').data('name')},
+            data: { 'idAlmacenFisico': $("#almacenLogicoMovimiento").children('option:selected').data('name') },
             success: function (data) {
                 data.forEach(function (data) {
-                $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "</option>")
+                    $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "</option>")
                 })
                 $('#rollo').selectpicker('refresh');
             }
         });
-        
+
 
     } else {
         $("#rollo").prop("disabled", true);
         $('#rollo').selectpicker('refresh');
 
     }
+});
+
+$("#rollo").change(function (e) {
+    e.preventDefault();
+    $('#cantidadMovimiento').val($(this).children('option:selected').data('cantidad'));
 });
