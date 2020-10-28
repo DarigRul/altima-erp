@@ -518,18 +518,27 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		
 		else {
 			String idTela = listaTelas.get(0)[4].toString();
+			String imgUrl = "";
 			float sumaPersonas = 0;
 			float totalConsumoCantidad = 0;
 			float spfConsumo = 0;
+			int contador = 0;
 			String codigoTela = listaTelas.get(0)[3].toString();
 			PdfPTable tablaTelas = new PdfPTable(7);
 			tablaTelas.setWidthPercentage(100);
 			tablaTelas.setWidths(new float[] { 3f, 4f, 2.5f, 2.5f, 2.5f, 2.5f, 4f });
+			int validador = 0;
+			
+			for (int i = 0;i<listaTelas.size();i++) {
+				if(listaTelas.get(i)[4].toString().equals(listaTelas.get(0)[4].toString())) {
+					validador++;
+				}
+			}
+			
 			
 			for (int i = 0;i<listaTelas.size();i++) {
 				Object[] fila = (Object[]) listaTelas.get(i);
 				
-				System.out.println(idTela);
 				//Información de la prenda
 				
 				
@@ -593,7 +602,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 				tablaTelas.addCell(Cabezero6);
 				tablaTelas.addCell(Cabezero7);
 					
-				idTela = fila[4].toString();
+				
 					//  Empieza la tabla de la información de las telas
 					
 				if(idTela.equals(fila[4].toString())){
@@ -601,15 +610,22 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					sumaPersonas += Float.parseFloat(fila[11].toString());
 					totalConsumoCantidad += (Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()));
 					spfConsumo += Float.parseFloat(fila[15].toString());
-					System.out.println(sumaPersonas);
+					
+					imgUrl = fila[14].toString();
 				}
 				
-				
-				if(!idTela.equals(listaTelas.get(i)[4].toString()) || 
-						!idTela.equals(listaTelas.get(1)[4].toString()) || 
-						(listaTelas.size()-1==i && idTela.equals(fila[4].toString())) || 
-						(listaTelas.size()-1==i && listaTelas.get(listaTelas.size()-1)[4].toString().equals(fila[4].toString()))) {
+				System.out.println(contador);
+				if(!idTela.equals(fila[4].toString()) ||contador==listaTelas.size()-1 || 
+						!listaTelas.get(0)[4].toString().equals(listaTelas.get(1)[4].toString()) || 
+						validador==1) {
+					
+					if(validador==1 || contador==listaTelas.size()-1) {
+						imgUrl = fila[14].toString();
+						codigoTela = fila[3].toString();
+						validador=2;
+					}
 								
+					System.out.println("Entra: "+idTela);
 					
 					PdfPTable tablaTelasDatos = new PdfPTable(2);
 					tablaTelasDatos.setWidthPercentage(100);
@@ -709,7 +725,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					PdfPTable TelasconImagen = new PdfPTable(3);
 					TelasconImagen.setWidthPercentage(100);
 					TelasconImagen.setWidths(new float[] { 2.4f, 3f, 6f});
-					Image img = Image.getInstance("https://res.cloudinary.com/dti-consultores/image/upload/v1603465395/telas/"+fila[14].toString());
+					Image img = Image.getInstance("https://res.cloudinary.com/dti-consultores/image/upload/v1603465395/telas/"+imgUrl);
 					img.scalePercent(8f);
 					PdfPCell imagenTela = new PdfPCell(img);
 					imagenTela.setBorder(0);
@@ -828,9 +844,11 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					spfConsumo = 0;
 					//-----------------------------------------------------//
 				
-					codigoTela = fila[3].toString();
+					
 				}
-				
+				codigoTela = fila[3].toString();
+				idTela = fila[4].toString();
+				contador++;
 			}
 			
 		}
