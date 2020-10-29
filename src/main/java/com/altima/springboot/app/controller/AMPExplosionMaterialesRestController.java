@@ -21,4 +21,9 @@ public class AMPExplosionMaterialesRestController {
         return AmpExplosionMaterialesService.findAvailableMaterials(IdArticulo);
     }
     
+    @GetMapping("/explosion-materiales-habilitacion-header")
+    public List<Object[]> ExplosionMaterialesModalHeader(Model model,Long IdArticulo,Long IdPedido){
+        return AmpExplosionMaterialesService.findMaterialsHeader(IdArticulo, IdPedido);
+    }
+    
 }
