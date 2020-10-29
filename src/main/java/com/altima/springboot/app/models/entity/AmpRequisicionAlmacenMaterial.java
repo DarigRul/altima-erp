@@ -52,10 +52,21 @@ public class AmpRequisicionAlmacenMaterial implements Serializable{
 	
 	@Column(name="ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
+	
+	@Column(name="estatus")
+	private String estatus;
 
 	
 	
 	
+	public String getEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(String estatus) {
+		this.estatus = estatus;
+	}
+
 	public Long getIdRequisicionAlmacen() {
 		return idRequisicionAlmacen;
 	}
