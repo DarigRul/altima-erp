@@ -54,38 +54,63 @@
                                         <thead>
                                             <tr>
                                                 <th>Folio</th>
-                                                <th>Fecha</th>
-                                                <th>Solicitante</th>
+                                                <th sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_GERENCIA','ROLE_ADMINISTRADOR')">Solicitante</th>
+                                                <th>Fecha de solicitud</th>
                                                 <th>Departamento</th>
                                                 <th>Estatus</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>REQ100045</td>
-                                                <td>20/08/2020</td>
-                                                <td>Adan Gomez</td>
-                                                <td>Direcci&oacute;n general</td>
-                                                <td>Parcial</td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-info btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Detalles"><i
-                                                            class="fas fa-info"></i></button>
-                                                    <a th:href="${'/requisicion-de-almacen-nueva'}"
-                                                        class="btn btn-warning btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Editar"><i
-                                                            class="fas fa-pen"></i></a>
-                                                    <button type="button" onclick="aceptarRequisicionAlmacen()"
-                                                        class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Autorizar"><i
-                                                            class="fas fa-check"></i></button>
-                                                    <button type="button" onclick="rechazarRequisicionAlmacen()"
+                                              <tr th:each="view, i: ${view}">
+												<td th:text="${view[1]}"></td>											
+												<td sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_GERENCIA','ROLE_ADMINISTRADOR')" th:text="${view[2]}">Agente 1</td>
+												<td th:text="${view[3]}"></td>
+												<td th:text="${view[4]}"></td>
+												<td th:text="${view[5]}"></td>
+												 <td class="text-center">
+												 
+												
+												 
+												 <button
+												 class="btn btn-info btn-circle btn-sm text-white popoverxd"
+												  th:onclick="|detalles('${view[0]}')|"
+												 data-container="body" data-toggle="popover" data-placement="top" 
+												 data-content="Detalles"><i class="fas fa-info"></i>
+												 </button>
+												 <button
+												 	th:disabled="${view[5]}=='No enviado'?false:true"
+												 	th:onclick="|editar(' ${view[0]} ')|"
+												 	sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_EDITAR','ROLE_ADMINISTRADOR')"                         
+                                                     class="btn btn-warning btn-sm btn-circle popoverxd" 
+                                                    data-placement="top" data-content="Editar"><i class="fas fa-exchange-alt"></i>
+                                                   </button>
+                                                   
+                                                   <button
+												 	th:disabled="${view[5]}=='No enviado'?false:true"
+												 	th:onclick="|enviar('${view[0]}')|"
+												 	sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_EDITAR','ROLE_ADMINISTRADOR')"                         
+                                                     class="btn btn-altima btn-sm btn-circle popoverxd" 
+                                                    data-placement="top" data-content="Enviar"><i class="fas fa-plane"></i>
+                                                   </button>
+												 
+												 <button
+												 		sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_EDITAR','ROLE_ADMINISTRADOR')"
+												 		th:onclick="|rechazar('${view[0]}')|"
+                                                        th:disabled="${view[5]}=='Enviado'?false:true"
                                                         class="btn btn-danger btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Cancelar"><i
+                                                        data-placement="top" data-content="Rechazar"><i
                                                             class="fas fa-times"></i></button>
+                                                    <button
+                                                    sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_EDITAR','ROLE_ADMINISTRADOR')"
+                                                    	th:onclick="|aceptar('${view[0]}')|"
+                                                        th:disabled="${view[5]}=='Enviado'?false:true"
+                                                        class="btn btn-success btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Aceptar"><i
+                                                            class="fas fa-check"></i></button>
                                                 </td>
-                                            </tr>
+												
+											</tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -103,6 +128,7 @@
     </div>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/RequisicionMateriales.js"></script>
     <script>
         $('#iRequisiciones').removeClass('text-altima');
         $('#navRequisiciones').addClass('active-altima');

@@ -63,6 +63,9 @@
                                                     <li class="list-group-item" style="width: 25%;"><strong>Departamento: </strong><a th:text="${departamento}" >Dise&ntilde;o</a></li>
                                                 </ul>
                                             </div>
+                                            
+                                            <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+                                            <input type="hidden" name="idRequisicion" id="idRequisicion" th:value="${idRequisicion}" />
                                             <div class="form-group col-md-6">
                                                 <label for="cantidadRequisicion">Cantidad</label>
                                                 <input type="number" class="form-control" id="cantidadRequisicion" name="cantidadRequisicion" placeholder="12">
@@ -106,13 +109,36 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        
+                                                        <tr th:each="tableMateriales: ${tableMateriales}">
+		
+															<td th:text="${tableMateriales[0]}"></td>
+															<td th:text="${tableMateriales[1]}"></td>
+															<td th:text="${tableMateriales[2]}"></td>
+															<td th:text="${tableMateriales[3]}"></td>
+															<td th:text="${tableMateriales[4]}"></td>
+															<td th:text="${tableMateriales[5]}"></td>
+															<td th:text="${tableMateriales[6]}"></td>
+															<td th:text="${tableMateriales[7]}"></td>
+															
+															<td>
+																<button type="button"
+																th:onclick="|eliminar2('${tableMateriales[8]}', this)|"	 
+																
+																 class="btn btn-sm icon-btn btn-danger text-white btn_remove">
+																<span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar
+																</button>
+															</td>
+		
+														</tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <a th:href="${'/requisicion-de-almacen'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-                                                <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon fas fa-paper-plane img-circle text-altima"></span>Enviar</button>
+                                                
+                                                
+                                                
+                                                <button type="button" onclick="enviar();"  class="btn icon-btn btn-altima text-white float-right" ><span class="btn-glyphicon fas fa-paper-plane img-circle text-altima"></span>Enviar</button>
                                             </div>
                                         </div>
                                     </form>
