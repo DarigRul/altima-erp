@@ -1969,16 +1969,32 @@ function listarMovimientos() {
 
 function abrirMapeo(id){
 	
+	var tabla = $('#tableUbicacion').DataTable();
+	tabla
+    .clear()
+    .draw();
 	
+	console.log(id);
 	$.ajax({
 		method: "GET",
 		url: "/listar-ubicacion-almacen",
 		data:{
 			"id":id
 		} ,
+		beforeSend: function () {
+       	 Swal.fire({
+                title: 'Cargando ',
+                html: 'Por favor espere',// add html attribute if you want or remove
+                allowOutsideClick: false,
+                timerProgressBar: true,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                },
+            });
+       	
+       },
 		success: (data) => {
-			var tabla = $('#tableUbicacion').DataTable();
-			tabla.clear();
+			
     	    
             $(data).each(function(i, v){ // indice, valor
             	tabla.row.add([	
@@ -1994,6 +2010,13 @@ function abrirMapeo(id){
             	
             })
 		},
+		  complete: function() {
+				Swal.fire({
+	 				title: 'Listo',
+	 				showConfirmButton: false,
+	 				timer: 1
+	 			})
+		    },
 		error: (e) => {
 
 		}
