@@ -88,7 +88,7 @@
                                                    
                                                    <button
 												 	th:disabled="${view[5]}=='No enviado'?false:true"
-												 	th:onclick="|enviar('${view[0]}')|"
+												 	th:onclick="|enviarEstatus('${view[0]}')|"
 												 	sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_EDITAR','ROLE_ADMINISTRADOR')"                         
                                                      class="btn btn-altima btn-sm btn-circle popoverxd" 
                                                     data-placement="top" data-content="Enviar"><i class="fas fa-plane"></i>
@@ -113,6 +113,8 @@
 											</tr>
                                         </tbody>
                                     </table>
+                                    <input type="hidden" name="_csrf" id="token"
+                                    th:value="${_csrf.token}" />
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -127,6 +129,24 @@
         <div th:insert="navegacion-footer"></div>
     </div>
     <div th:replace="navegacion-scripts"></div>
+    <div class="modal fade" id="detalles" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content modal-rounded-body">
+			<div class="modal-header bg-altima modal-rounded-header">
+				<h5 class="modal-title" id="exampleModalLabel">Detalles</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+			</div>
+			<div class="modal-content" id="contenedorTablaContador">
+               
+                     <div class="modal-body" id="quitarDetalles">
+                        <table class="table table-bordered" id="idtableDetalle"
+                           style="width: 100%;"></table>
+                     </div>
+                 
+            </div>
+		</div>
+	</div>
+</div>
     <script src="/dist/js/tablaGeneral.js"></script>
     <script src="/dist/js/RequisicionMateriales.js"></script>
     <script>

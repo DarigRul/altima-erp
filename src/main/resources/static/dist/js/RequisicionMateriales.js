@@ -188,3 +188,220 @@ function editar (id){
 	var url = "/requisicion-de-almacen-editar/"+id+"";  
 	 $(location).attr('href',url);
 }
+function enviarEstatus(id) {
+	Swal.fire({
+        title: '¿Deseas enviar esta solicitud',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Enviar',
+        confirmButtonColor: '#0288d1',
+    }).then((result) => {
+        if (result.value && id != null) {
+        	
+        	$.ajax({
+    	        type: "POST",
+    	        url:"/enviar-solicitud-almacen",
+    	        data: {
+    	        	'id':id,
+    	             "_csrf": $('#token').val()
+    	        },
+    	        beforeSend: function () {
+    	        	
+ 
+    	        },
+    	    
+    	        success: function(data) {
+    	        	
+    	        	
+    	        	 Swal.fire({
+    	        		 position: 'center',
+    	     				icon: 'success',
+    	     				title: 'Enviado correctamente',
+    	     				showConfirmButton: false,
+    						timer: 1250
+    	                 
+    	             });
+    	       },
+    	       complete: function() {
+    	    	   location.reload();
+    		    },
+    	    })
+           
+        } // ////////////termina result value
+    })
+}
+
+function rechazar (id){
+	
+	Swal.fire({
+        title: '¿Deseas rechazar esta solicitud',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Rechazar',
+        confirmButtonColor: '#0288d1',
+    }).then((result) => {
+        if (result.value && id != null) {
+        	
+        	$.ajax({
+    	        type: "POST",
+    	        url:"/rechazar-solicitud-almacen",
+    	        data: {
+    	        	'id':id,
+    	             "_csrf": $('#token').val()
+    	        },
+    	        beforeSend: function () {
+    	        	
+ 
+    	        },
+    	    
+    	        success: function(data) {
+    	        	
+    	        	
+    	        	 Swal.fire({
+    	        		 position: 'center',
+    	     				icon: 'success',
+    	     				title: 'Rechazada correctamente',
+    	     				showConfirmButton: false,
+    						timer: 1250
+    	                 
+    	             });
+    	       },
+    	       complete: function() {
+    	    	 location.reload();
+    		    },
+    	    })
+           
+        } // ////////////termina result value
+    })
+}
+function aceptar (id){
+	
+	Swal.fire({
+        title: '¿Deseas aceptar esta solicitud',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#0288d1',
+    }).then((result) => {
+        if (result.value && id != null) {
+        	
+        	$.ajax({
+    	        type: "POST",
+    	        url:"/aceptar-solicitud-almacen",
+    	        data: {
+    	        	'id':id,
+    	             "_csrf": $('#token').val()
+    	        },
+    	        beforeSend: function () {
+    	        	
+ 
+    	        },
+    	    
+    	        success: function(data) {
+    	        	
+    	        	
+    	        	 Swal.fire({
+    	        		 position: 'center',
+    	     				icon: 'success',
+    	     				title: 'Aceptada correctamente',
+    	     				showConfirmButton: false,
+    						timer: 1250
+    	                 
+    	             });
+    	       },
+    	       complete: function() {
+    	    	  location.reload();
+    		    },
+    	    })
+           
+        } // ////////////termina result value
+    })
+}
+function detalles(id) {
+    console.log("id->" + id);
+    $.ajax({
+        method: "GET",
+        url: "/detalles-riquisicion-almacen",
+        data: {
+            id: id,
+            _csrf: $("#token").val(),
+        },
+        success: (data) => {
+            $("#quitarDetalles").remove();
+            $("#contenedorTablaContador").append(
+                "<div class='modal-body' id='quitarDetalles'>" +
+                    "<table class='table table-striped table-bordered' id='idtableDetalles' style='width:100%' >" +
+                    "<thead>" +
+                    "<tr>" +
+                    "<th>Cantidad</th>" +
+                    "<th>Clave</th>" +
+                    "<th>Nombre</th>" +
+                    "<th>Color</th>" +
+                    "</tr>" +
+                    "</thead>" +
+                    "</table>" +
+                    "</div>"
+            );
+            var a;
+            var b = [];
+            for (i in data) {
+                a = ["<tr>" + 
+                	"<td>" + data[i][2] + "</td>",
+                	"<td>" + data[i][3] + "</td>",
+                	"<td>" + data[i][4] + "</td>",
+                	"<td>" + data[i][7] + "</td>",
+                
+                	"<tr>"];
+
+                b.push(a);
+            }
+            var tabla = $("#idtableDetalles").DataTable({
+                data: b,
+                ordering: true,
+                pageLength: 5,
+                lengthMenu: [
+                    [5, 10, 25, 50, 10],
+                    [5, 10, 25, 50, 10],
+                ],
+                "language": {
+					"sProcessing": "Procesando...",
+					"sLengthMenu": "Mostrar _MENU_ registros",
+					"sZeroRecords": "No se encontraron resultados",
+					"sEmptyTable": "Ningún dato disponible en esta tabla =(",
+					"sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+					"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+					"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+					"sInfoPostFix": "",
+					"sSearch": "Buscar:",
+					"sUrl": "",
+					"sInfoThousands": ",",
+					"sLoadingRecords": "Cargando...",
+					"oPaginate": {
+						"sFirst": "Primero",
+						"sLast": "Último",
+						"sNext": "Siguiente",
+						"sPrevious": "Anterior"
+					},
+					"oAria": {
+						"sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+						"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+					},
+					"buttons": {
+						"copy": "Copiar",
+						"colvis": "Visibilidad"
+					}
+				},
+            });
+            $("#detalles").modal("show");
+        },
+        error: (e) => {
+            // location.reload();nnn
+        },
+    });
+}

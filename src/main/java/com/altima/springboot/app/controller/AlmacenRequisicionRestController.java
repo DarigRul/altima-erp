@@ -3,11 +3,11 @@ package com.altima.springboot.app.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.altima.springboot.app.component.AuthComponent;
 import com.altima.springboot.app.models.entity.AmpRequisicionAlmacen;
 import com.altima.springboot.app.models.entity.AmpRequisicionAlmacenMaterial;
-import com.altima.springboot.app.models.entity.DisenioComposicionIcuidado;
-import com.altima.springboot.app.models.entity.DisenioLookup;
+import com.altima.springboot.app.models.entity.ProduccionSolicitudCambioTelaPedido;
 import com.altima.springboot.app.models.service.IAmpRequisicionAlmacenService;
 
 @RestController
@@ -81,7 +79,6 @@ public class AlmacenRequisicionRestController {
 			}
 		} else {
 
-			System.out.println(idRequisicion);
 			AmpRequisicionAlmacen  requi = ServiceAlmacen.findOne(idRequisicion);
 			
 			JSONArray json = new JSONArray(datos);
@@ -117,5 +114,51 @@ public class AlmacenRequisicionRestController {
 	public void eliminarcomposicioncuidado(Long idRequision) {
 		ServiceAlmacen.deleteRequisicionMaterial(idRequision);
 	}
+	
+	@PostMapping("/enviar-solicitud-almacen")
+    public boolean enviar (Long id) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		AmpRequisicionAlmacen  requi = ServiceAlmacen.findOne(id);
+		requi.setEstatusEnvio("1");
+		requi.setActualizadoPor(auth.getName());
+		requi.setUltimaFechaModificacion(hourdateFormat.format(date));
+		ServiceAlmacen.save(requi);
+    	return false;
+    	 //CambioTelaService.deletePrenda(id);
+    }
+	
+	 @PostMapping("/rechazar-solicitud-almacen")
+	    public boolean rechazar (Long id) {
+		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    	Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			AmpRequisicionAlmacen  requi = ServiceAlmacen.findOne(id);
+			requi.setEstatusEnvio("3");
+			requi.setActualizadoPor(auth.getName());
+			requi.setUltimaFechaModificacion(hourdateFormat.format(date));
+			ServiceAlmacen.save(requi);
+	    	return false;
+	    }
+	    
+	    @PostMapping("/aceptar-solicitud-almacen")
+	    public boolean aceptar (Long id) {
+	    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    	Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			AmpRequisicionAlmacen  requi = ServiceAlmacen.findOne(id);
+			requi.setEstatusEnvio("2");
+			requi.setActualizadoPor(auth.getName());
+			requi.setUltimaFechaModificacion(hourdateFormat.format(date));
+			ServiceAlmacen.save(requi);
+	    	return false;
+	    }
+	    
+	    
+	    @GetMapping("/detalles-riquisicion-almacen")
+	    public List<Object []> detalles (Long id) {
+	    	return ServiceAlmacen.viewMaterial(id);
+	    }
 
 }
