@@ -54,7 +54,7 @@ public void deleteById(Long id) {
 public List<Object[]> findAllAMPLogico() {
 	return em.createNativeQuery("SELECT al.id_almacen_logico,al.nombre_almacen_logico,af.id_almacen_fisico,af.nombre_almacen,ampls.id_lookup as idsalida,ampls.nombre_lookup as salida\r\n" + 
 			",ample.id_lookup as identrada,ample.nombre_lookup as entrada,\r\n" + 
-			"al.creado_por,al.fecha_creacion,al.actualizado_por,al.ultima_fecha_modificacion,al.estatus\r\n" + 
+			"al.creado_por,al.fecha_creacion,al.actualizado_por,al.ultima_fecha_modificacion,al.estatus,al.tipo\r\n" + 
 			"FROM alt_amp_almacen_logico al, alt_amp_almacen_fisico af, alt_amp_lookup ampls,alt_amp_lookup ample where al.id_almacen_fisico=af.id_almacen_fisico\r\n" + 
 			"and \r\n" + 
 			"al.id_movimiento_salida=ampls.id_lookup\r\n" + 

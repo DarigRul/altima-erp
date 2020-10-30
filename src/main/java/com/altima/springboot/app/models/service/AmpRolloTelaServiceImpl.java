@@ -49,9 +49,9 @@ public class AmpRolloTelaServiceImpl implements IAmpRolloTelaService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<AmpRolloTela> findByIdAlmacenFisico(Long idAlmacenFisico) {
+    public List<AmpRolloTela> findByIdAlmacenFisico(Long idAlmacenFisico,Long idTela) {
         // TODO Auto-generated method stub
-        return repository.findByIdAlmacenFisicoAndEstatus(idAlmacenFisico,"1");
+        return repository.findByIdAlmacenFisicoAndEstatusAndIdTela(idAlmacenFisico,"1",idTela);
     }
     
 }

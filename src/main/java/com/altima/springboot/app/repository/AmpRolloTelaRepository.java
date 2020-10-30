@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AmpRolloTelaRepository extends CrudRepository<AmpRolloTela,Long>{
     
-    List<AmpRolloTela> findByIdAlmacenFisicoAndEstatus(Long idAlmacenFisico,String estatus);
+    List<AmpRolloTela> findByIdAlmacenFisicoAndEstatusAndIdTela(Long idAlmacenFisico,String estatus,Long idTela);
 }

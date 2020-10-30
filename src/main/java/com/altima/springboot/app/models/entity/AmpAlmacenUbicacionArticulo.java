@@ -36,7 +36,7 @@ public class AmpAlmacenUbicacionArticulo implements Serializable {
 	private Long idArticulo;
 
 	@Column(name = "cantidad")
-	private Long cantidad;
+	private float cantidad;
 
 	@Column(name = "tipo")
 	private String tipo;
@@ -88,11 +88,11 @@ public class AmpAlmacenUbicacionArticulo implements Serializable {
 		this.idArticulo = idArticulo;
 	}
 
-	public Long getCantidad() {
+	public float getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(Long cantidad) {
+	public void setCantidad(float cantidad) {
 		this.cantidad = cantidad;
 	}
 

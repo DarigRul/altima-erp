@@ -6,8 +6,9 @@ import com.altima.springboot.app.models.entity.AmpAlmacenUbicacionArticulo;
 import com.altima.springboot.app.repository.AmpAlmacenUbicacionArticuloRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+@Service
 public class AmpAlmacenUbicacionArticuloServiceImpl implements IAmpAlmacenUbicacionArticuloService {
 
     @Autowired

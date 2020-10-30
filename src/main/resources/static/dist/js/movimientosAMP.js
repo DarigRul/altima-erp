@@ -430,7 +430,7 @@ $("#articuloMovimiento").change(function (e) {
         $.ajax({
             type: "GET",
             url: "/getRolloByidAlmacenFisico",
-            data: { 'idAlmacenFisico': $("#almacenLogicoMovimiento").children('option:selected').data('name') },
+            data: { 'idAlmacenFisico': $("#almacenLogicoMovimiento").children('option:selected').data('name'),'idTela':$(this).val()},
             success: function (data) {
                 data.forEach(function (data) {
                     $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "</option>")
