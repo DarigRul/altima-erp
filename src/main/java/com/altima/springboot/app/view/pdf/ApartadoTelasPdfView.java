@@ -48,23 +48,23 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		
 		
 		// TODO Auto-generated method stub
-		Color fuerte = new Color(2, 136, 209);
-		Color bajito = new Color(255, 137, 137);
+		//Color fuerte = new Color(2, 136, 209);
+		//Color bajito = new Color(255, 137, 137);
 		Color borderTable = new Color(205,205,205);
 		Color colorDatos = new Color(170,170,170);
-		Color TitulosBlancos = new Color(255,255,255);
-		Color colorBorderBottom = new Color(255,185,24);
+		//Color TitulosBlancos = new Color(255,255,255);
+		//Color colorBorderBottom = new Color(255,185,24);
 		Color borderGray = new Color(52,58,64);
-		Color backgroundWhite = new Color(255,255,255);
-		Color BackgroundTitle = new Color(90,90,90);
+		//Color backgroundWhite = new Color(255,255,255);
+		//Color BackgroundTitle = new Color(90,90,90);
 		Color textDarkGray = new Color(33,37,41);
 		Font HelveticaBold = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 11);
 		Font subtitulos = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 11, 0, textDarkGray);
-		Font Titulos = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 13, 0);
-		Font TitulosOscuros = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 13, 0, textDarkGray);
+		//Font Titulos = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 13, 0);
+		//Font TitulosOscuros = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 13, 0, textDarkGray);
 		Font datosGris = new Font(BaseFont.createFont( BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED), 11, 0, colorDatos);
 		Font Helvetica = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 11);
-		Font letraCondiciones = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 8);
+		//Font letraCondiciones = new Font(BaseFont.createFont( BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED), 8);
 		
 		PdfPTable espacio = new PdfPTable(1);
 		espacio.setWidthPercentage(100);
@@ -317,7 +317,10 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		
 		PdfPCell contenido = new PdfPCell();
 		contenido.setBorder(0);
+		
+		//Esta condición aplica cuando no existen datos almacenados en el pedido//
 		if(listaTelas.isEmpty()) {
+			
 			PdfPTable TelasconImagen = new PdfPTable(3);
 			TelasconImagen.setWidthPercentage(100);
 			TelasconImagen.setWidths(new float[] { 2.4f, 3f, 6f});
@@ -529,26 +532,35 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 			tablaTelas.setWidths(new float[] { 3f, 4f, 2.5f, 2.5f, 2.5f, 2.5f, 4f });
 			int validador = 0;
 			
+			//Verifica que solo existe un resitro de la primera tela a mapear//
 			for (int i = 0;i<listaTelas.size();i++) {
 				if(listaTelas.get(i)[4].toString().equals(listaTelas.get(0)[4].toString())) {
 					validador++;
 				}
 			}
 			
+			PdfPCell Cabezero1 = new PdfPCell();
+			PdfPCell Cabezero2 = new PdfPCell();
+			PdfPCell Cabezero3 = new PdfPCell();
+			PdfPCell Cabezero4 = new PdfPCell();
+			PdfPCell Cabezero5 = new PdfPCell();
+			PdfPCell Cabezero6 = new PdfPCell();
+			PdfPCell Cabezero7 = new PdfPCell();
 			
+			//Empieza el recorrido de la query//
 			for (int i = 0;i<listaTelas.size();i++) {
 				Object[] fila = (Object[]) listaTelas.get(i);
 				
 				//Información de la prenda
-				
-				
-				PdfPCell Cabezero1 = new PdfPCell(new Phrase(fila[0].toString(), datosGris));
-				PdfPCell Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
-				PdfPCell Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[15].toString()), datosGris));
-				PdfPCell Cabezero4 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[11].toString()), datosGris));
-				PdfPCell Cabezero5 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[15].toString()), datosGris));
-				PdfPCell Cabezero6 = new PdfPCell(new Phrase(""+(Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString())), datosGris));
-				PdfPCell Cabezero7 = new PdfPCell(new Phrase(fila[16].toString(), datosGris));
+				//Verifica que el id de la tela anterior coincida con el id tela del registro actual
+				if(idTela.equals(fila[4].toString())){
+				Cabezero1 = new PdfPCell(new Phrase(fila[0].toString(), datosGris));
+				Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
+				Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[17].toString()), datosGris));
+				Cabezero4 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[11].toString()), datosGris));
+				Cabezero5 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[15].toString()), datosGris));
+				Cabezero6 = new PdfPCell(new Phrase(""+(Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString())), datosGris));
+				Cabezero7 = new PdfPCell(new Phrase(fila[16].toString(), datosGris));
 				Cabezero1.setBorder(0);
 				Cabezero1.setPaddingBottom(8f);
 				Cabezero1.setPaddingTop(6f);
@@ -603,30 +615,101 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 				tablaTelas.addCell(Cabezero7);
 					
 				
-					//  Empieza la tabla de la información de las telas
-					
-				if(idTela.equals(fila[4].toString())){
-					
+					//  Suma el numero de personas, el consumo por la cantidad y suma consumo de spf
 					sumaPersonas += Float.parseFloat(fila[11].toString());
 					totalConsumoCantidad += (Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()));
 					spfConsumo += Float.parseFloat(fila[15].toString());
-					
+			
+					//Se asigna la url de la imagen de la tela actual
 					imgUrl = fila[14].toString();
 				}
 				
-				System.out.println(contador);
-				if(!idTela.equals(fila[4].toString()) ||contador==listaTelas.size()-1 || 
-						!listaTelas.get(0)[4].toString().equals(listaTelas.get(1)[4].toString()) || 
+				//Verifica que la tela anterior ya no es la misma de la actual o 
+				//que el último registro coincida con el id de tela actual o
+				//que en la primera tela solo tenga un registro
+				if(!idTela.equals(fila[4].toString()) ||contador==listaTelas.size()-1 ||
 						validador==1) {
-					
-					if(validador==1 || contador==listaTelas.size()-1) {
+					//Verifica que la primera tela solo contenga un registro para poder asignar el codigo de tela y la url de la imagen de la tela actual
+					if(validador==1) {
 						imgUrl = fila[14].toString();
 						codigoTela = fila[3].toString();
 						validador=2;
 					}
-								
-					System.out.println("Entra: "+idTela);
 					
+					//Verifica que la ultima tela sólo contenga un registro
+					if(contador==listaTelas.size()-1 && !idTela.equals(fila[4].toString())) {
+						imgUrl = fila[14].toString();
+						codigoTela = fila[3].toString();
+						validador=2;
+						
+						Cabezero1 = new PdfPCell(new Phrase(fila[0].toString(), datosGris));
+						Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
+						Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[17].toString()), datosGris));
+						Cabezero4 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[11].toString()), datosGris));
+						Cabezero5 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[15].toString()), datosGris));
+						Cabezero6 = new PdfPCell(new Phrase(""+(Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString())), datosGris));
+						Cabezero7 = new PdfPCell(new Phrase(fila[16].toString(), datosGris));
+						Cabezero1.setBorder(0);
+						Cabezero1.setPaddingBottom(8f);
+						Cabezero1.setPaddingTop(6f);
+						Cabezero1.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero1.setBorderWidthBottom(2f);
+						Cabezero1.setBorderColor(borderTable);
+						Cabezero2.setBorder(0);
+						Cabezero2.setPaddingBottom(8f);
+						Cabezero2.setPaddingTop(6f);
+						Cabezero2.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero2.setBorderWidthBottom(2f);
+						Cabezero2.setBorderColor(borderTable);
+						Cabezero3.setBorder(0);
+						Cabezero3.setPaddingBottom(8f);
+						Cabezero3.setPaddingTop(6f);
+						Cabezero3.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero3.setBorderWidthBottom(2f);
+						Cabezero3.setBorderWidthRight(1f);
+						Cabezero3.setBorderColor(borderTable);
+						Cabezero3.setBorderColorRight(borderTable);
+						Cabezero4.setBorder(0);
+						Cabezero4.setPaddingBottom(8f);
+						Cabezero4.setPaddingTop(6f);
+						Cabezero4.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero4.setBorderWidthBottom(2f);
+						Cabezero4.setBorderColor(borderTable);
+						Cabezero5.setBorder(0);
+						Cabezero5.setPaddingBottom(8f);
+						Cabezero5.setPaddingTop(6f);
+						Cabezero5.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero5.setBorderWidthBottom(2f);
+						Cabezero5.setBorderColor(borderTable);
+						Cabezero6.setBorder(0);
+						Cabezero6.setPaddingBottom(8f);
+						Cabezero6.setPaddingTop(6f);
+						Cabezero6.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero6.setBorderWidthBottom(2f);
+						Cabezero6.setBorderColor(borderTable);
+						Cabezero7.setBorder(0);
+						Cabezero7.setPaddingBottom(8f);
+						Cabezero7.setPaddingTop(6f);
+						Cabezero7.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero7.setBorderWidthBottom(2f);
+						Cabezero7.setBorderColor(borderTable);
+				
+						tablaTelas.addCell(Cabezero1);
+						tablaTelas.addCell(Cabezero2);
+						tablaTelas.addCell(Cabezero3);
+						tablaTelas.addCell(Cabezero4);
+						tablaTelas.addCell(Cabezero5);
+						tablaTelas.addCell(Cabezero6);
+						tablaTelas.addCell(Cabezero7);
+						
+						sumaPersonas += Float.parseFloat(fila[11].toString());
+						totalConsumoCantidad += (Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()));
+						spfConsumo += Float.parseFloat(fila[15].toString());
+						
+						
+					}
+					
+					//Inician los subtitulos de la tabla
 					PdfPTable tablaTelasDatos = new PdfPTable(2);
 					tablaTelasDatos.setWidthPercentage(100);
 					tablaTelasDatos.setWidths(new float[] { 4.14f, 5f});
@@ -720,7 +803,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					tablaTelas1.addCell(Cabezero7);
 					
 					
-//					//Información de la prenda
+//					//Información de cada tela
 //					
 					PdfPTable TelasconImagen = new PdfPTable(3);
 					TelasconImagen.setWidthPercentage(100);
@@ -811,6 +894,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					contenido = new PdfPCell(ContenidoTelas);
 					contenido.setBorder(0);
 					
+					//Se agregan a una sola tabla para poder modular los registros y no se desface el diseño
 					TelasconImagen.addCell(imagenTela); //Aquí va la imagen de la tela
 					TelasconImagen.addCell(contenido);
 					TelasconImagen.addCell(cellVacia);
@@ -839,13 +923,86 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					tablaTelas.setWidthPercentage(100);
 					tablaTelas.setWidths(new float[] { 3f, 4f, 2.5f, 2.5f, 2.5f, 2.5f, 4f });
 					
+					//Se reinicia la suma para listar las prendas de la siguiente tela
 					sumaPersonas = 0;
 					totalConsumoCantidad = 0;
 					spfConsumo = 0;
+					
+					//Verifica que existe un cambio de tela para poder contemplar ese registro
+					if(!idTela.equals(fila[4].toString())){
+						Cabezero1 = new PdfPCell(new Phrase(fila[0].toString(), datosGris));
+						Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
+						Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[17].toString()), datosGris));
+						Cabezero4 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[11].toString()), datosGris));
+						Cabezero5 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[15].toString()), datosGris));
+						Cabezero6 = new PdfPCell(new Phrase(""+(Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString())), datosGris));
+						Cabezero7 = new PdfPCell(new Phrase(fila[16].toString(), datosGris));
+						Cabezero1.setBorder(0);
+						Cabezero1.setPaddingBottom(8f);
+						Cabezero1.setPaddingTop(6f);
+						Cabezero1.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero1.setBorderWidthBottom(2f);
+						Cabezero1.setBorderColor(borderTable);
+						Cabezero2.setBorder(0);
+						Cabezero2.setPaddingBottom(8f);
+						Cabezero2.setPaddingTop(6f);
+						Cabezero2.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero2.setBorderWidthBottom(2f);
+						Cabezero2.setBorderColor(borderTable);
+						Cabezero3.setBorder(0);
+						Cabezero3.setPaddingBottom(8f);
+						Cabezero3.setPaddingTop(6f);
+						Cabezero3.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero3.setBorderWidthBottom(2f);
+						Cabezero3.setBorderWidthRight(1f);
+						Cabezero3.setBorderColor(borderTable);
+						Cabezero3.setBorderColorRight(borderTable);
+						Cabezero4.setBorder(0);
+						Cabezero4.setPaddingBottom(8f);
+						Cabezero4.setPaddingTop(6f);
+						Cabezero4.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero4.setBorderWidthBottom(2f);
+						Cabezero4.setBorderColor(borderTable);
+						Cabezero5.setBorder(0);
+						Cabezero5.setPaddingBottom(8f);
+						Cabezero5.setPaddingTop(6f);
+						Cabezero5.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero5.setBorderWidthBottom(2f);
+						Cabezero5.setBorderColor(borderTable);
+						Cabezero6.setBorder(0);
+						Cabezero6.setPaddingBottom(8f);
+						Cabezero6.setPaddingTop(6f);
+						Cabezero6.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero6.setBorderWidthBottom(2f);
+						Cabezero6.setBorderColor(borderTable);
+						Cabezero7.setBorder(0);
+						Cabezero7.setPaddingBottom(8f);
+						Cabezero7.setPaddingTop(6f);
+						Cabezero7.setVerticalAlignment(Element.ALIGN_CENTER);
+						Cabezero7.setBorderWidthBottom(2f);
+						Cabezero7.setBorderColor(borderTable);
+				
+						tablaTelas.addCell(Cabezero1);
+						tablaTelas.addCell(Cabezero2);
+						tablaTelas.addCell(Cabezero3);
+						tablaTelas.addCell(Cabezero4);
+						tablaTelas.addCell(Cabezero5);
+						tablaTelas.addCell(Cabezero6);
+						tablaTelas.addCell(Cabezero7);
+						
+						sumaPersonas += Float.parseFloat(fila[11].toString());
+						totalConsumoCantidad += (Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()));
+						spfConsumo += Float.parseFloat(fila[15].toString());
+						
+						imgUrl = fila[14].toString();
+					}
+					
+					
 					//-----------------------------------------------------//
 				
 					
 				}
+				//El id tela anterior pasa a ser el idTela actual (fila[4])
 				codigoTela = fila[3].toString();
 				idTela = fila[4].toString();
 				contador++;

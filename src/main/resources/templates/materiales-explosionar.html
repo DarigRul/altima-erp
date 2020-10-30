@@ -45,6 +45,7 @@
                             <div class="card">
                                 <div class="card-header bg-altima">
                                     <h3 class="card-title">Listado de materiales</h3>
+                                    <input type="hidden" id="idpedido" th:value="${idpedido}">
                                 </div>
                                 <div class="card-body">
                                     <table class="table tablaGeneral table-striped table-bordered">
@@ -68,28 +69,28 @@
                                         </thead>
                                         <tbody>
                                             <tr th:each="material: ${materiales}">
-                                                <td th:text="${material[5]}">Trazo</td>
-                                                <td th:text="${material[2]}">TRAZ10001</td>
-                                                <td th:text="${material[4]}">Papel trazo</td>
-                                                <td th:text="${material[8]}">Principal</td>
-                                                <td th:text="${material[3]}">1.50</td>
-                                                <td th:text="${material[6]}">Metros</td>
-                                                <td th:text="${material[7]}">Independiente</td>
-                                                <td th:text="${material[9]}">Cafe</td>
-                                                <td th:if="${material[21] ==null}" th:text="${material[23]}">85.6</td>
-                                                <td th:unless="${material[21] ==null}" th:text="${material[21]}">85.6</td>                                            
-                                                <td th:if="${material[18] ==null}" th:text="${material[19]}">84.6</td>
-                                                <td th:unless="${material[18] ==null}" th:text="${material[18]}">84.6</td>
-                                                <td th:text="${material[20]}">15.5</td>
-                                                <td th:if="${material[22] ==null}" th:text="${material[23]}">97.3</td>
-                                                <td th:unless="${material[22] ==null}" th:text="${material[22]}">97.3</td>
+                                                <td th:text="${material[5]}">proceso</td>
+                                                <td th:text="${material[2]}">clave</td>
+                                                <td th:text="${material[4]}">material</td>
+                                                <td th:text="${material[8]}">tipo</td>
+                                                <td th:text="${material[3]}">tamaño</td>
+                                                <td th:text="${material[6]}">uom</td>
+                                                <td th:text="${material[7]}">clasificacion</td>
+                                                <td th:text="${material[9]}">color</td>
+                                                <td th:if="${material[21] ==null}" th:text="${material[23]}">surtir</td>
+                                                <td th:unless="${material[21] ==null}" th:text="${material[21]}">surtir</td>                                            
+                                                <td th:if="${material[18] ==null}" th:text="${material[19]}">disponible</td>
+                                                <td th:unless="${material[18] ==null}" th:text="${material[18]}">disponible</td>
+                                                <td th:text="${material[20]}">apartado</td>
+                                                <td th:if="${material[22] ==null}" th:text="${material[23]}">faltante</td>
+                                                <td th:unless="${material[22] ==null}" th:text="${material[22]}">faltante</td>
                                                 <td th:if="${material[22] > 0 }">Faltante</td>
                                                  <td th:if="${material[22] == 0 }">Completo</td>
                                                   <td th:if="${material[22] == null }">Faltante</td>
                                                 <td class="text-center">
                                                     <button data-toggle="modal" data-target="#materialesAlmacen" 
                                                     
-                                                    th:attr="onclick=|tablamulti('${material[0]}')|" 
+                                                    th:attr="onclick=|tablamulti('${material[0]}','${material[18]}','${material[19]}','${material[20]}','${material[21]}','${material[22]}','${material[23]}')|" 
                                                          class="btn btn-success btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Stock general"><i
                                                         class="fas fa-store-alt" style="margin-left: -3px;"></i></button>

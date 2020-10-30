@@ -31,6 +31,8 @@ public class AMPExplosionMaterialesController {
     @GetMapping("/materiales-explosionar/{idpedido}")
     public String MaterialesExplostionarList(@PathVariable("idpedido") Long idpedido,Model model ){
     	model.addAttribute("materiales", AmpExplosionMaterialesService.findTotalMaterials(idpedido));
-        return"materiales-explosionar";
+       model.addAttribute("idpedido", idpedido);
+    	
+    	return"materiales-explosionar";
     }
 }
