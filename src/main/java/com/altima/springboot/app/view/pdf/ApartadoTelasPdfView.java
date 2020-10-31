@@ -44,7 +44,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		List<Object[]> listaTelas = (List<Object[]>) model.get("apartadoTelasReporte");
 		
 		
-		
+		document.setMargins(40f, 40f, 10f, 100f);
 		
 		
 		// TODO Auto-generated method stub
@@ -305,6 +305,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		subtitulo.setBorderWidthTop(2f);
 		subtitulo.setBorderColor(borderGray);
 		subtitulo.setPaddingTop(6f);
+		subtitulo.setPaddingBottom(-10f);
 		
 		SubtituloDefinitiva.addCell(subtitulo);
 		
@@ -317,6 +318,9 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		
 		PdfPCell contenido = new PdfPCell();
 		contenido.setBorder(0);
+		
+		PdfPTable bloqueInformacion = new PdfPTable(1);
+		bloqueInformacion.setWidthPercentage(100);
 		
 		//Esta condición aplica cuando no existen datos almacenados en el pedido//
 		if(listaTelas.isEmpty()) {
@@ -520,6 +524,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		}
 		
 		else {
+			
 			String idTela = listaTelas.get(0)[4].toString();
 			String imgUrl = "";
 			float sumaPersonas = 0;
@@ -901,7 +906,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					
 					contenido = new PdfPCell(TelasconImagen);
 					contenido.setBorder(0);
-					contenido.setPaddingTop(8f);
+					contenido.setPaddingTop(40f);
 					tablaInformacionTelas.addCell(contenido);
 					
 					contenido = new PdfPCell(tablaTelasDatos);
@@ -918,6 +923,13 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					contenido.setBorder(0);
 					contenido.setPaddingTop(8f);
 					tablaInformacionTelas.addCell(contenido);
+					
+					contenido = new PdfPCell(tablaInformacionTelas);
+					contenido.setBorder(0);
+					bloqueInformacion.addCell(contenido);
+					
+					tablaInformacionTelas = new PdfPTable(1);
+					tablaInformacionTelas.setWidthPercentage(100);
 					
 					tablaTelas = new PdfPTable(7);
 					tablaTelas.setWidthPercentage(100);
@@ -1018,7 +1030,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		document.add(espacio);
 		document.add(tituloDocumento);
 		document.add(SubtituloDefinitiva);
-		document.add(tablaInformacionTelas);
+		document.add(bloqueInformacion);
 		
 		
 		

@@ -70,7 +70,6 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 		return em.createNativeQuery("SELECT Pedido.id_pedido_informacion, \r\n" + 
 									"		Pedido.id_text,\r\n" + 
 									"		CONCAT(cliente.nombre,' ',IFNULL('',cliente.apellido_paterno),' ',IFNULL('',cliente.apellido_materno)) AS Empresa, \r\n" + 
-									"		CONCAT(empleado.nombre_persona,' ',IFNULL('',empleado.apellido_paterno),' ',IFNULL('',empleado.apellido_materno)) AS Solicitante, \r\n" + 
 									"		Pedido.tipo_pedido, \r\n" + 
 									"		Pedido.fecha_toma_tallas, \r\n" + 
 									"		Pedido.fecha_entrega, \r\n" + 
@@ -82,7 +81,6 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 									"FROM alt_comercial_pedido_informacion AS Pedido\r\n" + 
 									"INNER JOIN alt_comercial_cliente cliente ON Pedido.id_empresa = cliente.id_cliente\r\n" + 
 									"INNER JOIN alt_hr_usuario usuario ON Pedido.id_usuario = usuario.id_usuario\r\n" + 
-									"INNER JOIN alt_hr_empleado empleado ON usuario.id_empleado = empleado.id_empleado\r\n" + 
 									"WHERE Pedido.estatus = 2 ORDER BY Pedido.id_text DESC").getResultList();
 	}
 
