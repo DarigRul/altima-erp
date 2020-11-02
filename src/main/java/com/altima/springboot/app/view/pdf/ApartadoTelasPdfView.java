@@ -1,6 +1,8 @@
 package com.altima.springboot.app.view.pdf;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +39,9 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		document.open();
 		document.addTitle("Consumos");
 		
+		DecimalFormatSymbols separadoresPersonalizados = new DecimalFormatSymbols();
+		separadoresPersonalizados.setDecimalSeparator('.');
+		DecimalFormat df = new DecimalFormat("0.##", separadoresPersonalizados);
 		
 		SimpleDateFormat formato = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
 		String fecha = formato.format(new Date());
@@ -557,9 +562,9 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 				Cabezero1 = new PdfPCell(new Phrase(fila[0].toString(), datosGris));
 				Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
 				Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[17].toString()), datosGris));
-				Cabezero4 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[11].toString()), datosGris));
-				Cabezero5 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[15].toString()), datosGris));
-				Cabezero6 = new PdfPCell(new Phrase(""+(Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString())), datosGris));
+				Cabezero4 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[11].toString())), datosGris));
+				Cabezero5 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[15].toString())), datosGris));
+				Cabezero6 = new PdfPCell(new Phrase(""+df.format((Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()))), datosGris));
 				Cabezero7 = new PdfPCell(new Phrase(fila[16].toString(), datosGris));
 				Cabezero1.setBorder(0);
 				Cabezero1.setPaddingBottom(8f);
@@ -645,9 +650,9 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						Cabezero1 = new PdfPCell(new Phrase(fila[0].toString(), datosGris));
 						Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
 						Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[17].toString()), datosGris));
-						Cabezero4 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[11].toString()), datosGris));
-						Cabezero5 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[15].toString()), datosGris));
-						Cabezero6 = new PdfPCell(new Phrase(""+(Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString())), datosGris));
+						Cabezero4 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[11].toString())), datosGris));
+						Cabezero5 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[15].toString())), datosGris));
+						Cabezero6 = new PdfPCell(new Phrase(""+df.format((Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()))), datosGris));
 						Cabezero7 = new PdfPCell(new Phrase(fila[16].toString(), datosGris));
 						Cabezero1.setBorder(0);
 						Cabezero1.setPaddingBottom(8f);
@@ -820,11 +825,11 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					PdfPCell ClaveTelaTitulo = new PdfPCell(new Phrase("Clave tela: ", Helvetica));
 					PdfPCell ClaveTela = new PdfPCell(new Phrase(codigoTela, datosGris));
 					PdfPCell totalConsumoTitulo = new PdfPCell(new Phrase("Total Consumo: ", Helvetica));
-					PdfPCell totalConsumo = new PdfPCell(new Phrase(""+totalConsumoCantidad, datosGris));
+					PdfPCell totalConsumo = new PdfPCell(new Phrase(""+df.format(totalConsumoCantidad), datosGris));
 					PdfPCell surtirTitulo = new PdfPCell(new Phrase("Surtir: ", Helvetica));
-					PdfPCell surtir = new PdfPCell(new Phrase(""+sumaPersonas, datosGris));
+					PdfPCell surtir = new PdfPCell(new Phrase(""+df.format(sumaPersonas), datosGris));
 					PdfPCell spfTitulo = new PdfPCell(new Phrase("SPF: ", Helvetica));
-					PdfPCell spf = new PdfPCell(new Phrase(""+spfConsumo, datosGris));
+					PdfPCell spf = new PdfPCell(new Phrase(""+df.format(spfConsumo), datosGris));
 					
 					ClaveTelaTitulo.setBorder(0);
 					ClaveTelaTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -940,9 +945,9 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						Cabezero1 = new PdfPCell(new Phrase(fila[0].toString(), datosGris));
 						Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
 						Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[17].toString()), datosGris));
-						Cabezero4 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[11].toString()), datosGris));
-						Cabezero5 = new PdfPCell(new Phrase(""+Float.parseFloat(fila[15].toString()), datosGris));
-						Cabezero6 = new PdfPCell(new Phrase(""+(Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString())), datosGris));
+						Cabezero4 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[11].toString())), datosGris));
+						Cabezero5 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[15].toString())), datosGris));
+						Cabezero6 = new PdfPCell(new Phrase(""+df.format((Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()))), datosGris));
 						Cabezero7 = new PdfPCell(new Phrase(fila[16].toString(), datosGris));
 						Cabezero1.setBorder(0);
 						Cabezero1.setPaddingBottom(8f);
