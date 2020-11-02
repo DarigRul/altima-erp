@@ -102,13 +102,8 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		
 		try {
 			Object[] filaUno = (Object[]) listaTelas.get(0);
-			int numPersonas = 0;
-			int numSpf = 0;
-			for (int i = 0;i<listaTelas.size();i++) {
-				Object[] fila = (Object[]) listaTelas.get(i);
-				numPersonas+=Float.parseFloat(fila[10].toString());
-				numSpf+=Float.parseFloat(fila[15].toString());
-			}
+			int numPersonas = Integer.parseInt(filaUno[18].toString());
+			int numSpf = Integer.parseInt(filaUno[19].toString());
 			 
 			pedido = new PdfPCell(new Phrase(filaUno[7].toString(), datosGris));
 			clienteTitulo = new PdfPCell(new Phrase("Cliente: ", Helvetica));
