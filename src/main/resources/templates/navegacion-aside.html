@@ -469,7 +469,8 @@
                                 <p>Solicitud de muestras</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA'')')})">
                             <a th:href="${'/solicitud-cambio-tela'}" class="nav-link" id="navSolicitudCambioTela">
                                 <i class="nav-icon fas fa-file-export" id="iSolicitudCambioTela"></i>
                                 <p>Solicitud de cambio de tela</p>
@@ -781,7 +782,7 @@
                                 <p>Pedidos de muestra</p>
                             </a>
                         </li>
-                         <li class="nav-item" >
+                        <li class="nav-item">
                             <a th:href="${'/telas'}" class="nav-link" id="navProduccionTelas">
                                 <i class="nav-icon-custom flaticon-curling-hair-with-tissue-roll"></i>
                                 <p>Telas</p>
@@ -960,26 +961,28 @@
                             </a>
                         </li>
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_ELIMINAR'')')})">
+                        (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_AGREGAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_EDITAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_ELIMINAR'')')})">
                             <a th:href="${'/rh-empleados'}" class="nav-link" id="navRH2">
                                 <i class="nav-icon fas fa-address-book"></i>
                                 <p>Empleados</p>
                             </a>
                         </li>
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADO_ELIMINAR'')')})">
+                        (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_PERMISOS_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_PERMISOS_AGREGAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_PERMISOS_EDITAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_PERMISOS_ELIMINAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_PERMISOS_ACTIVAR'')')})">
                             <a th:href="${'/rh-permisos'}" class="nav-link" id="navRH3">
                                 <i class="nav-icon fas fa-address-book"></i>
                                 <p>Permisos</p>
                             </a>
                         </li>
-                        <li class="nav-item has-treeview" id="submenuRH" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}">
+                        <li class="nav-item has-treeview" id="submenuRH" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
+                        (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES'')')})">
                             <a class="nav-link" id="navRH4">
                                 <i class="nav-icon fas fa-file-alt"></i>
                                 <p>
@@ -998,10 +1001,10 @@
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_ELIMINAR'')')})">
+                                (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_LISTAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_AGREGAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_EDITAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_ELIMINAR'')')})">
                                     <a th:href="${'/rh-solicitudes'}" class="nav-link" id="subnavRH2">
                                         <i class="nav-icon fas fa-store"></i>
                                         <p>Solicitudes de Empleados</p>
