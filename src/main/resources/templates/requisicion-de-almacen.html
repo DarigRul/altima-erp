@@ -108,6 +108,14 @@
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Aceptar"><i
                                                             class="fas fa-check"></i></button>
+                                                            
+                                                   <button
+                                                    sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_EDITAR','ROLE_ADMINISTRADOR')"
+                                                    	th:onclick="|compreas('${view[0]}')|"
+                                                        th:disabled="${view[5]}=='Aceptado'?false:true"
+                                                        class="btn btn-warning btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Compras"><i
+                                                            class="fas fa-shopping-cart"></i></button>
                                                 </td>
 												
 											</tr>

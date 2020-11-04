@@ -59,6 +59,8 @@ public class AlmacenRequisicionController {
 		model.put("fecha", hourdateFormat.format(date));
 		model.put("folio", null);
 		model.put("idRequisicion", null);
+		
+		model.put("almacen", true);
 		m.addAttribute("materiales", ServiceAlmacen.AllMateriales());
         return"requisicion-de-almacen-nueva";
     }
@@ -86,7 +88,7 @@ public class AlmacenRequisicionController {
 		model.put("folio", obj.getIdText());
 		model.put("idRequisicion", obj.getIdRequsicionAlmacen());
 		m.addAttribute("materiales", ServiceAlmacen.AllMateriales());
-		
+		model.put("almacen", true);
 		m.addAttribute("tableMateriales", ServiceAlmacen.viewMaterial(id));
         return"requisicion-de-almacen-nueva";
     }
