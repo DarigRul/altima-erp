@@ -67,7 +67,6 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Object[]> pedidosCerrados(Long idUser) {
-		
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	acpi.id_pedido_informacion,\r\n" + 
