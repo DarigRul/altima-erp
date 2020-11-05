@@ -293,3 +293,63 @@ function detalles(id) {
         },
     });
 }
+
+function nuevoCambioTela(){
+	if ( $("#selectAgente")[0] ) {
+		$('#numeroPedido').prop('disabled', true);
+		  $('#numeroPedido').selectpicker('refresh');
+		$('#selectAgente').empty();
+		$('#selectAgente').selectpicker('refresh');
+		$.ajax({
+			method: "GET",
+			url: "/getAgenteVentas",
+			data:{
+			} ,
+			success: (data) => {
+				$.each(data, function(key, val) {
+					console.log(val.nombreAgenteVentas)
+						$('#selectAgente').append('<option  value="' + val.idAgenteVentas + '">'+val.nombreAgenteVentas+'</option>');
+				})
+		    		//$('.selectpicker').selectpicker(["refresh"]);
+				$('#selectAgente').selectpicker('refresh');
+				
+
+			},
+			error: (e) => {
+
+			}
+		})		
+	}else{
+
+		$('#numeroPedido').prop('disabled', false);
+		  $('#numeroPedido').selectpicker('refresh');
+	}
+	
+}
+function listarNumeroPedidos (id){
+	document.getElementById("numeroPedido").disabled = false;
+	$('#numeroPedido').empty();
+	$('#numeroPedido').selectpicker('refresh');
+	$("#clientePedido").val(null);
+	$("#fechaPedido").val(null);
+	$("#motivoPedido").val(null);
+	$.ajax({
+		method: "GET",
+		url: "/pedidos-cerrados-id-empleado",
+		data:{
+			'idEmpleado':id
+		} ,
+		success: (data) => {
+			$.each(data, function(key, val) {
+				console.log(val.nombreAgenteVentas)
+					$('#numeroPedido').append('<option  value="' + val[0] + '">'+val[1]+'</option>');
+			})
+	    		//$('.selectpicker').selectpicker(["refresh"]);
+			$('#numeroPedido').selectpicker('refresh');
+
+		},
+		error: (e) => {
+
+		}
+	})		
+}
