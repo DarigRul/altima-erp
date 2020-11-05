@@ -81,7 +81,7 @@ window.onload = function () {
         .then(function (data) {
             data.forEach(function (data) {
                 //aqui va el codigo
-                $("#almacenLogicoMovimiento").append("<option value='" + data[0] + "' data-id='" + data[3] + "' data-name='" + data[2] + "'>" + data[1] + "</option>")
+                $("#almacenLogicoMovimiento").append("<option value='" + data[0] + "' data-id='" + data[3] + "' data-name='" + data[2] + "' data-entrada='" + data[6] + "' data-salida='" + data[4] + "'>" + data[1] + "</option>")
             })
             $('#almacenLogicoMovimiento').selectpicker('refresh');
         })
@@ -94,7 +94,8 @@ window.onload = function () {
 $('#almacenLogicoMovimiento').change(function () {
     $('#articuloMovimiento option').remove();
     $('#articuloMovimiento').selectpicker('refresh');
-
+    $(`#conceptoMovimiento option[value=${$(this).children('option:selected').data((document.getElementById('tipoMovimiento').value=="Entrada"?'entrada':'salida'))}]`).prop('selected', true);
+    $('#conceptoMovimiento').selectpicker('refresh');
     $("#almacenFisicoMovimiento").val($(this).children('option:selected').data('id'));
     let params = {
         "idAlmacenLogico": $("#almacenLogicoMovimiento").val()
@@ -310,8 +311,9 @@ $('#guardarMovimientos').click(function () {
                     '_csrf': $('#token').val()
                 },
                 success: function (msg) {
+                    console.log(msg.data);
                     console.log(JSON.stringify(movimientoCabecero));
-                    if (msg == "Error") {
+                    if (msg.mensaje == "Error") {
                         Swal.fire({
 
                             position: 'center',
@@ -322,7 +324,6 @@ $('#guardarMovimientos').click(function () {
                         }).then((result) => {
                             // Reload the Page
                             $(location).attr('href', '/movimientos-amp')
-
                         });
                     }
                     Swal.fire({
@@ -334,8 +335,12 @@ $('#guardarMovimientos').click(function () {
                         timer: 2500
                     }).then((result) => {
                         // Reload the Page
+                        const params = new URLSearchParams();
+                        params.append('listIdText', JSON.stringify(msg.data));
+                        params.append('format', "pdf");
+                        console.log(params);
+                        window.open("/rollotelabarcode?"+params);
                         $(location).attr('href', '/movimientos-amp')
-
                     });
                 },
                 error: (e) => {
@@ -433,7 +438,7 @@ $("#articuloMovimiento").change(function (e) {
             data: { 'idAlmacenFisico': $("#almacenLogicoMovimiento").children('option:selected').data('name'),'idTela':$(this).val()},
             success: function (data) {
                 data.forEach(function (data) {
-                    $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "</option>")
+                    $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText+ "-" + data.cantidad +"-"+ data.lote + "</option>")
                 })
                 $('#rollo').selectpicker('refresh');
             }
