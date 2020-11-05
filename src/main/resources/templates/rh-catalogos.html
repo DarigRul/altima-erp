@@ -52,7 +52,7 @@
                         <div th:insert="rh-horarios" class="col-lg-6 col-6" id="horarios"></div>
                         <!-- CALENDARIOS -->
                         <div th:insert="rh-calendarios" class="col-lg-6 col-6" id="calendarios"></div>
-                                 <!-- EMPLEADOS ALTERNOS -->
+                        <!-- EMPLEADOS ALTERNOS -->
                         <div th:insert="rh-empleados-alternos" class="col-lg-6 col-6" id="empleados"></div>
 
                         <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
@@ -65,19 +65,31 @@
         </div>
         <!-- /.content-wrapper -->
         <div th:insert="navegacion-footer"></div>
+        <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
+        <input type="hidden" id="rolListar" th:value="${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_LISTAR'')')}? 1:0">
+        <input type="hidden" id="rolAgregar" th:value="${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR'')')}? 1:0">
+        <input type="hidden" id="rolEditar" th:value="${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_EDITAR'')')}? 1:0">
+        <input type="hidden" id="rolEliminar" th:value="${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR'')')}? 1:0">
     </div>
 
     <!-- ./wrapper -->
     <div th:insert="navegacion-scripts"></div>
     <script src="dist/js/rh-tablas.js"></script>
     <script src="dist/js/rh.js"></script>
-        <script src="dist/js/rh-alternos.js"></script>
+    <script src="dist/js/rh-alternos.js"></script>
 
     <script>
         $('#iRH').removeClass('text-altima');
         $('#menuRH').addClass('menu-open');
         $('#navRH').addClass('active-altima');
         $('#navRH1').addClass('active');
+
+        var rolAdmin = $('#rolAdmin').val();
+        var rolListar = $('#rolListar').val();
+        var rolAgregar = $('#rolAgregar').val();
+        var rolEditar = $('#rolEditar').val();
+        var rolEliminar = $('#rolEliminar').val();
+        console.log(rolAdmin);
     </script>
 </body>
 

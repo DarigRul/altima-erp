@@ -1,14 +1,14 @@
 <div class="small-box bg-altima">
     <div class="inner">
         <h3>Puestos</h3>
-        <button data-toggle="modal" data-target="#puestoRH" class="btn btn-link" id="btnPuestosDetalle" onclick="ListarPuestos()"
-            style="color: #ffffff!important; padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#puestoRH" class="btn btn-link" id="btnPuestosDetalle"
+            onclick="ListarPuestos()" style="color: #ffffff!important; padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
     </div>
     <div class="icon">
         <i class="fas fa-user-check"></i>
     </div>
     <a class="small-box-footer">
-        <button onclick="agregarPuesto()" class="btn btn-link" style="color: #ffffff!important">Agregar <i
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarPuesto()" class="btn btn-link" style="color: #ffffff!important">Agregar <i
                 class="fas fa-plus-circle"></i></button>
     </a>
 </div>
@@ -17,9 +17,8 @@
     <div class="modal-dialog modal-dialog-centered" style="max-width: 85%;" role="document" id="modalCuidadoMobile">
         <div class="modal-content" id="contenedorTabla4">
             <div class="modal-header bg-altima">
-                <h5 class="modal-title" id="exampleModalLongTitle">Puestos <button onclick="agregarPuesto()"
-                        class="btn btn-light btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"
-                        data-placement="right" data-content="Agregar"><i class="fas fa-plus text-altima"></i></button>
+                <h5 class="modal-title" id="exampleModalLongTitle">Puestos <button th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarPuesto()" class="btn btn-light btn-circle btn-sm popoverxd"
+                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus text-altima"></i></button>
                 </h5>
                 <button type="button" class="close" id="closePuestos" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
