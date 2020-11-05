@@ -23,6 +23,13 @@ public class AmpAlmacenUbicacionArticuloServiceImpl implements IAmpAlmacenUbicac
 
     @Override
     @Transactional
+    public AmpAlmacenUbicacionArticulo findByIdArticulo(Long idArticulo,String tipo) {
+        // TODO Auto-generated method stub
+        return repository.findByIdArticuloAndTipo(idArticulo, tipo).orElse(new AmpAlmacenUbicacionArticulo());
+    }
+
+    @Override
+    @Transactional
     public void save(AmpAlmacenUbicacionArticulo ubicacionArticulo) {
         // TODO Auto-generated method stub
         repository.save(ubicacionArticulo);

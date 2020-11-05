@@ -42,9 +42,10 @@ window.onload = function () {
     .then(function (data) {
       data.forEach(function (data) {
         //aqui va el codigo
-        $("#almacenOrigenTraspaso").append("<option value='" + data[0] + "' data-id='" + data[2] + "' data-tipo='" + data[13] + "'>" + data[1] + "</option>")
-        $("#almacenDestinoTraspaso").append("<option value='" + data[0] + "' data-id='" + data[2] + "'  data-tipo='" + data[13] + "'>" + data[1] + "</option>")
+        $("#almacenOrigenTraspaso").append("<option value='" + data[0] + "' data-id='" + data[2] + "' data-tipo='" + data[13] + "' data-salida='" + data[4] + "'>" + data[1] + "</option>")
+        $("#almacenDestinoTraspaso").append("<option value='" + data[0] + "' data-id='" + data[2] + "'  data-tipo='" + data[13] + "' data-entrada='" + data[6] + "'>" + data[1] + "</option>")
       })
+      
       $('#almacenOrigenTraspaso').selectpicker('refresh');
       $('#almacenDestinoTraspaso').selectpicker('refresh');
     })
@@ -119,7 +120,8 @@ window.onload = function () {
 $('#almacenOrigenTraspaso').change(function () {
   $('#articuloTraspaso option').remove();
   $('#articuloTraspaso').selectpicker('refresh');
-
+  $(`#movimientoSalida option[value=${$('#almacenOrigenTraspaso').children('option:selected').data('salida')}]`).prop('selected', true);
+  $('#movimientoSalida').selectpicker('refresh');
   let params = {
     "idAlmacenLogico": $("#almacenOrigenTraspaso").val()
   };
@@ -163,7 +165,7 @@ $('#agregarArticulo').click(function () {
   var idRollo = null;
   var lote = null;
   $('#agregarArticulo').prop("disabled", true);
-  if (tipo == 'tela' && $("#almacenDestinoTraspaso").children('option:selected').data('tipo') == '1'&& $("#almacenOrigenTraspaso").children('option:selected').data('tipo') == '1') {
+  if (condicionAlmacen($("#articuloTraspaso").children('option:selected').data('tipo'),$("#almacenDestinoTraspaso").children('option:selected').data('tipo'),$("#almacenOrigenTraspaso").children('option:selected').data('tipo'))) {
     var cantidad = $('#rollo').children('option:selected').data('cantidad');
     idRollo = $('#rollo').val();
     rollo = $('#rollo').children('option:selected').data('idtext');
@@ -269,7 +271,7 @@ $('#agregarArticulo').click(function () {
                       rollo == null ? 'N/A' : rollo,
                       unidadMedida,
                       '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + (tipo == 'tela' ? idRollo : id + tipo) + '`)"><i class="fas fa-times text-white"></i></a>' +
-                      (tipo == 'tela' && $("#almacenDestinoTraspaso").children('option:selected').data('tipo') == '1'&& $("#almacenOrigenTraspaso").children('option:selected').data('tipo') == '1' ? '<button onClick="abrirUbicacion(`' + id + tipo + (idRollo == null ? '' : idRollo) + '`)" type="button" data-toggle="modal" id="modal_ubicacion" data-target="#modalUbicacion" class="btn btn-primary btn-circle btn-sm popoverxd"><i class="fas fa-thumbtack"></i></button>' : '')
+                      (condicionAlmacen($("#articuloTraspaso").children('option:selected').data('tipo'),$("#almacenDestinoTraspaso").children('option:selected').data('tipo'),$("#almacenOrigenTraspaso").children('option:selected').data('tipo')) ? '<button onClick="abrirUbicacion(`' + id + tipo + (idRollo == null ? '' : idRollo) + '`)" type="button" data-toggle="modal" id="modal_ubicacion" data-target="#modalUbicacion" class="btn btn-primary btn-circle btn-sm popoverxd"><i class="fas fa-thumbtack"></i></button>' : '')
 
                     ]
                   ).draw();
@@ -278,7 +280,7 @@ $('#agregarArticulo').click(function () {
                     url: "getUbicacionByRollo",
                     data: { 'idRollo': idRollo },
                     success: function (data) {
-                      if (data[0] != null) {
+                      if (data[0] != null && $('#almacenOrigenTraspaso').children('option:selected').data('id')==$('#almacenDestinoTraspaso').children('option:selected').data('id')) {
                         temp.ubicacion = data[0].idUbicacion;
                         movimientos.push(temp);
                       }
@@ -313,7 +315,7 @@ function deleteMovimiento(fila, id) {
   // Se agrega al select
   if ($('#articuloTraspaso').children('option:selected').data('tipo') != 'tela') {
     const found = movimientos.find(element => element.id + element.tipo == id);
-    $("#articuloTraspaso").append("<option value='" + found.id + "' data-tipo='" + found.tipo + "'data-idText='" + found.idText + "'data-unidadMedida='" + found.unidadMedida + "'>" + found.descripcion + "</option>");
+    $("#articuloTraspaso").append("<option value='" + found.idMaterial + "' data-tipo='" + found.tipo + "'data-idText='" + found.idText + "'data-unidadMedida='" + found.unidadMedida + "'>" + found.idText + "-" + found.nombreMaterial + "</option>")
     $('#articuloTraspaso').selectpicker('refresh');
   }
   else {
@@ -342,7 +344,7 @@ $('#guardarTraspasos').click(function () {
   var idAlmacenFisico = $("#almacenDestinoTraspaso").children('option:selected').data('id')
   movimientos.forEach(data => {
     console.log(data);
-    if (data.tipo == 'tela' && data.ubicacion == null&&$("#almacenDestinoTraspaso").children('option:selected').data('tipo')=='1'&& $("#almacenOrigenTraspaso").children('option:selected').data('tipo') == '1') {
+    if (data.tipo == 'tela' && data.ubicacion == null&&$("#almacenDestinoTraspaso").children('option:selected').data('tipo')=='1'&& ($("#almacenOrigenTraspaso").children('option:selected').data('tipo') == '1'||$("#almacenOrigenTraspaso").children('option:selected').data('tipo') == '3')) {
       console.log("entra");
       condition = false;
       return false;
@@ -460,6 +462,8 @@ function abrirUbicacion(id) {
 $('#almacenDestinoTraspaso').change(function (e) {
   $('#selectUbicacion option').remove();
   $('#selectUbicacion').selectpicker('refresh');
+  $(`#movimientoEntrada option[value=${$('#almacenDestinoTraspaso').children('option:selected').data('entrada')}]`).prop('selected', true);
+  $('#movimientoEntrada').selectpicker('refresh');
   e.preventDefault();
   $.ajax({
     method: "GET",
@@ -504,7 +508,7 @@ $("#articuloTraspaso").change(function (e) {
   e.preventDefault();
   $('#rollo option').remove();
   $('#rollo').selectpicker('refresh');
-  if ($("#articuloTraspaso").children('option:selected').data('tipo') == 'tela' && $("#almacenDestinoTraspaso").children('option:selected').data('tipo') == '1'&& $("#almacenOrigenTraspaso").children('option:selected').data('tipo') == '1') {
+  if (condicionAlmacen($("#articuloTraspaso").children('option:selected').data('tipo'),$("#almacenDestinoTraspaso").children('option:selected').data('tipo'),$("#almacenOrigenTraspaso").children('option:selected').data('tipo'))) {
     $("#rollo").prop("disabled", false);
     $("#cantidadTraspaso").prop("disabled", true);
     $('#rollo').selectpicker('refresh');
@@ -514,7 +518,7 @@ $("#articuloTraspaso").change(function (e) {
       data: { 'idAlmacenFisico': $("#almacenOrigenTraspaso").children('option:selected').data('id'), 'idTela': $(this).val() },
       success: function (data) {
         data.forEach(function (data) {
-          $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "</option>")
+          $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText+ "-" + data.cantidad +"-"+ data.lote + "</option>")
         })
         $('#rollo').selectpicker('refresh');
       }
@@ -532,3 +536,6 @@ $("#rollo").change(function (e) {
   $('#cantidadTraspaso').val($(this).children('option:selected').data('cantidad'));
 });
 
+function condicionAlmacen(tipo,almacenDestinoTraspaso,almacenOrigenTraspaso) {
+  return tipo == 'tela' && almacenDestinoTraspaso == '1'&& (almacenOrigenTraspaso == '1'|| almacenOrigenTraspaso == '3')?true:false;
+}

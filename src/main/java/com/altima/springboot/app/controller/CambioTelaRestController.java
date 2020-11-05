@@ -247,5 +247,10 @@ public class CambioTelaRestController {
     public List<Object []> detalles (Long id) {
     	return CambioTelaService.detalles(id);
     }
+    
+    @GetMapping("/pedidos-cerrados-id-empleado")
+    public List<Object []> pedidocerradoIDempleado (Long idEmpleado) {
+    	return CambioTelaService.pedidosCerrados(idEmpleado);
+    }
 
 }

@@ -13,4 +13,6 @@ public interface IAmpAlmacenUbicacionArticuloService {
 	void delete(Long id);
 
 	AmpAlmacenUbicacionArticulo findOne(Long id);
+
+	AmpAlmacenUbicacionArticulo findByIdArticulo(Long idArticulo,String tipo);
 }
