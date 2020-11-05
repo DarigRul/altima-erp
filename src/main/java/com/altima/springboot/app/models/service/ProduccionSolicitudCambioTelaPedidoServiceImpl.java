@@ -78,7 +78,7 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"	INNER JOIN alt_comercial_cliente acc ON acc.id_cliente = acpi.id_empresa \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
-				"	AND acpi.estatus = 2 \r\n" + 
+				"	AND acpi.estatus = 3 \r\n" + 
 				"AND IF("+idUser+"=0,1=1,ahe.id_empleado="+idUser+")   "+
 				"ORDER BY\r\n" + 
 				"	id_pedido_informacion DESC").getResultList();
@@ -311,26 +311,32 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 		queryMaterial.executeUpdate();
 		
 		Query queryTela = em.createNativeQuery(""
-				+ "UPDATE alt_comercial_coordinado_tela AS actual\r\n" + 
-				"INNER JOIN alt_produccion_coordinado_tela AS cambio ON ( actual.id_tela = cambio.id_tela ) \r\n" + 
-				"SET actual.id_tela = cambio.id_tela,\r\n" + 
-				"actual.actualizado_por = '"+actualizo+"' ,\r\n" + 
-				"actual.ultima_fecha_modificacion='"+fecha+"'\r\n" + 
+				+ "UPDATE alt_comercial_coordinado_tela AS tela\r\n" + 
+				"INNER JOIN alt_comercial_coordinado_prenda AS actual ON ( actual.id_coordinado_prenda = tela.id_coordinado_prenda )\r\n" + 
+				"INNER JOIN alt_produccion_coordinado_prenda AS cambio ON ( cambio.id_coordinado_prenda_cambio = actual.id_coordinado_prenda )\r\n" + 
+				"INNER JOIN alt_produccion_coordinado_tela AS tela2 ON ( tela2.id_coordinado_prenda = cambio.id_coordinado_prenda ) \r\n" + 
+				"SET \r\n" + 
+				"tela.id_tela = tela2.id_tela,\r\n" + 
+				"tela.actualizado_por = '"+actualizo+"',\r\n" + 
+				"tela.ultima_fecha_modificacion = '"+fecha+"' \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
 				"	AND actual.id_coordinado_prenda = "+idActual+" \r\n" + 
-				"	AND cambio.id_coordinado_prenda ="+idCambio);
+				"	AND cambio.id_coordinado_prenda = "+idCambio);
 		queryTela.executeUpdate();
 		Query queryForro = em.createNativeQuery(""
-				+ "UPDATE alt_comercial_coordinado_forro AS actual\r\n" + 
-				"INNER JOIN alt_produccion_coordinado_forro AS cambio ON ( actual.id_forro = cambio.id_forro ) \r\n" + 
-				"SET actual.id_forro = cambio.id_forro,\r\n" + 
-				"actual.actualizado_por = '"+actualizo+"' ,\r\n" + 
-				"actual.ultima_fecha_modificacion='"+fecha+"'\r\n" + 
+				+ "UPDATE alt_comercial_coordinado_forro AS forro\r\n" + 
+				"INNER JOIN alt_comercial_coordinado_prenda AS actual ON ( actual.id_coordinado_prenda = forro.id_coordinado_prenda )\r\n" + 
+				"INNER JOIN alt_produccion_coordinado_prenda AS cambio ON ( cambio.id_coordinado_prenda_cambio = actual.id_coordinado_prenda )\r\n" + 
+				"INNER JOIN alt_produccion_coordinado_forro AS forro2 ON ( forro2.id_coordinado_prenda = cambio.id_coordinado_prenda ) \r\n" + 
+				"SET \r\n" + 
+				"forro.id_forro = forro2.id_forro,\r\n" + 
+				"forro.actualizado_por = '"+actualizo+"',\r\n" + 
+				"forro.ultima_fecha_modificacion = '"+fecha+"' \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
 				"	AND actual.id_coordinado_prenda = "+idActual+" \r\n" + 
-				"	AND cambio.id_coordinado_prenda ="+idCambio);
+				"	AND cambio.id_coordinado_prenda = "+idCambio);
 		queryForro.executeUpdate();
 		
 		Query queryPrenda = em.createNativeQuery(""
