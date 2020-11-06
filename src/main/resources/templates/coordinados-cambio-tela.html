@@ -23,15 +23,16 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Coordinados&nbsp; cambios</h1>
+                            <h1>Coordinados&nbsp; cambios 
+                            <a th:href="@{/solicitud-cambio-tela}" class="btn btn-sm icon-btn btn-danger text-white"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a></h1>
                         </div>
                         <div th:insert="modal-coordinado"></div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item altima">Altima</li>
                                 <li class="breadcrumb-item active">Comercial</li>
-                                <li class="breadcrumb-item active">Agentes de Venta</li>
-                                <li class="breadcrumb-item active">Carga de Pedidos</li>
+                                <li class="breadcrumb-item active">Solicitud cambio tela</li>
+                                <li class="breadcrumb-item active">Coordinados</li>
                             </ol>
                         </div>
                     </div>
@@ -94,10 +95,8 @@
 		$('#menuComercial').addClass('menu-open');
 		$('#navComercial').addClass('active-altima');
 		$('#menuVenta').addClass('menu-open');
-		$('#navVenta').addClass('active');
-		$('#navVenta4').addClass('active');
-		$('#menuCarga').addClass('menu-open');
-		$('#navsubVenta2').addClass('active');
+        $('#navSolicitudCambioTela').addClass('active');
+        $('#navSolicitudCambioTela').removeClass('text-altima');
 	</script>
 	
 	<script>

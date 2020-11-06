@@ -30,8 +30,8 @@
                         <ol class="breadcrumb float-sm-right">
                            <li class="breadcrumb-item altima">Altima</li>
                            <li class="breadcrumb-item active">Comercial</li>
-                           <li class="breadcrumb-item active">Agentes de Venta</li>
-                           <li class="breadcrumb-item active">Carga de Pedidos</li>
+                           <li class="breadcrumb-item active">Solicitud cambio de tela</li>
+                           <li class="breadcrumb-item active">Prendas</li>
                         </ol>
                      </div>
                   </div>
@@ -200,14 +200,12 @@
       <script th:src="@{/dist/js/sweetalert.js}"></script>
       <script th:src="@{/dist/js/cambio-falda-prenda.js}"></script>
       <script>
-         $("#iComercial").removeClass("text-altima");
-         $("#menuComercial").addClass("menu-open");
-         $("#navComercial").addClass("active-altima");
-         $("#menuVenta").addClass("menu-open");
-         $("#navVenta").addClass("active");
-         $("#navVenta4").addClass("active");
-         $("#menuCarga").addClass("menu-open");
-         $("#navsubVenta2").addClass("active");
+        $('#iComercial').removeClass('text-altima');
+		$('#menuComercial').addClass('menu-open');
+		$('#navComercial').addClass('active-altima');
+		$('#menuVenta').addClass('menu-open');
+        $('#navSolicitudCambioTela').addClass('active');
+        $('#navSolicitudCambioTela').removeClass('text-altima');
       </script>
       <script th:if="${icon != null}" th:inline="javascript">
          Swal.fire({
