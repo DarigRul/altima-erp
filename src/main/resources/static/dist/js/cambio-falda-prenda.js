@@ -947,7 +947,6 @@ function selected(id){
 	        	
 	        },
 		    success: (data) => {
-		    	console.log("eeeeeeeeeeeeeeeeeeeeeee"+data);
 		    	if (data!= null){
 		    		Swal.fire({
 		    			  title: 'Esta prenda ya fue editada',
