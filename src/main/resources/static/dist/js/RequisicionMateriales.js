@@ -433,6 +433,9 @@ function validaidEmpleadoSolicitante (){
 	  else{
 		  return true ;
 	  }
+
+	  // holllla
+
 }
 function enviarCompras() {
 
@@ -495,3 +498,8 @@ function enviarCompras() {
 $( "#idEmpleadoSolicitante" ).change(function() {
 	$('#id-depa').html($("#idEmpleadoSolicitante option:selected").attr("depa")); 
   });
+
+
+
+
+

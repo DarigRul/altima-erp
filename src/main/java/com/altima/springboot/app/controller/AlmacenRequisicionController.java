@@ -89,5 +89,8 @@ public class AlmacenRequisicionController {
 		model.put("almacen", true);
 		m.addAttribute("tableMateriales", ServiceAlmacen.viewMaterial(id));
         return"requisicion-de-almacen-nueva";
-    }
+	}
+	
+
+	
 }

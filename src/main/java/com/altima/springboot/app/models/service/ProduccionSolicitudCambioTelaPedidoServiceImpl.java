@@ -443,6 +443,11 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"		ForroActual.id_coordinado_prenda = CP.id_coordinado_prenda_cambio \r\n" + 
 				
 				"	)").getResultList();
-		return re;
+		return re;//hooool munf
+		//hollla
 	}
+
+
+
+	
 }

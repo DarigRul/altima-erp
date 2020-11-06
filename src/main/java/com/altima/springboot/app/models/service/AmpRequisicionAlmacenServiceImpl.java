@@ -337,4 +337,8 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 		return re;
 	}
 
+
+
+
+	
 }
