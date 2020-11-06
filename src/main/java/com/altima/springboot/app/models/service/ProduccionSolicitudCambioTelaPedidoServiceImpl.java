@@ -308,34 +308,67 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"	AND actual.id_coordinado_prenda = "+idActual+" \r\n" + 
 				"	AND cambio.id_coordinado_prenda ="+idCambio);
 		queryMaterial.executeUpdate();
-		
+		Query queryTelaDelete = em.createNativeQuery(""+
+			"DELETE FROM alt_comercial_coordinado_tela "+
+			"WHERE  "+
+			"id_coordinado_prenda ="+idActual);
+		queryTelaDelete.executeUpdate();
 		Query queryTela = em.createNativeQuery(""
-				+ "UPDATE alt_comercial_coordinado_tela AS tela\r\n" + 
-				"INNER JOIN alt_comercial_coordinado_prenda AS actual ON ( actual.id_coordinado_prenda = tela.id_coordinado_prenda )\r\n" + 
-				"INNER JOIN alt_produccion_coordinado_prenda AS cambio ON ( cambio.id_coordinado_prenda_cambio = actual.id_coordinado_prenda )\r\n" + 
-				"INNER JOIN alt_produccion_coordinado_tela AS tela2 ON ( tela2.id_coordinado_prenda = cambio.id_coordinado_prenda ) \r\n" + 
-				"SET \r\n" + 
-				"tela.id_tela = tela2.id_tela,\r\n" + 
-				"tela.actualizado_por = '"+actualizo+"',\r\n" + 
-				"tela.ultima_fecha_modificacion = '"+fecha+"' \r\n" + 
+				+ "INSERT INTO alt_comercial_coordinado_tela\r\n" + 
+				"	( id_coordinado_tela,\r\n" + 
+				"	id_coordinado_prenda,\r\n" + 
+				"	id_tela, \r\n" + 
+				"	descripcion,\r\n" + 
+				"	creado_por,actualizado_por,\r\n" + 
+				"	fecha_creacion,\r\n" + 
+				"	ultima_fecha_modificacion, \r\n" + 
+				"	estatus ) \r\n" + 
+				"	SELECT\r\n" + 
+				"	null,\r\n" + 
+				"	457,\r\n" + 
+				"	tela2.id_tela,\r\n" + 
+				"	null,\r\n" + 
+				"	tela2.creado_por,\r\n" + 
+				"	'"+actualizo+"',\r\n" + 
+				"	tela2.fecha_creacion,\r\n" + 
+				"	'"+fecha+"' ,\r\n" + 
+				"	1\r\n" + 
+				"FROM\r\n" + 
+				"	alt_produccion_coordinado_tela AS tela2 \r\n" + 
 				"WHERE\r\n" + 
-				"	1 = 1 \r\n" + 
-				"	AND actual.id_coordinado_prenda = "+idActual+" \r\n" + 
-				"	AND cambio.id_coordinado_prenda = "+idCambio);
+				"	tela2.id_coordinado_prenda="+idCambio);
 		queryTela.executeUpdate();
+		
+		Query queryForroDelete = em.createNativeQuery(""
+				+ "DELETE FROM alt_comercial_coordinado_forro\r\n" + 
+				"		WHERE\r\n" + 
+				"		id_coordinado_prenda ="+idActual);
+		queryForroDelete.executeUpdate();
+		
 		Query queryForro = em.createNativeQuery(""
-				+ "UPDATE alt_comercial_coordinado_forro AS forro\r\n" + 
-				"INNER JOIN alt_comercial_coordinado_prenda AS actual ON ( actual.id_coordinado_prenda = forro.id_coordinado_prenda )\r\n" + 
-				"INNER JOIN alt_produccion_coordinado_prenda AS cambio ON ( cambio.id_coordinado_prenda_cambio = actual.id_coordinado_prenda )\r\n" + 
-				"INNER JOIN alt_produccion_coordinado_forro AS forro2 ON ( forro2.id_coordinado_prenda = cambio.id_coordinado_prenda ) \r\n" + 
-				"SET \r\n" + 
-				"forro.id_forro = forro2.id_forro,\r\n" + 
-				"forro.actualizado_por = '"+actualizo+"',\r\n" + 
-				"forro.ultima_fecha_modificacion = '"+fecha+"' \r\n" + 
+				+ "INSERT INTO alt_comercial_coordinado_forro\r\n" + 
+				"	( id_coordinado_forro,\r\n" + 
+				"	id_coordinado_prenda,\r\n" + 
+				"	id_forro, \r\n" + 
+				"	descripcion,\r\n" + 
+				"	creado_por,actualizado_por,\r\n" + 
+				"	fecha_creacion,\r\n" + 
+				"	ultima_fecha_modificacion, \r\n" + 
+				"	estatus ) \r\n" + 
+				"	SELECT\r\n" + 
+				"	null,\r\n" + 
+				"	457,\r\n" + 
+				"	forro2.id_forro,\r\n" + 
+				"	null,\r\n" + 
+				"	forro2.creado_por,\r\n" + 
+				"	'"+actualizo+"',\r\n" + 
+				"	forro2.fecha_creacion,\r\n" + 
+				"	'"+fecha+"' ,\r\n" + 
+				"	1\r\n" + 
+				"FROM\r\n" + 
+				"	alt_produccion_coordinado_forro AS forro2 \r\n" + 
 				"WHERE\r\n" + 
-				"	1 = 1 \r\n" + 
-				"	AND actual.id_coordinado_prenda = "+idActual+" \r\n" + 
-				"	AND cambio.id_coordinado_prenda = "+idCambio);
+				"	forro2.id_coordinado_prenda="+idCambio);
 		queryForro.executeUpdate();
 		
 		Query queryPrenda = em.createNativeQuery(""
