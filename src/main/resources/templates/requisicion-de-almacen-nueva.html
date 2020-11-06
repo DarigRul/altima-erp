@@ -59,8 +59,16 @@
                                                 <ul class="list-group list-group-horizontal-md" style="margin-bottom: 20px;">
                                                     <li class="list-group-item" style="width: 25%;"><strong>Requisici&oacute;n: </strong><a th:text="${folio}">REQ1000452222</a></li>
                                                     <li class="list-group-item" style="width: 25%;"><strong>Fecha: </strong><a th:text="${fecha}" >20/08/2020</a></li>
-                                                    <li class="list-group-item" style="width: 25%;"><strong>Solicitante: </strong><a th:text="${solicitante}" >Bertha</a></li>
-                                                    <li class="list-group-item" style="width: 25%;"><strong>Departamento: </strong><a th:text="${departamento}" >Dise&ntilde;o</a></li>
+                                                    <li sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')" class="list-group-item" style="width: 25%;"><strong style="text-align:center">Solicitante: </strong>
+                                                        <select  class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true"
+                                                        title="Selecciona uno..." id="idEmpleadoSolicitante" name="idEmpleadoSolicitante" >
+                                                        <option th:each="listSolicitante: ${listSolicitante}" 
+                                                            th:value="${listSolicitante[0]}" 
+                                                            th:depa="${listSolicitante[2]}"
+                                                             th:text="${listSolicitante[1]}"></option>
+                                                        </select>
+                                                    </li>
+                                                    <li  class="list-group-item" style="width: 25%;"><strong>Departamento: </strong><a id="id-depa" th:text="${departamento}" >Dise&ntilde;o</a></li>
                                                 </ul>
                                             </div>
                                             

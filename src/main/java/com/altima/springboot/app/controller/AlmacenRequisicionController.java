@@ -46,9 +46,7 @@ public class AlmacenRequisicionController {
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		if ( auth.getName().equals("ADMIN") ) {
-			System.out.println("Soy el ADMIN");
-			model.put("solicitante", "ADMIN");
-			model.put("departamento", "ADMIN");
+			m.addAttribute("listSolicitante", ServiceAlmacen.viewListEmpleado());
 		}else {
 			Object[] lista = ServiceAlmacen.infoUsuario(this.auth.currentuserid());
 			model.put("solicitante", lista[0]);

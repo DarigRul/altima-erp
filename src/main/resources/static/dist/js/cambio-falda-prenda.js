@@ -947,8 +947,8 @@ function selected(id){
 	        	
 	        },
 		    success: (data) => {
-		    	console.log(data);
-		    	if (data.idCoordinadoPrenda!=null){
+		    	console.log("eeeeeeeeeeeeeeeeeeeeeee"+data);
+		    	if (data!= null){
 		    		Swal.fire({
 		    			  title: 'Esta prenda ya fue editada',
 		    			  text:'¿Te gustaria hacerlo de nuevo? Se borrara el cambio anterior',

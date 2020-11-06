@@ -111,7 +111,7 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 				"	inventario.id_text,\r\n" + 
 				"	inventario.articulo AS nombre,\r\n" + 
 				"	look2.nombre_lookup AS medida,\r\n" + 
-				"	'No hay puto tamaño',\r\n" + 
+				"	'N/P',\r\n" + 
 				"	inventario.color,\r\n" + 
 				"	'aa' \r\n" + 
 				"FROM\r\n" + 
@@ -314,5 +314,27 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 			}
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> viewListEmpleado() {
+		List<Object[]> re = em.createNativeQuery(""+
+		"SELECT \r\n "+
+		"usuario.id_usuario, \r\n "+
+		"CONCAT( empleado.nombre_persona, ' ', empleado.apellido_paterno ),  \r\n "+
+		"nombre_departamento \r\n"+
+		"FROM  \r\n"+
+		"alt_hr_usuario AS usuario, \r\n"+
+		"alt_hr_empleado AS empleado, \r\n"+
+		"alt_hr_departamento AS depa, \r\n"+
+		"alt_hr_puesto AS puesto \r\n "+
+		"WHERE  \r\n"+
+		"2 = 2 \r\n "+
+		"AND usuario.id_empleado = empleado.id_empleado \r\n"+
+		"AND empleado.id_puesto = puesto.id_puesto \r\n"+
+		"AND puesto.id_departamento = depa.id_departamento").getResultList();
+		
+		return re;
+	}
 
 }

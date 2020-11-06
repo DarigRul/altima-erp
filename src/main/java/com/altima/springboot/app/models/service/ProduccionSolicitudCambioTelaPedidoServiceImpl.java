@@ -158,8 +158,7 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 	@Override
 	public ProduccionCoordinadoPrenda BuscarCambio(Long id, Long idSolicitud) {
 		
-		
-
+		System.out.println("from ProduccionCoordinadoPrenda  where id_coordinado_prenda_cambio="+id +" AND id_solicitud_cambio_tela="+idSolicitud);
 		try {
 			
 			return  (ProduccionCoordinadoPrenda)em.createQuery("from ProduccionCoordinadoPrenda  where id_coordinado_prenda_cambio="+id +" AND id_solicitud_cambio_tela="+idSolicitud).getSingleResult();
@@ -354,7 +353,6 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Object[]> detalles(Long id) {
-		
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	CONCAT( 'Principal ', tela.nombre_tela ),\r\n" + 
@@ -418,7 +416,7 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"		alt_comercial_coordinado_tela AS TelaActual \r\n" + 
 				"	WHERE\r\n" + 
 				"		TelaActual.id_coordinado_prenda = CP.id_coordinado_prenda_cambio \r\n" + 
-				"	AND TelaActual.id_tela = tela.id_tela \r\n" + 
+				
 				"	)\r\n" + 
 				"	union all\r\n" + 
 				"	SELECT\r\n" + 
@@ -443,7 +441,7 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"		alt_comercial_coordinado_forro AS ForroActual \r\n" + 
 				"	WHERE\r\n" + 
 				"		ForroActual.id_coordinado_prenda = CP.id_coordinado_prenda_cambio \r\n" + 
-				"	AND ForroActual.id_forro = forro.id_forro \r\n" + 
+				
 				"	)").getResultList();
 		return re;
 	}
