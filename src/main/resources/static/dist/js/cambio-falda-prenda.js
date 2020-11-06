@@ -1083,8 +1083,6 @@ function selected(id){
      			    }
      			});
     		 }	
-         	
-        	 
          },
          error : function(xhr,errmsg,err) {
            console.log(xhr.status + ": " + xhr.responseText);
