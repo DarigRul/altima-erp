@@ -67,7 +67,6 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Object[]> pedidosCerrados(Long idUser) {
-		
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	acpi.id_pedido_informacion,\r\n" + 
@@ -79,7 +78,7 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"	INNER JOIN alt_comercial_cliente acc ON acc.id_cliente = acpi.id_empresa \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
-				"	AND acpi.estatus = 2 \r\n" + 
+				"	AND acpi.estatus = 3 \r\n" + 
 				"AND IF("+idUser+"=0,1=1,ahe.id_empleado="+idUser+")   "+
 				"ORDER BY\r\n" + 
 				"	id_pedido_informacion DESC").getResultList();
@@ -159,8 +158,7 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 	@Override
 	public ProduccionCoordinadoPrenda BuscarCambio(Long id, Long idSolicitud) {
 		
-		
-
+		System.out.println("from ProduccionCoordinadoPrenda  where id_coordinado_prenda_cambio="+id +" AND id_solicitud_cambio_tela="+idSolicitud);
 		try {
 			
 			return  (ProduccionCoordinadoPrenda)em.createQuery("from ProduccionCoordinadoPrenda  where id_coordinado_prenda_cambio="+id +" AND id_solicitud_cambio_tela="+idSolicitud).getSingleResult();
@@ -310,28 +308,67 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"	AND actual.id_coordinado_prenda = "+idActual+" \r\n" + 
 				"	AND cambio.id_coordinado_prenda ="+idCambio);
 		queryMaterial.executeUpdate();
-		
+		Query queryTelaDelete = em.createNativeQuery(""+
+			"DELETE FROM alt_comercial_coordinado_tela "+
+			"WHERE  "+
+			"id_coordinado_prenda ="+idActual);
+		queryTelaDelete.executeUpdate();
 		Query queryTela = em.createNativeQuery(""
-				+ "UPDATE alt_comercial_coordinado_tela AS actual\r\n" + 
-				"INNER JOIN alt_produccion_coordinado_tela AS cambio ON ( actual.id_tela = cambio.id_tela ) \r\n" + 
-				"SET actual.id_tela = cambio.id_tela,\r\n" + 
-				"actual.actualizado_por = '"+actualizo+"' ,\r\n" + 
-				"actual.ultima_fecha_modificacion='"+fecha+"'\r\n" + 
+				+ "INSERT INTO alt_comercial_coordinado_tela\r\n" + 
+				"	( id_coordinado_tela,\r\n" + 
+				"	id_coordinado_prenda,\r\n" + 
+				"	id_tela, \r\n" + 
+				"	descripcion,\r\n" + 
+				"	creado_por,actualizado_por,\r\n" + 
+				"	fecha_creacion,\r\n" + 
+				"	ultima_fecha_modificacion, \r\n" + 
+				"	estatus ) \r\n" + 
+				"	SELECT\r\n" + 
+				"	null,\r\n" + 
+				"	457,\r\n" + 
+				"	tela2.id_tela,\r\n" + 
+				"	null,\r\n" + 
+				"	tela2.creado_por,\r\n" + 
+				"	'"+actualizo+"',\r\n" + 
+				"	tela2.fecha_creacion,\r\n" + 
+				"	'"+fecha+"' ,\r\n" + 
+				"	1\r\n" + 
+				"FROM\r\n" + 
+				"	alt_produccion_coordinado_tela AS tela2 \r\n" + 
 				"WHERE\r\n" + 
-				"	1 = 1 \r\n" + 
-				"	AND actual.id_coordinado_prenda = "+idActual+" \r\n" + 
-				"	AND cambio.id_coordinado_prenda ="+idCambio);
+				"	tela2.id_coordinado_prenda="+idCambio);
 		queryTela.executeUpdate();
+		
+		Query queryForroDelete = em.createNativeQuery(""
+				+ "DELETE FROM alt_comercial_coordinado_forro\r\n" + 
+				"		WHERE\r\n" + 
+				"		id_coordinado_prenda ="+idActual);
+		queryForroDelete.executeUpdate();
+		
 		Query queryForro = em.createNativeQuery(""
-				+ "UPDATE alt_comercial_coordinado_forro AS actual\r\n" + 
-				"INNER JOIN alt_produccion_coordinado_forro AS cambio ON ( actual.id_forro = cambio.id_forro ) \r\n" + 
-				"SET actual.id_forro = cambio.id_forro,\r\n" + 
-				"actual.actualizado_por = '"+actualizo+"' ,\r\n" + 
-				"actual.ultima_fecha_modificacion='"+fecha+"'\r\n" + 
+				+ "INSERT INTO alt_comercial_coordinado_forro\r\n" + 
+				"	( id_coordinado_forro,\r\n" + 
+				"	id_coordinado_prenda,\r\n" + 
+				"	id_forro, \r\n" + 
+				"	descripcion,\r\n" + 
+				"	creado_por,actualizado_por,\r\n" + 
+				"	fecha_creacion,\r\n" + 
+				"	ultima_fecha_modificacion, \r\n" + 
+				"	estatus ) \r\n" + 
+				"	SELECT\r\n" + 
+				"	null,\r\n" + 
+				"	457,\r\n" + 
+				"	forro2.id_forro,\r\n" + 
+				"	null,\r\n" + 
+				"	forro2.creado_por,\r\n" + 
+				"	'"+actualizo+"',\r\n" + 
+				"	forro2.fecha_creacion,\r\n" + 
+				"	'"+fecha+"' ,\r\n" + 
+				"	1\r\n" + 
+				"FROM\r\n" + 
+				"	alt_produccion_coordinado_forro AS forro2 \r\n" + 
 				"WHERE\r\n" + 
-				"	1 = 1 \r\n" + 
-				"	AND actual.id_coordinado_prenda = "+idActual+" \r\n" + 
-				"	AND cambio.id_coordinado_prenda ="+idCambio);
+				"	forro2.id_coordinado_prenda="+idCambio);
 		queryForro.executeUpdate();
 		
 		Query queryPrenda = em.createNativeQuery(""
@@ -349,7 +386,6 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Object[]> detalles(Long id) {
-		
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	CONCAT( 'Principal ', tela.nombre_tela ),\r\n" + 
@@ -413,7 +449,7 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"		alt_comercial_coordinado_tela AS TelaActual \r\n" + 
 				"	WHERE\r\n" + 
 				"		TelaActual.id_coordinado_prenda = CP.id_coordinado_prenda_cambio \r\n" + 
-				"	AND TelaActual.id_tela = tela.id_tela \r\n" + 
+				
 				"	)\r\n" + 
 				"	union all\r\n" + 
 				"	SELECT\r\n" + 
@@ -438,8 +474,13 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"		alt_comercial_coordinado_forro AS ForroActual \r\n" + 
 				"	WHERE\r\n" + 
 				"		ForroActual.id_coordinado_prenda = CP.id_coordinado_prenda_cambio \r\n" + 
-				"	AND ForroActual.id_forro = forro.id_forro \r\n" + 
+				
 				"	)").getResultList();
-		return re;
+		return re;//hooool munf
+		//hollla
 	}
+
+
+
+	
 }

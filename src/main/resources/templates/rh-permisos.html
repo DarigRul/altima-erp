@@ -28,7 +28,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Permisos&nbsp;<a th:href="@{/rh-agregar-permisos}"><button
+                            <h1>Permisos&nbsp;<a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_PERMISOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/rh-agregar-permisos}"><button
                                         class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body"
                                         data-toggle="popover" data-placement="right" data-content="Agregar"><i
                                             class="fas fa-plus"></i></button></a></h1>
@@ -82,14 +82,12 @@
 
                                     <td class="tdcenter">
                                         <!-- EDITAR -->
-                                        <a th:href="@{/rh-editar-permisos/} + ${mt[11]}">
-                                            <button class="btn btn-warning btn-circle btn-sm popoverxd"
-                                                data-container="body" data-toggle="popover" data-placement="left"
-                                                data-content="Editar"><i class="fas fa-pen"></i></button>
+                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_PERMISOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/rh-editar-permisos/} + ${mt[11]}">
+                                            <button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Editar"><i class="fas fa-pen"></i></button>
                                         </a>
 
                                         <!-- MÁS DETALLE -->
-                                        <a th:href="@{/rh-editar-permisos} + ${mt[11]}">
+                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_PERMISOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/rh-editar-permisos} + ${mt[11]}">
                                             <button class="btn btn-warning btn-circle btn-sm popoverxd"
                                                 data-container="body" data-toggle="popover" data-placement="left"
                                                 data-html="true"
@@ -99,33 +97,25 @@
                                         </a>
 
                                         <!-- RECHAZAR -->
-                                        <a th:href="@{/rechazar-permiso/} + ${mt[11]}" method="post"
-                                            th:if="${mt[7] == 1}">
+                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_PERMISOS_ACTIVAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {mt[7] == 1})}" th:href="@{/rechazar-permiso/} + ${mt[11]}" method="post">
                                             <!-- form th:action="@{/rechazar-permiso/} + ${mt[11]}" method="post" th:if="${mt[7] == 1}"-->
-                                            <button class="btn btn-danger btn-circle btn-sm popoverxd"
-                                                data-container="body" data-toggle="popover" data-placement="left"
-                                                data-content="Rechazar" type="submit">
+                                            <button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Rechazar" type="submit">
                                                 <i class="fas fa-caret-down"></i>
                                             </button>
                                             <!--/form -->
                                         </a>
 
                                         <!-- ELIMINAR -->
-                                        <a th:href="@{/rh-darBaja-permisos/} + ${mt[11]}">
-                                            <button class="btn btn-danger btn-circle btn-sm popoverxd"
-                                                data-container="body" data-toggle="popover" data-placement="left"
-                                                data-content="Eliminar">
+                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_PERMISOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/rh-darBaja-permisos/} + ${mt[11]}">
+                                            <button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Eliminar">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </a>
 
                                         <!-- ACTIVAR -->
-                                        <a th:href="@{/activar-permiso/} + ${mt[11]}" method="post"
-                                            th:if="${mt[7] == 0}">
+                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_PERMISOS_ACTIVAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {mt[7] == 0})}" th:href="@{/activar-permiso/} + ${mt[11]}" method="post">
                                             <!--form th:action="@{/activar-permiso/} + ${mt[11]}" method="post" th:if="${mt[7] == 0}"-->
-                                            <button class="btn btn-success btn-circle btn-sm popoverxd"
-                                                data-container="body" data-toggle="popover" data-placement="left"
-                                                data-content="Aprobar" type="submit">
+                                            <button class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Aprobar" type="submit">
                                                 <i class="fas fa-sort-up"></i>
                                             </button>
                                             <!--/form-->

@@ -36,6 +36,7 @@ public class CambioTelaController {
 	            model.addAttribute("view", CambioTelaService.View(0L));
 	            model.addAttribute("pedidosClose", CambioTelaService.pedidosCerrados(0L));
 	        } else {
+	        	System.out.println(this.auth.currentemployeeid());
 	            model.addAttribute("view", CambioTelaService.View(this.auth.currentemployeeid()));
 	            model.addAttribute("pedidosClose", CambioTelaService.pedidosCerrados(this.auth.currentemployeeid()));
 	        }

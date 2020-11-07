@@ -125,7 +125,8 @@ public class CambioTelaRestController {
 			ProduccionCoordinadoTela detalleTela = new ProduccionCoordinadoTela();
 			JSONObject object = (JSONObject) json2.get(k);
 			String id = object.get("id_tela").toString();
-
+			System.out.println("x--->"+id);
+			System.out.println("x--->"+objetoCoodinadoPrenda.getIdCoordinadoPrenda());
 			detalleTela.setIdTela(Long.parseLong(id));
 			detalleTela.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
 			detalleTela.setCreado_por(auth.getName());
@@ -247,5 +248,14 @@ public class CambioTelaRestController {
     public List<Object []> detalles (Long id) {
     	return CambioTelaService.detalles(id);
     }
+    
+    @GetMapping("/pedidos-cerrados-id-empleado")
+    public List<Object []> pedidocerradoIDempleado (Long idEmpleado) {
+    	return CambioTelaService.pedidosCerrados(idEmpleado);
+    }
 
+
+
+
+	
 }

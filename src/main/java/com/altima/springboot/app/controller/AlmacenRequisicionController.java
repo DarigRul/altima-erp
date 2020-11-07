@@ -46,9 +46,7 @@ public class AlmacenRequisicionController {
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		if ( auth.getName().equals("ADMIN") ) {
-			System.out.println("Soy el ADMIN");
-			model.put("solicitante", "ADMIN");
-			model.put("departamento", "ADMIN");
+			m.addAttribute("listSolicitante", ServiceAlmacen.viewListEmpleado());
 		}else {
 			Object[] lista = ServiceAlmacen.infoUsuario(this.auth.currentuserid());
 			model.put("solicitante", lista[0]);
@@ -59,6 +57,8 @@ public class AlmacenRequisicionController {
 		model.put("fecha", hourdateFormat.format(date));
 		model.put("folio", null);
 		model.put("idRequisicion", null);
+		
+		model.put("almacen", true);
 		m.addAttribute("materiales", ServiceAlmacen.AllMateriales());
         return"requisicion-de-almacen-nueva";
     }
@@ -86,8 +86,11 @@ public class AlmacenRequisicionController {
 		model.put("folio", obj.getIdText());
 		model.put("idRequisicion", obj.getIdRequsicionAlmacen());
 		m.addAttribute("materiales", ServiceAlmacen.AllMateriales());
-		
+		model.put("almacen", true);
 		m.addAttribute("tableMateriales", ServiceAlmacen.viewMaterial(id));
         return"requisicion-de-almacen-nueva";
-    }
+	}
+	
+
+	
 }

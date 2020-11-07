@@ -87,7 +87,7 @@ public class TraspasosAMPRestController {
 					AmpRolloTela rollo=rolloTelaService.findOne(movimientosJson.getLong("idRollo"));
 					rollo.setIdAlmacenFisico(cabeceroJson.getLong("idAlmacenFisico"));
 					rolloTelaService.save(rollo);
-					AmpAlmacenUbicacionArticulo ubicacionArticulo = new AmpAlmacenUbicacionArticulo();
+					AmpAlmacenUbicacionArticulo ubicacionArticulo = almacenUbicacionArticuloService.findByIdArticulo(movimientosJson.getLong("idRollo"), "tela");
 					ubicacionArticulo.setIdUbicacion(movimientosJson.getLong("ubicacion"));
 					ubicacionArticulo.setTipo("tela");
 					ubicacionArticulo.setEstatus("1");

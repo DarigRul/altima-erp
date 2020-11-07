@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ public class HrPermisoController {
 	@Autowired
 	private IHrIncrementoPlazaService incrementoPlazaService;
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_PERMISOS_LISTAR"})
 	@GetMapping("/rh-permisos")
 	public String permisos(Model model) {
 		// System.out.println("Si estoy entrando al metodo de lista");
@@ -41,6 +43,7 @@ public class HrPermisoController {
 		return "/rh-permisos";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_PERMISOS_AGREGAR"})
 	@GetMapping("/rh-agregar-permisos")
 	public String agregarPermisos(Map<String, Object> model, Model m) {
 		// System.out.println("Si entre jijiji agregar nuevo");
@@ -99,6 +102,7 @@ public class HrPermisoController {
 		return "/rh-permisos";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_PERMISOS_EDITAR"})
 	@RequestMapping(value = "/rh-editar-permisos/{id}")
 	public String editar(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
 		// System.out.println("Si estoy entrando al metodo findOne editar");
@@ -156,6 +160,7 @@ public class HrPermisoController {
 		return "/rh-permisos";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_PERMISOS_ELIMINAR"})
 	@RequestMapping(value = "/rh-darBaja-permisos/{id}")
 	public String eliminar(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m,
 			RedirectAttributes redirectAttrs) {
@@ -167,6 +172,7 @@ public class HrPermisoController {
 		return "redirect:/rh-permisos";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_PERMISOS_ACTIVAR"})
 	@RequestMapping(value = "/activar-permiso/{id}") // , method = RequestMethod.POST
 	public String activarPermiso(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m,
 			RedirectAttributes redirectAttrs) {
@@ -183,6 +189,7 @@ public class HrPermisoController {
 	// este metodo me ayuda cuando quiero pasar informacion por medio de
 	// post,update, etc, cuando necesita proporcionar una ruta de nivel superior
 	// para un controlador
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_PERMISOS_ACTIVAR"})
 	@RequestMapping(value = "/rechazar-permiso/{id}") // , method = RequestMethod.POST
 	public String rechazarPermiso(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m,
 			RedirectAttributes redirectAttrs) {

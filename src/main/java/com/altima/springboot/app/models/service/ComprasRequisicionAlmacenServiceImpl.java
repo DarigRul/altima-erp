@@ -12,23 +12,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.models.entity.AmpRequisicionAlmacen;
 import com.altima.springboot.app.models.entity.AmpRequisicionAlmacenMaterial;
-import com.altima.springboot.app.models.entity.ComercialCoordinado;
-import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
+import com.altima.springboot.app.models.entity.ComprasRequisicionAlmacen;
+import com.altima.springboot.app.models.entity.ComprasRequisicionAlmacenMaterial;
 import com.altima.springboot.app.repository.AmpRequisicionAlmacenMaterialRepository;
 import com.altima.springboot.app.repository.AmpRequisicionAlmacenRepository;
-import com.altima.springboot.app.repository.ComercialAgentesVentaRepository;
+import com.altima.springboot.app.repository.ComprasRequisicionAlmacenMaterialRepository;
+import com.altima.springboot.app.repository.ComprasRequisicionAlmacenRepository;
 
 @Service
-public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenService {
-	
+public class ComprasRequisicionAlmacenServiceImpl implements IComprasRequisicionAlmacenService {
+
 	@PersistenceContext
 	private EntityManager em;
 
 	@Autowired
-	private AmpRequisicionAlmacenRepository repositoryAlmacen;
+	private ComprasRequisicionAlmacenRepository repositoryAlmacen;
 	
 	@Autowired
-	private AmpRequisicionAlmacenMaterialRepository repositoryMaterial;
+	private ComprasRequisicionAlmacenMaterialRepository repositoryMaterial;
 	@Override
 	@Transactional
 	public Object[] infoUsuario(Long user) {
@@ -111,7 +112,7 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 				"	inventario.id_text,\r\n" + 
 				"	inventario.articulo AS nombre,\r\n" + 
 				"	look2.nombre_lookup AS medida,\r\n" + 
-				"	'N/P',\r\n" + 
+				"	'No hay puto tamaño',\r\n" + 
 				"	inventario.color,\r\n" + 
 				"	'aa' \r\n" + 
 				"FROM\r\n" + 
@@ -132,14 +133,14 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 
 	@Override
 	@Transactional
-	public void save(AmpRequisicionAlmacen obj) {
+	public void save(ComprasRequisicionAlmacen obj) {
 		repositoryAlmacen.save(obj);
 		
 	}
 
 	@Override
 	@Transactional
-	public void save(AmpRequisicionAlmacenMaterial obj) {
+	public void save(ComprasRequisicionAlmacenMaterial obj) {
 		repositoryMaterial.save(obj);
 		
 	}
@@ -181,7 +182,7 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 	}
 	
 	@Override
-	public AmpRequisicionAlmacen findOne(Long id) {
+	public ComprasRequisicionAlmacen findOne(Long id) {
 		// TODO Auto-generated method stub
 		return repositoryAlmacen.findById(id).orElse(null);
 	}
@@ -299,11 +300,11 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 
 	@Transactional(readOnly = true)
 	@Override
-	public AmpRequisicionAlmacenMaterial findOne(String idMateriales, String tipo, String cantidad, Long idRequisicion) {
-		AmpRequisicionAlmacenMaterial obj = null;
+	public ComprasRequisicionAlmacenMaterial findOne(String idMateriales, String tipo, String cantidad, Long idRequisicion) {
+		ComprasRequisicionAlmacenMaterial obj = null;
 	
 		try {
-			return  (AmpRequisicionAlmacenMaterial) em.createQuery("from AmpRequisicionAlmacenMaterial where  "
+			return  (ComprasRequisicionAlmacenMaterial) em.createQuery("from ComprasRequisicionAlmacenMaterial where  "
 					+ " id_requisicion_almacen="+idRequisicion +"  "
 					+ "AND  id_material = "+ idMateriales +"  "
 					+ "AND tipo_material = '"+tipo+"' "
@@ -313,32 +314,5 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 				return obj;
 			}
 	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	@Transactional
-	public List<Object[]> viewListEmpleado() {
-		List<Object[]> re = em.createNativeQuery(""+
-		"SELECT \r\n "+
-		"usuario.id_usuario, \r\n "+
-		"CONCAT( empleado.nombre_persona, ' ', empleado.apellido_paterno ),  \r\n "+
-		"nombre_departamento \r\n"+
-		"FROM  \r\n"+
-		"alt_hr_usuario AS usuario, \r\n"+
-		"alt_hr_empleado AS empleado, \r\n"+
-		"alt_hr_departamento AS depa, \r\n"+
-		"alt_hr_puesto AS puesto \r\n "+
-		"WHERE  \r\n"+
-		"2 = 2 \r\n "+
-		"AND usuario.id_empleado = empleado.id_empleado \r\n"+
-		"AND empleado.id_puesto = puesto.id_puesto \r\n"+
-		"AND puesto.id_departamento = depa.id_departamento").getResultList();
-		
-		return re;
-	}
 
-
-
-
-	
 }
