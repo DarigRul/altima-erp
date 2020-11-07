@@ -68,7 +68,7 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 				"   resultado2.total22 t,\r\n" + 
 				"   if(resultado2.disponible_inicio - alt_amp_traspaso_detalle2.apartados < 0 , 0 , resultado2.disponible_inicio - alt_amp_traspaso_detalle2.apartados )disponible_actual,\r\n" + 
 				"   resultado2.disponible_inicio,\r\n" + 
-				"   alt_amp_traspaso_detalle2.apartados,\r\n" + 
+				"   IFNULL(0,alt_amp_traspaso_detalle2.apartados) apartados,\r\n" + 
 				"   (\r\n" + 
 				"      resultado2.Surtir_actual - alt_amp_traspaso_detalle2.apartados\r\n" + 
 				"   )\r\n" + 
@@ -217,7 +217,6 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 	@Override
 	public List<Object[]> findAvailableMaterials(Long IdArticulo) {
 		return em.createNativeQuery("SELECT\r\n" + 
-				"   am.id_multialmacen,\r\n" + 
 				"   al2.id_almacen_logico id_destino,\r\n" + 
 				"   al.id_almacen_logico id_origen,\r\n" + 
 				"   al.nombre_almacen_logico,\r\n" + 
@@ -256,7 +255,7 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 				"WHERE\r\n" + 
 				"   am.id_almacen_logico = al.id_almacen_logico \r\n" + 
 				"   AND am.id_articulo = "+IdArticulo+" \r\n" + 
-				"   AND am.tipo = 'material'").getResultList();
+				"   AND am.tipo = 'material' group by am.id_multialmacen").getResultList();
 				
 	}
 	
