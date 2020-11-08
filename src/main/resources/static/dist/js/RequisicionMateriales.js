@@ -127,7 +127,7 @@ function eliminar2(id, t) {
 }
 
 function enviar() {
-	 var  datos = [];
+	var  datos = [];
 	$('#tablaGeneral tr').each(function () {
 		 if ($(this).find('td').eq(1).html() !=null){
 			 datos.push({
@@ -137,12 +137,11 @@ function enviar() {
 			 });
 		 }		
 	});
-	
-	if ($.isEmptyObject(datos) ){
+	if ( validaidEmpleadoSolicitante == false || $.isEmptyObject(datos) ){
 		Swal.fire({
 			position: 'center',
 			icon: 'error',
-			title: 'Ingrese datos, por favor',
+			title: 'Ingrese datos a la tabla, por favor',
 			showConfirmButton: false,
 			timer: 1250
 		});
@@ -412,7 +411,34 @@ function compreas (id){
 	 $(location).attr('href',url);
 }
 
+
+function validaidEmpleadoSolicitante (){
+	if ( $('#idEmpleadoSolicitante').length )   {
+		if ( $('idEmpleadoSolicitante').val()== null){
+			console.log("333333333333333333333333")
+			alert( "Handler for .change() called." );
+			Swal.fire({
+				position: 'center',
+				icon: 'error',
+				title: 'Ingrese un solicitante, por favor',
+				showConfirmButton: false,
+				timer: 1250
+			});
+			return false;
+		}
+		else{
+			return true;
+		}
+	  }
+	  else{
+		  return true ;
+	  }
+
+	  // holllla
+
+}
 function enviarCompras() {
+
 	 var  datos = [];
 	$('#tablaGeneral tr').each(function () {
 		 if ($(this).find('td').eq(1).html() !=null){
@@ -424,7 +450,7 @@ function enviarCompras() {
 		 }		
 	});
 	
-	if ($.isEmptyObject(datos) ){
+	if ($.isEmptyObject(datos)  ){
 		Swal.fire({
 			position: 'center',
 			icon: 'error',
@@ -468,3 +494,12 @@ function enviarCompras() {
 	}
 	
 }
+
+$( "#idEmpleadoSolicitante" ).change(function() {
+	$('#id-depa').html($("#idEmpleadoSolicitante option:selected").attr("depa")); 
+  });
+
+
+
+
+

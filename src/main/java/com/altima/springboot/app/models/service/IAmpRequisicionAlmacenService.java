@@ -24,4 +24,9 @@ public interface IAmpRequisicionAlmacenService {
 	void deleteRequisicionMaterial(Long idRequision);
 	
 	AmpRequisicionAlmacenMaterial findOne(String idMateriales, String tipo,String cantidad, Long idRequisicion);
+	
+	List<Object []> viewListEmpleado();
+
+
+	//hola munfo
 }

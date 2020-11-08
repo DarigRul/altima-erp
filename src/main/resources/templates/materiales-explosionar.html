@@ -48,7 +48,8 @@
                                     <input type="hidden" id="idpedido" th:value="${idpedido}">
                                 </div>
                                 <div class="card-body">
-                                    <table class="table tablaGeneral table-striped table-bordered">
+                                    <table class="table table-striped table-bordered" id="tablaexplosion">
+                                       <!--  tablaGeneral como clase despues de table -->
                                         <thead>
                                             <tr>
                                                 <th>Proceso</th>
@@ -90,7 +91,7 @@
                                                 <td class="text-center">
                                                     <button data-toggle="modal" data-target="#materialesAlmacen" 
                                                     
-                                                    th:attr="onclick=|tablamulti('${material[0]}','${material[18]}','${material[19]}','${material[20]}','${material[21]}','${material[22]}','${material[23]}')|" 
+                                                    th:attr="onclick=|tablamulti('${material[0]}','${material[18]}','${material[19]}','${material[20]}','${material[21]}','${material[22]}','${material[23]}',myTable2.row( $(this).parents('tr') ).data())|" 
                                                          class="btn btn-success btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Stock general"><i
                                                         class="fas fa-store-alt" style="margin-left: -3px;"></i></button>
