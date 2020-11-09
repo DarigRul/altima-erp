@@ -297,7 +297,7 @@ $('#agregarArticulo').click(function () {
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'El Articulo no puede estar en este almacen!',
+              text: 'El Articulo no esta agregado en este almacen!',
             })
             $('#agregarArticulo').prop("disabled", false);
 

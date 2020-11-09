@@ -2,6 +2,10 @@ package com.altima.springboot.app.models.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import com.altima.springboot.app.dto.ListUbicacionRolloDto;
 import com.altima.springboot.app.models.entity.AmpAlmacenUbicacionArticulo;
 import com.altima.springboot.app.repository.AmpAlmacenUbicacionArticuloRepository;
 
@@ -13,6 +17,9 @@ public class AmpAlmacenUbicacionArticuloServiceImpl implements IAmpAlmacenUbicac
 
     @Autowired
     AmpAlmacenUbicacionArticuloRepository repository;
+
+    @PersistenceContext
+    EntityManager em;
 
     @Override
     @Transactional(readOnly = true)
@@ -47,6 +54,14 @@ public class AmpAlmacenUbicacionArticuloServiceImpl implements IAmpAlmacenUbicac
     public AmpAlmacenUbicacionArticulo findOne(Long id) {
         // TODO Auto-generated method stub
         return repository.findById(id).orElse(null);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional(readOnly = true)
+    public List<ListUbicacionRolloDto> findAllRollo() {
+        // TODO Auto-generated method stub
+        return em.createNativeQuery("CALL `alt_pr_ubicacion_rollo`();",ListUbicacionRolloDto.class).getResultList();
     }
     
 }
