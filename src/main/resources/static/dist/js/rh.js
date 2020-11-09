@@ -31,7 +31,7 @@ function agregarEmpresa() {
                 data: {
                     "nombreEmpresa": nombreEmpresa,
                 }
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -74,7 +74,7 @@ function agregarEmpresa() {
                                 })
                             }
                         }
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarEmpresa();
                     });
                 } else {
@@ -92,7 +92,7 @@ function agregarEmpresa() {
 }
 
 //Habilitar input que se muestra deshabilitado
-$('#empresaRH').on('shown.bs.modal', function () {
+$('#empresaRH').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -108,16 +108,28 @@ function listarEmpresa() {
         },
         success: (data) => {
             tableRHEmpresa.rows().remove().draw();
-            for (i in data) {
-                tableRHEmpresa.row.add([
-                    data[i]["idText"],
-                    data[i]["nombreLookup"],
-                    "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
-                    "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarEmpresa(" + data[i]["idLookup"] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    (data[i].estatus == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaEmpresa onclick=darBajaEmpresa(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
-                    (data[i].estatus == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaEmpresa onclick=darAltaEmpresa(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
-                ]).draw(false);
-            }
+            if (rolAdmin == 1) {
+                for (i in data) {
+                    tableRHEmpresa.row.add([
+                        data[i]["idText"],
+                        data[i]["nombreLookup"],
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarEmpresa(" + data[i]["idLookup"] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
+                        (data[i].estatus == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaEmpresa onclick=darBajaEmpresa(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i].estatus == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaEmpresa onclick=darAltaEmpresa(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
+            } else
+                for (i in data) {
+                    tableRHEmpresa.row.add([
+                        data[i]["idText"],
+                        data[i]["nombreLookup"],
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        (rolEditar == 1 ? "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarEmpresa(" + data[i]["idLookup"] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" : " ") +
+                        (data[i].estatus == 1 && rolEliminar == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaEmpresa onclick=darBajaEmpresa(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i].estatus == 0 && rolEliminar == 1 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaEmpresa onclick=darAltaEmpresa(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
         },
         error: (e) => {
             alert("Error en el servidor");
@@ -143,9 +155,8 @@ function darBajaEmpresa(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
@@ -178,9 +189,8 @@ function darAltaEmpresa(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
@@ -250,7 +260,7 @@ function agregarArea() {
                     "nombreArea": nombreArea,
                     "idLookup": idLookup
                 }
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -275,8 +285,7 @@ function agregarArea() {
                                     }
                                 })
                                 $('#idLookup').val("");
-                            }
-                            else if (data == 2) {
+                            } else if (data == 2) {
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',
@@ -287,8 +296,7 @@ function agregarArea() {
                                         $('#btnAreaDetalle').click();
                                     }
                                 })
-                            }
-                            else {
+                            } else {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Error',
@@ -296,7 +304,7 @@ function agregarArea() {
                                 })
                             }
                         }
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarAreas();
                     });
                 } else {
@@ -314,7 +322,7 @@ function agregarArea() {
 }
 
 //Habilitar input que se muestra deshabilitado
-$('#areaRH').on('shown.bs.modal', function () {
+$('#areaRH').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -329,16 +337,29 @@ function listarAreas() {
         },
         success: (data) => {
             tableRHArea.rows().remove().draw();
-            for (i in data) {
-                tableRHArea.row.add([
-                    data[i]["idText"],
-                    data[i]["nombreLookup"],
-                    "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
-                    "<button class='btn btn-warning btn-circle btn-sm popoverxd'  onclick='editarArea(" + data[i]["idLookup"] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    (data[i].estatus == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaArea onclick=darBajaArea(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
-                    (data[i].estatus == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaArea onclick=darAltaArea(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
-                ]).draw(false);
-            }
+            if (rolAdmin == 1) {
+                for (i in data) {
+                    tableRHArea.row.add([
+                        data[i]["idText"],
+                        data[i]["nombreLookup"],
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        "<button class='btn btn-warning btn-circle btn-sm popoverxd'  onclick='editarArea(" + data[i]["idLookup"] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
+                        (data[i].estatus == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaArea onclick=darBajaArea(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i].estatus == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaArea onclick=darAltaArea(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
+            } else
+                for (i in data) {
+                    tableRHArea.row.add([
+                        data[i]["idText"],
+                        data[i]["nombreLookup"],
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        (rolEditar == 1 ? "<button class='btn btn-warning btn-circle btn-sm popoverxd'  onclick='editarArea(" + data[i]["idLookup"] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" : " ") +
+                        (data[i].estatus == 1 && rolEliminar == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaArea onclick=darBajaArea(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i].estatus == 0 && rolEliminar == 1 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaArea onclick=darAltaArea(" + data[i]["idLookup"] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
+
         },
         error: (e) => {
             alert("Error en el servidor");
@@ -364,9 +385,8 @@ function darBajaArea(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
@@ -399,9 +419,8 @@ function darAltaArea(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
@@ -476,7 +495,7 @@ function agregarDepartamento(idArea) {
                     "nombreDepartamento": nombreDepartamento,
                     "nomArea": nomArea
                 }
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -502,8 +521,7 @@ function agregarDepartamento(idArea) {
                                     }
                                 })
                                 $('#idDepartamento').val("");
-                            }
-                            else if (data == 2) {
+                            } else if (data == 2) {
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',
@@ -514,8 +532,7 @@ function agregarDepartamento(idArea) {
                                         $('#btnDepartamentoDetalle').click();
                                     }
                                 })
-                            }
-                            else {
+                            } else {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Error',
@@ -523,7 +540,7 @@ function agregarDepartamento(idArea) {
                                 })
                             }
                         },
-                        error: function (data) {
+                        error: function(data) {
                             Swal.close();
                             Swal.fire({
                                 icon: 'error',
@@ -539,7 +556,7 @@ function agregarDepartamento(idArea) {
 }
 
 //Habilitar input que se muestra deshabilitado
-$('#departamentosRH').on('shown.bs.modal', function () {
+$('#departamentosRH').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -578,17 +595,30 @@ function listarDepartamentos() {
         },
         success: (data) => {
             tableRHDepartamento.rows().remove().draw();
-            for (i in data) {
-                tableRHDepartamento.row.add([
-                    data[i][5],
-                    data[i][1],
-                    data[i][3],
-                    "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
-                    "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarDepartamento(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    (data[i][4] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick=darBajaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
-                    (data[i][4] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
-                ]).draw(false);
-            }
+            if (rolAdmin == 1) {
+                for (i in data) {
+                    tableRHDepartamento.row.add([
+                        data[i][5],
+                        data[i][1],
+                        data[i][3],
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarDepartamento(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
+                        (data[i][4] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick=darBajaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i][4] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
+            } else
+                for (i in data) {
+                    tableRHDepartamento.row.add([
+                        data[i][5],
+                        data[i][1],
+                        data[i][3],
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        (rolEditar == 1 ? "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarDepartamento(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" : " ") +
+                        (data[i][4] == 1 && rolEliminar == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick=darBajaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i][4] == 0 && rolEliminar == 1 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
         },
         error: (e) => {
             alert("Error en el servidor");
@@ -614,9 +644,8 @@ function darBajaDepartamento(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
@@ -649,9 +678,8 @@ function darAltaDepartamento(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
@@ -725,9 +753,9 @@ function agregarPuesto(idDepartamento) {
         confirmButtonText: 'Actualizar',
         confirmButtonColor: '#28a745',
         preConfirm: (color) => {
-            if (document.getElementById("puesto").value.length < 1 || document.getElementById("seleccionarDepa").value.length < 1
-                || document.getElementById("horarioExtra").value.length < 1 || document.getElementById("plaza").value.length < 1
-                || document.getElementById("sueldo").value.length < 1 || document.getElementById("perfil").value.length < 1) {
+            if (document.getElementById("puesto").value.length < 1 || document.getElementById("seleccionarDepa").value.length < 1 ||
+                document.getElementById("horarioExtra").value.length < 1 || document.getElementById("plaza").value.length < 1 ||
+                document.getElementById("sueldo").value.length < 1 || document.getElementById("perfil").value.length < 1) {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
                 )
@@ -754,7 +782,7 @@ function agregarPuesto(idDepartamento) {
                     "checkbox": checkbox,
                     "idPuesto": idPuesto
                 }
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -802,7 +830,7 @@ function agregarPuesto(idDepartamento) {
                                 })
                             }
                         }
-                    }).done(function (data) {
+                    }).done(function(data) {
                         ListarPuestos();
                     });
                 } else {
@@ -820,7 +848,7 @@ function agregarPuesto(idDepartamento) {
 }
 
 //Habilitar input que se muestra deshabilitado
-$('#puestoRH').on('shown.bs.modal', function () {
+$('#puestoRH').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -857,21 +885,38 @@ function ListarPuestos() {
         },
         success: (data) => {
             tableRHPuestos.rows().remove().draw();
-            for (i in data) {
-                tableRHPuestos.row.add([
-                    data[i][9],
-                    data[i][1],
-                    data[i][3],
-                    data[i][4] == 1 ? "Aceptado" : "Rechazado",
-                    data[i][5],
-                    data[i][6],
-                    data[i][7] == true ? "Aceptado" : "Rechazado",
-                    "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
-                    "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarPuesto(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    (data[i][8] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaPuesto onclick=darBajaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
-                    (data[i][8] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaPuesto onclick=darAltaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
-                ]).draw(false);
-            }
+            if (rolAdmin == 1) {
+                for (i in data) {
+                    tableRHPuestos.row.add([
+                        data[i][9],
+                        data[i][1],
+                        data[i][3],
+                        data[i][4] == 1 ? "Aceptado" : "Rechazado",
+                        data[i][5],
+                        data[i][6],
+                        data[i][7] == true ? "Aceptado" : "Rechazado",
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarPuesto(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
+                        (data[i][8] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaPuesto onclick=darBajaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i][8] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaPuesto onclick=darAltaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
+            } else
+                for (i in data) {
+                    tableRHPuestos.row.add([
+                        data[i][9],
+                        data[i][1],
+                        data[i][3],
+                        data[i][4] == 1 ? "Aceptado" : "Rechazado",
+                        data[i][5],
+                        data[i][6],
+                        data[i][7] == true ? "Aceptado" : "Rechazado",
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        (rolEditar == 1 ? "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarPuesto(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" : " ") +
+                        (data[i][8] == 1 && rolEliminar == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaPuesto onclick=darBajaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i][8] == 0 && rolEliminar == 1 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaPuesto onclick=darAltaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
         },
         error: (e) => {
             alert("Error en el servidor");
@@ -897,9 +942,8 @@ function darBajaPuesto(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
@@ -932,9 +976,8 @@ function darAltaPuesto(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
@@ -978,8 +1021,7 @@ function editarPuesto(idLookup) {
 function agregarHorario() {
     Swal.fire({
         title: 'Agregar Horario',
-        html:
-            '<div class="row">' +
+        html: '<div class="row">' +
             '<label class="col-md-6" for="horarioinicio">Inicio Horario</label>' +
             '<label class="col-md-6" for="horariosalida">Salida Horario</label>' +
             '<input type="time" class="swal2-input col-md-5" id="horarioinicio">' +
@@ -999,10 +1041,10 @@ function agregarHorario() {
         confirmButtonText: 'Actualizar',
         confirmButtonColor: '#28a745',
         preConfirm: () => {
-            if (document.getElementById("horarioinicio").value.length < 1
-                || document.getElementById("horariosalida").value.length < 1
-                || document.getElementById("horacomidainicio").value.length < 1
-                || document.getElementById("horacomidafin").value.length < 1) {
+            if (document.getElementById("horarioinicio").value.length < 1 ||
+                document.getElementById("horariosalida").value.length < 1 ||
+                document.getElementById("horacomidainicio").value.length < 1 ||
+                document.getElementById("horacomidafin").value.length < 1) {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
                 )
@@ -1024,7 +1066,7 @@ function agregarHorario() {
                     "horaComida": horaComida,
                     "horaRegresoComida": horaRegresoComida
                 }
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -1070,7 +1112,7 @@ function agregarHorario() {
                                 })
                             }
                         }
-                    }).done(function (data) {
+                    }).done(function(data) {
                         ListarHorarios();
                     });
                 } else {
@@ -1097,19 +1139,34 @@ function ListarHorarios() {
         },
         success: (data) => {
             tableRHHorarios.rows().remove().draw();
-            for (i in data) {
-                tableRHHorarios.row.add([
-                    data[i][10],
-                    data[i][1],
-                    data[i][2],
-                    data[i][3],
-                    data[i][4],
-                    "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
-                    "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarHorario(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    (data[i][9] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaHorario onclick=darBajaHorario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
-                    (data[i][9] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaHorario onclick=darAltaHorario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
-                ]).draw(false);
-            }
+            if (rolAdmin == 1) {
+                for (i in data) {
+                    tableRHHorarios.row.add([
+                        data[i][10],
+                        data[i][1],
+                        data[i][2],
+                        data[i][3],
+                        data[i][4],
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarHorario(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
+                        (data[i][9] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaHorario onclick=darBajaHorario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i][9] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaHorario onclick=darAltaHorario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
+            } else
+                for (i in data) {
+                    tableRHHorarios.row.add([
+                        data[i][10],
+                        data[i][1],
+                        data[i][2],
+                        data[i][3],
+                        data[i][4],
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        (rolEditar == 1 ? "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarHorario(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" : " ") +
+                        (data[i][9] == 1 && rolEliminar == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaHorario onclick=darBajaHorario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i][9] == 0 && rolEliminar == 1 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaHorario onclick=darAltaHorario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
         },
         error: (e) => {
             alert("Error en el servidor");
@@ -1135,9 +1192,8 @@ function darBajaHorario(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
@@ -1170,9 +1226,8 @@ function darAltaHorario(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
@@ -1260,7 +1315,7 @@ function agregarCalendario() {
                     "festividad": festividad,
                     "estatusFestivo": estatusFestivo
                 }
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -1305,7 +1360,7 @@ function agregarCalendario() {
                                 })
                             }
                         }
-                    }).done(function (data) {
+                    }).done(function(data) {
                         ListarCalendarios();
                     });
                 } else {
@@ -1323,7 +1378,7 @@ function agregarCalendario() {
 }
 
 //Habilitar input que se muestra deshabilitado
-$('#detalleCuidado').on('shown.bs.modal', function () {
+$('#detalleCuidado').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -1337,18 +1392,32 @@ function ListarCalendarios() {
         },
         success: (data) => {
             tableRHCalendario.rows().remove().draw();
-            for (i in data) {
-                tableRHCalendario.row.add([
-                    data[i][8],
-                    data[i][1],
-                    data[i][2],
-                    data[i][7] == 1 ? "Valido" : "No valido",
-                    "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
-                    "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarCalendario(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
-                    (data[i][7] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick=darBajaCalendario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
-                    (data[i][7] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaCalendario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
-                ]).draw(false);
-            }
+            if (rolAdmin == 1) {
+                for (i in data) {
+                    tableRHCalendario.row.add([
+                        data[i][8],
+                        data[i][1],
+                        data[i][2],
+                        data[i][7] == 1 ? "Valido" : "No valido",
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarCalendario(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
+                        (data[i][7] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick=darBajaCalendario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i][7] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaCalendario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
+            } else
+                for (i in data) {
+                    tableRHCalendario.row.add([
+                        data[i][8],
+                        data[i][1],
+                        data[i][2],
+                        data[i][7] == 1 ? "Valido" : "No valido",
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
+                        (rolEditar == 1 ? "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarCalendario(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" : " ") +
+                        (data[i][7] == 1 && rolEliminar == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick=darBajaCalendario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
+                        (data[i][7] == 0 && rolEliminar == 1 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaCalendario(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                    ]).draw(false);
+                }
         },
         error: (e) => {
             alert("Error en el servidor");
@@ -1374,9 +1443,8 @@ function darBajaCalendario(idCalendario) {
                     "_csrf": $('#token').val(),
                     "idCalendario": idCalendario
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
@@ -1409,9 +1477,8 @@ function darAltaCalendario(idCalendario) {
                     "_csrf": $('#token').val(),
                     "idCalendario": idCalendario
                 },
-                success: (data) => {
-                },
-                error: function (data) {
+                success: (data) => {},
+                error: function(data) {
                     alert("Error en el servidor");
                 }
             });
