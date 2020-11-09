@@ -137,7 +137,16 @@ function enviar() {
 			 });
 		 }		
 	});
-	if ( validaidEmpleadoSolicitante == false || $.isEmptyObject(datos) ){
+	if ( $('#idEmpleadoSolicitante').val()== null){
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Ingrese un solicitante, por favor',
+			showConfirmButton: false,
+			timer: 1250
+		});
+	}
+	else if ( $.isEmptyObject(datos) ){
 		Swal.fire({
 			position: 'center',
 			icon: 'error',
@@ -412,31 +421,6 @@ function compreas (id){
 }
 
 
-function validaidEmpleadoSolicitante (){
-	if ( $('#idEmpleadoSolicitante').length )   {
-		if ( $('idEmpleadoSolicitante').val()== null){
-			console.log("333333333333333333333333")
-			alert( "Handler for .change() called." );
-			Swal.fire({
-				position: 'center',
-				icon: 'error',
-				title: 'Ingrese un solicitante, por favor',
-				showConfirmButton: false,
-				timer: 1250
-			});
-			return false;
-		}
-		else{
-			return true;
-		}
-	  }
-	  else{
-		  return true ;
-	  }
-
-	  // holllla
-
-}
 function enviarCompras() {
 
 	 var  datos = [];

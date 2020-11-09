@@ -92,8 +92,8 @@ $(document).ready(function() {
 	                    })
 
 	                 
-	                    console.log("aqui se elimna la telaaaaaaaaaaaaaa" + $("#aux_tela").val())
-	                    $('.coorTela').find('[value='+$("#aux_tela").val()+']').remove();
+	                   // console.log("aqui se elimna la telaaaaaaaaaaaaaa" + $("#aux_tela").val())
+	                    //$('.coorTela').find('[value='+$("#aux_tela").val()+']').remove();
 	                    
 	                    
 	                   $('.coorTela').prop('disabled', false);
