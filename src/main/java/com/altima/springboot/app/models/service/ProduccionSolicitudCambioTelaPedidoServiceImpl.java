@@ -67,6 +67,7 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Object[]> pedidosCerrados(Long idUser) {
+
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	acpi.id_pedido_informacion,\r\n" + 
@@ -157,8 +158,6 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
   	}
 	@Override
 	public ProduccionCoordinadoPrenda BuscarCambio(Long id, Long idSolicitud) {
-		
-		System.out.println("from ProduccionCoordinadoPrenda  where id_coordinado_prenda_cambio="+id +" AND id_solicitud_cambio_tela="+idSolicitud);
 		try {
 			
 			return  (ProduccionCoordinadoPrenda)em.createQuery("from ProduccionCoordinadoPrenda  where id_coordinado_prenda_cambio="+id +" AND id_solicitud_cambio_tela="+idSolicitud).getSingleResult();

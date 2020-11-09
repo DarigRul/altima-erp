@@ -80,7 +80,6 @@ $(document).ready(function() {
 	                success:  function (r) 
 	                {
 	                	
-	                	console.log("este ajax es que esta llenando la tela")
 	                	prenda.prop('disabled', false);
 
 	                    // Limpiamos el select
@@ -91,10 +90,6 @@ $(document).ready(function() {
 	                        tela.append('<option value="'+v[0]+'">' + v[1] + '</option>');
 	                    })
 
-	                 
-	                   // console.log("aqui se elimna la telaaaaaaaaaaaaaa" + $("#aux_tela").val())
-	                    //$('.coorTela').find('[value='+$("#aux_tela").val()+']').remove();
-	                    
 	                    
 	                   $('.coorTela').prop('disabled', false);
 	                    $('.coorTela').selectpicker('refresh');
@@ -131,10 +126,6 @@ $(document).ready(function() {
 	    	
 		    var valordetela = $("#coorTela").val();
 		    var prenda= $("#coorModelo").val();
-		    
-		     console.log("idsss en pantalla coordinado  tela  " +  valordetela)
-		     console.log("idsss  idsss en pantalla coordinado   "+prenda)
-		        
 		         $.ajax({
                 data: { idtela : valordetela,
                 idprenda :prenda	},
@@ -146,8 +137,6 @@ $(document).ready(function() {
                 },
                 success:  function (r) 
                 {
-                	
-                	console.log("resultado de rrrrrrrrrrrrrrrrrrrrrrrrr para vali  " + r )
                 	
                 	if(r=="0"){
                 		
@@ -196,10 +185,6 @@ $(document).ready(function() {
 						 arrayId.push($(dato).val());
 					 }
 			        });
-	    	  
-	    	  console.log(arrayId.toString());
-	    	
-	    	console.log("id tela"+$(this).val())
    
 	    	$("#elimnar").empty();
 
@@ -259,8 +244,6 @@ $(document).ready(function() {
 				$("#elimnar").empty()
 
                 $(r).each(function(i, v){
-                	console.log("i="+i)
-
                 	$("#elimnar").append('<div class="form-group col-sm-3">'+
 							   '<label  id="label_m'+i+'" for="coorAdorno"> '+v[1]+'</label>'+
 							   '<select   name="'+v[0]+'"  id="material_'+i+'"  class="form-control selectCustom '+v[0]+'"  data-live-search="true" required>'+
@@ -294,17 +277,8 @@ $(document).ready(function() {
                         }
                       });
                     
-                    
-                    
-              	  console.log("aqui esta el indexxxx"+ i);
 	    		  var texto2=document.getElementById('select'+i+'');
 	    		  var valordeltexto2=texto2.options[texto2.selectedIndex].text;
-	    		  console.log("aqui esta el valor del select con iterator" + valordeltexto2);
-	    		  console.log(valordeltexto2);
-	    		  
-	    		
-	    		 
-	    		  
 	    		  document.getElementById('label_m'+i+'').innerHTML= valordeltexto2;
 	    		  
 	    		
@@ -352,9 +326,9 @@ $(document).ready(function() {
 	
 	
 	  $("#coorTela").change(function(){
-	    	console.log("id tela"+$(this).val())
+		  
    
-	    	$("#elimnar22").empty()
+	    	$("#elimnar22").empty();
 
     if($(this).val() != '')
     {
@@ -373,8 +347,6 @@ $(document).ready(function() {
 				$("#elimnar22").empty()
 
                 $(r).each(function(i, v){
-                	console.log("RORTULUS="+i)
-
                 	$("#elimnar22").append('<div class="form-group col-sm-3">'+
 							   '<label for="coorAdorno">'+v[1]+'</label>'+
 							   '<select  onchange="imagenTelasConv(this.value,'+v[0]+')"  title="Seleccione una.." name="'+v[0]+'"  id="material_'+i+'"  class="form-control selectCustom '+v[0]+'"  data-live-search="true" required>'+
@@ -455,8 +427,6 @@ $(document).ready(function() {
 
 
   $("#coorTela").change(function(){
-	
-    	console.log("id tela"+$(this).val())
 
     	$("#elimnar222").empty()
 
@@ -477,7 +447,6 @@ if($(this).val() != '')
 			$("#elimnar222").empty()
 
           $(r).each(function(i, v){
-          	console.log("RORTULUS="+i)
 
           	$("#elimnar222").append('<div class="form-group col-sm-3">'+
 						   '<label for="coorAdorno">'+v[1]+'</label>'+
@@ -553,8 +522,6 @@ else
 
 $("#coorModelo").change(function(){
 	    	
-	console.log ("entro al change de coorModelo");
-	    	
 	    	$("#elimnar").empty();
 	    	$("#elimnar22").empty();
 	    	$("#elimnar222").empty();
@@ -575,7 +542,6 @@ $("#coorModelo").change(function(){
                 		 document.getElementById("img1").style.maxHeight = "18rem";
                 		 document.getElementById("img1").src ="/dist/img/preview.png";
                 		 
-                		 console.log(data);
                 		 if ( data[0][0] != null && data[0][0] != '' && data[0][0].length >1){
                 			
                 			$.ajax({
@@ -669,14 +635,6 @@ $("#coorModelo").change(function(){
 				$("#elimnar333").empty()
 
                 $(r).each(function(i, v){
-                	
-                	
-              
-                	
-                	
-                	
-                	console.log("i="+i)
-
                 	$("#elimnar333").append('<div class="form-group col-sm-3">'+
 							   '<label id="label_'+i+'" for="coorAdorno">'+v[1]+'</label>'+
 							   '<select disabled  onchange="selected('+i+');"  id="select'+i+'" value="'+v[0]+'" class="form-control selectCustom '+v[2]+'"  data-live-search="true" required>'+
@@ -773,14 +731,10 @@ $("#coorModelo").change(function(){
 function selected(id){
   var texto=document.getElementById('select'+id+'');
   var valordeltexto=texto.options[texto.selectedIndex].text;
-  console.log("aqui esta el valor del select");
-  console.log(valordeltexto);
   document.getElementById('label_'+id+'').innerHTML= valordeltexto;
 }
 
  function agregar() {
-	 
-	 console.log("si entre al 1");
 	 var  datosMateriales = [];
 	 var  datosMateriales22 = [];
 	 var  datosMateriales222 = [];
@@ -796,14 +750,7 @@ function selected(id){
 		 }
         });
 	 
-
-     console.log(datosMateriales);
-     
-
      $("#elimnar22 select").each(function(index, dato1){
-    	 
-    	 console.log('entro al for 22');
-    			 
     			 if ( $(dato1).val() == null || $(dato1).val() == ""  ){
     				 
     				 return;
@@ -812,17 +759,7 @@ function selected(id){
     			 datosMateriales22.push({'id_tela':$(dato1).val()});
     			 }
     	        });
-    		 
-
-    	     console.log(datosMateriales22);
-    	     
-    	     
-    	     
-    	     
-    	     
     	 $("#elimnar222 select").each(function(index, dat){
-    		 
-    	     console.log('entro al for 222');
     			 
     			 if ( $(dat).val() == null || $(dat).val() == ""  ){
     				 
@@ -833,12 +770,6 @@ function selected(id){
     			 }
     	        });
     		 
-
-    	     console.log(datosMateriales222);
-     
-
-     
-    	     console.log("si entre al 2");
 	 
 	if       (document.getElementById("coorPrenda").value && 
     		  	
@@ -854,23 +785,6 @@ function selected(id){
 		var idTela=document.getElementById("coorTela").value;
 		var idCoordinado=document.getElementById("coorCoordinado").value;
 
-
-	
-	
-		
-		
-		console.log("El id de prenda es: "+idPrenda);
-		
-		console.log("El id de tela es: "+idTela);
-		console.log("El id de del coordinado: "+idCoordinado);
-
-
-		  
-
-		
-		console.log("si entre al 3");
-		
-		   console.log( $('#token').val());
 		
 		$.ajax({
         type: "POST",
@@ -947,7 +861,8 @@ function selected(id){
 	        	
 	        },
 		    success: (data) => {
-		    	if (data!= null){
+				console.log(data);
+		    	if (data!= null && data!=''){
 		    		Swal.fire({
 		    			  title: 'Esta prenda ya fue editada',
 		    			  text:'¿Te gustaria hacerlo de nuevo? Se borrara el cambio anterior',
@@ -1021,8 +936,6 @@ function selected(id){
 	        	
 	        },
 		    success: (data) => {
-		    	
-		    	console.log(data)
 		    	$("#id_coordinado_prenda").val(id);
 		    	
 		    	
@@ -1055,9 +968,6 @@ function selected(id){
  
  
  function imagenTelasConv(idTela, idSelect){
-	 
-	 console.log("holaa soy idTela "+idTela);
-	 console.log("holaa soy Select "+idSelect);
 	 $.ajax({
          url : "/mostrar-ruta-imagen-tela",
          type : "GET",
