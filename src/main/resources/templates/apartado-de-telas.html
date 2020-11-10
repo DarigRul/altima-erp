@@ -126,13 +126,13 @@
 				  cancelButtonText: 'Cancelar'
 				}).then((result) => {
 				  if (result.value) {
-				    Swal.fire(
+				    Swal.fire({
 			    		position: 'center',
 			            icon: 'success',
 			            title: 'Aprobada correctamente',
 						showConfirmButton: false,
 				        timer: 3500,
-					)
+				    })
 					location.href ="/editar-apartado-de-telas/"+id;
 				  }
 				});
