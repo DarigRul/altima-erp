@@ -643,6 +643,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					
 					//Verifica que la ultima tela sólo contenga un registro
 					if(contador==listaTelas.size()-1 && !idTela.equals(fila[4].toString())) {
+						if(contador==listaTelas.size()-1 && contador!=1) {
 						System.out.println("entra al registro de ultima tela con 1 registro");
 						PdfPTable tablaTelasDatos = new PdfPTable(2);
 						tablaTelasDatos.setWidthPercentage(100);
@@ -855,7 +856,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						contenido = new PdfPCell(tablaInformacionTelas);
 						contenido.setBorder(0);
 						bloqueInformacion.addCell(contenido);
-						
+					}
 						tablaInformacionTelas = new PdfPTable(1);
 						tablaInformacionTelas.setWidthPercentage(100);
 						
@@ -1145,7 +1146,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					contenido.setBorder(0);
 					contenido.setPaddingTop(8f);
 					tablaInformacionTelas.addCell(contenido);
-					
+					}
 					contenido = new PdfPCell(tablaTelas);
 					contenido.setBorder(0);
 					contenido.setPaddingTop(8f);
@@ -1166,11 +1167,11 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					sumaPersonas = 0;
 					totalConsumoCantidad = 0;
 					spfConsumo = 0;
-					}
 					
 					if(validador==2) {
 						validador=-1;
 					}
+					
 					if(validador==0) {
 						validador=2;
 					}

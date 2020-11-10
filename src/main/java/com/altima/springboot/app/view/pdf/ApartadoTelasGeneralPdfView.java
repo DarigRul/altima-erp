@@ -576,114 +576,115 @@ public class ApartadoTelasGeneralPdfView extends AbstractPdfView{
 					
 					//Verifica que la ultima tela sólo contenga un registro
 					if(contador==listaTelas.size()-1 && !idTela.equals(fila[4].toString())) {
-						System.out.println("entra al registro de ultima tela con 1 registro");
 						
-//						//Información de cada tela
-//						
-						PdfPTable TelasconImagen = new PdfPTable(3);
-						TelasconImagen.setWidthPercentage(100);
-						TelasconImagen.setWidths(new float[] { 5f, 5f, 0.5f});
-						Image img = Image.getInstance("https://res.cloudinary.com/dti-consultores/image/upload/v1603465395/telas/"+imgUrl);
-						img.scaleAbsolute(100f, 60f);
-						PdfPCell imagenTela = new PdfPCell(img);
-						imagenTela.setBorder(0);
-						
-						
-						PdfPTable ContenidoTelas = new PdfPTable(2);
-						ContenidoTelas.setWidthPercentage(100);
-						ContenidoTelas.setWidths(new float[] {3f, 2f});
-						PdfPCell ClaveTelaTitulo = new PdfPCell(new Phrase("Clave tela: ", Helvetica));
-						PdfPCell ClaveTela = new PdfPCell(new Phrase(codigoTela, datosGris));
-						PdfPCell totalConsumoTitulo = new PdfPCell(new Phrase("Total Consumo: ", Helvetica));
-						PdfPCell totalConsumo = new PdfPCell(new Phrase(""+df.format(totalConsumoCantidad), datosGris));
-						PdfPCell surtirTitulo = new PdfPCell(new Phrase("Surtir: ", Helvetica));
-						PdfPCell surtir = new PdfPCell(new Phrase(""+df.format(sumaPersonas), datosGris));
-						PdfPCell spfTitulo = new PdfPCell(new Phrase("SPF: ", Helvetica));
-						PdfPCell spf = new PdfPCell(new Phrase(""+df.format(spfConsumo), datosGris));
-						
-						ClaveTelaTitulo.setBorder(0);
-						ClaveTelaTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
-						ClaveTelaTitulo.setBorder(Rectangle.BOTTOM);
-						ClaveTelaTitulo.setBorderColorBottom(borderTable);
-						ClaveTelaTitulo.setBorderWidthBottom(2);
-						ClaveTelaTitulo.setPaddingBottom(4f);
-						
-						ClaveTela.setBorder(0);
-						ClaveTela.setHorizontalAlignment(Element.ALIGN_LEFT);
-						ClaveTela.setBorder(Rectangle.BOTTOM);
-						ClaveTela.setBorderColorBottom(borderTable);
-						ClaveTela.setBorderWidthBottom(2);
-						ClaveTela.setPaddingBottom(4f);
-				    	
-						totalConsumoTitulo.setBorder(0);
-						totalConsumoTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
-						totalConsumoTitulo.setBorder(Rectangle.BOTTOM);
-						totalConsumoTitulo.setBorderColorBottom(borderTable);
-						totalConsumoTitulo.setBorderWidthBottom(2);
-						totalConsumoTitulo.setPaddingBottom(4f);
-				
-						totalConsumo.setBorder(0);
-						totalConsumo.setHorizontalAlignment(Element.ALIGN_LEFT);
-						totalConsumo.setBorder(Rectangle.BOTTOM);
-						totalConsumo.setBorderColorBottom(borderTable);
-						totalConsumo.setBorderWidthBottom(2);
-						totalConsumo.setPaddingBottom(4f);
-				    	
-						surtirTitulo.setBorder(0);
-						surtirTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
-						surtirTitulo.setBorder(Rectangle.BOTTOM);
-						surtirTitulo.setBorderColorBottom(borderTable);
-						surtirTitulo.setBorderWidthBottom(2);
-						surtirTitulo.setPaddingBottom(4f);
-						
-						surtir.setBorder(0);
-						surtir.setHorizontalAlignment(Element.ALIGN_LEFT);
-						surtir.setBorder(Rectangle.BOTTOM);
-						surtir.setBorderColorBottom(borderTable);
-						surtir.setBorderWidthBottom(2);
-						surtir.setPaddingBottom(4f);
-						
-						spfTitulo.setBorder(0);
-						spfTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
-						spfTitulo.setBorder(Rectangle.BOTTOM);
-						spfTitulo.setBorderColorBottom(borderTable);
-						spfTitulo.setBorderWidthBottom(2);
-						spfTitulo.setPaddingBottom(4f);
-						
-						spf.setBorder(0);
-						spf.setHorizontalAlignment(Element.ALIGN_LEFT);
-						spf.setBorder(Rectangle.BOTTOM);
-						spf.setBorderColorBottom(borderTable);
-						spf.setBorderWidthBottom(2);
-						spf.setPaddingBottom(4f);
-						cellVacia.setPaddingBottom(1f);
-						ContenidoTelas.addCell(ClaveTelaTitulo);
-						ContenidoTelas.addCell(ClaveTela);
-						ContenidoTelas.addCell(totalConsumoTitulo);
-						ContenidoTelas.addCell(totalConsumo);
-						ContenidoTelas.addCell(surtirTitulo);
-						ContenidoTelas.addCell(surtir);
-						ContenidoTelas.addCell(spfTitulo);
-						ContenidoTelas.addCell(spf);
-				
-						contenido = new PdfPCell(ContenidoTelas);
-						contenido.setBorder(0);
-						
-						//Se agregan a una sola tabla para poder modular los registros y no se desface el diseño
-						TelasconImagen.addCell(imagenTela); //Aquí va la imagen de la tela
-						TelasconImagen.addCell(contenido);
-						TelasconImagen.addCell(cellVacia);
-						
-						contenido = new PdfPCell(TelasconImagen);
-						contenido.setBorder(0);
-						contenido.setPaddingTop(30f);
-						tablaInformacionTelas.addCell(contenido);
-						
-						contenido = new PdfPCell(tablaInformacionTelas);
-						contenido.setBorder(0);
-						bloqueInformacion.addCell(contenido);
-						validadorCelda++;
-						
+						if(contador==listaTelas.size()-1 && contador!=1) {
+							System.out.println("entra al registro de ultima tela con 1 registro");
+	//						//Información de cada tela
+	//						
+							PdfPTable TelasconImagen = new PdfPTable(3);
+							TelasconImagen.setWidthPercentage(100);
+							TelasconImagen.setWidths(new float[] { 5f, 5f, 0.5f});
+							Image img = Image.getInstance("https://res.cloudinary.com/dti-consultores/image/upload/v1603465395/telas/"+imgUrl);
+							img.scaleAbsolute(100f, 60f);
+							PdfPCell imagenTela = new PdfPCell(img);
+							imagenTela.setBorder(0);
+							
+							
+							PdfPTable ContenidoTelas = new PdfPTable(2);
+							ContenidoTelas.setWidthPercentage(100);
+							ContenidoTelas.setWidths(new float[] {3f, 2f});
+							PdfPCell ClaveTelaTitulo = new PdfPCell(new Phrase("Clave tela: ", Helvetica));
+							PdfPCell ClaveTela = new PdfPCell(new Phrase(codigoTela, datosGris));
+							PdfPCell totalConsumoTitulo = new PdfPCell(new Phrase("Total Consumo: ", Helvetica));
+							PdfPCell totalConsumo = new PdfPCell(new Phrase(""+df.format(totalConsumoCantidad), datosGris));
+							PdfPCell surtirTitulo = new PdfPCell(new Phrase("Surtir: ", Helvetica));
+							PdfPCell surtir = new PdfPCell(new Phrase(""+df.format(sumaPersonas), datosGris));
+							PdfPCell spfTitulo = new PdfPCell(new Phrase("SPF: ", Helvetica));
+							PdfPCell spf = new PdfPCell(new Phrase(""+df.format(spfConsumo), datosGris));
+							
+							ClaveTelaTitulo.setBorder(0);
+							ClaveTelaTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
+							ClaveTelaTitulo.setBorder(Rectangle.BOTTOM);
+							ClaveTelaTitulo.setBorderColorBottom(borderTable);
+							ClaveTelaTitulo.setBorderWidthBottom(2);
+							ClaveTelaTitulo.setPaddingBottom(4f);
+							
+							ClaveTela.setBorder(0);
+							ClaveTela.setHorizontalAlignment(Element.ALIGN_LEFT);
+							ClaveTela.setBorder(Rectangle.BOTTOM);
+							ClaveTela.setBorderColorBottom(borderTable);
+							ClaveTela.setBorderWidthBottom(2);
+							ClaveTela.setPaddingBottom(4f);
+					    	
+							totalConsumoTitulo.setBorder(0);
+							totalConsumoTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
+							totalConsumoTitulo.setBorder(Rectangle.BOTTOM);
+							totalConsumoTitulo.setBorderColorBottom(borderTable);
+							totalConsumoTitulo.setBorderWidthBottom(2);
+							totalConsumoTitulo.setPaddingBottom(4f);
+					
+							totalConsumo.setBorder(0);
+							totalConsumo.setHorizontalAlignment(Element.ALIGN_LEFT);
+							totalConsumo.setBorder(Rectangle.BOTTOM);
+							totalConsumo.setBorderColorBottom(borderTable);
+							totalConsumo.setBorderWidthBottom(2);
+							totalConsumo.setPaddingBottom(4f);
+					    	
+							surtirTitulo.setBorder(0);
+							surtirTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
+							surtirTitulo.setBorder(Rectangle.BOTTOM);
+							surtirTitulo.setBorderColorBottom(borderTable);
+							surtirTitulo.setBorderWidthBottom(2);
+							surtirTitulo.setPaddingBottom(4f);
+							
+							surtir.setBorder(0);
+							surtir.setHorizontalAlignment(Element.ALIGN_LEFT);
+							surtir.setBorder(Rectangle.BOTTOM);
+							surtir.setBorderColorBottom(borderTable);
+							surtir.setBorderWidthBottom(2);
+							surtir.setPaddingBottom(4f);
+							
+							spfTitulo.setBorder(0);
+							spfTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
+							spfTitulo.setBorder(Rectangle.BOTTOM);
+							spfTitulo.setBorderColorBottom(borderTable);
+							spfTitulo.setBorderWidthBottom(2);
+							spfTitulo.setPaddingBottom(4f);
+							
+							spf.setBorder(0);
+							spf.setHorizontalAlignment(Element.ALIGN_LEFT);
+							spf.setBorder(Rectangle.BOTTOM);
+							spf.setBorderColorBottom(borderTable);
+							spf.setBorderWidthBottom(2);
+							spf.setPaddingBottom(4f);
+							cellVacia.setPaddingBottom(1f);
+							ContenidoTelas.addCell(ClaveTelaTitulo);
+							ContenidoTelas.addCell(ClaveTela);
+							ContenidoTelas.addCell(totalConsumoTitulo);
+							ContenidoTelas.addCell(totalConsumo);
+							ContenidoTelas.addCell(surtirTitulo);
+							ContenidoTelas.addCell(surtir);
+							ContenidoTelas.addCell(spfTitulo);
+							ContenidoTelas.addCell(spf);
+					
+							contenido = new PdfPCell(ContenidoTelas);
+							contenido.setBorder(0);
+							
+							//Se agregan a una sola tabla para poder modular los registros y no se desface el diseño
+							TelasconImagen.addCell(imagenTela); //Aquí va la imagen de la tela
+							TelasconImagen.addCell(contenido);
+							TelasconImagen.addCell(cellVacia);
+							
+							contenido = new PdfPCell(TelasconImagen);
+							contenido.setBorder(0);
+							contenido.setPaddingTop(30f);
+							tablaInformacionTelas.addCell(contenido);
+							
+							contenido = new PdfPCell(tablaInformacionTelas);
+							contenido.setBorder(0);
+							bloqueInformacion.addCell(contenido);
+							validadorCelda++;
+					}
 						tablaInformacionTelas = new PdfPTable(1);
 						tablaInformacionTelas.setWidthPercentage(100);
 						
