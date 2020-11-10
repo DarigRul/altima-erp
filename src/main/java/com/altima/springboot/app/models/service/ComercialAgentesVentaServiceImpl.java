@@ -82,7 +82,7 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 									"FROM alt_comercial_pedido_informacion AS Pedido\r\n" + 
 									"INNER JOIN alt_comercial_cliente cliente ON Pedido.id_empresa = cliente.id_cliente\r\n" + 
 									"INNER JOIN alt_hr_usuario usuario ON Pedido.id_usuario = usuario.id_usuario\r\n" + 
-									"WHERE Pedido.estatus = 2 ORDER BY Pedido.id_text DESC").getResultList();
+									"WHERE Pedido.estatus = 3 ORDER BY Pedido.id_text DESC").getResultList();
 	}
 
 	@Override
