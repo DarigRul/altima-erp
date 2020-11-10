@@ -67,8 +67,9 @@
                                                 <td th:text="${pedido[3]}">Uriel Cuatepitzi</td>
                                                 <td th:text="${pedido[9]}">16/10/2020</td>
                                                 <td class="tdcenter">
-                                                	<a class="btn btn-info btn-circle btn-sm text-white popoverxd" th:onclick="'detalleReporte('+${pedido[0]}+')'" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>&nbsp;
-                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Imprimir"><i class="fas fa-pen"></i></a>
+                                                	<a th:if="${pedido[11]!=null}" class="btn btn-info btn-circle btn-sm text-white popoverxd" th:onclick="'detalleReporte('+${pedido[0]}+')'" data-container="body" data-toggle="popover" data-placement="top" data-content="Reporte espec&iacute;fico"><i class="fas fa-info"></i></a>&nbsp;
+                                                    <a th:if="${pedido[11]!=null}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'detalleReporteGeneral('+${pedido[0]}+')'" data-container="body" data-toggle="popover" data-placement="top" data-content="Reporte General"><i class="fas fa-pen"></i></a>
+                                                    <a th:if="${pedido[11]==null}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'editarApartadoTelas('+${pedido[0]}+')'" data-container="body" data-toggle="popover" data-placement="top" data-content="Confirmaci&oacute;n de recibido"><i class="fas fa-pen"></i></a>
                                                 </td>
                                            </tr>
                                         </tbody>
@@ -106,6 +107,38 @@
 			window.open("/detalle-reporte/"+id+"?format=pdf", '_blank');
 		}
 	</script>
+	<script type="text/javascript">
+		function detalleReporteGeneral(id){
+			window.open("/detalle-reporte-general/"+id+"?format=pdf", '_blank');
+		}
+	</script>
+	<script type="text/javascript">
+		function editarApartadoTelas(id){
+			
+			Swal.fire({
+				  title: '¿Dar por recibido?',
+				  text: "Una vez aprobada no se puede cambiar",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Confirmar',
+				  cancelButtonText: 'Cancelar'
+				}).then((result) => {
+				  if (result.value) {
+				    Swal.fire(
+			    		position: 'center',
+			            icon: 'success',
+			            title: 'Aprobada correctamente',
+						showConfirmButton: false,
+				        timer: 3500,
+					)
+					location.href ="/editar-apartado-de-telas/"+id;
+				  }
+				});
+		}
+	</script>
+	
 </body>
 
 </html>

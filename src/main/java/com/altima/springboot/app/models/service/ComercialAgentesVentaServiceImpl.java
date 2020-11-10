@@ -77,7 +77,8 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 									"		Pedido.fecha_cierre, \r\n" + 
 									"		Pedido.fecha_creacion, \r\n" + 
 									"		Pedido.ultima_fecha_creacion, \r\n" + 
-									"		Pedido.estatus \r\n" + 
+									"		Pedido.estatus, \r\n" + 
+									"		Pedido.fecha_apartado_telas \r\n" +
 									"FROM alt_comercial_pedido_informacion AS Pedido\r\n" + 
 									"INNER JOIN alt_comercial_cliente cliente ON Pedido.id_empresa = cliente.id_cliente\r\n" + 
 									"INNER JOIN alt_hr_usuario usuario ON Pedido.id_usuario = usuario.id_usuario\r\n" + 

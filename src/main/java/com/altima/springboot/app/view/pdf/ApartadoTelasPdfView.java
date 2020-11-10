@@ -33,7 +33,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+		document.setMargins(40f, 40f, 10f, 70f);
 		HeaderFooterCotizacionesPdfView event = new HeaderFooterCotizacionesPdfView();
 		writer.setPageEvent(event);
 		document.open();
@@ -48,8 +48,6 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		
 		List<Object[]> listaTelas = (List<Object[]>) model.get("apartadoTelasReporte");
 		
-		
-		document.setMargins(40f, 40f, 10f, 100f);
 		
 		
 		// TODO Auto-generated method stub
@@ -640,11 +638,12 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						imgUrl = fila[14].toString();
 						codigoTela = fila[3].toString();
 						validador=0;
+						System.out.println("entra");
 					}
 					
 					//Verifica que la ultima tela sólo contenga un registro
 					if(contador==listaTelas.size()-1 && !idTela.equals(fila[4].toString())) {
-						
+						System.out.println("entra al registro de ultima tela con 1 registro");
 						PdfPTable tablaTelasDatos = new PdfPTable(2);
 						tablaTelasDatos.setWidthPercentage(100);
 						tablaTelasDatos.setWidths(new float[] { 4.14f, 5f});
@@ -743,7 +742,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						TelasconImagen.setWidthPercentage(100);
 						TelasconImagen.setWidths(new float[] { 2.4f, 3f, 6f});
 						Image img = Image.getInstance("https://res.cloudinary.com/dti-consultores/image/upload/v1603465395/telas/"+imgUrl);
-						img.scalePercent(8f);
+						img.scaleAbsolute(100f, 60f);
 						PdfPCell imagenTela = new PdfPCell(img);
 						imagenTela.setBorder(0);
 						
@@ -835,7 +834,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						
 						contenido = new PdfPCell(TelasconImagen);
 						contenido.setBorder(0);
-						contenido.setPaddingTop(40f);
+						contenido.setPaddingTop(30f);
 						tablaInformacionTelas.addCell(contenido);
 						
 						contenido = new PdfPCell(tablaTelasDatos);
@@ -871,7 +870,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						
 						imgUrl = fila[14].toString();
 						codigoTela = fila[3].toString();
-						validador=0;
+						validador=-1;
 						
 						Cabezero1 = new PdfPCell(new Phrase(fila[0].toString(), datosGris));
 						Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
@@ -940,6 +939,8 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						
 					}
 					
+					if(validador==-1 || validador==0) {
+						System.out.println("entra al registro de tela");
 					//Inician los subtitulos de la tabla
 					PdfPTable tablaTelasDatos = new PdfPTable(2);
 					tablaTelasDatos.setWidthPercentage(100);
@@ -1040,7 +1041,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					TelasconImagen.setWidthPercentage(100);
 					TelasconImagen.setWidths(new float[] { 2.4f, 3f, 6f});
 					Image img = Image.getInstance("https://res.cloudinary.com/dti-consultores/image/upload/v1603465395/telas/"+imgUrl);
-					img.scalePercent(8f);
+					img.scaleAbsolute(100f, 60f);
 					PdfPCell imagenTela = new PdfPCell(img);
 					imagenTela.setBorder(0);
 					
@@ -1132,7 +1133,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					
 					contenido = new PdfPCell(TelasconImagen);
 					contenido.setBorder(0);
-					contenido.setPaddingTop(40f);
+					contenido.setPaddingTop(30f);
 					tablaInformacionTelas.addCell(contenido);
 					
 					contenido = new PdfPCell(tablaTelasDatos);
@@ -1165,6 +1166,14 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					sumaPersonas = 0;
 					totalConsumoCantidad = 0;
 					spfConsumo = 0;
+					}
+					
+					if(validador==2) {
+						validador=-1;
+					}
+					if(validador==0) {
+						validador=2;
+					}
 					
 					//Verifica que existe un cambio de tela para poder contemplar ese registro
 					if(!idTela.equals(fila[4].toString())){
