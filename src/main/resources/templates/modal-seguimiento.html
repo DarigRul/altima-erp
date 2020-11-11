@@ -20,16 +20,18 @@
                     </thead>
                     <tbody>
                         <tr>
-                        	<td>Presentaci&oacute;n</td>
+                            <td>Presentaci&oacute;n</td>
                             <td>24/12/2020</td>
                             <td></td>
-                            <td><a onclick="editarObservacionesClienteAgente()" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Actualizar observaci&oacute;n"><i class="fas fa-pen"></i></a></td>
+                            <td><a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="editarObservacionesClienteAgente()" class="btn btn-warning btn-circle btn-sm popoverxd"
+                                    data-container="body" data-placement="top" data-content="Actualizar observaci&oacute;n"><i class="fas fa-pen"></i></a></td>
                         </tr>
                         <tr>
-                        	<td>Toma de tallas</td>
+                            <td>Toma de tallas</td>
                             <td>30/12/2020</td>
                             <td>Faltaron 20 empleados para talla</td>
-                            <td><a onclick="editarObservacionesClienteAgente()" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Actualizar observaci&oacute;n"><i class="fas fa-pen"></i></a></td>
+                            <td><a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="editarObservacionesClienteAgente()" class="btn btn-warning btn-circle btn-sm popoverxd"
+                                    data-container="body" data-placement="top" data-content="Actualizar observaci&oacute;n"><i class="fas fa-pen"></i></a></td>
                         </tr>
                     </tbody>
                 </table>
