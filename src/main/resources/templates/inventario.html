@@ -1,291 +1,292 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head th:include="navegacion-head :: header">
-<title id="pageTitle">Inventario | Altima</title>
+    <title id="pageTitle">Inventario | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-	<!-- Site wrapper -->
-	<div class="wrapper">
-		<!-- Navbar -->
-		<div th:insert="navegacion-nav"></div>
-		<!-- /.navbar -->
-		<!-- Modal -->
-		<div th:insert="navegacion-logout"></div>
-		<!-- Main Sidebar Container -->
-		<div th:insert="navegacion-aside"></div>
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
 
-		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
-			<section class="content-header">
-				<div class="container-fluid">
-					<div class="row mb-2">
-						<div class="col-sm-6">
-							<h1>
-								Inventario
-							</h1>
-						</div>
-						<div class="col-sm-6">
-							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-								<li class="breadcrumb-item active">Inventario</li>
-							</ol>
-						</div>
-					</div>
-				</div>
-				<!-- /.container-fluid -->
-			</section>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Inventario
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Inventario</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
 
-			<!-- Main content -->
-			<section class="content">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-12">
-							<!-- Default box -->
-							<div class="card">
-								<div class="card-header bg-altima">
-									<h3 class="card-title">Listado de muestras</h3>
-								</div>
-								<div class="card-body">
-									<table class="table table-striped table-bordered" id="inventarioMuestrario">
-										<thead>
-											<tr>
-											
-												<th>C&oacute;digo de barras</th>
-												<th>Prenda</th>
-												<th>Modelo</th>
-												<th>Talla</th>
-												<th>Largo</th>
-												<th>Tela</th>
-												<th>G&eacute;nero</th>
-												<th>Precio</th>
-												<th>Imagen</th>
-												<th>Estatus</th>
-												<th>Acciones</th>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de muestras</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-striped table-bordered" id="inventarioMuestrario">
+                                        <thead>
+                                            <tr>
 
-											</tr>
-										</thead>
-										<tbody>
-								 <tr th:each="mt:${listInventario}">
-								 
-								
-											
-										
-                                          
+                                                <th>C&oacute;digo de barras</th>
+                                                <th>Prenda</th>
+                                                <th>Modelo</th>
+                                                <th>Talla</th>
+                                                <th>Largo</th>
+                                                <th>Tela</th>
+                                                <th>G&eacute;nero</th>
+                                                <th>Precio</th>
+                                                <th>Imagen</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="mt:${listInventario}">
+
+
+
+
+
                                                 <td th:text="${mt[1]}"></td>
-											    <td th:text="${mt[2]}"></td>
-											    <td th:text="${mt[13]}"></td>
-											    <td th:text="${mt[3]}"></td>
-											    <td th:text="${mt[4]}"></td>  
-											    <td th:text="${mt[5]}"></td>
-											    <td th:text="${mt[6]}"></td>
-											    <td th:text="${mt[12]}"></td>
-												<td class="tdcenter">
-														<button data-toggle="modal"  th:attr="onclick=|mostrarImgModal('${mt[9]}','${mt[11]}')|" data-target="#infoInventario" class="btn btn-info btn-circle btn-sm"><i class="fas fa-image"></i></button>
-												</td>
-												<td th:if="${mt[10]==0}">Inactivo</td>
-												<td th:if="${mt[10]==1}">Activo</td>
-												<td th:if="${mt[10]==2}">Prestado</td>
-												<td th:if="${mt[10]==3}">Solicitud de Rack</td>
-												
-												<td class="tdcenter">
-												<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
-													<button th:attr="onclick=|bajaInventario('${mt[0]}')|" class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-													<!-- <a onclick="activaInventario()" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></a> -->
-												<a  th:attr="onclick=|lol('${mt[0]}','${mt[9]}','${mt[11]}')|"  class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="modal" data-target="#editarImagenMuestra" data-placement="top" data-content="Editar imagen"><i class="fas fa-pen"></i></a>
-												</td>
-											</tr>
-											
-										</tbody>
-									</table>
-									
-									<div th:insert="${'modal-inventario'}"></div>
-									<div th:insert="${'modal-inventario-edit'}"></div>
-								</div>
-								<!-- /.card-body -->
-							</div>
-							<!-- /.card -->
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- /.content -->
-		</div>
-		<!-- /.content-wrapper -->
+                                                <td th:text="${mt[2]}"></td>
+                                                <td th:text="${mt[13]}"></td>
+                                                <td th:text="${mt[3]}"></td>
+                                                <td th:text="${mt[4]}"></td>
+                                                <td th:text="${mt[5]}"></td>
+                                                <td th:text="${mt[6]}"></td>
+                                                <td th:text="${mt[12]}"></td>
+                                                <td class="tdcenter">
+                                                    <button data-toggle="modal" th:attr="onclick=|mostrarImgModal('${mt[9]}','${mt[11]}')|" data-target="#infoInventario" class="btn btn-info btn-circle btn-sm"><i class="fas fa-image"></i></button>
+                                                </td>
+                                                <td th:if="${mt[10]==0}">Inactivo</td>
+                                                <td th:if="${mt[10]==1}">Activo</td>
+                                                <td th:if="${mt[10]==2}">Prestado</td>
+                                                <td th:if="${mt[10]==3}">Solicitud de Rack</td>
 
-		<div th:insert="navegacion-footer"></div>
-	</div>
-	<!-- ./wrapper -->
+                                                <td class="tdcenter">
+                                                    <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:attr="onclick=|bajaInventario('${mt[0]}')|" class="btn btn-danger btn-circle btn-sm text-white popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
+                                                    <!-- <a onclick="activaInventario()" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></a> -->
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:attr="onclick=|lol('${mt[0]}','${mt[9]}','${mt[11]}')|" class="btn btn-warning btn-circle btn-sm popoverxd"
+                                                        data-container="body" data-toggle="modal" data-target="#editarImagenMuestra" data-placement="top" data-content="Editar imagen"><i class="fas fa-pen"></i></a>
+                                                </td>
+                                            </tr>
 
-	<div th:replace="navegacion-scripts"></div>
-	<script src="dist/js/tablaInventario.js"></script>
-	<script src="/dist/js/UploadImage.js"></script>
-	<script src="/dist/js/sweetalert.js"></script>
-	<script src="/dist/js/confirmacionesInventario.js"></script>
+                                        </tbody>
+                                    </table>
 
-	<script>
-		$('#iComercial').removeClass('text-primary');
-		$('#menuComercial').addClass('menu-open');
-		$('#navComercial').addClass('active');
-		$('#menuMuestrario').addClass('menu-open');
-		$('#navMuestrario').addClass('active');
-		$('#navMuestrario1').addClass('active');
-	</script>
-	
-	
-	   <script th:inline="javascript">
-	   
-	   
-	   function readURL(input) {
-			if (input.files && input.files[0]) {
-				var reader = new FileReader();
-				reader.onload = function (e) {
-					$('#blah1').attr('src', e.target.result);
-				}
-				reader.readAsDataURL(input.files[0]); // convert to base64 string
-			}
-		}
-		$("#file").change(function () {
-			readURL(this);
-			console.log("cambio");
-		});
-	   
-	   function lol(id, idPrenda, idTela){
-		   
-		   console.log("aqui esta el id deL PEDIDO  " + id)
-		   	   console.log("aqui esta el id de la prenda  " + idPrenda)
-		   	   	   console.log("aqui esta el id de la prenda TELA  " + idTela)
-		   	   	   
-		     $('#imagenBorrar1').remove();
-		   
-		   $.ajax({
-				type: "POST",
-				url: "/ima_prenda",
-				data: {
-					"_csrf": $('#token').val(),
-					"id":id
-				},
-				success: (data) => {
-                  console.log(data);
-                  
-                  
-                  $('#ident').val(data.idPrenda);
-                  $('#ident2').val(data.idTela);
-                 
-                  ///////aqui el replace de la imagen
-                  
-                  
-                  $.ajax({
-      				type: "GET",
-      				url: "/ima_prenda_replace",
-      				data: {
-      					"_csrf": $('#token').val(),
-      					"idPrenda":idPrenda,
-      					"idTela":idTela
-      				},
-      				success: (data2) => {
-                        console.log(data2);
-                        console.log(data2[3]);
-                        
-                    
-                       
-                     
-                       
-                        $('#contenedorDeImagen').append("<div id='imagenBorrar1'><img src='/uploads/prendas/"+data2[3]+"' alt='Placeholder' id='serviceImageInventario' class='placeholder img-thumbnail' aria-describedby='imagePreviewHelpInventario'/></div>" );
-                  
-      				},
-      				failure: function (errMsg) {
-      					alert(errMsg);
-      				}
-      			});
-                  
-                  
-                  
-                  
-				},
-				failure: function (errMsg) {
-					alert(errMsg);
-				}
-			});
-		   
-	   }
-	   
-	   
-   function mostrarImgModal(idPrenda, idTela){
-	   
-	   console.log("entre a la funcion del modal")
-	    console.log("aqui esta el id de la prenda" +idPrenda)
-	     console.log("swui esta el id de la " + idTela)
-	   
-	    $('#Borrar').remove();
-	   ////////////////////ALERT ALERT ALERT
-	   Swal.fire({
-		   title: 'CARGANDO...',
-		 
-		   timer: 500,
-		   timerProgressBar: true,
-		   onBeforeOpen: () => {
-		     Swal.showLoading()
-		     timerInterval = setInterval(() => {
-		       const content = Swal.getContent()
-		       if (content) {
-		         const b = content.querySelector('b')
-		         if (b) {
-		           b.textContent = Swal.getTimerLeft()
-		         }
-		       }
-		     }, 50)
-		   },
-		   onClose: () => {
-		     clearInterval(timerInterval)
-		   }
-		 }).then((result) => {
-		   /* Read more about handling dismissals below */
-		   if (result.dismiss === Swal.DismissReason.timer) {
-		     console.log('I was closed by the timer')
-		   }
-		 })
-		 
-		 
-		 /////////FIN DE ALERT
-	   $.ajax({
-				type: "GET",
-				url: "/ima_prenda_replace",
-				data: {
-					"_csrf": $('#token').val(),
-					"idPrenda":idPrenda,
-					"idTela":idTela
-				},
-				
-				
-				success: (data) => {
-               console.log(data);
-               console.log(data[3]);
-               
-           
-              
-            
-              
-               
-           
-               $('#padre').append("<div id='Borrar'><img class='img-fluid' src='/uploads/prendas/"+data[3]+"' alt='No hay imagen disponible' /></div>" );
-             
-         
-				},
-				failure: function (errMsg) {
-					alert(errMsg);
-				}
-			});
-		   
-		
-		   
-	   }
-	
-	</script>
-	
-	<!-- imagen-->
+                                    <div th:insert="${'modal-inventario'}"></div>
+                                    <div th:insert="${'modal-inventario-edit'}"></div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaInventario.js"></script>
+    <script src="/dist/js/UploadImage.js"></script>
+    <script src="/dist/js/sweetalert.js"></script>
+    <script src="/dist/js/confirmacionesInventario.js"></script>
+
+    <script>
+        $('#iComercial').removeClass('text-primary');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active');
+        $('#menuMuestrario').addClass('menu-open');
+        $('#navMuestrario').addClass('active');
+        $('#navMuestrario1').addClass('active');
+    </script>
+
+
+    <script th:inline="javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#blah1').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+        $("#file").change(function() {
+            readURL(this);
+            console.log("cambio");
+        });
+
+        function lol(id, idPrenda, idTela) {
+
+            console.log("aqui esta el id deL PEDIDO  " + id)
+            console.log("aqui esta el id de la prenda  " + idPrenda)
+            console.log("aqui esta el id de la prenda TELA  " + idTela)
+
+            $('#imagenBorrar1').remove();
+
+            $.ajax({
+                type: "POST",
+                url: "/ima_prenda",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "id": id
+                },
+                success: (data) => {
+                    console.log(data);
+
+
+                    $('#ident').val(data.idPrenda);
+                    $('#ident2').val(data.idTela);
+
+                    ///////aqui el replace de la imagen
+
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/ima_prenda_replace",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            "idPrenda": idPrenda,
+                            "idTela": idTela
+                        },
+                        success: (data2) => {
+                            console.log(data2);
+                            console.log(data2[3]);
+
+
+
+
+
+                            $('#contenedorDeImagen').append("<div id='imagenBorrar1'><img src='/uploads/prendas/" + data2[3] + "' alt='Placeholder' id='serviceImageInventario' class='placeholder img-thumbnail' aria-describedby='imagePreviewHelpInventario'/></div>");
+
+                        },
+                        failure: function(errMsg) {
+                            alert(errMsg);
+                        }
+                    });
+
+
+
+
+                },
+                failure: function(errMsg) {
+                    alert(errMsg);
+                }
+            });
+
+        }
+
+
+        function mostrarImgModal(idPrenda, idTela) {
+
+            console.log("entre a la funcion del modal")
+            console.log("aqui esta el id de la prenda" + idPrenda)
+            console.log("swui esta el id de la " + idTela)
+
+            $('#Borrar').remove();
+            ////////////////////ALERT ALERT ALERT
+            Swal.fire({
+                title: 'CARGANDO...',
+
+                timer: 500,
+                timerProgressBar: true,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                        const content = Swal.getContent()
+                        if (content) {
+                            const b = content.querySelector('b')
+                            if (b) {
+                                b.textContent = Swal.getTimerLeft()
+                            }
+                        }
+                    }, 50)
+                },
+                onClose: () => {
+                    clearInterval(timerInterval)
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log('I was closed by the timer')
+                }
+            })
+
+
+            /////////FIN DE ALERT
+            $.ajax({
+                type: "GET",
+                url: "/ima_prenda_replace",
+                data: {
+                    "_csrf": $('#token').val(),
+                    "idPrenda": idPrenda,
+                    "idTela": idTela
+                },
+
+
+                success: (data) => {
+                    console.log(data);
+                    console.log(data[3]);
+
+
+
+
+
+
+
+                    $('#padre').append("<div id='Borrar'><img class='img-fluid' src='/uploads/prendas/" + data[3] + "' alt='No hay imagen disponible' /></div>");
+
+
+                },
+                failure: function(errMsg) {
+                    alert(errMsg);
+                }
+            });
+
+
+
+        }
+    </script>
+
+    <!-- imagen-->
     <script th:src="@{/dist/js/UploadImage.js}"></script>
 
 </body>
+
 </html>

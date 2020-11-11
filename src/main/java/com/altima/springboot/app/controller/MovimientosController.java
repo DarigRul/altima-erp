@@ -3,6 +3,7 @@ package com.altima.springboot.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ public class MovimientosController {
 	@Autowired
 	private IComercialMovimientoService movimientoService;
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_MUESTRARIO_MOVIMIENTOS_LISTAR"})
 	@GetMapping("/movimientos")
 	public String listExits(Model model) {
 		model.addAttribute("listMovimientos", movimientoService.findAllWithNames());
