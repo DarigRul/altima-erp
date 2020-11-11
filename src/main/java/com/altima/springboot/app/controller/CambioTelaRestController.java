@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
+import com.altima.springboot.app.models.entity.ComercialCoordinadoTela;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoForro;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoMaterial;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoPrenda;
@@ -125,12 +126,14 @@ public class CambioTelaRestController {
 			ProduccionCoordinadoTela detalleTela = new ProduccionCoordinadoTela();
 			JSONObject object = (JSONObject) json2.get(k);
 			String id = object.get("id_tela").toString();
+			String idMaterialConv = object.get("id_materialConv").toString();
 			System.out.println("x--->"+id);
 			System.out.println("x--->"+objetoCoodinadoPrenda.getIdCoordinadoPrenda());
 			detalleTela.setIdTela(Long.parseLong(id));
 			detalleTela.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
 			detalleTela.setCreado_por(auth.getName());
 			detalleTela.setActualizadoPor("User");
+			detalleTela.setDescripcion(idMaterialConv);
 			detalleTela.setFechaCreacion(hourdateFormat.format(date));
 			detalleTela.setUltimaFechaModificacion(null);
 			CambioTelaService.saveTelaMaterial(detalleTela);
@@ -255,6 +258,10 @@ public class CambioTelaRestController {
     }
 
 
+	@GetMapping("/verficacion-de-tela-convinacion")
+    public List <Object []> verificarTelaConvinacion (Long idPrenda, Long idCoorPrenda) {
+    	return CambioTelaService.buscarTelaConv(idPrenda,idCoorPrenda );
+    }
 
 
 	

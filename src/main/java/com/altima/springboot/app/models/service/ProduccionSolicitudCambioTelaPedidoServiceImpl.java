@@ -14,6 +14,7 @@ import com.altima.springboot.app.models.entity.ProduccionCoordinadoForro;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoMaterial;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoPrenda;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoTela;
+import com.altima.springboot.app.models.entity.ComercialCoordinadoTela;
 import com.altima.springboot.app.models.entity.ProduccionSolicitudCambioTelaPedido;
 import com.altima.springboot.app.repository.ProduccionCoordinadoForroRepository;
 import com.altima.springboot.app.repository.ProduccionCoordinadoMaterialRepository;
@@ -440,16 +441,6 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"	AND coorTela.id_coordinado_prenda = CP.id_coordinado_prenda \r\n" + 
 				"	AND CP.id_solicitud_cambio_tela = sol.id_tela_pedido \r\n" + 
 				"	AND sol.id_tela_pedido ="+id+"\r\n" + 
-				"	\r\n" + 
-				"	AND tela.id_tela != (\r\n" + 
-				"	SELECT\r\n" + 
-				"		TelaActual.id_tela \r\n" + 
-				"	FROM\r\n" + 
-				"		alt_comercial_coordinado_tela AS TelaActual \r\n" + 
-				"	WHERE\r\n" + 
-				"		TelaActual.id_coordinado_prenda = CP.id_coordinado_prenda_cambio \r\n" + 
-				
-				"	)\r\n" + 
 				"	union all\r\n" + 
 				"	SELECT\r\n" + 
 				"	CONCAT( 'Forro ', forro.nombre_forro ),\r\n" + 
@@ -465,21 +456,40 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"	AND forro.id_forro = coorForro.id_forro \r\n" + 
 				"	AND coorForro.id_coordinado_prenda = CP.id_coordinado_prenda \r\n" + 
 				"	AND CP.id_solicitud_cambio_tela = sol.id_tela_pedido \r\n" + 
-				"	AND sol.id_tela_pedido ="+id+"\r\n" + 
-				"	AND forro.id_forro != (\r\n" + 
-				"	SELECT\r\n" + 
-				"		ForroActual.id_forro \r\n" + 
-				"	FROM\r\n" + 
-				"		alt_comercial_coordinado_forro AS ForroActual \r\n" + 
-				"	WHERE\r\n" + 
-				"		ForroActual.id_coordinado_prenda = CP.id_coordinado_prenda_cambio \r\n" + 
-				
-				"	)").getResultList();
+				"	AND sol.id_tela_pedido ="+id+"\r\n").getResultList();
 		return re;//hooool munf
 		//hollla
 	}
 
 
 
-	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List <Object []> buscarTelaConv  (Long idPrenda, Long idCoorPrenda ) {
+		List<Object[]> re = em.createNativeQuery(""
+		+ "SELECT\r\n" + 
+		"material.id_material,  \r\n" + 
+		"material.nombre_material , \r\n" + 
+		"look.nombre_lookup,\r\n" + 
+		"tela.id_tela\r\n" + 
+		"FROM\r\n" + 
+		"alt_disenio_material_prenda AS material_prenda,\r\n" + 
+		"alt_disenio_material AS material,\r\n" + 
+		"alt_disenio_lookup adl ,\r\n" + 
+		"alt_disenio_lookup AS look , \r\n" + 
+		"alt_comercial_coordinado_tela as tela\r\n" + 
+		"\r\n" + 
+		"WHERE \r\n" + 
+		"1 = 1\r\n" + 
+		"AND look.id_lookup = material.id_clasificacion\r\n" + 
+		"AND look.nombre_lookup  IN ( 'Combinación' )\r\n" + 
+		"AND material.id_material = material_prenda.id_material\r\n" + 
+		"AND material.id_proceso = adl.id_lookup\r\n" + 
+		"AND material_prenda.id_prenda = "+idPrenda+"\r\n" + 
+		"AND tela.descripcion = material.id_material \r\n"+
+		"AND tela.id_coordinado_prenda="+idCoorPrenda  ).getResultList();
+		
+		 return re;
+				
+	}
 }

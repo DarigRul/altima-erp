@@ -70,20 +70,6 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	public List<Object[]> Terminados(Long id, Long tipo) {
 		// TODO Auto-generated method stub
 
-		System.out.println(
-				"select orden.id_detalle_pedido, orden.id_text from alt_produccion_detalle_pedido as orden  \r\n"
-						+ "								where 1=1 \r\n"
-						+ "								and  EXISTS (select muestra.id_pedido from alt_control_produccion_muestra as muestra \r\n"
-						+ "								           where 1=1\r\n"
-						+ "								           and muestra.id_pedido= orden.id_detalle_pedido\r\n"
-						+ "								           and orden.id_pedido=" + id + " \r\n"
-						+ "								           and muestra.estatus_tiempo='Stop' \r\n"
-						+ "								           and muestra.tipo=" + (tipo - 1) + ") \r\n"
-						+ "				                and not  exists\r\n"
-						+ "								   			(select muestra.id_pedido from alt_control_produccion_muestra as muestra \r\n"
-						+ "								     		where muestra.id_pedido= orden.id_detalle_pedido and muestra.tipo="
-						+ tipo + ")\r\n" + "								     and orden.id_pedido=" + id);
-
 		List<Object[]> re = em.createNativeQuery(
 				"select orden.id_detalle_pedido, orden.id_text from alt_produccion_detalle_pedido as orden  \r\n"
 						+ "								where 1=1 \r\n"
@@ -271,7 +257,6 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public void deleteByIdDetalle(Long id, Long idp) {
-		System.out.println("ola pinche putita te pones bien cachonda ija tu puta madre ");
 		em.createNativeQuery(
 				"delete from alt_produccion_detalle_pedido where id_pedido=" + idp + " and id_prenda=" + id)
 				.executeUpdate();
@@ -293,8 +278,7 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public List<Object[]> materialesPorPrendaExtra(Long id) {
-		System.out.println("vamos a mnodificar la entretela");
-
+		
 		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + "	material.id_material,\r\n"
 				+ "	material.nombre_material ,\r\n" + "	look.nombre_lookup\r\n" + "FROM\r\n"
 				+ "	alt_disenio_material_prenda AS material_prenda,\r\n" + "	alt_disenio_material AS material,\r\n"
@@ -327,8 +311,7 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public List<Object[]> findAllTela(Long id) {
-		System.out.println("este es el que saca las telas");
-
+	
 		List<Object[]> re = em.createNativeQuery("Select\r\n" + "tela.id_tela,\r\n"
 				+ "CONCAT(tela.id_text,' ', tela.nombre_tela),\r\n" + "tela.codigo_color\r\n" + "\r\n"
 				+ "				from alt_disenio_tela as tela ,alt_disenio_tela_prenda as tela_prenda\r\n"
@@ -356,8 +339,6 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public List<Object[]> findListMatEx(Long id) {
-
-		System.out.println("entre a este 1227 y el id   " + id);
 
 		List<Object[]> re = em.createNativeQuery("SELECT\n" + "	material.id_material,\n"
 				+ "	material.nombre_material,\n" + "	material_prenda.id_material_prenda \n" + "FROM\n"
@@ -390,7 +371,6 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Transactional
 	public List<Object[]> findAllTelaPrimera(Long id) {
 
-		System.out.println("este es el bueno para las telas de coordinados");
 		List<Object[]> re = em.createNativeQuery("Select  tela.id_tela, CONCAT(tela.id_text,' ', tela.nombre_tela) \r\n"
 				+ "				from alt_disenio_tela as tela ,alt_disenio_tela_prenda as tela_prenda\r\n"
 				+ "				WHERE 1=1 \r\n" + "				\r\n" + "				and tela.estatus_tela=1\r\n"
@@ -408,7 +388,7 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 					+ "alt_disenio_prenda \r\n" + "WHERE \r\n" + "alt_disenio_prenda.descripcion_prenda='" + detalle
 					+ "'").getSingleResult().toString();
 
-			System.out.println(re);
+			
 			return true;
 		} catch (Exception e) {
 
@@ -436,7 +416,6 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Transactional
 	public List<Object[]> selectPrenda(Long id) {
 
-		System.out.println("entre al implent de prenda para el lesct");
 		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + "    dp.id_familia_prenda,\r\n"
 				+ "    concat(lk.nombre_lookup,'--', lk2.nombre_lookup) as nombre,\r\n"
 				+ "    lk2.nombre_lookup as genero\r\n" + "FROM\r\n" + "    alt_produccion_pedido_coleccion dp\r\n"
@@ -469,23 +448,6 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 	@Override
 	@Transactional
 	public String validacion (Long idp ,Long id) {
-		
-		System.out.println("ando en el service ");
-		System.out.println("id tela    " + id);
-		System.out.println("id prenda   " + idp);
-		System.out.println("SELECT\\r\\n\" + \r\n" + 
-				"					\"	precio.id_prenda \\r\\n\" + \r\n" + 
-				"					\"FROM\\r\\n\" + \r\n" + 
-				"					\"	alt_disenio_lista_precio_prenda AS precio,\\r\\n\" + \r\n" + 
-				"					\"	alt_disenio_tela AS tela \\r\\n\" + \r\n" + 
-				"					\"WHERE\\r\\n\" + \r\n" + 
-				"					\"	1 = 1 \\r\\n\" + \r\n" + 
-				"					\"	AND precio.id_prenda = \"+idp+\" \\r\\n\" + \r\n" + 
-				"					\"	AND tela.id_familia_composicion = precio.id_familia_composicion \\r\\n\" + \r\n" + 
-				"					\"	AND tela.id_tela = ");
-		
-		
-		
 		try {
 			String re = em.createNativeQuery("SELECT\r\n" + 
 					"	precio.id_prenda \r\n" + 

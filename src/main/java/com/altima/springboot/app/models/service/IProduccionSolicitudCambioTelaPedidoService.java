@@ -1,6 +1,8 @@
 package com.altima.springboot.app.models.service;
 
 import java.util.List;
+
+import com.altima.springboot.app.models.entity.ComercialCoordinadoTela;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoForro;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoMaterial;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoPrenda;
@@ -44,4 +46,6 @@ public interface IProduccionSolicitudCambioTelaPedidoService {
 	void actualizar(Long idActual, Long idCambio , String actualizo, String fecha);
 	
 	List <Object []> detalles (Long id);
+
+	List <Object []> buscarTelaConv (Long idPrenda, Long idCoorPrenda );
 }

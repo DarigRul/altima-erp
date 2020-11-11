@@ -849,7 +849,7 @@ function selected(id){
     				 return;
     			 }
     			 else{
-    			 datosMateriales22.push({'id_tela':$(dato1).val()});
+					datosMateriales22.push({'id_tela':$(dato1).val(), 'id_materialConv':$(dato1).attr('name')   });
     			 }
     	        });
     		 

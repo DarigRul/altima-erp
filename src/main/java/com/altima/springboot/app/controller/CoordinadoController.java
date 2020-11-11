@@ -382,11 +382,13 @@ public class CoordinadoController {
 			ComercialCoordinadoTela detalleTela = new ComercialCoordinadoTela();
 			JSONObject object = (JSONObject) json2.get(k);
 			String id = object.get("id_tela").toString();
+			String idMaterialConv = object.get("id_materialConv").toString();
 
 			detalleTela.setIdTela(Long.parseLong(id));
 			detalleTela.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
 			detalleTela.setCreado_por(auth.getName());
 			detalleTela.setActualizadoPor("User");
+			detalleTela.setDescripcion(idMaterialConv);
 			detalleTela.setFechaCreacion(hourdateFormat.format(date));
 			detalleTela.setUltimaFechaModificacion(null);
 			CoordinadoService.saveTelaMaterial(detalleTela);
