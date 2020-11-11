@@ -223,9 +223,10 @@
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_ELIMINAR'')')})">
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_VER'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_LLAMADAS'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_EDITAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_AGREGAR'')')})">
                                     <a th:href="${'/seguimientos'}" class="nav-link" id="navVenta3">
                                         <i class="nav-icon fas fa-search"></i>
                                         <p>Seguimientos</p>
@@ -241,11 +242,11 @@
                                         <p>Carga de Pedidos</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CARGA_ELIMINAR'')')})">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_LISTAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_REPORTE'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_CONFIRMAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_REPORTEGENERAL'')')})">
                                     <a th:href="${'/apartado-de-telas'}" class="nav-link" id="navVentaApartado">
                                         <i class="nav-icon-custom flaticon-curling-hair-with-tissue-roll"></i>
                                         <p>Apartado de Telas</p>

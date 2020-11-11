@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ public class ApartadoTelas {
 	@Autowired
 	private ICargaPedidoService pedidoService;
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_LISTAR"})
 	@GetMapping("/apartado-de-telas")
 	public String listApartado(Model model) {
 		
@@ -35,6 +37,7 @@ public class ApartadoTelas {
 		return "apartado-de-telas";
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_CONFIRMAR"})
 	@GetMapping("/editar-apartado-de-telas/{id}")
 	public String editApartado(@PathVariable(value="id")Long id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -50,7 +53,8 @@ public class ApartadoTelas {
 		
 		return "redirect:/apartado-de-telas";
 	}
-	
+
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_REPORTE"})
 	@RequestMapping(value = {"/detalle-reporte/{id}"}, method = RequestMethod.GET)
 	public String detalleReporte(@PathVariable(value="id")Long id, Model model) {
 		
@@ -59,6 +63,7 @@ public class ApartadoTelas {
 		return "/detalle-reporte";
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_REPORTEGENERAL"})
 	@RequestMapping(value = {"/detalle-reporte-general/{id}"}, method = RequestMethod.GET)
 	public String detalleReporteGeneral(@PathVariable(value="id")Long id, Model model) {
 		
