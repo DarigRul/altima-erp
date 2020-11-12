@@ -150,6 +150,7 @@ public class AgenteVentaController {
 		return "agregar-carga";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_LISTAR"})
 	@GetMapping("/movimientos-agentes")
 	public String listMovi(Model model) {
 		

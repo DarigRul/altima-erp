@@ -2,7 +2,6 @@ package com.altima.springboot.app.controller;
 
 import java.io.IOException;
 
-
 import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,6 +13,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -56,20 +56,15 @@ public class BordadosAgenteVentasController {
 	@Autowired
 	private IUploadService UploadService;
 	
-	
     @GetMapping("/bordados")
     public String listBordados(Model model) {
     	
     	List<Object[]> listaBordados= bordadoService.findListaBordados();
     	model.addAttribute("listBordado", listaBordados);
-    	
-    	
-    	
-    	
-    	
         return "bordados";
     }
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_AGREGAR"})
     @GetMapping("/agregar-bordado")
     public String addBordados(Model model) {
     	
@@ -185,7 +180,7 @@ public class BordadosAgenteVentasController {
 				.body(recurso);
 	}
 	
-	
+	  @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_EDITAR"})
 	  @GetMapping("/bordados/{id}")
 	    public String listBordadosNum(Model model,@PathVariable("id") Long id) {
 		  
@@ -233,7 +228,7 @@ public class BordadosAgenteVentasController {
 
 		}
 	  
-	  
+	  @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_ELIMINAR"})
 	  @GetMapping("/eliminar_bordado/{id}")
 		public String deleteBordado(@PathVariable("id") Long idBordado, RedirectAttributes redirectAttrs) {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();

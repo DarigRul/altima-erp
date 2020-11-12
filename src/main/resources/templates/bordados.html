@@ -24,8 +24,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>Personalizado
-                                <a th:href="@{/agregar-bordado}" class="btn btn-sm icon-btn btn-altima text-white"><span
-                                        class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nuevo personalizado</a>
+                                <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/agregar-bordado}" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nuevo personalizado</a>
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -64,22 +63,22 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="mt:${listBordado}"  >
-                                                 <td th:text="${mt[0]}"></td>
-                                                 <td th:text="${mt[1]}"></td>
-                                                 <td th:text="${mt[2]}"></td>
-                                                 <td th:text="${mt[6]}"></td>
-                                                 <td th:text="${mt[4]}==0?'En espera':'Aceptado'"></td>
+                                            <tr th:each="mt:${listBordado}">
+                                                <td th:text="${mt[0]}"></td>
+                                                <td th:text="${mt[1]}"></td>
+                                                <td th:text="${mt[2]}"></td>
+                                                <td th:text="${mt[6]}"></td>
+                                                <td th:text="${mt[4]}==0?'En espera':'Aceptado'"></td>
                                                 <td class="text-center">
-                                                    <a class="btn btn-info text-white btn-circle btn-sm popoverxd" data-toggle="popover"
-                                                        data-content="Ver detalles" data-placement="top"><i class="fas fa-info"></i></a>
-                                                    <a th:href="@{/bordados/}+${mt[5]}" class="btn btn-warning btn-circle btn-sm popoverxd" data-toggle="popover"
-                                                        data-content="Editar" data-placement="top"><i class="fas fa-pen"></i></a>
-                                                        
-                                                         <a th:href="@{/eliminar_bordado/}+${mt[5]}" class="btn btn-danger btn-circle btn-sm popoverxd"  data-toggle="popover"
-                                                        data-content="Eliminar" data-placement="top"><i class="fas fa-times"></i></a>
-                                                        
-                                                   
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-info text-white btn-circle btn-sm popoverxd" data-toggle="popover" data-content="Ver detalles"
+                                                        data-placement="top"><i class="fas fa-info"></i></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/bordados/}+${mt[5]}" class="btn btn-warning btn-circle btn-sm popoverxd"
+                                                        data-toggle="popover" data-content="Editar" data-placement="top"><i class="fas fa-pen"></i></a>
+
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/eliminar_bordado/}+${mt[5]}" class="btn btn-danger btn-circle btn-sm popoverxd"
+                                                        data-toggle="popover" data-content="Eliminar" data-placement="top"><i class="fas fa-times"></i></a>
+
+
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -100,9 +99,9 @@
     </div>
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
-    
- 
-    
+
+
+
     <script src="/dist/js/tablaGeneral.js"></script>
     <script>
         $('#iComercial').removeClass('text-altima');
@@ -112,18 +111,18 @@
         $('#navVenta').addClass('active');
         $('#navVenFlu').addClass('active');
     </script>
-    
-       <script th:if="${icon != null}" th:inline="javascript">
-            Swal.fire({
 
-                position: 'center',
-                icon: /*[[${icon}]]*/ 'default',
-                title: /*[[${title}]]*/ 'default',
-                showConfirmButton: false,
-                timer: 2500
-            });
-        </script>
-    
+    <script th:if="${icon != null}" th:inline="javascript">
+        Swal.fire({
+
+            position: 'center',
+            icon: /*[[${icon}]]*/ 'default',
+            title: /*[[${title}]]*/ 'default',
+            showConfirmButton: false,
+            timer: 2500
+        });
+    </script>
+
     <script>
         function rechazarBordado() {
             Swal.fire({
@@ -136,23 +135,23 @@
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.value) {
-                	
-                	
-                	
+
+
+
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
                         title: 'Personalizado rechazado correctamente',
                         showConfirmButton: false,
                         timer: 2500
-                        })
+                    })
                 }
             })
         }
     </script>
-    
-    
-   
+
+
+
 </body>
 
 </html>
