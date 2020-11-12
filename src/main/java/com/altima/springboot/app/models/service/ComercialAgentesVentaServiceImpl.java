@@ -3,6 +3,7 @@ package com.altima.springboot.app.models.service;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.validation.GroupSequence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,8 +88,8 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 
 	@Override
 	@Transactional
-	public List<Object[]> findDatosReporteApartadoTelas (Long id){
-		return em.createNativeQuery("Call alt_pr_apartado_telas_reporte("+id+")").getResultList();
+	public List<Object[]> findDatosReporteApartadoTelas (Long id,boolean agrupar){
+		return em.createNativeQuery("Call alt_pr_apartado_telas_reporte("+id+","+agrupar+")").getResultList();
 	}
 }
 

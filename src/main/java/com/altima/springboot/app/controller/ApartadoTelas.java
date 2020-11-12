@@ -58,7 +58,7 @@ public class ApartadoTelas {
 	@RequestMapping(value = {"/detalle-reporte/{id}"}, method = RequestMethod.GET)
 	public String detalleReporte(@PathVariable(value="id")Long id, Model model) {
 		
-		model.addAttribute("apartadoTelasReporte", agenteVentaService.findDatosReporteApartadoTelas(id));
+		model.addAttribute("apartadoTelasReporte", agenteVentaService.findDatosReporteApartadoTelas(id,false));
 		
 		return "/detalle-reporte";
 	}
@@ -67,7 +67,7 @@ public class ApartadoTelas {
 	@RequestMapping(value = {"/detalle-reporte-general/{id}"}, method = RequestMethod.GET)
 	public String detalleReporteGeneral(@PathVariable(value="id")Long id, Model model) {
 		
-		model.addAttribute("apartadoTelasReporte", agenteVentaService.findDatosReporteApartadoTelas(id));
+		model.addAttribute("apartadoTelasReporte", agenteVentaService.findDatosReporteApartadoTelas(id,false));
 		
 		return "/detalle-reporte-general";
 	}
