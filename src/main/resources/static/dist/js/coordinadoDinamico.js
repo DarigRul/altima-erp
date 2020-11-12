@@ -869,7 +869,7 @@ function selected(id){
     				 return;
     			 }
     			 else{
-    				 datosMateriales222.push({'id_forro':$(dat).val()});
+    				datosMateriales222.push({'id_forro':$(dat).val(),'id_MaterialForro':$(dat).attr('name') });
     			 }
     	        });
     		 

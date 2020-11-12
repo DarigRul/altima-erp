@@ -8,13 +8,10 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.altima.springboot.app.models.entity.ComercialCoordinadoMaterial;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoForro;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoMaterial;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoPrenda;
 import com.altima.springboot.app.models.entity.ProduccionCoordinadoTela;
-import com.altima.springboot.app.models.entity.ComercialCoordinadoTela;
 import com.altima.springboot.app.models.entity.ProduccionSolicitudCambioTelaPedido;
 import com.altima.springboot.app.repository.ProduccionCoordinadoForroRepository;
 import com.altima.springboot.app.repository.ProduccionCoordinadoMaterialRepository;
@@ -82,6 +79,7 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"	1 = 1 \r\n" + 
 				"	AND acpi.estatus = 3 \r\n" + 
 				"AND IF("+idUser+"=0,1=1,ahe.id_empleado="+idUser+")   "+
+				"AND NOT exists  (select id_pedido_informacion from alt_produccion_solicitud_cambio_tela_pedido)   "+
 				"ORDER BY\r\n" + 
 				"	id_pedido_informacion DESC").getResultList();
 		return re;
@@ -321,36 +319,16 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 		"AND tela2.id_coordinado_prenda = "+idCambio);
 		queryTela.executeUpdate();
 		
-		Query queryForroDelete = em.createNativeQuery(""
-				+ "DELETE FROM alt_comercial_coordinado_forro\r\n" + 
-				"		WHERE\r\n" + 
-				"		id_coordinado_prenda ="+idActual);
-		queryForroDelete.executeUpdate();
-		
-		Query queryForro = em.createNativeQuery(""
-				+ "INSERT INTO alt_comercial_coordinado_forro\r\n" + 
-				"	( id_coordinado_forro,\r\n" + 
-				"	id_coordinado_prenda,\r\n" + 
-				"	id_forro, \r\n" + 
-				"	descripcion,\r\n" + 
-				"	creado_por,actualizado_por,\r\n" + 
-				"	fecha_creacion,\r\n" + 
-				"	ultima_fecha_modificacion, \r\n" + 
-				"	estatus ) \r\n" + 
-				"	SELECT\r\n" + 
-				"	null,\r\n" + 
-				"	457,\r\n" + 
-				"	forro2.id_forro,\r\n" + 
-				"	null,\r\n" + 
-				"	forro2.creado_por,\r\n" + 
-				"	'"+actualizo+"',\r\n" + 
-				"	forro2.fecha_creacion,\r\n" + 
-				"	'"+fecha+"' ,\r\n" + 
-				"	1\r\n" + 
-				"FROM\r\n" + 
-				"	alt_produccion_coordinado_forro AS forro2 \r\n" + 
-				"WHERE\r\n" + 
-				"	forro2.id_coordinado_prenda="+idCambio);
+		Query queryForro = em.createNativeQuery(""+
+		"UPDATE alt_comercial_coordinado_forro AS forro "+
+		"INNER JOIN alt_produccion_coordinado_forro AS forro2 ON ( forro.descripcion = forro2.descripcion )  "+
+		"SET forro.id_forro = forro2.id_forro, "+
+		"forro.actualizado_por = '"+actualizo+"', "+
+		"forro.ultima_fecha_modificacion = '"+fecha+"' "+
+		"WHERE "+
+		"1 = 1 "+
+		"AND forro.id_coordinado_prenda = "+idActual+" "+
+		"AND forro2.id_coordinado_prenda = "+idCambio);
 		queryForro.executeUpdate();
 		
 		Query queryPrenda = em.createNativeQuery(""
@@ -470,6 +448,33 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 		"AND material_prenda.id_prenda = "+idPrenda+"\r\n" + 
 		"AND tela.descripcion = material.id_material \r\n"+
 		"AND tela.id_coordinado_prenda="+idCoorPrenda  ).getResultList();
+		
+		 return re;
+				
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List <Object []> buscarForros (Long idPrenda, Long idCoorPrenda) {
+		List<Object[]> re = em.createNativeQuery(""
+		+ "SELECT\r\n" + 
+		"material.id_material,  \r\n" + 
+		"material.nombre_material, \r\n" + 
+		"forro.id_forro \r\n" + 
+		"FROM\r\n" + 
+		"alt_disenio_material_prenda AS material_prenda, \r\n" + 
+		"alt_disenio_material AS material, \r\n" + 
+		"alt_disenio_lookup adl, \r\n" + 
+		"alt_comercial_coordinado_forro as forro \r\n" + 
+		"\r\n" + 
+		"WHERE \r\n" +
+		"1 = 1  "+
+		"AND ( material.nombre_material = 'Forro Principal' OR material.nombre_material = 'Forro Combinación' OR material.nombre_material = 'Forro' )  "+
+		"AND material.id_material = material_prenda.id_material  "+
+		"AND material.id_proceso = adl.id_lookup  "+
+		"AND material_prenda.id_prenda = "+idPrenda+" "+
+		"ANd forro.descripcion = material.id_material "+
+		"AND forro.id_coordinado_prenda = "+idCoorPrenda).getResultList();
 		
 		 return re;
 				

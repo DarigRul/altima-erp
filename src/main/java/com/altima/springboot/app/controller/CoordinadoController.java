@@ -402,7 +402,8 @@ public class CoordinadoController {
 			ComercialCoordinadoForro detalleForro = new ComercialCoordinadoForro();
 			JSONObject object = (JSONObject) json22.get(h);
 			String id = object.get("id_forro").toString();
-
+			String idMaterialForro = object.get("id_MaterialForro").toString();
+			detalleForro.setDescripcion(idMaterialForro);
 			detalleForro.setIdForro(Long.parseLong(id));
 			detalleForro.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
 

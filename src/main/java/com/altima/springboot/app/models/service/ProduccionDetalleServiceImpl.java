@@ -299,7 +299,7 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 		List<Object[]> re = em.createNativeQuery("SELECT material.id_material,material.nombre_material  \r\n"
 				+ "				FROM alt_disenio_material_prenda as material_prenda , alt_disenio_material as material , alt_disenio_lookup adl\r\n"
 				+ "				WHERE 1=1\r\n" + "			\r\n"
-				+ "            AND  (material.nombre_material ='Forro Principal' or material.nombre_material ='Forro Combinación') \r\n"
+				+ "            AND  (material.nombre_material ='Forro Principal' or material.nombre_material ='Forro Combinación' or material.nombre_material='Forro') \r\n"
 				+ "			AND material.id_material = material_prenda.id_material \r\n"
 				+ "			AND material.id_proceso = adl.id_lookup\r\n" + "			AND material_prenda.id_prenda="
 				+ id).getResultList();

@@ -48,4 +48,6 @@ public interface IProduccionSolicitudCambioTelaPedidoService {
 	List <Object []> detalles (Long id);
 
 	List <Object []> buscarTelaConv (Long idPrenda, Long idCoorPrenda );
+
+	List <Object []> buscarForros (Long idPrenda, Long idCoorPrenda );
 }

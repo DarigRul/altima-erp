@@ -147,7 +147,8 @@ public class CambioTelaRestController {
 			ProduccionCoordinadoForro detalleForro = new ProduccionCoordinadoForro();
 			JSONObject object = (JSONObject) json22.get(h);
 			String id = object.get("id_forro").toString();
-
+			String idMaterialForro = object.get("id_MaterialForro").toString();
+			detalleForro.setDescripcion(idMaterialForro);
 			detalleForro.setIdForro(Long.parseLong(id));
 			detalleForro.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
 
@@ -261,6 +262,12 @@ public class CambioTelaRestController {
 	@GetMapping("/verficacion-de-tela-convinacion")
     public List <Object []> verificarTelaConvinacion (Long idPrenda, Long idCoorPrenda) {
     	return CambioTelaService.buscarTelaConv(idPrenda,idCoorPrenda );
+	}
+	
+	@GetMapping("/verficacion-de-forro-convinacion")
+    public List <Object []> verificarForroConvinacion (Long idPrenda, Long idCoorPrenda) {
+		System.out.println("hoooolaaaaa");
+    	return CambioTelaService.buscarForros(idPrenda, idCoorPrenda);
     }
 
 

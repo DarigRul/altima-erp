@@ -410,8 +410,8 @@ $("#coorTela").change(function(){
     $("#elimnar222").empty()
     if(valordetela != ''){
         $.ajax({
-        data: { id : prenda },
-        url:   '/mostrar-materiales-prenda-extra2',
+        data: { idPrenda : prenda , idCoorPrenda :  $("#id_coordinado_prenda").val()},
+        url:   '/verficacion-de-forro-convinacion',
         type:  'GET',
         beforeSend: function () {
         // durante la petici?n
@@ -434,8 +434,15 @@ $("#coorTela").change(function(){
                     },
                     success: function(data){
                         $.each(data, function(key, val) {
-                        $('.'+v[0]+'').append('<option value="'+val[0]+'" data-content="<i class='+"'fa fa-tint'"+'  style='+"'color:"+val[2]+"'"+';  > </i> '+val[1]+'  "> </option> ');
-                         })
+
+                            if ( v[3] == val[0]){
+                                $('.'+v[0]+'').append('<option selected value="'+val[0]+'" data-content="<i class='+"'fa fa-tint'"+'  style='+"'color:"+val[2]+"'"+';  > </i> '+val[1]+'  "> </option> ');
+                            }
+                            else{
+                                $('.'+v[0]+'').append('<option value="'+val[0]+'" data-content="<i class='+"'fa fa-tint'"+'  style='+"'color:"+val[2]+"'"+';  > </i> '+val[1]+'  "> </option> ');
+                            }
+                       
+                        })
                         $('.'+v[0]+'').selectpicker(["refresh"]);
                     },
                     error : function(xhr,errmsg,err) {
@@ -491,7 +498,7 @@ function agregar() {
             return;
         }
         else{
-            datosMateriales222.push({'id_forro':$(dat).val()});
+            datosMateriales222.push({'id_forro':$(dat).val(),'id_MaterialForro':$(dat).attr('name') });
         }
     });
             
