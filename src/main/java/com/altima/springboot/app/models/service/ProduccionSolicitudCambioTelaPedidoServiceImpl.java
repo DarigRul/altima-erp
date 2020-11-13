@@ -79,7 +79,6 @@ public class ProduccionSolicitudCambioTelaPedidoServiceImpl implements IProducci
 				"	1 = 1 \r\n" + 
 				"	AND acpi.estatus = 3 \r\n" + 
 				"AND IF("+idUser+"=0,1=1,ahe.id_empleado="+idUser+")   "+
-				"AND NOT exists  (select id_pedido_informacion from alt_produccion_solicitud_cambio_tela_pedido)   "+
 				"ORDER BY\r\n" + 
 				"	id_pedido_informacion DESC").getResultList();
 		return re;
