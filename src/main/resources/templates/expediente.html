@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-   <title id="pageTitle">Expediente | Altima</title>
+    <title id="pageTitle">Expediente | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
-        <div th:insert="navegacion-nav"></div> 
+        <div th:insert="navegacion-nav"></div>
         <!-- /.navbar -->
         <!-- Modal -->
         <div th:insert="navegacion-logout"></div>
@@ -65,19 +65,31 @@
                                                 <td th:text="${pedidos[3]}"></td>
                                                 <td>Aprobado</td>
                                                 <td class="tdcenter">
-                                                <div class="btn-group" role="group"><!-- th:href="@{'/expediente-imprimir-concentrado-prendas/'+${pedidos[0]} (format=pdf)}" -->
-                                                    <a href="#" class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Ver m&aacute;s detalles" style="pointer-events: none; display: inline-block;"><i class="fas fa-info"></i></a>
-                                                    <a th:href="@{'/expediente-imprimir-informacion-general/'+${pedidos[0]} (format=pdf)}" class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Informaci&oacute;n general"><i class="fas fa-file-alt"></i></a>
-													<a th:href="@{'/expediente-imprimir-coordinados/'+${pedidos[0]} (format=pdf)}" class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Coordinados"><i class="fas fa-question"></i></a>
-													<a th:href="@{'/expediente-imprimir-detalle-precios/'+${pedidos[0]} (format=pdf)}" class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Detalle de precios"><i class="fas fa-file-invoice-dollar"></i></a>
-													<a th:href="@{'/expediente-imprimir-empleados/'+${pedidos[0]} +'/'+${pedidos[4]} (format=pdf)}" class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Empleados"><i class="fas fa-user"></i></a>
-													<a th:attr="onclick=|ElegirConcentradoPrendas('${pedidos[0]}')|" class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Concentrado de prendas"><i class="fas fa-tshirt fa-sm" style="margin-left:-2px"></i></a>
-													<a th:href="@{'/expediente-imprimir-concentrado-por-tallas/'+${pedidos[0]} (format=pdf)}" class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Concentrado por tallas"><i class="fas fa-ruler-combined"></i></a>
-													<a class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Toma de tallas" style="pointer-events: none; display: inline-block;"><i class="fas fa-ruler-combined"></i></a>
-													<a th:href="@{'/expediente-imprimir-totales-por-razon-social/'+${pedidos[0]} (format=pdf)}"  class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Totales por raz&oacute;n social"><i class="fas fa-user"></i></a>
-													<a  class="btn btn-altima text-white popoverxd" data-container="body" data-placement="top" data-content="Reabrir expediente" style="pointer-events: none; display: inline-block;"><i class="fas fa-file-upload"></i></a>
-													<a th:href="@{'/patch-expediente/'+${pedidos[0]} }" class="btn btn-altima text-white popoverxd" data-container="body" data-placement="top" data-content="Cerrar expediente" ><i class="fas fa-file-download"></i></a>
-                                                </div>
+                                                    <div class="btn-group" role="group">
+                                                        <!-- th:href="@{'/expediente-imprimir-concentrado-prendas/'+${pedidos[0]} (format=pdf)}" -->
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" href="#" class="btn btn-altima popoverxd" data-container="body" data-placement="top"
+                                                            data-content="Ver m&aacute;s detalles" style="pointer-events: none; display: inline-block;"><i class="fas fa-info"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_IGENERAL'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-informacion-general/'+${pedidos[0]} (format=pdf)}"
+                                                            class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Informaci&oacute;n general"><i class="fas fa-file-alt"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_COORDINADOS'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-coordinados/'+${pedidos[0]} (format=pdf)}"
+                                                            class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Coordinados"><i class="fas fa-question"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_PRECIO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-detalle-precios/'+${pedidos[0]} (format=pdf)}" class="btn btn-altima popoverxd"
+                                                            data-container="body" data-placement="top" data-content="Detalle de precios"><i class="fas fa-file-invoice-dollar"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_EMPLEADOS'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-empleados/'+${pedidos[0]} +'/'+${pedidos[4]} (format=pdf)}"
+                                                            class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Empleados"><i class="fas fa-user"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_PRENDA'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:attr="onclick=|ElegirConcentradoPrendas('${pedidos[0]}')|" class="btn btn-altima popoverxd"
+                                                            data-container="body" data-placement="top" data-content="Concentrado de prendas"><i class="fas fa-tshirt fa-sm" style="margin-left:-2px"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_TALLAS'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-concentrado-por-tallas/'+${pedidos[0]} (format=pdf)}"
+                                                            class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Concentrado por tallas"><i class="fas fa-ruler-combined"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_TALLAS'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Toma de tallas"
+                                                            style="pointer-events: none; display: inline-block;"><i class="fas fa-ruler-combined"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_RAZONSOCIAL'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-totales-por-razon-social/'+${pedidos[0]} (format=pdf)}"
+                                                            class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Totales por raz&oacute;n social"><i class="fas fa-user"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-altima text-white popoverxd" data-container="body" data-placement="top"
+                                                            data-content="Reabrir expediente" style="pointer-events: none; display: inline-block;"><i class="fas fa-file-upload"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/patch-expediente/'+${pedidos[0]} }" class="btn btn-altima text-white popoverxd"
+                                                            data-container="body" data-placement="top" data-content="Cerrar expediente"><i class="fas fa-file-download"></i></a>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -93,126 +105,125 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        
+
         <!-- Modal para Dar de Alta  -->
-		<div class="modal fade" id="ElegirConcentradoPrenda" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
-		    <div class="modal-content">
-		    <div class="modal-header">
-		    	Elige una opcion:
-		    	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div class="modal fade" id="ElegirConcentradoPrenda" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Elige una opcion:
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		          <span aria-hidden="true">&times;</span>
 		        </button>
-		    </div>
-		      <div class="modal-body">
-		        <div class="custom-control custom-checkbox">
-				    <input type="checkbox" class="custom-control-input" id="TodosCoordinados">
-				    <label class="custom-control-label" for="TodosCoordinados">Imprimir todos los coordinados</label>
-				</div><br>
-				<div class="custom-control custom-checkbox">
-				    <input type="checkbox" class="custom-control-input" id="UnCoordinado">
-				    <label class="custom-control-label" for="UnCoordinado">Imprimir un solo coordinado</label>
-				</div><br>
-				<select id="CoordinadoElegido" class="form-control" data-live-search="true" style="display: none;">
+                    </div>
+                    <div class="modal-body">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="TodosCoordinados">
+                            <label class="custom-control-label" for="TodosCoordinados">Imprimir todos los coordinados</label>
+                        </div><br>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="UnCoordinado">
+                            <label class="custom-control-label" for="UnCoordinado">Imprimir un solo coordinado</label>
+                        </div><br>
+                        <select id="CoordinadoElegido" class="form-control" data-live-search="true" style="display: none;">
 				</select>
-		      </div>
-		      <div class="modal-footer">
-		      	<div id="buttonContainer">
-		      		<!--  -->
-		      	</div>
-		      </div>
-		    </div>
-		  </div>
-		  
-		</div>
-		<!-- Modal para Dar de Alta  -->
-		
+                    </div>
+                    <div class="modal-footer">
+                        <div id="buttonContainer">
+                            <!--  -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Modal para Dar de Alta  -->
+
         <div th:insert="navegacion-footer"></div>
-        
+
     </div>
     <!-- ./wrapper -->
 
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaGeneral.js"></script>
     <script>
-		$('#iComercial').removeClass('text-altima');
-		$('#menuComercial').addClass('menu-open');
-		$('#navComercial').addClass('active-altima');
-		$('#menuExpediente').addClass('menu-open');
-		$('#navExpediente').addClass('active');
-		$('#navExpediente1').addClass('active');
-	</script>
-	<script>
-		$(document).ready(function(){
-			
-			//Cada que se cierra el modal se limpian los campos
-			$("#ElegirConcentradoPrenda").on("hidden.bs.modal", function () {
-				//Se limpia Empleado
-				$('#CoordinadoElegido').empty();
-				$('#CoordinadoElegido').css('display', 'none');
-				$("#UnCoordinado").prop('checked', false);
-				$("#TodosCoordinados").prop('checked', false);
-			});
-			
-			$("#TodosCoordinados").click(function() {  
-				$("#UnCoordinado").prop('checked', false);
-				$('#CoordinadoElegido').css('display', 'none');
-		    });
-			
-			$("#UnCoordinado").click(function() {  
-				$("#TodosCoordinados").prop('checked', false);
-				$('#CoordinadoElegido').css('display', 'block');
-		    }); 
-	    });
-	
-		function ElegirConcentradoPrendas(id){
-			$.ajax({
-				type: "GET",
-				url: "/get_coordinados",
-				data: { 
-					id: id
-				},
-				success: (data) => {
-					//Se pintan los empleados
-					for(var i = 0; i < data.length; i++){
-						$('#CoordinadoElegido').append("<option value='" + data[i]["idCoordinado"] + "'>" + data[i]["idText"] + "</option>");
-					}
-					$('#CoordinadoElegido').css('display', 'none');
-					
-					//Se pinta el boton
-					$("#buttonContainer").empty();
-					$("#buttonContainer").append("<button class='btn btn-success' onclick='Imprimir(" + id + ")'>Imprimir</button>");					
-					
-					//Se muestra el modal
-					$('#ElegirConcentradoPrenda').modal('toggle');
-				},
-				error: (e) => {
-					console.log(e);
-				}
-			});
-		}
-		
-		function Imprimir(id){
-			if(!$('#TodosCoordinados').is(':checked') && !$('#UnCoordinado').is(':checked')){
-				Swal.fire({
-					icon: 'error',
-					title: 'Error',
-					text: 'Selecciona una opcion'
-				  })
-			}
-			else{
-				if($('#TodosCoordinados').is(':checked')){
-					window.open("/expediente-imprimir-concentrado-prendas/" + id + "?format=pdf", '_blank');
-				}
-				
-				if($('#UnCoordinado').is(':checked')){
-					window.open("/expediente-imprimir-concentrado-prendas/" + id + "/" + $('#CoordinadoElegido').val() + "?format=pdf", '_blank');
-				}
-				
-				$('#ElegirConcentradoPrenda').modal('toggle');
-			}
-		}
-	</script>
+        $('#iComercial').removeClass('text-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active-altima');
+        $('#menuExpediente').addClass('menu-open');
+        $('#navExpediente').addClass('active');
+        $('#navExpediente1').addClass('active');
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            //Cada que se cierra el modal se limpian los campos
+            $("#ElegirConcentradoPrenda").on("hidden.bs.modal", function() {
+                //Se limpia Empleado
+                $('#CoordinadoElegido').empty();
+                $('#CoordinadoElegido').css('display', 'none');
+                $("#UnCoordinado").prop('checked', false);
+                $("#TodosCoordinados").prop('checked', false);
+            });
+
+            $("#TodosCoordinados").click(function() {
+                $("#UnCoordinado").prop('checked', false);
+                $('#CoordinadoElegido').css('display', 'none');
+            });
+
+            $("#UnCoordinado").click(function() {
+                $("#TodosCoordinados").prop('checked', false);
+                $('#CoordinadoElegido').css('display', 'block');
+            });
+        });
+
+        function ElegirConcentradoPrendas(id) {
+            $.ajax({
+                type: "GET",
+                url: "/get_coordinados",
+                data: {
+                    id: id
+                },
+                success: (data) => {
+                    //Se pintan los empleados
+                    for (var i = 0; i < data.length; i++) {
+                        $('#CoordinadoElegido').append("<option value='" + data[i]["idCoordinado"] + "'>" + data[i]["idText"] + "</option>");
+                    }
+                    $('#CoordinadoElegido').css('display', 'none');
+
+                    //Se pinta el boton
+                    $("#buttonContainer").empty();
+                    $("#buttonContainer").append("<button class='btn btn-success' onclick='Imprimir(" + id + ")'>Imprimir</button>");
+
+                    //Se muestra el modal
+                    $('#ElegirConcentradoPrenda').modal('toggle');
+                },
+                error: (e) => {
+                    console.log(e);
+                }
+            });
+        }
+
+        function Imprimir(id) {
+            if (!$('#TodosCoordinados').is(':checked') && !$('#UnCoordinado').is(':checked')) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Selecciona una opcion'
+                })
+            } else {
+                if ($('#TodosCoordinados').is(':checked')) {
+                    window.open("/expediente-imprimir-concentrado-prendas/" + id + "?format=pdf", '_blank');
+                }
+
+                if ($('#UnCoordinado').is(':checked')) {
+                    window.open("/expediente-imprimir-concentrado-prendas/" + id + "/" + $('#CoordinadoElegido').val() + "?format=pdf", '_blank');
+                }
+
+                $('#ElegirConcentradoPrenda').modal('toggle');
+            }
+        }
+    </script>
 </body>
 
 </html>

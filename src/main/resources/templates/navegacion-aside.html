@@ -308,9 +308,14 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_ELIMINAR'')')})">
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_IGENERAL'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_COORDINADOS'')')}) or 
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_ELIMINAR'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_RAZONSOCIAL'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_PRECIO'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_EMPLEADOS'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_PRENDA'')')}) or
+                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_TALLAS'')')})">
                                     <a th:href="${'/expediente'}" class="nav-link" id="navExpediente1">
                                         <i class="nav-icon fas fa-list"></i>
                                         <p>Listado de pedidos</p>
@@ -463,7 +468,12 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_LISTAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_AGREGAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_ACEPTAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_EDITAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_EIMINAR'')')})">
                             <a th:href="${'/solicitud-gerencial'}" class="nav-link" id="navSolicitudMuestras">
                                 <i class="nav-icon fas fa-file-export"></i>
                                 <p>Solicitud de muestras</p>
@@ -476,7 +486,13 @@
                                 <p>Solicitud de cambio de tela</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_LISTAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_AGREGAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_EDITAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_DESCARGAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_CORREO'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_AUTORIZAR'')')})">
                             <a th:href="${'/cotizaciones'}" class="nav-link" id="navCotizaciones">
                                 <i class="nav-icon fas fa-dollar-sign"></i>
                                 <p>Cotizaciones</p>
