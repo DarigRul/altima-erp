@@ -132,7 +132,7 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 		// TODO Auto-generated method stub
 
 		return em.createNativeQuery(
-				"SELECT coor_prenda.id_coordinado_prenda,SUBSTRING_INDEX(look.nombre_lookup, ' ',1)as 'nombre_prenda', prenda.descripcion_prenda, tela.nombre_tela, IF(coor_prenda.estatus = true, '1', '0') \r\n"
+				"SELECT coor_prenda.id_coordinado_prenda,SUBSTRING_INDEX(look.nombre_lookup, ' ',1)as 'nombre_prenda', prenda.descripcion_prenda, tela.nombre_tela, IF(coor_prenda.estatus = true, '1', '0') ,prenda.id_familia_prenda \r\n"
 						+ "			From alt_comercial_coordinado,alt_disenio_lookup as look, alt_disenio_prenda as prenda, alt_disenio_tela as tela, alt_comercial_coordinado_prenda as coor_prenda\r\n"
 						+ "				where 1=1\r\n" + "				AND coor_prenda.id_tela = tela.id_tela\r\n"
 						+ "				AND coor_prenda.id_prenda= prenda.id_prenda \r\n"
@@ -653,7 +653,7 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 				+ "          coor_prenda.id_coordinado_prenda,\r\n"
 				+ "          SUBSTRING_INDEX(look.nombre_lookup, ' ', 1) as 'nombre_prenda',\r\n"
 				+ "          prenda.descripcion_prenda,\r\n" + "          tela.nombre_tela,\r\n"
-				+ "          IF(coor_prenda.estatus = true, '1', '0')\r\n" + "        From\r\n"
+				+ "          IF(coor_prenda.estatus = true, '1', '0'), prenda.id_familia_prenda\r\n" + "        From\r\n"
 				+ "          alt_comercial_coordinado,\r\n" + "          alt_disenio_lookup as look,\r\n"
 				+ "          alt_disenio_prenda as prenda,\r\n" + "          alt_disenio_tela as tela,\r\n"
 				+ "          alt_comercial_coordinado_prenda as coor_prenda\r\n" + "        where\r\n"
