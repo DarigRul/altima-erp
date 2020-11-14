@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,13 +50,17 @@ public class ServicioClienteController {
 	@Autowired
     private IHrLookupService hrLookupService;
 	
+	
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_SERVICIOCLIENTE_LISTAR"})
     @GetMapping("/servicio-cliente")
     public String ServicioCliente(Model model)
     {
     	model.addAttribute("solicitudes", solicitudServicioClienteService.findAll());
         return"servicio-cliente";
     }
-    
+	
+	
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_SERVICIOCLIENTE_AGREGAR"})
     @GetMapping("/servicio-cliente-solicitud")
     public String ServicioClienteSol(Model model){
     	ComercialSolicitudServicioAlCliente solicitud =  new ComercialSolicitudServicioAlCliente();
@@ -67,7 +72,9 @@ public class ServicioClienteController {
     	model.addAttribute("accion", "crear");
         return"servicio-cliente-solicitud";
     }
-    
+	
+	
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_SERVICIOCLIENTE_EDITAR"})
     @GetMapping("/servicio-cliente-editar-solicitud/{id}")
     public String ServicioClienteEditarSol(@PathVariable(name = "id") Long idSolicitud, Model model) throws ParseException{
     	ComercialSolicitudServicioAlCliente solicitud =solicitudServicioClienteService.findOne(idSolicitud);
