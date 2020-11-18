@@ -131,8 +131,12 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item has-treeview" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMINISTRADOR'', 
-                        ''ROLE_COMERCIAL_CATALOGOS_LISTAR'')')}">
+                        <li class="nav-item has-treeview" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_ELIMINAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_MAPEO'')')})">
                             <a th:href="${'/catalogos-comercial'}" class="nav-link" id="navComCat">
                                 <i class="nav-icon fas fa-book-open" id="iComCat"></i>
                                 <p>Cat&aacute;logos</p>
@@ -332,41 +336,44 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                <li class="nav-item" h:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_ELIMINAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_MAPEO'')')})">
                                     <a th:href="${'/catalogos-amp'}" class="nav-link" id="navAMPCat">
                                         <i class="nav-icon fas fa-book-open"></i>
                                         <p>Cat&aacute;logos</p>
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_INVENTARIO_LISTAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_INVENTARIO_AGREGAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_INVENTARIO_PROVEDORES'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCAIL_AMP_INVENTARIO_ALMACEN'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_INVENTARIO_ESTADO'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_INVENTARIO_EDITAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_INVENTARIO_ELIMINAR'')')})">
                                     <a th:href="${'/inventario-amp'}" class="nav-link" id="navAMPInv">
                                         <i class="nav-icon fas fa-stream"></i>
                                         <p>Inventario</p>
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_LISTAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_AGREGAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_TRASPASO'')')})">
                                     <a th:href="${'/movimientos-amp'}" class="nav-link" id="navAMPEntSal">
                                         <i class="nav-icon fas fa-exchange-alt"></i>
                                         <p>Entradas y salidas</p>
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
                                     <a th:href="${'/multialmacen-amp'}" class="nav-link" id="navAMPMul">
                                         <i class="nav-icon fas fa-warehouse"></i>
                                         <p>Multialmac&eacute;n</p>
@@ -379,40 +386,34 @@
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_PENDIENTESURTIR_LISTAR'')')})">
                                     <a th:href="${'/pendiente-por-surtir'}" class="nav-link" id="navAMPSur">
                                         <i class="nav-icon fas fa-box-open"></i>
                                         <p>Pendiente por surtir</p>
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_PENDIENTERECIBIR_LISTAR'')')})">
                                     <a th:href="${'/pendiente-por-recibir'}" class="nav-link" id="navAMPRec">
                                         <i class="nav-icon fas fa-box"></i>
                                         <p>Pendiente por recibir</p>
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_LISTAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIAPRIMA'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIALES'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_ELIMINAR'')')})">
                                     <a th:href="${'/explosion-de-materiales'}" class="nav-link" id="navAMPExp">
                                         <i class="nav-icon flaticon-eye-shadow-palette-with-brush"></i>
                                         <p>Explosi&oacute;n de materiales</p>
                                     </a>
                                 </li>
                                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
-                          (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
                                     <a th:href="${'/explosion-de-materiales'}" class="nav-link" id="navAMPReq">
                                         <i class="nav-icon fas fa-store"></i>
                                         <p>Requisici&oacute;n de almac&eacute;n</p>
@@ -420,7 +421,13 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview">
+                        <li class="nav-item has-treeview" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_LISTAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_AGREGAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_ENVIAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_ELIMINAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_ACEPTAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_EDITAR'')')})">
                             <a th:href="${'/servicio-cliente'}" class="nav-link" id="navSer">
                                 <i class="nav-icon fas fa-user" id="iSer"></i>
                                 <p>Servicio al cliente</p>
@@ -559,7 +566,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview" id="menuAuxiliar">
+                        <li class="nav-item has-treeview" id="menuAuxiliar" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMINISTRADOR'', ''ROLE_COMERCIAL_AUXILIARVENTAS'')')}">
                             <a class="nav-link" id="navAuxiliar">
                                 <i class="nav-icon fas fa-user-alt"></i>
                                 <p>
@@ -567,13 +574,18 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AUXILIARVENTAS_CALENDARIO_LISTAR'')')})">
                                     <a th:href="${'/calendario-auxiliar'}" class="nav-link" id="navAuxCal">
                                         <i class="nav-icon fas fa-calendar"></i>
                                         <p>Calendario</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AUXILIARVENTAS_TICKETS_LISTAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AUXILIARVENTAS_TICKETS_AGREGAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AUXILIARVENTAS_TICKETS_EDITAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AUXILIARVENTAS_TICKETS_SEGUIMIENTO'')')})">
                                     <a th:href="${'/tickets'}" class="nav-link" id="navAuxTic">
                                         <i class="nav-icon fas fa-ticket-alt"></i>
                                         <p>Tickets</p>

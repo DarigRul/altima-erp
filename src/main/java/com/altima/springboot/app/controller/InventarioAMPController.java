@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -77,7 +78,7 @@ public class InventarioAMPController {
 	@Autowired
 	private IAmpMultialmacenService AmpMultialmacenService;
 	
-	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_INVENTARIO_LISTAR"})
 	@GetMapping("/inventario-amp")
 	public String listInv(Model model)
 	{
@@ -86,6 +87,7 @@ public class InventarioAMPController {
 		return"inventario-amp";
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_INVENTARIO_AGREGAR"})
 	@GetMapping("/agregar-inventario-amp")
 	public String addInv(Model model){
 		AmpInventario inventario = new AmpInventario();
@@ -149,6 +151,7 @@ public class InventarioAMPController {
 		return "redirect:inventario-amp";
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_INVENTARIO_EDITAR"})
 	@GetMapping("/editar-inventario-amp/{id}")
 	public String editar(@PathVariable(value = "id") Long id, Model model) {
 		AmpInventario inventario = null;
@@ -163,7 +166,7 @@ public class InventarioAMPController {
 		return "agregar-inventario-amp";
 	}
 	
-
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_INVENTARIO_PROVEDORES"})
 	@GetMapping("/proveedores-inventario-amp/{id}/{tipo}")
 	public String addproveedores(@PathVariable (value="id") Long id,@PathVariable (value="tipo") String tipo, Model model)
 	{
@@ -219,7 +222,7 @@ public class InventarioAMPController {
 				.body(recurso);
 	}
 	
-	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_INVENTARIO_ELIMINAR"})
 	@GetMapping("baja-inventario-amp/{id}/{tipo}") 
 	public String baja_sucursal(@PathVariable("id") Long id,@PathVariable("tipo") String tipo, RedirectAttributes redirectAttrs) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -268,6 +271,7 @@ public class InventarioAMPController {
 		
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_INVENTARIO_ELIMINAR"})
 	@GetMapping("alta-inventario-amp/{id}/{tipo}") 
 	public String alta_sucursal(@PathVariable("id") Long id, @PathVariable("tipo") String tipo, RedirectAttributes redirectAttrs) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

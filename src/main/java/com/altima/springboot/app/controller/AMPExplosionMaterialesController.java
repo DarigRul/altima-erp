@@ -1,6 +1,7 @@
 package com.altima.springboot.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,8 @@ import com.altima.springboot.app.models.service.IAmpExplosionMaterialesService;
 public class AMPExplosionMaterialesController {
 	@Autowired
 	IAmpExplosionMaterialesService AmpExplosionMaterialesService;
-	
+    
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_LISTAR"})
     @GetMapping("/explosion-de-materiales")
     public String ExplosionList(Model model){
     	model.addAttribute("explosionmaterial", AmpExplosionMaterialesService.findAll());
@@ -28,6 +30,7 @@ public class AMPExplosionMaterialesController {
         return"materia-prima";
     }
 
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIALES"})
     @GetMapping("/materiales-explosionar/{idpedido}")
     public String MaterialesExplostionarList(@PathVariable("idpedido") Long idpedido,Model model ){
     	model.addAttribute("materiales", AmpExplosionMaterialesService.findTotalMaterials(idpedido));

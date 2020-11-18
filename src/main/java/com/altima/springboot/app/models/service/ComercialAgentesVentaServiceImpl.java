@@ -89,7 +89,15 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 	@Override
 	@Transactional
 	public List<Object[]> findDatosReporteApartadoTelas (Long id,boolean agrupar){
-		return em.createNativeQuery("Call alt_pr_apartado_telas_reporte("+id+","+agrupar+")").getResultList();
+		
+		if(agrupar==false) {
+			return em.createNativeQuery("SELECT * FROM alt_view_apartado_telas_reporte WHERE idPedido = "+id).getResultList();
+		}
+		else {
+			return em.createNativeQuery("SELECT *,sum(Consumo),sum(SPF_consumo) FROM alt_view_apartado_telas_reporte WHERE idPedido = "+id+" GROUP BY id_tela").getResultList();
+		}
+		
+		
 	}
 }
 

@@ -1,56 +1,57 @@
 <!-- Modal -->
 <div class="modal fade" id="nuevoSeguimiento" tabindex="-1" role="dialog" aria-labelledby="nuevoTicketTitulo" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content modal-rounded-body">
-        <div class="modal-header bg-altima modal-rounded-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Nuevo seguimiento</h5>
-          <button type="button" class="close" onclick="history.go(0);"  data-dismiss="modal" aria-label="Close">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Nuevo seguimiento</h5>
+                <button type="button" class="close" onclick="history.go(0);" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
-        <form action="">
-        <div class="modal-body">
-          <div class="row">
-            <div th:if="${auxiliarSelected ==1 || auxiliarSelected ==2 }" class="form-group col-md-6">
-                <label for="estatus">Estatus</label>
-                <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="estatus" name="estatus">
+            </div>
+            <form action="">
+                <div class="modal-body">
+                    <div class="row">
+                        <div th:if="${auxiliarSelected ==1 || auxiliarSelected ==2 }" class="form-group col-md-6">
+                            <label for="estatus">Estatus</label>
+                            <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." id="estatus" name="estatus">
                     <option value="Realizado">Realizado</option>
                     <option value="Pendiente">Pendiente</option>
                     <option value="Cancelado">Cancelado</option>
                   </select>
-            </div>
-            <div th:if="${auxiliarSelected ==1 || auxiliarSelected ==2 }" class="form-group col-md-6">
-                <label for="comentario">Comentario</label>
-                <div class="input-group mb-3">
-                    <input class="form-control" style="border-radius: .25rem;" type="text" id="comentario" name="comentario" placeholder="Especificar">
-                    <div class="input-group-append" style="margin-left: 10px;">
-                        <button id="btn-estatus" name="btn-estatus" onclick="agregarSeguimiento()" class="btn icon-btn btn-altima text-white" type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+                        </div>
+                        <div th:if="${auxiliarSelected ==1 || auxiliarSelected ==2 }" class="form-group col-md-6">
+                            <label for="comentario">Comentario</label>
+                            <div class="input-group mb-3">
+                                <input class="form-control" style="border-radius: .25rem;" type="text" id="comentario" name="comentario" placeholder="Especificar">
+                                <div class="input-group-append" style="margin-left: 10px;">
+                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AUXILIARVENTAS_TICKETS_SEGUIMIENTO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" id="btn-estatus" name="btn-estatus" onclick="agregarSeguimiento()" class="btn icon-btn btn-altima text-white"
+                                        type="button"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+
+                        <input type="hidden" name="idTicket2" id="idTicket2" />
+                        <div class="form-group col-md-12">
+                            <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;" id="tableSeguimiento">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Estatus</th>
+                                        <th>Comentario</th>
+                                        <th>Auxiliar</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="tableSeguimientoBody">
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
-            
-            <input type="hidden" name="idTicket2" id="idTicket2" />
-            <div class="form-group col-md-12">
-                <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;" id="tableSeguimiento">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Estatus</th>
-                            <th>Comentario</th>
-                            <th>Auxiliar</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody id="tableSeguimientoBody">
-                       
-                    </tbody>
-                </table>    
-            </div>
-          </div>
+
+            </form>
         </div>
-      
-        </form>
-      </div>
     </div>
-  </div>
+</div>

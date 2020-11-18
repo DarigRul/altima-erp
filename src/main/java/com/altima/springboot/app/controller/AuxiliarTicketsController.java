@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,7 @@ public class AuxiliarTicketsController {
 	@Autowired
 	IComercialAuxiliarTicketsService TicketService;
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AUXILIARVENTAS_TICKETS_LISTAR"})
     @GetMapping("/tickets")
     public String Tickets(Model model , Map<String, Object> m){
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();

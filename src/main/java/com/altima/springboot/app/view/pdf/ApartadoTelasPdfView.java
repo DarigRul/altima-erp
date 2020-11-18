@@ -105,9 +105,9 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		
 		try {
 			Object[] filaUno = (Object[]) listaTelas.get(0);
+			
 			int numPersonas = Integer.parseInt(filaUno[18].toString());
 			int numSpf = Integer.parseInt(filaUno[19].toString());
-			 
 			pedido = new PdfPCell(new Phrase(filaUno[7].toString(), datosGris));
 			clienteTitulo = new PdfPCell(new Phrase("Cliente: ", Helvetica));
 			cliente = new PdfPCell(new Phrase(filaUno[6].toString(), datosGris));
@@ -118,7 +118,13 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 			fechaSolTitulo = new PdfPCell(new Phrase("Fecha de solicitud: ", Helvetica));
 			fechaSol = new PdfPCell(new Phrase(filaUno[8].toString(), datosGris));
 			fechaEntreTitulo = new PdfPCell(new Phrase("Fecha de entrega: ", Helvetica));
-			fechaEntrega = new PdfPCell(new Phrase(filaUno[9].toString(), datosGris));
+			try {
+				fechaEntrega = new PdfPCell(new Phrase(filaUno[9].toString(), datosGris));
+			}
+			catch(Exception F) {
+				fechaEntrega = new PdfPCell(new Phrase("No hay fecha de entrega", datosGris));
+			}
+			
 			PersonasTitulo = new PdfPCell(new Phrase("Personas: ", Helvetica));
 			personas = new PdfPCell(new Phrase(""+numPersonas, datosGris));
 			SPFTitulo = new PdfPCell(new Phrase("SPF: ", Helvetica));

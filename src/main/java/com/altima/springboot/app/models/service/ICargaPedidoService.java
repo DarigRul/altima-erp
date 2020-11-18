@@ -54,4 +54,6 @@ public interface ICargaPedidoService {
 	//getbyuser
 	List<PedidoInformacionDTO> findByEmpleado(Long idEmpleado);
 
+	List<Object []> pedidosCambioPrenda(Long iduser);
+
 }
