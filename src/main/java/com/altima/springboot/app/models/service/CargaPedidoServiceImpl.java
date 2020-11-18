@@ -90,22 +90,6 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 							+ "	informacion.fecha_creacion DESC")
 					.getResultList();
 		}
-
-		System.out.println(
-			"" + "SELECT\n" + "	informacion.id_pedido_informacion,\n" + "	informacion.id_text,\n" +
-
-					"	cliente.nombre,\n" + "	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\n"
-					+ "	cliente.id_cliente,\n" + "	informacion.observacion,\n"
-					+ "	montos_razon ( informacion.id_pedido_informacion ),\n" 
-					+ "	informacion.estatus,\n" + "	informacion.fecha_toma_tallas,\n"
-					+ "	config.tipo_pedido, \n" + " informacion.id_pedido ,informacion.validacion\n" + "FROM\n"
-					+ "	alt_comercial_pedido_informacion informacion\n"
-					+ "	INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente\n"
-					+ "	INNER JOIN alt_admin_configuracion_pedido config ON informacion.tipo_pedido = config.id_configuracion_pedido\n"
-					+
-
-					"GROUP BY\n" + "	informacion.id_pedido_informacion \n" + "ORDER BY\n"
-					+ "	informacion.fecha_creacion DESC");
 		return re;
 	}
 
@@ -408,6 +392,69 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 		return em.createNativeQuery(
 				"SELECT acpi.id_pedido_informacion,acpi.id_text,acpi.fecha_entrega,concat(acc.nombre,' ',ifnull(acc.apellido_paterno,''),' ',ifnull(acc.apellido_materno,'')) as cliente FROM alt_comercial_pedido_informacion acpi INNER JOIN alt_hr_usuario ahu on ahu.id_usuario=acpi.id_usuario INNER JOIN alt_hr_empleado ahe on ahe.id_empleado=ahu.id_empleado INNER join alt_comercial_cliente acc on acc.id_cliente=acpi.id_empresa where ahe.id_empleado=:idEmpleado and acpi.estatus=3",
 				PedidoInformacionDTO.class).setParameter("idEmpleado", idEmpleado).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object []> pedidosCambioPrenda(Long iduser){
+
+		List<Object[]> re = null;
+		if (iduser != null) {
+
+			re = em.createNativeQuery("" + 
+				"SELECT \r\n" + 
+				"informacion.id_pedido_informacion, \r\n"+ 
+				"informacion.id_text, \r\n" +
+				"cliente.nombre, \r\n"+
+				"IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ), \r\n"+
+				"cliente.id_cliente, \r\n" +
+				"informacion.observacion, \r\n"+
+				"montos_razon(informacion.id_pedido_informacion), \r\n"+
+				"informacion.estatus, \r\n "+
+				"informacion.fecha_toma_tallas, \r\n"+
+				"config.tipo_pedido,informacion.id_pedido, \r\n"+
+				"informacion.validacion \r\n"+
+				"FROM \r\n"+
+				"alt_comercial_pedido_informacion informacion \r\n"+
+				"INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente \r\n"+
+				"INNER JOIN alt_admin_configuracion_pedido config ON informacion.tipo_pedido = config.id_configuracion_pedido \r\n"+
+				"WHERE \r\n"+
+				"1=1 \r\n"+
+				"AND  informacion.id_usuario = " + iduser + "  \r\n"+
+				"AND informacion.estatus = 3 \r\n"+
+				"GROUP BY \r\n" + 
+				"informacion.id_pedido_informacion \r\n"+
+				"ORDER BY \r\n" + 
+				"informacion.fecha_creacion DESC").getResultList();
+		} else {
+			re = em.createNativeQuery("" +
+				"SELECT \r\n" +
+				"informacion.id_pedido_informacion, \r\n" +
+				"informacion.id_text, \r\n" +
+				"cliente.nombre, \r\n" +
+				"IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ), \r\n"+
+				"cliente.id_cliente, \r\n" +
+				"informacion.observacion, \r\n"+
+				"montos_razon ( informacion.id_pedido_informacion ), \r\n" +
+				"informacion.estatus, \r\n" + 
+				"informacion.fecha_toma_tallas, \r\n"+
+				"config.tipo_pedido,  \r\n" +
+				"informacion.id_pedido, \r\n"+
+				"informacion.validacion \r\n" + 
+				"FROM \r\n"+ 
+				"alt_comercial_pedido_informacion informacion \r\n"+
+				"INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente \r\n"+
+				"INNER JOIN alt_admin_configuracion_pedido config ON informacion.tipo_pedido = config.id_configuracion_pedido \r\n"+
+				"WHERE \r\n"+
+				"1=1 \r\n"+
+				"AND informacion.estatus = 3 \r\n"+
+				"GROUP BY \r\n" +
+				"informacion.id_pedido_informacion \r\n" +
+				"ORDER BY \r\n"+ 
+				"informacion.fecha_creacion DESC").getResultList();
+		}
+		return re;
 	}
 
 }

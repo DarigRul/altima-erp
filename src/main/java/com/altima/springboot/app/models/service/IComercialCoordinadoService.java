@@ -18,58 +18,50 @@ public interface IComercialCoordinadoService {
 	List<DisenioLookup> findAllPrenda();
 	List<Object []> findAllPrenda(String tipo , String idTextCoor);
 	List<Object []> findAllModelo(Long id);
-	
 	List<Object []> findAllModeloSPF(Long id, Long idPedido);
-	
 	List<Object []> findAllTela(Long id);
 	List<Object []> materialesPorPrenda(Long id);
 	List<Object []> coloresMateriales(Long idMaterial, Long idTela ,  Long idCoorPrenda);
 	public Integer ContadorCoordinadoCliente (Long id);
 	// buscar coordinado por id de pedido, funcionara para los SFP
 	ComercialCoordinado findOneCoorSPF(String idText);
-	
 	// Tabla Coordinado prenda 
 	List<Object []> findAllCoorPrenda(Long id );
 	void saveCoorPrenda(ComercialCoordinadoPrenda prenda);
 	ComercialCoordinadoPrenda findOneCoorPrenda(Long id);
-	
 	//Tela Coordinado material 
 	List<ComercialCoordinadoMaterial> findAllCoorMaterial( Long id );
 	void saveCoorMaterial(ComercialCoordinadoMaterial material);
 	ComercialCoordinadoMaterial findOneCoorMaterial(Long idCoorPrenda , Long idColor);
 	List<Object []> detallesMatariales(Long id);
 	void deleteMaterial(ComercialCoordinadoMaterial delete);
-	
 	// consulta pa eliminar todo lo relacionado con coordinado 
 	public void deleteTotal(Long id);
-	
 	// consulta pa eliminar la prenda y sus materiales
-		public void deletePrenda(Long id);
-		
-		
-		// TABLA DE COORDINADO TELA 
+	public void deletePrenda(Long id);	
+	// TABLA DE COORDINADO TELA
+	void saveTelaMaterial(ComercialCoordinadoTela telamaterial);
+	ComercialCoordinadoTela searchTela ( Long CoorPrenda, String idMaterial);
+	void deleteTela ( Long CoorPrenda, String fecha);
+	
+	//TABLA DE COORDINADO FORRO
+	void saveForroMaterial(ComercialCoordinadoForro forromaterial);
+	ComercialCoordinadoForro searchForro ( Long CoorPrenda, String idMaterial);
+	void deleteForro ( Long CoorPrenda, String fecha);
 
-		void saveTelaMaterial(ComercialCoordinadoTela telamaterial);
 
+	// Muesta de las fotos
+	List<Object []> ImagenesRuta(Long id , String tipo1 , String  tipo2);
+		 
+	String ImagenesRutaTela(Long id);
+	String precioPrenda(Long idCoor , Long idPrenda , Long idTela);
+	List<Object[]> findAllComposicion(Long id);
+	// listado de tela en spf
+	List<Object []> findAllTelaSPF(Long idPedio);
 
-		//TABLA DE COORDINADO FORRO
-		
-		
-		void saveForroMaterial(ComercialCoordinadoForro forromaterial);
-		
-		// Muesta de las fotos
-		
-		List<Object []> ImagenesRuta(Long id , String tipo1 , String  tipo2);
-		 
-		 String ImagenesRutaTela(Long id);
-		 
-		 String precioPrenda(Long idCoor , Long idPrenda , Long idTela);
-		 
-		List<Object[]> findAllComposicion(Long id);
-		
-		// listado de tela en spf
-		
-		List<Object []> findAllTelaSPF(Long idPedio);
+	// pa editar
+	ComercialCoordinadoMaterial searchMaterial ( Long CoorPrenda, Long idMaterial);
+	void deleteMaterial( Long CoorPrenda, String fecha);
 }
 
 
