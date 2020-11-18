@@ -143,21 +143,22 @@ public class PedidosCambioPrendaController {
 			String id = object.get("id_tela").toString();
 			String idMaterialConv = object.get("id_materialConv").toString();
 			ComercialCoordinadoTela detalleTela =CoordinadoService.searchTela(objetoCoodinadoPrenda.getIdCoordinadoPrenda(),idMaterialConv);
-			if ( detalleTela.getIdCoordinadoTela() >0){
+			if ( detalleTela != null){
 				detalleTela.setIdTela(Long.parseLong(id));
 				detalleTela.setActualizadoPor(auth.getName());
 				detalleTela.setDescripcion(idMaterialConv);
 				detalleTela.setUltimaFechaModificacion(fecha);
 				CoordinadoService.saveTelaMaterial(detalleTela);
 			}else{
-				detalleTela.setIdTela(Long.parseLong(id));
-				detalleTela.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
-				detalleTela.setCreado_por(auth.getName());
-				detalleTela.setActualizadoPor("user");
-				detalleTela.setDescripcion(idMaterialConv);
-				detalleTela.setFechaCreacion(hourdateFormat.format(date));
-				detalleTela.setUltimaFechaModificacion(null);
-				CoordinadoService.saveTelaMaterial(detalleTela);
+				ComercialCoordinadoTela detalleTelaNew = new ComercialCoordinadoTela();
+				detalleTelaNew.setIdTela(Long.parseLong(id));
+				detalleTelaNew.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
+				detalleTelaNew.setCreado_por(auth.getName());
+				detalleTelaNew.setActualizadoPor("user");
+				detalleTelaNew.setDescripcion(idMaterialConv);
+				detalleTelaNew.setFechaCreacion(hourdateFormat.format(date));
+				detalleTelaNew.setUltimaFechaModificacion(null);
+				CoordinadoService.saveTelaMaterial(detalleTelaNew);
 			}
 		}
 		CoordinadoService.deleteTela(objetoCoodinadoPrenda.getIdCoordinadoPrenda(), fecha);
@@ -170,7 +171,7 @@ public class PedidosCambioPrendaController {
 			String id = object.get("id_forro").toString();
 			String idMaterialForro = object.get("id_MaterialForro").toString();
 			ComercialCoordinadoForro detalleForro =CoordinadoService.searchForro(objetoCoodinadoPrenda.getIdCoordinadoPrenda(),idMaterialForro);
-			if ( detalleForro.getIdCoordinadoForro()>0){
+			if ( detalleForro != null){
 				detalleForro.setDescripcion(idMaterialForro);
 				detalleForro.setIdForro(Long.parseLong(id));
 				detalleForro.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
@@ -180,14 +181,15 @@ public class PedidosCambioPrendaController {
 				detalleForro.setUltimaFechaModificacion(fecha);
 				CoordinadoService.saveForroMaterial(detalleForro);
 			}else{
-				detalleForro.setDescripcion(idMaterialForro);
-				detalleForro.setIdForro(Long.parseLong(id));
-				detalleForro.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
-				detalleForro.setCreado_por(auth.getName());
-				detalleForro.setActualizadoPor("user");
-				detalleForro.setFechaCreacion(hourdateFormat.format(date));
-				detalleForro.setUltimaFechaModificacion(null);
-				CoordinadoService.saveForroMaterial(detalleForro);
+				ComercialCoordinadoForro detalleForroNew = new ComercialCoordinadoForro();
+				detalleForroNew.setDescripcion(idMaterialForro);
+				detalleForroNew.setIdForro(Long.parseLong(id));
+				detalleForroNew.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
+				detalleForroNew.setCreado_por(auth.getName());
+				detalleForroNew.setActualizadoPor("user");
+				detalleForroNew.setFechaCreacion(hourdateFormat.format(date));
+				detalleForroNew.setUltimaFechaModificacion(null);
+				CoordinadoService.saveForroMaterial(detalleForroNew);
 			}
 			
 		}
@@ -202,8 +204,8 @@ public class PedidosCambioPrendaController {
 			String color = object.get("color").toString();
 			String[] parts = color.split("_");
 			ComercialCoordinadoMaterial material = CoordinadoService.searchMaterial(objetoCoodinadoPrenda.getIdCoordinadoPrenda(), Long.parseLong(parts2[j]));
-			/*
-			if ( material.getIdCoordinadoMaterial()>0){
+			
+			if ( material != null){
 
 				material.setIdMaterial(Long.parseLong(parts2[j]));
 				material.setColor(parts[0]);
@@ -216,16 +218,17 @@ public class PedidosCambioPrendaController {
 				CoordinadoService.saveCoorMaterial(material);
 
 			}else{
-				material.setIdMaterial(Long.parseLong(parts2[j]));
-				material.setColor(parts[0]);
-				material.setColorCodigo(parts[1]);
-				material.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
-				material.setCreadoPor(auth.getName());
-				material.setActualizadoPor(null);
-				material.setFechaCreacion(hourdateFormat.format(date));
-				material.setUltimaFechaModificacion(null);
-				CoordinadoService.saveCoorMaterial(material);
-			}*/
+				ComercialCoordinadoMaterial materialNew = new ComercialCoordinadoMaterial();
+				materialNew.setIdMaterial(Long.parseLong(parts2[j]));
+				materialNew.setColor(parts[0]);
+				materialNew.setColorCodigo(parts[1]);
+				materialNew.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
+				materialNew.setCreadoPor(auth.getName());
+				materialNew.setActualizadoPor(null);
+				materialNew.setFechaCreacion(hourdateFormat.format(date));
+				materialNew.setUltimaFechaModificacion(null);
+				CoordinadoService.saveCoorMaterial(materialNew);
+			}
 			
 
 		}

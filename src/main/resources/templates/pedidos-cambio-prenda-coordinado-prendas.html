@@ -200,12 +200,12 @@
       <script th:src="@{/dist/js/sweetalert.js}"></script>
       <script th:src="@{/dist/js/pedido-cambio-prenda.js}"></script>
       <script>
-        $('#iComercial').removeClass('text-altima');
+      $('#iComercial').removeClass('text-altima');
 		$('#menuComercial').addClass('menu-open');
 		$('#navComercial').addClass('active-altima');
 		$('#menuVenta').addClass('menu-open');
-        $('#navSolicitudCambioTela').addClass('active');
-        $('#navSolicitudCambioTela').removeClass('text-altima');
+    $('#naviCambioPrenda').addClass('active');
+    $('#naviCambioPrenda').removeClass('text-altima');
       </script>
       <script th:if="${icon != null}" th:inline="javascript">
          Swal.fire({

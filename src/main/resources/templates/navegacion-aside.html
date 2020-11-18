@@ -493,6 +493,14 @@
                                 <p>Solicitud de cambio de tela</p>
                             </a>
                         </li>
+                        
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUD_CAMBIO_PRENDA_GERENCIA'')')})">
+                            <a th:href="${'/pedidos-cambio-prenda'}" class="nav-link" id="naviCambioPrenda">
+                                <i class="nav-icon fas fa-file-export" id="iCambioPrenda"></i>
+                                <p>Cambio de prenda</p>
+                            </a>
+                        </li>
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                         (${#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_LISTAR'')')}) or
                         (${#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_AGREGAR'')')}) or

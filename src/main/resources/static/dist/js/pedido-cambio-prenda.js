@@ -936,7 +936,7 @@ function agregar() {
                 Swal.fire({
                     position: 'center',
                         icon: 'success',
-                        title: 'Agregado correctamente',
+                        title: 'Actualizado correctamente',
                     allowOutsideClick: false,
                     timerProgressBar: true,
                     showConfirmButton: false,

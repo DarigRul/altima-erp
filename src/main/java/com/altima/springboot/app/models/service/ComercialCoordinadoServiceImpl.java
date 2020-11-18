@@ -682,15 +682,15 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 		return re;
 	}
 
-	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	@Override
-	@Transactional
 	public ComercialCoordinadoTela searchTela(Long CoorPrenda,String idMaterial) {
+		ComercialCoordinadoTela aux= null;
 		try {
 			return  (ComercialCoordinadoTela) em.createQuery("from ComercialCoordinadoTela where id_coordinado_prenda= "+CoorPrenda+" AND descripcion ="+idMaterial).getSingleResult();
 		}
 		catch(Exception e) {
-			ComercialCoordinadoTela aux= null;
+			
 			return aux;
 		}
 		
@@ -713,15 +713,14 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	}
 
 	
-	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	@Override
-	@Transactional
 	public ComercialCoordinadoForro searchForro(Long CoorPrenda,String idMaterial) {
+		ComercialCoordinadoForro aux= null;
 		try {
 			return  (ComercialCoordinadoForro) em.createQuery("from ComercialCoordinadoForro where id_coordinado_prenda= "+CoorPrenda+" AND descripcion ="+idMaterial).getSingleResult();
 		}
 		catch(Exception e) {
-			ComercialCoordinadoForro aux= null;
 			return aux;
 		}
 		
@@ -743,16 +742,16 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 
 	}
 
-	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	@Override
-	@Transactional
 	public ComercialCoordinadoMaterial searchMaterial(Long CoorPrenda,Long idMaterial) {
-		System.out.println("from ComercialCoordinadoMaterial where id_coordinado_prenda= "+CoorPrenda+" AND id_material ="+idMaterial);
+		ComercialCoordinadoMaterial aux = null;
 		try {
+			
 			return  (ComercialCoordinadoMaterial) em.createQuery("from ComercialCoordinadoMaterial where id_coordinado_prenda= "+CoorPrenda+" AND id_material ="+idMaterial).getSingleResult();
 		}
 		catch(Exception e) {
-			ComercialCoordinadoMaterial aux= null;
+			
 			return aux; 
 		}
 		
@@ -761,14 +760,14 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Override
 	@Transactional
 	public void deleteMaterial(Long CoorPrenda, String fecha) {
-		Query query = em.createNativeQuery(""+
-			"DELETE \n"+
-			"FROM \n"+
-				"alt_comercial_coordinado_forro \n"+
-			"WHERE \n"+
-				"1 = 1 \n"+
-				"AND id_coordinado_prenda = "+CoorPrenda+" \n"+
-				"AND ultima_fecha_modificacion != '"+fecha+"'");
+		Query query = em.createNativeQuery(""
+				+ "DELETE \r\n" + 
+				"FROM\r\n" + 
+				"	alt_comercial_coordinado_material \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND id_coordinado_prenda = "+CoorPrenda+" \r\n" + 
+				"	AND ultima_fecha_modificacion != '"+fecha+"'");
 		query.executeUpdate();
 
 	}
