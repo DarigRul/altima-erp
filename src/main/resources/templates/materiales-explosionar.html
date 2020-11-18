@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
+
 <head th:include="navegacion-head :: header">
     <title id="pageTitle">Explosi&oacute;n de materiales | Altima</title>
+   
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
@@ -78,16 +80,16 @@
                                                 <td th:text="${material[6]}">uom</td>
                                                 <td th:text="${material[7]}">clasificacion</td>
                                                 <td th:text="${material[9]}">color</td>
-                                                <td th:if="${material[21] ==null}" th:text="${material[23]}">surtir</td>
-                                                <td th:unless="${material[21] ==null}" th:text="${material[21]}">surtir</td>                                            
-                                                <td th:if="${material[18] ==null}" th:text="${material[19]}">disponible</td>
-                                                <td th:unless="${material[18] ==null}" th:text="${material[18]}">disponible</td>
-                                                <td th:text="${material[20]}">apartado</td>
-                                                <td th:if="${material[22] ==null}" th:text="${material[23]}">faltante</td>
-                                                <td th:unless="${material[22] ==null}" th:text="${material[22]}">faltante</td>
-                                                <td th:if="${material[22] > 0 }">Faltante</td>
-                                                 <td th:if="${material[22] == 0 }">Completo</td>
-                                                  <td th:if="${material[22] == null }">Faltante</td>
+                                                <td th:if="${material[21] ==null}"  th:id="surtir+${material[0]}" th:text="${material[23]}" ></td><!-- surtir -->
+                                                <td th:unless="${material[21] ==null}" th:id="surtir+${material[0]}" th:text="${material[21]}" ></td><!-- surtir -->                                            
+                                                <td th:if="${material[18] ==null}" th:id="disponible+${material[0]}" th:text="${material[19]}" ></td><!-- disponible -->
+                                                <td th:unless="${material[18] ==null}"  th:id="disponible+${material[0]}" th:text="${material[18]}"></td><!-- disponible -->
+                                                <td th:id="apartado+${material[0]}" th:text="${material[20]}"></td><!-- apartado -->
+                                                <td th:if="${material[22] ==null}" th:id="faltante+${material[0]}" th:text="${material[23]}"></td><!-- faltante -->
+                                                <td th:unless="${material[22] ==null}" th:id="faltante+${material[0]}" th:text="${material[22]}"></td><!-- faltante -->
+                                                <td th:if="${material[22] > 0 }" ><strong th:id="status+${material[0]}">Faltante</strong></td>
+                                                 <td th:if="${material[22] == 0 }"   ><strong  th:id="status+${material[0]}">Completo</strong></td>
+                                                  <td th:if="${material[22] == null }" ><strong  th:id="status+${material[0]}">Faltante</strong></td>
                                                 <td class="text-center">
                                                     <button data-toggle="modal" data-target="#materialesAlmacen" 
                                                     
@@ -100,7 +102,10 @@
                                            
                                         </tbody>
                                     </table>
+                                    <input type="hidden"  th:id="token" th:value="${_csrf.token}">
                                     <div th:insert="materiales-explosionar-almacen"></div>
+                                                <button type="button" onclick="guardar()" class="btn btn-primary float-right">Guardar</button>
+                                    
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -109,6 +114,7 @@
                     </div>
                 </div>
             </section>
+            
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->

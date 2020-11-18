@@ -3,6 +3,8 @@ package com.altima.springboot.app.models.service;
 import java.util.List;
 
 import com.altima.springboot.app.models.entity.AmpExplosionMateriales;
+import com.altima.springboot.app.models.entity.AmpTraspaso;
+import com.altima.springboot.app.models.entity.AmpTraspasoDetalle;
 
 public interface IAmpExplosionMaterialesService {
 
@@ -19,5 +21,11 @@ public interface IAmpExplosionMaterialesService {
 	List<Object[]> findAvailableMaterials(Long IdArticulo);
 
 	List<Object[]> findMaterialsHeader(Long IdArticulo, Long IdPedido);
+
+	AmpTraspasoDetalle findOneTraspasoDetalle(Long id);
+
+	void SaveTraspaso(AmpTraspaso traspaso);
+
+	void SaveTraspasoDetalle(AmpTraspasoDetalle traspasodetalle);
 
 }
