@@ -5,7 +5,9 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -116,6 +118,7 @@ public class CatalogosAMPRestController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
+		Formatter fmt = new Formatter();
 		if (clasificacion != null) {
 			AmpLookup clasificacionLook = new AmpLookup();
 			AmpLookup ultimoid = null;
@@ -128,13 +131,13 @@ public class CatalogosAMPRestController {
 			}
 
 			if (ultimoid == null) {
-				clasificacionLook.setIdText("CLAS" + "1001");
+				clasificacionLook.setIdText("CLAS" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				clasificacionLook.setIdText("CLAS" + (cont + 1));
+				clasificacionLook.setIdText("CLAS" + fmt.format("%04d", (cont + 1)));
 			}
 
 			clasificacionLook.setNombreLookup(StringUtils.capitalize(clasificacion));
@@ -159,13 +162,13 @@ public class CatalogosAMPRestController {
 			}
 
 			if (ultimoid == null) {
-				clasificacionLook.setIdText("LINEA" + "1001");
+				clasificacionLook.setIdText("LINEA" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				clasificacionLook.setIdText("LINEA" + (cont + 1));
+				clasificacionLook.setIdText("LINEA" + fmt.format("%04d", (cont + 1)));
 			}
 
 			clasificacionLook.setNombreLookup(StringUtils.capitalize(linea));
@@ -190,13 +193,13 @@ public class CatalogosAMPRestController {
 			}
 
 			if (ultimoid == null) {
-				clasificacionLook.setIdText("MOV" + "1001");
+				clasificacionLook.setIdText("MOV" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				clasificacionLook.setIdText("MOV" + (cont + 1));
+				clasificacionLook.setIdText("MOV" + fmt.format("%04d", (cont + 1)));
 			}
 
 			clasificacionLook.setNombreLookup(StringUtils.capitalize(movimiento));
@@ -221,13 +224,13 @@ public class CatalogosAMPRestController {
 			}
 
 			if (ultimoid == null) {
-				pasilloLook.setIdText("PASI" + "1001");
+				pasilloLook.setIdText("PASI" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				pasilloLook.setIdText("PASI" + (cont + 1));
+				pasilloLook.setIdText("PASI" + fmt.format("%04d", (cont + 1)));
 			}
 
 			pasilloLook.setNombreLookup(StringUtils.capitalize(pasillo));
@@ -240,7 +243,7 @@ public class CatalogosAMPRestController {
 			LookupService.save(pasilloLook);
 			return "catalogos";
 		}
-		
+		fmt.close();
 		return "redirect:catalogos";
 
 	}
@@ -286,8 +289,6 @@ public class CatalogosAMPRestController {
 	@PostMapping("/editar-catalogo-amp")
 	public String editacatalogo(Long idLookup, String linea, String Clasificacion , String pasillo, String idAlmacen) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
 		AmpLookup Linea = null;
 		AmpLookup clas = null;
 		AmpLookup Pasillo = null;
@@ -295,7 +296,7 @@ public class CatalogosAMPRestController {
 			Linea = LookupService.findOne(idLookup);
 			Linea.setNombreLookup(StringUtils.capitalize(linea));
 			Linea.setDescripcionLookup(Clasificacion);
-			Linea.setUltimaFechaModificacion(dateFormat.format(date));
+			Linea.setUltimaFechaModificacion(currentDate());
 			Linea.setActualizadoPor(auth.getName());
 			LookupService.save(Linea);
 			return "redirect:catalogos";
@@ -304,7 +305,7 @@ public class CatalogosAMPRestController {
 		if (Clasificacion != null && idLookup > 0) {
 			clas = LookupService.findOne(idLookup);
 			clas.setNombreLookup(StringUtils.capitalize(Clasificacion));
-			clas.setUltimaFechaModificacion(dateFormat.format(date));
+			clas.setUltimaFechaModificacion(currentDate());
 			clas.setActualizadoPor(auth.getName());
 			LookupService.save(clas);
 			return "redirect:catalogos";
@@ -312,7 +313,7 @@ public class CatalogosAMPRestController {
 		if (pasillo != null && idLookup > 0) {
 			Pasillo = LookupService.findOne(idLookup);
 			Pasillo.setNombreLookup(StringUtils.capitalize(pasillo));
-			Pasillo.setUltimaFechaModificacion(dateFormat.format(date));
+			Pasillo.setUltimaFechaModificacion(currentDate());
 			Pasillo.setAtributo1(idAlmacen);
 			Pasillo.setActualizadoPor(auth.getName());
 			LookupService.save(Pasillo);
@@ -398,5 +399,14 @@ public class CatalogosAMPRestController {
 		}
 		
 		return true;
+	}
+
+	private String currentDate() {
+		Date date = new Date();
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+		String sDate = hourdateFormat.format(date);
+		return sDate;
 	}
 }
