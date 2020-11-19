@@ -42,12 +42,12 @@ public interface IComercialCoordinadoService {
 	// TABLA DE COORDINADO TELA
 	void saveTelaMaterial(ComercialCoordinadoTela telamaterial);
 	ComercialCoordinadoTela searchTela ( Long CoorPrenda, String idMaterial);
-	void deleteTela ( Long CoorPrenda, String fecha);
+	void deleteTela ( Long CoorPrenda);
 	
 	//TABLA DE COORDINADO FORRO
 	void saveForroMaterial(ComercialCoordinadoForro forromaterial);
 	ComercialCoordinadoForro searchForro ( Long CoorPrenda, String idMaterial);
-	void deleteForro ( Long CoorPrenda, String fecha);
+	void deleteForro ( Long CoorPrenda);
 
 
 	// Muesta de las fotos
@@ -61,7 +61,7 @@ public interface IComercialCoordinadoService {
 
 	// pa editar
 	ComercialCoordinadoMaterial searchMaterial ( Long CoorPrenda, Long idMaterial);
-	void deleteMaterial( Long CoorPrenda, String fecha);
+	void deleteMaterial( Long CoorPrenda);
 }
 
 

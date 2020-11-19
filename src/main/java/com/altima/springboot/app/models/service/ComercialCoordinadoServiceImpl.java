@@ -514,8 +514,9 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	
 	
     @Override
+    @Transactional
 	public  void saveTelaMaterial(ComercialCoordinadoTela telamaterial){
-    	
+    	System.out.println("hola"+telamaterial.getIdCoordinadoPrenda());
     	repositoryTelaMaterial.save(telamaterial);
 		
 	}
@@ -698,16 +699,14 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 
 	@Override
 	@Transactional
-	public void deleteTela(Long CoorPrenda, String fecha) {
-		
-		Query query = em.createNativeQuery(""+
-			"DELETE \n"+
-			"FROM \n"+
-				"alt_comercial_coordinado_tela \n"+
-			"WHERE \n"+
-				"1 = 1 \n"+
-				"AND id_coordinado_prenda = "+CoorPrenda+" \n"+
-				"AND ultima_fecha_modificacion != '"+fecha+"'");
+	public void deleteTela(Long CoorPrenda) {
+		Query query = em.createNativeQuery(""
+				+ "DELETE \r\n" + 
+				"FROM \r\n" + 
+				"alt_comercial_coordinado_tela \r\n" + 
+				"WHERE \r\n" + 
+				"1 = 1 \r\n" + 
+				"AND id_coordinado_prenda = "+CoorPrenda+" \r\n");
 		query.executeUpdate();
 
 	}
@@ -728,7 +727,7 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 
 	@Override
 	@Transactional
-	public void deleteForro(Long CoorPrenda, String fecha) {
+	public void deleteForro(Long CoorPrenda) {
 		
 		Query query = em.createNativeQuery(""+
 			"DELETE \n"+
@@ -736,8 +735,7 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"alt_comercial_coordinado_forro \n"+
 			"WHERE \n"+
 				"1 = 1 \n"+
-				"AND id_coordinado_prenda = "+CoorPrenda+" \n"+
-				"AND ultima_fecha_modificacion != '"+fecha+"'");
+				"AND id_coordinado_prenda = "+CoorPrenda+" \n");
 		query.executeUpdate();
 
 	}
@@ -759,15 +757,14 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 
 	@Override
 	@Transactional
-	public void deleteMaterial(Long CoorPrenda, String fecha) {
+	public void deleteMaterial(Long CoorPrenda) {
 		Query query = em.createNativeQuery(""
 				+ "DELETE \r\n" + 
 				"FROM\r\n" + 
 				"	alt_comercial_coordinado_material \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
-				"	AND id_coordinado_prenda = "+CoorPrenda+" \r\n" + 
-				"	AND ultima_fecha_modificacion != '"+fecha+"'");
+				"	AND id_coordinado_prenda = "+CoorPrenda+" \r\n");
 		query.executeUpdate();
 
 	}
