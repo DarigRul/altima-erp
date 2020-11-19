@@ -1,13 +1,13 @@
 <div class="small-box bg-danger div-rounded">
     <div class="inner">
         <h3>Modelos</h3>
-        <button data-toggle="modal" onclick="listarModelos()" data-target="#detalleModelo" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+        <button sec:authorize="hasAnyRole('ROLE_COMERCIAL_CATALOGOS_LISTAR', 'ROLE_ADMINISTRADOR')" data-toggle="modal" onclick="listarModelos()" data-target="#detalleModelo" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
     </div>
     <div class="icon">
         <i class="fas fa-user"></i>
     </div>
     <a class="small-box-footer div-rounded-footer">
-        <button onclick="agregarModelo()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+        <button sec:authorize="hasAnyRole('ROLE_COMERCIAL_CATALOGOS_AGREGAR', 'ROLE_ADMINISTRADOR')" onclick="agregarModelo()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
     </a>
 </div>
 <!-- Modal Marcas Tabla -->
@@ -15,8 +15,8 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content modal-rounded-body">
             <div class="modal-header bg-danger modal-rounded-header">
-                <h5 class="modal-title">Modelos&nbsp;<button onclick="agregarModelo()" class="btn btn-light btn-circle btn-sm popoverxd"
-                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus text-danger"></i></button></h5>
+                <h5 class="modal-title">Modelos&nbsp;<button sec:authorize="hasAnyRole('ROLE_COMERCIAL_CATALOGOS_AGREGAR', 'ROLE_ADMINISTRADOR')" onclick="agregarModelo()" class="btn btn-light btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right"
+                        data-content="Agregar"><i class="fas fa-plus text-danger"></i></button></h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
