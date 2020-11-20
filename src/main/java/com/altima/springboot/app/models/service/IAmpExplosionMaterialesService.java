@@ -28,4 +28,6 @@ public interface IAmpExplosionMaterialesService {
 
 	void SaveTraspasoDetalle(AmpTraspasoDetalle traspasodetalle);
 
+	List<Object[]> findAllExplosion();
+
 }
