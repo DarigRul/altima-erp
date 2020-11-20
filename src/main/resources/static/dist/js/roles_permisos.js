@@ -48,6 +48,7 @@ function cargarSeccion() {
 			var servicioalcliente = [];
 			var usuario = [];
 			var recursoshumanos = [];
+			var requisiciones = [];
 			for(i in data){
 				if (data[i][0]=="Mensajería"){
 					mensajeria.push(data[i][1]);
@@ -73,6 +74,9 @@ function cargarSeccion() {
 				if (data[i][0]=="Recursos humanos"){
 					recursoshumanos.push(data[i][1]);
 				}
+				if (data[i][0]=="Requisiciones"){
+					requisiciones.push(data[i][1]);
+				}
 			}
 	
 		    var listaPueblos = {
@@ -83,7 +87,8 @@ function cargarSeccion() {
 		      Producción: producción,
 		      Servicioalcliente: servicioalcliente,
 		      Usuarios: usuario,
-		      Recursoshumanos : recursoshumanos
+		      Recursoshumanos : recursoshumanos,
+		      Requisiciones : requisiciones
 		    }
 		
 		    var departamento = document.getElementById('departamento')
@@ -575,7 +580,7 @@ function guardarUsuario(){
 							showConfirmButton: false,
 					        timer: 4000,
 					        onClose: () => {
-					        	location.href="editar_usuario/"+data;
+					        	location.reload();
 						  }
 						})
 					}

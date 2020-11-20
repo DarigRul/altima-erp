@@ -118,7 +118,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 				"SELECT roles.nombre_rol, roles.departamento_rol, roles.seccion_rol FROM alt_hr_usuario_rol AS roluser\r\n"
 						+ "INNER JOIN alt_hr_rol roles ON roluser.id_rol = roles.id_rol\r\n"
 						+ "WHERE roluser.id_usuario =" + id + "\r\n" + "AND permiso_rol!=''"
-						+ "GROUP BY roles.seccion_rol\r\n" + "ORDER BY roles.departamento_rol, roles.seccion_rol")
+						+ "GROUP BY roles.seccion_rol, departamento_rol ORDER BY roles.departamento_rol, roles.seccion_rol")
 				.getResultList();
 	}
 
