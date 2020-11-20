@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -54,26 +55,17 @@ public class PedidosCambioPrendaController {
 
 	@Autowired
 	private IComercialCoordinadoService CoordinadoService;
-
+	
+	@PreAuthorize("@authComponent.hasPermission(#null,{'listar-cambio-prenda'})")
     @GetMapping("/pedidos-cambio-prenda")
 	public String listPedidos(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	
-		/* Obtener todos los datos del usuario logeado */
-		Usuario user = usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
-		Long iduser = user.getIdUsuario();
-		String role = "[ROLE_ADMINISTRADOR]";
-		if (auth.getAuthorities().toString().equals(role)) {
-			model.addAttribute("admin", true);
-			
-			model.addAttribute("pedidos", cargaPedidoService.pedidosCambioPrenda(null));
-		} else {
-			model.addAttribute("pedidos", cargaPedidoService.pedidosCambioPrenda(iduser));
-
-		}
+		model.addAttribute("admin", true);
+		
+		model.addAttribute("pedidos", cargaPedidoService.pedidosCambioPrenda(null));
 		return "pedidos-cambio-prenda";
 	}// le movio erik
 
+	@PreAuthorize("@authComponent.hasPermission(#id,{'cambio-prenda'})")
 	@GetMapping("/detalle-coordinados/{id}")
 	public String listCoordinados(@PathVariable(value = "id") Long id, Model model) {
 		model.addAttribute("coordinados", CoordinadoService.findAllEmpresa(id));
@@ -82,6 +74,7 @@ public class PedidosCambioPrendaController {
 		return "pedidos-cambio-prenda-coordinado";
 	}
 
+	@PreAuthorize("@authComponent.hasPermission(#id,{'cambio-prenda'})")
 	@GetMapping("/editar-coordinado-prenda/{id}")
 	public String addCoordinados(@PathVariable(value = "id") Long id, Map<String, Object> model) {
 		ComercialCoordinadoPrenda prenda = new ComercialCoordinadoPrenda();
@@ -109,17 +102,6 @@ public class PedidosCambioPrendaController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-
-		System.out.println("Si entro al rest guardar guar guardarrrr coordinado");
-
-		System.out.println("El id de prenda es: " + idPrenda);
-
-		System.out.println("El id de tela es: " + idTela);
-
-		System.out.println("Este es el arreglo: " + arrayid);
-
-		System.out.println("++"+idCoorPrenda);
-
 		ComercialCoordinadoPrenda objetoCoodinadoPrenda = CoordinadoService.findOneCoorPrenda(idCoorPrenda);
 		String fecha = hourdateFormat.format(date);
 		
@@ -127,75 +109,54 @@ public class PedidosCambioPrendaController {
 		objetoCoodinadoPrenda.setIdPrenda(idModelo);
 		objetoCoodinadoPrenda.setIdTela(idTela);
 		objetoCoodinadoPrenda.setIdCoordinado(idCoordinado);
-		objetoCoodinadoPrenda.setAdicional("0");
-		objetoCoodinadoPrenda.setMontoAdicional("0");
-		objetoCoodinadoPrenda.setPrecioFinal("0");
 		objetoCoodinadoPrenda.setEstatus("1");
 		objetoCoodinadoPrenda.setActualizadoPor(auth.getName());
 		objetoCoodinadoPrenda.setUltimaFechaModificacion(fecha);
-		objetoCoodinadoPrenda.setPrecio(CoordinadoService.precioPrenda(idCoordinado, idModelo, idTela));
-		objetoCoodinadoPrenda.setPrecioFinal(CoordinadoService.precioPrenda(idCoordinado, idModelo, idTela));
 		CoordinadoService.saveCoorPrenda(objetoCoodinadoPrenda);
+		
 		////// seccion2 TELAS
+		CoordinadoService.deleteTela(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
 		JSONArray json2 = new JSONArray(datosMateriales22);
 		for (int k = 0; k < json2.length(); k++) {
 			JSONObject object = (JSONObject) json2.get(k);
 			String id = object.get("id_tela").toString();
 			String idMaterialConv = object.get("id_materialConv").toString();
-			ComercialCoordinadoTela detalleTela =CoordinadoService.searchTela(objetoCoodinadoPrenda.getIdCoordinadoPrenda(),idMaterialConv);
-			if ( detalleTela != null){
-				detalleTela.setIdTela(Long.parseLong(id));
-				detalleTela.setActualizadoPor(auth.getName());
-				detalleTela.setDescripcion(idMaterialConv);
-				detalleTela.setUltimaFechaModificacion(fecha);
-				CoordinadoService.saveTelaMaterial(detalleTela);
-			}else{
-				ComercialCoordinadoTela detalleTelaNew = new ComercialCoordinadoTela();
-				detalleTelaNew.setIdTela(Long.parseLong(id));
-				detalleTelaNew.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
-				detalleTelaNew.setCreado_por(auth.getName());
-				detalleTelaNew.setActualizadoPor("user");
-				detalleTelaNew.setDescripcion(idMaterialConv);
-				detalleTelaNew.setFechaCreacion(hourdateFormat.format(date));
-				detalleTelaNew.setUltimaFechaModificacion(null);
-				CoordinadoService.saveTelaMaterial(detalleTelaNew);
-			}
+			
+			ComercialCoordinadoTela telaNew = new ComercialCoordinadoTela();
+			telaNew.setIdTela(Long.parseLong(id));
+			telaNew.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
+			telaNew.setCreado_por(auth.getName());
+			telaNew.setActualizadoPor("user");
+			telaNew.setDescripcion(idMaterialConv);
+			telaNew.setFechaCreacion(fecha);
+			telaNew.setUltimaFechaModificacion(null);
+			CoordinadoService.saveTelaMaterial(telaNew);
 		}
-		CoordinadoService.deleteTela(objetoCoodinadoPrenda.getIdCoordinadoPrenda(), fecha);
+		
 		//////// SECUION3 FORROS
-
+		CoordinadoService.deleteForro(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
 		JSONArray json22 = new JSONArray(datosMateriales222);
 		for (int h = 0; h < json22.length(); h++) {
 			//ComercialCoordinadoForro detalleForro = new ComercialCoordinadoForro();
 			JSONObject object = (JSONObject) json22.get(h);
 			String id = object.get("id_forro").toString();
 			String idMaterialForro = object.get("id_MaterialForro").toString();
-			ComercialCoordinadoForro detalleForro =CoordinadoService.searchForro(objetoCoodinadoPrenda.getIdCoordinadoPrenda(),idMaterialForro);
-			if ( detalleForro != null){
-				detalleForro.setDescripcion(idMaterialForro);
-				detalleForro.setIdForro(Long.parseLong(id));
-				detalleForro.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
-				//detalleForro.setCreado_por(auth.getName());
-				detalleForro.setActualizadoPor(auth.getName());
-				//detalleForro.setFechaCreacion(hourdateFormat.format(date));
-				detalleForro.setUltimaFechaModificacion(fecha);
-				CoordinadoService.saveForroMaterial(detalleForro);
-			}else{
-				ComercialCoordinadoForro detalleForroNew = new ComercialCoordinadoForro();
-				detalleForroNew.setDescripcion(idMaterialForro);
-				detalleForroNew.setIdForro(Long.parseLong(id));
-				detalleForroNew.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
-				detalleForroNew.setCreado_por(auth.getName());
-				detalleForroNew.setActualizadoPor("user");
-				detalleForroNew.setFechaCreacion(hourdateFormat.format(date));
-				detalleForroNew.setUltimaFechaModificacion(null);
-				CoordinadoService.saveForroMaterial(detalleForroNew);
-			}
+			
+			ComercialCoordinadoForro detalleForroNew = new ComercialCoordinadoForro();
+			detalleForroNew.setDescripcion(idMaterialForro);
+			detalleForroNew.setIdForro(Long.parseLong(id));
+			detalleForroNew.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
+			detalleForroNew.setCreado_por(auth.getName());
+			detalleForroNew.setActualizadoPor("user");
+			detalleForroNew.setFechaCreacion(hourdateFormat.format(date));
+			detalleForroNew.setUltimaFechaModificacion(null);
+			CoordinadoService.saveForroMaterial(detalleForroNew);
+			
 			
 		}
-		CoordinadoService.deleteForro(objetoCoodinadoPrenda.getIdCoordinadoPrenda(), fecha);
+		
 		////// parte 3 materiales
-
+		CoordinadoService.deleteMaterial(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
 		JSONArray json = new JSONArray(datosMateriales);
 		String[] parts2 = arrayid.split(",");
 		for (int j = 0; j < json.length(); j++) {
@@ -203,36 +164,22 @@ public class PedidosCambioPrendaController {
 
 			String color = object.get("color").toString();
 			String[] parts = color.split("_");
-			ComercialCoordinadoMaterial material = CoordinadoService.searchMaterial(objetoCoodinadoPrenda.getIdCoordinadoPrenda(), Long.parseLong(parts2[j]));
 			
-			if ( material != null){
-
-				material.setIdMaterial(Long.parseLong(parts2[j]));
-				material.setColor(parts[0]);
-				material.setColorCodigo(parts[1]);
-				material.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
-				//material.setCreadoPor(auth.getName());
-				material.setActualizadoPor(auth.getName());
-				//material.setFechaCreacion(hourdateFormat.format(date));
-				material.setUltimaFechaModificacion(fecha);
-				CoordinadoService.saveCoorMaterial(material);
-
-			}else{
-				ComercialCoordinadoMaterial materialNew = new ComercialCoordinadoMaterial();
-				materialNew.setIdMaterial(Long.parseLong(parts2[j]));
-				materialNew.setColor(parts[0]);
-				materialNew.setColorCodigo(parts[1]);
-				materialNew.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
-				materialNew.setCreadoPor(auth.getName());
-				materialNew.setActualizadoPor(null);
-				materialNew.setFechaCreacion(hourdateFormat.format(date));
-				materialNew.setUltimaFechaModificacion(null);
-				CoordinadoService.saveCoorMaterial(materialNew);
-			}
+			ComercialCoordinadoMaterial materialNew = new ComercialCoordinadoMaterial();
+			materialNew.setIdMaterial(Long.parseLong(parts2[j]));
+			materialNew.setColor(parts[0]);
+			materialNew.setColorCodigo(parts[1]);
+			materialNew.setIdCoordinadoPrenda(objetoCoodinadoPrenda.getIdCoordinadoPrenda());
+			materialNew.setCreadoPor(auth.getName());
+			materialNew.setActualizadoPor(null);
+			materialNew.setFechaCreacion(hourdateFormat.format(date));
+			materialNew.setUltimaFechaModificacion(null);
+			CoordinadoService.saveCoorMaterial(materialNew);
+			
 			
 
 		}
-		CoordinadoService.deleteMaterial(objetoCoodinadoPrenda.getIdCoordinadoPrenda(), fecha);
+		
 
 		return 1;
 

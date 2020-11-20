@@ -56,9 +56,7 @@ public class UsuarioController {
 		m.put("usuario", usuario.getNombreUsuario());
 		m.put("passwordForm", new ChangePasswordForm(usuario.getIdUsuario()));
 		
-		for (Rol r : rolService.findAll()) {
-			roles.add(r.getDescripcionRol());
-		}
+
 		model.addAttribute("dataRol",usuarioService.FindPermisosByUserId(id));
 		model.addAttribute("empleados", empleadoService.findEmpleadoPersona());
 		model.addAttribute("empleadoSelected", usuario.getIdEmpleado());

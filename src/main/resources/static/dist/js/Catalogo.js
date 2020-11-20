@@ -117,6 +117,7 @@ function listarColores() {
                     var a;
                     var idProveedor;
                     var b = [];
+
                     if (rolAdmin == 1) {
                         var nombreProveedor = '';
                         for (i in data) {

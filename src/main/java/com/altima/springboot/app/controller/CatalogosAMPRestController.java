@@ -59,7 +59,7 @@ public class CatalogosAMPRestController {
 		return  resp;
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR"})
 	@RequestMapping(value = "/listar-amp", method = RequestMethod.GET)
 	@ResponseBody
 	public List<AmpLookup> listarlookup(String Tipo) {
@@ -68,7 +68,7 @@ public class CatalogosAMPRestController {
 		return LookupService.findAllLookup(Tipo);
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR"})
 	@RequestMapping(value = "/listar-amp-linea", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object []> listarlookuplinea(String Tipo) {
@@ -77,7 +77,7 @@ public class CatalogosAMPRestController {
 	}
 	
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_ELIMINAR"})
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_ELIMINAR"})
 	@PostMapping("/baja-catalogo-amp")
 	public String bajacatalogo(Long idcatalogo) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -93,7 +93,7 @@ public class CatalogosAMPRestController {
 
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR"})
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_ELIMINAR"})
 	@PostMapping("/reactivar-catalogo-amp")
 	@ResponseBody
 	public String reactivarcatalogo(Long idcatalogo) {
@@ -111,7 +111,7 @@ public class CatalogosAMPRestController {
 	}
 	
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_EDITAR", "ROLE_DISENIO_CATALOGOS_AGREGAR"})
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR", "ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR"})
 	@PostMapping("/guardar-catalogo-amp")
 	public String guardacatalogo(String clasificacion , String id_clasificacion, 
 			String linea, String movimiento , String tipo, String pasillo, String idAlmacen) {
@@ -259,7 +259,7 @@ public class CatalogosAMPRestController {
 		return  resp;
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_EDITAR", "ROLE_DISENIO_CATALOGOS_AGREGAR"})
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR", "ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR"})
 	@PostMapping("/guardar-catalogo-almacen")
 	public String guarda_almacen(String almacen , String encargado, String entrada, String salida) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -285,7 +285,7 @@ public class CatalogosAMPRestController {
 	}
 	
 	
-
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR"})
 	@PostMapping("/editar-catalogo-amp")
 	public String editacatalogo(Long idLookup, String linea, String Clasificacion , String pasillo, String idAlmacen) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -323,6 +323,7 @@ public class CatalogosAMPRestController {
 		return "redirect:catalogos";
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR"})
 	@RequestMapping(value = "/listar-almacenes-fisicos", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object []> listar() {
@@ -330,6 +331,7 @@ public class CatalogosAMPRestController {
 		return LookupService.findAllAlmacen();
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR"})
 	@RequestMapping(value = "/listar-amp-pasillos", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object []> listaPAsillo() {
