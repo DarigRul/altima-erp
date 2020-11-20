@@ -181,7 +181,7 @@ function enviar() {
 	        success: function(data) {
 	       },
 	       complete: function() {   
-	    	   var url = "/requisicion-de-almacen";  
+	    	   var url = "/solicitud-de-almacen";  
 	    		 $(location).attr('href',url);
 			
 		    },
@@ -192,7 +192,7 @@ function enviar() {
 
 function editar (id){
 	
-	var url = "/requisicion-de-almacen-editar/"+id+"";  
+	var url = "/solicitud-de-almacen-editar/"+id+"";  
 	 $(location).attr('href',url);
 }
 function enviarEstatus(id) {
@@ -469,7 +469,7 @@ function enviarCompras() {
 	        success: function(data) {
 	       },
 	       complete: function() {   
-	    	   var url = "/requisicion-de-almacen";  
+	    	   var url = "/solicitud-de-almacen";  
 	    		 $(location).attr('href',url);
 			
 		    },
