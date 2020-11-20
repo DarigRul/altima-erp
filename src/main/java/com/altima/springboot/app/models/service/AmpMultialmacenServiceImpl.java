@@ -65,7 +65,7 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 
 		return em
 				.createNativeQuery("" + "SELECT\r\n" + "	am.id_multialmacen,\r\n"
-						+ "	al.nombre_almacen_logico,\r\n" + "	am.id_articulo,\r\n" + "	am.existencia,al.tipo \r\n"
+						+ "	al.nombre_almacen_logico,\r\n" + "	am.id_articulo,\r\n" + "	am.existencia,al.tipo,al.id_almacen_fisico \r\n"
 						+ "FROM\r\n" + "	alt_amp_multialmacen am,\r\n" + "	alt_amp_almacen_logico al \r\n"
 						+ "WHERE\r\n" + "	am.id_almacen_logico = al.id_almacen_logico \r\n"
 						+ "	AND am.id_articulo = " + articulo + " \r\n" + "	AND am.tipo = '" + tipo + "'")
