@@ -1,11 +1,8 @@
 function agregar (){
-	
 	var t = $('#tablaGeneral').DataTable();
 	var repetido = false;
-
 	if ( document.getElementById("materialRequisicion").selectedIndex != null
 			&& document.getElementById("cantidadRequisicion").value>0){
-		
 		$('#tablaGeneral tr').each(function () {
 			
 			if ($(this).find('td').eq(0).html() == $("#materialRequisicion option:selected").attr("value") &&
@@ -137,7 +134,7 @@ function enviar() {
 			 });
 		 }		
 	});
-	if ( $('#idEmpleadoSolicitante').val()== null){
+	if ( $('#idEmpleadoSolicitante').val()== null || $('#idEmpleadoSolicitante').val()==0 || $('#idEmpleadoSolicitante').val()==""){
 		Swal.fire({
 			position: 'center',
 			icon: 'error',
@@ -162,7 +159,9 @@ function enviar() {
 	        data: { 
 	        	datos :JSON.stringify(datos),
 	        	'idRequisicion': $('#idRequisicion').val(),
-	             "_csrf": $('#token').val(),
+	            "_csrf": $('#token').val(),
+	            'idEmpleadoSolicitante':$('#idEmpleadoSolicitante').val()
+	            
 	        },
 	        beforeSend: function () {
 	        	 Swal.fire({

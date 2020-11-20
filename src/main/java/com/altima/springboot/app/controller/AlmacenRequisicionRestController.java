@@ -34,27 +34,22 @@ public class AlmacenRequisicionRestController {
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/guardar-requisicion-materiales", method = RequestMethod.POST)
 	@ResponseBody
-	public String guardar(@RequestParam(name = "datos") String datos, Long idRequisicion) {
+	public String guardar(@RequestParam(name = "datos") String datos, Long idRequisicion, Long idEmpleadoSolicitante) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		
 		if (idRequisicion == null) {
 			AmpRequisicionAlmacen  requi = new AmpRequisicionAlmacen ();
-			if ( auth.getName().equals("ADMIN")) {
-				requi.setIdSolicitante(1L);
-			}else {
-				requi.setIdSolicitante(this.auth.currentuserid());
-			}
-			
-			requi.setIdText("REQ");
+			requi.setIdSolicitante(idEmpleadoSolicitante);
+			requi.setIdText("REQMA");
 			requi.setCreadoPor(auth.getName());
 			requi.setActualizadoPor(auth.getName());
 			requi.setFechaCreacion(hourdateFormat.format(date));
 			requi.setUltimaFechaModificacion(hourdateFormat.format(date));
 			requi.setEstatusEnvio("0");
 			ServiceAlmacen.save(requi);
-			requi.setIdText("REQ"+ (requi.getIdRequsicionAlmacen()+1000000));
+			requi.setIdText("REQMA"+ (requi.getIdRequsicionAlmacen()+100000));
 		
 			JSONArray json = new JSONArray(datos);
 			for (int i = 0; i < json.length(); i++) {
