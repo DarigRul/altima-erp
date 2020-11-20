@@ -61,7 +61,7 @@ public class DisenioMaterialPrendaServiceImpl implements IDisenioMaterialPrendaS
 		for(DisenioMaterialPrenda dmp : actuales) {
 			int coincidencias = 0;
 			for(int i = 0; i < IdMateriales.length; i++) {
-				if(dmp.getIdMaterial() == IdMateriales[i]) {
+				if(dmp.getIdMaterial().equals(IdMateriales[i]) ) {
 					coincidencias++;
 				}
 			}

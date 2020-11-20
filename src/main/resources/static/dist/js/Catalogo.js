@@ -150,7 +150,18 @@ function listarColores() {
                             b.push(a);
                         }
                     } else {
+                        var nombreProveedor = '';
                         for (i in data) {
+                            nombreProveedor = '';
+                            var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
+
+                            if (data[i].atributo2 == null || data[i].atributo2 == '' || data[i].atributo2 == undefined) {
+                                idProveedor = '';
+                                nombreProveedor == '';
+                            } else {
+                                idProveedor = parseInt(data[i].atributo2);
+                                nombreProveedor = Proveedores[idProveedor - 1].nombreProveedor;
+                            }
                             var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
                             if (data[i].estatus == 1) {
                                 a = [
@@ -1033,7 +1044,7 @@ function listarMateriales() {
                             "<td>" + data[i][4] + "</td>",
                             "<td style='text-align: center;'>" +
                             "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][7] + " <br /><strong>Fecha de creación:</strong> " + data[i][8] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
-
+                            (rolEditar == 1 ? "<button onclick='editarMaterial(this);' atributo1='" + data[i][3] + "' atributo2='" + data[i][5] + "' idlookup='" + data[i][0] + "' nombre='" + data[i][2] + "'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " :"")+
                             (rolEditar == 1 ? "<button onclick='bajarMaterial(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
                             (rolEliminar == 1 ? "<button onclick='reactivar(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
                             "</td>" +
