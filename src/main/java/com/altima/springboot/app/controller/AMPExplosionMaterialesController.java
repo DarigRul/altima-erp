@@ -17,7 +17,7 @@ public class AMPExplosionMaterialesController {
     @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_LISTAR"})
     @GetMapping("/explosion-de-materiales")
     public String ExplosionList(Model model){
-    	model.addAttribute("explosionmaterial", AmpExplosionMaterialesService.findAll());
+    	model.addAttribute("explosionmaterial", AmpExplosionMaterialesService.findAllExplosion());
         return"explosion-de-materiales";
     }
     @GetMapping("/explosion-de-material")

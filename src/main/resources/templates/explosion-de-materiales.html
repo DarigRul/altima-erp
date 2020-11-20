@@ -60,18 +60,18 @@
                                         </thead>
                                         <tbody>
                                             <tr th:each=" explosion:${explosionmaterial}">
-                                                <td th:text="${explosion.FechaRecepcion}"></td>
-                                                <td th:text="${explosion.idPedido}"></td>
-                                                <td th:text="${explosion.Estatus}"></td>
-                                                <td th:text="${explosion.FechaExplosion}"></td>
-                                                <td th:text="${explosion.FechaHabilitacion}"></td>
+                                                <td th:text="${explosion[0]}"></td>
+                                                <td th:text="${explosion[1]}"></td>
+                                                <td th:text="${explosion[4]}"></td>
+                                                <td th:text="${explosion[3]}"></td>
+                                                <td th:text="${explosion[3]}"></td>
                                                 <td class="text-center">
                                                     <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i
                                              class="fas fa-info"></i></button>
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIAPRIMA'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="${'/materia-prima?idPedido='}+${explosion.idPedido}" class="btn btn-success btn-sm btn-circle popoverxd"
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIAPRIMA'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="${'/materia-prima?idPedido='}+${explosion[2]}" class="btn btn-success btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Materia prima"><i
                                              class="flaticon2-curling-hair-with-tissue-roll"></i></a>
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIALES'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/materiales-explosionar/'+${explosion.idPedido}}" class="btn btn-warning btn-sm btn-circle popoverxd"
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIALES'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/materiales-explosionar/'+${explosion[2]}}" class="btn btn-warning btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Materiales"><i
                                              class="flaticon2-cylindrical-lamp-home-decor"></i></a>
                                                     <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="cancelarExplosion()" class="btn btn-danger btn-sm btn-circle popoverxd"

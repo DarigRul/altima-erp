@@ -66,7 +66,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
+<!-- 
 
                                             <tr v-for="apartadoTela in apartadoTelas">
                                                 <td>{{apartadoTela.idText}}</td>
@@ -76,8 +76,10 @@
                                                 <td>{{(apartadoTela.spfConsumo+apartadoTela.consumo).toFixed(2)}}</td>
                                                 <td>{{apartadoTela.disponible.toFixed(2)}}</td>
                                                 <td>{{apartadoTela.apartado.toFixed(2)}}</td>
-                                                <td>{{(apartadoTela.spfConsumo+apartadoTela.consumo-apartadoTela.apartado).toFixed(2)}}</td>
-                                                <td>{{(apartadoTela.spfConsumo+apartadoTela.consumo-apartadoTela.apartado).toFixed(2)==0?"Completo":"Faltante"}}</td>
+                                                <td>{{(apartadoTela.spfConsumo+apartadoTela.consumo-apartadoTela.apartado).toFixed(2)}}
+                                                </td>
+                                                <td>{{(apartadoTela.spfConsumo+apartadoTela.consumo-apartadoTela.apartado).toFixed(2)==0?"Completo":"Faltante"}}
+                                                </td>
                                                 <td class="text-center">
                                                     <button id="modalAlmacen" @click="getAlmacenesFisicos(apartadoTela)"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
@@ -85,7 +87,7 @@
                                                             class="fas fa-store-alt"
                                                             style="margin-left: -3px;"></i></button>
                                                 </td>
-                                            </tr>
+                                            </tr> -->
 
                                         </tbody>
                                     </table>
@@ -105,9 +107,9 @@
     <div th:insert="navegacion-footer"></div>
     </div>
     <div th:replace="navegacion-scripts"></div>
-    <script src="/plugins/vue/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/dist/js/stockTableExplosion.js"></script>
     <script src="/dist/js/explosionMateriaPrima.js"></script>
+
     <script>
         $('#iComercial').removeClass('text-altima');
         $('#navComercial').addClass('active-altima');
