@@ -267,7 +267,7 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 				"	inventario.id_text,\r\n" + 
 				"	inventario.articulo AS nombre,\r\n" + 
 				"	look2.nombre_lookup AS medida,\r\n" + 
-				"	'No hay puto tamaño',\r\n" + 
+				"	'N/A',\r\n" + 
 				"	inventario.color, \r\n" + 
 				"	AM.id_requisicion_almacen_material \r\n" + 
 				"FROM\r\n" + 

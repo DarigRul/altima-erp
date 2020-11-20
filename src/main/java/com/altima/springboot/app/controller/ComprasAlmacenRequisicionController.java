@@ -54,6 +54,6 @@ public class ComprasAlmacenRequisicionController {
 		
 			model.put("compras", true);
 			m.addAttribute("tableMateriales", ServiceAlmacen.viewMaterial(id));
-	        return"requisicion-de-almacen-nueva";
+	        return"requisicion-de-compras-nueva";
 	    }
 }
