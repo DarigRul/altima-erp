@@ -69,7 +69,10 @@
                                                         </option>
                                                         </select>
                                                     </li>
-                                                    <li  class="list-group-item" style="width: 25%;"><strong>Departamento: </strong><a id="id-depa" th:text="${departamento}" >Dise&ntilde;o</a></li>
+                                                    <li th:if="${noAdmin  == true}" class="list-group-item" style="width: 25%;"><strong>Solicitante: </strong><a th:text="${solicitante}" >Bertha</a>
+                                                    	<input id="idEmpleadoSolicitante" name="idEmpleadoSolicitante" type="hidden"  th:value="${idEmpleadoSolicitante}">
+                                                    </li>
+                                                    <li class="list-group-item" style="width: 25%;"><strong>Departamento: </strong><a id="id-depa" th:text="${departamento}" >Dise&ntilde;o</a></li>
                                                 </ul>
                                             </div>
 

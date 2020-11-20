@@ -30,7 +30,8 @@ public class AlmacenRequisicionController {
     	 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	     String roles =auth.getAuthorities().toString();
 	     
-	     if (roles.contains("ROLE_COMERCIAL_SOLICITUD_CAMBIO_TELA_GERENCIA")||roles.contains("ROLE_ADMINISTRADOR")) {
+	     if (roles.contains("ROLE_ADMINISTRADOR")) {
+	    	 System.out.println("Sooooy admin");
 	            model.addAttribute("view", ServiceAlmacen.view(0L));
 	        } else {
 	            model.addAttribute("view", ServiceAlmacen.view(this.auth.currentemployeeid()));
@@ -51,6 +52,9 @@ public class AlmacenRequisicionController {
 			Object[] lista = ServiceAlmacen.infoUsuario(this.auth.currentuserid());
 			model.put("solicitante", lista[0]);
 			model.put("departamento", lista[1]);
+			model.put("noAdmin", true);
+			model.put("idEmpleadoSolicitante",this.auth.currentuserid());
+			
 		}
 		
 	
