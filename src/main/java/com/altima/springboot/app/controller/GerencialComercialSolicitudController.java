@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,6 +80,7 @@ public class GerencialComercialSolicitudController {
 	@Autowired
 	private IComercialClienteService ClienteService;
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_SOLICITUDMUESTRAS_LISTAR"})
 	@GetMapping("/solicitud-gerencial")
 	public String listPre(Model model) {
 		ProduccionPedido formpedido = new ProduccionPedido();
@@ -95,6 +97,7 @@ public class GerencialComercialSolicitudController {
 		return "solicitud-gerencial";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_SOLICITUDMUESTRAS_EDITAR"})
 	@GetMapping("/solicitud-gerencial-muestras/{id}")
 
 	public String listPrexd(Model model, @PathVariable(value = "id") Long id) {
@@ -468,7 +471,7 @@ public class GerencialComercialSolicitudController {
 	}
 
 	///////////////////////// COLECCION
-
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_SOLICITUDMUESTRAS_EDITAR"})
 	@GetMapping("solicitud-muestras-coleccion/{id}")
 	public String SolicitudColeccion(Model model, @PathVariable(value = "id") Long id) {
 		ProduccionPedidoColeccion coleccion = new ProduccionPedidoColeccion();
@@ -556,6 +559,7 @@ public class GerencialComercialSolicitudController {
 		return coleccionService.findAllDetail(id);
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_SOLICITUDMUESTRAS_EIMINAR"})
 	@GetMapping("/solicitud-muestras-aceptar/{id}")
 	public String aceptar(@PathVariable(value = "id") Long id, Model model, RedirectAttributes redirectAttrs) {
 
@@ -572,6 +576,7 @@ public class GerencialComercialSolicitudController {
 		return "redirect:/solicitud-gerencial";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_SOLICITUDMUESTRAS_EIMINAR"})
 	@GetMapping("/solicitud-muestras-rechazar/{id}")
 	public String rechazar(@PathVariable(value = "id") Long id, Model model, RedirectAttributes redirectAttrs) {
 
@@ -612,5 +617,13 @@ public class GerencialComercialSolicitudController {
 		return registro;
 		
 		
+	}
+	
+	@RequestMapping(value = "/mostrar-lista-materiales-extra-cambio-tela", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> materialesEstraListaCambioTela(Long idCoorPrenda, Long idMaterial) {
+
+
+		return serviceDetallePedido.findListMatExCambioTela(idCoorPrenda,idMaterial);
 	}
 }

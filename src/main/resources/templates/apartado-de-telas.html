@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-	<title id="pageTitle">Apartado de telas | Altima</title>
+    <title id="pageTitle">Apartado de telas | Altima</title>
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
     <!-- Site wrapper -->
     <div class="wrapper">
@@ -22,7 +23,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Apartado de telas <button data-toggle="modal" data-target="#nuevaCarga" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></h1>
+                            <h1>Apartado de telas</h1>
                         </div>
                         <div th:insert="modal-apartado-telas"></div>
                         <div class="col-sm-6">
@@ -51,26 +52,30 @@
                                     <table class="table tablaGeneral table-striped table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Folio</th>
+                                                <th>Pedido</th>
                                                 <th>Empresa</th>
                                                 <th>Fecha de entrega</th>
-                                                <th>Estatus</th>
+                                                <th>Solicitante</th>
+                                                <th>Fecha solicitud</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="text-center">
-                                                	<a class="btn btn-info btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>&nbsp;
-                                                	<a th:href="@{/editar-apartado-de-telas}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>&nbsp;
+                                            <tr th:each="pedido: ${ListPedidos}">
+                                                <td th:text="${pedido[1]}">PED10008</td>
+                                                <td th:text="${pedido[2]}">Altima</td>
+                                                <td th:text="${pedido[6]}">17/10/2020</td>
+                                                <td th:text="${pedido[3]}">Uriel Cuatepitzi</td>
+                                                <td th:text="${pedido[9]}">16/10/2020</td>
+                                                <td class="tdcenter">
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_REPORTE'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {pedido[11]!=null})}" class="btn btn-info btn-circle btn-sm text-white popoverxd"
+                                                        th:onclick="'detalleReporte('+${pedido[0]}+')'" data-container="body" data-toggle="popover" data-placement="top" data-content="Reporte espec&iacute;fico"><i class="fas fa-info"></i></a>&nbsp;
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_REPORTEGENERAL'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {pedido[11]!=null})}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'detalleReporteGeneral('+${pedido[0]}+')'"
+                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Reporte General"><i class="fas fa-pen"></i></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_CONFIRMAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {pedido[11]==null})}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'editarApartadoTelas('+${pedido[0]}+')'"
+                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Confirmaci&oacute;n de recibido"><i class="fas fa-pen"></i></a>
                                                 </td>
                                             </tr>
-                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -91,15 +96,53 @@
 
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/tablaGeneral.js"></script>
-	
-   	<script>
-		$('#iComercial').removeClass('text-primary');
-		$('#menuComercial').addClass('menu-open');
-		$('#navComercial').addClass('active');
-		$('#menuVenta').addClass('menu-open');
-		$('#navVenta').addClass('active');
-		$('#navVentaApartado').addClass('active');
-	</script>
+
+    <script>
+        $('#iComercial').removeClass('text-primary');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active');
+        $('#menuVenta').addClass('menu-open');
+        $('#navVenta').addClass('active');
+        $('#navVentaApartado').addClass('active');
+    </script>
+
+    <script type="text/javascript">
+        function detalleReporte(id) {
+            window.open("/detalle-reporte/" + id + "?format=pdf", '_blank');
+        }
+    </script>
+    <script type="text/javascript">
+        function detalleReporteGeneral(id) {
+            window.open("/detalle-reporte-general/" + id + "?format=pdf", '_blank');
+        }
+    </script>
+    <script type="text/javascript">
+        function editarApartadoTelas(id) {
+
+            Swal.fire({
+                title: '�Dar por recibido?',
+                text: "Una vez aprobada no se puede cambiar",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Aprobada correctamente',
+                        showConfirmButton: false,
+                        timer: 3500,
+                    })
+                    location.href = "/editar-apartado-de-telas/" + id;
+                }
+            });
+        }
+    </script>
+
 </body>
 
 </html>

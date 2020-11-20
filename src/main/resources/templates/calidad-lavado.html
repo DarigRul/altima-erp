@@ -35,13 +35,13 @@
     </div>
     <div class="col-sm-6">
         <div class="form-group">
-            <label style="font-size: 15px;">Medida final del hilo</label>
+            <label style="font-size: 15px;">Medida inicial del hilo</label>
             <input type="number" class="form-control" id="medidaHiloPruebaLavado" onchange="HiloLavado()" placeholder="23.2" th:readonly="${readLavado}" th:value="${medidaHiloPruebaLavado}">
         </div>
     </div>
     <div class="col-sm-6">
         <div class="form-group">
-            <label style="font-size: 15px;">Medida final de la trama</label>
+            <label style="font-size: 15px;">Medida inicial de la trama</label>
             <input type="number" class="form-control" id="medidaTramaPruebaLavado" onchange="TramaLavado()" placeholder="23.2" th:readonly="${readLavado}" th:value="${medidaTramaPruebaLavado}">
         </div>
     </div>
@@ -50,25 +50,25 @@
     </div>
     <div class="col-sm-3">
         <div class="form-group">
-            <label style="font-size: 15px;">Diferencia hilo</label>
+            <label style="font-size: 15px;">Medida final del hilo</label>
             <input type="number" class="form-control" id="diferenciaHiloPruebaLavado" onchange="HiloLavado()" placeholder="23.2" th:readonly="${readLavado}" th:value="${diferenciaHiloPruebaLavado}">
         </div>
     </div>
     <div class="col-sm-3">
         <div class="form-group">
-            <label style="font-size: 15px;">(100cm/_____cm)</label>
+            <label style="font-size: 15px;">Diferencia de medida del hilo (%)</label>
             <input type="text" class="form-control" id="finalHiloMedPruebaLavado" placeholder="23.2" readonly="readonly" th:value="${finalHiloMedPruebaLavado==null}?'':${finalHiloMedPruebaLavado}+'%'">
         </div>
     </div>
     <div class="col-sm-3">
         <div class="form-group">
-            <label style="font-size: 15px;">Diferencia trama</label>
+            <label style="font-size: 15px;">Medida final de la trama</label>
             <input type="number" class="form-control" id="diferenciaTramaPruebaLavado" onchange="TramaLavado()" placeholder="23.2" th:readonly="${readLavado}" th:value="${diferenciaTramaPruebaLavado}">
         </div>
     </div>
     <div class="col-sm-3">
         <div class="form-group">
-            <label style="font-size: 15px;">(100cm/_____cm)</label>
+            <label style="font-size: 15px;">Diferencia de medida de la trama (%)</label>
             <input type="text" class="form-control" id="finalTramaMedPruebaLavado" placeholder="23.2" readonly="readonly" th:value="${finalTramaMedPruebaLavado==null}?'':${finalTramaMedPruebaLavado}+'%'">
         </div>
     </div>

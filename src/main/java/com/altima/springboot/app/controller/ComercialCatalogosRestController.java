@@ -19,6 +19,7 @@ import com.altima.springboot.app.models.service.IHrLookupService;
 import com.altima.springboot.app.models.service.IHrPuestoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -137,6 +138,7 @@ public class ComercialCatalogosRestController {
     	}
     }
     
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_EDITAR"})
     @RequestMapping(value ="/editarAgenteCatalogo", method = RequestMethod.GET)
     public int editarAgenteCatalogo(@RequestParam(name="idEmpleado")Long idEmpleado,
     								@RequestParam(name="foraneo", required=false)Long foraneo,
@@ -181,6 +183,7 @@ public class ComercialCatalogosRestController {
     	}
     }
     
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_ELIMINAR"})
     @RequestMapping(value = "/bajaAgenteVentasCatalogoComercial", method = RequestMethod.GET)
     public int bajaAgenteVentasCatalogoComercial(@RequestParam(name="idEmpleado")Long idEmpleado){
     	
@@ -202,6 +205,7 @@ public class ComercialCatalogosRestController {
     	}
     }
     
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_ELIMINAR"})
     @RequestMapping(value = "/altaAgenteVentasCatalogoComercial", method = RequestMethod.GET)
     public int altaAgenteVentasCatalogoComercial(@RequestParam(name="idEmpleado")Long idEmpleado){
     	
@@ -223,6 +227,7 @@ public class ComercialCatalogosRestController {
     	}
     }
     
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_LISTAR"})
     @GetMapping("getModelos")
     public List<ComercialLookup> getModelos(@RequestParam String tipoLookup){
         return comercialLookupService.findByTipoLookup(tipoLookup);
@@ -234,6 +239,7 @@ public class ComercialCatalogosRestController {
         return modelo;
     }
 
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_AGREGAR"})
     @PostMapping("postModelo")
     public String postModelo(@RequestParam String modelo) {
         //TODO: process POST request
@@ -260,6 +266,7 @@ public class ComercialCatalogosRestController {
         return "Success";
     }
 
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_EDITAR"})
     @PatchMapping("patchModelo")
     public String  patchModelo(@RequestParam String modelo) {
         String[] modeloAtributos = modelo.split(",");
@@ -276,6 +283,7 @@ public class ComercialCatalogosRestController {
         return "Success";
     }
     
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_ELIMINAR"})
     @GetMapping("/bajarModelo")
     public Object bajarModelo(@RequestParam(name = "idLookup")Long id) throws Exception{
         ComercialLookup modelo = comercialLookupService.findOne(id);
@@ -286,6 +294,7 @@ public class ComercialCatalogosRestController {
         
     }
 
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_ELIMINAR"})
     @GetMapping("/altaModelo")
     public Object altaModelo(@RequestParam(name = "idLookup")Long id) throws Exception{
         ComercialLookup modelo = comercialLookupService.findOne(id);
@@ -294,6 +303,7 @@ public class ComercialCatalogosRestController {
         return comercialLookupService.findOne(id);
     }
 
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_LISTAR"})
     @GetMapping("getPrecios")
     public List<ComercialLookup> getPrecios(@RequestParam String tipoLookup){
         return comercialLookupService.findByTipoLookup(tipoLookup);
@@ -303,6 +313,8 @@ public class ComercialCatalogosRestController {
         ComercialLookup precio = comercialLookupService.findOne(id);
         return precio;
     }
+
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_AGREGAR"})
     @PostMapping("postPrecio")
     public String postPrecio(@RequestParam String precio){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -325,6 +337,7 @@ public class ComercialCatalogosRestController {
         return "success";
     }
 
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_ELIMINAR"})
     @GetMapping("/bajarPrecio")
     public Object bajarPrecio(@RequestParam(name = "idLookup")Long id) throws Exception{
         ComercialLookup preciobaja = comercialLookupService.findOne(id);
@@ -335,6 +348,7 @@ public class ComercialCatalogosRestController {
         
     }
 
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_ELIMINAR"})
     @GetMapping("/altaPrecio")
     public Object altaPrecio(@RequestParam(name = "idLookup")Long id) throws Exception{
         ComercialLookup precioalta = comercialLookupService.findOne(id);
@@ -344,7 +358,7 @@ public class ComercialCatalogosRestController {
     }
 
 
-
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_EDITAR"})
     @PatchMapping("patchPrecio")
     public String patchPrecio(@RequestParam String precio){
         String[] precioAtributos = precio.split(",");
@@ -362,7 +376,7 @@ public class ComercialCatalogosRestController {
     }
     
 
-
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_LISTAR"})
     @GetMapping("getIvas")
     public List<ComercialLookup> getIva(@RequestParam String tipoLookup){
         return comercialLookupService.findByTipoLookup(tipoLookup);
@@ -373,6 +387,7 @@ public class ComercialCatalogosRestController {
         return iva;
     }
     
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_AGREGAR"})
     @PostMapping("postIva")
     public String postIva(@RequestParam String iva){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -392,6 +407,7 @@ public class ComercialCatalogosRestController {
         }
         return "success";
     }
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_ELIMINAR"})
     @GetMapping("/bajarIVA")
     public Object bajarIva(@RequestParam(name = "idLookup")Long id) throws Exception{
         ComercialLookup ivabaja = comercialLookupService.findOne(id);
@@ -401,7 +417,7 @@ public class ComercialCatalogosRestController {
         return comercialLookupService.findOne(id);
         
     }
-
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_ELIMINAR"})
     @GetMapping("/altaIVA")
     public Object altaIva(@RequestParam(name = "idLookup")Long id) throws Exception{
         ComercialLookup ivaalta = comercialLookupService.findOne(id);
@@ -409,7 +425,7 @@ public class ComercialCatalogosRestController {
         comercialLookupService.save(ivaalta);
         return comercialLookupService.findOne(id);
     }
-
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_EDITAR"})
     @PatchMapping("patchIva")
     public String patchIva(@RequestParam String iva){
         String[] ivaAtributos = iva.split(",");
@@ -427,6 +443,7 @@ public class ComercialCatalogosRestController {
     
     
   //Capmpos para Ticket
+  @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_LISTAR"})
     @GetMapping("getTickets")
     public List<ComercialLookup> getTickets(@RequestParam String tipoLookup){
         return comercialLookupService.findByTipoLookup(tipoLookup);
@@ -438,6 +455,7 @@ public class ComercialCatalogosRestController {
         return ticket;
     }
 
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_AGREGAR"})
     @PostMapping("postTicket")
     public String postTicket(@RequestParam String ticket,
     		@RequestParam(name="auxiliarTicket", required=false)Long auxiliarTicket,
@@ -470,6 +488,7 @@ public class ComercialCatalogosRestController {
         return "Success";
     }
 
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_ELIMINAR"})
     @GetMapping("/bajarTicket")
     public Object bajarTicket(@RequestParam(name = "idLookup") Long id) throws Exception {
         ComercialLookup ticketbaja= comercialLookupService.findOne(id);
@@ -478,6 +497,7 @@ public class ComercialCatalogosRestController {
         return comercialLookupService.findOne(id);
     }
 
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_ELIMINAR"})
     @GetMapping("/altaTicket")
     public Object altaTicket(@RequestParam(name="idLookup")Long id) throws Exception{
         ComercialLookup ticketalta= comercialLookupService.findOne(id);
@@ -486,6 +506,7 @@ public class ComercialCatalogosRestController {
         return comercialLookupService.findOne(id);
     }
 
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_CATALOGOS_EDITAR"})
     @PatchMapping("patchTicket")
     public String patchTicket(@RequestParam String ticket,
     		@RequestParam(name="auxiliarTicket", required=false)Long auxiliarTicket,

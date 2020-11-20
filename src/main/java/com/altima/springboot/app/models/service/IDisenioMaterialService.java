@@ -26,8 +26,10 @@ public interface IDisenioMaterialService {
 	
 	List<DisenioLookup> findListaClasificacion();
 	
-	public List <Object []> disenioMaterial ();
+	List <Object []> disenioMaterial ();
 	
+	List <Object []> disenioMaterialFiltro();
+
 	List<DisenioLookup> findLookUps();
 	
 	Object findLookUp(Long id);
@@ -71,5 +73,6 @@ public interface IDisenioMaterialService {
 	public int countForrosActivos();
 
 	public List<Object[]> findMaterialByTipo(Long idTipoMaterial,Long idMaterial); 
+	public Integer disponibles(Long id);
 }
 

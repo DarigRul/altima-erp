@@ -12,6 +12,8 @@ public interface IAmpInventarioService {
 	void delete(Long id);
 
 	AmpInventario findOne(Long id);
+	
+	Integer SumClas(Long id);
 
 
 }

@@ -7,7 +7,7 @@
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
     <!-- Site wrapper -->
-    <div class="wrapper">
+    <div class="wrapper" id="app">
         <!-- Navbar -->
         <div th:insert="navegacion-nav"></div>
         <!-- /.navbar -->
@@ -22,7 +22,10 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Materia prima&nbsp;<a th:href="${'/explosion-de-materiales'}" class="btn btn-sm icon-btn btn-danger text-white"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a></h1>
+                            <h1>Materia prima&nbsp;<a th:href="${'/explosion-de-materiales'}"
+                                    class="btn btn-sm icon-btn btn-danger text-white"><span
+                                        class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                            </h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -52,7 +55,6 @@
                                             <tr>
                                                 <th>Clave tela</th>
                                                 <th>Descripci&oacute;n</th>
-                                                <th>Color</th>
                                                 <th>Surtir</th>
                                                 <th>SPF</th>
                                                 <th>Total</th>
@@ -64,96 +66,50 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>OXFORD4012</td>
-                                                <td>Tela traje</td>
-                                                <td>Gris humo</td>
-                                                <td>717.99 </td>
-                                                <td>100</td>
-                                                <td>817.99</td>
-                                                <td>0</td>
-                                                <td>0</td>
-                                                <td>817.99</td>
-                                                <td>Faltante</td>
+<!-- 
+
+                                            <tr v-for="apartadoTela in apartadoTelas">
+                                                <td>{{apartadoTela.idText}}</td>
+                                                <td>{{apartadoTela.nombreTela}}</td>
+                                                <td>{{apartadoTela.consumo.toFixed(2)}}</td>
+                                                <td>{{apartadoTela.spfConsumo.toFixed(2)}}</td>
+                                                <td>{{(apartadoTela.spfConsumo+apartadoTela.consumo).toFixed(2)}}</td>
+                                                <td>{{apartadoTela.disponible.toFixed(2)}}</td>
+                                                <td>{{apartadoTela.apartado.toFixed(2)}}</td>
+                                                <td>{{(apartadoTela.spfConsumo+apartadoTela.consumo-apartadoTela.apartado).toFixed(2)}}
+                                                </td>
+                                                <td>{{(apartadoTela.spfConsumo+apartadoTela.consumo-apartadoTela.apartado).toFixed(2)==0?"Completo":"Faltante"}}
+                                                </td>
                                                 <td class="text-center">
-                                                    <button id="modalAlmacen"
+                                                    <button id="modalAlmacen" @click="getAlmacenesFisicos(apartadoTela)"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Stock general"><i
-                                                            class="fas fa-store-alt" style="margin-left: -3px;"></i></button>
+                                                            class="fas fa-store-alt"
+                                                            style="margin-left: -3px;"></i></button>
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td>FOR10012</td>
-                                                <td>Forro poli&eacute;ster</td>
-                                                <td>Gris oscuro</td>
-                                                <td>697.51</td>
-                                                <td>150.56</td>
-                                                <td>848.07</td>
-                                                <td>1780.8</td>
-                                                <td>53.5</td>
-                                                <td>180</td>
-                                                <td>Completo</td>
-                                                <td class="text-center">
-                                                    <button id="modalAlmacen"
-                                                        class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Stock general"><i
-                                                            class="fas fa-store-alt" style="margin-left: -3px;"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>TEL10789</td>
-                                                <td>Tela lisa</td>
-                                                <td>Azul plumbago</td>
-                                                <td>725.45</td>
-                                                <td>128.12</td>
-                                                <td>853.57</td>
-                                                <td>1308.8</td>
-                                                <td>853.7</td>
-                                                <td>60</td>
-                                                <td>Faltante</td>
-                                                <td class="text-center">
-                                                    <button id="modalAlmacen"
-                                                        class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Stock general"><i
-                                                            class="fas fa-store-alt" style="margin-left: -3px;"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>TEL10756</td>
-                                                <td>Tela floreada</td>
-                                                <td>Estampada</td>
-                                                <td>368.25</td>
-                                                <td>534</td>
-                                                <td>902.25</td>
-                                                <td>0</td>
-                                                <td>0</td>
-                                                <td>902.25</td>
-                                                <td>Faltante</td>
-                                                <td class="text-center">
-                                                    <button id="modalAlmacen"
-                                                        class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Stock general"><i
-                                                            class="fas fa-store-alt" style="margin-left: -3px;"></i></button>
-                                                </td>
-                                            </tr>
+                                            </tr> -->
+
                                         </tbody>
                                     </table>
-                                    <div th:insert="materia-prima-almacen"></div>
                                 </div>
-                                <!-- /.card-body -->
+                                <div th:insert="materia-prima-almacen"></div>
                             </div>
-                            <!-- /.card -->
+                            <!-- /.card-body -->
                         </div>
+                        <!-- /.card -->
                     </div>
                 </div>
-            </section>
-            <!-- /.content -->
         </div>
-        <!-- /.content-wrapper -->
-        <div th:insert="navegacion-footer"></div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <div th:insert="navegacion-footer"></div>
     </div>
     <div th:replace="navegacion-scripts"></div>
-    <script src="/dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/stockTableExplosion.js"></script>
+    <script src="/dist/js/explosionMateriaPrima.js"></script>
+
     <script>
         $('#iComercial').removeClass('text-altima');
         $('#navComercial').addClass('active-altima');

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     listarColores();
     listarTrazos();
@@ -54,30 +54,30 @@ function listarcuidadosjson2(idcomposicion) {
         },
         success: (data3) => {
 
-                $('#selectcuidados2').append("<div >" +
-                    "<table  class='table'>" +
-                    "<thead>" +
+            $('#selectcuidados2').append("<div >" +
+                "<table  class='table'>" +
+                "<thead>" +
+                "<tr>" +
+                "<th scope='col'>Código cuidado</th>" +
+                "<th scope='col'>Nombre</th>" +
+                "<th scope='col'></th>" +
+                "</tr>" +
+                "</thead>" +
+                "<tbody id='selectcuidado2'>" +
+                "</tbody>" +
+                "</table>" +
+                "</div>");
+            for (i in data3) {
+                $('#selectcuidado2').append(
                     "<tr>" +
-                    "<th scope='col'>Código cuidado</th>" +
-                    "<th scope='col'>Nombre</th>" +
-                    "<th scope='col'></th>" +
-                    "</tr>" +
-                    "</thead>" +
-                    "<tbody id='selectcuidado2'>" +
-                    "</tbody>" +
-                    "</table>" +
-                    "</div>");
-                for (i in data3) {
-                    $('#selectcuidado2').append(
-                        "<tr>" +
-                        "<td>" + data3[i][1] + "</td>" +
-                        "<td>" + data3[i][2] + "</td>" +
-                        "<td><button class='btn btn-danger btn-circle btn-sm'><i class='fas fa-minus' onclick=bajarcomposicioncuidado(" + data3[i][5] + ")></i></button></td>" +
-                        "</tr>"
-                    );
-                }
+                    "<td>" + data3[i][1] + "</td>" +
+                    "<td>" + data3[i][2] + "</td>" +
+                    "<td><button class='btn btn-danger btn-circle btn-sm'><i class='fas fa-minus' onclick=bajarcomposicioncuidado(" + data3[i][5] + ")></i></button></td>" +
+                    "</tr>"
+                );
+            }
 
-            } // /////////////
+        } // /////////////
 
     });
 
@@ -87,7 +87,7 @@ function listarcuidadosjson2(idcomposicion) {
 
 // /////////////////////////////
 function listarColores() {
-	var Proveedores=[];
+    var Proveedores = [];
     $.ajax({
         method: "GET",
         url: "/listar",
@@ -95,138 +95,139 @@ function listarColores() {
             "Tipo": "Color"
         },
         success: (data) => {
-        	$.ajax({
+            $.ajax({
                 type: "GET",
                 url: "/listarProveedoresColores",
                 success: (datitos) => {
-               	Proveedores=datitos;
-                
-            $('#quitar2').remove();
-            $('#contenedorTabla2').append("<div class='modal-body' id='quitar2'>" +
-                "<table class='table table-striped table-bordered' id='idtable2' style='width:100%'>" +
-                "<thead>" +
-                "<tr>" +
-                "<th>Clave</th>" +
-                "<th>Nombre</th>" +
-                "<th>Color</th>" +
-                "<th>Proveedor</th>" +
-                "<th>Acciones</th>" +
-                "</tr>" +
-                "</thead>" +
-                "</table>" + "</div>");
-            var a;
-            var idProveedor;
-            var b = [];
-            if (rolAdmin == 1) {
-            	var nombreProveedor='';
-                for (i in data) {
-                	nombreProveedor='';
-                    var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
-                    
-                    if(data[i].atributo2==null || data[i].atributo2=='' || data[i].atributo2==undefined){
-                    	idProveedor='';
-                    	nombreProveedor=='';
-                    }
-                    else{
-                    	idProveedor=parseInt(data[i].atributo2);
-                    	nombreProveedor=Proveedores[idProveedor-1].nombreProveedor;
-                    }
-                    
-                    a = [
+                    Proveedores = datitos;
+
+                    $('#quitar2').remove();
+                    $('#contenedorTabla2').append("<div class='modal-body' id='quitar2'>" +
+                        "<table class='table table-striped table-bordered' id='idtable2' style='width:100%'>" +
+                        "<thead>" +
                         "<tr>" +
-                        "<td>" + data[i].idText + "</td>",
-                        "<td>" + data[i].nombreLookup + "</td>",
-                        "<td> <input type='color' value=" + data[i].atributo1 + " disabled> </td>",
-                        "<td>" + nombreProveedor + "</td>",
-                        "<td style='text-align: center'>" +
-                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                        " <button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' proveedorColor='" + data[i].atributo2 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
-                        (data[i].estatus == 1 ? "<button onclick='bajarColor(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
-                        (data[i].estatus == 0 ? "<button onclick='reactivar(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
-                        "</td>" +
+                        "<th>Clave</th>" +
+                        "<th>Nombre</th>" +
+                        "<th>Color</th>" +
+                        "<th>Proveedor</th>" +
+                        "<th>Acciones</th>" +
+                        "</tr>" +
+                        "</thead>" +
+                        "</table>" + "</div>");
+                    var a;
+                    var idProveedor;
+                    var b = [];
 
-                        "<tr>"
-                    ];
-                    b.push(a);
-                }
-            } else {
-                for (i in data) {
-                    var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
-                    if (data[i].estatus == 1) {
-                        a = [
-                            "<tr>" +
-                            "<td>" + data[i].idText + "</td>",
-                            "<td>" + data[i].nombreLookup + "</td>",
-                            "<td> <input type='color' value=" + data[i].atributo1 + " disabled> </td>",
-                            "<td style='text-align: center'>" +
-                            "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                            (rolEditar == 1 ? "<button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" : " ") +
-                            (rolEliminar == 1 ? "<button onclick='bajarColor(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
-                            "</td>" +
+                    if (rolAdmin == 1) {
+                        var nombreProveedor = '';
+                        for (i in data) {
+                            nombreProveedor = '';
+                            var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
 
-                            "<tr>"
-                        ];
-                        b.push(a);
+                            if (data[i].atributo2 == null || data[i].atributo2 == '' || data[i].atributo2 == undefined) {
+                                idProveedor = '';
+                                nombreProveedor == '';
+                            } else {
+                                idProveedor = parseInt(data[i].atributo2);
+                                nombreProveedor = Proveedores[idProveedor - 1].nombreProveedor;
+                            }
 
+                            a = [
+                                "<tr>" +
+                                "<td>" + data[i].idText + "</td>",
+                                "<td>" + data[i].nombreLookup + "</td>",
+                                "<td> <input type='color' value=" + data[i].atributo1 + " disabled> </td>",
+                                "<td>" + nombreProveedor + "</td>",
+                                "<td style='text-align: center'>" +
+                                "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
+                                " <button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' proveedorColor='" + data[i].atributo2 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                                (data[i].estatus == 1 ? "<button onclick='bajarColor(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                                (data[i].estatus == 0 ? "<button onclick='reactivar(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
+                                "</td>" +
+
+                                "<tr>"
+                            ];
+                            b.push(a);
+                        }
+                    } else {
+                        for (i in data) {
+                            var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
+                            if (data[i].estatus == 1) {
+                                a = [
+                                    "<tr>" +
+                                    "<td>" + data[i].idText + "</td>",
+                                    "<td>" + data[i].nombreLookup + "</td>",
+                                    "<td> <input type='color' value=" + data[i].atributo1 + " disabled> </td>",
+                                    "<td>" + nombreProveedor + "</td>",
+                                    "<td style='text-align: center'>" +
+                                    "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
+                                    (rolEditar == 1 ? "<button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" : " ") +
+                                    (rolEliminar == 1 ? "<button onclick='bajarColor(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                                    "</td>" +
+
+                                    "<tr>"
+                                ];
+                                b.push(a);
+
+                            }
+                        }
                     }
-                }
-            }
-            var tablaColores = $('#idtable2').DataTable({
-                "data": b,
-                "ordering": false,
-                "pageLength": 5,
-                "responsive": true,
-                "stateSave": true,
-                "drawCallback": function() {
-                    $('.popoverxd').popover({
-                        container: 'body',
-                        trigger: 'hover'
+                    var tablaColores = $('#idtable2').DataTable({
+                        "data": b,
+                        "ordering": false,
+                        "pageLength": 5,
+                        "responsive": true,
+                        "stateSave": true,
+                        "drawCallback": function () {
+                            $('.popoverxd').popover({
+                                container: 'body',
+                                trigger: 'hover'
+                            });
+                        },
+                        "columnDefs": [{
+                            "type": "html",
+                            "targets": '_all'
+                        },
+                        {
+                            targets: 3,
+                            className: 'dt-body-center'
+                        }
+                        ],
+                        "lengthMenu": [
+                            [5, 10, 25, 50, 100],
+                            [5, 10, 25, 50, 100]
+                        ],
+                        "language": {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            },
+                            "buttons": {
+                                "copy": "Copiar",
+                                "colvis": "Visibilidad"
+                            }
+                        }
                     });
-                },
-                "columnDefs": [{
-                        "type": "html",
-                        "targets": '_all'
-                    },
-                    {
-                        targets: 3,
-                        className: 'dt-body-center'
-                    }
-                ],
-                "lengthMenu": [
-                    [5, 10, 25, 50, 100],
-                    [5, 10, 25, 50, 100]
-                ],
-                "language": {
-                    "sProcessing": "Procesando...",
-                    "sLengthMenu": "Mostrar _MENU_ registros",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Ningún dato disponible en esta tabla =(",
-                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sSearch": "Buscar:",
-                    "sUrl": "",
-                    "sInfoThousands": ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst": "Primero",
-                        "sLast": "Último",
-                        "sNext": "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    },
-                    "buttons": {
-                        "copy": "Copiar",
-                        "colvis": "Visibilidad"
-                    }
+                    new $.fn.dataTable.FixedHeader(tablaColores);
                 }
-            });
-            new $.fn.dataTable.FixedHeader(tablaColores);
-                }	 
             })
         },
         error: (e) => {
@@ -302,20 +303,20 @@ function listarTrazos() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function() {
+                "drawCallback": function () {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                        "type": "html",
-                        "targets": '_all'
-                    },
-                    {
-                        targets: 2,
-                        className: 'dt-body-center'
-                    }
+                    "type": "html",
+                    "targets": '_all'
+                },
+                {
+                    targets: 2,
+                    className: 'dt-body-center'
+                }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -427,20 +428,20 @@ function listarPrendas() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function() {
+                "drawCallback": function () {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                        "type": "html",
-                        "targets": '_all'
-                    },
-                    {
-                        targets: 3,
-                        className: 'dt-body-center'
-                    }
+                    "type": "html",
+                    "targets": '_all'
+                },
+                {
+                    targets: 3,
+                    className: 'dt-body-center'
+                }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -549,20 +550,20 @@ function listarGeneros() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function() {
+                "drawCallback": function () {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                        "type": "html",
-                        "targets": '_all'
-                    },
-                    {
-                        targets: 2,
-                        className: 'dt-body-center'
-                    }
+                    "type": "html",
+                    "targets": '_all'
+                },
+                {
+                    targets: 2,
+                    className: 'dt-body-center'
+                }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -671,20 +672,20 @@ function listarComposiciones() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function() {
+                "drawCallback": function () {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                        "type": "html",
-                        "targets": '_all'
-                    },
-                    {
-                        targets: 2,
-                        className: 'dt-body-center'
-                    }
+                    "type": "html",
+                    "targets": '_all'
+                },
+                {
+                    targets: 2,
+                    className: 'dt-body-center'
+                }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -796,20 +797,20 @@ function listarCuidados() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function() {
+                "drawCallback": function () {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                        "type": "html",
-                        "targets": '_all'
-                    },
-                    {
-                        targets: 3,
-                        className: 'dt-body-center'
-                    }
+                    "type": "html",
+                    "targets": '_all'
+                },
+                {
+                    targets: 3,
+                    className: 'dt-body-center'
+                }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -921,20 +922,20 @@ function listarMedidas() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function() {
+                "drawCallback": function () {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                        "type": "html",
-                        "targets": '_all'
-                    },
-                    {
-                        targets: 3,
-                        className: 'dt-body-center'
-                    }
+                    "type": "html",
+                    "targets": '_all'
+                },
+                {
+                    targets: 3,
+                    className: 'dt-body-center'
+                }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -983,8 +984,7 @@ function listarMateriales() {
     $.ajax({
         method: "GET",
         url: "/listar-material-clasificacion",
-        data: {
-        },
+        data: {},
         success: (data) => {
             $('#quitar9').remove();
             $('#contenedorTabla9').append("<div class='modal-body' id='quitar9'>" +
@@ -1011,7 +1011,7 @@ function listarMateriales() {
                         (data[i][3] == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
                         "<td>" + data[i][4] + "</td>",
                         "<td style='text-align: center;'>" +
-                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][7] + " <br /><strong>Fecha de creación:</strong> " + data[i][8] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][8] + " <br /><strong>Fecha de creación:</strong> " + data[i][7] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
                         "<button onclick='editarMaterial(this);' atributo1='" + data[i][3] + "' atributo2='" + data[i][5] + "' idlookup='" + data[i][0] + "' nombre='" + data[i][2] + "'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
                         (data[i][6] == 1 ? "<button onclick='bajarMaterial(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
                         (data[i][6] == 0 ? "<button onclick='reactivar(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
@@ -1023,24 +1023,24 @@ function listarMateriales() {
                 }
             } else {
                 for (i in data) {
-                	 var creacion = data[i][9] == null ? "" : data[i][9];
+                    var creacion = data[i][9] == null ? "" : data[i][9];
                     if (data[i][6] == 1) {
                         a = [
-                        	 "<tr>" +
-                             "<td>" + data[i][1] + "</td>",
-                             "<td>" + data[i][2] + "</td>",
-                             (data[i][3] == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
-                             "<td>" + data[i][4] + "</td>",
-                             "<td style='text-align: center;'>" +
-                             "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][7] + " <br /><strong>Fecha de creación:</strong> " + data[i][8] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
-                            
-                             (rolEditar == 1 ? "<button onclick='bajarMaterial(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
-                             (rolEliminar == 1 ? "<button onclick='reactivar(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
-                             "</td>" +
+                            "<tr>" +
+                            "<td>" + data[i][1] + "</td>",
+                            "<td>" + data[i][2] + "</td>",
+                            (data[i][3] == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
+                            "<td>" + data[i][4] + "</td>",
+                            "<td style='text-align: center;'>" +
+                            "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][7] + " <br /><strong>Fecha de creación:</strong> " + data[i][8] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
 
-                             "<tr>"
-                        	
-                        
+                            (rolEditar == 1 ? "<button onclick='bajarMaterial(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                            (rolEliminar == 1 ? "<button onclick='reactivar(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
+                            "</td>" +
+
+                            "<tr>"
+
+
                         ];
                         b.push(a);
                     }
@@ -1052,20 +1052,20 @@ function listarMateriales() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function() {
+                "drawCallback": function () {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                        "type": "html",
-                        "targets": '_all'
-                    },
-                    {
-                        targets: 3,
-                        className: 'dt-body-center'
-                    }
+                    "type": "html",
+                    "targets": '_all'
+                },
+                {
+                    targets: 3,
+                    className: 'dt-body-center'
+                }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -1175,20 +1175,20 @@ function listarMarcadores() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function() {
+                "drawCallback": function () {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                        "type": "html",
-                        "targets": '_all'
-                    },
-                    {
-                        targets: 2,
-                        className: 'dt-body-center'
-                    }
+                    "type": "html",
+                    "targets": '_all'
+                },
+                {
+                    targets: 2,
+                    className: 'dt-body-center'
+                }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -1295,20 +1295,20 @@ function listarComposiciones1() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function() {
+                "drawCallback": function () {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                        "type": "html",
-                        "targets": '_all'
-                    },
-                    {
-                        targets: 2,
-                        className: 'dt-body-center'
-                    }
+                    "type": "html",
+                    "targets": '_all'
+                },
+                {
+                    targets: 2,
+                    className: 'dt-body-center'
+                }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -1351,85 +1351,85 @@ function listarComposiciones1() {
     })
 }
 
-function listarPreciosComposicion(){
-	
-    	$.ajax({
-            type: "GET",
-            url: "/listarPrecioComposiciones",
-            success: (data) => {
-            
-        $('#quitar12').remove();
-        $('#contenedorTabla12').append("<div class='modal-body' id='quitar12'>" +
-            "<table class='table table-striped table-bordered' id='idtable12' style='width:100%'>" +
-            "<thead>" +
-            "<tr>" +
-            "<th>Prenda</th>" +
-            "<th>Familia de Composicion</th>" +
-            "<th>Precio</th>" +
-            "<th>Acciones</th>" +
-            "</tr>" +
-            "</thead>" +
-            "</table>" + "</div>");
-        var a;
-        var b = [];
-        if (rolAdmin == 1) {
-        	console.log(data);
-            for (i in data) {
-                var creacion = data[i][5] == null ? "" : data[i][5];
-                
-                a = [
-                    "<tr>" +
-                    "<td>" + data[i][1] + "</td>",
-                    "<td>" + data[i][2] + "</td>",
-                    "<td>" + data[i][3] + "</td>"+
-                    "<td> <input type='hidden' value=" + data[i][0] + " disabled> </td>",
-                    "<td style='text-align: center'>" +
-                    "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][4] + " <br /><strong>Fecha de creación:</strong> " + data[i][6] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][7] + "'><i class='fas fa-info'></i></button> " +
-                    " <button onclick='editarPrecioFamComposicion("+ data[i][0] +","+data[i][9]+","+ data[i][10] +", "+ data[i][3] +")' id='" + data[i][0] + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_precio_composicion' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
-                    (data[i][8] == 1 ? "<button onclick='bajarPrecioComposicion(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
-                    (data[i][8] == 0 ? "<button onclick='reactivarPrecioComposicion(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
-                    "</td>" +
+function listarPreciosComposicion() {
 
-                    "<tr>"
-                ];
-                b.push(a);
-            }
-        } else {
-            for (i in data) {
-                var creacion = data[i][5] == null ? "" : data[i][5];
-                if (data[i][8] == 1) {
+    $.ajax({
+        type: "GET",
+        url: "/listarPrecioComposiciones",
+        success: (data) => {
+
+            $('#quitar12').remove();
+            $('#contenedorTabla12').append("<div class='modal-body' id='quitar12'>" +
+                "<table class='table table-striped table-bordered' id='idtable12' style='width:100%'>" +
+                "<thead>" +
+                "<tr>" +
+                "<th>Prenda</th>" +
+                "<th>Familia de Composicion</th>" +
+                "<th>Precio</th>" +
+                "<th>Acciones</th>" +
+                "</tr>" +
+                "</thead>" +
+                "</table>" + "</div>");
+            var a;
+            var b = [];
+            if (rolAdmin == 1) {
+                console.log(data);
+                for (i in data) {
+                    var creacion = data[i][5] == null ? "" : data[i][5];
+
                     a = [
                         "<tr>" +
                         "<td>" + data[i][1] + "</td>",
                         "<td>" + data[i][2] + "</td>",
-                        "<td>$ " + data[i][3] + "</td>"+
+                        "<td>" + data[i][3] + "</td>" +
                         "<td> <input type='hidden' value=" + data[i][0] + " disabled> </td>",
                         "<td style='text-align: center'>" +
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][4] + " <br /><strong>Fecha de creación:</strong> " + data[i][6] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][7] + "'><i class='fas fa-info'></i></button> " +
-                        (rolEditar == 1 ? " <button onclick='editarPrecioFamComposicion("+ data[i][0] +","+data[i][9]+","+ data[i][10] +", "+ data[i][3] +")' id='" + data[i][0] + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_precio_composicion' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " : " ") +
-                        (rolEliminar == 1 ? "<button onclick='bajarPrecioComposicion(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                        " <button onclick='editarPrecioFamComposicion(" + data[i][0] + "," + data[i][9] + "," + data[i][10] + ", " + data[i][3] + ")' id='" + data[i][0] + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_precio_composicion' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        (data[i][8] == 1 ? "<button onclick='bajarPrecioComposicion(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                        (data[i][8] == 0 ? "<button onclick='reactivarPrecioComposicion(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
                         "</td>" +
 
                         "<tr>"
                     ];
                     b.push(a);
+                }
+            } else {
+                for (i in data) {
+                    var creacion = data[i][5] == null ? "" : data[i][5];
+                    if (data[i][8] == 1) {
+                        a = [
+                            "<tr>" +
+                            "<td>" + data[i][1] + "</td>",
+                            "<td>" + data[i][2] + "</td>",
+                            "<td>$ " + data[i][3] + "</td>" +
+                            "<td> <input type='hidden' value=" + data[i][0] + " disabled> </td>",
+                            "<td style='text-align: center'>" +
+                            "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][4] + " <br /><strong>Fecha de creación:</strong> " + data[i][6] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][7] + "'><i class='fas fa-info'></i></button> " +
+                            (rolEditar == 1 ? " <button onclick='editarPrecioFamComposicion(" + data[i][0] + "," + data[i][9] + "," + data[i][10] + ", " + data[i][3] + ")' id='" + data[i][0] + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_precio_composicion' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " : " ") +
+                            (rolEliminar == 1 ? "<button onclick='bajarPrecioComposicion(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                            "</td>" +
 
+                            "<tr>"
+                        ];
+                        b.push(a);
+
+                    }
                 }
             }
-        }
-        var tablaPrecioComposicion = $('#idtable12').DataTable({
-            "data": b,
-            "ordering": false,
-            "pageLength": 5,
-            "responsive": true,
-            "stateSave": true,
-            "drawCallback": function() {
-                $('.popoverxd').popover({
-                    container: 'body',
-                    trigger: 'hover'
-                });
-            },
-            "columnDefs": [{
+            var tablaPrecioComposicion = $('#idtable12').DataTable({
+                "data": b,
+                "ordering": false,
+                "pageLength": 5,
+                "responsive": true,
+                "stateSave": true,
+                "drawCallback": function () {
+                    $('.popoverxd').popover({
+                        container: 'body',
+                        trigger: 'hover'
+                    });
+                },
+                "columnDefs": [{
                     "type": "html",
                     "targets": '_all'
                 },
@@ -1437,59 +1437,59 @@ function listarPreciosComposicion(){
                     targets: 3,
                     className: 'dt-body-center'
                 }
-            ],
-            "lengthMenu": [
-                [5, 10, 25, 50, 100],
-                [5, 10, 25, 50, 100]
-            ],
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla =(",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                },
-                "buttons": {
-                    "copy": "Copiar",
-                    "colvis": "Visibilidad"
+                ],
+                "lengthMenu": [
+                    [5, 10, 25, 50, 100],
+                    [5, 10, 25, 50, 100]
+                ],
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                    "buttons": {
+                        "copy": "Copiar",
+                        "colvis": "Visibilidad"
+                    }
                 }
-            }
-        });
-        new $.fn.dataTable.FixedHeader(tablaPrecioComposicion);
-         
-    	
-    },
-    error: (e) => {
+            });
+            new $.fn.dataTable.FixedHeader(tablaPrecioComposicion);
 
-    }
-})
+
+        },
+        error: (e) => {
+
+        }
+    })
 }
 
-function agregarPrecioComposicion(){
-	Swal.fire({
+function agregarPrecioComposicion() {
+    Swal.fire({
         title: 'Agregar precio a una composición',
         html: '<div class="row">' +
             '<div class="form-group col-sm-12">' +
             '<label for="prenda">Prenda</label>' +
-            '<select class="form-control" id="selectPrenda" data-live-search="true">' +listarPrendasSelect()+ "</select>" +
+            '<select class="form-control" id="selectPrenda" data-live-search="true">' + listarPrendasSelect() + "</select>" +
             '<label for="famComposicion">Familia de composici&oacute;n</label>' +
-            '<select class="form-control" data-live-search="true" id="famComposicion">'+listarFamiliaComposicion()+'</select>' +
+            '<select class="form-control" data-live-search="true" id="famComposicion">' + listarFamiliaComposicion() + '</select>' +
             '<label for="precioFamComposicion">Precio </label><br>' +
             '<input type="number" class="swal2-input" id="precioFamComposicion" placeholder="120.50">' +
             '</div>' +
@@ -1500,83 +1500,84 @@ function agregarPrecioComposicion(){
         confirmButtonText: 'Agregar',
         confirmButtonColor: '#0288d1',
         preConfirm: (color) => {
-            if ($('#selectPrenda').val()=="" || $('#famComposicion').val()=="" || $('#precioFamComposicion').val()=="") {
+            if ($('#selectPrenda').val() == "" || $('#famComposicion').val() == "" || $('#precioFamComposicion').val() == "") {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
                 )
             }
         }
     }).then((result) => {
-        if (result.value){
-        	var prenda = $('#selectPrenda').val();
-        	var famComposicion = $('#famComposicion').val();
-        	var precio = $('#precioFamComposicion').val();
-        	$.ajax({
-        		method:"GET",
-        		url:"/verifduplicadoPrecioComposicion",
-        		data:{
-        			idPrenda: prenda,
-        			idFamComposicion: famComposicion},
-        		success: (data) => {
-        			console.log(data);
-        			if(data==false){
-    		        	$.ajax({
-    		        		method:"POST",
-    		        		url:"/agregarPrecioComposicion",
-    		        		data:{"_csrf": $('#token').val(),
-    		        			idPrenda: prenda,
-    		        			idFamComposicion: famComposicion,
-    		        			precio: precio},
-    		        			
-    		        		success: (data) => {
-    		        			 listarPreciosComposicion();
-    		        			 Swal.fire({
-    		                         position: 'center',
-    		                         icon: 'success',
-    		                         title: 'Insertado correctamente',
-    		                         showConfirmButton: false,
-    		                         timer: 1250
-    		                     })
-    		        		},
-    		        		error:(e) =>{
-    		        			 Swal.fire({
-    		                         position: 'center',
-    		                         icon: 'error',
-    		                         title: 'Algo salión mal, intente más tarde',
-    		                         showConfirmButton: false,
-    		                         timer: 1250
-    		                     })        		
-    		        		}
-    		        	})
-        			}
-        			else{
-        				Swal.fire({
-	                         position: 'center',
-	                         icon: 'error',
-	                         title: 'Registro duplicado',
-	                         showConfirmButton: false,
-	                         timer: 1250
-	                     }) 
-        			}
-        		},
-        		error: (e) => {
-        		}
-	        	})
+        if (result.value) {
+            var prenda = $('#selectPrenda').val();
+            var famComposicion = $('#famComposicion').val();
+            var precio = $('#precioFamComposicion').val();
+            $.ajax({
+                method: "GET",
+                url: "/verifduplicadoPrecioComposicion",
+                data: {
+                    idPrenda: prenda,
+                    idFamComposicion: famComposicion
+                },
+                success: (data) => {
+                    console.log(data);
+                    if (data == false) {
+                        $.ajax({
+                            method: "POST",
+                            url: "/agregarPrecioComposicion",
+                            data: {
+                                "_csrf": $('#token').val(),
+                                idPrenda: prenda,
+                                idFamComposicion: famComposicion,
+                                precio: precio
+                            },
+
+                            success: (data) => {
+                                listarPreciosComposicion();
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Insertado correctamente',
+                                    showConfirmButton: false,
+                                    timer: 1250
+                                })
+                            },
+                            error: (e) => {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: 'Algo salión mal, intente más tarde',
+                                    showConfirmButton: false,
+                                    timer: 1250
+                                })
+                            }
+                        })
+                    } else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Registro duplicado',
+                            showConfirmButton: false,
+                            timer: 1250
+                        })
+                    }
+                },
+                error: (e) => { }
+            })
         }
     });
 }
 
-function editarPrecioFamComposicion(idPrecioComposicion, idPrenda, idFamComposicion, precio){
-	Swal.fire({
+function editarPrecioFamComposicion(idPrecioComposicion, idPrenda, idFamComposicion, precio) {
+    Swal.fire({
         title: 'Agregar precio a una composición',
         html: '<div class="row">' +
             '<div class="form-group col-sm-12">' +
             '<label for="prenda">Prenda</label>' +
-            '<select class="form-control" id="selectPrenda" data-live-search="true">' +listarPrendasSelect(idPrenda)+ "</select>" +
+            '<select class="form-control" id="selectPrenda" data-live-search="true">' + listarPrendasSelect(idPrenda) + "</select>" +
             '<label for="famComposicion">Familia de composici&oacute;n</label>' +
-            '<select class="form-control" data-live-search="true" id="famComposicion">'+listarFamiliaComposicion(idFamComposicion)+'</select>' +
+            '<select class="form-control" data-live-search="true" id="famComposicion">' + listarFamiliaComposicion(idFamComposicion) + '</select>' +
             '<label for="precioFamComposicion">Precio </label><br>' +
-            '<input type="number" class="swal2-input" name="precioComposiciones" id="precioFamComposicion" placeholder="120.50" value='+precio+'>' +
+            '<input type="number" class="swal2-input" name="precioComposiciones" id="precioFamComposicion" placeholder="120.50" value=' + precio + '>' +
             '</div>' +
             '</div>',
         showCancelButton: true,
@@ -1585,189 +1586,194 @@ function editarPrecioFamComposicion(idPrecioComposicion, idPrenda, idFamComposic
         confirmButtonText: 'Agregar',
         confirmButtonColor: '#0288d1',
         preConfirm: (color) => {
-            if ($('#selectPrenda').val()=="" || $('#famComposicion').val()=="" || $('#precioFamComposicion').val()=="") {
+            if ($('#selectPrenda').val() == "" || $('#famComposicion').val() == "" || $('#precioFamComposicion').val() == "") {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
                 )
             }
         }
     }).then((result) => {
-        if (result.value){
-        	var prenda = $('#selectPrenda').val();
-        	var famComposicion = $('#famComposicion').val();
-        	var precio = $('#precioFamComposicion').val();
-        	var idPrecioCompos = idPrecioComposicion;
-        	
-        	$.ajax({
-        		method:"POST",
-        		url:"/editarPrecioComposicion",
-        		data:{"_csrf": $('#token').val(),
-        			idPrenda: prenda,
-        			idFamComposicion: famComposicion,
-        			precio: precio,
-        			idPrecioComposicion: idPrecioCompos},
-        			
-        		success: (data) => {
-        			 listarPreciosComposicion();
-        			 Swal.fire({
-                         position: 'center',
-                         icon: 'success',
-                         title: 'Editado correctamente',
-                         showConfirmButton: false,
-                         timer: 1250
-                     })
-        		},
-        		error:(e) =>{
-        			 Swal.fire({
-                         position: 'center',
-                         icon: 'error',
-                         title: 'Algo salión mal, intente más tarde',
-                         showConfirmButton: false,
-                         timer: 1250
-                     })        		
-        		}
-        	})
-		}
-		else{
-			Swal.fire({
-                 position: 'center',
-                 icon: 'error',
-                 title: 'Registro duplicado',
-                 showConfirmButton: false,
-                 timer: 1250
-             }) 
-		}
-	})
+        if (result.value) {
+            var prenda = $('#selectPrenda').val();
+            var famComposicion = $('#famComposicion').val();
+            var precio = $('#precioFamComposicion').val();
+            var idPrecioCompos = idPrecioComposicion;
+
+            $.ajax({
+                method: "POST",
+                url: "/editarPrecioComposicion",
+                data: {
+                    "_csrf": $('#token').val(),
+                    idPrenda: prenda,
+                    idFamComposicion: famComposicion,
+                    precio: precio,
+                    idPrecioComposicion: idPrecioCompos
+                },
+
+                success: (data) => {
+                    listarPreciosComposicion();
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Editado correctamente',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
+                },
+                error: (e) => {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Algo salión mal, intente más tarde',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
+                }
+            })
+        } else {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Registro duplicado',
+                showConfirmButton: false,
+                timer: 1250
+            })
+        }
+    })
 }
 
-function bajarPrecioComposicion(idPrecioCompos){
-	$.ajax({
-		method:"POST",
-		url:"/bajarPrecioComposicion",
-		data:{"_csrf": $('#token').val(),
-			idPrecioComposicion: idPrecioCompos},
-			
-		success: (data) => {
-			 listarPreciosComposicion();
-			 Swal.fire({
-                 position: 'center',
-                 icon: 'success',
-                 title: 'Se dió de baja correctamente',
-                 showConfirmButton: false,
-                 timer: 1250
-             })
-		},
-		error:(e) =>{
-			 Swal.fire({
-                 position: 'center',
-                 icon: 'error',
-                 title: 'Algo salión mal, intente más tarde',
-                 showConfirmButton: false,
-                 timer: 1250
-             })        		
-		}
-	});
+function bajarPrecioComposicion(idPrecioCompos) {
+    $.ajax({
+        method: "POST",
+        url: "/bajarPrecioComposicion",
+        data: {
+            "_csrf": $('#token').val(),
+            idPrecioComposicion: idPrecioCompos
+        },
+
+        success: (data) => {
+            listarPreciosComposicion();
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Se dió de baja correctamente',
+                showConfirmButton: false,
+                timer: 1250
+            })
+        },
+        error: (e) => {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Algo salión mal, intente más tarde',
+                showConfirmButton: false,
+                timer: 1250
+            })
+        }
+    });
 }
-	
-function reactivarPrecioComposicion(idPrecioCompos){
-	$.ajax({
-		method:"POST",
-	url:"/reactivarPrecioComposicion",
-	data:{"_csrf": $('#token').val(),
-		idPrecioComposicion: idPrecioCompos},
-		
-	success: (data) => {
-		 listarPreciosComposicion();
-		 Swal.fire({
-             position: 'center',
-             icon: 'success',
-             title: 'Se dió de alta correctamente',
-             showConfirmButton: false,
-             timer: 1250
-         })
-	},
-	error:(e) =>{
-		 Swal.fire({
-             position: 'center',
-             icon: 'error',
-             title: 'Algo salión mal, intente más tarde',
-                 showConfirmButton: false,
-                 timer: 1250
-             })        		
-		}
-	});
+
+function reactivarPrecioComposicion(idPrecioCompos) {
+    $.ajax({
+        method: "POST",
+        url: "/reactivarPrecioComposicion",
+        data: {
+            "_csrf": $('#token').val(),
+            idPrecioComposicion: idPrecioCompos
+        },
+
+        success: (data) => {
+            listarPreciosComposicion();
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Se dió de alta correctamente',
+                showConfirmButton: false,
+                timer: 1250
+            })
+        },
+        error: (e) => {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Algo salión mal, intente más tarde',
+                showConfirmButton: false,
+                timer: 1250
+            })
+        }
+    });
 }
 
 function listarPrendasSelect(idPrenda) {
-	$('#selectPrenda').find("option").remove();
-	$.ajax({
+    $('#selectPrenda').find("option").remove();
+    $.ajax({
         type: "GET",
         url: "/listar",
-        data:{ "Tipo": "Familia Prenda"},
+        data: { "Tipo": "Familia Prenda" },
         success: (data) => {
-        	var listaPrendas = "";
-        	for(i in data){
-        		listaPrendas+= "<option value="+data[i].idLookup+">"+data[i].nombreLookup+"</option>";
-        	}
-        	$('#selectPrenda').append(listaPrendas);
-        	if(idPrenda!=null){
-        		$('#selectPrenda option[value='+idPrenda+']').attr("selected", true);
-        	}
+            var listaPrendas = "";
+            for (i in data) {
+                listaPrendas += "<option value=" + data[i].idLookup + ">" + data[i].nombreLookup + "</option>";
+            }
+            $('#selectPrenda').append(listaPrendas);
+            if (idPrenda != null) {
+                $('#selectPrenda option[value=' + idPrenda + ']').attr("selected", true);
+            }
         },
         error: (e) => {
-        	
+
         }
-	});
+    });
 }
 
 function listarFamiliaComposicion(idFamComposicion) {
-	$('#famComposicion').find("option").remove();
-	$.ajax({
+    $('#famComposicion').find("option").remove();
+    $.ajax({
         type: "GET",
         url: "/listar",
-        data:{ "Tipo": "Familia Composicion"},
+        data: { "Tipo": "Familia Composicion" },
         success: (data) => {
-        	var listaPrendas = "";
-        	for(i in data){
-        		listaPrendas+= "<option value="+data[i].idLookup+">"+data[i].nombreLookup+"</option>";
-        	}
-        	$('#famComposicion').append(listaPrendas);
-        	if(idFamComposicion!=null){
-        		$('#famComposicion option[value='+idFamComposicion+']').attr("selected", true);
-        	}
+            var listaPrendas = "";
+            for (i in data) {
+                listaPrendas += "<option value=" + data[i].idLookup + ">" + data[i].nombreLookup + "</option>";
+            }
+            $('#famComposicion').append(listaPrendas);
+            if (idFamComposicion != null) {
+                $('#famComposicion option[value=' + idFamComposicion + ']').attr("selected", true);
+            }
         },
         error: (e) => {
-        	
+
         }
-	});
+    });
 }
 
 
 // Habilitar form de SweetAlert2
-$('#detalleMarcas').on('shown.bs.modal', function() {
+$('#detalleMarcas').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 // //////////////////////7
 // Habilitar form de SweetAlert2
-$('#detalleColores').on('shown.bs.modal', function() {
+$('#detalleColores').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
 
-function listarProveedores(proveedor){
-	 $.ajax({
-         type: "GET",
-         url: "/listarProveedoresColores",
-         success: (data) => {
-        	 
-    		 for (i in data){
-        	 $('#proveedorColor').append("<option value="+data[i].idProveedor+" name"+data[i].nombreProveedor+">"+data[i].nombreProveedor+"</option>");
-        	 }
-	    	 if(proveedor!=1){
-	    		 $('#proveedorColor option[value="'+proveedor+'"]').attr("selected", true);
-        	 }
-         }	 
-         })
+function listarProveedores(proveedor) {
+    $.ajax({
+        type: "GET",
+        url: "/listarProveedoresColores",
+        success: (data) => {
+
+            for (i in data) {
+                $('#proveedorColor').append("<option value=" + data[i].idProveedor + " name" + data[i].nombreProveedor + ">" + data[i].nombreProveedor + "</option>");
+            }
+            if (proveedor != 1) {
+                $('#proveedorColor option[value="' + proveedor + '"]').attr("selected", true);
+            }
+        }
+    })
 }
 // Agregar Color
 function agregarColor() {
@@ -1780,7 +1786,7 @@ function agregarColor() {
             '<label for="pedidonom">Código del color</label>' +
             '<input type="color" class="swal2-input" id="codigocolor" placeholder="Rojo">' +
             '<label for="proveedorColor">Proveedor</label>' +
-            '<select class="form-control" data-live-search="true" id="proveedorColor"><option value="error">Seleccione uno...</option>'+listarProveedores(1)+'</select>' +
+            '<select class="form-control" data-live-search="true" id="proveedorColor"><option value="error">Seleccione uno...</option>' + listarProveedores(1) + '</select>' +
             '</div>' +
             '</div>',
         showCancelButton: true,
@@ -1789,7 +1795,7 @@ function agregarColor() {
         confirmButtonText: 'Agregar',
         confirmButtonColor: '#0288d1',
         preConfirm: (color) => {
-            if (document.getElementById("color").value.length < 1 || $('#proveedorColor').val()=="error") {
+            if (document.getElementById("color").value.length < 1 || $('#proveedorColor').val() == "error") {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
                 )
@@ -1812,11 +1818,11 @@ function agregarColor() {
 
                 }
 
-            }).done(function(data) {
-            	console.log($('#proveedorColor').val());
+            }).done(function (data) {
+                console.log($('#proveedorColor').val());
                 if (data == false) {
-                	
-                
+
+
                     $.ajax({
                         type: "POST",
                         url: "/guardarcatalogo",
@@ -1828,17 +1834,17 @@ function agregarColor() {
 
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarColores();
                     });
                     Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Insertado correctamente',
-                            showConfirmButton: false,
-                            timer: 1250
-                        })
-                        // / window.setTimeout(function(){location.reload()}, 2000);
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Insertado correctamente',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
+                    // / window.setTimeout(function(){location.reload()}, 2000);
                 } // /fin segundoif
                 else {
                     Swal.fire({
@@ -1858,95 +1864,95 @@ function agregarColor() {
     })
 }
 // Editar color
-$(document).on('click', '.edit_data_color', function() {
-        var color_id = $(this).attr("id");
-        var color_nombre = $(this).attr("value");
-        var color_repr = $(this).attr("color");
-        var provee = $(this).attr("proveedorColor");
-        console.log(provee);
-        Swal.fire({
-            title: 'Editar color',
-            html: '<div class="row">' +
-                '<div class="form-group col-sm-12">' +
-                '<label for="pedidonom">Nombre del color</label>' +
-                '<input type="text" class="form-control" name="color" id="color" value="' + color_nombre + '" placeholder="Rojo">' +
-                '<label for="pedidonom">Codigo del color</label>' +
-                '<input type="color" class="form-control" id="color_repr" value="' + color_repr + '" placeholder="Rojo">' +
-                '<label for="proveedorColor">Proveedor</label>' +
-                '<select class="form-control" id="proveedorColor" value='+ provee +'><option value="">Seleccione uno...</option>'+listarProveedores(provee)+'</select>' +
+$(document).on('click', '.edit_data_color', function () {
+    var color_id = $(this).attr("id");
+    var color_nombre = $(this).attr("value");
+    var color_repr = $(this).attr("color");
+    var provee = $(this).attr("proveedorColor");
+    console.log(provee);
+    Swal.fire({
+        title: 'Editar color',
+        html: '<div class="row">' +
+            '<div class="form-group col-sm-12">' +
+            '<label for="pedidonom">Nombre del color</label>' +
+            '<input type="text" class="form-control" name="color" id="color" value="' + color_nombre + '" placeholder="Rojo">' +
+            '<label for="pedidonom">Codigo del color</label>' +
+            '<input type="color" class="form-control" id="color_repr" value="' + color_repr + '" placeholder="Rojo">' +
+            '<label for="proveedorColor">Proveedor</label>' +
+            '<select class="form-control" id="proveedorColor" value=' + provee + '><option value="">Seleccione uno...</option>' + listarProveedores(provee) + '</select>' +
 
-                '</div>' +
-                '</div>',
-            inputAttributes: {
-                autocapitalize: 'off'
-            },
-            showCancelButton: true,
-            cancelButtonColor: '#dc3545',
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Actualizar',
-            confirmButtonColor: '#0288d1',
-            preConfirm: (color) => {
-                if (document.getElementById("color").value.length < 1) {
-                    Swal.showValidationMessage(
-                        `Complete todos los campos`
-                    )
-                }
-                
-                
+            '</div>' +
+            '</div>',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Actualizar',
+        confirmButtonColor: '#0288d1',
+        preConfirm: (color) => {
+            if (document.getElementById("color").value.length < 1) {
+                Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
             }
-        }).then((result) => {
-            if (result.value && document.getElementById("color").value) {
-                var Color = document.getElementById("color").value;
-                var ColorRepr = document.getElementById("color_repr").value;
-                var proveedorr = document.getElementById("proveedorColor").value;
-                $.ajax({
-                    type: "GET",
-                    url: "/verifduplicado",
-                    data: {
-                        'Lookup': Color,
-                        'Tipo': "Color"
-                    }
 
-                }).done(function(data) {
-                    if (data == false) {
-                        $.ajax({
-                            type: "POST",
-                            url: "/editarcatalogo",
-                            data: {
-                                "_csrf": $('#token').val(),
-                                'Color': Color,
-                                'idLookup': color_id,
-                                'CodigoColor': ColorRepr,
-                        		'proveedor': proveedorr
-                                    // ,'Descripcion':Descripcion
-                            }
 
-                        }).done(function(data) {
-                            listarColores();
-                        });
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'editado correctamente',
-                            showConfirmButton: false,
-                            timer: 1250
-                        })
-                    } else {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'error',
-                            title: 'Registro duplicado no se ha editado',
-                            showConfirmButton: false,
-                            timer: 1250
-                        })
+        }
+    }).then((result) => {
+        if (result.value && document.getElementById("color").value) {
+            var Color = document.getElementById("color").value;
+            var ColorRepr = document.getElementById("color_repr").value;
+            var proveedorr = document.getElementById("proveedorColor").value;
+            $.ajax({
+                type: "GET",
+                url: "/verifduplicado",
+                data: {
+                    'Lookup': Color,
+                    'Tipo': "Color"
+                }
 
-                    }
-                });
+            }).done(function (data) {
+                if (data == false) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/editarcatalogo",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            'Color': Color,
+                            'idLookup': color_id,
+                            'CodigoColor': ColorRepr,
+                            'proveedor': proveedorr
+                            // ,'Descripcion':Descripcion
+                        }
 
-            } // ////////////fin primer if
-        })
+                    }).done(function (data) {
+                        listarColores();
+                    });
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'editado correctamente',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
+                } else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Registro duplicado no se ha editado',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
+
+                }
+            });
+
+        } // ////////////fin primer if
     })
-    // /////////////////////Reactivar
+})
+// /////////////////////Reactivar
 function reactivar(idreactivar) {
     var id = idreactivar;
     Swal.fire({
@@ -1967,7 +1973,7 @@ function reactivar(idreactivar) {
                     'idcatalogo': id
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 switch (data) {
                     case "Color":
                         listarColores();
@@ -2035,7 +2041,7 @@ function bajarColor(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
 
                 listarColores();
             });
@@ -2050,7 +2056,7 @@ function bajarColor(idbaja) {
     })
 }
 // Reactivar color
-$('#detalleTrazo').on('shown.bs.modal', function() {
+$('#detalleTrazo').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
@@ -2087,10 +2093,10 @@ function agregarTrazo() {
                 data: {
                     'Lookup': Trazo,
                     'Tipo': 'Pieza Trazo'
-                        // ,'Descripcion':Descripcion
+                    // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     // /////////
 
@@ -2101,10 +2107,10 @@ function agregarTrazo() {
                         data: {
                             "_csrf": $('#token').val(),
                             'PiezaTrazo': Trazo
-                                // ,'Descripcion':Descripcion
+                            // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarTrazos();
                     });
                     Swal.fire({
@@ -2130,86 +2136,86 @@ function agregarTrazo() {
     })
 }
 // Editar Trazo
-$(document).on('click', '.edit_data_trazo', function() {
-        var trazo_id = $(this).attr("id");
-        var trazo_nombre = $(this).attr("value");
-        Swal.fire({
-            title: 'Editar pieza trazo',
-            html: '<div class="row">' +
-                '<div class="form-group col-sm-12">' +
-                '<label for="pedidonom">Nombre pieza trazo</label>' +
-                '<input type="text" class="form-control" name="trazo" id="trazo" value="' + trazo_nombre + '" placeholder="Delantero">' +
-                '<input type="hidden" value=" ' + trazo_id + ' ">' +
-                '</div>' +
-                '</div>',
-            inputAttributes: {
-                autocapitalize: 'off'
-            },
-            showCancelButton: true,
-            cancelButtonColor: '#dc3545',
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Actualizar',
-            confirmButtonColor: '#0288d1',
-            preConfirm: (trazo) => {
-                if (document.getElementById("trazo").value.length < 1) {
-                    Swal.showValidationMessage(
-                        `Complete todos los campos`
-                    )
-                }
+$(document).on('click', '.edit_data_trazo', function () {
+    var trazo_id = $(this).attr("id");
+    var trazo_nombre = $(this).attr("value");
+    Swal.fire({
+        title: 'Editar pieza trazo',
+        html: '<div class="row">' +
+            '<div class="form-group col-sm-12">' +
+            '<label for="pedidonom">Nombre pieza trazo</label>' +
+            '<input type="text" class="form-control" name="trazo" id="trazo" value="' + trazo_nombre + '" placeholder="Delantero">' +
+            '<input type="hidden" value=" ' + trazo_id + ' ">' +
+            '</div>' +
+            '</div>',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Actualizar',
+        confirmButtonColor: '#0288d1',
+        preConfirm: (trazo) => {
+            if (document.getElementById("trazo").value.length < 1) {
+                Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
             }
-        }).then((result) => {
-            if (result.value && document.getElementById("trazo").value) {
-                var Trazo = document.getElementById("trazo").value;
-                $.ajax({
-                    type: "GET",
-                    url: "/verifduplicado",
-                    data: {
-                        'Lookup': Trazo,
-                        'Tipo': "Pieza Trazo"
+        }
+    }).then((result) => {
+        if (result.value && document.getElementById("trazo").value) {
+            var Trazo = document.getElementById("trazo").value;
+            $.ajax({
+                type: "GET",
+                url: "/verifduplicado",
+                data: {
+                    'Lookup': Trazo,
+                    'Tipo': "Pieza Trazo"
 
 
-                    }
+                }
 
-                }).done(function(data) {
-                    if (data == false) {
+            }).done(function (data) {
+                if (data == false) {
 
-                        $.ajax({
-                            type: "POST",
-                            url: "/editarcatalogo",
-                            data: {
-                                "_csrf": $('#token').val(),
-                                'PiezaTrazo': Trazo,
-                                'idLookup': trazo_id
-                                    // ,'Descripcion':Descripcion
-                            }
+                    $.ajax({
+                        type: "POST",
+                        url: "/editarcatalogo",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            'PiezaTrazo': Trazo,
+                            'idLookup': trazo_id
+                            // ,'Descripcion':Descripcion
+                        }
 
-                        }).done(function(data) {
-                            listarTrazos();
-                        });
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'editado correctamente',
-                            showConfirmButton: false,
-                            timer: 1250
-                        })
-                    } // /fin segundoif
-                    else {
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'error',
-                            title: 'Registro duplicado no se ha editado',
-                            showConfirmButton: false,
-                            timer: 1250
-                        })
+                    }).done(function (data) {
+                        listarTrazos();
+                    });
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'editado correctamente',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
+                } // /fin segundoif
+                else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Registro duplicado no se ha editado',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
 
-                    }
-                });
+                }
+            });
 
-            } // /fin if
-        })
+        } // /fin if
     })
-    // Dar de baja pieza de trazo
+})
+// Dar de baja pieza de trazo
 function bajarTrazo(idbaja) {
     var id = idbaja;
     Swal.fire({
@@ -2233,7 +2239,7 @@ function bajarTrazo(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
 
                 listarTrazos();
             });
@@ -2248,7 +2254,7 @@ function bajarTrazo(idbaja) {
     })
 }
 // Reactivar pieza de trazo
-$('#detallePrenda').on('shown.bs.modal', function() {
+$('#detallePrenda').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 // Agregar Familia de prendas
@@ -2294,7 +2300,7 @@ function agregarPrenda() {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     // /////////////////
                     $.ajax({
@@ -2309,7 +2315,7 @@ function agregarPrenda() {
                             // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarPrendas();
                     });
                     Swal.fire({
@@ -2385,7 +2391,7 @@ function editarPrenda(e) {
 
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -2395,10 +2401,10 @@ function editarPrenda(e) {
                             'FamiliaPrenda': FamiliaPrenda,
                             'Posicion': Posicion,
                             'idLookup': idLookup
-                                // ,'Descripcion':Descripcion
+                            // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarPrendas();
                     });
                     Swal.fire({
@@ -2448,7 +2454,7 @@ function bajarPrenda(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
 
                 listarPrendas();
             });
@@ -2463,7 +2469,7 @@ function bajarPrenda(idbaja) {
     })
 }
 // Reactivar prenda
-$('#detalleGenero').on('shown.bs.modal', function() {
+$('#detalleGenero').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 // Agregar familia de genero
@@ -2498,10 +2504,10 @@ function agregarGenero() {
                 data: {
                     'Lookup': Genero,
                     'Tipo': 'Familia Genero'
-                        // ,'Descripcion':Descripcion
+                    // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     // ///////////
                     $.ajax({
@@ -2514,7 +2520,7 @@ function agregarGenero() {
                             // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarGeneros();
                     });
                     Swal.fire({
@@ -2585,7 +2591,7 @@ function editarGenero(e) {
 
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -2594,20 +2600,20 @@ function editarGenero(e) {
                             "_csrf": $('#token').val(),
                             'FamiliaGenero': FamiliaGenero,
                             'idLookup': idLookup
-                                // ,'Descripcion':Descripcion
+                            // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarGeneros();
                     });
                     Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'editado correctamente',
-                            showConfirmButton: false,
-                            timer: 1250
-                        })
-                        // window.setTimeout(function(){location.reload()}, 2000);
+                        position: 'center',
+                        icon: 'success',
+                        title: 'editado correctamente',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
+                    // window.setTimeout(function(){location.reload()}, 2000);
                 } // /fin segundoif
                 else {
                     Swal.fire({
@@ -2646,7 +2652,7 @@ function bajarGenero(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
 
                 listarGeneros();
             });
@@ -2661,7 +2667,7 @@ function bajarGenero(idbaja) {
     })
 }
 // Reactivar familia de genero
-$('#detalleMantenimiento').on('shown.bs.modal', function() {
+$('#detalleMantenimiento').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 // Agregar composicion
@@ -2735,7 +2741,7 @@ function bajarcomposicioncuidado(idbaja) {
                 // ,'Descripcion':Descripcion
             }
 
-        }).done(function(data) {
+        }).done(function (data) {
             var idcomposicion = data.idLookup;
             var nombrecomposicion = data.nombreLookup;
             listarcuidadosjson2(idcomposicion);
@@ -2820,10 +2826,10 @@ function insertar() {
             data: {
                 'Lookup': Composicion,
                 'Tipo': 'Familia Composicion'
-                    // ,'Descripcion':Descripcion
+                // ,'Descripcion':Descripcion
             }
 
-        }).done(function(data) {
+        }).done(function (data) {
             if (data == false) {
                 // /////////////////
                 $.ajax({
@@ -2834,11 +2840,11 @@ function insertar() {
                         'FamiliaComposicion': Composicion,
                         'idcuidado': Cuidado,
                         'idcomposicion': Idcomposicion
-                            // ,'Descripcion':Descripcion
+                        // ,'Descripcion':Descripcion
                     },
 
 
-                }).done(function(data) {
+                }).done(function (data) {
                     var idcomposicion = data[0];
                     var nombrecomposicion = data[1];
                     listarcuidadosjson2(idcomposicion);
@@ -3045,7 +3051,7 @@ function editarComposicion(e) {
 
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -3054,10 +3060,10 @@ function editarComposicion(e) {
                             "_csrf": $('#token').val(),
                             'FamiliaComposicion': FamiliaComposicion,
                             'idLookup': idLookup
-                                // ,'Descripcion':Descripcion
+                            // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarComposiciones();
                     });
                     Swal.fire({
@@ -3110,7 +3116,7 @@ function bajarComposicion(idbaja) {
 
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
 
                 listarComposiciones();
             });
@@ -3125,7 +3131,7 @@ function bajarComposicion(idbaja) {
     })
 }
 // Reactivar familia de genero
-$('#detalleCuidado').on('shown.bs.modal', function() {
+$('#detalleCuidado').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
@@ -3171,10 +3177,10 @@ function agregarCuidado() {
                 data: {
                     'Lookup': Cuidado,
                     'Tipo': 'Instruccion Cuidado'
-                        // ,'Descripcion':Descripcion
+                    // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     // ////////////////
                     var data1 = new FormData(form);
@@ -3187,7 +3193,7 @@ function agregarCuidado() {
                         cache: false,
                         timeout: 600000
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarCuidados();
                     });
                     Swal.fire({
@@ -3281,7 +3287,7 @@ function editarCuidado(e) {
 
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     var data1 = new FormData(form);
                     console.log(data1);
@@ -3294,7 +3300,7 @@ function editarCuidado(e) {
                         cache: false,
                         timeout: 600000
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarCuidados();
                     });
                     Swal.fire({
@@ -3345,7 +3351,7 @@ function bajarCuidado(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
 
                 listarCuidados();
             });
@@ -3360,7 +3366,7 @@ function bajarCuidado(idbaja) {
     })
 }
 // Reactivar familia de genero
-$('#detalleMedida').on('shown.bs.modal', function() {
+$('#detalleMedida').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
@@ -3399,10 +3405,10 @@ function agregarMedida() {
                 data: {
                     'Lookup': Medida,
                     'Tipo': 'Unidad Medida'
-                        // ,'Descripcion':Descripcion
+                    // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     // //////////////
 
@@ -3417,7 +3423,7 @@ function agregarMedida() {
                             // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarMedidas();
                     });
                     Swal.fire({
@@ -3501,7 +3507,7 @@ function editarMedida(e) {
 
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -3511,10 +3517,10 @@ function editarMedida(e) {
                             'UnidadMedida': Medida,
                             'idLookup': idLookup,
                             'Simbolo': Simbolo
-                                // ,'Descripcion':Descripcion
+                            // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarMedidas();
                     });
                     Swal.fire({
@@ -3565,7 +3571,7 @@ function bajarMedida(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
 
                 listarMedidas();
             });
@@ -3580,7 +3586,7 @@ function bajarMedida(idbaja) {
     })
 }
 // Reactivar familia de genero
-$('#detalleMaterial').on('shown.bs.modal', function() {
+$('#detalleMaterial').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
@@ -3600,12 +3606,12 @@ function agregarMaterial() {
             '<option value="1">Material Principal</option>' +
             '</select>' +
             '</div>' +
-            '<div class="form-group col-sm-12">'+
-		  	'<label for="ubicacionTalla">Clasificaci&oacute;n</label>'+
-		  	'<select class="form-control" id="clasificacion" name="clasificacion" >'+
-		  	'<option value="0">Seleccione clasificaci&oacute;n</option>' +
-		   '</select>'+
-		  '</div>'+
+            '<div class="form-group col-sm-12">' +
+            '<label for="ubicacionTalla">Clasificaci&oacute;n</label>' +
+            '<select class="form-control" id="clasificacion" name="clasificacion" >' +
+            '<option value="0">Seleccione clasificaci&oacute;n</option>' +
+            '</select>' +
+            '</div>' +
             '</div>',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
@@ -3613,26 +3619,26 @@ function agregarMaterial() {
         confirmButtonText: 'Agregar',
         confirmButtonColor: '#0288d1',
         preConfirm: (tipomaterial, material) => {
-            if (document.getElementById("tipomaterial").value.length != 1 
-            		|| document.getElementById("material").value.length < 1 
-            		|| document.getElementById("clasificacion").value == 0
-            		) {
+            if (document.getElementById("tipomaterial").value.length != 1 ||
+                document.getElementById("material").value.length < 1 ||
+                document.getElementById("clasificacion").value == 0
+            ) {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
-                	
-                	
+
+
                 )
                 console.log("ggg")
             }
         }
     }).then((result) => {
-        if (result.value && document.getElementById("material").value 
-        		&& document.getElementById("tipomaterial").value.length == 1
-        		&&  document.getElementById("clasificacion").value ) {
+        if (result.value && document.getElementById("material").value &&
+            document.getElementById("tipomaterial").value.length == 1 &&
+            document.getElementById("clasificacion").value) {
             var Material = document.getElementById("material").value;
             var TipoMaterial = document.getElementById("tipomaterial").value;
             var CategoriaMaterial = document.getElementById("clasificacion").value;
-           // console.log(TipoMaterial)
+            // console.log(TipoMaterial)
             console.log(CategoriaMaterial)
             $.ajax({
                 type: "GET",
@@ -3640,10 +3646,10 @@ function agregarMaterial() {
                 data: {
                     'Lookup': Material,
                     'Tipo': "Material"
-                        // ,'Descripcion':Descripcion
+                    // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     // ////////////
 
@@ -3655,10 +3661,10 @@ function agregarMaterial() {
                             'Material': Material,
                             'TipoMaterial': TipoMaterial,
                             'CategoriaMaterial': CategoriaMaterial
-                                // ,'Descripcion':Descripcion
+                            // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarMateriales();
                     });
                     Swal.fire({
@@ -3684,21 +3690,22 @@ function agregarMaterial() {
             // window.setTimeout(function(){location.reload()}, 2000);
         }
     })
-    	$.ajax({
-		method: "GET",
-		url: "/listar-amp",
-		data:{
-			"Tipo":"Clasificacion"
-		} ,
-		success: (data) => {
-			$.each(data, function(key, val) {
-	    		$('#clasificacion').append('<option value="' + val.idLookup + '">'+val.nombreLookup+'</option>');})
-	    		//$('.selectpicker').selectpicker(["refresh"]);
-		},
-		error: (e) => {
+    $.ajax({
+        method: "GET",
+        url: "/listar-amp",
+        data: {
+            "Tipo": "Clasificacion"
+        },
+        success: (data) => {
+            $.each(data, function (key, val) {
+                $('#clasificacion').append('<option value="' + val.idLookup + '">' + val.nombreLookup + '</option>');
+            })
+            //$('.selectpicker').selectpicker(["refresh"]);
+        },
+        error: (e) => {
 
-		}
-	})
+        }
+    })
 }
 
 // Editar genero
@@ -3706,7 +3713,7 @@ function agregarMaterial() {
 
 function editarMaterial(e) {
     var descr = e.getAttribute("descripcion");
-    
+
     var idClasificacion = e.getAttribute("atributo2");
     // / var atributo1= e.getAttribute("atributo1");
 
@@ -3724,12 +3731,12 @@ function editarMaterial(e) {
             (e.getAttribute("atributo1") == 1 ? "<option value='0'>Material General</option>" : "<option value='1'>Material Principal</option>") +
             '</select>' +
             '</div>' +
-            '<div class="form-group col-sm-12">'+
-		  	'<label for="ubicacionTalla">Clasificaci&oacute;n</label>'+
-		  	'<select class="form-control" id="clasificacion" name="clasificacion" >'+
-		  
-		   '</select>'+
-		  '</div>'+
+            '<div class="form-group col-sm-12">' +
+            '<label for="ubicacionTalla">Clasificaci&oacute;n</label>' +
+            '<select class="form-control" id="clasificacion" name="clasificacion" >' +
+
+            '</select>' +
+            '</div>' +
             '<input type="hidden" value=" ' + e.getAttribute("idlookup") + ' " class="swal2-input" id="idlookup" placeholder="Parisina">' +
             '</div>',
         showCancelButton: true,
@@ -3761,7 +3768,7 @@ function editarMaterial(e) {
 
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -3771,11 +3778,11 @@ function editarMaterial(e) {
                             'Material': Material,
                             'idLookup': idLookup,
                             'TipoMaterial': TipoMaterial,
-                            'CategoriaMaterial':CategoriaMaterial
-                                // ,'Descripcion':Descripcion
+                            'CategoriaMaterial': CategoriaMaterial
+                            // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarMateriales();
                     });
                     Swal.fire({
@@ -3801,28 +3808,27 @@ function editarMaterial(e) {
         } // /fin if
     })
     $.ajax({
-		method: "GET",
-		url: "/listar-amp",
-		data:{
-			"Tipo":"Clasificacion"
-		} ,
-		success: (data) => {
-			$.each(data, function(key, val) {
-				
-				if ( val.idLookup == idClasificacion  ){
-					$('#clasificacion').append('<option selected value="' + val.idLookup + '">'+val.nombreLookup+'</option>');
-				}
-			else{
-				$('#clasificacion').append('<option value="' + val.idLookup + '">'+val.nombreLookup+'</option>');
-			}
-				
-			})
-	    		//$('.selectpicker').selectpicker(["refresh"]);
-		},
-		error: (e) => {
+        method: "GET",
+        url: "/listar-amp",
+        data: {
+            "Tipo": "Clasificacion"
+        },
+        success: (data) => {
+            $.each(data, function (key, val) {
 
-		}
-	})
+                if (val.idLookup == idClasificacion) {
+                    $('#clasificacion').append('<option selected value="' + val.idLookup + '">' + val.nombreLookup + '</option>');
+                } else {
+                    $('#clasificacion').append('<option value="' + val.idLookup + '">' + val.nombreLookup + '</option>');
+                }
+
+            })
+            //$('.selectpicker').selectpicker(["refresh"]);
+        },
+        error: (e) => {
+
+        }
+    })
 }
 // Dar de baja familia de genero
 function bajarMaterial(idbaja) {
@@ -3847,7 +3853,7 @@ function bajarMaterial(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
 
                 listarMateriales();
             });
@@ -3862,7 +3868,7 @@ function bajarMaterial(idbaja) {
     })
 }
 // Reactivar familia de genero
-$('#detalleMarcador').on('shown.bs.modal', function() {
+$('#detalleMarcador').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
@@ -3897,10 +3903,10 @@ function agregarMarcador() {
                 data: {
                     'Lookup': Marcador,
                     'Tipo': "Marcador"
-                        // ,'Descripcion':Descripcion
+                    // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
 
                     // ////////////////
@@ -3915,7 +3921,7 @@ function agregarMarcador() {
                             // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarMarcadores();
                     });
                     Swal.fire({
@@ -3989,7 +3995,7 @@ function editarMarcador(e) {
 
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -3998,10 +4004,10 @@ function editarMarcador(e) {
                             "_csrf": $('#token').val(),
                             'Marcador': Marcador,
                             'idLookup': idLookup
-                                // ,'Descripcion':Descripcion
+                            // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarMarcadores();
                     });
                     Swal.fire({
@@ -4050,7 +4056,7 @@ function bajarMarcador(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
 
                 listarMarcadores();
             });
@@ -4067,7 +4073,7 @@ function bajarMarcador(idbaja) {
 // Reactivar familia de genero
 
 // Habilitar form de SweetAlert2
-$('#detalleComposicion').on('shown.bs.modal', function() {
+$('#detalleComposicion').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
@@ -4102,10 +4108,10 @@ function agregarComposicion1() {
                 data: {
                     'Lookup': Composicion,
                     'Tipo': "Composicion"
-                        // ,'Descripcion':Descripcion
+                    // ,'Descripcion':Descripcion
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     // /////////////
 
@@ -4119,7 +4125,7 @@ function agregarComposicion1() {
                             // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarComposiciones1();
                     });
                     Swal.fire({
@@ -4193,7 +4199,7 @@ function editarComposicion1(e) {
 
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -4202,10 +4208,10 @@ function editarComposicion1(e) {
                             "_csrf": $('#token').val(),
                             'Composicion': Composicion,
                             'idLookup': idLookup
-                                // ,'Descripcion':Descripcion
+                            // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function(data) {
+                    }).done(function (data) {
                         listarComposiciones1();
                     });
                     Swal.fire({
@@ -4254,7 +4260,7 @@ function bajarComposicion1(idbaja) {
 
                 }
 
-            }).done(function(data) {
+            }).done(function (data) {
 
                 listarComposiciones1();
             });

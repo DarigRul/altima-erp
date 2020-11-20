@@ -103,6 +103,15 @@ public class DisenioMaterialServiceImpl implements IDisenioMaterialService {
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<Object[]> disenioMaterialFiltro() {
+		
+		List<Object[]> mv;
+		mv = em.createNativeQuery("{call  alt_pr_materiales_filtro}").getResultList();
+		return mv;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<DisenioLookup> findLookUps() {
 		// TODO Auto-generated method stub
 		return em.createNativeQuery("SELECT * FROM alt_disenio_lookup WHERE tipo_lookup = 'Pieza Trazo' AND estatus = 1 ;")
@@ -277,5 +286,35 @@ public class DisenioMaterialServiceImpl implements IDisenioMaterialService {
 	public List<Object[]> findMaterialByTipo(Long idTipoMaterial, Long idMaterial) {
 		// TODO Auto-generated method stub
 		return em.createNativeQuery("SELECT adm.id_material,adm.nombre_material FROM alt_disenio_material adm LEFT JOIN alt_disenio_calidad adc on adc.id_material=adm.id_material AND adc.tipo_material=2 AND (adc.estatus=2 OR adm.calidad=0) INNER JOIN alt_disenio_lookup adl on adl.id_lookup=adm.id_tipo_material AND adl.tipo_lookup='Material' and adl.id_lookup="+idTipoMaterial+" where adm.id_material<>"+idMaterial+" AND adm.estatus=1").getResultList();
+	}
+
+	@Override
+	@Transactional
+	public Integer disponibles (Long id) {
+		System.out.println("SELECT "+
+		" IF (SUM( multi.existencia ) IS NULL,0,SUM( multi.existencia)) \r\n" + 
+		" FROM "+
+		" alt_amp_multialmacen as multi "+
+		" WHERE "+
+		" 1=1 "+
+		" AND multi.id_articulo = "+id+
+		" AND multi.tipo='material'");
+		String re = em.createNativeQuery("SELECT "+
+		" IF (SUM( multi.existencia ) IS NULL,0,SUM( multi.existencia)) \r\n" + 
+		" FROM "+
+		" alt_amp_multialmacen as multi "+
+		" WHERE "+
+		" 1=1 "+
+		" AND multi.id_articulo = "+id+
+		" AND multi.tipo='material'")
+				.getSingleResult().toString();
+
+		if (re.isEmpty() || re== null) {
+			return 0;
+		} else {
+			double d = Double.parseDouble(re);
+			return (int) d;
+		}
+
 	}
 }

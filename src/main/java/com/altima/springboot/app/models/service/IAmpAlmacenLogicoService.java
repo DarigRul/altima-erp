@@ -19,4 +19,6 @@ public interface IAmpAlmacenLogicoService {
 
 	List<AmpAlmacenLogico> findAMPLogicoDuplicate(Long AlmacenFisico, String Nombre, Long Entrada, Long Salida);
 
+	boolean existHabilitacion();
+	boolean existMaterial();
 }

@@ -71,9 +71,10 @@ function muestraPrendas() {
 		for (i = 0; i < data.length; i++) {
 			var id = data[i][1];
 			var name = data[i][2];
+			var id_familia_prenda=data[i][6];
 			// $("#prenda").append("<option
 			// value='"+name+"'>"+name+"</option>");
-			$("#prenda").append("<option value='" + id + "'>" + name + "</option>");
+			$("#prenda").append("<option value='" + id +" "+id_familia_prenda+ "'>" + name + "</option>");
 
 		}
 		$('#prenda').selectpicker('refresh');

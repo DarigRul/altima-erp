@@ -28,10 +28,11 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Agenda <a data-toggle="modal" data-target="#agendarCita" id="nueva-cita" class="btn btn-sm icon-btn btn-altima text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>A&ntilde;adir evento</a>&nbsp;
-                                <a data-toggle="modal" data-target="#agendarCitaMasiva" id="nueva-cita2" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-danger"></span>A&ntilde;adir evento recurrente</a>
-                                
-                                <a  onclick="imprimir()" class="btn btn-sm icon-btn btn-altima text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-print img-circle text-altima"></span>Imprimir</a>
+                            <h1>Agenda <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_AGENDA_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#agendarCita" id="nueva-cita"
+                                    class="btn btn-sm icon-btn btn-altima text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>A&ntilde;adir evento</a>&nbsp;
+                                <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_AGENDA_AÑADIR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#agendarCitaMasiva" id="nueva-cita2" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-danger"></span>A&ntilde;adir evento recurrente</a>
+
+                                <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_AGENDA_IMPRIMIR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="imprimir()" class="btn btn-sm icon-btn btn-altima text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-print img-circle text-altima"></span>Imprimir</a>
                             </h1>
                         </div>
                         <div class="modal fade" id="agendarCita">
@@ -48,34 +49,32 @@
                                                 <input type="text" class="form-control" id="newtitle" placeholder="Llamada">
                                             </div>
                                             <div class="form-group">
-												<label for="status">Empresa</label> <select
-													id="empresa1" class="form-control selectpicker empresa1"
-													data-live-search="true" data-live-normalize="true" title="Seleccione uno...">
+                                                <label for="status">Empresa</label> <select id="empresa1" class="form-control selectpicker empresa1" data-live-search="true" data-live-normalize="true" title="Seleccione uno...">
 													<option value="0">No aplica</option>
 													<option th:each="empresa: ${empresa}"
 														th:value="${empresa.idCliente}"
 														th:text="${empresa.Nombre}"></option>
 
 												</select>
-											</div>
+                                            </div>
                                             <div class="form-group">
                                                 <label for="descripcion">Descripci&oacute;n:</label>
                                                 <input type="text" class="form-control" id="description" placeholder="Especificar..."> </div>
                                             <div class="form-group">
                                                 <label for="feini">Fecha inicial:</label>
-                                                <input type="datetime-local" max="2030-01-01"  class="form-control" id="startdateandtime"> </div>
+                                                <input type="datetime-local" max="2030-01-01" class="form-control" id="startdateandtime"> </div>
                                             <div class="form-group">
                                                 <label for="fefi">Fecha final:</label>
                                                 <input type="datetime-local" max="2030-01-01" class="form-control" id="enddateandtime"> </div>
-											
-											 
+
+
                                             <div class="form-group">
                                                 <label for="fefi">Color:</label>
                                                 <input type="color" class="form-control" id="color">
 
                                             </div>
-                                            
-                                           
+
+
 
 
                                             <input type="hidden" name="idCalendario" id="idCalendario" />
@@ -105,29 +104,27 @@
                                                 <input id="title_even" type="text" class="form-control" placeholder="Llamada">
                                             </div>
                                             <div class="form-group col-md-12">
-												<label for="status">Empresa</label> <select
-												 id="empresa_even"  name="empresa_even"  class="form-control selectpicker empresa_even"
-													data-live-search="true" data-live-normalize="true" title="Seleccione uno...">
+                                                <label for="status">Empresa</label> <select id="empresa_even" name="empresa_even" class="form-control selectpicker empresa_even" data-live-search="true" data-live-normalize="true" title="Seleccione uno...">
 													<option value="0">No aplica</option>
 													<option th:each="empresa: ${empresa}"
 														th:value="${empresa.idCliente}"
 														th:text="${empresa.Nombre}"></option>
 
 												</select>
-											</div>
+                                            </div>
                                             <div class="form-group col-md-12">
                                                 <label for="descripcion">Descripci&oacute;n:</label>
-                                                <input id="desc_even"  type="text" class="form-control" placeholder="Especificar..."> </div>
+                                                <input id="desc_even" type="text" class="form-control" placeholder="Especificar..."> </div>
                                             <div class="form-group col-md-12">
                                                 <label id="semana1" class="control-label">Semana actual</label>
                                                 <div class="form-group-lg">
                                                     <div class="column_2" style="text-align: center;">
-                                                    
-                                                      <span style="margin-right: 20px;">
+
+                                                        <span style="margin-right: 20px;">
                                                         <input id ="d0" disabled name="d0"  type="checkbox" />
                                                       <label class="checkbox-inline">Domingo</label>
                                                       </span>
-                                                      
+
                                                         <span style="margin-right: 20px;">
                                                         <input id ="d1" disabled name="d1" type="checkbox"/>
                                                       <label class="checkbox-inline">Lunes</label>
@@ -153,12 +150,12 @@
                                                       <label class="checkbox-inline">Viernes</label>
                                                       </span>
 
-                                                        <span >
+                                                        <span>
                                                         <input id ="d6" disabled name="d6" type="checkbox" />
                                                       <label class="checkbox-inline">S&aacute;bado</label>
                                                       </span>
 
-                                                      
+
 
                                                     </div>
                                                 </div>
@@ -167,12 +164,12 @@
                                                 <label id="semana2" class="control-label">Semana siguiente</label>
                                                 <div class="form-group-lg">
                                                     <div class="column_2" style="text-align: center;">
-                                                    
-                                                      <span style="margin-right: 20px;">
+
+                                                        <span style="margin-right: 20px;">
                                                         <input id ="dd0" disabled name="d0"  type="checkbox" />
                                                       <label class="checkbox-inline">Domingo</label>
                                                       </span>
-                                                      
+
                                                         <span style="margin-right: 20px;">
                                                         <input id ="dd1" disabled name="d1" type="checkbox"/>
                                                       <label class="checkbox-inline">Lunes</label>
@@ -198,27 +195,27 @@
                                                       <label class="checkbox-inline">Viernes</label>
                                                       </span>
 
-                                                        <span >
+                                                        <span>
                                                         <input id ="dd6" disabled name="d6" type="checkbox" />
                                                       <label class="checkbox-inline">S&aacute;bado</label>
                                                       </span>
 
-                                                      
+
 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="feini">Hora inicial:</label>
-                                                <input type="time"  min="06:00" max="22:00" id ="timestart_even" name ="timestart_even" class="form-control"> </div>
+                                                <input type="time" min="06:00" max="22:00" id="timestart_even" name="timestart_even" class="form-control"> </div>
                                             <div class="form-group col-md-6">
                                                 <label for="fefi">Hora final:</label>
-                                                <input id ="timeend_even" name ="timeend_even" min="06:00" max="22:00" type="time" class="form-control"> </div>
+                                                <input id="timeend_even" name="timeend_even" min="06:00" max="22:00" type="time" class="form-control"> </div>
 
-											
-											<div class="form-group col-md-12">
+
+                                            <div class="form-group col-md-12">
                                                 <label for="fefi">Color:</label>
-                                                <input id="color2"  type="color" class="form-control">
+                                                <input id="color2" type="color" class="form-control">
 
                                             </div>
                                             <input type="hidden" name="idCalendario2" id="idCalendario2" />
@@ -226,7 +223,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <a data-dismiss="modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-                                       
+
                                         <a id="submit-modal2" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agendar</a>
                                     </div>
                                 </div>
@@ -294,7 +291,7 @@
         $('#navVenta').addClass('active');
         $('#navVenta1').addClass('active');
     </script>
-   
+
 </body>
 
 </html>

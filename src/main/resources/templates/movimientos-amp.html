@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-	<title id="pageTitle">Entradas y Salidas | Altima</title>
+    <title id="pageTitle">Entradas y Salidas | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
@@ -22,7 +22,10 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Entradas y Salidas <a th:href="@{/agregar-movimientos-amp}"><button class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar inventario"><i class="fas fa-plus"></i></button></a></h1>
+                            <h1>Entradas y Salidas
+                                <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/agregar-movimientos-amp}"><button class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar inventario"><i class="fas fa-plus"></i></button></a>
+                                <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_TRASPASO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/traspasos-multialmacen-amp'}" class="btn btn-sm icon-btn btn-altima text-white mr-auto"
+                                    type="submit"><span class="btn-glyphicon spancircle fas fa-exchange-alt img-circle text-altima"></span>Traspasos</a></h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -38,48 +41,47 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                <div class="row">
-						<div class="col-12">
-							<!-- Default box -->
-							<div class="card">
-								<div class="card-header bg-altima">
-									<h3 class="card-title">Listado de entradas y salidas</h3>
-								</div>
-								<div class="card-body">
-									<table class="table tablaGeneral table-striped table-bordered" style="width:100%">
-										<thead>
-											<tr>
-												<th>Folio</th>
-												<th>Fecha</th>
-												<th>Movimiento</th>
-												<th>Concepto</th>
-												<th>Almac&eacute;n</th>
-												<th>Referencias</th>
-												<th>Acciones</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="movimiento : ${movimientos}">
-												<td th:text="${movimiento.idText}"></td>
-												<td th:text="${movimiento.fechaDocumento}">15/06/20 14:00</td>
-												<td th:text="${movimiento.movimiento}">Salida</td>
-												<td th:text="${movimiento.concepto}">Salida a corte</td>
-												<td th:text="${movimiento.nombreAlmacenLogico}">Apartados</td>
-												<td th:text="${movimiento.referencias}">PED0048</td>
-												<td class="text-center">
-													<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
-													<button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-													<button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<!-- /.card-body -->
-							</div>
-							<!-- /.card -->
-						</div>
-					</div>
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de entradas y salidas</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Fecha</th>
+                                                <th>Movimiento</th>
+                                                <th>Concepto</th>
+                                                <th>Almac&eacute;n</th>
+                                                <th>Referencias</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="movimiento : ${movimientos}">
+                                                <td th:text="${movimiento.idText}"></td>
+                                                <td th:text="${movimiento.fechaDocumento}">15/06/20 14:00</td>
+                                                <td th:text="${movimiento.movimiento}">Salida</td>
+                                                <td th:text="${movimiento.concepto}">Salida a corte</td>
+                                                <td th:text="${movimiento.nombreAlmacenLogico}">Apartados</td>
+                                                <td th:text="${movimiento.referencias}">PED0048</td>
+                                                <td class="text-center">
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top"
+                                                        data-content="Ver detalles"><i class="fas fa-info"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
                 </div>
                 <!-- Main row -->
             </section>
@@ -90,14 +92,15 @@
     </div>
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/tablaGeneral.js"></script>
-	<script>
-		$('#iComercial').removeClass('text-altima');
-		$('#navComercial').addClass('active-altima');
-		$('#menuComercial').addClass('menu-open');
-		$('#menuAMP').addClass('menu-open');
-		$('#navAMP').addClass('active');
-		$('#navAMPEntSal').addClass('active');
-	</script>
+
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#navComercial').addClass('active-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#menuAMP').addClass('menu-open');
+        $('#navAMP').addClass('active');
+        $('#navAMPEntSal').addClass('active');
+    </script>
 </body>
 
 </html>

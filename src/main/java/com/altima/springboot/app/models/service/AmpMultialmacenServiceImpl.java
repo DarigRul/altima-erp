@@ -25,8 +25,8 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 
 	@Override
 	@Transactional
-	public void save(AmpMultialmacen multialmacen){
-		if(multialmacen.getExistencia()<0){
+	public void save(AmpMultialmacen multialmacen) {
+		if (multialmacen.getExistencia() < 0) {
 			System.out.println("si entra al error");
 			throw new RuntimeException("La cantidad debe ser mayor o igual a 0");
 		}
@@ -62,9 +62,13 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 	@Override
 	@Transactional
 	public List<Object[]> findAllAMPLogicItem(Long articulo, String tipo) {
-		return em.createNativeQuery(
-				"SELECT am.id_multialmacen,al.nombre_almacen_logico,am.id_articulo FROM alt_amp_multialmacen  am, alt_amp_almacen_logico al where am.id_almacen_logico=al.id_almacen_logico and am.id_articulo="
-						+ articulo + " and am.tipo='" + tipo + "'")
+
+		return em
+				.createNativeQuery("" + "SELECT\r\n" + "	am.id_multialmacen,\r\n"
+						+ "	al.nombre_almacen_logico,\r\n" + "	am.id_articulo,\r\n" + "	am.existencia,al.tipo,al.id_almacen_fisico \r\n"
+						+ "FROM\r\n" + "	alt_amp_multialmacen am,\r\n" + "	alt_amp_almacen_logico al \r\n"
+						+ "WHERE\r\n" + "	am.id_almacen_logico = al.id_almacen_logico \r\n"
+						+ "	AND am.id_articulo = " + articulo + " \r\n" + "	AND am.tipo = '" + tipo + "'")
 				.getResultList();
 	}
 
@@ -82,7 +86,8 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 	@Transactional
 	public List<ArticulosMultialmacenDto> findArticulosByMultialmacen(Long idAlmacenLogico) {
 		// TODO Auto-generated method stub
-		return em.createNativeQuery("call alt_pr_articulos_multialmacen("+idAlmacenLogico+")",ArticulosMultialmacenDto.class).getResultList();
+		return em.createNativeQuery("call alt_pr_articulos_multialmacen(" + idAlmacenLogico + ")",
+				ArticulosMultialmacenDto.class).getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -90,15 +95,56 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 	@Transactional
 	public List<EntradasSalidasDTO> findAllMovimientos() {
 		// TODO Auto-generated method stub
-		return em.createNativeQuery("call alt_pr_movimientos_amp()",EntradasSalidasDTO.class).getResultList();
+		return em.createNativeQuery("call alt_pr_movimientos_amp()", EntradasSalidasDTO.class).getResultList();
 	}
 
 	@Override
 	@Transactional
 	public Long findIdMultialmacen(Long idAlmacenLogico, Long idArticulo, String tipo) {
 		// TODO Auto-generated method stub
-		return repository.findByIdAlmacenLogicoAndTipoAndIdArticulo(idAlmacenLogico, tipo, idArticulo).getIdAMultialmacen();
+		return repository.findByIdAlmacenLogicoAndTipoAndIdArticulo(idAlmacenLogico, tipo, idArticulo)
+				.getIdAMultialmacen();
 	}
 
+	@Override
+	@Transactional
+	public Integer disponibles(Long id, String materia) {
+
+		String re = em.createNativeQuery(
+				"" + "SELECT\r\n" + "	IF (SUM( multi.existencia ) IS NULL,0,SUM( multi.existencia)) \r\n" + "FROM\r\n"
+						+ "	alt_amp_almacen_logico AS almacen,\r\n" + "	alt_amp_multialmacen AS multi \r\n"
+						+ "WHERE\r\n" + "	multi.id_almacen_logico = almacen.id_almacen_logico \r\n"
+						+ "	AND multi.tipo = '" + materia + "' \r\n" + "	AND multi.id_articulo =" + id + "\r\n"
+						+ "	AND almacen.tipo !=2\r\n" + "	AND almacen.tipo !=3")
+				.getSingleResult().toString();
+
+		if (re.isEmpty() || re == null) {
+			return 0;
+		} else {
+			double d = Double.parseDouble(re);
+			return (int) d;
+		}
+
+	}
+
+	@Override
+	@Transactional
+	public Float existenciaArticuloByAlmacen(Long idAlmacenLogico, Long idArticulo, String Tipo) {
+		// TODO Auto-generated method stub
+		return (Float) em
+				.createNativeQuery(
+						"call alt_pr_existencia_articulo(" + idAlmacenLogico + "," + idArticulo + ",'" + Tipo + "')")
+				.getSingleResult();
+	}
+
+	@Override
+	@Transactional
+	public String existArticuloInAlmacen(Long idAlmacenLogico, Long idArticulo, String tipo) {
+		// TODO Auto-generated method stub
+		return (String) em.createNativeQuery(
+				"SELECT CASE WHEN EXISTS (SELECT*FROM alt_amp_multialmacen aam WHERE aam.id_almacen_logico=:idAlmacenLogico AND aam.id_articulo=:idArticulo AND aam.tipo=:tipo) THEN 'true' ELSE 'false' END")
+				.setParameter("idAlmacenLogico", idAlmacenLogico).setParameter("idArticulo", idArticulo)
+				.setParameter("tipo", tipo).getSingleResult();
+	}
 
 }

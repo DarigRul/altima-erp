@@ -10,6 +10,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -49,6 +50,7 @@ public class ConsumoTallaPrenda {
 	@Autowired
 	private IProduccionConsumoTallaEntretelaService EntretelaService;
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_CONSUMO"})
 	@GetMapping("/consumo-talla-prenda/{id}")
 	public String vista (@PathVariable(value = "id") Long id, Model model) {
 		

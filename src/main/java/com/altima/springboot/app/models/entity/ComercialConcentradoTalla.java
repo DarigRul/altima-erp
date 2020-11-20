@@ -46,6 +46,9 @@ public class ComercialConcentradoTalla implements Serializable{
 	
 	@Column(name="especificacion")
 	private String Especificacion;
+	
+	@Column(name="id_familia_prenda")
+	private String IdFamiliaPrenda;
 
 	public Long getId() {
 		return Id;
@@ -113,6 +116,14 @@ public class ComercialConcentradoTalla implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getIdFamiliaPrenda() {
+		return IdFamiliaPrenda;
+	}
+
+	public void setIdFamiliaPrenda(String idFamiliaPrenda) {
+		IdFamiliaPrenda = idFamiliaPrenda;
 	}
 	
 	

@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -54,6 +57,7 @@ public class ExpedienteController {
 	private IComercialTotalRazonSocialService totalService;
 
 	// Metodo de Listar
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_LISTAR"})
 	@GetMapping("/expediente")
 	public String expediente(Model model) {
 		model.addAttribute("clientes", clienteservice.findAll(null));
@@ -62,6 +66,7 @@ public class ExpedienteController {
 	}
 
 	// Metodo para imprimir la informacion general
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_IGENERAL"})
 	@GetMapping("/expediente-imprimir-informacion-general/{id}")
 	public String imprimirInformacionGeneral(@PathVariable(value = "id") Long id, Map<String, Object> model, Model m) {
 		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
@@ -71,6 +76,7 @@ public class ExpedienteController {
 	}
 
 	// Metodo para imprimir la informacion general
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_COORDINADOS"})
 	@GetMapping("/expediente-imprimir-coordinados/{id}")
 	public String imprimirCoordinados(@PathVariable(value = "id") Long id, Model model) {
 		model.addAttribute("coordinados", CoordinadoService.findAllEmpresa(id));
@@ -81,6 +87,7 @@ public class ExpedienteController {
 	}
 
 	// Metodo para imprimir el detalle de precios de un pedido
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_PRECIO"})
 	@GetMapping("/expediente-imprimir-detalle-precios/{id}")
 	public String listPrecios(@PathVariable(value = "id") Long id, Model model) {
 		List<Object[]> aux = bordadoService.findAllCoordinado(id);
@@ -101,6 +108,7 @@ public class ExpedienteController {
 	}
 
 	// Metodo para imprimir los empleados de un pedido
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_EMPLEADOS"})
 	@RequestMapping(value = { "/expediente-imprimir-empleados/{id}/{idcliente}" }, method = RequestMethod.GET)
 	public String listGeneral(@PathVariable(value = "id") Long id, @PathVariable(value = "idcliente") Long idcliente,
 			Model model) {
@@ -111,6 +119,7 @@ public class ExpedienteController {
 	}
 
 	// Metodo para imprimir el concentrado de prenas
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_PRENDA"})
 	@GetMapping("/expediente-imprimir-concentrado-prendas/{id}")
 	public String imprimirConcentradoPrendas(@PathVariable(value = "id") Long id, Model model) {
 		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
@@ -137,6 +146,7 @@ public class ExpedienteController {
 	}
 	
 	//Metodo para imprimir un concetrado de tallas 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_TALLAS"})
 	@GetMapping("/expediente-imprimir-concentrado-por-tallas/{id}")
 	public String imprimirTallas(Model model, @PathVariable("id") Long idpedido, Model m) {
 		List<String> list = new ArrayList<>();
@@ -163,6 +173,7 @@ public class ExpedienteController {
 	
 	
 	//Metodo para imprimir un concetrado de tallas 
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_RAZONSOCIAL"})
 	@GetMapping("/expediente-imprimir-totales-por-razon-social/{id}")
 	public String imprimirTotalesPorRazonSocial(@PathVariable(value = "id") Long id, Map<String, Object> model) {
 		model.put("lisTotal", totalService.totalRazon(id));
@@ -197,4 +208,21 @@ public class ExpedienteController {
 		return "detalle-expediente";
 	}
 
+	
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_ELIMINAR"})
+	@GetMapping("/patch-expediente/{id}")
+	public String patchExpediente(@PathVariable Long id) {
+		Date date = new Date();
+
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+
+        String sDate = hourdateFormat.format(date);
+		ComercialPedidoInformacion pedido= cargaPedidoService.findOne(id);
+		pedido.setEstatus("3");
+		pedido.setFechaCierre(sDate);
+		cargaPedidoService.save(pedido);
+		return "redirect:/expediente";
+	}
 }

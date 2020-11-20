@@ -1,13 +1,13 @@
 <div class="small-box bg-success">
     <div class="inner">
         <h3>L&iacute;nea</h3>
-        <button data-toggle="modal" data-target="#detalleLinea" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#detalleLinea" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
     </div>
     <div class="icon">
         <i class="ion ion-ios-pricetags-outline"></i>
     </div>
     <a class="small-box-footer">
-        <button onclick="agregarLinea()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarLinea()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
     </a>
 </div>
 <!-- Modal Marcas Tabla -->
@@ -15,48 +15,31 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
         <div class="modal-content" id="contenedorTabla">
             <div class="modal-header bg-success">
-                <h5 class="modal-title" id="exampleModalLongTitle">Listado de lineas <button onclick="agregarLinea()" class="btn btn-light btn-circle btn-sm text-danger popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de lineas <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarLinea()" class="btn btn-light btn-circle btn-sm text-danger popoverxd"
+                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                 <table class="table table-striped table-bordered tablaAMP" style="width:100%;">
+                <table class="table table-striped table-bordered tablaAMP" id="tableLinea" style="width:100%;">
                     <thead>
                         <tr>
-                        	<th>Nomenclatura</th>
-                            <th>Descripci&oacute;n</th>
-                            <th>Acciones</th>
-                           <!--  <th></th>--->
+                            <th>Clave</th>
+                            <th>Nombre</th>
+                            <th>Clasificaci&oacute;n</th>
+                            <th class="text-center">Acciones</th>
+
                         </tr>
                     </thead>
-                 	<tbody>
-                 		<tr>
-                 			<td>C</td>
-                 			<td>Corto</td>
-                 			<td></td>
-                 		</tr>
-                 		<tr>
-                 			<td>L</td>
-                 			<td>Largo</td>
-                 			<td></td>
-                 		</tr>
-                 		<tr>
-                 			<td>XXC</td>
-                 			<td>Extra corto</td>
-                 			<td></td>
-                 		</tr>
-                 		<tr>
-                 			<td>XXL</td>
-                 			<td>Extra largo</td>
-                 			<td></td>
-                 		</tr>
-                 		<tr>
-                 			<td>R</td>
-                 			<td>Regular</td>
-                 			<td></td>
-                 		</tr>
+                    <tbody>
+                        <tr>
+                            <td>Clave</td>
+                            <td>Nombre</td>
+                            <td>Clasificaci&oacute;n</td>
+                            <td class="text-center">Acciones</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

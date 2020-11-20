@@ -3,6 +3,7 @@ package com.altima.springboot.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ public class NotificacionDisenioController {
 	@Autowired
 	IDisenioNotificacionService NotificacionService;
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_NOTIFICACION_LISTAR"})
 	@GetMapping("notificaciones-diseno")
 	public String notiDisenio(Model model) {
 
@@ -23,6 +25,7 @@ public class NotificacionDisenioController {
 		return "notificaciones-diseno";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_NOTIFICACION_DETALLE"})
 	@GetMapping("/notificaciones/solicitud-gerencial/{id}")
 	public String listPre(Model model, @PathVariable(name = "id") Long Idsolicitud) {
 		if (Idsolicitud != null) {

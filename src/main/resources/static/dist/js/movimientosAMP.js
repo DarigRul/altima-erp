@@ -37,14 +37,34 @@ function listarConceptos(movimiento) {
 }
 
 window.onload = function () {
-    $('#almacenFisicoMovimiento').val("");
-    // let params = {
-    //     "Tipo": movimiento
-    // };
 
-    // let query = Object.keys(params)
-    //     .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-    //     .join('&');
+    var today = new Date();
+    var sevendays = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    var dd2 = sevendays.getDate() - 7;
+    var mm2 = sevendays.getMonth() + 1; //January is 0!
+    var yyyy2 = sevendays.getFullYear();
+    if (dd2 < 10) {
+        dd2 = '0' + dd2
+    }
+    if (mm2 < 10) {
+        mm2 = '0' + mm2
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+    sevendays = yyyy2 + '-' + mm2 + '-' + dd2;
+    document.getElementById("fechaMovimiento").setAttribute("max", today);
+    document.getElementById("fechaMovimiento").setAttribute("min", sevendays);
+
+    $('#almacenFisicoMovimiento').val("");
 
     let url = '/get-all-amp-logico';
 
@@ -61,7 +81,7 @@ window.onload = function () {
         .then(function (data) {
             data.forEach(function (data) {
                 //aqui va el codigo
-                $("#almacenLogicoMovimiento").append("<option value='" + data[0] + "' data-id='" + data[3] + "'>" + data[1] + "</option>")
+                $("#almacenLogicoMovimiento").append("<option value='" + data[0] + "' data-id='" + data[3] + "' data-name='" + data[2] + "' data-entrada='" + data[6] + "' data-salida='" + data[4] + "'>" + data[1] + "</option>")
             })
             $('#almacenLogicoMovimiento').selectpicker('refresh');
         })
@@ -74,7 +94,8 @@ window.onload = function () {
 $('#almacenLogicoMovimiento').change(function () {
     $('#articuloMovimiento option').remove();
     $('#articuloMovimiento').selectpicker('refresh');
-
+    $(`#conceptoMovimiento option[value=${$(this).children('option:selected').data((document.getElementById('tipoMovimiento').value=="Entrada"?'entrada':'salida'))}]`).prop('selected', true);
+    $('#conceptoMovimiento').selectpicker('refresh');
     $("#almacenFisicoMovimiento").val($(this).children('option:selected').data('id'));
     let params = {
         "idAlmacenLogico": $("#almacenLogicoMovimiento").val()
@@ -99,65 +120,137 @@ $('#almacenLogicoMovimiento').change(function () {
         .then(function (data) {
             data.forEach(function (data) {
                 //aqui va el codigo
-                $("#articuloMovimiento").append("<option value='" + data.idMaterial + "' data-tipo='" + data.tipo + "'data-idText='" + data.idText + "'data-unidadMedida='" + data.unidadMedida + "'>" + data.nombreMaterial + "</option>")
+                $("#articuloMovimiento").append("<option value='" + data.idMaterial + "' data-tipo='" + data.tipo + "'data-idText='" + data.idText + "'data-unidadMedida='" + data.unidadMedida + "'>" + data.idText + '-' + data.nombreMaterial + "</option>")
             })
             $('#articuloMovimiento').selectpicker('refresh');
         })
         .catch(function (error) {
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         });
+
 });
 
 //Agregamos el Articulo
 $('#agregarArticulo').click(function () {
-    var idText = $('#articuloMovimiento').children('option:selected').data('idtext');
-    var unidadMedida = $('#articuloMovimiento').children('option:selected').data('unidadmedida');
-    var descripcion = $('#articuloMovimiento').children('option:selected').text();
-    var tipo = $('#articuloMovimiento').children('option:selected').data('tipo');
-    var id = $('#articuloMovimiento').val();
-    var cantidad = $('#cantidadMovimiento').val();
+    if ($("#tipoMovimiento").val() == "Salida") {
+        var idText = $('#articuloMovimiento').children('option:selected').data('idtext');
+        var unidadMedida = $('#articuloMovimiento').children('option:selected').data('unidadmedida');
+        var descripcion = $('#articuloMovimiento').children('option:selected').text();
+        var tipo = $('#articuloMovimiento').children('option:selected').data('tipo');
+        var id = $('#articuloMovimiento').val();
+        var cantidad = $('#cantidadMovimiento').val();
+        var lote = $('#rollo').children('option:selected').data('lote');
+        var rollo = $('#rollo').children('option:selected').data('idtext');
+        var idRollo = $("#rollo").val();
+    } else {
+        var idText = $('#articuloMovimiento').children('option:selected').data('idtext');
+        var unidadMedida = $('#articuloMovimiento').children('option:selected').data('unidadmedida');
+        var descripcion = $('#articuloMovimiento').children('option:selected').text();
+        var tipo = $('#articuloMovimiento').children('option:selected').data('tipo');
+        var id = $('#articuloMovimiento').val();
+        var cantidad = $('#cantidadMovimiento').val();
+        var lote = $("#lote").val();
+        var rollo = null;
+        var idRollo = null;
+    }
+
     console.log(id);
+
     var temp = {
         'idText': idText,
         'unidadMedida': unidadMedida,
         'descripcion': descripcion,
         'tipo': tipo,
         'cantidad': cantidad,
-        'id': id
+        'id': id,
+        'lote': lote,
+        'rollo': rollo,
+        'idRollo': idRollo
     }
 
-    $('#articuloMovimiento').find('[value='+ temp.id +']').remove();
-    $('#articuloMovimiento').selectpicker('refresh');
-
-    const found = movimientos.find(element => element.idText==temp.idText);
-    if (found!=null) {
-        return false;
-    }
 
     //validacion
-    if (id == null || cantidad == null || id == "" || cantidad == "") {
+    if (id == null || cantidad == null || id == "" || cantidad == "" || $('#tipoMovimiento').val() == null || $('#tipoMovimiento').val() == "") {
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'Todos los campos deben de estar llenos!',
         })
-    } else {
+    }
+    else if((lote==null || lote == "") && $('#tipoMovimiento').val() == 'Entrada' && tipo=='tela'){
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Todos los campos deben de estar llenos!',
+        })
+    }
+    else if((rollo==null || rollo == "") && $('#tipoMovimiento').val() == 'Salida' && tipo=='tela') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Todos los campos deben de estar llenos!',
+        })
+    } 
+        else {
+        $('#tipoMovimiento').prop("disabled", true);
+        $('#almacenLogicoMovimiento').prop("disabled", true);
+        $('#tipoMovimiento').selectpicker('refresh');
+        $('#almacenLogicoMovimiento').selectpicker('refresh');
         if (cantidad <= 0) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
                 text: 'La cantidad debe ser mayor a 0!',
             })
-        } else {
-            var fila = table.row.add(
-                [cantidad,
-                    idText,
-                    descripcion,
-                    unidadMedida,
-                    '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>' +
-                    '<a data-toggle="modal" data-target="#cambioProveedor" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Proveedor"><i class="fas fa-store text-white" style="margin-left: -2px;"></i></a>']
-            ).draw();
-            movimientos.push(temp);
+        }
+
+        else {
+            $.ajax({
+                type: "Get",
+                url: "/getExistenciaArticulo",
+                data: {
+                    idAlmacenLogico: $('#almacenLogicoMovimiento').val(),
+                    idArticulo: id,
+                    Tipo: tipo
+
+                },
+                success: function (response) {
+                    if(tipo!='tela'){
+                        $('#articuloMovimiento').find('[value=' + temp.id + ']').remove();
+                        $('#articuloMovimiento').selectpicker('refresh');
+                    }
+                    if ((response - cantidad) < 0 && $('#tipoMovimiento').val() == 'Salida') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'La cantidad existente es: ' + response
+                        })
+                        return false;
+                    }
+                    else if (($('#rollo').children('option:selected').data('cantidad') - cantidad) < 0 && $('#tipoMovimiento').val() == 'Salida'&&tipo=='tela') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'La cantidad existente es: ' + $('#rollo').children('option:selected').data('cantidad')
+                        })
+                        return false;
+                    }
+                    else {
+                        var fila = table.row.add(
+                            [cantidad,
+                                idText,
+                                descripcion,
+                                rollo == null ? 'N/A' : rollo,
+                                unidadMedida,
+                                tipo === 'tela' ? lote : 'N/A',
+                                '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>' +
+                                '<a data-toggle="modal" data-target="#cambioProveedor" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Proveedor"><i class="fas fa-store text-white" style="margin-left: -2px;"></i></a>']
+                        ).draw();
+                        $("#lote").val('');
+                        movimientos.push(temp);
+                    }
+                }
+            });
         }
 
     }
@@ -165,11 +258,13 @@ $('#agregarArticulo').click(function () {
 });
 
 function deleteMovimiento(fila, id) {
-    // Se agrega al select
-    const found = movimientos.find(element => element.id+element.tipo==id);
+
+    const found = movimientos.find(element => element.id + element.tipo == id);
     console.log(found);
-    $("#articuloMovimiento").append("<option value='" + found.id + "' data-tipo='" + found.tipo + "'data-idText='" + found.idText + "'data-unidadMedida='" + found.unidadMedida + "'>" + found.descripcion + "</option>");
-    $('#articuloMovimiento').selectpicker('refresh');
+    if (found.tipo!='tela') {
+        $("#articuloMovimiento").append("<option value='" + found.id + "' data-tipo='" + found.tipo + "'data-idText='" + found.idText + "'data-unidadMedida='" + found.unidadMedida + "'>" + found.descripcion + "</option>");
+        $('#articuloMovimiento').selectpicker('refresh'); 
+    }
 
     // Se elimina el objeto del array de objetos
     var removeIndex = movimientos.map(function (item) { return item.id + item.tipo; }).indexOf(id);
@@ -187,8 +282,9 @@ $('#guardarMovimientos').click(function () {
     var tipoMovimiento = $('#tipoMovimiento').val()
     var concepto = $('#conceptoMovimiento').val()
     var idAlmacenLogico = $('#almacenLogicoMovimiento').val()
+    var idAlmacenFisico = $("#almacenLogicoMovimiento").children('option:selected').data('name')
     console.log(movimientos);
-    if (movimientos[0]==null || tipoMovimiento == null || concepto == null || idAlmacenLogico == null || fechaMovimiento == null || tipoMovimiento == "" || concepto == "" || idAlmacenLogico == "" || fechaMovimiento == "") {
+    if (movimientos[0] == null || tipoMovimiento == null || concepto == null || idAlmacenLogico == null || fechaMovimiento == null || tipoMovimiento == "" || concepto == "" || idAlmacenLogico == "" || fechaMovimiento == "") {
         Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -201,7 +297,8 @@ $('#guardarMovimientos').click(function () {
             'fechaMovimiento': fechaMovimiento,
             'tipoMovimiento': tipoMovimiento,
             'concepto': concepto,
-            'idAlmacenLogico': idAlmacenLogico
+            'idAlmacenLogico': idAlmacenLogico,
+            'idAlmacenFisico': idAlmacenFisico
         }
         movimientoCabecero.push(temp);
         if (temp.tipoMovimiento === 'Entrada') {
@@ -214,16 +311,51 @@ $('#guardarMovimientos').click(function () {
                     '_csrf': $('#token').val()
                 },
                 success: function (msg) {
+                    console.log(msg.data);
+                    console.log(JSON.stringify(movimientoCabecero));
+                    if (msg.mensaje == "Error") {
+                        Swal.fire({
 
-                    if (msg == "Error") {
-                        alert("Error en el servidor");
-                        $(location).attr('href', '/movimientos-amp')
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Un error ocurrio durante la entrada verifique los datos!',
+                            showConfirmButton: false,
+                            timer: 2500
+                        }).then((result) => {
+                            // Reload the Page
+                            $(location).attr('href', '/movimientos-amp')
+                        });
                     }
-                    $(location).attr('href', '/movimientos-amp')
+                    Swal.fire({
+
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Entrada generada correctamente!',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then((result) => {
+                        // Reload the Page
+                        const params = new URLSearchParams();
+                        params.append('listIdText', JSON.stringify(msg.data));
+                        params.append('format', "pdf");
+                        console.log(params);
+                        window.open("/rollotelabarcode?"+params);
+                        $(location).attr('href', '/movimientos-amp')
+                    });
                 },
                 error: (e) => {
-                    alert(e);
-                    $(location).attr('href', '/movimientos-amp')
+                    Swal.fire({
+
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Un error ocurrio durante la entrada verifique los datos!',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then((result) => {
+                        // Reload the Page
+                        $(location).attr('href', '/movimientos-amp')
+
+                    });
                 }
             });
         } else {
@@ -238,14 +370,46 @@ $('#guardarMovimientos').click(function () {
                 success: function (msg) {
 
                     if (msg == "Error") {
-                        alert("Error en el servidor");
-                        $(location).attr('href', '/movimientos-amp')
+                        Swal.fire({
+
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Un error ocurrio durante la salida verifique los datos!',
+                            showConfirmButton: false,
+                            timer: 2500
+                        }).then((result) => {
+                            // Reload the Page
+                            $(location).attr('href', '/movimientos-amp')
+
+                        });
+
                     }
-                    $(location).attr('href', '/movimientos-amp')
+                    Swal.fire({
+
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Salida generada correctamente!',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then((result) => {
+                        // Reload the Page
+                        $(location).attr('href', '/movimientos-amp')
+
+                    });
                 },
                 error: (e) => {
-                    alert(e);
-                    $(location).attr('href', '/movimientos-amp')
+                    Swal.fire({
+
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Un error ocurrio durante la salida verifique los datos!',
+                        showConfirmButton: false,
+                        timer: 2500
+                    }).then((result) => {
+                        // Reload the Page
+                        $(location).attr('href', '/movimientos-amp')
+
+                    });
                 }
             });
         }
@@ -254,3 +418,41 @@ $('#guardarMovimientos').click(function () {
 
 });
 
+$("#articuloMovimiento").change(function (e) {
+    e.preventDefault();
+    $('#rollo option').remove();
+    $('#rollo').selectpicker('refresh');
+    $("#lote").val('');
+    if ($(this).children('option:selected').data('tipo') === 'tela') {
+        $("#lote").prop("disabled", false);
+    } else {
+        $("#lote").prop("disabled", true);
+    }
+    //salida rollo
+    if ($("#tipoMovimiento").val() == 'Salida' && $(this).children('option:selected').data('tipo') == 'tela') {
+        $("#rollo").prop("disabled", false);
+        $("#lote").prop("disabled", true);
+        $.ajax({
+            type: "GET",
+            url: "/getRolloByidAlmacenFisico",
+            data: { 'idAlmacenFisico': $("#almacenLogicoMovimiento").children('option:selected').data('name'),'idTela':$(this).val()},
+            success: function (data) {
+                data.forEach(function (data) {
+                    $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText+ "-" + data.cantidad +"-"+ data.lote + "</option>")
+                })
+                $('#rollo').selectpicker('refresh');
+            }
+        });
+
+
+    } else {
+        $("#rollo").prop("disabled", true);
+        $('#rollo').selectpicker('refresh');
+
+    }
+});
+
+$("#rollo").change(function (e) {
+    e.preventDefault();
+    $('#cantidadMovimiento').val($(this).children('option:selected').data('cantidad'));
+});

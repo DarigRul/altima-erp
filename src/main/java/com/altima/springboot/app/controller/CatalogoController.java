@@ -5,7 +5,10 @@ import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
+import java.util.TimeZone;
+
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -196,6 +199,7 @@ public class CatalogoController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
+		Formatter fmt = new Formatter();
 		if (Color != null) {
 			DisenioLookup color = new DisenioLookup();
 			DisenioLookup ultimoid = null;
@@ -208,13 +212,13 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				color.setIdText("COL" + "1001");
+				color.setIdText("COL" + "0001");
 			} else {
-
+				System.out.println("entra");
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				color.setIdText("COL" + (cont + 1));
+				color.setIdText("COL" + fmt.format("%04d", (cont + 1)));
 			}
 
 			color.setNombreLookup(StringUtils.capitalize(Color));
@@ -239,13 +243,12 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				piezatrazo.setIdText("PZTR1001");
+				piezatrazo.setIdText("PZTR" + "0001");
 			} else {
-
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				piezatrazo.setIdText("PZTR" + (cont + 1));
+				piezatrazo.setIdText("PZTR" + fmt.format("%04d", (cont + 1)));
 			}
 
 			piezatrazo.setNombreLookup(StringUtils.capitalize(PiezaTrazo));
@@ -268,13 +271,12 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				familiaprenda.setIdText("FAMPR1001");
+				familiaprenda.setIdText("FAMPR"+"0001");
 			} else {
-
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				familiaprenda.setIdText("FAMPR" + (cont + 1));
+				familiaprenda.setIdText("FAMPR" + fmt.format("%04d", (cont + 1)));
 			}
 
 			familiaprenda.setNombreLookup(StringUtils.capitalize(FamiliaPrenda));
@@ -299,13 +301,13 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				familiagenero.setIdText("FAMGE1001");
+				familiagenero.setIdText("FAMGE" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				familiagenero.setIdText("FAMGE" + (cont + 1));
+				familiagenero.setIdText("FAMGE" + fmt.format("%04d", (cont + 1)));
 			}
 
 			familiagenero.setNombreLookup(StringUtils.capitalize(FamiliaGenero));
@@ -330,13 +332,13 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				instruccioncuidado.setIdText("INSTRCU1001");
+				instruccioncuidado.setIdText("INSTRCU" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				instruccioncuidado.setIdText("INSTRCU" + (cont + 1));
+				instruccioncuidado.setIdText("INSTRCU" + fmt.format("%04d", (cont + 1)));
 			}
 
 			instruccioncuidado.setNombreLookup(StringUtils.capitalize(InstruccionCuidado));
@@ -368,13 +370,13 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				unidadmedida.setIdText("UMED1001");
+				unidadmedida.setIdText("UMED" + "0001");
 			} else {
-
+				System.out.println("Entra");
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				unidadmedida.setIdText("UMED" + (cont + 1));
+				unidadmedida.setIdText("UMED" + fmt.format("%04d", (cont + 1)));
 			}
 
 			unidadmedida.setNombreLookup(StringUtils.capitalize(UnidadMedida));
@@ -399,13 +401,13 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				material.setIdText("MAT1001");
+				material.setIdText("MAT" + "0001");
 			} else {
-
+				System.out.println("Entra");
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				material.setIdText("MAT" + (cont + 1));
+				material.setIdText("MAT" + fmt.format("%04d", (cont + 1)));
 			}
 
 			material.setNombreLookup(StringUtils.capitalize(Material));
@@ -431,13 +433,13 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				marcador.setIdText("MARC1001");
+				marcador.setIdText("MARC" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				marcador.setIdText("MARC" + (cont + 1));
+				marcador.setIdText("MARC" + fmt.format("%04d", (cont + 1)));
 			}
 
 			marcador.setNombreLookup(StringUtils.capitalize(Marcador));
@@ -460,13 +462,13 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				composicion.setIdText("COMP1001");
+				composicion.setIdText("COMP" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				composicion.setIdText("COMP" + (cont + 1));
+				composicion.setIdText("COMP" + fmt.format("%04d", (cont + 1)));
 			}
 
 			composicion.setNombreLookup(StringUtils.capitalize(Composicion));
@@ -477,6 +479,7 @@ public class CatalogoController {
 			catalogo.save(composicion);
 			return "catalogos";
 		}
+		fmt.close();
 		return "redirect:catalogos";
 
 	}
@@ -484,20 +487,20 @@ public class CatalogoController {
 	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_AGREGAR"})
 	@RequestMapping(value= "/agregarPrecioComposicion", method = RequestMethod.POST)
 	public String guardarPrecioComposicion (@RequestParam("idPrenda")Long idPrenda, @RequestParam("idFamComposicion")Long idFamComposicion, @RequestParam("precio")String precio) {
-		
-		try {
-			DisenioPrecioComposicion precioComposicion = new DisenioPrecioComposicion();
+		DisenioPrecioComposicion precioComposicion = new DisenioPrecioComposicion();
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
+		try {
+			
 			
 			precioComposicion.setIdPrenda(idPrenda);
 			precioComposicion.setIdFamiliaComposicion(idFamComposicion);
 			precioComposicion.setPrecio(precio);
 			precioComposicion.setCreadoPor(auth.getName());
-			precioComposicion.setActualizadoPor(auth.getName());
+			//precioComposicion.setActualizadoPor(auth.getName());
 			precioComposicion.setFechaCreacion(dateFormat.format(date));
-			precioComposicion.setUltimaFechaModificacion(dateFormat.format(date));
+			//precioComposicion.setUltimaFechaModificacion(dateFormat.format(date));
 			precioComposicion.setEstatus("1");
 			
 			disenioComposicion.save(precioComposicion);
@@ -520,14 +523,12 @@ public class CatalogoController {
 		try {
 			DisenioPrecioComposicion precioComposicion = disenioComposicion.findOne(idPrecioComposicion);
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			Date date = new Date();
 			
 			precioComposicion.setIdPrenda(idPrenda);
 			precioComposicion.setIdFamiliaComposicion(idFamComposicion);
 			precioComposicion.setPrecio(precio);
 			precioComposicion.setActualizadoPor(auth.getName());
-			precioComposicion.setUltimaFechaModificacion(dateFormat.format(date));
+			precioComposicion.setUltimaFechaModificacion(currentDate());
 			
 			disenioComposicion.save(precioComposicion);
 			
@@ -594,6 +595,7 @@ public class CatalogoController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
+		Formatter fmt = new Formatter();
 		String[] result = new String[2];
 		if (FamiliaComposicion != null && FamiliaComposicion.length() > 0) {
 			DisenioLookup familiacomposicion = new DisenioLookup();
@@ -607,13 +609,13 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				familiacomposicion.setIdText("FAMCOMP1001");
+				familiacomposicion.setIdText("FAMCOMP" + "1001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				familiacomposicion.setIdText("FAMCOMP" + (cont + 1));
+				familiacomposicion.setIdText("FAMCOMP" + fmt.format("%04d", (cont + 1)));
 			}
 			familiacomposicion.setNombreLookup(StringUtils.capitalize(FamiliaComposicion));
 			familiacomposicion.setTipoLookup("Familia Composicion");
@@ -660,8 +662,6 @@ public class CatalogoController {
 			String UnidadMedida, String Material, String proveedor, String Marcador, String CodigoColor, String Posicion, String Simbolo,
 			String Composicion, String TipoMaterial, String CategoriaMaterial, @RequestParam(required = false) MultipartFile iconocuidado) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
 		DisenioLookup color = null;
 		DisenioLookup piezatrazo = null;
 		DisenioLookup familiaprenda = null;
@@ -677,7 +677,7 @@ public class CatalogoController {
 			color.setNombreLookup(StringUtils.capitalize(Color));
 			color.setAtributo1(CodigoColor);
 			color.setAtributo2(proveedor);
-			color.setUltimaFechaModificacion(dateFormat.format(date));
+			color.setUltimaFechaModificacion(currentDate());
 			color.setActualizadoPor(auth.getName());
 			catalogo.save(color);
 			return "redirect:catalogos";
@@ -685,7 +685,7 @@ public class CatalogoController {
 		if (PiezaTrazo != null && idLookup > 0) {
 			piezatrazo = catalogo.findOne(idLookup);
 			piezatrazo.setNombreLookup(StringUtils.capitalize(PiezaTrazo));
-			piezatrazo.setUltimaFechaModificacion(dateFormat.format(date));
+			piezatrazo.setUltimaFechaModificacion(currentDate());
 			piezatrazo.setActualizadoPor(auth.getName());
 			catalogo.save(piezatrazo);
 			return "redirect:catalogos";
@@ -693,7 +693,7 @@ public class CatalogoController {
 		if (FamiliaPrenda != null && idLookup > 0) {
 			familiaprenda = catalogo.findOne(idLookup);
 			familiaprenda.setNombreLookup(StringUtils.capitalize(FamiliaPrenda));
-			familiaprenda.setUltimaFechaModificacion(dateFormat.format(date));
+			familiaprenda.setUltimaFechaModificacion(currentDate());
 			familiaprenda.setAtributo1(Posicion);
 			familiaprenda.setActualizadoPor(auth.getName());
 			catalogo.save(familiaprenda);
@@ -702,7 +702,7 @@ public class CatalogoController {
 		if (FamiliaGenero != null && idLookup > 0) {
 			familiagenero = catalogo.findOne(idLookup);
 			familiagenero.setNombreLookup(StringUtils.capitalize(FamiliaGenero));
-			familiagenero.setUltimaFechaModificacion(dateFormat.format(date));
+			familiagenero.setUltimaFechaModificacion(currentDate());
 			familiagenero.setActualizadoPor(auth.getName());
 			catalogo.save(familiagenero);
 			return "redirect:catalogos";
@@ -710,7 +710,7 @@ public class CatalogoController {
 		if (FamiliaComposicion != null && idLookup > 0) {
 			familiacomposicion = catalogo.findOne(idLookup);
 			familiacomposicion.setNombreLookup(StringUtils.capitalize(FamiliaComposicion));
-			familiacomposicion.setUltimaFechaModificacion(dateFormat.format(date));
+			familiacomposicion.setUltimaFechaModificacion(currentDate());
 			familiacomposicion.setActualizadoPor(auth.getName());
 			catalogo.save(familiacomposicion);
 			return "redirect:catalogos";
@@ -718,7 +718,7 @@ public class CatalogoController {
 		if (InstruccionCuidado != null && idLookup > 0) {
 			instruccioncuidado = catalogo.findOne(idLookup);
 			instruccioncuidado.setNombreLookup(StringUtils.capitalize(InstruccionCuidado));
-			instruccioncuidado.setUltimaFechaModificacion(dateFormat.format(date));
+			instruccioncuidado.setUltimaFechaModificacion(currentDate());
 			instruccioncuidado.setActualizadoPor(auth.getName());
 			String uniqueFilename = null;
 			if(iconocuidado.getOriginalFilename().length()>1) {
@@ -736,7 +736,7 @@ public class CatalogoController {
 			unidadmedida = catalogo.findOne(idLookup);
 			unidadmedida.setNombreLookup(StringUtils.capitalize(UnidadMedida));
 			unidadmedida.setDescripcionLookup(Simbolo);
-			unidadmedida.setUltimaFechaModificacion(dateFormat.format(date));
+			unidadmedida.setUltimaFechaModificacion(currentDate());
 			unidadmedida.setActualizadoPor(auth.getName());
 			catalogo.save(unidadmedida);
 			return "redirect:catalogos";
@@ -744,7 +744,7 @@ public class CatalogoController {
 		if (Material != null && idLookup > 0) {
 			material = catalogo.findOne(idLookup);
 			material.setNombreLookup(StringUtils.capitalize(Material));
-			material.setUltimaFechaModificacion(dateFormat.format(date));
+			material.setUltimaFechaModificacion(currentDate());
 			material.setActualizadoPor(auth.getName());
 			material.setAtributo1(TipoMaterial);
 			System.out.println("Esta es la categoria:"+ CategoriaMaterial);
@@ -755,7 +755,7 @@ public class CatalogoController {
 		if (Marcador != null && idLookup > 0) {
 			marcador = catalogo.findOne(idLookup);
 			marcador.setNombreLookup(StringUtils.capitalize(Marcador));
-			marcador.setUltimaFechaModificacion(dateFormat.format(date));
+			marcador.setUltimaFechaModificacion(currentDate());
 			marcador.setActualizadoPor(auth.getName());
 			catalogo.save(marcador);
 			return "redirect:catalogos";
@@ -763,12 +763,21 @@ public class CatalogoController {
 		if (Composicion != null && idLookup > 0) {
 			composicion = catalogo.findOne(idLookup);
 			composicion.setNombreLookup(StringUtils.capitalize(Composicion));
-			composicion.setUltimaFechaModificacion(dateFormat.format(date));
+			composicion.setUltimaFechaModificacion(currentDate());
 			composicion.setActualizadoPor(auth.getName());
 			catalogo.save(composicion);
 			return "redirect:catalogos";
 		}
 		return "redirect:catalogos";
+	}
+
+	private String currentDate() {
+		Date date = new Date();
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+		String sDate = hourdateFormat.format(date);
+		return sDate;
 	}
 
 }

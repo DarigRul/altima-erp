@@ -2,7 +2,7 @@
 <div class="small-box bg-altima">
     <div class="inner">
         <h3>Empresa/Unidad de Negocio</h3>
-        <button onclick="listarEmpresa()" data-toggle="modal" data-target="#empresaRH" class="btn btn-link"
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="listarEmpresa()" data-toggle="modal" data-target="#empresaRH" class="btn btn-link"
             id="btnEmpresaDetalle" style="color: #ffffff!important; padding-left: 1px;"><i
                 class="fas fa-info-circle"></i> Detalle</button>
     </div>
@@ -10,7 +10,7 @@
         <i class="fas fa-building"></i>
     </div>
     <a class="small-box-footer">
-        <button onclick="agregarEmpresa()" class="btn btn-link" style="color: #ffffff!important">Agregar <i
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarEmpresa()" class="btn btn-link" style="color: #ffffff!important">Agregar <i
                 class="fas fa-plus-circle"></i></button>
     </a>
 </div>
@@ -19,8 +19,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalCuidadoMobile">
         <div class="modal-content" id="contenedorTabla1">
             <div class="modal-header bg-altima">
-                <h5 class="modal-title" id="exampleModalLongTitle">Empresa/Unidad de Negocio <button
-                        onclick="agregarEmpresa()" class="btn btn-light btn-circle btn-sm popoverxd"
+                <h5 class="modal-title" id="exampleModalLongTitle">Empresa/Unidad de Negocio <button th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarEmpresa()" class="btn btn-light btn-circle btn-sm popoverxd"
                         data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i
                             class="fas fa-plus text-altima"></i></button></h5>
                 <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">

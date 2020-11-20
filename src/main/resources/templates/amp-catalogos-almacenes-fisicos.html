@@ -1,13 +1,14 @@
 <div class="small-box bg-success">
     <div class="inner">
         <h3>Almacenes f&iacute;sicos</h3>
-        <button data-toggle="modal" data-target="#detalleAlmacenesFisicos" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#detalleAlmacenesFisicos" class="btn btn-link text-white"
+            style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
     </div>
     <div class="icon">
         <i class="ion ion-ios-pricetags-outline"></i>
     </div>
     <a class="small-box-footer">
-        <button onclick="agregarAlmacenFisico()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarAlmacenFisico()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
     </a>
 </div>
 <!-- Modal Marcas Tabla -->
@@ -15,13 +16,14 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
         <div class="modal-content modal-rounded-body" id="contenedorTabla11">
             <div class="modal-header bg-success modal-rounded-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Listado de almacenes f&iacute;sicos <button onclick="agregarAlmacenFisico()" class="btn btn-light btn-circle btn-sm text-success popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de almacenes f&iacute;sicos <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarAlmacenFisico()" class="btn btn-light btn-circle btn-sm text-success popoverxd"
+                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-           <!--  <div class="modal-body">
+            <!--  <div class="modal-body">
                  <table id="tableampfisico" class="table table-striped table-bordered "  style="width:100%;">
                     <thead>
                         <tr>
@@ -61,50 +63,43 @@
             </div>
             <div class="modal-body">
                 <form action="">
-                 <div class="row">
-                     <div class="form-group col-md-4">
-                        <label for="pasilloMapeo">Pasillo</label>
-                        <input type="text" class="form-control" id="pasilloMapeo" placeholder="Cuarto 1">
-                     </div>
-                     <div class="form-group col-md-4">
-                        <label for="rackMapeo">Pasillo</label>
-                        <input type="text" class="form-control" id="rackMapeo" placeholder="A">
-                     </div>
-                     <div class="form-group col-md-4">
-                        <label for="casilleroMapeo">Pasillo</label>
-                        <div class="input-group mb-3">
-                            <input type="number" class="form-control" id="casilleroMapeo" placeholder="1">
-                            <div class="input-group-append" style="margin-left: 10px;">
-                                <button type="button" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="pasilloMapeo">Anaquel</label>
+                            <input type="number" min="1" class="form-control" id="anaquel" name="anaquel" placeholder="Cuarto 1">
+
+                            <input type="hidden" class="form-control" id="idAlmacen" name="idAlmacen" placeholder="Cuarto 1">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="rackMapeo">Fila</label>
+                            <input type="number" min="1" class="form-control" id="fila" name="fila" placeholder="A">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="casilleroMapeo">Casillero</label>
+                            <div class="input-group mb-3">
+                                <input type="number" min="1" class="form-control" id="casillero" name="casillero" placeholder="1">
+                                <div class="input-group-append" style="margin-left: 10px;">
+                                    <button id="btn-estatus" onclick="agregarUbicacion()" type="button" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                                </div>
                             </div>
-                          </div>
-                     </div>
-                 </div>
+                        </div>
+                    </div>
                 </form>
-                 <div class="row">
-                     <div class="form-group col-md-12">
-                        <table class="table table-striped table-bordered tablaAMP" style="width:100%;">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <table class="table table-striped table-bordered tablaAMP" id="tableUbicacion" style="width:100%;">
                             <thead>
                                 <tr>
-                                    <th>Pasillo</th>
-                                    <th>Rack</th>
-                                    <th>Casillero</th>
+                                    <th>Nombre</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                             <tbody>
-                                 <tr>
-                                     <td>Cuarto 1</td>
-                                     <td>A</td>
-                                     <td>1</td>
-                                     <td class="text-center">
-                                       <button class="btn btn-danger btn-circle btn-sm popoverxd" data-content="Eliminar" data-placement="top"><i class="fas fa-times"></i></button>
-                                     </td>
-                                 </tr>
+                            <tbody>
+
                             </tbody>
                         </table>
-                     </div>
-                 </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

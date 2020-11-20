@@ -405,18 +405,36 @@ public class TelaController {
 	//Metodo que da de baja una Tela
 	@GetMapping("delete-tela/{id}") 
 	public String deleteMaterial(@PathVariable("id") Long idTela, RedirectAttributes redirectAttrs) throws Exception {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Date date = new Date();
-		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		DisenioTela tela = disenioTelaService.findOne(idTela);
-		tela.setUltimaFechaModificacion(hourdateFormat.format(date));
-		tela.setActualizadoPor(auth.getName());
-		tela.setEstatus("0");
-		
-		disenioTelaService.save(tela);
-		redirectAttrs
-        .addFlashAttribute("title", "Tela dada de baja correctamente")
-        .addFlashAttribute("icon", "success");
-		  return "redirect:/materiales";
+		if (disenioTelaService.disponibles(idTela) == 0){
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			DisenioTela tela = disenioTelaService.findOne(idTela);
+			tela.setUltimaFechaModificacion(hourdateFormat.format(date));
+			tela.setActualizadoPor(auth.getName());
+			tela.setEstatus("0");
+			
+			disenioTelaService.save(tela);
+			redirectAttrs
+			.addFlashAttribute("title", "Tela dada de baja correctamente")
+			.addFlashAttribute("icon", "success");
+			  return "redirect:/materiales";
+		}
+		else{
+			redirectAttrs
+			.addFlashAttribute("title", "No es posible eliminar, cuenta con existencias.")
+			.addFlashAttribute("icon", "error");
+			  return "redirect:/materiales";
+		}
 	}
+	
+	//Listar telas en pantalla de producción
+	
+		@GetMapping("/telas")
+		public String ListTelasProduccion(Model model) {
+			
+			model.addAttribute("ListTelas", disenioTelaService.findAll());
+			
+			return "telas";
+		}
 }

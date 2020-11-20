@@ -1,12 +1,18 @@
 package com.altima.springboot.app.dto;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.SqlResultSetMapping;
 @Entity
-public class ArticulosMultialmacenDto {
-    @Id
+public class ArticulosMultialmacenDto implements Serializable{
+    /**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
     private Long idMaterial;
+    @Id
     private String tipo;
     private String nombreMaterial;
     private String idText;

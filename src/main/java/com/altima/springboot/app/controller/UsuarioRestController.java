@@ -49,6 +49,7 @@ public class UsuarioRestController {
 	private List<Rol> listPermisos(@RequestParam(name = "departamento", required = false) String departamento,
 			 					   @RequestParam(name = "seccion", required = false) String seccion){
 		
+		System.out.println(rolService.FindByPermiso(departamento, seccion));
 		return rolService.FindByPermiso(departamento, seccion);
 	}
 	
@@ -71,7 +72,6 @@ public class UsuarioRestController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String[] datosPermiso;
 		JSONArray muest = new JSONArray(permisos);
-		
 		if (rol_value.equals("")) {
 
 			if (usuario.getIdUsuario() == null) {
@@ -132,7 +132,7 @@ public class UsuarioRestController {
 			for (int i = 0; i < muest.length(); i++) {	
 					datosPermiso = muest.get(i).toString().replace("[", "").replace("]", "").replace("\"", "").split(",");
 						for (int p = 0; p < datosPermiso.length; p++) {
-								System.out.println(datosPermiso);
+								System.out.println(datosPermiso[p]);
 								usuario.getRoles().add(rolService.findOne(Long.parseLong(datosPermiso[p])));
 						}	
 			}

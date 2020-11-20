@@ -1,158 +1,168 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head th:include="navegacion-head :: header">
-	<title id="pageTitle">Control de producci&oacute;n de muestras | Altima</title>
+    <title id="pageTitle">Control de producci&oacute;n de muestras | Altima</title>
 </head>
 
+
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-	<!-- Site wrapper -->
-	<div class="wrapper">
-		<!-- Navbar -->
-		<div th:insert="navegacion-nav"></div>
-		<!-- /.navbar -->
-		<!-- Modal -->
-		<div th:insert="navegacion-logout"></div>
-		<!-- Main Sidebar Container -->
-		<div th:insert="navegacion-aside"></div>
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
 
-		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
-			<section class="content-header">
-				<div class="container-fluid">
-					<div class="row mb-2">
-						<div class="col-sm-6">
-							<h1>Control de producci&oacute;n de muestras <a th:href="${'agregar-control-muestra'}">
-							<button class="btn btn-altima btn-circle btn-sm popoverxd" 
-									th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Control de producci&oacute;n de muestras
+                                <a th:href="${'agregar-control-muestra'}">
+                                    <button class="btn btn-altima btn-circle btn-sm popoverxd" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
 										   ${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_AGREGAR'')')}" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i>
-							</button></a></h1>
-						</div>
-						<div class="col-sm-6">
-							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item altima">Altima</li>
-								<li class="breadcrumb-item active">Dise&ntilde;o</li>
-								<li class="breadcrumb-item active">Control de producci&oacute;n de muestras</li>
-							</ol>
-						</div>
-					</div>
-				</div>
-				<!-- /.container-fluid -->
-			</section>
+							</button></a>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Dise&ntilde;o</li>
+                                <li class="breadcrumb-item active">Control de producci&oacute;n de muestras</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
 
-			<!-- Main content -->
-			<section class="content">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-12">
-							<!-- Default box -->
-							<div class="card">
-								<div class="card-header bg-altima">
-									<h3 class="card-title">Historial de pedidos</h3>
-								</div>
-								<div class="card-body">
-									<table  class="table tablaGeneral table-striped table-bordered" >
-										<thead>
-											<tr>
-												<th>No. pedido</th>
-												<th>Fecha de recepci&oacute;n</th>
-												<th>Observaciones</th>
-												<th>Proceso actual</th>
-												<th>Proceso</th>
-												
-											</tr>
-										</thead>
-										<tbody>
-										
-											<tr th:each="pedidos: ${pedidos}">
-                                                <td><a th:text="${pedidos[1]}"></a>  </td>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Historial de pedidos</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>No. pedido</th>
+                                                <th>Fecha de recepci&oacute;n</th>
+                                                <th>Observaciones</th>
+                                                <th>Proceso actual</th>
+                                                <th>Proceso</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr th:each="pedidos: ${pedidos}">
+                                                <td>
+                                                    <a th:text="${pedidos[1]}"></a>
+                                                </td>
                                                 <td th:text="${pedidos[2]}"></td>
                                                 <td th:text="${pedidos[3]}"></td>
                                                 <td th:text="${pedidos[4]}"></td>
-                                                
-                                                <td th:if="${pedidos[3] == 'Foráneo'	}"  class="tdcenter"><a data-target="#detalles-proceso"  th:onclick="'listarTerminadosF('+${pedidos[0]}+')'"  class="btn btn-info text-white btn-circle btn-sm popoverxd" data-container="body" data-toggle="modal" data-placement="top"
-													data-content="Detalles"><i class="fas fa-info"></i></a></td>
-													
-													
-											  <td th:if="${pedidos[3] == 'Pedido Gerencial'	}"  class="tdcenter"><a data-target="#detalles-proceso"  th:onclick="'listarTrazos('+${pedidos[0]}+')'"  class="btn btn-info text-white btn-circle btn-sm popoverxd" data-container="body" data-toggle="modal" data-placement="top"
-													data-content="Detalles"><i class="fas fa-info"></i></a></td>
-													
-													
-												<td th:if="${pedidos[3] == 'Pedido Coleccion'	}"  class="tdcenter"><a data-target="#detalles-proceso"  th:onclick="'listarTrazos('+${pedidos[0]}+')'"  class="btn btn-info btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="modal" data-placement="top"
-													data-content="Detalles"><i class="fas fa-info"></i></a> <a th:href="${'editar-pedido-coleccion/'}+${pedidos[0]}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top"
-													data-content="Completar Pedido"><i class="fas fa-pen"></i></a></td>
-                                                
-                                                   
-                                               
+
+                                                <td th:if="${pedidos[3] == 'Foráneo'	}" class="tdcenter"><a th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+													${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_LISTAR'')')}" data-target="#detalles-proceso" th:onclick="'listarTerminadosF('+${pedidos[0]}+')'" class="btn btn-info text-white btn-circle btn-sm popoverxd" data-container="body"
+                                                        data-toggle="modal" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></a></td>
+
+
+                                                <td th:if="${pedidos[3] == 'Pedido Gerencial'	}" class="tdcenter"><a th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+													${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_LISTAR'')')}" data-target="#detalles-proceso" th:onclick="'listarTrazos('+${pedidos[0]}+')'" class="btn btn-info text-white btn-circle btn-sm popoverxd" data-container="body"
+                                                        data-toggle="modal" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></a></td>
+
+
+                                                <td th:if="${pedidos[3] == 'Pedido Coleccion'	}" class="tdcenter"><a th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+													${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_LISTAR'')')}" data-target="#detalles-proceso" th:onclick="'listarTrazos('+${pedidos[0]}+')'" class="btn btn-info btn-circle btn-sm text-white popoverxd" data-container="body"
+                                                        data-toggle="modal" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></a>
+                                                    <a th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+														${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_EDITAR'')')}" th:href="${'editar-pedido-coleccion/'}+${pedidos[0]}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"
+                                                        data-placement="top" data-content="Completar Pedido"><i class="fas fa-pen"></i></a></td>
+
+
+
                                             </tr>
-										
-										
-										
-										</tbody>
-									</table>
-									
 
-								</div>
-								<!-- /.card-body -->
-							</div>
-							<!-- /.card -->
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- /.content -->
-			<input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
-       		<input type="hidden" id="rolListar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_LISTAR'')')}? 1:0">
-        	<input type="hidden" id="rolAgregar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_AGREGAR'')')}? 1:0">
-        	<input type="hidden" id="rolEditar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_EDITAR'')')}? 1:0">
-        	<input type="hidden" id="rolEliminar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_ELIMINAR'')')}? 1:0">
-		</div>
-		<!-- /.content-wrapper -->
 
-		<div th:insert="navegacion-footer"></div>
-		
-		<div th:insert="control-procesos"></div>
-	</div>
-	<!-- ./wrapper -->
 
-	<div th:replace="navegacion-scripts"></div>
-	<script src="dist/js/tablaGeneral.js"></script>
-	<script>
-		$('#iDiseno').removeClass('text-altima');
-		$('#menuDiseno').addClass('menu-open');
-		$('#navDiseno').addClass('active-altima');
-		$('#navDiseno5').addClass('active');
-		
-		var rolAdmin = $('#rolAdmin').val();
-		var rolListar = $('#rolListar').val();
-		var rolAgregar = $('#rolAgregar').val();
-		var rolEditar = $('#rolEditar').val();
-		var rolEliminar = $('#rolEliminar').val();
-	</script>
-	<!-- Funcionalidad-->
-	<script src="/plugins/onscan/onscan.min.js"></script>
-	<script src="dist/js/ProduccionMuestras.js"></script>
-	
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+            <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
+            <input type="hidden" id="rolListar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_LISTAR'')')}? 1:0">
+            <input type="hidden" id="rolAgregar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_AGREGAR'')')}? 1:0">
+            <input type="hidden" id="rolEditar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_EDITAR'')')}? 1:0">
+            <input type="hidden" id="rolEliminar" th:value="${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_ELIMINAR'')')}? 1:0">
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+
+        <div th:insert="control-procesos"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneral.js"></script>
+    <script>
+        $('#iDiseno').removeClass('text-altima');
+        $('#menuDiseno').addClass('menu-open');
+        $('#navDiseno').addClass('active-altima');
+        $('#navDiseno5').addClass('active');
+
+        var rolAdmin = $('#rolAdmin').val();
+        var rolListar = $('#rolListar').val();
+        var rolAgregar = $('#rolAgregar').val();
+        var rolEditar = $('#rolEditar').val();
+        var rolEliminar = $('#rolEliminar').val();
+    </script>
+    <!-- Funcionalidad-->
+    <script src="/plugins/onscan/onscan.min.js"></script>
+    <script src="dist/js/ProduccionMuestras.js"></script>
+
 </body>
 
 
 
 <div class="modal fade" id="Contador" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-		<div class="modal-content" id="contenedorTablaContador">
-			
-			<div class="modal-body">
-				<!-- Tab panes -->
-				<div class="tab-content">
-					<div class="modal-body" id="quitarContador">
-                    	<table class="table table-bordered" id="idtableContador" >
-                          
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content" id="contenedorTablaContador">
+
+            <div class="modal-body">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="modal-body" id="quitarContador">
+                        <table class="table table-bordered" id="idtableContador">
+
                         </table>
-                        </div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

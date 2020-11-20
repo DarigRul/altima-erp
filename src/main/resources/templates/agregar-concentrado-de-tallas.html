@@ -89,7 +89,7 @@
                           class="form-control selectpicker" data-live-search="true"
                            name="cargaTipopedido" id="prenda">
                           <option th:each="prendas : ${prendas}"
-                            th:value="${prendas[0]}" 
+                            th:value="${prendas[0]}+'!'+${prendas[5]}" 
                             th:text="${prendas[1]}"
                              />
                         </select>

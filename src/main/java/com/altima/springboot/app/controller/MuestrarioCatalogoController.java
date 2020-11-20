@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +39,7 @@ public class MuestrarioCatalogoController {
 				.body(recurso);
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_MUESTRARIO_CATALOGO_LISTAR"})
 	@GetMapping("/catalogos-muestrario")
 	public String listCatalogo(Model model) {
 

@@ -130,10 +130,29 @@ public class DisenioForroServiceImpl implements IDisenioForroService {
 					"	AND forro.nombre_forro = '"+nombre+"'").getSingleResult().toString();
 				
 			return re;
-		
-		
-		
-	
+	}
+
+	@Override
+	@Transactional
+	public Integer disponibles (Long id) {
+
+		String re = em.createNativeQuery("SELECT "+
+		" IF (SUM( multi.existencia ) IS NULL,0,SUM( multi.existencia)) \r\n" + 
+		" FROM "+
+		" alt_amp_multialmacen as multi "+
+		" WHERE "+
+		" 1=1 "+
+		" AND multi.id_articulo = "+id+
+		" AND multi.tipo='forro'")
+				.getSingleResult().toString();
+
+		if (re.isEmpty() || re== null) {
+			return 0;
+		} else {
+			double d = Double.parseDouble(re);
+			return (int) d;
+		}
+
 	}
 	
 }

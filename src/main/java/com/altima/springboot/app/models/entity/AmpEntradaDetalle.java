@@ -36,7 +36,7 @@ public class AmpEntradaDetalle implements Serializable{
 	private String tipo;
 	
 	@Column(name="cantidad")
-	private Long cantidad;
+	private Float cantidad;
 	
 	@Column(name="descuento_mon")
 	private String descuentoMon;
@@ -79,12 +79,12 @@ public class AmpEntradaDetalle implements Serializable{
 		this.tipo = tipo;
 	}
 
-	public Long getCantidad() {
+	public Float getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(Long cantidad) {
-		this.cantidad = cantidad;
+	public void setCantidad(Float l) {
+		this.cantidad = l;
 	}
 
 	public String getDescuentoMon() {

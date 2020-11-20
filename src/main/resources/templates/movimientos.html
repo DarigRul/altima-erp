@@ -2,127 +2,136 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-<title id="pageTitle">Movimientos | Altima</title>
+    <title id="pageTitle">Movimientos | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-	<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
-	<!-- Site wrapper -->
-	<div class="wrapper">
-		<!-- Navbar -->
-		<div th:insert="navegacion-nav"></div>
-		<!-- /.navbar -->
-		<!-- Modal -->
-		<div th:insert="navegacion-logout"></div>
-		<!-- Main Sidebar Container -->
-		<div th:insert="navegacion-aside"></div>
+    <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
 
-		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
-			<section class="content-header">
-				<div class="container-fluid">
-					<div class="row mb-2">
-						<div class="col-sm-6">
-							<h1>
-								Movimientos&nbsp;<button id="modalButton" onclick="limpiarModal()" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-target="#addTraspaso" data-toggle="modal" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button>
-							</h1>
-							<div th:insert="modal-traspaso"></div>
-						</div>
-						<div class="col-sm-6">
-							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-								<li class="breadcrumb-item active">Muestrario</li>
-								<li class="breadcrumb-item active">Movimientos</li>
-							</ol>
-						</div>
-					</div>
-				</div>
-				<!-- /.container-fluid -->
-			</section>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Movimientos&nbsp;<button th:if="${(#authorization.expression('hasRole(''ROLE_MUESTRARIO_MOVIMIENTOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" id="modalButton" onclick="limpiarModal()"
+                                    class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-target="#addTraspaso" data-toggle="modal" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button>
+                            </h1>
+                            <div th:insert="modal-traspaso"></div>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Muestrario</li>
+                                <li class="breadcrumb-item active">Movimientos</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
 
-			<!-- Main content -->
-			<section class="content">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="col-12">
-							<!-- Default box -->
-							<div class="card">
-								<div class="card-header bg-dark">
-									<h3 class="card-title">Listado</h3>
-								</div>
-								<div class="card-body">
-									<table class="table table-striped table-bordered" id="movimientoMuestrario">
-										<thead>
-											<tr>
-												<th>Folio</th>
-												<th>Empresa</th>
-												<th style="width:20%">Vendedor</th>
-												<th style="width:12%">Fecha de Salida</th>
-												<th style="width:12%">Fecha de Entrega</th>
-												<th>Total</th>
-												<th style="width:15%">Estatus</th>
-												<th>Acciones</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="movimiento:${listMovimientos}">
-												<td th:text="${movimiento[1]}"></td>
-												<td th:text="${movimiento[3]==null || movimiento[4]==null}?${movimiento[2]}:${movimiento[2]}+' '+${movimiento[3]}+' '+${movimiento[4]}"></td>
-												<td> <a class="popoverxd" data-container="body" data-placement="top" data-html="true" th:text="${movimiento[6]==null || movimiento[7]==null}?${movimiento[5]}:${movimiento[5]}+' '+${movimiento[6]}+' '+${movimiento[7]}"  th:attr="data-content='<strong>Encargado de recoger: </strong>'+${movimiento[12]}"></a></td>
-												<td th:text="${movimiento[8]==null}?'':${movimiento[8]}"></td>
-												<td th:text="${movimiento[9]==null}?'':${movimiento[9]}"></td>
-												<td th:text="${movimiento[11]==null}?'0':'$'+${movimiento[11]}"></td>
-												<td th:text="${movimiento[10]}"></td>
-												<td class="tdcenter">
-													<button data-target="#infoTraspaso" th:if="${movimiento[10]=='Rack de prendas' || movimiento[10]=='Rack de prendas registrado' || movimiento[10]=='Solicitud cancelada'}" class="btn btn-info btn-circle btn-sm text-white" th:onclick="'detalleMuestras('+${movimiento[0]}+',2)'"><i class="fas fa-info"></i></button>
-													<button data-target="#infoTraspaso" th:unless="${movimiento[10]=='Rack de prendas' || movimiento[10]=='Rack de prendas registrado' || movimiento[10]=='Solicitud cancelada'}"class="btn btn-info btn-circle btn-sm text-white" th:onclick="'detalleMuestras('+${movimiento[0]}+',1)'"><i class="fas fa-info"></i></button>
-													<button th:if="${movimiento[10]=='Pendiente de recoger'}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'datosMovimiento('+${movimiento[0]}+',1)'" data-target="#addTraspaso" data-container="body" data-toggle="modal" data-placement="right" data-content="Editar"><i class="fas fa-pen"></i></button>
-													<button th:if="${movimiento[10]=='Rack de prendas'}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'datosMovimiento('+${movimiento[0]}+',2)'" data-target="#addTraspaso" data-container="body" data-toggle="modal" data-placement="right" data-content="Editar"><i class="fas fa-pen"></i></button>
-													<a th:if="${movimiento[10]=='Pendiente de recoger'}" th:onclick="'entregarSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Entregar a vendedor"><i class="fas fa-user-check"></i></a>
-                                    				<a th:if="${movimiento[10]=='Pendiente de recoger'}" th:onclick="'cancelarSolicitud('+${movimiento[0]}+',1)'" class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Cancelar"><i class="fas fa-times"></i></a>
-                                    				<a th:if="${movimiento[10]=='Rack de prendas'}" th:onclick="'cancelarSolicitud('+${movimiento[0]}+',2)'" class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Cancelar"><i class="fas fa-times"></i></a>
-                                    				<a th:if="${movimiento[10]=='Entregado a vendedor'}" th:onclick="'devueltoSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>
-                                    				<a th:if="${movimiento[10]=='Devolución parcial'}" th:onclick="'devueltoSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>
-                                    				<a th:if="${movimiento[10]=='Prestamo empresa'}" th:onclick="'devueltoSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>
-                                    				<a th:if="${movimiento[10]=='Traspaso'}" th:onclick="'devueltoSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>
-                                    			</td>
-											</tr>
-										</tbody>
-									</table>
-									<div th:insert="modal-traspaso-info"></div>
-								</div>
-								<!-- /.card-body -->
-							</div>
-							<!-- /.card -->
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- /.content -->
-		</div>
-		<!-- /.content-wrapper -->
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-dark">
+                                    <h3 class="card-title">Listado</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-striped table-bordered" id="movimientoMuestrario">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Empresa</th>
+                                                <th style="width:20%">Vendedor</th>
+                                                <th style="width:12%">Fecha de Salida</th>
+                                                <th style="width:12%">Fecha de Entrega</th>
+                                                <th>Total</th>
+                                                <th style="width:15%">Estatus</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="movimiento:${listMovimientos}">
+                                                <td th:text="${movimiento[1]}"></td>
+                                                <td th:text="${movimiento[3]==null || movimiento[4]==null}?${movimiento[2]}:${movimiento[2]}+' '+${movimiento[3]}+' '+${movimiento[4]}"></td>
+                                                <td>
+                                                    <a class="popoverxd" data-container="body" data-placement="top" data-html="true" th:text="${movimiento[6]==null || movimiento[7]==null}?${movimiento[5]}:${movimiento[5]}+' '+${movimiento[6]}+' '+${movimiento[7]}" th:attr="data-content='<strong>Encargado de recoger: </strong>'+${movimiento[12]}"></a>
+                                                </td>
+                                                <td th:text="${movimiento[8]==null}?'':${movimiento[8]}"></td>
+                                                <td th:text="${movimiento[9]==null}?'':${movimiento[9]}"></td>
+                                                <td th:text="${movimiento[11]==null}?'0':'$'+${movimiento[11]}"></td>
+                                                <td th:text="${movimiento[10]}"></td>
+                                                <td class="tdcenter">
+                                                    <button data-target="#infoTraspaso" th:if="${movimiento[10]=='Rack de prendas' || movimiento[10]=='Rack de prendas registrado' || movimiento[10]=='Solicitud cancelada'}" class="btn btn-info btn-circle btn-sm text-white" th:onclick="'detalleMuestras('+${movimiento[0]}+',2)'"><i class="fas fa-info"></i></button>
+                                                    <button data-target="#infoTraspaso" th:unless="${movimiento[10]=='Rack de prendas' || movimiento[10]=='Rack de prendas registrado' || movimiento[10]=='Solicitud cancelada'}" class="btn btn-info btn-circle btn-sm text-white" th:onclick="'detalleMuestras('+${movimiento[0]}+',1)'"><i class="fas fa-info"></i></button>
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_MUESTRARIO_MOVIMIENTOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {movimiento[10]=='Pendiente de recoger'})}" class="btn btn-warning btn-circle btn-sm popoverxd"
+                                                        th:onclick="'datosMovimiento('+${movimiento[0]}+',1)'" data-target="#addTraspaso" data-container="body" data-toggle="modal" data-placement="right" data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                    <button th:if="${movimiento[10]=='Rack de prendas'}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'datosMovimiento('+${movimiento[0]}+',2)'" data-target="#addTraspaso" data-container="body" data-toggle="modal" data-placement="right"
+                                                        data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_MUESTRARIO_MOVIMIENTOS_ENTREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {movimiento[10]=='Pendiente de recoger'})}" th:onclick="'entregarSolicitud('+${movimiento[0]}+')'"
+                                                        class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Entregar a vendedor"><i class="fas fa-user-check"></i></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_MUESTRARIO_MOVIMIENTOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {movimiento[10]=='Pendiente de recoger'})}" th:onclick="'cancelarSolicitud('+${movimiento[0]}+',1)'"
+                                                        class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Cancelar"><i class="fas fa-times"></i></a>
+                                                    <a th:if="${movimiento[10]=='Rack de prendas'}" th:onclick="'cancelarSolicitud('+${movimiento[0]}+',2)'" class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Cancelar"><i class="fas fa-times"></i></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_MUESTRARIO_MOVIMIENTOS_DEVOLVER'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {movimiento[10]=='Entregado a vendedor'})}" th:onclick="'devueltoSolicitud('+${movimiento[0]}+')'"
+                                                        class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>
+                                                    <a th:if="${movimiento[10]=='Devolución parcial'}" th:onclick="'devueltoSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>
+                                                    <a th:if="${movimiento[10]=='Prestamo empresa'}" th:onclick="'devueltoSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>
+                                                    <a th:if="${movimiento[10]=='Traspaso'}" th:onclick="'devueltoSolicitud('+${movimiento[0]}+')'" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div th:insert="modal-traspaso-info"></div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
 
-		<div th:insert="navegacion-footer"></div>
-	</div>
-	<!-- ./wrapper -->
-	<div th:replace="navegacion-scripts"></div>
-	<script src="dist/js/tablaMovimientos.js"></script>
-	<script src="/dist/js/sweetalert.js"></script>
-	<script src="/plugins/onscan/onscan.min.js"></script>
-	<script src="/dist/js/confirmacionesMovimientos.js"></script>
-	
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaMovimientos.js"></script>
+    <script src="/dist/js/sweetalert.js"></script>
+    <script src="/plugins/onscan/onscan.min.js"></script>
+    <script src="/dist/js/confirmacionesMovimientos.js"></script>
 
-     
-	<script>
-	$('#iComercial').removeClass('text-primary');
-	$('#menuComercial').addClass('menu-open');
-	$('#navComercial').addClass('active');
-	$('#menuMuestrario').addClass('menu-open');
-	$('#navMuestrario').addClass('active');
-	$('#navMuestrario2').addClass('active');
-	var lista=[];
-	var listamuestritas=[];
-	</script>
+
+
+    <script>
+        $('#iComercial').removeClass('text-primary');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active');
+        $('#menuMuestrario').addClass('menu-open');
+        $('#navMuestrario').addClass('active');
+        $('#navMuestrario2').addClass('active');
+        var lista = [];
+        var listamuestritas = [];
+    </script>
 </body>
+
 </html>

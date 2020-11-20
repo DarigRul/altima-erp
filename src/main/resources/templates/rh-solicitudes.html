@@ -22,7 +22,8 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Solicitudes de empleados <a th:href="@{/rh-agregar-solicitudes}" class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></a></h1>
+                            <h1>Solicitudes de empleados <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/rh-agregar-solicitudes}"
+                                    class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></a></h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -72,20 +73,23 @@
                                                 <td>Hola</td>
                                                 <td class="tdcenter">
                                                     <!-- EDITAR -->
-                                                    <a th:href="@{/rh-agregar-solicitudes}">
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/rh-agregar-solicitudes}">
                                                         <button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Editar"><i
                                                       class="fas fa-pen"></i></button>
                                                     </a>
                                                     <!-- MÁS DETALLE -->
-                                                    <a th:href="@{/rh-agregar-solicitudes}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="M&aacute;s detalles"><i
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/rh-agregar-solicitudes}" class="btn btn-info btn-circle btn-sm popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="left" data-content="M&aacute;s detalles"><i
                                                     class="fas fa-info"></i>
                                                     </a>
                                                     <!-- RECHAZAR -->
-                                                    <button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Rechazar">
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
+                                                        data-toggle="popover" data-placement="left" data-content="Rechazar">
                                                       <i class="fas fa-caret-down"></i>
                                                     </button>
                                                     <!-- APROBAR -->
-                                                    <button class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Aprobar">
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body"
+                                                        data-toggle="popover" data-placement="left" data-content="Aprobar">
                                                   <i class="fas fa-sort-up"></i>
                                                 </button>
                                                 </td>

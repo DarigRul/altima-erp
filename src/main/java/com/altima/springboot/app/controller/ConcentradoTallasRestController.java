@@ -50,12 +50,13 @@ public class ConcentradoTallasRestController {
 	public String guardarcontentradotallas(Model model, String Nombre,
 			@RequestParam(value = "values[]", required = false) String[] values, String Empleado, String Largo,
 			String PrendaCliente, String Talla, String Pulgadas, Long IdPedido) {
-
+		String[] prenda=PrendaCliente.split("\\s");
 		try {
 			ComercialConcentradoTalla ComercialConcentradoTalla = new ComercialConcentradoTalla();
 			ComercialConcentradoTalla.setIdEmpleadoPedido(Empleado);
 			ComercialConcentradoTalla.setIdLargo(Largo);
-			ComercialConcentradoTalla.setIdPrendaCliente(PrendaCliente);
+			ComercialConcentradoTalla.setIdPrendaCliente(prenda[0]);
+			ComercialConcentradoTalla.setIdFamiliaPrenda(prenda[1]);
 			ComercialConcentradoTalla.setIdTalla(Talla);
 			ComercialConcentradoTalla.setIdPedido(IdPedido);
 			ConcentradoTallaService.save(ComercialConcentradoTalla);

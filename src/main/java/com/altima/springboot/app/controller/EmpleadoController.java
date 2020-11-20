@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -60,12 +61,14 @@ public class EmpleadoController {
 				.body(recurso);
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_LISTAR"})
 	@GetMapping("rh-empleados")
 	public String rhempleados(Model model) {
 		model.addAttribute("empleados", empleadoService.findEmpleadoPersona());
 		return "rh-empleados";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_AGREGAR"})
 	@GetMapping("rh-agregar-empleados")
 	public String agregarEmpleados(Model model) {
 		HrEmpleado empleado = new HrEmpleado();
@@ -104,6 +107,7 @@ public class EmpleadoController {
 		return ("redirect:/rh-empleados");
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_EDITAR"})
 	@GetMapping("rh-editar-empleado/{id}")
 	public String rhEditarEmpleados(Model model, @PathVariable(value = "id") Long id) {
 		HrEmpleado empleado = empleadoService.findOne(id);
@@ -121,6 +125,7 @@ public class EmpleadoController {
 		return "rh-agregar-empleados";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_ELIMINAR"})
 	@GetMapping("rh-empleado/{accion}/{id}")
 	public String rhEditarEmpleados(Model model, @PathVariable(value = "id") Long id,
 			@PathVariable(value = "accion") String accion) {

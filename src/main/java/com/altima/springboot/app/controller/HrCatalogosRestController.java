@@ -19,6 +19,7 @@ import com.altima.springboot.app.models.service.IHrLookupService;
 import com.altima.springboot.app.models.service.IHrPuestoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -46,6 +47,7 @@ public class HrCatalogosRestController {
     IHrCalendariosService hrCalendarioService;
 
     // Método para guardar Empresas
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR"})
     @PostMapping("/postEmpresa")
     public int postEmpresa(@RequestParam(name = "nombreEmpresa") String nombreEmpresa,
             @RequestParam(name = "idLookup") Long idLookup) {
@@ -90,12 +92,14 @@ public class HrCatalogosRestController {
     }
 
     // Método para listar Empresas
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_LISTAR"})
     @GetMapping("/getLookupHR")
     public List<HrLookup> getEmpresa(@RequestParam(name = "tipo") String tipo) {
         return hrLookupService.findAllByTipoLookup(tipo);
     }
 
     // Método para dar de baja empresa
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darBajaEmpresa")
     public Object darBajaEmpresa(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
         HrLookup EhrE = hrLookupService.findOne(idLookup);
@@ -105,6 +109,7 @@ public class HrCatalogosRestController {
     }
 
     // Método para dar de alta empresa
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darAltaEmpresa")
     public Object darAltaEmpresa(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
         HrLookup EhrE = hrLookupService.findOne(idLookup);
@@ -114,12 +119,14 @@ public class HrCatalogosRestController {
     }
 
     // Método para editar Empresas
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_EDITAR"})
     @GetMapping("/editarEmpresa")
     public HrLookup editarEmpresa(@RequestParam(name = "idLookup") Long idLookup) {
         return hrLookupService.findOne(idLookup);
     }
 
     // Método para guardar Áreas
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR"})
     @PostMapping("/postArea")
     public int postArea(@RequestParam(name = "nombreArea") String nombreArea,
             @RequestParam(name = "idLookup") Long idLookup) {
@@ -163,12 +170,14 @@ public class HrCatalogosRestController {
     }
 
     // Método para listar Áreas
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_LISTAR"})
     @GetMapping("/rh-listarAreas")
     public List<HrLookup> listarAreas(@RequestParam(name = "tipo") String tipo) {
         return hrDepartamentoService.findAllEmpresas(tipo);
     }
 
     // Método para dar de baja area
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darBajaArea")
     public Object darBajaArea(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
         HrLookup EhrA = hrLookupService.findOne(idLookup);
@@ -178,6 +187,7 @@ public class HrCatalogosRestController {
     }
 
     // Método para dar de alta area
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darAltaArea")
     public Object darAltaArea(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
         HrLookup EhrA = hrLookupService.findOne(idLookup);
@@ -187,12 +197,14 @@ public class HrCatalogosRestController {
     }
 
     // Método para editar Áreas
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_EDITAR"})
     @GetMapping("/editarArea")
     public HrLookup editarArea(@RequestParam(name = "idLookup") Long idLookup) {
         return hrLookupService.findOne(idLookup);
     }
 
     // Método para guardar departamentos
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR"})
     @PostMapping("/postDepartamento")
     public int postDepartamento(@RequestParam(name = "idDepartamento") Long idDepartamento,
             @RequestParam(name = "nombreDepartamento") String nombreDepartamento,
@@ -240,6 +252,7 @@ public class HrCatalogosRestController {
     }
 
     // Método para listar Departamentos
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_LISTAR"})
     @GetMapping("/getListarDepartamentos")
     public List<Object[]> listarDepartamentos(Model model) {
         List<Object[]> listarDepartamentos = hrDepartamentoService.listarDepartamentos();
@@ -248,6 +261,7 @@ public class HrCatalogosRestController {
     }
 
     // Método para dar de baja departamento
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darBajaDepartamento")
     public Object darBajaDepartamento(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
         HrDepartamento EhrD = hrDepartamentoService.findOne(idLookup);
@@ -257,6 +271,7 @@ public class HrCatalogosRestController {
     }
 
     // Método para dar de alta departamento
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darAltaDepartamento")
     public Object darAltaDepartamento(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
         HrDepartamento EhrD = hrDepartamentoService.findOne(idLookup);
@@ -266,12 +281,14 @@ public class HrCatalogosRestController {
     }
 
     // Método para editar Departamento
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_EDITAR"})
     @GetMapping("/editarDepartamento")
     public Object editarDepartamento(@RequestParam(name = "idLookup") Long idLookup) {
         return hrDepartamentoService.obtenerDepartamento(idLookup);
     }
 
     // Método para guardar Puestos
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR"})
     @PostMapping("/postPuesto")
     public int postPuesto(@RequestParam(name = "nombrePuesto") String nombrePuesto,
             @RequestParam(name = "nomPlazas") String nomPlazas, @RequestParam(name = "sueldos") String sueldos,
@@ -336,6 +353,7 @@ public class HrCatalogosRestController {
     }
 
     // Método para listar los puestos insertados
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_LISTAR"})
     @GetMapping("/getListarPuestos")
     public List<Object[]> listarPuestos(Model model) {
         List<Object[]> listarPuestos = hrDepartamentoService.listarDepartamentos();
@@ -344,6 +362,7 @@ public class HrCatalogosRestController {
     }
 
     // Método para dar de baja puesto
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darBajaPuesto")
     public Object darBajaPuesto(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
         HrPuesto EhrP = hrPuestoService.findOne(idLookup);
@@ -353,6 +372,7 @@ public class HrCatalogosRestController {
     }
 
     // Método para dar de alta puesto
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darAltaPuesto")
     public Object darAltaPuesto(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
         HrPuesto EhrP = hrPuestoService.findOne(idLookup);
@@ -362,12 +382,14 @@ public class HrCatalogosRestController {
     }
 
     // Método para editar puestos
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_EDITAR"})
     @GetMapping("/editarPuesto")
     public Object editarPuesto(@RequestParam(name = "idLookup") Long idLookup) {
         return hrPuestoService.obtenerPuesto(idLookup);
     }
 
     // Método para guardar Horarios
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR"})
     @PostMapping("/postHorarioLaboral")
     public int postPuesto(@RequestParam(name = "idHorario") Long idHorario,
             @RequestParam(name = "horaInicio") String horaInicio, @RequestParam(name = "horaSalida") String horaSalida,
@@ -419,12 +441,14 @@ public class HrCatalogosRestController {
     }
 
     // Método para listar horarios insertados
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_LISTAR"})
     @GetMapping("/getListarHorarios")
     public List<HrHorario> listarHorariosInsertados() {
         return hrHorarioService.findAllHorarios();
     }
 
     // Método para dar de baja horario
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darBajaHorario")
     public Object darBajaHorario(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
         HrHorario EhrH = hrHorarioService.findOne(idLookup);
@@ -434,6 +458,7 @@ public class HrCatalogosRestController {
     }
 
     // Método para dar de alta horario
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darAltaHorario")
     public Object darAltaHorario(@RequestParam(name = "idLookup") Long idLookup) throws Exception {
         HrHorario EhrH = hrHorarioService.findOne(idLookup);
@@ -443,12 +468,14 @@ public class HrCatalogosRestController {
     }
 
     // Método para editar horarios
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_EDITAR"})
     @GetMapping("/editarHorario")
     public List<HrHorario> editarHorario(@RequestParam(name = "idHorario") Long idHorario) {
         return hrHorarioService.obtenerHorario(idHorario);
     }
 
     // Método para guardar Calendarios
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR"})
     @PostMapping("/postCalendarios")
     public int postPuesto(@RequestParam(name = "idCalendario") Long idCalendario,
             @RequestParam(name = "fechaFestivo") String fechaFestivo,
@@ -497,12 +524,14 @@ public class HrCatalogosRestController {
     }
 
     // Método para listar calendarios insertados
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_LISTAR"})
     @GetMapping("/getListarCalendarios")
     public List<HrCalendario> listarCalendariosInsertados() {
         return hrCalendarioService.findAllCalendarios();
     }
 
     // Método para dar de baja Calendario
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darBajaCalendario")
     public Object darBajaCalendario(@RequestParam(name = "idCalendario") Long idCalendario) throws Exception {
         HrCalendario EhrC = hrCalendarioService.findOne(idCalendario);
@@ -512,6 +541,7 @@ public class HrCatalogosRestController {
     }
 
     // Método para dar de alta Calendario
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_ELIMINAR"})
     @GetMapping("/darAltaCalendario")
     public Object darAltaCalendario(@RequestParam(name = "idCalendario") Long idCalendario) throws Exception {
         HrCalendario EhrC = hrCalendarioService.findOne(idCalendario);
@@ -521,6 +551,7 @@ public class HrCatalogosRestController {
     }
 
     // Método para editar calendarios
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_CATALOGOS_EDITAR"})
     @GetMapping("editarCalendario")
     public Object editarCalendario(@RequestParam(name = "idCalendario") Long idCalendario) {
         return hrCalendarioService.findOne(idCalendario);

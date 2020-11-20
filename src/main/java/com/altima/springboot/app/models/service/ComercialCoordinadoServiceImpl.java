@@ -42,9 +42,6 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Autowired
 	ComercialCoordinadoForroRepository repositoryForroMaterial;
 	
-	@Autowired
-	private IUploadService UploadService;
-	
 	@Override
 	public List<ComercialCoordinado> findAll() {
 		// TODO Auto-generated method stub
@@ -211,7 +208,6 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Override
 	@Transactional
 	public List<Object[]> materialesPorPrenda(Long id) {
-		
 		List<Object[]> re = em.createNativeQuery("SELECT\n" + 
 				"					material.id_material, \n" + 
 				"					material.nombre_material, \n" + 
@@ -225,10 +221,10 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"				WHERE\n" + 
 				"					1 = 1\n" + 
 				"					AND look.id_lookup = material.id_tipo_material \n" + 
+				"					AND look.atributo_1 = 1 \n" +
+				"					AND material.estatus = 1 \n" + 
 				"					AND look.nombre_lookup NOT IN ( 'Tela Material' ) \n" + 
 				"					AND look.nombre_lookup NOT IN ( 'Forro Material' )  \n" + 
-			
-				"					AND ( adl.nombre_lookup = 'Corte' OR adl.nombre_lookup = 'Confección' )  \n" + 
 				"					AND material.id_material = material_prenda.id_material \n" + 
 				"					AND material.id_proceso = adl.id_lookup \n" + 
 				"					AND material_prenda.id_prenda = "+id).getResultList();
@@ -251,6 +247,8 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"	1 = 1 \r\n" + 
 				"	AND look2.id_lookup = material.id_clasificacion\r\n" + 
 				"    AND material.id_material ="+idMaterial).getSingleResult().toString();
+		
+		
 		
 		if (clasificacion.equals("Dependiente del Color")) {	
 			List<Object[]> re2 = em.createNativeQuery("SELECT\r\n" + 
@@ -488,18 +486,7 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	@Override
 	@Transactional
 	public void deletePrenda(Long id) {
-		// TODO Auto-generated method stub
-		System.out.println("DELETE\r\n" + 
-		  		"					prenda,\r\n" + 
-		  		"					material\r\n" + 
-		  		"					FROM \r\n" + 
-		  		"						alt_comercial_coordinado_prenda AS prenda, \r\n" + 
-		  		"						alt_comercial_coordinado_material AS material  \r\n" + 
-		  		"					WHERE\r\n" + 
-		  		"						1 = 1  \r\n" + 
-		  		"						AND prenda.id_coordinado_prenda = material.id_coordinado_prenda \r\n" + 
-		  		"						AND prenda.id_coordinado_prenda="+id);
-		
+
 		  Query query = em.createNativeQuery("DELETE\r\n" + 
 		  		"					prenda,\r\n" + 
 		  		"					material\r\n" + 
@@ -527,8 +514,9 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 	
 	
     @Override
+    @Transactional
 	public  void saveTelaMaterial(ComercialCoordinadoTela telamaterial){
-    	
+    	System.out.println("hola"+telamaterial.getIdCoordinadoPrenda());
     	repositoryTelaMaterial.save(telamaterial);
 		
 	}
@@ -694,4 +682,91 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"	tela").getResultList();
 		return re;
 	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public ComercialCoordinadoTela searchTela(Long CoorPrenda,String idMaterial) {
+		ComercialCoordinadoTela aux= null;
+		try {
+			return  (ComercialCoordinadoTela) em.createQuery("from ComercialCoordinadoTela where id_coordinado_prenda= "+CoorPrenda+" AND descripcion ="+idMaterial).getSingleResult();
+		}
+		catch(Exception e) {
+			
+			return aux;
+		}
+		
+	}
+
+	@Override
+	@Transactional
+	public void deleteTela(Long CoorPrenda) {
+		Query query = em.createNativeQuery(""
+				+ "DELETE \r\n" + 
+				"FROM \r\n" + 
+				"alt_comercial_coordinado_tela \r\n" + 
+				"WHERE \r\n" + 
+				"1 = 1 \r\n" + 
+				"AND id_coordinado_prenda = "+CoorPrenda+" \r\n");
+		query.executeUpdate();
+
+	}
+
+	
+	@Transactional(readOnly = true)
+	@Override
+	public ComercialCoordinadoForro searchForro(Long CoorPrenda,String idMaterial) {
+		ComercialCoordinadoForro aux= null;
+		try {
+			return  (ComercialCoordinadoForro) em.createQuery("from ComercialCoordinadoForro where id_coordinado_prenda= "+CoorPrenda+" AND descripcion ="+idMaterial).getSingleResult();
+		}
+		catch(Exception e) {
+			return aux;
+		}
+		
+	}
+
+	@Override
+	@Transactional
+	public void deleteForro(Long CoorPrenda) {
+		
+		Query query = em.createNativeQuery(""+
+			"DELETE \n"+
+			"FROM \n"+
+				"alt_comercial_coordinado_forro \n"+
+			"WHERE \n"+
+				"1 = 1 \n"+
+				"AND id_coordinado_prenda = "+CoorPrenda+" \n");
+		query.executeUpdate();
+
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public ComercialCoordinadoMaterial searchMaterial(Long CoorPrenda,Long idMaterial) {
+		ComercialCoordinadoMaterial aux = null;
+		try {
+			
+			return  (ComercialCoordinadoMaterial) em.createQuery("from ComercialCoordinadoMaterial where id_coordinado_prenda= "+CoorPrenda+" AND id_material ="+idMaterial).getSingleResult();
+		}
+		catch(Exception e) {
+			
+			return aux; 
+		}
+		
+	}
+
+	@Override
+	@Transactional
+	public void deleteMaterial(Long CoorPrenda) {
+		Query query = em.createNativeQuery(""
+				+ "DELETE \r\n" + 
+				"FROM\r\n" + 
+				"	alt_comercial_coordinado_material \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND id_coordinado_prenda = "+CoorPrenda+" \r\n");
+		query.executeUpdate();
+
+	}
 }
+

@@ -2,10 +2,13 @@ package com.altima.springboot.app.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,10 +20,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -57,16 +62,15 @@ public class CargaPedidoController {
 
 	@Autowired
 	private IComercialClienteService clienteservice;
-	
+
 	@Autowired
 	private IComercialPrendaBordadoService bordadoService;
-	
+
 	@Autowired
 	private IComercialCoordinadoService CoordinadoService;
-	
+
 	@Autowired
 	IAdminConfiguracionPedidoService configService;
-
 
 	@Autowired
 	IUsuarioService usuarioService;
@@ -83,17 +87,16 @@ public class CargaPedidoController {
 
 	@PostMapping("/guardar-carga-pedido")
 	@ResponseBody
-	public String guardacatalogo(Long cargaEmpresa, String cargaTipopedido, Long id_pedido,String fechaTallas ,HttpServletRequest request,
-			RedirectAttributes redirectAttrs) {
+	public String guardacatalogo(Long cargaEmpresa, String cargaTipopedido, Long id_pedido, String fechaTallas,
+			HttpServletRequest request, RedirectAttributes redirectAttrs) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		ComercialPedidoInformacion pedido = new ComercialPedidoInformacion();
-		
-		
+
 		AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(cargaTipopedido);
-		
-		if ( config.getTipoPedido() == 1) {
+
+		if (config.getTipoPedido() == 1) {
 			System.out.println("eL ID de pedido es: " + id_pedido);
 			pedido.setIdEmpresa(cargaEmpresa);
 			pedido.setTipoPedido(cargaTipopedido);
@@ -107,14 +110,15 @@ public class CargaPedidoController {
 			pedido.setIdText(config.getNomenclatura() + (pedido.getIdPedidoInformacion() + 10000));
 			cargaPedidoService.save(pedido);
 
-			redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon", "success");
+			redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon",
+					"success");
 			return "1";
-		}
-		else if ( config.getTipoPedido() == 2) {
+		} else if (config.getTipoPedido() == 2) {
 			ComercialPedidoInformacion pedidoAux = cargaPedidoService.findOne(id_pedido);
-			if ( pedidoAux.getEstatus().equals("2")) {
-				
-				if (cargaPedidoService.validarNumStockPedido(id_pedido) && cargaPedidoService.validarFechaStockPedido(id_pedido)  ) {
+			if (pedidoAux.getEstatus().equals("2")) {
+
+				if (cargaPedidoService.validarNumStockPedido(id_pedido)
+						&& cargaPedidoService.validarFechaStockPedido(id_pedido)) {
 					System.out.println("eL ID de pedido es: " + id_pedido);
 					pedido.setIdEmpresa(cargaEmpresa);
 					pedido.setTipoPedido(cargaTipopedido);
@@ -126,29 +130,32 @@ public class CargaPedidoController {
 					pedido.setFechaTomaTalla(fechaTallas);
 					pedido.setIdUsuario(currentuserid.currentuserid());
 					cargaPedidoService.save(pedido);
-					pedido.setIdText("S"+cargaPedidoService.ContadorStock(id_pedido)+pedidoAux.getIdText());
+					pedido.setIdText("S" + cargaPedidoService.ContadorStock(id_pedido) + pedidoAux.getIdText());
 					cargaPedidoService.save(pedido);
 
-					redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon", "success");
+					redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon",
+							"success");
 					return "1";
-				}
-				else {
-					
-					if (! cargaPedidoService.validarNumStockPedido(id_pedido)  ) {
-						redirectAttrs.addFlashAttribute("title", "Solo se puede realizar un maximo de 3 Stock por pedido").addFlashAttribute("icon", "warning");
+				} else {
+
+					if (!cargaPedidoService.validarNumStockPedido(id_pedido)) {
+						redirectAttrs
+								.addFlashAttribute("title", "Solo se puede realizar un maximo de 3 Stock por pedido")
+								.addFlashAttribute("icon", "warning");
 						return "3";
 					}
-					if (! cargaPedidoService.validarFechaStockPedido(id_pedido) ) {
-						redirectAttrs.addFlashAttribute("title", "Solo se puede realizar Stock un año antes").addFlashAttribute("icon", "warning");
+					if (!cargaPedidoService.validarFechaStockPedido(id_pedido)) {
+						redirectAttrs.addFlashAttribute("title", "Solo se puede realizar Stock un año antes")
+								.addFlashAttribute("icon", "warning");
 						return "4";
 					}
 				}
-			}
-			else {
-				redirectAttrs.addFlashAttribute("title", "Solo se puede realizar Stock de pedidos cerrados").addFlashAttribute("icon", "warning");
+			} else {
+				redirectAttrs.addFlashAttribute("title", "Solo se puede realizar Stock de pedidos cerrados")
+						.addFlashAttribute("icon", "warning");
 				return "2";
 			}
-			
+
 		}
 		return cargaTipopedido;
 
@@ -159,8 +166,8 @@ public class CargaPedidoController {
 	public String listGeneral(@PathVariable(value = "id") Long id, Map<String, Object> model, Model m) {
 		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
 		AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(pedido.getTipoPedido());
-		
-		if ( config.getAnticipoTrueFalse().equals("Si")) {
+
+		if (config.getAnticipoTrueFalse().equals("Si")) {
 			model.put("anticipo", true);
 		}
 		m.addAttribute("clientes", clienteservice.findAll(null));
@@ -198,28 +205,23 @@ public class CargaPedidoController {
 
 	}
 
-	
 	@RequestMapping(value = "/validar-cambio-precio", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean validar(String estatusPrecios, Long id) {
 		ComercialPedidoInformacion aux = cargaPedidoService.findOne(id);
-		
-		if ( aux.getPrecioUsar() != null) {
-			if (!  aux.getPrecioUsar().equals(estatusPrecios)) {
-				return true ;
+
+		if (aux.getPrecioUsar() != null) {
+			if (!aux.getPrecioUsar().equals(estatusPrecios)) {
+				return true;
+			} else {
+				return false;
 			}
-			else {
-				return false ;
-			}
+		} else {
+			return false;
 		}
-		else {
-			return false ;	
-		}
-	
-		
-		
+
 	}
-	
+
 	@PostMapping("/guardar-informacion-general-pedido")
 	public String guardarCliente(ComercialPedidoInformacion pedido, RedirectAttributes redirectAttrs) {
 
@@ -232,20 +234,20 @@ public class CargaPedidoController {
 		pedido.setActualizadoPor(auth.getName());
 		pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
 		pedido.setIdUsuario(currentuserid.currentuserid());
-		
+
 		cargaPedidoService.save(pedido);
 		redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon", "success");
 		return "redirect:/carga-de-pedidos";
 
 	}
-	
+
 	@PostMapping("/guardar-informacion-general-pedido2")
 	public String guardarCliente2(ComercialPedidoInformacion pedido, RedirectAttributes redirectAttrs) {
-		
+
 		if (pedido.getFechaAnticipo().equals("")) {
 			pedido.setFechaAnticipo(null);
 		}
-		
+
 		ComercialPedidoInformacion aux = cargaPedidoService.findOne(pedido.getIdPedidoInformacion());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
@@ -253,17 +255,16 @@ public class CargaPedidoController {
 		pedido.setActualizadoPor(auth.getName());
 		pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
 		pedido.setIdUsuario(currentuserid.currentuserid());
-		if (! aux.getPrecioUsar().equals(pedido.getPrecioUsar())) {
+		if (!aux.getPrecioUsar().equals(pedido.getPrecioUsar())) {
 			List<Object[]> auxlist = bordadoService.CambioPrecio(pedido.getIdPedidoInformacion());
 			for (Object[] a : auxlist) {
 
 				Long id_coor = Long.parseLong(a[0].toString());
 				Float precio_bordado = Float.parseFloat(a[7].toString());
 				Float precio_usar = Float.parseFloat(a[8].toString());
-				
-				
+
 				ComercialCoordinadoPrenda prenda = CoordinadoService.findOneCoorPrenda(id_coor);
-				Float preciofinal = precio_bordado + precio_usar ;
+				Float preciofinal = precio_bordado + precio_usar;
 				prenda.setPrecio(Float.toString(precio_usar));
 				prenda.setPrecioFinal(Float.toString(preciofinal));
 				prenda.setMontoAdicional("0.00");
@@ -271,52 +272,47 @@ public class CargaPedidoController {
 				CoordinadoService.saveCoorPrenda(prenda);
 			}
 		}
-		
+
 		cargaPedidoService.save(pedido);
-		
-		
 
 		redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon", "success");
 		return "redirect:/carga-de-pedidos";
 
 	}
-	
-	 @PostMapping("/observaciones")
-	    public String guardarobservaciones(RedirectAttributes redirectAttrs,String observacion,Long idpedido ) {
-	        	ComercialPedidoInformacion pedido=cargaPedidoService.findOne(idpedido);
-	        	pedido.setObservacion(observacion);
-	        	cargaPedidoService.save(pedido);
-	    	redirectAttrs.addFlashAttribute("title", "Observaciones guardadas correctamente").addFlashAttribute("icon", "success");
-			return "redirect:/carga-de-pedidos";
-	    }
-	 
-	 
-	 @PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
-	 @RequestMapping(value = "/cerrar-expediente", method = RequestMethod.GET)
+
+	@PostMapping("/observaciones")
+	public String guardarobservaciones(RedirectAttributes redirectAttrs, String observacion, Long idpedido) {
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(idpedido);
+		pedido.setObservacion(observacion);
+		cargaPedidoService.save(pedido);
+		redirectAttrs.addFlashAttribute("title", "Observaciones guardadas correctamente").addFlashAttribute("icon",
+				"success");
+		return "redirect:/carga-de-pedidos";
+	}
+
+	@PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
+	@RequestMapping(value = "/cerrar-expediente", method = RequestMethod.GET)
 	@ResponseBody
-		public String  cerrar(Long id) {
-		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			Date date = new Date();
-			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		 ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
-		 AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(pedido.getTipoPedido());
-		 Integer CantidadPiezas =cargaPedidoService.validarPiezas(id);
-		 
-		 String list =cargaPedidoService.ValidarCantidadEspecial(id);
-		if ( list == null) {
-			Integer sumaDias =0;
-			if ( cargaPedidoService.validarBordado(id) == true ) {
-				sumaDias +=  Integer.parseInt(config.getDiasBordado());
+	public String cerrar(Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+		AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(pedido.getTipoPedido());
+		Integer CantidadPiezas = cargaPedidoService.validarPiezas(id);
+
+		String list = cargaPedidoService.ValidarCantidadEspecial(id);
+		if (list == null) {
+			Integer sumaDias = 0;
+			if (cargaPedidoService.validarBordado(id) == true) {
+				sumaDias += Integer.parseInt(config.getDiasBordado());
 			}
-			
-			if ( CantidadPiezas <=  Integer.parseInt(config.getCantidadPrenda())   ) {
-				sumaDias +=  Integer.parseInt(config.getMinimoDias());
-			}else {
-				sumaDias +=  Integer.parseInt(config.getMaximoDias());
+
+			if (CantidadPiezas <= Integer.parseInt(config.getCantidadPrenda())) {
+				sumaDias += Integer.parseInt(config.getMinimoDias());
+			} else {
+				sumaDias += Integer.parseInt(config.getMaximoDias());
 			}
-			
-			
-			
 
 			pedido.setEstatus("2");
 			pedido.setFechaCierre(hourdateFormat.format(date));
@@ -325,114 +321,129 @@ public class CargaPedidoController {
 			pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
 			pedido.setDiaEstimados(Integer.toString(sumaDias));
 			cargaPedidoService.save(pedido);
-			
-			
+
 			return null;
-			
-		}else {
+
+		} else {
 			System.out.println(list);
 			return list;
 		}
-		
-		}
-	 
-	 @RequestMapping(value = "/abrir-expediente", method = RequestMethod.GET)
-		@ResponseBody
-			public String  abrir(Long id) {
-			 
-				ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
-				
-				pedido.setEstatus("1");
-				cargaPedidoService.save(pedido);
-				return null;
-			
-			}
-	 
-	 
-	 @RequestMapping(value = "/validar-monto-pedido", method = RequestMethod.GET)
-		@ResponseBody
-			public String  validarMontoPedio(Long id) {
-				String CantidadMonto =cargaPedidoService.validarMonto(id);
-				
-				String Stock = cargaPedidoService.validarStock(id);
-				
-				
-				System.out.println(Stock);
-				if (CantidadMonto.equals("No cumple el monto total") || CantidadMonto.equals("Error , no es posible calcular el monto") ) {
-					if (Stock.equals("No cumple con el stock") || Stock.equals("Error , no es posible calcular el stock")  ) {
-						return  CantidadMonto +"\n"+Stock;
-					}
-					return  CantidadMonto;
-				}
-				
-				else if (Stock.equals("No cumple con el stock") || Stock.equals("Error , no es posible calcular el stock")  ) {
-					return Stock;
-				}
-				else {
-					return null;
-					
-				}
-				
-			}
-	 
-	 
-	 @RequestMapping(value = "/validar-stock-disponibles", method = RequestMethod.GET)
-		@ResponseBody
-			public String  validarStockDisponibles(Long id) {
-				String vali =cargaPedidoService.CantidadStock(id);
-				
-				return vali;
-	
-	 }
-	 
-	 @PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
-	 @RequestMapping(value = "/cerrar-expediente-Stock", method = RequestMethod.GET)
+
+	}
+
+	@RequestMapping(value = "/abrir-expediente", method = RequestMethod.GET)
 	@ResponseBody
-		public String  cerrarStock(Long id) {
-		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			Date date = new Date();
-			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		 ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
-		 
-		 AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(pedido.getTipoPedido());
-		 
-		 Integer CantidadPiezas =cargaPedidoService.validarPiezasStock(id);
-		 
-		 System.out.println("Esta es la consult de piezas Stock  "+CantidadPiezas);
-		 if ( CantidadPiezas != 0) {
-			 Integer sumaDias =0;
-				if ( cargaPedidoService.validarBordadoStock(id) == true ) {
-					sumaDias +=  Integer.parseInt(config.getDiasBordado());
-				}
-				
-				if ( CantidadPiezas <=  Integer.parseInt(config.getCantidadPrenda())   ) {
-					sumaDias +=  Integer.parseInt(config.getMinimoDias());
-				}else {
-					sumaDias +=  Integer.parseInt(config.getMaximoDias());
-				}
-				
-				
-				
+	public String abrir(Long id) {
 
-				pedido.setEstatus("2");
-				pedido.setFechaCierre(hourdateFormat.format(date));
-				pedido.setFechaEntrega(cargaPedidoService.CalcularFecha(pedido.getFechaCierre(), sumaDias));
-				pedido.setActualizadoPor(auth.getName());
-				pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
-				pedido.setDiaEstimados(Integer.toString(sumaDias));
-				cargaPedidoService.save(pedido);
-				
-				
-				return null;
-		 }
-		
-		 else {
-			 return "No contiene empleados";
-		 }
-			
-		
-		
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+
+		pedido.setEstatus("1");
+		cargaPedidoService.save(pedido);
+		return null;
+
+	}
+
+	@RequestMapping(value = "/validar-monto-pedido", method = RequestMethod.GET)
+	@ResponseBody
+	public String validarMontoPedio(Long id) {
+		String CantidadMonto = cargaPedidoService.validarMonto(id);
+
+		String Stock = cargaPedidoService.validarStock(id);
+
+		System.out.println(Stock);
+		if (CantidadMonto.equals("No cumple el monto total")
+				|| CantidadMonto.equals("Error , no es posible calcular el monto")) {
+			if (Stock.equals("No cumple con el stock") || Stock.equals("Error , no es posible calcular el stock")) {
+				return CantidadMonto + "\n" + Stock;
+			}
+			return CantidadMonto;
 		}
-   
-}
 
+		else if (Stock.equals("No cumple con el stock") || Stock.equals("Error , no es posible calcular el stock")) {
+			return Stock;
+		} else {
+			return null;
+
+		}
+
+	}
+
+	@RequestMapping(value = "/validar-stock-disponibles", method = RequestMethod.GET)
+	@ResponseBody
+	public String validarStockDisponibles(Long id) {
+		String vali = cargaPedidoService.CantidadStock(id);
+
+		return vali;
+
+	}
+
+	@PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
+	@RequestMapping(value = "/cerrar-expediente-Stock", method = RequestMethod.GET)
+	@ResponseBody
+	public String cerrarStock(Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+
+		AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(pedido.getTipoPedido());
+
+		Integer CantidadPiezas = cargaPedidoService.validarPiezasStock(id);
+
+		System.out.println("Esta es la consult de piezas Stock  " + CantidadPiezas);
+		if (CantidadPiezas != 0) {
+			Integer sumaDias = 0;
+			if (cargaPedidoService.validarBordadoStock(id) == true) {
+				sumaDias += Integer.parseInt(config.getDiasBordado());
+			}
+
+			if (CantidadPiezas <= Integer.parseInt(config.getCantidadPrenda())) {
+				sumaDias += Integer.parseInt(config.getMinimoDias());
+			} else {
+				sumaDias += Integer.parseInt(config.getMaximoDias());
+			}
+
+			pedido.setEstatus("2");
+			pedido.setFechaCierre(hourdateFormat.format(date));
+			pedido.setFechaEntrega(cargaPedidoService.CalcularFecha(pedido.getFechaCierre(), sumaDias));
+			pedido.setActualizadoPor(auth.getName());
+			pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
+			pedido.setDiaEstimados(Integer.toString(sumaDias));
+			cargaPedidoService.save(pedido);
+
+			return null;
+		}
+
+		else {
+			return "No contiene empleados";
+		}
+
+	}
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_AGENTES_CARGA_VALIDACION_FALDA')")
+	@GetMapping("patchPedidoValidacionFalda/{tipo}/{id}")
+	public String patchPedidoValidacionFalda(@PathVariable Long id,@PathVariable Boolean tipo) {
+
+		Date date = new Date();
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+        String sDate = hourdateFormat.format(date);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+		pedido.setValidacion(tipo);
+		pedido.setActualizadoPor(auth.getName());
+		pedido.setUltimaFechaCreacion(sDate);
+		cargaPedidoService.save(pedido);
+		return ("redirect:/carga-de-pedidos");
+	}
+
+	@GetMapping("getEstatusValidacion/{id}")
+	@ResponseBody
+	public Boolean getEstatusValidacion(@PathVariable Long id) {
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+		return pedido.getValidacion();
+	}
+
+
+}

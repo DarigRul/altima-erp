@@ -6,7 +6,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-    <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+    <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -55,6 +55,11 @@
         </div>
         <!-- /.content-wrapper -->
         <div th:insert="navegacion-footer"></div>
+        <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
+        <input type="hidden" id="rolListar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_CATALOGOS_LISTAR'')')}? 1:0">
+        <input type="hidden" id="rolAgregar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_CATALOGOS_AGREGAR'')')}? 1:0">
+        <input type="hidden" id="rolEditar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_CATALOGOS_EDITAR'')')}? 1:0">
+        <input type="hidden" id="rolEliminar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_CATALOGOS_ELIMINAR'')')}? 1:0">
     </div>
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
@@ -67,6 +72,13 @@
         $('#menuComercial').addClass('menu-open');
         $('#navComercial').addClass('active-altima');
         $('#navComCat').addClass('active');
+
+        var rolAdmin = $('#rolAdmin').val();
+        var rolListar = $('#rolListar').val();
+        var rolAgregar = $('#rolAgregar').val();
+        var rolEditar = $('#rolEditar').val();
+        var rolEliminar = $('#rolEliminar').val();
+        console.log(rolAdmin);
     </script>
 </body>
 

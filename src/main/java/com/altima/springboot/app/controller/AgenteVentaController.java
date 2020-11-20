@@ -13,6 +13,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -78,6 +79,7 @@ public class AgenteVentaController {
 		return "seguimientos";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_LISTAR"})
 	@GetMapping("/seguimientos")
 	public String listSeguimientos(Model model) {
 		model.addAttribute("Listclientes", clienteservice.findAll(null));
@@ -148,6 +150,7 @@ public class AgenteVentaController {
 		return "agregar-carga";
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_LISTAR"})
 	@GetMapping("/movimientos-agentes")
 	public String listMovi(Model model) {
 		

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,6 +68,7 @@ public class CatalogosAmpRestControllerV2 {
 		return result;
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR"})
 	@PostMapping("/editar-movimiento")
 	public Boolean EditarMovimiento(Long Id, String Nombre, String Tipo) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -94,6 +96,7 @@ public class CatalogosAmpRestControllerV2 {
 		return result;
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_ELIMINAR"})
 	@PostMapping("/baja-movimiento")
 	public boolean BajaMovimiento(Long Id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -114,6 +117,7 @@ public class CatalogosAmpRestControllerV2 {
 		return result;
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_ELIMINAR"})
 	@PostMapping("/alta-movimiento")
 	public boolean AltaMovimiento(Long Id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -134,6 +138,7 @@ public class CatalogosAmpRestControllerV2 {
 		return result;
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR", "ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR"})
 	@PostMapping("/guardar-almacen-fisico")
 	public Boolean GuardarAlmacenFisico(String Nombre, Long Encargado) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -161,6 +166,7 @@ public class CatalogosAmpRestControllerV2 {
 		return result;
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR"})
 	@PostMapping("/editar-almacen-fisico")
 	public Boolean EditarAlmacenFisico(String Nombre, Long Encargado, Long Id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -186,8 +192,9 @@ public class CatalogosAmpRestControllerV2 {
 		return result;
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR", "ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR"})
 	@PostMapping("/guardar-almacen-logico")
-	public Boolean GuardarAlmacenLogico(Long AlmacenFisico, String Nombre, Long Entrada, Long Salida) {
+	public Boolean GuardarAlmacenLogico(Long AlmacenFisico, String Nombre, Long Entrada, Long Salida, String tipo) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -202,6 +209,7 @@ public class CatalogosAmpRestControllerV2 {
 				almacenlogico.setCreadoPor(auth.getName());
 				almacenlogico.setFechaCreacion(dateFormat.format(date));
 				almacenlogico.setEstatus("1");
+				almacenlogico.setTipo(tipo);
 				AlmacenLogicoService.save(almacenlogico);
 				result = true;
 			} catch (Exception e) {
@@ -214,6 +222,7 @@ public class CatalogosAmpRestControllerV2 {
 		return result;
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR"})
 	@PostMapping("/editar-almacen-logico")
 	public Boolean EditarAlmacenLogico(Long Id, Long AlmacenFisico, String Nombre, Long Entrada, Long Salida) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -265,6 +274,7 @@ public class CatalogosAmpRestControllerV2 {
 		return LookupService.findAllMovements();
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_ELIMINAR"})
 	@PostMapping("/baja-almacen")
 	public boolean BajaAlmacen(Long Id, String Tipo) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -294,6 +304,7 @@ public class CatalogosAmpRestControllerV2 {
 		return result;
 	}
 
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_ELIMINAR"})
 	@PostMapping("/alta-almacen")
 	public boolean AltaAlmacen(Long Id, String Tipo) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -323,4 +334,24 @@ public class CatalogosAmpRestControllerV2 {
 		return result;
 	}
 
+	@GetMapping("/validar-select-tipo")
+	public String validarMateriayHabilitacion() {
+
+		if ( AlmacenLogicoService.existHabilitacion() == false && AlmacenLogicoService.existMaterial() == false) {
+			
+			return "Material y habilitacion";
+		}
+		 if (AlmacenLogicoService.existHabilitacion() == false ) {
+			 System.out.println("Controller de habi"+"-----------");
+			return "Habilitacion";
+		}
+		 if (AlmacenLogicoService.existMaterial() == false) {
+			 System.out.println("Controller de mate"+"-----------");
+			return "Material";
+		}
+		
+		return "No aplica";	
+		
+		
+	}
 }

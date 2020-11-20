@@ -63,7 +63,9 @@ function guardarProveedor(){
 			document.getElementById("proveedorModal").value && 
 			document.getElementById("proveedorClave").value && 
 			document.getElementById("proveedorCosto").value && 
-			document.getElementById("proveedorSurtido").value){
+			document.getElementById("proveedorSurtido").value &&
+			document.getElementById("proveedorCosto").value >0 &&
+			document.getElementById("proveedorSurtido").value >0){
 		
 		var id = $("#id").val();
 

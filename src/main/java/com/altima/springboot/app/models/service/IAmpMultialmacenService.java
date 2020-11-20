@@ -29,4 +29,9 @@ public interface IAmpMultialmacenService {
 
 	Long findIdMultialmacen(Long idAlmacenLogico,Long idArticulo,String tipo);
 
+	Integer disponibles(Long id, String material);
+
+	Float existenciaArticuloByAlmacen(Long idAlmacenLogico,Long idArticulo,String tipo);
+
+	String existArticuloInAlmacen(Long idAlmacenLogico,Long idArticulo,String tipo);
 }

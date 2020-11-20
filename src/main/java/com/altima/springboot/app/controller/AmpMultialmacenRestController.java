@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.altima.springboot.app.dto.ArticulosMultialmacenDto;
@@ -78,5 +79,21 @@ public class AmpMultialmacenRestController {
 	public List<ArticulosMultialmacenDto> MultialmacenArticulos(Long idAlmacenLogico) {
 
 		return AmpMultialmacenService.findArticulosByMultialmacen(idAlmacenLogico);
+	}
+	
+	@GetMapping("/multialmacen-articulos-disponibles")
+	public Integer disponibles(Long articulo, String tipo) {
+
+		return AmpMultialmacenService.disponibles(articulo, tipo);
+	}
+
+	@GetMapping("getExistenciaArticulo")
+	public Float getExistenciaArticulo(@RequestParam Long idAlmacenLogico,@RequestParam Long idArticulo,@RequestParam String Tipo) {
+		return AmpMultialmacenService.existenciaArticuloByAlmacen(idAlmacenLogico, idArticulo, Tipo);
+	}
+
+	@GetMapping("getExistArticuloInAlmacen")
+	public String getExistArticuloInAlmacen(@RequestParam Long idAlmacenLogico,@RequestParam Long idArticulo,@RequestParam String Tipo) {
+		return AmpMultialmacenService.existArticuloInAlmacen(idAlmacenLogico, idArticulo, Tipo);
 	}
 }

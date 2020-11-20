@@ -78,23 +78,29 @@
 												<tr>
 													<th rowspan='2' style="width:5%">Talla</th>
 													<th th:colspan="${headTam}"  class="text-center" style="width:70%">Largos</th>
-													<th colspan="2" class="text-center" style="width:20%">Aumento de telas</th>
+													<!-- <th colspan="2" class="text-center" style="width:20%">Aumento de telas</th> -->
+													
 													<th rowspan='2' style="width:5%">Acciones</th>
 												</tr>
+												 
 												<tr>
 													 <th th:each="head, headit: ${head}" th:text="${head}"></th>
+													<!-- 
 													<th class="text-center" style="width:10%;">Estampada rayada</th>
 													<th class="text-center" style="width:10%;">Estampada cuadros</th>
+													-->
 												</tr>
+												
 											</thead>
 											<tbody>
 												<tr
 													  th:each="listConsumo, listConsumo_iterator: ${listConsumo}">
 													
 													<td th:each="listConsumo2, listConsumo_iterator2: ${listConsumo}" th:text="${listConsumo2}?: 'N/A'"></td>
-													<td>1.85</td>
-													<td>1.85</td>
-													
+													<!--  
+														<td>1.85</td>
+														<td>1.85</td>
+													-->
 													<td class="tdcenter">
 														<button class="btn btn-warning btn-circle btn-sm popoverxd" th:id_talla="${listConsumo_id[listConsumo_iterator.index]}" th:num_talla="${listConsumo[0]}"    th:onclick="'editar_tallas(this,' + ${action} + ');'"   data-toggle="modal" data-target="#modalConsumoPorPrendas" data-container="body" data-placement="top" data-content="Editar">
 															<i class="fas fa-pen"></i>
@@ -114,7 +120,7 @@
 														<tr >
 															<th rowspan='2' style="width:5%">Talla</th>
 															<th th:each="listLargo: ${listLargo}" colspan="2" class="text-center" style="width:13%"
-																th:text="${listLargo}"/>
+																th:text="${listLargo}">
 																<th rowspan='2' style="width:4%">Acciones</th>
 														</tr>
 									  
@@ -122,7 +128,7 @@
 												
 												<tr>
 												<th th:each="numTallas: ${numTallas}" class="text-center" style="width:6.5%"
-																th:text="${numTallas}"/>
+																th:text="${numTallas}">
 												</tr>
 											</thead>
 											<tbody>

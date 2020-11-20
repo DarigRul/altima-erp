@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-	<title id="pageTitle">Cotizaciones | Altima</title>
+    <title id="pageTitle">Cotizaciones | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
@@ -23,7 +23,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Cotizaciones <a th:href="@{/agregar-cotizacion}"><button class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></a></h1>
+                            <h1>Cotizaciones <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/agregar-cotizacion}"><button class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></a></h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -63,30 +63,40 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-	                                        <tr th:each="cotizacion:${ListarCotizaciones}">
-	                                        	<td th:text="${cotizacion[1]}"></td><!-- id_text -->
-		                                        <td th:text="${cotizacion[2]}"></td><!-- fecha_creacion -->
-		                                        <!-- tipo_cotizacion -->
-		                                        <td th:if="${cotizacion[3]==1}">Lista de precios</td>
-		                                        <td th:if="${cotizacion[3]==2}">Desglosada por tipo de prenda</td>
-		                                        <td th:if="${cotizacion[3]==3}">Desglosada</td>
-		                                        <td th:text="${cotizacion[4]}"></td><!-- cliente -->
-		                                        <td th:text="${cotizacion[5]==0.0}?'Aún sin cotizar':'$ '+${cotizacion[5]}"></td><!-- total -->
-		                                        <td th:text="${cotizacion[8]==0.0 and cotizacion[9]==0.0 and cotizacion[10]==0}?'No':'Si'"></td>
-		                                        <td th:text="${cotizacion[6]}"></td><!-- agente de ventas -->
-		                                        <!-- estatus -->
-		                                        <td th:if="${cotizacion[7]==0}">Por Autorizar</td>
-		                                        <td th:if="${cotizacion[7]==1}">Pendiente de Autorizaci&oacute;n</td>
-		                                        <td th:if="${cotizacion[7]==2}">Autorizada</td>
-		                                        <td class="text-center">
-		                                       		<button th:if="${cotizacion[7]!=2} and ${cotizacion[5]!=0.0} or ${cotizacion[8]==100.0} and ${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}" th:onclick="'Autorizar('+${cotizacion[0]}+')'" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Autorizar"><i class="fas fa-vote-yea" style="margin-left:-2px"></i></button>
-		                                        	<a th:href="@{/agregar-cotizacion/}+${cotizacion[0]}"><button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button></a>
-		                                        	<button th:if="${cotizacion[7]==0} and ${cotizacion[5]!=0.0} or ${cotizacion[8]==100.0}" th:onclick="'solicitarAutorizacion('+${cotizacion[0]}+')'" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Solicitar autorizaci&oacute;n"><i class="fas fa-check"></i></button>
-		                                        	<button th:if="${cotizacion[7]==2}" class="btn btn-primary btn-circle btn-sm popoverxd" th:attr="onclick=|ElegirConfiguracionCotizacion('${cotizacion[0]}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Descargar"><i class="fas fa-download"></i></button>
-		                                      		<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
-		                                      		<button th:if="${cotizacion[7]==2}" class="btn btn-primary btn-circle btn-sm popoverxd" th:attr="onclick=|EnviarCorreoCotizacionModal('${cotizacion[0]}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Enviar por Correo"><i class="fas fa-paper-plane"></i></button>
-		                                        </td>
-	                                        </tr>
+                                            <tr th:each="cotizacion:${ListarCotizaciones}">
+                                                <td th:text="${cotizacion[1]}"></td>
+                                                <!-- id_text -->
+                                                <td th:text="${cotizacion[2]}"></td>
+                                                <!-- fecha_creacion -->
+                                                <!-- tipo_cotizacion -->
+                                                <td th:if="${cotizacion[3]==1}">Lista de precios</td>
+                                                <td th:if="${cotizacion[3]==2}">Desglosada por tipo de prenda</td>
+                                                <td th:if="${cotizacion[3]==3}">Desglosada</td>
+                                                <td th:text="${cotizacion[4]}"></td>
+                                                <!-- cliente -->
+                                                <td th:text="${cotizacion[5]==0.0}?'Aún sin cotizar':'$ '+${cotizacion[5]}"></td>
+                                                <!-- total -->
+                                                <td th:text="${cotizacion[8]==0.0 and cotizacion[9]==0.0 and cotizacion[10]==0}?'No':'Si'"></td>
+                                                <td th:text="${cotizacion[6]}"></td>
+                                                <!-- agente de ventas -->
+                                                <!-- estatus -->
+                                                <td th:if="${cotizacion[7]==0}">Por Autorizar</td>
+                                                <td th:if="${cotizacion[7]==1}">Pendiente de Autorizaci&oacute;n</td>
+                                                <td th:if="${cotizacion[7]==2}">Autorizada</td>
+                                                <td class="text-center">
+                                                    <button th:if="${cotizacion[7]!=2} and ${cotizacion[5]!=0.0} or ${cotizacion[8]==100.0} and ${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}" th:onclick="'Autorizar('+${cotizacion[0]}+')'" class="btn btn-success btn-circle btn-sm popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Autorizar"><i class="fas fa-vote-yea" style="margin-left:-2px"></i></button>
+                                                    <a th:href="@{/agregar-cotizacion/}+${cotizacion[0]}"><button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button></a>
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_AUTORIZAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {cotizacion[7]==0} and {cotizacion[5]!=0.0} or {cotizacion[8]==100.0})}" th:onclick="'solicitarAutorizacion('+${cotizacion[0]}+')'"
+                                                        class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Solicitar autorizaci&oacute;n"><i class="fas fa-check"></i></button>
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_DESCARGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {cotizacion[7]==2})}" class="btn btn-primary btn-circle btn-sm popoverxd" th:attr="onclick=|ElegirConfiguracionCotizacion('${cotizacion[0]}')|"
+                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Descargar"><i class="fas fa-download"></i></button>
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"
+                                                        data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></button>
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_COTIZACIONES_CORREO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {cotizacion[7]==2})}" class="btn btn-primary btn-circle btn-sm popoverxd" th:attr="onclick=|EnviarCorreoCotizacionModal('${cotizacion[0]}')|"
+                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Enviar por Correo"><i class="fas fa-paper-plane"></i></button>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -102,186 +112,189 @@
         <!-- /.content-wrapper -->
 
         <div th:insert="navegacion-footer"></div>
-       	<!-- Modal para configuracion de cotizacion antes de imprimir  -->
-		<div class="modal fade" id="ElegirConfiguracionDeCotizacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-			    		Selecciona las opciones que deseas:
-			    		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <!-- Modal para configuracion de cotizacion antes de imprimir  -->
+        <div class="modal fade" id="ElegirConfiguracionDeCotizacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Selecciona las opciones que deseas:
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			          		<span aria-hidden="true">&times;</span>
 			        	</button>
-			    	</div>
-		      		<div class="modal-body">
-		        		<div class="custom-control custom-checkbox">
-				    		<input type="checkbox" class="custom-control-input" id="ImprimirConTotales">
-				    		<label class="custom-control-label" for="ImprimirConTotales">Imprimir con totales</label>
-						</div><br>
-						<div class="custom-control custom-checkbox">
-				    		<input type="checkbox" class="custom-control-input" id="ImprimirConCV">
-				    		<label class="custom-control-label" for="ImprimirConCV">Imprimir con CV</label>
-				    	</div><br>
-		      		</div>
-		      		<div class="modal-footer">
-		      			<div id="buttonContainer">
-		      			<!-- Se inserta el boton a traves de JS -->
-		      			</div>
-		      		</div>
-		    	</div>
-		  	</div>
-		</div>
-		<!-- Modal para configuracion de cotizacion antes de imprimir  -->
-		
-		
-		<!-- Modal para cuando envias un correo  -->
-		<div class="modal fade" id="EnviarCorreoCotizacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-			    		Enviar cotizaci&oacute;n por correo
-			    		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </div>
+                    <div class="modal-body">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="ImprimirConTotales">
+                            <label class="custom-control-label" for="ImprimirConTotales">Imprimir con totales</label>
+                        </div><br>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="ImprimirConCV">
+                            <label class="custom-control-label" for="ImprimirConCV">Imprimir con CV</label>
+                        </div><br>
+                    </div>
+                    <div class="modal-footer">
+                        <div id="buttonContainer">
+                            <!-- Se inserta el boton a traves de JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para configuracion de cotizacion antes de imprimir  -->
+
+
+        <!-- Modal para cuando envias un correo  -->
+        <div class="modal fade" id="EnviarCorreoCotizacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Enviar cotizaci&oacute;n por correo
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			          		<span aria-hidden="true">&times;</span>
 			        	</button>
-			    	</div>
-		      		<div class="modal-body">
-		      			<!--  -->
-		      			<div class="custom-control custom-checkbox">
-				    		<input type="checkbox" class="custom-control-input" id="ImprimirConTotalesCorreo">
-				    		<label class="custom-control-label" for="ImprimirConTotalesCorreo">Imprimir con totales</label>
-						</div><br>
-						<div class="custom-control custom-checkbox">
-				    		<input type="checkbox" class="custom-control-input" id="ImprimirConCVCorreo">
-				    		<label class="custom-control-label" for="ImprimirConCVCorreo">Imprimir con CV</label>
-				    	</div><br>
-		      			<!--  -->
-		        		<div class="custom-control">
-		        		<label for="exampleInputEmail1">Correo de Cliente:</label>
-		        			<input type="email" class="form-control" id="CorreoParaCotizacion" aria-describedby="emailHelp" onkeypress='event.keyCode == 59' placeholder="Ingresar Correo">
-						</div><br>
-						<div class="custom-control" id="ContenedorBotonParaEnviar">
-				    		<!--  -->
-				    		<div id="borrarContenido"></div>
-				    		<button class="btn btn-primary" type="button" disabled id='ContenedorBotonParaEnviarCargando' style="display: none;">
+                    </div>
+                    <div class="modal-body">
+                        <!--  -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="ImprimirConTotalesCorreo">
+                            <label class="custom-control-label" for="ImprimirConTotalesCorreo">Imprimir con totales</label>
+                        </div><br>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="ImprimirConCVCorreo">
+                            <label class="custom-control-label" for="ImprimirConCVCorreo">Imprimir con CV</label>
+                        </div><br>
+                        <!--  -->
+                        <div class="custom-control">
+                            <label for="exampleInputEmail1">Correo de Cliente:</label>
+                            <input type="email" class="form-control" id="CorreoParaCotizacion" aria-describedby="emailHelp" onkeypress='event.keyCode == 59' placeholder="Ingresar Correo">
+                        </div><br>
+                        <div class="custom-control" id="ContenedorBotonParaEnviar">
+                            <!--  -->
+                            <div id="borrarContenido"></div>
+                            <button class="btn btn-primary" type="button" disabled id='ContenedorBotonParaEnviarCargando' style="display: none;">
   								<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 	  								Enviando Correo...
 							</button>
-				    	</div><br>
-		      		</div>
-		      		<div class="modal-footer">
-		      			<div id="buttonContainer">
-		      			<!-- Se inserta el boton a traves de JS -->
-		      			</div>
-		      		</div>
-		    	</div>
-		  	</div>
-		</div>
-		<!-- Modal para cuando envias un correo  -->
-		
-		
+                        </div><br>
+                    </div>
+                    <div class="modal-footer">
+                        <div id="buttonContainer">
+                            <!-- Se inserta el boton a traves de JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para cuando envias un correo  -->
+
+
     </div>
     <!-- ./wrapper -->
 
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/tablaCotizaciones.js"></script>
-   	<script>
-   	$('#iComercial').removeClass('text-altima');
-	$('#menuComercial').addClass('menu-open');
-	$('#navComercial').addClass('active-altima');
-	$('#navCotizaciones').addClass('active');
-	</script>
-	<script>
-	$(document).ready(function(){
-		$( "#CorreoParaCotizacion" ).prop( "disabled", true );
-		$("#ElegirConfiguracionDeCotizacion").on("hidden.bs.modal", function () {
-			$("#buttonButton").remove();
-			$('#ImprimirConTotales').prop('checked', false);
-			$('#ImprimirConCV').prop('checked', false);
-		});
-		$("#EnviarCorreoCotizacion").on("hidden.bs.modal", function () {
-			$( "#CorreoParaCotizacion" ).prop( "disabled", true );
-			$('#ActuallyBotonEnviar').remove();
-			$('#CorreoParaCotizacion').val(' ');
-		});
-	});
-	
-	function ElegirConfiguracionCotizacion(id){
-		//Se le inserta el boton
-		$("#buttonContainer").append("<button id='buttonButton' class='btn btn-success' onclick='Imprimir(" + id + ")'>Imprimir</button>");
-		//Se abre el modal primero
-		$('#ElegirConfiguracionDeCotizacion').modal('toggle');
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active-altima');
+        $('#navCotizaciones').addClass('active');
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#CorreoParaCotizacion").prop("disabled", true);
+            $("#ElegirConfiguracionDeCotizacion").on("hidden.bs.modal", function() {
+                $("#buttonButton").remove();
+                $('#ImprimirConTotales').prop('checked', false);
+                $('#ImprimirConCV').prop('checked', false);
+            });
+            $("#EnviarCorreoCotizacion").on("hidden.bs.modal", function() {
+                $("#CorreoParaCotizacion").prop("disabled", true);
+                $('#ActuallyBotonEnviar').remove();
+                $('#CorreoParaCotizacion').val(' ');
+            });
+        });
 
-	}
-	function Imprimir(id){
-		var ImprimirConTotales = $('#ImprimirConTotales').is(':checked');
-		var ImprimirConCv = $('#ImprimirConCV').is(':checked');
-		window.open("/imprimir-cotizacion/" + id + "/" + ImprimirConTotales + "/" + ImprimirConCv + "/nulo?format=pdf", '_blank');
-		$('#ElegirConfiguracionDeCotizacion').modal('toggle');
-	}
-	
-	function EnviarCorreoCotizacionModal(id){
-		$('#ImprimirConTotalesCorreo').prop('checked', false);
-		$('#ImprimirConCVCorreo').prop('checked', false);
-		$.ajax({
-			type: "GET",
-			url: "/correo_cliente_cotizacion",
-			data: { id: id },
-			success: (data) => {
-				$('#CorreoParaCotizacion').val(data);
-				$('#borrarContenido').remove();
-				$('#ContenedorBotonParaEnviar').append("<div id='borrarContenido'></div>");
-				$("#CorreoParaCotizacion" ).prop( "disabled", false );
-				$('#borrarContenido').append("<button id='ActuallyBotonEnviar' class='btn btn-success' onclick='EnviarCorreoCotizacion(" + id + ")'>Enviar</button><br>"+
-													   "<span id='avisoCorreo' style='color:red'>Si desea enviar varios correos, por favor separe por coma simple</span>");
-			},
-			error: (e) => {
-				alert(e);
-			}
-		});
-		//Se abre el modal primero
-		$('#EnviarCorreoCotizacion').modal('toggle');
-	}
-	
-	function EnviarCorreoCotizacion(id){
-		$('#ActuallyBotonEnviar').remove();
-		$('#ContenedorBotonParaEnviarCargando').css("display", "block");
-		var ImprimirConTotalesCorreo = $('#ImprimirConTotalesCorreo').is(':checked');
-		var ImprimirConCvCorreo = $('#ImprimirConCVCorreo').is(':checked');
-		$.ajax({
-			type: "GET",
-			url: "/imprimir-cotizacion/" + id + "/" + ImprimirConTotalesCorreo + "/" + ImprimirConCvCorreo + "/" + $('#CorreoParaCotizacion').val(),
-			data: {  },
-			success: (data) => {
-				//
-				Swal.fire({
-							icon: 'success',
-							title: 'Correo enviado',
-							text: 'Se ha enviado el correo satisfactoriamente',
-							showConfirmButton: false,
-					        timer: 2000,
-					        onClose: () => {
-					        	$('#ContenedorBotonParaEnviarCargando').css("display", "none");
-								$('#EnviarCorreoCotizacion').modal('toggle');
-						      }
-						})
-				
-			},
-			error: (e) => {
-				Swal.fire({
-					icon: 'error',
-					title: 'Correo no enviado',
-					text: 'No se pudo enviar el correo satisfactoriamente',
-					showConfirmButton: false,
-			        timer: 2000,
-			        onClose: () => {
-			        	$('#ContenedorBotonParaEnviarCargando').css("display", "none");
-						$('#EnviarCorreoCotizacion').modal('toggle');
-				      }
-				})
-			}
-		});
-		
-	}
-	</script>
+        function ElegirConfiguracionCotizacion(id) {
+            //Se le inserta el boton
+            $("#buttonContainer").append("<button id='buttonButton' class='btn btn-success' onclick='Imprimir(" + id + ")'>Imprimir</button>");
+            //Se abre el modal primero
+            $('#ElegirConfiguracionDeCotizacion').modal('toggle');
+
+        }
+
+        function Imprimir(id) {
+            var ImprimirConTotales = $('#ImprimirConTotales').is(':checked');
+            var ImprimirConCv = $('#ImprimirConCV').is(':checked');
+            window.open("/imprimir-cotizacion/" + id + "/" + ImprimirConTotales + "/" + ImprimirConCv + "/nulo?format=pdf", '_blank');
+            $('#ElegirConfiguracionDeCotizacion').modal('toggle');
+        }
+
+        function EnviarCorreoCotizacionModal(id) {
+            $('#ImprimirConTotalesCorreo').prop('checked', false);
+            $('#ImprimirConCVCorreo').prop('checked', false);
+            $.ajax({
+                type: "GET",
+                url: "/correo_cliente_cotizacion",
+                data: {
+                    id: id
+                },
+                success: (data) => {
+                    $('#CorreoParaCotizacion').val(data);
+                    $('#borrarContenido').remove();
+                    $('#ContenedorBotonParaEnviar').append("<div id='borrarContenido'></div>");
+                    $("#CorreoParaCotizacion").prop("disabled", false);
+                    $('#borrarContenido').append("<button id='ActuallyBotonEnviar' class='btn btn-success' onclick='EnviarCorreoCotizacion(" + id + ")'>Enviar</button><br>" +
+                        "<span id='avisoCorreo' style='color:red'>Si desea enviar varios correos, por favor separe por coma simple</span>");
+                },
+                error: (e) => {
+                    alert(e);
+                }
+            });
+            //Se abre el modal primero
+            $('#EnviarCorreoCotizacion').modal('toggle');
+        }
+
+        function EnviarCorreoCotizacion(id) {
+            $('#ActuallyBotonEnviar').remove();
+            $('#ContenedorBotonParaEnviarCargando').css("display", "block");
+            var ImprimirConTotalesCorreo = $('#ImprimirConTotalesCorreo').is(':checked');
+            var ImprimirConCvCorreo = $('#ImprimirConCVCorreo').is(':checked');
+            $.ajax({
+                type: "GET",
+                url: "/imprimir-cotizacion/" + id + "/" + ImprimirConTotalesCorreo + "/" + ImprimirConCvCorreo + "/" + $('#CorreoParaCotizacion').val(),
+                data: {},
+                success: (data) => {
+                    //
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Correo enviado',
+                        text: 'Se ha enviado el correo satisfactoriamente',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        onClose: () => {
+                            $('#ContenedorBotonParaEnviarCargando').css("display", "none");
+                            $('#EnviarCorreoCotizacion').modal('toggle');
+                        }
+                    })
+
+                },
+                error: (e) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Correo no enviado',
+                        text: 'No se pudo enviar el correo satisfactoriamente',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        onClose: () => {
+                            $('#ContenedorBotonParaEnviarCargando').css("display", "none");
+                            $('#EnviarCorreoCotizacion').modal('toggle');
+                        }
+                    })
+                }
+            });
+
+        }
+    </script>
 </body>
 
 </html>

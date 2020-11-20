@@ -1,47 +1,46 @@
 <div class="small-box bg-danger">
-   <div class="inner">
-      <h3>Calendarios</h3>
-      <button data-toggle="modal" data-target="#detalleCuidado" class="btn btn-link" id="btnCalendarioDetalle"
-         onclick="ListarCalendarios()" style="color: #ffffff!important; padding-left: 1px;"><i
+    <div class="inner">
+        <h3>Calendarios</h3>
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#detalleCuidado" class="btn btn-link" id="btnCalendarioDetalle"
+            onclick="ListarCalendarios()" style="color: #ffffff!important; padding-left: 1px;"><i
             class="fas fa-info-circle"></i> Detalle</button>
-   </div>
-   <div class="icon">
-      <i class="far fa-calendar-alt"></i>
-   </div>
-   <a class="small-box-footer">
-      <button onclick="agregarCalendario()" class="btn btn-link" style="color: #ffffff!important">Agregar <i
+    </div>
+    <div class="icon">
+        <i class="far fa-calendar-alt"></i>
+    </div>
+    <a class="small-box-footer">
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarCalendario()" class="btn btn-link" style="color: #ffffff!important">Agregar <i
             class="fas fa-plus-circle"></i></button>
-   </a>
+    </a>
 </div>
 <!-- Modal Marcas Tabla -->
 <div class="modal fade" id="detalleCuidado" tabindex="-1" role="dialog" aria-hidden="true">
-   <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalCuidadoMobile">
-      <div class="modal-content" id="contenedorTabla7">
-         <div class="modal-header bg-danger">
-            <h5 class="modal-title" id="exampleModalLongTitle">Calendarios <button onclick="agregarCalendario()"
-                  class="btn btn-light btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"
-                  data-placement="right" data-content="Agregar"><i class="fas fa-plus text-danger"></i></button>
-            </h5>
-            <button type="button" class="close" id="closeCalendario" data-dismiss="modal" aria-label="Close">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalCuidadoMobile">
+        <div class="modal-content" id="contenedorTabla7">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title" id="exampleModalLongTitle">Calendarios <button th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarCalendario()" class="btn btn-light btn-circle btn-sm popoverxd"
+                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus text-danger"></i></button>
+                </h5>
+                <button type="button" class="close" id="closeCalendario" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
             </button>
-         </div>
-         <div class="modal-body">
-            <table class="table table-striped table-bordered" id="tableCalendarios" style="width: 100%;">
-               <thead>
-                  <tr>
-                     <th>ID</th>
-                     <th>Fecha</th>
-                     <th>Nombre</th>
-                     <th>Status</th>
-                     <th>Acciones</th>
-                  </tr>
-               </thead>
-               <tbody>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered" id="tableCalendarios" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Nombre</th>
+                            <th>Status</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-               </tbody>
-            </table>
-         </div>
-      </div>
-   </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

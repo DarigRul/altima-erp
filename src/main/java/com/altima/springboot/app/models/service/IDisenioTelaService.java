@@ -60,4 +60,5 @@ public interface IDisenioTelaService {
 	
 	public String EstatusCalidadTela( Long id);
 	public String buscar_tela(String nombre);
+	public Integer disponibles(Long id);
 }

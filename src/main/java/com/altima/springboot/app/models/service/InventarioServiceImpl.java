@@ -103,6 +103,7 @@ public class InventarioServiceImpl implements IInventarioService {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<ProduccionDetallePedido> listCatalogoInventario() {
+		
 		// TODO Auto-generated method stub
 		return em.createNativeQuery("SELECT 'stock' AS stock, \n" + 
 				"		po.id_detalle_pedido AS Id, \n" + 

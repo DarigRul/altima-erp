@@ -4,6 +4,9 @@
 <head th:include="navegacion-head :: header">
     <title id="pageTitle">Requisici&oacute;n de almac&eacute;n | Altima</title>
 </head>
+ <style type="text/css">
+.hidden { display:none; }
+</style>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
     <!-- Site wrapper -->
@@ -54,60 +57,99 @@
                                         <div class="row">
                                             <div class="form-group col-md-12">
                                                 <ul class="list-group list-group-horizontal-md" style="margin-bottom: 20px;">
-                                                    <li class="list-group-item" style="width: 25%;"><strong>Requisici&oacute;n: </strong><a>REQ100045</a></li>
-                                                    <li class="list-group-item" style="width: 25%;"><strong>Fecha: </strong><a>20/08/2020</a></li>
-                                                    <li class="list-group-item" style="width: 25%;"><strong>Solicitante: </strong><a>Bertha</a></li>
-                                                    <li class="list-group-item" style="width: 25%;"><strong>Departamento: </strong><a>Dise&ntilde;o</a></li>
+                                                    <li class="list-group-item" style="width: 25%;"><strong>Requisici&oacute;n: </strong><a th:text="${folio}">REQ1000452222</a></li>
+                                                    <li class="list-group-item" style="width: 25%;"><strong>Fecha: </strong><a th:text="${fecha}" >20/08/2020</a></li>
+                                                    <li sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')" class="list-group-item" style="width: 25%;"><strong style="text-align:center">Solicitante: </strong>
+                                                        <select  class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true"
+                                                        title="Selecciona uno..." id="idEmpleadoSolicitante" name="idEmpleadoSolicitante" >
+                                                        <option th:each="listSolicitante: ${listSolicitante}" 
+                                                            th:value="${listSolicitante[0]}" 
+                                                            th:depa="${listSolicitante[2]}"
+                                                            th:text="${listSolicitante[1]}">
+                                                        </option>
+                                                        </select>
+                                                    </li>
+                                                    <li  class="list-group-item" style="width: 25%;"><strong>Departamento: </strong><a id="id-depa" th:text="${departamento}" >Dise&ntilde;o</a></li>
                                                 </ul>
                                             </div>
+
+                                            
+                                            <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+                                            <input type="hidden" name="idRequisicion" id="idRequisicion" th:value="${idRequisicion}" />
                                             <div class="form-group col-md-6">
                                                 <label for="cantidadRequisicion">Cantidad</label>
-                                                <input type="number" class="form-control" id="cantidadRequisicion" placeholder="12">
+                                                <input type="number" class="form-control" id="cantidadRequisicion" name="cantidadRequisicion" placeholder="12">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="descripcionRequisicion">Descripci&oacute;n</label>
                                                 <div class="input-group mb-3">
-                                                    <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="descripcionRequisicion">
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
+                                                    <select id="materialRequisicion" name="materialRequisicion" class="form-control selectpicker"
+															data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                                                        <option th:each="materiales: ${materiales}"
+                                                         th:value="${materiales[0]}" 
+                                                         th:idText="${materiales[1]}" 
+                                                         th:nombre="${materiales[2]}" 
+                                                         th:unidad="${materiales[3]}" 
+                                                         th:tamanio="${materiales[4]}" 
+                                                         th:color="${materiales[5]}" 
+                                                         th:tipo="${materiales[6]}" 
+                                                        th:text="${materiales[1]} + ' '+ ${materiales[2]}"></option>
                                                     </select>
                                                     <div class="input-group-append" style="margin-left: 10px;">
-                                                        <button type="button"
+                                                        <button type="button" onclick="agregar();"
                                                         class="btn btn-sm icon-btn btn-altima text-white">
                                                         <span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
                                                     </div>
                                                   </div>
                                             </div>
-                                            <div class="form-group col-md-12">
-                                                <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                            <div  class="form-group col-md-12">
+                                                <table id="tablaGeneral" class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
                                                     <thead>
                                                         <tr>
+                                                        	
+                                                        	<th>idMaterial</th>
+                                                        	<th >tipo</th>
                                                             <th>Cantidad</th>
                                                             <th>Clave articulo</th>
                                                             <th>Descripci&oacute;n</th>
-                                                            <th>UOM</th>
+                                                            <th>Unidad de medida</th>
                                                             <th>Tama&ntilde;o</th>
                                                             <th>Color</th>
+                                                            <th>Eliminar</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>11</td>
-                                                            <td>111</td>
-                                                            <td>1111</td>
-                                                            <td>11111</td>
-                                                            <td>111111</td>
-                                                        </tr>
+                                                        <tr th:each="tableMateriales: ${tableMateriales}">
+		
+															<td th:text="${tableMateriales[0]}"></td>
+															<td th:text="${tableMateriales[1]}"></td>
+															<td th:text="${tableMateriales[2]}"></td>
+															<td th:text="${tableMateriales[3]}"></td>
+															<td th:text="${tableMateriales[4]}"></td>
+															<td th:text="${tableMateriales[5]}"></td>
+															<td th:text="${tableMateriales[6]}"></td>
+															<td th:text="${tableMateriales[7]}"></td>
+															
+															<td>
+																<button type="button"
+																th:onclick="|eliminar2('${tableMateriales[8]}', this)|"	 
+																
+																 class="btn btn-sm icon-btn btn-danger text-white btn_remove">
+																<span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar
+																</button>
+															</td>
+		
+														</tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <a th:href="${'/requisicion-de-almacen'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-                                                <button class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon fas fa-paper-plane img-circle text-altima"></span>Enviar</button>
+                                                
+                                                
+                                                
+                                                <button th:if="${compras == true}"  type="button" onclick="enviarCompras();"  class="btn icon-btn btn-altima text-white float-right" ><span class="btn-glyphicon fas fa-paper-plane img-circle text-altima"></span>Enviar</button>
+                                                <button th:if="${almacen == true}"  type="button" onclick="enviar();"  class="btn icon-btn btn-altima text-white float-right" ><span class="btn-glyphicon fas fa-paper-plane img-circle text-altima"></span>Enviar</button>
                                             </div>
                                         </div>
                                     </form>
@@ -125,13 +167,24 @@
         <div th:insert="navegacion-footer"></div>
     </div>
     <div th:replace="navegacion-scripts"></div>
-    <script src="/dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/tablaRequisicionMaterial.js"></script>
+    <script src="/dist/js/RequisicionMateriales.js"></script>
     <script>
         $('#iRequisiciones').removeClass('text-altima');
         $('#navRequisiciones').addClass('active-altima');
         $('#menuRequisiciones').addClass('menu-open');
         $('#navReqAlm').addClass('active');
+        
     </script>
+    <script>
+        $('#iRequisiciones').removeClass('text-altima');
+        $('#navRequisiciones').addClass('active-altima');
+        $('#menuRequisiciones').addClass('menu-open');
+        $('#navReqAlm').addClass('active');
+        
+    </script>
+  
+   
 </body>
 
 </html>

@@ -1,15 +1,27 @@
 <!-- Modal -->
-<div class="modal fade" id="almacenMaterial" tabindex="-1" role="dialog" aria-labelledby="materiaPrimaAlmacen"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content modal-rounded-body" id="multialmacenes">
-            <div class="modal-header bg-altima modal-rounded-header">
-                <h5 class="modal-title">Almac&eacute;n</h5>
-                <button type="button"  class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+<div class="modal fade" id="almacenMaterial" tabindex="-1" role="dialog" aria-labelledby="materiaPrimaAlmacen"  aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content" id="multialmacenes">
+            <div class="modal-header bg-altima">
+				<h5 class="modal-title" id="exampleModalLongTitle">Almac&eacute;n</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+			</div>
             <div class="modal-body">
+            	<div class="row">
+            		<div class="form-group col-md-12">
+						<label for="articuloAlmacen">Art&iacute;culo</label>
+						<input class="form-control" disabled id="articuloAlmacen" name="articuloAlmacen" value="Tela Oxford 256"> 
+					</div>
+					<div class="form-group col-md-6">
+						<label for="existenciaAlmacen">Global</label>
+						<input class="form-control" disabled id="existenciaGlobal" value="73"> 
+					</div>
+					<div class="form-group col-md-6">
+						<label for="existenciaAlmacen">Disponible</label>
+						<input class="form-control" disabled id="disponibleAlmacen"> 
+					</div>
+				</div>
+            
                 <div class="form-group col-md-12">
                     <label for="almacenLogicoInventario">Almac&eacute;n l&oacute;gico</label>
                     <div class="input-group mb-3">

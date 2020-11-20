@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Telas | Altima</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Telas</h1>
+                        </div>
+                        <div th:insert="modal-apartado-telas"></div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a th:href="@{'/'}">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Producci&oacute;n</li>
+                                <li class="breadcrumb-item active">Telas</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-dark">
+                                    <h3 class="card-title">Lista de telas</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>C&oacute;digo de tela</th>
+                                                <th>Nombre de tela</th>
+                                                <th>Color</th>
+                                                <th>Estampado</th>
+                                                <th style="width:5%">% de encogimiento/ estiramiento</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="tela: ${ListTelas}">
+                                                <td th:text="${tela.idText}">PED10008</td>
+                                                <td th:text="${tela.nombreTela}">Altima</td>
+                                                <td th:text="${tela.color}">17/10/2020</td>
+                                                <td th:text="${tela.estampado}">Uriel Cuatepitzi</td>
+                                                <td th:text="${tela.pruebaEncogimiento}">2%</td>
+                                                <td class="tdcenter">
+                                                	<a class="btn btn-info btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>&nbsp;
+                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'EditarEncogimiento('+${tela.idTela}+')'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar % encogimiento"><i class="fas fa-pen"></i></a>
+                                                </td>
+                                           </tr>
+                                        </tbody>
+                                    </table>
+                                    <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneral.js"></script>
+	
+   	<script>
+	   	$('#iProduccion').removeClass('text-altima');
+		$('#navProduccion').addClass('active-altima');
+	    $('#menuProduccion').addClass('menu-open');
+		$('#navProduccionTelas').addClass('active');
+	</script>
+	
+	<script type="text/javascript">
+		function EditarEncogimiento(id){
+			
+			Swal.fire({
+		        title: 'Agregar % de encogimiento/estiramiento',
+		        html: '<div class="row">' +
+		            '<div class="form-group col-sm-12">' +
+		            '<label for="tela">% encogimiento/estiramiento</label>' +
+		            '<input type="number" class="swal2-input" id="encogimientoTela" placeholder="2">' +
+		            '</div>' +
+		            '</div>',
+		        showCancelButton: true,
+		        cancelButtonColor: '#dc3545',
+		        cancelButtonText: 'Cancelar',
+		        confirmButtonText: 'Agregar',
+		        confirmButtonColor: '#0288d1',
+		        preConfirm: (color) => {
+		            if ($('#encogimientoTela').val()=="" || $('#encogimientoTela').val()==null || $('#encogimientoTela').val()==undefined) {
+		                Swal.showValidationMessage(
+		                    `Complete todos los campos`
+		                )
+		            }
+		        }
+		    }).then((result) => {
+		        if (result.value){
+		        	var encogiTela = $('#encogimientoTela').val();
+		        	var idTela = id;
+		        	$.ajax({
+		        		method:"POST",
+		        		url:"/agregarPorcentajeEncogimiento",
+		        		data:{"_csrf": $('#token').val(),
+		        			idTela: idTela,
+		        			encogiTela: encogiTela},
+		        		success: (data) => {
+		        			Swal.fire({
+		                         position: 'center',
+		                         icon: 'success',
+		                         title: 'Insertado correctamente',
+		                         showConfirmButton: false,
+		                         timer: 1250
+		                     })
+		        		}
+		        	})
+		        	console.log("si lo hace bien");
+		        	location.reload();
+		        }
+		    });
+		}
+	</script>
+</body>
+
+</html>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,12 +42,7 @@ public class MuestrarioController {
 	@Autowired
 	private IComercialImagenInventarioService serviceImgInventario;
 	
-	
-	
-	
-
-	
-	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_LISTAR"})
 	@GetMapping("/inventario")
 	public String Inventario(Model model) {
 		
@@ -56,11 +52,7 @@ public class MuestrarioController {
 		return "inventario";
 	}
 	
-	
-	
-	
-	
-	
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_EDITAR"})
 	@PostMapping("/find-edit/img")
 	public String findEdit( Model model, @RequestParam(name = "idPrenda", required = false) Long idPrenda,
 			@RequestParam(name = "idTela", required = false) Long idTela,
@@ -86,28 +78,11 @@ public class MuestrarioController {
 				prenda.setRutaPrenda(uniqueFilename); 
 			}
 			
-			
 			prenda.setIdPrenda(idPrenda);
 			prenda.setIdTela(idTela);
 			
 			serviceImgInventario.save(prenda);
 		
-	    	    
-	 
-	
-	
-	
-					
 	   return "redirect:/inventario";
-		
-
 	}
-	
-	
-	
-	
-
-	
-	
-	
 }
