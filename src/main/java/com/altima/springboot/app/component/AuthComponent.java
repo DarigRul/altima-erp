@@ -47,6 +47,25 @@ public class AuthComponent {
 				respuesta = false;
 			}
 			break;
+		case  "cambio-prenda":
+			ComercialPedidoInformacion pedidoCierre = cargaPedidoService.findOne(id);
+			if (pedidoCierre.getEstatus().equals("3") && auth.getAuthorities().toString().contains("ROLE_COMERCIAL_SOLICITUD_CAMBIO_PRENDA_GERENCIA")  || auth.getAuthorities().toString().contains("ROLE_ADMINISTRADOR") && pedidoCierre.getEstatus().equals("3")) {
+				respuesta = true;
+			} else {
+				respuesta = false;
+			}
+			
+			break;
+			
+		case  "listar-cambio-prenda":
+			if (auth.getAuthorities().toString().contains("ROLE_COMERCIAL_SOLICITUD_CAMBIO_PRENDA_GERENCIA")  || auth.getAuthorities().toString().contains("ROLE_ADMINISTRADOR")) {
+				respuesta = true;
+			} else {
+				respuesta = false;
+			}
+			
+			break;
+			
 
 		default:
 			break;

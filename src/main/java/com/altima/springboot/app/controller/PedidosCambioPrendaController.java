@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -54,26 +55,17 @@ public class PedidosCambioPrendaController {
 
 	@Autowired
 	private IComercialCoordinadoService CoordinadoService;
-
+	
+	@PreAuthorize("@authComponent.hasPermission(#null,{'listar-cambio-prenda'})")
     @GetMapping("/pedidos-cambio-prenda")
 	public String listPedidos(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	
-		/* Obtener todos los datos del usuario logeado */
-		Usuario user = usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
-		Long iduser = user.getIdUsuario();
-		String role = "[ROLE_ADMINISTRADOR]";
-		if (auth.getAuthorities().toString().equals(role)) {
-			model.addAttribute("admin", true);
-			
-			model.addAttribute("pedidos", cargaPedidoService.pedidosCambioPrenda(null));
-		} else {
-			model.addAttribute("pedidos", cargaPedidoService.pedidosCambioPrenda(iduser));
-
-		}
+		model.addAttribute("admin", true);
+		
+		model.addAttribute("pedidos", cargaPedidoService.pedidosCambioPrenda(null));
 		return "pedidos-cambio-prenda";
 	}// le movio erik
 
+	@PreAuthorize("@authComponent.hasPermission(#id,{'cambio-prenda'})")
 	@GetMapping("/detalle-coordinados/{id}")
 	public String listCoordinados(@PathVariable(value = "id") Long id, Model model) {
 		model.addAttribute("coordinados", CoordinadoService.findAllEmpresa(id));
@@ -82,6 +74,7 @@ public class PedidosCambioPrendaController {
 		return "pedidos-cambio-prenda-coordinado";
 	}
 
+	@PreAuthorize("@authComponent.hasPermission(#id,{'cambio-prenda'})")
 	@GetMapping("/editar-coordinado-prenda/{id}")
 	public String addCoordinados(@PathVariable(value = "id") Long id, Map<String, Object> model) {
 		ComercialCoordinadoPrenda prenda = new ComercialCoordinadoPrenda();
@@ -116,14 +109,9 @@ public class PedidosCambioPrendaController {
 		objetoCoodinadoPrenda.setIdPrenda(idModelo);
 		objetoCoodinadoPrenda.setIdTela(idTela);
 		objetoCoodinadoPrenda.setIdCoordinado(idCoordinado);
-		objetoCoodinadoPrenda.setAdicional("0");
-		objetoCoodinadoPrenda.setMontoAdicional("0");
-		objetoCoodinadoPrenda.setPrecioFinal("0");
 		objetoCoodinadoPrenda.setEstatus("1");
 		objetoCoodinadoPrenda.setActualizadoPor(auth.getName());
 		objetoCoodinadoPrenda.setUltimaFechaModificacion(fecha);
-		objetoCoodinadoPrenda.setPrecio(CoordinadoService.precioPrenda(idCoordinado, idModelo, idTela));
-		objetoCoodinadoPrenda.setPrecioFinal(CoordinadoService.precioPrenda(idCoordinado, idModelo, idTela));
 		CoordinadoService.saveCoorPrenda(objetoCoodinadoPrenda);
 		
 		////// seccion2 TELAS
