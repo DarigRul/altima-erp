@@ -71,6 +71,15 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
+	public List<Object[]> findAllExplosion() {
+		return em.createNativeQuery("select  acpi.fecha_cierre,acpi.id_text,acpi.id_pedido_informacion,acpi.fecha_explosion,IF(acpi.estatus_explosion=0,\"Sin explosionar\",\"Explosionado\")\r\n"
+				+ "from alt_comercial_pedido_informacion acpi\r\n"
+				+ "where acpi.estatus=3").getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
 	public List<Object[]> findTotalMaterials(Long idpedido) {
 		return em.createNativeQuery("select\r\n" + "   resultado2.id_material,\r\n" + "   resultado2.cantidad,\r\n"
 				+ "   resultado2.id_text,\r\n" + "   resultado2.tamanio,\r\n" + "   resultado2.nombre_material,\r\n"
