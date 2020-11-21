@@ -97,7 +97,7 @@ function eliminar2(id, t) {
 			  
 			  $.ajax({
 				  data: {'idRequision':id},
-			        url:   '/elimiar-requisicion-materiales',
+			        url:   '/elimiar-requisicion-materiales-compras',
 			        type:  'GET',
 			    
 			        success: function(data) {
@@ -123,76 +123,10 @@ function eliminar2(id, t) {
 		})
 }
 
-function enviar() {
-	var  datos = [];
-	$('#tablaGeneral tr').each(function () {
-		 if ($(this).find('td').eq(1).html() !=null){
-			 datos.push({
-				 'id_material':$(this).find('td').eq(0).html(), 
-				 'tipo':$(this).find('td').eq(1).html(),
-				 'cantidad':$(this).find('td').eq(2).html()	 
-			 });
-		 }		
-	});
-	if ( $('#idEmpleadoSolicitante').val()== null || $('#idEmpleadoSolicitante').val()==0 || $('#idEmpleadoSolicitante').val()==""){
-		Swal.fire({
-			position: 'center',
-			icon: 'error',
-			title: 'Ingrese un solicitante, por favor',
-			showConfirmButton: false,
-			timer: 1250
-		});
-	}
-	else if ( $.isEmptyObject(datos) ){
-		Swal.fire({
-			position: 'center',
-			icon: 'error',
-			title: 'Ingrese datos a la tabla, por favor',
-			showConfirmButton: false,
-			timer: 1250
-		});
-	}
-	else{
-		$.ajax({
-	        type: "POST",
-	        url:"/guardar-requisicion-materiales",
-	        data: { 
-	        	datos :JSON.stringify(datos),
-	        	'idRequisicion': $('#idRequisicion').val(),
-	            "_csrf": $('#token').val(),
-	            'idEmpleadoSolicitante':$('#idEmpleadoSolicitante').val()
-	            
-	        },
-	        beforeSend: function () {
-	        	 Swal.fire({
-	        		 position: 'center',
-	     				icon: 'success',
-	     				title: 'Agregado correctamente',
-	                 allowOutsideClick: false,
-	                 timerProgressBar: true,
-	                 showConfirmButton: false,
-	                 onBeforeOpen: () => {
-	                    
-	                 },
-	             });
-	        	
-	        },
-	    
-	        success: function(data) {
-	       },
-	       complete: function() {   
-	    	   var url = "/solicitud-de-almacen";  
-	    		 $(location).attr('href',url);
-			
-		    },
-	    })
-	}
-	
-}
 
 function editar (id){
 	
-	var url = "/solicitud-de-almacen-editar/"+id+"";  
+	var url = "/requisicion-de-compras-editar/"+id+"";  
 	 $(location).attr('href',url);
 }
 function enviarEstatus(id) {
@@ -209,7 +143,7 @@ function enviarEstatus(id) {
         	
         	$.ajax({
     	        type: "POST",
-    	        url:"/enviar-solicitud-almacen",
+    	        url:"/enviar-requisicion-compras",
     	        data: {
     	        	'id':id,
     	             "_csrf": $('#token').val()
@@ -255,7 +189,7 @@ function rechazar (id){
         	
         	$.ajax({
     	        type: "POST",
-    	        url:"/rechazar-solicitud-almacen",
+    	        url:"/rechazar-requisicion-compras",
     	        data: {
     	        	'id':id,
     	             "_csrf": $('#token').val()
@@ -300,7 +234,7 @@ function aceptar (id){
         	
         	$.ajax({
     	        type: "POST",
-    	        url:"/aceptar-solicitud-almacen",
+    	        url:"/aceptar-requisicion-compras",
     	        data: {
     	        	'id':id,
     	             "_csrf": $('#token').val()
@@ -334,7 +268,7 @@ function detalles(id) {
     console.log("id->" + id);
     $.ajax({
         method: "GET",
-        url: "/detalles-riquisicion-almacen",
+        url: "/detalles-requisicion-compras",
         data: {
             id: id,
             _csrf: $("#token").val(),
@@ -420,12 +354,75 @@ function compreas (id){
 }
 
 
+function enviarCompras() {
+
+	 var  datos = [];
+	$('#tablaGeneral tr').each(function () {
+		 if ($(this).find('td').eq(1).html() !=null){
+			 datos.push({
+				 'id_material':$(this).find('td').eq(0).html(), 
+				 'tipo':$(this).find('td').eq(1).html(),
+				 'cantidad':$(this).find('td').eq(2).html()	 
+			 });
+		 }		
+	});
+	
+	if ( $('#idEmpleadoSolicitante').val()== null || $('#idEmpleadoSolicitante').val()==0 || $('#idEmpleadoSolicitante').val()==""){
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Ingrese un solicitante, por favor',
+			showConfirmButton: false,
+			timer: 1250
+		});
+	}
+	else if ( $.isEmptyObject(datos) ){
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Ingrese datos a la tabla, por favor',
+			showConfirmButton: false,
+			timer: 1250
+		});
+	}
+	else{
+		$.ajax({
+	        type: "POST",
+	        url:"/guardar-requisicion-compras",
+	        data: { 
+	        	datos :JSON.stringify(datos),
+	        	'idRequisicion': $('#idRequisicion').val(),
+	             "_csrf": $('#token').val(),
+		         'idEmpleadoSolicitante':$('#idEmpleadoSolicitante').val(),
+		         'idSolicitudAlamcen':$('#idSolicitudAlamcen').val()
+	        },
+	        beforeSend: function () {
+	        	 Swal.fire({
+	        		 position: 'center',
+	     				icon: 'success',
+	     				title: 'Agregado correctamente',
+	                 allowOutsideClick: false,
+	                 timerProgressBar: true,
+	                 showConfirmButton: false,
+	                 onBeforeOpen: () => {
+	                    
+	                 },
+	             });
+	        	
+	        },
+	    
+	        success: function(data) {
+	       },
+	       complete: function() {   
+	    	   var url = "/requisicion-de-compras";  
+	    		 $(location).attr('href',url);
+			
+		    },
+	    })
+	}
+	
+}
 
 $( "#idEmpleadoSolicitante" ).change(function() {
 	$('#id-depa').html($("#idEmpleadoSolicitante option:selected").attr("depa")); 
   });
-
-
-
-
-

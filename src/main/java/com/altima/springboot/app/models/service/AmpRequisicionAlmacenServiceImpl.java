@@ -166,7 +166,8 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 				"		WHEN requisicion.estatus_envio = 3 THEN\r\n" + 
 				"		'Rechazado'\r\n" + 
 				"	END ,\r\n" + 
-				"	requisicion.estatus_envio\r\n" + 
+				"	requisicion.estatus_envio,\r\n" + 
+				"   IFNULL((SELECT compras.id_text FROM alt_compras_requisicion_almacen AS compras WHERE compras.id_solicitud_almacen = requisicion.id_requisicion_almacen ) , '0')\r\n"+
 				"	FROM\r\n" + 
 				"		alt_amp_requisicion_almacen AS requisicion\r\n" + 
 				"		INNER JOIN alt_hr_usuario ahu ON ahu.id_usuario = requisicion.id_solicitante\r\n" + 

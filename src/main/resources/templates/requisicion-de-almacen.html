@@ -110,7 +110,7 @@
                                                    <button
                                                     sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')"
                                                     	th:onclick="|compreas('${view[0]}')|"
-                                                        th:disabled="${view[5]}=='Aceptado'?false:true"
+                                                        th:disabled="${view[5]}=='Aceptado' and ${view[7]}=='0' ?false:true"
                                                         class="btn btn-warning btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Compras"><i
                                                             class="fas fa-shopping-cart"></i></button>
