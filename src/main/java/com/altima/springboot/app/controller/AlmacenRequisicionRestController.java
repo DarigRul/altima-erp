@@ -75,7 +75,7 @@ public class AlmacenRequisicionRestController {
 		} else {
 
 			AmpRequisicionAlmacen  requi = ServiceAlmacen.findOne(idRequisicion);
-			
+			requi.setIdSolicitante(idEmpleadoSolicitante);
 			JSONArray json = new JSONArray(datos);
 			for (int i = 0; i < json.length(); i++) {
 				AmpRequisicionAlmacenMaterial material = new AmpRequisicionAlmacenMaterial();
