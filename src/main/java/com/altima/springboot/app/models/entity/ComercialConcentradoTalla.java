@@ -12,8 +12,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="alt_comercial_concentrado_tallas")
-public class ComercialConcentradoTalla implements Serializable{
+@Table(name = "alt_comercial_concentrado_tallas")
+public class ComercialConcentradoTalla implements Serializable {
 
 	/**
 	 * 
@@ -21,33 +21,33 @@ public class ComercialConcentradoTalla implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
 	private Long Id;
-	
-	@Column(name="id_pedido")
+
+	@Column(name = "id_pedido")
 	private Long IdPedido;
-	
-	@Column(name="id_empleado_pedido")
+
+	@Column(name = "id_empleado_pedido")
 	private String IdEmpleadoPedido;
-	
-	@Column(name="id_prenda_cliente")
+
+	@Column(name = "id_prenda_cliente")
 	private String IdPrendaCliente;
-	
-	@Column(name="id_talla")
-	private String IdTalla;
-	
-	@Column(name="id_largo")
-	private String IdLargo;
-	
-	@Column(name="pulgadas")
+
+	@Column(name = "id_talla")
+	private Integer IdTalla;
+
+	@Column(name = "id_largo")
+	private Integer IdLargo;
+
+	@Column(name = "pulgadas")
 	private String Pulgadas;
-	
-	@Column(name="especificacion")
+
+	@Column(name = "especificacion")
 	private String Especificacion;
-	
-	@Column(name="id_familia_prenda")
+
+	@Column(name = "id_familia_prenda")
 	private String IdFamiliaPrenda;
 
 	public Long getId() {
@@ -82,19 +82,19 @@ public class ComercialConcentradoTalla implements Serializable{
 		IdPrendaCliente = idPrendaCliente;
 	}
 
-	public String getIdTalla() {
+	public Integer getIdTalla() {
 		return IdTalla;
 	}
 
-	public void setIdTalla(String idTalla) {
+	public void setIdTalla(Integer idTalla) {
 		IdTalla = idTalla;
 	}
 
-	public String getIdLargo() {
+	public Integer getIdLargo() {
 		return IdLargo;
 	}
 
-	public void setIdLargo(String idLargo) {
+	public void setIdLargo(Integer idLargo) {
 		IdLargo = idLargo;
 	}
 
@@ -125,7 +125,5 @@ public class ComercialConcentradoTalla implements Serializable{
 	public void setIdFamiliaPrenda(String idFamiliaPrenda) {
 		IdFamiliaPrenda = idFamiliaPrenda;
 	}
-	
-	
-	
+
 }
