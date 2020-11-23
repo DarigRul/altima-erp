@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -78,6 +80,7 @@ public class ProduccionCatalogosController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
+		Formatter fmt = new Formatter();
 		if (nomenclatura != null && descripcion != null) {
 			ProduccionLookup largo = new ProduccionLookup();
 			ProduccionLookup ultimoid = null;
@@ -90,13 +93,13 @@ public class ProduccionCatalogosController {
 			}
 
 			if (ultimoid == null) {
-				largo.setIdText("LARG" + "1001");
+				largo.setIdText("LARG" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				largo.setIdText("LARG" + (cont + 1));
+				largo.setIdText("LARG" + fmt.format("%04d",(cont + 1)));
 			}
 
 			largo.setNombreLookup(StringUtils.capitalize(nomenclatura));
@@ -123,13 +126,13 @@ public class ProduccionCatalogosController {
 			}
 
 			if (ultimoid == null) {
-				talla.setIdText("TALLA" + "1001");
+				talla.setIdText("TALLA" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				talla.setIdText("TALLA" + (cont + 1));
+				talla.setIdText("TALLA" + fmt.format("%04d",(cont + 1)));
 			}
 
 			talla.setNombreLookup(StringUtils.capitalize(num_talla));
@@ -159,13 +162,13 @@ public class ProduccionCatalogosController {
 			}
 
 			if (ultimoid == null) {
-				proceso.setIdText("PROC" + "1001");
+				proceso.setIdText("PROC" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				proceso.setIdText("PROC" + (cont + 1));
+				proceso.setIdText("PROC" + fmt.format("%04d", cont + 1));
 			}
 
 			proceso.setNombreLookup(StringUtils.capitalize(descripcionProceso));
@@ -193,13 +196,13 @@ public class ProduccionCatalogosController {
 			}
 
 			if (ultimoid == null) {
-				maqui.setIdText("MAQUI" + "1001");
+				maqui.setIdText("MAQUI" + "0001");
 			} else {
 
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				maqui.setIdText("MAQUI" + (cont + 1));
+				maqui.setIdText("MAQUI" + fmt.format("%04d",(cont + 1)));
 			}
 
 			maqui.setNombreLookup(StringUtils.capitalize(maquilero));
@@ -213,7 +216,7 @@ public class ProduccionCatalogosController {
 			
 			return "catalogos";
 		}
-		
+		fmt.close();
 		return "redirect:catalogos";
 
 	}
@@ -252,16 +255,14 @@ public class ProduccionCatalogosController {
 	@PostMapping("/editar-catalogo-produccion")
 	public String editacatalogo(final Long idLookup, String descripcionProceso, String origenProceso, String maquilero,String telefono) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
-	
+		
 		
 		if (descripcionProceso != null && idLookup > 0) {
 			ProduccionLookup proceso = null;
 			proceso = LookupService.findOne(idLookup);
 			proceso.setNombreLookup(StringUtils.capitalize(descripcionProceso));
 			proceso.setDescripcionLookup(origenProceso);
-			proceso.setUltimaFechaModificacion(dateFormat.format(date));
+			proceso.setUltimaFechaModificacion(currentDate());
 			proceso.setActualizadoPor(auth.getName());
 			LookupService.save(proceso);
 			return "redirect:catalogos";
@@ -272,13 +273,21 @@ public class ProduccionCatalogosController {
 			proceso = LookupService.findOne(idLookup);
 			proceso.setNombreLookup(StringUtils.capitalize(maquilero));
 			proceso.setDescripcionLookup(telefono);
-			proceso.setUltimaFechaModificacion(dateFormat.format(date));
+			proceso.setUltimaFechaModificacion(currentDate());
 			proceso.setActualizadoPor(auth.getName());
 			LookupService.save(proceso);
 			return "redirect:catalogos";
 		}
 		
 		return "redirect:catalogos";
+	}
+	private String currentDate() {
+		Date date = new Date();
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+		String sDate = hourdateFormat.format(date);
+		return sDate;
 	}
 
 }
