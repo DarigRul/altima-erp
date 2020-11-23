@@ -103,7 +103,7 @@ public class ConcentradoTallasController {
 		AdminConfiguracionPedido config = configService.findOne(Long.parseLong(pedido.getTipoPedido()));
 		if (config.getTipoPedido() == 1) {
 			model.addAttribute("empleados", ComClienteEmpleadoService.findAllEmpleadosEmpresaWithoutSPF(idpedido));
-			model.addAttribute("prendas", ConcentradoTallaService.findPrendaCliente(idpedido));
+			//model.addAttribute("prendas", ConcentradoTallaService.findPrendaCliente(idpedido));
 			model.addAttribute("talla", ProduccionLookupService.findAllByType("Talla"));
 			model.addAttribute("largo", ProduccionLookupService.findAllByType("Largo"));
 			model.addAttribute("especificacion", ServicioClienteLookupService.findAllByType("Especificacion"));
@@ -111,7 +111,7 @@ public class ConcentradoTallasController {
 		} else if (config.getTipoPedido() == 2) {
 
 			model.addAttribute("empleados", ComClienteEmpleadoService.findAllClientesSPF(idpedido));
-			model.addAttribute("prendas", ConcentradoTallaService.findPrendaCliente(pedido.getIdPedido()));
+			//model.addAttribute("prendas", ConcentradoTallaService.findPrendaCliente(pedido.getIdPedido()));
 			model.addAttribute("talla", ProduccionLookupService.findAllByType("Talla"));
 			model.addAttribute("largo", ProduccionLookupService.findAllByType("Largo"));
 			model.addAttribute("especificacion", ServicioClienteLookupService.findAllByType("Especificacion"));
@@ -134,14 +134,14 @@ public class ConcentradoTallasController {
 		if (ConcentradoTallaService.findSPF(idpedido) == null) {
 
 			model.addAttribute("empleados", ComClienteEmpleadoService.findAllEmpleadosEmpresaWithoutSPF(idpedido));
-			model.addAttribute("prendas", ConcentradoTallaService.findPrendaCliente(idpedido));
+			//model.addAttribute("prendas", ConcentradoTallaService.findPrendaCliente(idpedido));
 
 		} else {
 
 			model.addAttribute("empleados", ComClienteEmpleadoService.findAllClientesSPF(idpedido));
 
-			model.addAttribute("prendas",
-					ConcentradoTallaService.findPrendaCliente(ConcentradoTallaService.findSPF(idpedido)));
+			//model.addAttribute("prendas",
+				//	ConcentradoTallaService.findPrendaCliente(ConcentradoTallaService.findSPF(idpedido)));
 		}
 		model.addAttribute("talla", ProduccionLookupService.findAllByType("Talla"));
 		model.addAttribute("largo", ProduccionLookupService.findAllByType("Largo"));
