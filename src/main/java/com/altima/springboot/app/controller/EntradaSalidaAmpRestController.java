@@ -56,7 +56,8 @@ public class EntradaSalidaAmpRestController {
 		JSONArray cabeceroArray = new JSONArray(cabecero);
 		JSONObject cabeceroJson = cabeceroArray.getJSONObject(0);
         JSONArray movimientosArray = new JSONArray(movimientos);
-        JSONArray rolloJson =new JSONArray();
+		JSONArray rolloJson =new JSONArray();
+		Formatter fmt = new Formatter();
 		try {
 			AmpEntrada entrada = new AmpEntrada();
 			entrada.setIdAlmacenLogico(Long.parseLong(cabeceroJson.getString("idAlmacenLogico")));
@@ -68,7 +69,7 @@ public class EntradaSalidaAmpRestController {
 			entrada.setActualizadoPor(auth.getName());
 			entrada.setIdText("idText");
 			entradaService.save(entrada);
-			entrada.setIdText("ENT" + (10000 + entrada.getIdEntrada()));
+			entrada.setIdText("ENT" + fmt.format("%05d", entrada.getIdEntrada()));
 			entradaService.save(entrada);
 			for (int i = 0; i < movimientosArray.length(); i++) {
 				Long idMultialmacen = null;
@@ -86,7 +87,7 @@ public class EntradaSalidaAmpRestController {
 				multialmacenService.save(multialmacen);
 				if (movimientosJson.getString("tipo").equals("tela")) {
                     Map<String, String> temp = new HashMap<String, String>();
-					Formatter fmt = new Formatter();
+					
 					AmpRolloTela rollo = new AmpRolloTela();
 					rollo.setCantidad(movimientosJson.getFloat("cantidad"));
 					rollo.setEstatus("1");
@@ -123,14 +124,10 @@ public class EntradaSalidaAmpRestController {
 		JSONArray cabeceroArray = new JSONArray(cabecero);
 		JSONObject cabeceroJson = cabeceroArray.getJSONObject(0);
 		JSONArray movimientosArray = new JSONArray(movimientos);
-		Date date = new Date();
-
-		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
-		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		hourdateFormat.setTimeZone(timeZone);
-
+		Formatter fmt = new Formatter();
+		
 		// change tz using formatter
-		String sDate = hourdateFormat.format(date);
+		//String sDate = hourdateFormat.format(date);
 		// System.out.println("entra a la salida "+movimientosArray.toString()+"
 		// "+cabeceroJson.toString());
 		try {
@@ -144,8 +141,9 @@ public class EntradaSalidaAmpRestController {
 			salida.setActualizadoPor(auth.getName());
 			salida.setIdText("idText");
 			salidaService.save(salida);
-			salida.setIdText("SAL" + (10000 + salida.getIdSalida()));
+			salida.setIdText("SAL" + fmt.format("%05d", salida.getIdSalida()));
 			salidaService.save(salida);
+			fmt.close();
 			for (int i = 0; i < movimientosArray.length(); i++) {
 				Long idMultialmacen = null;
 				AmpSalidaDetalle salidaDetalle = new AmpSalidaDetalle();
@@ -163,7 +161,7 @@ public class EntradaSalidaAmpRestController {
 				if (movimientosJson.getString("tipo").equals("tela")) {
 					AmpRolloTela rollo = rolloTelaService.findOne(Long.parseLong(movimientosJson.getString("idRollo")));
 					rollo.setCantidad(rollo.getCantidad() - movimientosJson.getFloat("cantidad"));
-					rollo.setUltimaFechaModificacion(sDate);
+					rollo.setUltimaFechaModificacion(currentDate());
 					rollo.setActualizadoPor(auth.getName());
 					if (rollo.getCantidad() == 0) {
 						rollo.setEstatus("0");
@@ -180,5 +178,13 @@ public class EntradaSalidaAmpRestController {
 
 		return "redirect:/movimientos-amp";
 
+	}
+	private String currentDate() {
+		Date date = new Date();
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+		String sDate = hourdateFormat.format(date);
+		return sDate;
 	}
 }
