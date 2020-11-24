@@ -48,6 +48,13 @@ public class ProduccionConsumoTallaCombinacionTelaServiceImpl implements IProduc
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	@Transactional
+	public ProduccionConsumoTallaCombinacionTela findOneSpecial(Long id) {
+		// TODO Auto-generated method stub
+		return (ProduccionConsumoTallaCombinacionTela) em.createQuery("From ProduccionConsumoTallaCombinacionTela where IdTallaEspecial=1 and idPrenda="+id+"  ").getSingleResult();
+	}
 
 	
 	@SuppressWarnings("unchecked")
