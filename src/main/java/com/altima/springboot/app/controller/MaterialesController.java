@@ -7,8 +7,10 @@ import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -218,6 +220,7 @@ public class MaterialesController {
 			throws IllegalStateException, IOException {
 		Cloudinary cloudinary = UploadService.CloudinaryApi();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Formatter fmt = new Formatter();
 		String compara = material.getNombreMaterial();
 		System.out.println("aqui esta la palabra que se va a comparar" + compara);
 		String flag = disenioMaterialService.Exist2(compara);
@@ -312,9 +315,10 @@ public class MaterialesController {
 				System.out.println("aqui esta el prefijo" + prefijo);
 				int contador = disenioMaterialService.count(material.getIdTipoMaterial());
 				System.out.println("aqui esta el contador de la query" + contador);
-				material.setIdTextProspecto("PROSP" + prefijo.toUpperCase() + (contador + 10000));
+				material.setIdTextProspecto("PROSP" + prefijo.toUpperCase() + fmt.format("%05d", (contador + 1)));
 				material.setIdText("00");
 				material.setEstatus("1");
+				fmt.close();
 				try {
 					disenioMaterialService.save(material);
 				} catch (DataIntegrityViolationException e) {
@@ -429,17 +433,17 @@ public class MaterialesController {
 	@GetMapping("/aceptado-material/{id}")
 	public String aceptadoMaterial(@PathVariable("id") Long idMaterial, RedirectAttributes redirectAttrs) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Date date = new Date();
-		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Formatter fmt = new Formatter();
 		DisenioMaterial material = disenioMaterialService.findOne(idMaterial);
 		String unique = disenioMaterialService.findunique(material.getIdTipoMaterial());
 		String prefijo = unique.substring(1, 4);
 		int contador2 = disenioMaterialService.count2(material.getIdTipoMaterial());
-		material.setIdText(prefijo.toUpperCase() + (contador2 + 10000));
+		material.setIdText(prefijo.toUpperCase() + fmt.format("%05d", (contador2 + 1)));
 		material.setEstatusMaterial("1");
-		material.setUltimaFechaModificacion(hourdateFormat.format(date));
+		material.setUltimaFechaModificacion(currentDate());
 		material.setActualizadoPor(auth.getName());
 		disenioMaterialService.save(material);
+		fmt.close();
 		redirectAttrs.addFlashAttribute("title", "Material aceptado correctamente").addFlashAttribute("icon",
 				"success");
 		return "redirect:/materiales";
@@ -450,12 +454,10 @@ public class MaterialesController {
 	@GetMapping("/declinado-material/{id}")
 	public String declinadoMaterial(@PathVariable("id") Long idMaterial, RedirectAttributes redirectAttrs) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Date date = new Date();
-		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		DisenioMaterial material = disenioMaterialService.findOne(idMaterial);
 		material.setEstatusMaterial("2");
 		material.setIdText("");
-		material.setUltimaFechaModificacion(hourdateFormat.format(date));
+		material.setUltimaFechaModificacion(currentDate());
 		material.setActualizadoPor(auth.getName());
 		disenioMaterialService.save(material);
 		redirectAttrs.addFlashAttribute("title", "Material declinado correctamente").addFlashAttribute("icon",
@@ -583,5 +585,13 @@ public class MaterialesController {
 			  
 		}
 		return "redirect:/materiales";
+	}
+	private String currentDate() {
+		Date date = new Date();
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+		String sDate = hourdateFormat.format(date);
+		return sDate;
 	}
 }
