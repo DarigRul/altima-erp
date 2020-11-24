@@ -13,7 +13,7 @@ $('#detalleClasificacion').on('shown.bs.modal', function() {
 
 function agregarClasificacion() {
     Swal.fire({
-        title: 'Nueva clasificación',
+        title: 'Nueva clasificacióoooooooooooddddon',
         html: '<div class="row">' +
             '<div class="form-group col-sm-12">' +
             '<label for="descripcionMovimiento">Nombre</label>' +
