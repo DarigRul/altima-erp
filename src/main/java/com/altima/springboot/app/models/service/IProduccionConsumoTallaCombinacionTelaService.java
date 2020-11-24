@@ -22,4 +22,6 @@ public interface IProduccionConsumoTallaCombinacionTelaService {
 	List<String> Consumo_Talla_id(Long id , Long idTela);
 	
 	ProduccionConsumoTallaCombinacionTela buscar_consumo(Long idTalla , Long idPrenda , Long idLargo, Long idTela);
+
+	ProduccionConsumoTallaCombinacionTela findOneSpecial(Long id);
 }
