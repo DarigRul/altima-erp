@@ -72,6 +72,27 @@
 											</div>
 										</div>
 									</div>
+									<!--  -->
+									<form th:action="@{/guardar-talla-especial-tela}"  method="POST" th:if="${tipo == 'Tela' or tipo == 'tela-combinacion' }">
+									<div class="form-group col-sm-12">
+										<label>Talla Especial (metros)</label>
+										<div class="input-group mb-3">
+										<input type="hidden" th:value="${id_prenda}" th:name="id_prenda">
+									    <input type="hidden" th:value="${tipo}" th:name="tipo">
+										<input type="hidden" th:value="${id_tela_combinacion}" th:name="id_tela_combinacion">
+										<input type="number" class="form-control" th:name="consumo" th:value="${consumo}">
+										<input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+												
+													<div style="margin-left:8px">
+												<button  id ="boton-agregar" name ="boton-agregar"    class="btn icon-btn btn-altima text-white float-right" type="submit">
+													<span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Guardar
+												</button>
+											</div>
+											
+										</div>
+									</div>
+									</form>
+									<!--  -->
 									<div th:if="${listConsumo}!=null" class="col-md-12"  id ="contenedor-tela">
 										<table class="table tablaConsumoPorPrendas table-striped table-bordered" id="table-tela" name="table-tela">
 											<thead>
@@ -166,6 +187,7 @@
 <!-- ./wrapper -->
 <div th:replace="navegacion-scripts"></div>
 <!-- Funcionalidad-->
+
 <script>
 	$('#iDiseno').removeClass('text-altima');
 		$('#navDiseno').addClass('active-altima');
