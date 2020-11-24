@@ -98,6 +98,7 @@ public class ConsumoTallaPrenda {
 				newoneprodconsumocombinacion.setFechaCreacion(hourdateFormat.format(date));
 				newoneprodconsumocombinacion.setIdPrenda(id_prenda);
 				newoneprodconsumocombinacion.setIdTallaEspecial(1);
+				newoneprodconsumocombinacion.setCreadoPor(auth.getName());
 				ConsumocombinacionService.save(newoneprodconsumocombinacion);
 			}
 
