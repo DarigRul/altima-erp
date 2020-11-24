@@ -139,12 +139,15 @@
 		                         icon: 'success',
 		                         title: 'Insertado correctamente',
 		                         showConfirmButton: false,
-		                         timer: 1250
+		                         timer: 1250,
+		                         onClose: () => {
+		     		            	location.reload();
+		     				  }  
 		                     })
 		        		}
 		        	})
 		        	console.log("si lo hace bien");
-		        	location.reload();
+		        	
 		        }
 		    });
 		}
