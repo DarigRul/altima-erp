@@ -575,8 +575,8 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 				Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
 				Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[15].toString()), datosGris));
 				Cabezero4 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[11].toString())), datosGris));
-				Cabezero5 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[15].toString())), datosGris));
-				Cabezero6 = new PdfPCell(new Phrase(""+df.format((Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()))), datosGris));
+				Cabezero5 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[17].toString())), datosGris));
+				Cabezero6 = new PdfPCell(new Phrase(""+df.format((Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[17].toString()))), datosGris));
 				Cabezero7 = new PdfPCell(new Phrase(fila[16].toString(), datosGris));
 				Cabezero1.setBorder(0);
 				Cabezero1.setPaddingBottom(8f);
@@ -1122,10 +1122,10 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					//Verifica que existe un cambio de tela para poder contemplar ese registro
 					Cabezero1 = new PdfPCell(new Phrase(fila[0].toString(), datosGris));
 					Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
-					Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[17].toString()), datosGris));
+					Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[15].toString()), datosGris));
 					Cabezero4 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[11].toString())), datosGris));
-					Cabezero5 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[15].toString())), datosGris));
-					Cabezero6 = new PdfPCell(new Phrase(""+df.format((Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()))), datosGris));
+					Cabezero5 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[17].toString())), datosGris));
+					Cabezero6 = new PdfPCell(new Phrase(""+df.format((Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[17].toString()))), datosGris));
 					Cabezero7 = new PdfPCell(new Phrase(fila[16].toString(), datosGris));
 					Cabezero1.setBorder(0);
 					Cabezero1.setPaddingBottom(8f);

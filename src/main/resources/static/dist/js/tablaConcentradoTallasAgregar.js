@@ -806,8 +806,8 @@ function GuardarPrendaTalla() {
 
 	var values = $('#cargaTipopedido10').val();
 
-	if ($('#empleado').val() && $('#largo').val() && $('#prenda').val() && $('#talla').val() && $('#idpedido').val()) {
-
+	if ($('#empleado').val()  && $('#idpedido').val() && $('#prenda').val() && (($('#talla').val() && $('#largo').val()) || (document.getElementById("myCheck").checked==true))) {
+	
 
 		$
 			.ajax({
@@ -821,15 +821,15 @@ function GuardarPrendaTalla() {
 					'Empleado': $(
 							'#empleado')
 						.val(),
-					'Largo': $(
-							'#largo')
-						.val(),
+					'Largo': document.getElementById("myCheck").checked ? '' : $(
+					'#largo')
+					.val() ,
 					'PrendaCliente': $(
 							'#prenda')
 						.val(),
-					'Talla': $(
-							'#talla')
-						.val(),
+					'Talla':document.getElementById("myCheck").checked ? '' : $(
+					'#talla')
+					.val(),
 					'IdPedido': $('#idpedido').val()
 
 				}
@@ -867,9 +867,9 @@ function GuardarPrendaTalla() {
 	} else {
 		Swal.fire({
 			icon: 'error',
-			title: 'Ingrese todos los campos requeridos',
+			title: 'Los campos Empleado, Prenda y Género son requeridos Talla y Largo son opcionales marcando la casilla',
 			showConfirmButton: false,
-			timer: 2500
+			timer: 3500
 		})
 		//listarPrendas(empleado, pedido);
 		var selectobject;

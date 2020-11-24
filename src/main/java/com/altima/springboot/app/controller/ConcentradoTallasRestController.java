@@ -48,8 +48,8 @@ public class ConcentradoTallasRestController {
 
 	@PostMapping("/guardar-concentrado-tallas")
 	public String guardarcontentradotallas(Model model, String Nombre,
-			@RequestParam(value = "values[]", required = false) String[] values, String Empleado, String Largo,
-			String PrendaCliente, String Talla, String Pulgadas, Long IdPedido) {
+			@RequestParam(value = "values[]", required = false) String[] values, String Empleado, Integer Largo,
+			String PrendaCliente, Integer Talla, String Pulgadas, Long IdPedido) {
 		String[] prenda=PrendaCliente.split("\\s");
 		try {
 			ComercialConcentradoTalla ComercialConcentradoTalla = new ComercialConcentradoTalla();
@@ -69,8 +69,8 @@ public class ConcentradoTallasRestController {
 
 	@PostMapping("/guardar-concentrado-tallas1")
 	public String guardarcontentradotallas1(Model model, String Nombre,
-			@RequestParam(value = "values[]", required = false) String[] values, String Empleado, String Largo,
-			String PrendaCliente, String Talla, String Pulgadas, Long IdPedido) {
+			@RequestParam(value = "values[]", required = false) String[] values, String Empleado, Integer Largo,
+			String PrendaCliente, Integer Talla, String Pulgadas, Long IdPedido) {
 
 		for (String especificacion : values) {
 
