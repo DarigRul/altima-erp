@@ -1,9 +1,14 @@
 package com.altima.springboot.app.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,7 +47,7 @@ public class ComprasProveedoresRestController {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
-			
+			Formatter fmt = new Formatter();
 			JSONObject datos = new JSONObject(lista); 
 			ComprasProveedores proveedor = new ComprasProveedores();
 			
@@ -75,8 +80,9 @@ public class ComprasProveedoresRestController {
 			proveedor.setUltimaFechaModificacion(dtf.format(now));
 			proveedor.setEstatus("1");
 			proveedorService.save(proveedor);
-			proveedor.setIdText("PROV"+(1000+proveedor.getIdProveedor()));
+			proveedor.setIdText("PROV"+ fmt.format("%04d", proveedor.getIdProveedor()));
 			proveedorService.save(proveedor);
+			fmt.close();
 			return Integer.parseInt(proveedor.getIdProveedor().toString());
 		}
 		catch(Exception e) {
@@ -94,8 +100,6 @@ public class ComprasProveedoresRestController {
 		
 		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-			LocalDateTime now = LocalDateTime.now();
 			
 			JSONObject datos = new JSONObject(lista); 
 			ComprasProveedores proveedor = proveedorService.findOne(Long.parseLong(datos.get("idProveedor").toString()));
@@ -124,7 +128,7 @@ public class ComprasProveedoresRestController {
 			proveedor.setWhatsProveedor(datos.getString("whatsapp"));
 			proveedor.setOtraRedsocial(datos.getString("otraRedsocial"));
 			proveedor.setActualizadoPor(auth.getName());
-			proveedor.setUltimaFechaModificacion(dtf.format(now));
+			proveedor.setUltimaFechaModificacion(currentDate());
 			proveedor.setEstatus("1");
 			proveedor.setNomenclatura(datos.getString("nomenclatura"));
 			proveedorService.save(proveedor);
@@ -395,5 +399,13 @@ public class ComprasProveedoresRestController {
 		
 		return proveedorService.ValidarNomenclatura(nomen);
 	
+		}
+		private String currentDate() {
+			Date date = new Date();
+			TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			hourdateFormat.setTimeZone(timeZone);
+			String sDate = hourdateFormat.format(date);
+			return sDate;
 		}
 }
