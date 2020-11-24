@@ -13,11 +13,20 @@ $('#detalleClasificacion').on('shown.bs.modal', function() {
 
 function agregarClasificacion() {
     Swal.fire({
-        title: 'Nueva clasificacióoooooooooooddddon',
+        title: 'Nueva clasificació',
         html: '<div class="row">' +
             '<div class="form-group col-sm-12">' +
             '<label for="descripcionMovimiento">Nombre</label>' +
             '<input type="text" class="form-control" id="clasificacion" name="clasificacion" placeholder="Clasificacion">' +
+            '</div>' +
+            '<div class="form-group col-sm-12">' +
+            '<label for="ubicacionTalla">Tipo</label>' +
+            '<select id="tipo" name="tipo" class="form-control">' +
+                '<option value="">Seleccione uno...</option>'+
+                '<option value="Materia prima">Materia prima</option>'+
+                '<option value="Habilitación">Habilitación</option>'+
+
+            '</select>' +
             '</div>' +
 
             '</div>',
@@ -30,7 +39,7 @@ function agregarClasificacion() {
         showLoaderOnConfirm: true,
         preConfirm: (clasificacion) => {
 
-            if (document.getElementById("clasificacion").value.length < 1) {
+            if (document.getElementById("clasificacion").value.length < 1 || document.getElementById("tipo").value.length < 1) {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
                 )
@@ -41,14 +50,14 @@ function agregarClasificacion() {
     }).then((result) => {
         if (result.value && document.getElementById("clasificacion").value) {
             var clasificacion = document.getElementById("clasificacion").value;
+            var atributo = document.getElementById("tipo").value;
             $.ajax({
                 type: "GET",
                 url: "/verificar-duplicado-amp",
                 data: {
                     'Lookup': clasificacion,
-                    'Tipo': "Clasificacion"
-
-
+                    'Tipo': "Clasificacion",
+                    'atributo':atributo
                 }
 
             }).done(function(data) {
@@ -59,8 +68,8 @@ function agregarClasificacion() {
                         url: "/guardar-catalogo-amp",
                         data: {
                             "_csrf": $('#token').val(),
-                            'clasificacion': clasificacion
-
+                            'clasificacion': clasificacion,
+                            'atributo':atributo
                         }
 
                     }).done(function(data) {
@@ -400,8 +409,7 @@ function listarClasificacion() {
                 "<tr>" +
                 "<th>Clave</th>" +
                 "<th>Nomenclatura</th>" +
-
-
+                "<th>Tipo</th>" +
                 "<th>Acciones</th>" +
                 "</tr>" +
                 "</thead>" +
@@ -417,9 +425,10 @@ function listarClasificacion() {
                         "<tr>" +
                         "<td>" + data[i].idText + "</td>",
                         "<td>" + data[i].nombreLookup + "</td>",
+                        "<td>" + data[i].atributo1 + "</td>",
                         "<td style='text-align: center'>" +
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                        " <button onclick='editarClas(\"" + data[i].idLookup + "\",\"" + data[i].nombreLookup + "\");'  class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        " <button onclick='editarClas(\"" + data[i].idLookup + "\",\"" + data[i].nombreLookup + "\",\"" + data[i].atributo1 + "\" );'  class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
                         (data[i].estatus == 1 ? "<button onclick='bajarClasificacion(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
                         (data[i].estatus == 0 ? "<button onclick='subirClasificacion(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
                         "</td>" +
@@ -436,9 +445,10 @@ function listarClasificacion() {
                         "<tr>" +
                         "<td>" + data[i].idText + "</td>",
                         "<td>" + data[i].nombreLookup + "</td>",
+                        "<td>" + data[i].atributo1 + "</td>",
                         "<td style='text-align: center'>" +
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                        (rolEditar == 1 ? " <button onclick='editarClas(\"" + data[i].idLookup + "\",\"" + data[i].nombreLookup + "\");'  class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " : " ") +
+                        (rolEditar == 1 ? " <button onclick='editarClas(\"" + data[i].idLookup + "\",\"" + data[i].nombreLookup + "\",\"" + data[i].atributo1 + "\" );'  class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " : " ") +
                         (data[i].estatus == 1 && rolEliminar == 1 ? "<button onclick='bajarClasificacion(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
                         (data[i].estatus == 0 && rolEliminar == 1 ? "<button onclick='subirClasificacion(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
                         "</td>" +
@@ -571,7 +581,17 @@ function subirClasificacion(id) {
     });
 }
 
-function editarClas(id, nombre) {
+function editarClas(id, nombre, tipo) {
+    var selectedM;
+    var selectedH;
+    if ( tipo =='Materia prima'){
+        selectedM='selected';
+    }else if ( tipo =='Habilitación'){
+        selectedH='selected';
+    }else{
+        selectedM="";
+        selectedH="";
+    }
     Swal.fire({
         title: 'Ediatr clasificaci&oacute;n',
         html: '<div class="row">' +
@@ -579,6 +599,15 @@ function editarClas(id, nombre) {
             '<label for="descripcionMovimiento">Nombre</label>' +
             '<input type="text" class="form-control" id="clasificacion" name="clasificacion" value="' + nombre + '" placeholder="Clasificacion">' +
             '<input type="hidden" class="form-control" id="idLook" name="idLook" value="' + id + '" placeholder="Clasificacion">' +
+            '</div>' +
+            '<div class="form-group col-sm-12">' +
+            '<label for="ubicacionTalla">Tipo</label>' +
+            '<select id="tipo" name="tipo" class="form-control" value ="'+tipo+'">' +
+                '<option value="">Seleccione uno...</option>'+
+                '<option '+selectedM+'  value="Materia prima">Materia prima</option>'+
+                '<option '+selectedH+'  value="Habilitación">Habilitación</option>'+
+
+            '</select>' +
             '</div>' +
 
             '</div>',
@@ -591,7 +620,7 @@ function editarClas(id, nombre) {
         showLoaderOnConfirm: true,
         preConfirm: (clasificacion) => {
 
-            if (document.getElementById("clasificacion").value.length < 1) {
+            if (document.getElementById("clasificacion").value.length < 1 || document.getElementById("tipo").value.length < 1) {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
                 )
@@ -603,14 +632,14 @@ function editarClas(id, nombre) {
         if (result.value && document.getElementById("clasificacion").value) {
             var clasificacion = document.getElementById("clasificacion").value;
             var id = document.getElementById("idLook").value;
+            var atributoHTML = document.getElementById("tipo").value;
             $.ajax({
                 type: "GET",
                 url: "/verificar-duplicado-amp",
                 data: {
                     'Lookup': clasificacion,
-                    'Tipo': "Clasificacion"
-
-
+                    'Tipo': "Clasificacion",
+                    'atributo':atributoHTML
                 }
 
             }).done(function(data) {
@@ -622,7 +651,9 @@ function editarClas(id, nombre) {
                         data: {
                             "_csrf": $('#token').val(),
                             'Clasificacion': clasificacion,
-                            'idLookup': id
+                            'idLookup': id,
+                            'atributo':atributoHTML
+
 
                         }
 
@@ -651,6 +682,8 @@ function editarClas(id, nombre) {
             });
         }
     });
+
+    
 }
 
 function addMovimiento() {

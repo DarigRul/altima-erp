@@ -113,7 +113,7 @@ public class CatalogosAMPRestController {
 	
 	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR", "ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR"})
 	@PostMapping("/guardar-catalogo-amp")
-	public String guardacatalogo(String clasificacion , String id_clasificacion, 
+	public String guardacatalogo(String clasificacion , String id_clasificacion, String atributo,
 			String linea, String movimiento , String tipo, String pasillo, String idAlmacen) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -145,7 +145,7 @@ public class CatalogosAMPRestController {
 			clasificacionLook.setCreadoPor(auth.getName());
 			clasificacionLook.setFechaCreacion(dateFormat.format(date));
 			clasificacionLook.setEstatus(1);
-			clasificacionLook.setAtributo1(null);
+			clasificacionLook.setAtributo1(atributo);
 			LookupService.save(clasificacionLook);
 			return "catalogos";
 		}
@@ -287,7 +287,7 @@ public class CatalogosAMPRestController {
 	
     @Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR"})
 	@PostMapping("/editar-catalogo-amp")
-	public String editacatalogo(Long idLookup, String linea, String Clasificacion , String pasillo, String idAlmacen) {
+	public String editacatalogo(Long idLookup, String linea, String Clasificacion ,String atributo, String pasillo, String idAlmacen) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		AmpLookup Linea = null;
 		AmpLookup clas = null;
@@ -305,6 +305,7 @@ public class CatalogosAMPRestController {
 		if (Clasificacion != null && idLookup > 0) {
 			clas = LookupService.findOne(idLookup);
 			clas.setNombreLookup(StringUtils.capitalize(Clasificacion));
+			clas.setAtributo1(atributo);
 			clas.setUltimaFechaModificacion(currentDate());
 			clas.setActualizadoPor(auth.getName());
 			LookupService.save(clas);
