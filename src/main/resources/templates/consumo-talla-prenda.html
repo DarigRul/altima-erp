@@ -80,7 +80,7 @@
 										<input type="hidden" th:value="${id_prenda}" th:name="id_prenda">
 									    <input type="hidden" th:value="${tipo}" th:name="tipo">
 										<input type="hidden" th:value="${id_tela_combinacion}" th:name="id_tela_combinacion">
-										<input type="number" class="form-control" th:name="consumo" th:value="${consumo}">
+										<input type="number" min="0" step=".1" class="form-control" th:name="consumo" th:value="${consumo}">
 										<input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
 												
 													<div style="margin-left:8px">
