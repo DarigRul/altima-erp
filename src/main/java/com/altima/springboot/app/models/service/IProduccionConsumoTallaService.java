@@ -29,4 +29,6 @@ public interface IProduccionConsumoTallaService {
 	ProduccionConsumoTalla buscar_consumo(Long idTalla , Long idPrenda , Long idLargo);
 	
 	List<Object[]> Materiales_Prenda(Long idPrenda );
+
+	ProduccionConsumoTalla findOneSpecial(Long id);
 }
