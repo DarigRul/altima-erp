@@ -737,7 +737,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview" id="menuRequisiciones">
+                <li class="nav-item has-treeview" id="menuRequisiciones" >
                     <a class="nav-link" id="navRequisiciones">
                         <i class="nav-icon-custom fas fa-clipboard text-altima" id="iRequisiciones"></i>
                         <p>
@@ -745,7 +745,7 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
+                        <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_GERENTE','ROLE_REQUISICION_SOLICITUD')">
                             <a th:href="${'/solicitud-de-almacen'}" class="nav-link" id="navReqAlm">
                                 <i class="nav-icon fas fa-store"></i>
                                 <p>Requisici&oacute;n de almac&eacute;n</p>

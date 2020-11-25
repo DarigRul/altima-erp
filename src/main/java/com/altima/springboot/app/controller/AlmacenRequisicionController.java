@@ -31,7 +31,7 @@ public class AlmacenRequisicionController {
 	    if (roles.contains("ROLE_ADMINISTRADOR")) {
 	        model.addAttribute("view", ServiceAlmacen.view(0L, "ADMIN"));
 		}
-		else if (roles.contains("ROLE_REQUISICION_SOLICITUD_DISEÑO_GERENTE") || roles.contains("ROLE_REQUISICION_SOLICITUD_COMERCIAL_GERENTE ")){
+		else if (roles.contains("ROLE_REQUISICION_SOLICITUD_GERENTE") ){
 
 			Object[] lista = ServiceAlmacen.infoUsuario(this.auth.currentuserid());
 	        model.addAttribute("view", ServiceAlmacen.view(0L, lista[1].toString()));

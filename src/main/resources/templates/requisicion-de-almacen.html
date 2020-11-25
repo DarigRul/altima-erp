@@ -22,7 +22,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Solicitud de almac&eacute;n&nbsp;<a th:href="${'/solicitud-de-almacen-nueva'}"
+                            <h1 sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_GERENTE','ROLE_REQUISICION_SOLICITUD')" >Solicitud de almac&eacute;n&nbsp;<a th:href="${'/solicitud-de-almacen-nueva'}"
                                     class="btn btn-sm icon-btn btn-altima text-white">
                                     <span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nueva
                                     solicitud</a>
@@ -54,7 +54,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Folio</th>
-                                                <th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_DISEÑO_GERENTE','ROLE_REQUISICION_SOLICITUD_COMERCIAL_GERENTE')">Solicitante</th>
+                                                <th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_GERENTE')">Solicitante</th>
                                                 <th>Fecha de solicitud</th>
                                                 <th>Departamento</th>
                                                 <th>Tipo</th>
@@ -65,7 +65,7 @@
                                         <tbody>
                                               <tr th:each="view, i: ${view}">
 												<td th:text="${view[1]}"></td>											
-												<td sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_DISEÑO_GERENTE', 'ROLE_REQUISICION_SOLICITUD_COMERCIAL_GERENTE')" th:text="${view[2]}">Agente 1</td>
+												<td sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_GERENTE')" th:text="${view[2]}">Agente 1</td>
 												<td th:text="${view[3]}"></td>
                                                 <td th:text="${view[4]}"></td>
                                                 <td th:text="${view[8]}"></td>
@@ -90,7 +90,7 @@
                                                         data-placement="top" data-content="Enviar"><i class="fas fa-plane"></i>
                                                     </button>
 												    <button
-												 		sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_DISEÑO_GERENTE' ,'ROLE_REQUISICION_SOLICITUD_COMERCIAL_GERENTE')"
+												 		sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_GERENTE')"
 												 		th:onclick="|rechazar('${view[0]}')|"
                                                         th:disabled="${view[5]}=='Enviado'?false:true"
                                                         class="btn btn-danger btn-sm btn-circle popoverxd"
@@ -98,7 +98,7 @@
                                                         class="fas fa-times"></i>
                                                     </button>
                                                     <button
-                                                        sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_DISEÑO_GERENTE', 'ROLE_REQUISICION_SOLICITUD_COMERCIAL_GERENTE')"
+                                                        sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_GERENTE')"
                                                     	th:onclick="|aceptar('${view[0]}')|"
                                                         th:disabled="${view[5]}=='Enviado'?false:true"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
@@ -106,7 +106,7 @@
                                                         class="fas fa-check"></i>
                                                     </button>   
                                                     <button
-                                                        sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_DISEÑO_GERENTE','ROLE_REQUISICION_SOLICITUD_COMERCIAL_GERENTE')"
+                                                        sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_GERENTE')"
                                                     	th:onclick="|compreas('${view[0]}')|"
                                                         th:disabled="${view[5]}=='Aceptado' and ${view[7]}=='0' ?false:true"
                                                         class="btn btn-warning btn-sm btn-circle popoverxd"
