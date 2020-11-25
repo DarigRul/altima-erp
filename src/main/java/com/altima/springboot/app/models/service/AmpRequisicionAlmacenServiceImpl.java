@@ -147,7 +147,7 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<Object[]> view(Long id) {
+	public List<Object[]> view(Long id, String departamento) {
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	requisicion.id_requisicion_almacen,\r\n" + 
@@ -167,14 +167,16 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 				"		'Rechazado'\r\n" + 
 				"	END ,\r\n" + 
 				"	requisicion.estatus_envio,\r\n" + 
-				"   IFNULL((SELECT compras.id_text FROM alt_compras_requisicion_almacen AS compras WHERE compras.id_solicitud_almacen = requisicion.id_requisicion_almacen ) , '0')\r\n"+
+				"   IFNULL((SELECT compras.id_text FROM alt_compras_requisicion_almacen AS compras WHERE compras.id_solicitud_almacen = requisicion.id_requisicion_almacen ) , '0'),\r\n"+
+				"	requisicion.tipo_requisicion\r\n" +
 				"	FROM\r\n" + 
 				"		alt_amp_requisicion_almacen AS requisicion\r\n" + 
 				"		INNER JOIN alt_hr_usuario ahu ON ahu.id_usuario = requisicion.id_solicitante\r\n" + 
 				"		INNER JOIN alt_hr_empleado ahe ON ahe.id_empleado = ahu.id_empleado\r\n" + 
 				"		INNER JOIN alt_hr_puesto ahp ON ahp.id_puesto = ahe.id_puesto\r\n" + 
-				"		INNER JOIN alt_hr_departamento ahd ON ahd.id_departamento = ahp.id_puesto \r\n" + 
+				"		INNER JOIN alt_hr_departamento ahd ON ahd.id_departamento = ahp.id_departamento \r\n" + 
 				"WHERE IF("+id+"=0,1=1,ahe.id_empleado="+id+")   "+
+				" AND IF ( '"+departamento+"' = 'ADMIN', 1 = 1, ahd.nombre_departamento = '"+departamento+"' ) "+ 
 				"ORDER BY\r\n" + 
 				"	requisicion.id_requisicion_almacen DESC").getResultList();
 		
@@ -328,7 +330,7 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 					"alt_hr_usuario AS ahu \r\n "+
 					"INNER JOIN alt_hr_empleado ahe ON ahe.id_empleado = ahu.id_empleado \r\n "+
 					"INNER JOIN alt_hr_puesto ahp ON ahp.id_puesto = ahe.id_puesto \r\n "+
-					"INNER JOIN alt_hr_departamento ahd ON ahd.id_departamento = ahp.id_puesto \r\n ").getResultList();
+					"INNER JOIN alt_hr_departamento ahd ON ahd.id_departamento = ahp.id_departamento \r\n ").getResultList();
 		
 		return re;
 	}

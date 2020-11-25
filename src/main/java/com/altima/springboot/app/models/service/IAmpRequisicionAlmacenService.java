@@ -15,7 +15,7 @@ public interface IAmpRequisicionAlmacenService {
 	
 	void save(AmpRequisicionAlmacenMaterial obj);
 	
-	List<Object []> view(Long id);
+	List<Object []> view(Long id, String departamento);
 	
 	AmpRequisicionAlmacen findOne(Long id);
 	
