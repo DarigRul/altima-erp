@@ -635,7 +635,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					//  Suma el numero de personas, el consumo por la cantidad y suma consumo de spf
 					sumaPersonas += Float.parseFloat(fila[11].toString());
 					totalConsumoCantidad += (Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()));
-					spfConsumo += Float.parseFloat(fila[15].toString());
+					spfConsumo += Float.parseFloat(fila[17].toString());
 			
 					//Se asigna la url de la imagen de la tela actual
 					imgUrl = fila[14].toString();
@@ -1182,7 +1182,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					
 					sumaPersonas += Float.parseFloat(fila[11].toString());
 					totalConsumoCantidad += (Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()));
-					spfConsumo += Float.parseFloat(fila[15].toString());
+					spfConsumo += Float.parseFloat(fila[17].toString());
 					
 					imgUrl = fila[14].toString();
 				}
@@ -1488,7 +1488,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					
 					sumaPersonas += Float.parseFloat(fila[11].toString());
 					totalConsumoCantidad += (Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()));
-					spfConsumo += Float.parseFloat(fila[15].toString());
+					spfConsumo += Float.parseFloat(fila[17].toString());
 				}
 				
 				if(validador==2) {
