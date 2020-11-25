@@ -63,7 +63,7 @@ public class AlmacenRequisicionController {
 		model.put("idRequisicion", null);
 		
 		model.put("almacen", true);
-		m.addAttribute("materiales", ServiceAlmacen.AllMateriales());
+		//m.addAttribute("materiales", ServiceAlmacen.AllMateriales());
         return"requisicion-de-almacen-nueva";
     }
     
@@ -83,7 +83,7 @@ public class AlmacenRequisicionController {
 			
 		}
 		
-	
+		model.put("tipo", obj.getTipoRequisicion());
 		model.put("fecha", obj.getFechaCreacion());
 		model.put("folio", obj.getIdText());
 		model.put("idRequisicion", obj.getIdRequsicionAlmacen());

@@ -1,4 +1,53 @@
+function Clasificacion (tipo){
+	$('#clasificacion').empty();
+	$('#materialRequisicion').empty()
+	$.ajax({
+		type: "GET",
+		url:"/clasificacion-almacen",
+		data: { 
+			'tipo': tipo
+		},
+		success: function(data) {
+			if ( tipo == 'Materia Prima'){
+				$('#clasificacion').append('<option value="tela">Tela</option>');
+				$('#clasificacion').append('<option value="forro">Forro</option>');
+			}
+			$.each(data, function(key, val) {
+				console.log(val[0]);
+				$('#clasificacion').append('<option value="' + val[0] + '">' + val[1] + '</option>');	
+			})
+			
+			$('#clasificacion').selectpicker('refresh');
+	   	}
+	})
+}
+function materiales (tipo){
+	$('#materialRequisicion').empty();
+	$.ajax({
+		type: "GET",
+		url:"/materiales-por-clasificacion",
+		data: { 
+			'tipo': tipo
+		},
+		success: function(data) {
+			$.each(data, function(key, val) {
+				$('#materialRequisicion').append('<option '+ 
+				'value="' + val[0] + '" '+
+				'idText="' + val[1] + '" '+ 
+				'nombre="' + val[2] + '" '+
+				'unidad="' + val[3] + '" '+
+				'tamanio="' + val[4] + '" '+
+				'color="' + val[5] + '" '+
+				'tipo="' + val[6] + '"  >' + val[1] + '  '+val[2]+' </option>');	
+			})
+			$('#materialRequisicion').selectpicker('refresh');
+	   	}
+	})
+}
+
 function agregar (){
+	$('#almacen').prop('disabled', true);
+	$('#almacen').selectpicker('refresh');
 	var t = $('#tablaGeneral').DataTable();
 	var repetido = false;
 	if ( document.getElementById("materialRequisicion").selectedIndex != null
@@ -160,7 +209,8 @@ function enviar() {
 	        	datos :JSON.stringify(datos),
 	        	'idRequisicion': $('#idRequisicion').val(),
 	            "_csrf": $('#token').val(),
-	            'idEmpleadoSolicitante':$('#idEmpleadoSolicitante').val()
+				'idEmpleadoSolicitante':$('#idEmpleadoSolicitante').val(),
+				'tipoS': $('#almacen').val()
 	            
 	        },
 	        beforeSend: function () {

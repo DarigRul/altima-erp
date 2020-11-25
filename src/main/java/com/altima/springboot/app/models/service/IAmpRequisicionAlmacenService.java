@@ -28,5 +28,10 @@ public interface IAmpRequisicionAlmacenService {
 	List<Object []> viewListEmpleado();
 
 
-	//hola munfo
+	//Clasificación  por tipo 
+	List<Object []> clasificacion(String tipo);
+
+	List<Object []> materialesbyclasificacion(Long id);
+	List<Object []> tela();
+	List<Object []> forro();
 }

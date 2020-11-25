@@ -79,6 +79,30 @@
                                             
                                             <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
                                             <input type="hidden" name="idRequisicion" id="idRequisicion" th:value="${idRequisicion}" />
+                                            
+                                            <div class="form-group col-md-6">
+                                                <label for="descripcionRequisicion">Almac&eacute;n</label>
+                                                <div class="input-group mb-3">
+                                                    <select id="almacen" name="almacen" class="form-control selectpicker"  onchange="Clasificacion(this.value)"
+                                                    data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                                                        <option value="Materia Prima">Materia Prima</option>
+                                                        <option value="Habilitación">Habilitaci&oacute;n</option>
+                                                       
+                                                    </select>
+                                                  
+                                                  </div>
+                                            </div>
+                                            
+                                            <div class="form-group col-md-6">
+                                                <label for="descripcionRequisicion">Clasificaci&oacute;n</label>
+                                                <div class="input-group mb-3">
+                                                    <select id="clasificacion" name="clasificacion" class="form-control selectpicker" onchange="materiales(this.value)"
+															data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                                                       
+                                                    </select>
+                                                  
+                                                  </div>
+                                            </div>
                                             <div class="form-group col-md-6">
                                                 <label for="cantidadRequisicion">Cantidad</label>
                                                 <input type="number" class="form-control" id="cantidadRequisicion" name="cantidadRequisicion" placeholder="12">
@@ -190,6 +214,15 @@
     		$("#idEmpleadoSolicitante").val(/*[[${idSelect}]]*/);
     		$("#idEmpleadoSolicitante").change();
     		
+</script>
+
+<script th:if="${tipo != null}" th:inline="javascript">
+
+    $("#almacen").val(/*[[${tipo}]]*/);
+    Clasificacion(/*[[${tipo}]]*/);
+    $('#almacen').prop('disabled', true);
+	$('#almacen').selectpicker('refresh');
+    
 </script>
   
    

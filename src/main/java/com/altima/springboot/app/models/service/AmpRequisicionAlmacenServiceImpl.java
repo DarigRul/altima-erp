@@ -319,25 +319,139 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 	@Override
 	@Transactional
 	public List<Object[]> viewListEmpleado() {
-		List<Object[]> re = em.createNativeQuery(""+
-		"SELECT \r\n "+
-		"usuario.id_usuario, \r\n "+
-		"CONCAT( empleado.nombre_persona, ' ', empleado.apellido_paterno ),  \r\n "+
-		"nombre_departamento \r\n"+
-		"FROM  \r\n"+
-		"alt_hr_usuario AS usuario, \r\n"+
-		"alt_hr_empleado AS empleado, \r\n"+
-		"alt_hr_departamento AS depa, \r\n"+
-		"alt_hr_puesto AS puesto \r\n "+
-		"WHERE  \r\n"+
-		"2 = 2 \r\n "+
-		"AND usuario.id_empleado = empleado.id_empleado \r\n"+
-		"AND empleado.id_puesto = puesto.id_puesto \r\n"+
-		"AND puesto.id_departamento = depa.id_departamento").getResultList();
+			List<Object[]> re = em.createNativeQuery(""+
+				"SELECT \r\n "+
+					"ahu.id_usuario, \r\n "+
+					"CONCAT( ahe.nombre_persona, ' ', ahe.apellido_paterno, ' ', ahe.apellido_materno ) solicitante, \r\n "+
+					"ahd.nombre_departamento \r\n "+
+				"FROM \r\n "+
+					"alt_hr_usuario AS ahu \r\n "+
+					"INNER JOIN alt_hr_empleado ahe ON ahe.id_empleado = ahu.id_empleado \r\n "+
+					"INNER JOIN alt_hr_puesto ahp ON ahp.id_puesto = ahe.id_puesto \r\n "+
+					"INNER JOIN alt_hr_departamento ahd ON ahd.id_departamento = ahp.id_puesto \r\n ").getResultList();
 		
 		return re;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> clasificacion(String tipo) {
+		List<Object[]> re = em.createNativeQuery(""+
+		"SELECT \r\n "+
+		"lookup.id_lookup, \r\n "+
+		"lookup.nombre_lookup  \r\n "+
+		"FROM  \r\n"+
+		"alt_amp_lookup AS lookup  \r\n"+
+		"WHERE  \r\n"+
+		"2 = 2 \r\n "+
+		"AND lookup.tipo_lookup = 'Clasificacion'\r\n"+
+		"AND lookup.atributo_1 ='"+tipo+"' \r\n"+
+		"AND lookup.estatus=1 \r\n"+
+		"ORDER BY lookup.nombre_lookup").getResultList();
+		
+		return re;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> materialesbyclasificacion(Long id) {
+		List<Object[]> re = em.createNativeQuery(""+
+				"SELECT \r\n"+
+				"inventario.id_inventario, \r\n"+
+				"inventario.id_text, \r\n"+
+				"inventario.articulo AS nombre, \r\n"+
+				"look.nombre_lookup AS medida, \r\n"+
+				"'N/P', \r\n"+
+				"inventario.color, \r\n"+
+				"'aa' \r\n"+
+			"FROM \r\n"+
+				"alt_amp_inventario AS inventario, \r\n"+
+				"alt_disenio_lookup AS look, \r\n"+
+				"alt_amp_lookup AS amp \r\n"+
+			"WHERE \r\n"+
+				"1 = 1  \r\n"+
+				"AND inventario.id_unidad_medida = look.id_lookup \r\n"+
+				"AND inventario.id_clasificacion = amp.id_lookup \r\n"+
+				"AND inventario.estatus = 1 \r\n"+
+				"AND amp.id_lookup = "+id+" UNION \r\n"+
+			"SELECT \r\n"+
+				"material.id_material, \r\n"+
+				"material.id_text, \r\n"+
+				"material.nombre_material AS nombre, \r\n"+
+				"look.nombre_lookup AS medida, \r\n"+
+				"material.tamanio, \r\n"+
+				"color.nombre_lookup, \r\n"+
+				"'m' \r\n"+
+			"FROM \r\n"+
+				"alt_disenio_material AS material, \r\n"+
+				"alt_disenio_lookup AS look, \r\n"+
+				"alt_disenio_lookup AS color, \r\n"+
+				"alt_disenio_lookup AS tipo,\r\n"+
+				"alt_amp_lookup AS amp \r\n"+
+			"WHERE \r\n"+
+				"1 = 1  \r\n"+
+				"AND material.id_unidad_medida = look.id_lookup \r\n"+
+				"AND material.id_color = color.id_lookup  \r\n"+
+				"AND tipo.id_lookup = material.id_tipo_material  \r\n"+
+				"AND tipo.atributo_2 = amp.id_lookup \r\n"+
+				"AND material.estatus_material = 1 \r\n"+
+				"AND material.estatus = 1 \r\n"+
+				"AND amp.id_lookup = "+id).getResultList();
+		
+		return re;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> forro() {
+		List<Object[]> re = em.createNativeQuery(""+
+				"SELECT \r\n"+
+				"forro.id_forro, \r\n"+
+				"forro.id_text, \r\n"+
+				"forro.nombre_forro AS nombre, \r\n"+
+				"look.nombre_lookup AS medida, \r\n"+
+				"forro.ancho_forro, \r\n"+
+				"forro.color, \r\n"+
+				"'f' \r\n"+
+			"FROM \r\n"+
+				"alt_disenio_forro AS forro, \r\n"+
+				"alt_disenio_lookup AS look \r\n"+
+			"WHERE \r\n"+
+				"1 = 1 \r\n"+
+				"AND look.id_lookup = forro.id_unidad_medida \r\n"+
+				"AND forro.estatus_forro = 1 \r\n"+
+				"AND forro.estatus = 1 \r\n" ).getResultList();
+		
+		return re;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> tela() {
+		List<Object[]> re = em.createNativeQuery(""+
+				"SELECT \r\n"+
+				"tela.id_tela, \r\n"+
+				"tela.id_text, \r\n"+
+				"tela.nombre_tela AS nombre, \r\n"+
+				"look.nombre_lookup AS medida, \r\n"+
+				"tela.ancho, \r\n"+
+				"tela.color, \r\n"+
+				"'t' \r\n"+
+			"FROM \r\n"+
+				"alt_disenio_tela AS tela, \r\n"+
+				"alt_disenio_lookup AS look \r\n"+
+			"WHERE \r\n"+
+				"1 = 1 \r\n"+
+				"AND look.id_lookup = tela.id_unidad_medida \r\n"+
+				"AND tela.estatus_tela = 1 \r\n"+
+				"AND tela.estatus = 1 \r\n").getResultList();
+					
+		return re;
+	}
 
 
 
