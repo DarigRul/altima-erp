@@ -1,5 +1,6 @@
 package com.altima.springboot.app.models.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,13 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
 		repository.deleteById(id);
+	}
+	
+	@Override
+	@Transactional
+	public 	BigInteger findByEmployeeClothesAndOrder(Long id_empleado_pedido,Long id_prenda_cliente,Long id_pedido) {
+	return	(BigInteger) em.createNativeQuery("select count(*) from alt_comercial_concentrado_tallas where id_empleado_pedido="+id_empleado_pedido+" and id_prenda_cliente="+id_prenda_cliente+" and id_pedido="+id_pedido+" ").getSingleResult();
+		
 	}
 
 	@Override

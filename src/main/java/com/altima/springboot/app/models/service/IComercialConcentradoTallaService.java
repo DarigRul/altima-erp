@@ -1,5 +1,6 @@
 package com.altima.springboot.app.models.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import com.altima.springboot.app.models.entity.ComercialConcentradoTalla;
@@ -55,5 +56,8 @@ public interface IComercialConcentradoTallaService {
 	Object findPrendaTalla3(Long idpedido, Long parseLong);
 
 	Long findSPF(Long idpedido);
+
+	BigInteger findByEmployeeClothesAndOrder(Long id_empleado_pedido, Long id_prenda_cliente,
+			Long id_pedido);
 
 }
