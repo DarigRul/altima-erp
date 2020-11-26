@@ -744,14 +744,14 @@
                             Requisiciones <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_GERENTE','ROLE_REQUISICION_SOLICITUD','ROLE_REQUISICION_COMPRAS')"> 
                         <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_GERENTE','ROLE_REQUISICION_SOLICITUD')">
                             <a th:href="${'/solicitud-de-almacen'}" class="nav-link" id="navReqAlm">
                                 <i class="nav-icon fas fa-store"></i>
                                 <p>Requisici&oacute;n de almac&eacute;n</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_COMPRAS')">
                             <a th:href="${'/requisicion-de-compras'}" class="nav-link" id="navReqCom">
                                 <i class="nav-icon fas fa-dollar-sign"></i>
                                 <p>Requisici&oacute;n de compras</p>

@@ -37,9 +37,10 @@ public class ComprasAlmacenRequisicionController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String roles = auth.getAuthorities().toString();
 
-		if (roles.contains("ROLE_ADMINISTRADOR")) {
+		if (roles.contains("ROLE_ADMINISTRADOR") || roles.contains("ROLE_REQUISICION_COMPRAS") ) {
 			model.addAttribute("view", ServiceCompras.view(0L));
-		} else {
+		} 
+		else {
 			model.addAttribute("view", ServiceCompras.view(this.auth.currentemployeeid()));
 		}
 		return "requisicion-de-compras";
