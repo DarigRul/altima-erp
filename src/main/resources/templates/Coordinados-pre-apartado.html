@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+<title id="pageTitle">Pre-apartados | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Coordinados&nbsp;<a th:href="@{/nuevo-coordinado/}+${idPreapartado}"  id="nuevo" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar coordinado</a>
+                            &nbsp;<a th:href="@{/pre-apartado-telas}" class="btn btn-sm icon-btn btn-danger text-white"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a></h1>
+                        </div>
+                        <div th:insert="modal-coordinado"></div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">Agentes de Venta</li>
+                                <li class="breadcrumb-item active">Pre-apartados</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de Coordinados</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaPrenda table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Total de prendas</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="coordinados: ${listCoordinadosPreapartado}">
+                                                <td th:text="${coordinados.idText}"></td>
+                                                <td th:text="${coordinados.totalPrendas}"></td>
+                                                 <td class="text-center">
+                                                	<a th:href="@{/Prendas-Coordinados-pre-apartado/}+${coordinados.idCoordinado}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
+                                                	<a  id="delete" th:href="@{/eliminar-coordinado-preapartado/}+${coordinados.idCoordinado}+'/'+${idPreapartado}" class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
+                                                         data-container="body" data-toggle="popover" data-placement="top"
+                                                          data-content="Eliminar">  <i class="fas fa-caret-down"></i> </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+    <script th:src="@{/dist/js/tablaPrenda.js}"></script>
+    <!-- SweetAlert -->
+    <script th:src="@{/dist/js/sweetalert.js}"></script>
+   	<script>
+		$('#iComercial').removeClass('text-altima');
+		$('#menuComercial').addClass('menu-open');
+		$('#navComercial').addClass('active-altima');
+		$('#menuVenta').addClass('menu-open');
+		$('#navVenta').addClass('active');
+		$('#menuCarga').addClass('menu-open');
+		$('#navPreApartado').addClass('active');
+	</script>
+	
+	<script>
+		$('#nuevo').on('click', function (e) {
+		    e.preventDefault();
+		    var href =$(this).attr('href');
+		    $('#nuevoCoordinado #btnYes').attr('href',href);
+		    $('#nuevoCoordinado').modal();
+		});
+		
+		$('#delete').on('click', function (e) {
+		    e.preventDefault();
+		    var href =$(this).attr('href');
+		    $('#deleteCoordinado #deleteYes').attr('href',href);
+		    $('#deleteCoordinado').modal();
+		});
+		</script>
+		
+		<script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+	    	  position: 'center',
+	          icon: /*[[${icon}]]*/,
+	          title: /*[[${title}]]*/,
+	          showConfirmButton: false,
+	          timer: 1250
+	    });
+	</script>
+</body>
+
+</html>

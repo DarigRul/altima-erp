@@ -1,0 +1,58 @@
+<div class="modal fade" id="modal-nuevo-preapartado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Nuevo pre-apartado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body row">
+            	<div class="form-group col-12">
+                	<label class="form-check-label" for="">Cliente</label>
+                	<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="idCliente">
+					</select>
+            	</div>
+            	<div class="form-group col-12">
+                	<label class="form-check-label" for="">N&uacute;mero aproximado de personas</label>
+                	<input type="text" class="form-control" placeholder="Ej: 20" id="numPersonas">
+            	</div>
+            	<div class="modal-footer">
+		        	<button type="button" class="btn btn-danger mr-auto" data-target="#modal-nuevo-preapartado" data-toggle="modal">Cancelar</button>
+		        	<button type="button" class="btn btn-primary" onclick="guardarPreapartado()">Agregar pre-apartado</button>
+	        	</div>
+        	</div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-estatus-preapartado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Nuevo pre-apartado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body row">
+            	<div class="form-group col-12">
+                	<label class="form-check-label" for="">Estatus del pedido</label>
+                	<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="estatusPedido">
+                	<option value=2>Perdido</option>
+                	<option value=1>Ganado</option>
+					</select>
+            	</div>
+            	<div class="form-group col-12 perdidoHide">
+                	<label class="form-check-label" for="">Referencia de pedido</label>
+                	<input type="text" class="form-control" placeholder="Ej: PED10020" id="refPedido">
+            	</div>
+            	<div class="modal-footer">
+		        	<button type="button" class="btn btn-danger mr-auto" data-target="#modal-nuevo-preapartado" data-toggle="modal">Cancelar</button>
+		        	<button type="button" class="btn btn-primary" onclick="guardarEstatusPedidoPreapartado()">Agregar pre-apartado</button>
+	        	</div>
+        	</div>
+        </div>
+    </div>
+</div>

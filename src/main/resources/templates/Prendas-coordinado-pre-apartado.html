@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head th:include="navegacion-head :: header">
+      <title id="pageTitle">Pre-apartados | Altima</title>
+   </head>
+   <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+      <!-- Site wrapper -->
+      <div class="wrapper">
+         <!-- Navbar -->
+         <div th:insert="navegacion-nav"></div>
+         <!-- /.navbar -->
+         <!-- Modal -->
+         <div th:insert="navegacion-logout"></div>
+         <!-- Main Sidebar Container -->
+         <div th:insert="navegacion-aside"></div>
+         <!-- Content Wrapper. Contains page content -->
+         <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+               <div class="container-fluid">
+                  <div class="row mb-2">
+                     <div class="col-sm-6">
+                        <h1>
+                           Coordinados&nbsp;<a href="javascript:history.back(-1);"
+                              class="btn btn-sm icon-btn btn-danger text-white"><span
+                              class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                        </h1>
+                     </div>
+                     <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                           <li class="breadcrumb-item altima">Altima</li>
+                           <li class="breadcrumb-item active">Comercial</li>
+                           <li class="breadcrumb-item active">Agentes de Venta</li>
+                           <li class="breadcrumb-item active">Pre-apartados</li>
+                        </ol>
+                     </div>
+                  </div>
+               </div>
+               <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-12">
+                        <!-- Default box -->
+                        <div class="card">
+                           <div class="card-header bg-altima">
+                              <h3 id="h3Title" class="card-title">Agregar prendas</h3>
+                           </div>
+                           <div class="card-body">
+                              <form>
+                                 <div class="row">
+                                    <div class="form-group col-md-4">
+                                       <label for="coorPrenda">Famila Prenda</label> 
+                                       <select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="prendaCotizacion">
+											<option th:each="listPrendas: ${listPrendas}"
+                                             th:value="${listPrendas.idLookup}"
+                                             th:text="${listPrendas.nombreLookup}"></option>
+										</select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                       <label for="coorModelo">Modelo</label> 
+                                       <select class="form-control selectpicker modeloCotizacion" data-live-search="true" title="Selecciona uno..." id="modeloCotizacion">
+									   </select>
+									</div>
+                                    <div class="form-group col-md-4">
+                                          <label for="coorTela">Tela</label> 
+                                          <select class="form-control selectpicker modeloCotizacion" data-live-search="true" title="Selecciona uno..." id="telaCotizacion">
+									   	  </select>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="form-group col-md-12">
+                                       <button type="button" th:onclick="'agregarPrendaCoordinado('+${idCoordinado}+')'"
+                                          class="btn icon-btn btn-altima text-white float-right">
+                                       <span
+                                          class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar
+                                       </button>
+                                    </div>
+                                 </div>
+                              </form>
+                              <div class="form-group col-md-12">
+                                 <table class="table tablaPrenda table-striped table-bordered">
+                                    <thead>
+                                       <tr>
+                                          <th>Famila Prenda</th>
+                                          <th>Modelo</th>
+                                          <th>Tela</th>
+                                          <th>Acciones</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr th:each="listCoorPrenda: ${listPrendasCoordinadoPreapartado}">
+                                          <td th:text="${listCoorPrenda[1]}"></td>
+                                          <td th:text="${listCoorPrenda[2]}"></td>
+                                          <td th:text="${listCoorPrenda[3]}"></td>
+                                          <td class="tdcenter"><a
+                                             class="btn btn-info text-white btn-circle btn-sm popoverxd"
+                                             data-container="body" data-toggle="popover"
+                                             data-placement="top" data-content="Ver detalles">
+                                             <i class="fas fa-info"></i>
+                                             </a> &nbsp; <a
+                                                th:href="@{/eliminar-prenda-coordinado-preapartado/}+${idCoordinado}+'/'+${listCoorPrenda[0]}"
+                                                class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
+                                                data-container="body" data-toggle="popover"
+                                                data-placement="top" data-content="Eliminar">
+                                             <i class="fas fa-times"></i>
+                                             </a>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                           <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <!-- /.content -->
+         </div>
+         <!-- /.content-wrapper -->
+         <div th:insert="navegacion-footer"></div>
+      </div>
+      <!-- ./wrapper -->
+      <div th:replace="navegacion-scripts"></div>
+      <script src="/dist/js/bootstrap-select.min.js"></script>
+      <!-- SweetAlert -->
+      <script th:src="@{/dist/js/sweetalert.js}"></script>
+      <script th:src="@{/dist/js/preApartados.js}"></script>
+      <script>
+         $("#iComercial").removeClass("text-altima");
+         $("#menuComercial").addClass("menu-open");
+         $("#navComercial").addClass("active-altima");
+         $("#menuVenta").addClass("menu-open");
+         $("#navVenta").addClass("active");
+         $("#menuCarga").addClass("menu-open");
+         $("#navPreApartado").addClass("active");
+      </script>
+      <script th:if="${icon != null}" th:inline="javascript">
+         Swal.fire({
+            	  position: 'center',
+                  icon: /*[[${icon}]]*/,
+                  title: /*[[${title}]]*/,
+                  showConfirmButton: false,
+                  timer: 1250
+            });
+      </script>
+      <div class="modal fade" id="baja" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+               <div class="modal-body">
+                  <button type="button" class="close" data-dismiss="modal"
+                     aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                  Deseas eliminar?
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-danger mr-auto"
+                     data-dismiss="modal">Cancelar</button>
+                  <a id="btnDelteYes" class="btn btn-primary">Confirmar</a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script>
+         $(".btn-delete").on("click", function (e) {
+             e.preventDefault();
+             var href = $(this).attr("href");
+             $("#baja #btnDelteYes").attr("href", href);
+             $("#baja").modal();
+         });
+      </script>
+      <div class="modal fade" id="detalles" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-lg"
+            role="document">
+            <div class="modal-content" id="contenedorTablaContador">
+               <div class="modal-body">
+                  <h1>Detalles</h1>
+                  <div class="tab-content">
+                     <div class="modal-body" id="quitarDetalles">
+                        <table class="table table-bordered" id="idtableDetalle"
+                           style="width: 100%;"></table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="modal fade" id="baja" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+               <div class="modal-body">
+                  <button type="button" class="close" data-dismiss="modal"
+                     aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                  Deseas eliminar?
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-danger mr-auto"
+                     data-dismiss="modal">Cancelar</button>
+                  <a id="btnDelteYes" class="btn btn-primary">Confirmar</a>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
