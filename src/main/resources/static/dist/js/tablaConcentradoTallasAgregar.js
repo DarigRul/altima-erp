@@ -893,7 +893,8 @@ function editarprenda() {
 	var empleado = document.getElementById("empleado").value; // sirve
 	var prenda = document.getElementById("idprendaedit").value;
 	var pedido = document.getElementById("idpedido").value;
-	if($("#largo22").attr('title')=="Especial" || $("#talla22").attr('title')=="Especial" ){
+	
+	if(($("#largo22").attr('title')=="Especial" || $("#talla22").attr('title')=="Especial" ) && (!$("#largo22").val() || !$("#talla22").val()) ){
 		Swal
 		.fire({
 			position: 'center',
