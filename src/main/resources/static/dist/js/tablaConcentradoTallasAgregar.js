@@ -825,13 +825,13 @@ function GuardarPrendaTalla() {
 					'Empleado': $(
 							'#empleado')
 						.val(),
-					'Largo': document.getElementById("myCheck").checked ? '' : $(
+					'Largo': document.getElementById("myCheck").checked ? '0' : $(
 					'#largo')
 					.val() ,
 					'PrendaCliente': $(
 							'#prenda')
 						.val(),
-					'Talla':document.getElementById("myCheck").checked ? '' : $(
+					'Talla':document.getElementById("myCheck").checked ? '0' : $(
 					'#talla')
 					.val(),
 					'IdPedido': $('#idpedido').val()
@@ -893,6 +893,62 @@ function editarprenda() {
 	var empleado = document.getElementById("empleado").value; // sirve
 	var prenda = document.getElementById("idprendaedit").value;
 	var pedido = document.getElementById("idpedido").value;
+	if($("#largo22").attr('title')=="Especial" || $("#talla22").attr('title')=="Especial" ){
+		Swal
+		.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Solo puede seleccionar talla y largo especial marcando la casilla',
+			showConfirmButton: false,
+			timer: 2500
+		})
+	}
+	else{
+	if (document.getElementById("myCheck2").checked==true) {
+		$.ajax({
+			type: "POST",
+			url: "/editar",
+			data: {
+				"_csrf": $('#token')
+					.val(),
+				'pedido': pedido,
+				'empleado': empleado,
+				'prenda': prenda
+
+
+			}
+
+		})
+		.done(
+			function (data) {
+				if (data == true) {
+					Swal
+						.fire({
+							position: 'center',
+							icon: 'success',
+							title: 'editado exitosamente',
+							showConfirmButton: false,
+							timer: 2500
+						})
+					listarPrendas(empleado, pedido);
+					$('#modalEditarTalla').modal('hide');
+				} else {
+					Swal
+						.fire({
+							position: 'center',
+							icon: 'error',
+							title: 'Algo salio mal reintente por favor',
+							showConfirmButton: false,
+							timer: 2500
+						})
+					$('#modalEditarTalla').modal('hide');
+
+				}
+			})
+	// //////////////7
+	} else {
+
+	
 	if (document.getElementById("talla22").value.length > 0 && document.getElementById("largo22").value.length == 0) {
 		$.ajax({
 				type: "POST",
@@ -1022,7 +1078,7 @@ function editarprenda() {
 				})
 
 	}
-
+	}}
 }
 
 // ////////////777

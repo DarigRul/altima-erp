@@ -83,47 +83,62 @@ function configurarmodal(prenda, idprenda, talla, largo) {
 </script>
 
 <!-- Modal -->
-<div class="modal fade" id="modalEditarTalla" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal fade" id="modalEditarTalla" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalCenterTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg"
+		role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-altima">
-				<h5 class="modal-title" id="exampleModalLongTitle">Editar informaci&oacute;n</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+				<h5 class="modal-title" id="exampleModalLongTitle">Editar
+					informaci&oacute;n</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
 			<form>
-			<div class="modal-body">
-			<input type="hidden" value="" id="idprendaedit">
-				<div class="row">
-                      <div class="form-group col-md-6">
-                        <label for="cargaEmpresa">Empleado</label>
-                        <input type="text" disabled value="" id="nombreempleado" class="form-control">
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="cargaEmpresa">Prenda</label>
-                        <input type="text" disabled value="" id="nombreprenda" class="form-control">
-                      </div>
-					 <div class="form-group col-md-6">
-                        <label for="cargaEmpresa">Talla</label> 
-                        <select required
-                          class="form-control selectpicker" data-live-search="true"
-                          title="" name="cargaTipopedido" id="talla22">
-                         
-                        </select>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label>Largo</label>
-                        <select required
-                          class="form-control selectpicker" data-live-search="true"
-                          title="" name="cargaTipopedido" id="largo22">
-                          
-                        </select>
-                      </div>
+				<div class="modal-body">
+					<input type="hidden" value="" id="idprendaedit">
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="cargaEmpresa">Empleado</label> <input type="text"
+								disabled value="" id="nombreempleado" class="form-control">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="cargaEmpresa">Prenda</label> <input type="text"
+								disabled value="" id="nombreprenda" class="form-control">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="cargaEmpresa">Talla</label> <select required
+								class="form-control selectpicker" data-live-search="true"
+								title="" name="cargaTipopedido" id="talla22">
+
+							</select>
+						</div>
+						<div class="form-group col-md-6">
+							<label>Largo</label> <select required
+								class="form-control selectpicker" data-live-search="true"
+								title="" name="cargaTipopedido" id="largo22">
+
+							</select>
+						</div>
+
+					</div>
+					<div class="form-group col-md-3">
+
+						<input type="checkbox" class="form-check-input" id="myCheck2">
+						<label for="myCheck2"> Talla especial </label>
+					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Cancelar</a>
-				<a class="btn icon-btn btn-altima text-white" onclick="editarprenda()" type="submit"><span class="btn-glyphicon spancircle fas fa-check  img-circle text-altima"></span>Actualizar</a>
-			</div>
+				<div class="modal-footer">
+					<a data-dismiss="modal"
+						class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span
+						class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Cancelar</a>
+					<a class="btn icon-btn btn-altima text-white"
+						onclick="editarprenda()" type="submit"><span
+						class="btn-glyphicon spancircle fas fa-check  img-circle text-altima"></span>Actualizar</a>
+				</div>
 			</form>
 		</div>
 	</div>

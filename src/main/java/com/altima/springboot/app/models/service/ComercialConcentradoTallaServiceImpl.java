@@ -69,12 +69,15 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 		// TODO Auto-generated method stub
 		repository.deleteById(id);
 	}
-	
+
 	@Override
 	@Transactional
-	public 	BigInteger findByEmployeeClothesAndOrder(Long id_empleado_pedido,Long id_prenda_cliente,Long id_pedido) {
-	return	(BigInteger) em.createNativeQuery("select count(*) from alt_comercial_concentrado_tallas where id_empleado_pedido="+id_empleado_pedido+" and id_prenda_cliente="+id_prenda_cliente+" and id_pedido="+id_pedido+" ").getSingleResult();
-		
+	public BigInteger findByEmployeeClothesAndOrder(Long id_empleado_pedido, Long id_prenda_cliente, Long id_pedido) {
+		return (BigInteger) em.createNativeQuery(
+				"select count(*) from alt_comercial_concentrado_tallas where id_empleado_pedido=" + id_empleado_pedido
+						+ " and id_prenda_cliente=" + id_prenda_cliente + " and id_pedido=" + id_pedido + " ")
+				.getSingleResult();
+
 	}
 
 	@Override
@@ -189,8 +192,9 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 	public List<Object[]> findPrenda(Long idpedido, Long idempleado) {
 
 		return em.createNativeQuery("select\n" + "   query5.id_empleado_pedido,\n" + "   query5.id_prenda_cliente,\n"
-				+ "   query5.nombre_prenda,\n" + "   IFNULL(queryy.talla,'Especial'),\n" + "   IFNULL(queryy.largo,'Especial') \n" + "from\n" + "   (\n"
-				+ "      select\n" + "         query2.* \n" + "      from\n" + "         (\n" + "            select\n"
+				+ "   query5.nombre_prenda,\n" + "   IFNULL(queryy.talla,'Especial'),\n"
+				+ "   IFNULL(queryy.largo,'Especial') \n" + "from\n" + "   (\n" + "      select\n"
+				+ "         query2.* \n" + "      from\n" + "         (\n" + "            select\n"
 				+ "               alt_comercial_concentrado_tallas.*,\n" + "               query.nombre_prenda \n"
 				+ "            from\n" + "               (\n" + "                  SELECT\n"
 				+ "                     coor_prenda.id_coordinado_prenda,\n"
@@ -290,8 +294,8 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 					+ "				   (\r\n" + "				      select  \r\n"
 					+ "				         alt_comercial_concentrado_tallas.*,\r\n"
 					+ "				         alt_servicio_cliente_lookup.nombre_lookup as especificaciones,\r\n"
-					+ "				         l2.nombre_lookup as talla,\r\n"
-					+ "				         l3.nombre_lookup as largo,  \r\n"
+					+ "				          IF(alt_comercial_concentrado_tallas.id_talla=0,\"Espe\",l2.nombre_lookup) as talla,\r\n"
+					+ "				         IF(alt_comercial_concentrado_tallas.id_largo=0,\"cial\",l3.nombre_lookup) as largo,    \r\n"
 					+ "				         query.nombre_prenda   \r\n" + "				      from  \r\n"
 					+ "				         (\r\n" + "				            SELECT  \r\n"
 					+ "				               coor_prenda.id_coordinado_prenda,\r\n"
@@ -350,8 +354,8 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 					+ "				   (\r\n" + "				      select  \r\n"
 					+ "				         alt_comercial_concentrado_tallas.*,\r\n"
 					+ "				         alt_servicio_cliente_lookup.nombre_lookup as especificaciones,\r\n"
-					+ "				         l2.nombre_lookup as talla,\r\n"
-					+ "				         l3.nombre_lookup as largo,  \r\n"
+					+ "				         IF(alt_comercial_concentrado_tallas.id_talla=0,\"Espe\",l2.nombre_lookup) as talla,\r\n"
+					+ "				         IF(alt_comercial_concentrado_tallas.id_largo=0,\"cial\",l3.nombre_lookup) as largo,    \r\n"
 					+ "				         query.nombre_prenda   \r\n" + "				      from  \r\n"
 					+ "				         (\r\n" + "				            SELECT  \r\n"
 					+ "				               coor_prenda.id_coordinado_prenda,\r\n"
@@ -708,6 +712,17 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 		em.createNativeQuery("Update  alt_comercial_concentrado_tallas set id_talla=" + talla + " , id_largo=" + largo
 				+ " where id_pedido=" + idpedido + " and id_empleado_pedido=" + idempleado + " and id_prenda_cliente="
 				+ idprenda + " ").executeUpdate();
+
+	}
+
+	@Override
+	@Transactional
+	public void updateall(Long idempleado, Long idpedido, Long idprenda) {
+		// TODO Auto-generated method stub
+		em.createNativeQuery(
+				"Update  alt_comercial_concentrado_tallas set id_talla=0 , id_largo=0" + " where id_pedido=" + idpedido
+						+ " and id_empleado_pedido=" + idempleado + " and id_prenda_cliente=" + idprenda + " ")
+				.executeUpdate();
 
 	}
 

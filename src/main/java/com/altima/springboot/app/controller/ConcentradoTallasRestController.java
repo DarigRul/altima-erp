@@ -305,11 +305,16 @@ public class ConcentradoTallasRestController {
 	public boolean editar(Model model, @RequestParam(value = "talla", required = false) Long talla,
 			@RequestParam(value = "largo", required = false) Long largo, Long pedido, Long prenda, Long empleado) {
 		boolean respuesta = false;
+
 		if (largo != null && talla == null) {
 			ConcentradoTallaService.updateall(largo, empleado, pedido, prenda);
 			respuesta = true;
 		} else if (talla != null && largo == null) {
 			ConcentradoTallaService.updateall1(talla, empleado, pedido, prenda);
+			respuesta = true;
+
+		} else if (talla == null && largo == null) {
+			ConcentradoTallaService.updateall(empleado, pedido, prenda);
 			respuesta = true;
 		} else {
 			ConcentradoTallaService.updateall(talla, largo, empleado, pedido, prenda);

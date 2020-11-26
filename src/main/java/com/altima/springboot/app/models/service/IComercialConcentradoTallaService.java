@@ -60,4 +60,6 @@ public interface IComercialConcentradoTallaService {
 	BigInteger findByEmployeeClothesAndOrder(Long id_empleado_pedido, Long id_prenda_cliente,
 			Long id_pedido);
 
+	void updateall(Long idempleado, Long idpedido, Long idprenda);
+
 }
