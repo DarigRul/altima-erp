@@ -3,13 +3,27 @@
  */
 
 function listarClientes(){
+	if(listaClientes[0].idCliente!=undefined){
+		
+	
 	for(i in listaClientes){
+		
 		$('#idCliente').append("<option value="+listaClientes[i].idCliente+">"+listaClientes[i].nombre+" "+
 								(listaClientes[i].apellidoPaterno==null?"":listaClientes[i].apellidoPaterno)+" "+
 								(listaClientes[i].apellidoPaterno==null?"":listaClientes[i].apellidoPaterno)+"</option");
 	}
 	$('.selectpicker').selectpicker("refresh");
+	
+	}
+	
+	else{
+		for(i in listaClientes){
+			
+			$('#idCliente').append("<option value="+listaClientes[i][0]+">"+listaClientes[i][1]+"</option");
+		}
+	}
 }
+	
 
 function guardarPreapartado (){
 	var idCliente = $('#idCliente').val();
