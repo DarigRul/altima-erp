@@ -27,6 +27,11 @@ public class RolloRestController {
         return rolloService.findByIdAlmacenFisico(idAlmacenFisico,idTela);
     }
 
+    @GetMapping("getRolloByidAlmacenLogico")
+    public List<AmpRolloTela> getRolloByidAlmacenLogico(@RequestParam Long idAlmacenLogico,@RequestParam Long idTela) {
+        return rolloService.findByIdAlmacenLogico(idAlmacenLogico,idTela);
+    }
+
     @GetMapping("getUbicacionByRollo")
     public List<UbicacionListDTO> getUbicacionByRollo(@RequestParam Long idRollo) {
         return ubicacionService.findAllByRollo(idRollo);

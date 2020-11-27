@@ -62,7 +62,7 @@ public class ConsumoTallaPrenda {
 	
 	@PostMapping("/guardar-talla-especial-tela")
 	public String guardarTallaEspecialTela(Long id_prenda, Long id_tela_combinacion, String tipo, Model model,
-			Integer consumo) {
+			Float consumo) {
 		System.out.println("hola");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();

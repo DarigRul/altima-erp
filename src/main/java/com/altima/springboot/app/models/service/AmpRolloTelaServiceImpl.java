@@ -53,5 +53,12 @@ public class AmpRolloTelaServiceImpl implements IAmpRolloTelaService {
         // TODO Auto-generated method stub
         return repository.findByIdAlmacenFisicoAndEstatusAndIdTela(idAlmacenFisico,"1",idTela);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AmpRolloTela> findByIdAlmacenLogico(Long idAlmacenLogico,Long idTela) {
+        // TODO Auto-generated method stub
+        return repository.findByIdAlmacenLogicoAndEstatusAndIdTela(idAlmacenLogico,"1",idTela);
+    }
     
 }

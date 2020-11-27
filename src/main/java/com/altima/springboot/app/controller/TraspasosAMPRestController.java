@@ -86,6 +86,7 @@ public class TraspasosAMPRestController {
 					System.out.println("entra al trans");
 					AmpRolloTela rollo=rolloTelaService.findOne(movimientosJson.getLong("idRollo"));
 					rollo.setIdAlmacenFisico(cabeceroJson.getLong("idAlmacenFisico"));
+					rollo.setIdAlmacenLogico(cabeceroJson.getLong("almacenDestinoTraspaso"));
 					rolloTelaService.save(rollo);
 					AmpAlmacenUbicacionArticulo ubicacionArticulo = almacenUbicacionArticuloService.findByIdArticulo(movimientosJson.getLong("idRollo"), "tela");
 					ubicacionArticulo.setIdUbicacion(movimientosJson.getLong("ubicacion"));

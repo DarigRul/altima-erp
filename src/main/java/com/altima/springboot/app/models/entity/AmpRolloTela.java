@@ -31,6 +31,9 @@ public class AmpRolloTela implements Serializable {
 	
 	@Column(name="id_almacen_fisico")
 	private Long idAlmacenFisico;
+
+	@Column(name="id_almacen_logico")
+	private Long idAlmacenLogico;
 	
 	@Column(name="id_tela")
 	private Long idTela;
@@ -159,6 +162,14 @@ public class AmpRolloTela implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Long getIdAlmacenLogico() {
+		return idAlmacenLogico;
+	}
+
+	public void setIdAlmacenLogico(Long idAlmacenLogico) {
+		this.idAlmacenLogico = idAlmacenLogico;
 	}
 
 	

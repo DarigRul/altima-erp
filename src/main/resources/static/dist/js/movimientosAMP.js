@@ -243,8 +243,7 @@ $('#agregarArticulo').click(function () {
                                 rollo == null ? 'N/A' : rollo,
                                 unidadMedida,
                                 tipo === 'tela' ? lote : 'N/A',
-                                '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>' +
-                                '<a data-toggle="modal" data-target="#cambioProveedor" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Proveedor"><i class="fas fa-store text-white" style="margin-left: -2px;"></i></a>']
+                                '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + id + tipo + '`)"><i class="fas fa-times text-white"></i></a>']
                         ).draw();
                         $("#lote").val('');
                         movimientos.push(temp);

@@ -68,7 +68,7 @@
                                                 <td class="text-center">
                                                     <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i
                                              class="fas fa-info"></i></button>
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIAPRIMA'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="${'/materia-prima?idPedido='}+${explosion[2]}" class="btn btn-success btn-sm btn-circle popoverxd"
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIAPRIMA'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="${'/materia-prima/'}+${explosion[2]}" class="btn btn-success btn-sm btn-circle popoverxd"
                                                         data-placement="top" data-content="Materia prima"><i
                                              class="flaticon2-curling-hair-with-tissue-roll"></i></a>
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIALES'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/materiales-explosionar/'+${explosion[2]}}" class="btn btn-warning btn-sm btn-circle popoverxd"
