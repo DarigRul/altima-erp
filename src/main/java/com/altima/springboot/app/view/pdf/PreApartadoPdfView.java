@@ -479,7 +479,7 @@ public class PreApartadoPdfView extends AbstractPdfView{
 					PdfPCell ClaveTelaTitulo = new PdfPCell(new Phrase("Clave tela: ", Helvetica));
 					PdfPCell ClaveTela = new PdfPCell(new Phrase(codigoTela, datosGris));
 					PdfPCell totalConsumoTitulo = new PdfPCell(new Phrase("Consumo: ", Helvetica));
-					PdfPCell totalConsumo = new PdfPCell(new Phrase(""+df.format(Double.parseDouble(fila[11].toString())), datosGris));
+					PdfPCell totalConsumo = new PdfPCell(new Phrase(""+df.format(Double.parseDouble(fila[12].toString())), datosGris));
 					PdfPCell surtirTitulo = new PdfPCell(new Phrase("Tela: ", Helvetica));
 					PdfPCell surtir = new PdfPCell(new Phrase(fila[9].toString(), datosGrisPeque));
 					PdfPCell colorTelaTitulo = new PdfPCell(new Phrase("Color: ", Helvetica));

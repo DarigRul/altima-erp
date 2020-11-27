@@ -157,7 +157,14 @@ public class ComercialPreApartadoServiceImpl implements IComercialPreApartadoSer
 				"		telas.nombre_tela,\r\n" + 
 				"		telas.color,\r\n" + 
 				"		coorPre.total_prendas,\r\n" + 
-				"		\"\" as r,\r\n" + 
+				"		IFNULL(((cpp.num_personas*coorPre.total_prendas)-(-((1.5 - telas.ancho)*(cpp.num_personas*coorPre.total_prendas))) \r\n" + 
+				"		+\r\n" + 
+				"		IF((telas.estampado!=\"Liso\" AND telas.estampado!=\"Fantasia\"),(cpp.num_personas)* 0.1 ,0) 		\r\n" + 
+				"		+\r\n" + 
+				"		(telas.prueba_encogimiento/100)*(\r\n" + 
+				"			(matPrenda.cantidad)-(-((1.5 - telas.ancho)*(cpp.num_personas*coorPre.total_prendas))) \r\n" + 
+				"		+\r\n" + 
+				"		IF((telas.estampado!=\"Liso\" AND telas.estampado!=\"Fantasia\"),(cpp.num_personas*coorPre.total_prendas)* 0.1 ,0))), 0) as consumo, \r\n" + 
 				"		\"\" as d,\r\n" + 
 				"		telas.foto,\r\n" + 
 				"		cpp.num_personas \r\n" + 
@@ -168,6 +175,9 @@ public class ComercialPreApartadoServiceImpl implements IComercialPreApartadoSer
 				"INNER JOIN alt_comercial_prendas_preapartado prenPre ON coorPre.id_coordinado = prenPre.id_coordinado\r\n" + 
 				"INNER JOIN alt_comercial_cliente cliente ON cpp.id_cliente = cliente.id_cliente\r\n" + 
 				"INNER JOIN alt_disenio_tela telas ON prenPre.id_tela = telas.id_tela\r\n" + 
+				"INNER JOIN alt_disenio_prenda prenda ON prenPre.id_prenda = prenda.id_prenda\r\n" + 
+				"INNER JOIN alt_disenio_material_prenda matPrenda ON prenda.id_prenda = matPrenda.id_prenda\r\n" + 
+				"INNER JOIN alt_disenio_material mat ON matPrenda.id_material = mat.id_material AND mat.nombre_material = \"Tela Principal\" \r\n" +
 				"\r\n" + 
 				"WHERE cpp.id_preapartado = "+id+"\r\n" + 
 				"GROUP BY telas.id_tela \r\n" + 
