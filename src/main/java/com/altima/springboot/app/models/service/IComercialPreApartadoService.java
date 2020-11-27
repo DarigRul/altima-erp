@@ -30,4 +30,6 @@ public interface IComercialPreApartadoService {
 	
 	void deletePrendaCoordinado(Long id);
 	
+	List<Object[]> reportePreapartados(Long id);
+	
 }

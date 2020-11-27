@@ -312,4 +312,12 @@ public class ApartadoTelas {
 		return "redirect:/Prendas-Coordinados-pre-apartado/"+idCoordinado;
 	}
 	
+	@RequestMapping(value = {"/detalle-reporte-preapartado/{id}"}, method = RequestMethod.GET)
+	public String detalleReportePreapartado(@PathVariable(value="id")Long id, Model model) {
+		
+		model.addAttribute("preapartadoTelasReporte", preapartadoService.reportePreapartados(id));
+		
+		return "/detalle-reporte-preapartado";
+	}
+	
 }

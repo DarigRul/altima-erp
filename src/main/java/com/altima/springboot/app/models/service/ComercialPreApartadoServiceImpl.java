@@ -141,4 +141,37 @@ public class ComercialPreApartadoServiceImpl implements IComercialPreApartadoSer
 		
 	}
 	
+	@Transactional
+	@Override
+	public List<Object[]> reportePreapartados(Long id) {
+		
+		return em.createNativeQuery("SELECT cpp.id_preapartado,\r\n" + 
+				"		cpp.id_cliente,\r\n" + 
+				"		cpp.id_empleado,\r\n" + 
+				"		telas.id_text,\r\n" + 
+				"		telas.id_tela,\r\n" + 
+				"		prenPre.id_prenda,\r\n" + 
+				"		CONCAT(cliente.nombre, \" \", IFNULL(cliente.apellido_paterno, \" \"), \" \", IFNULL(cliente.apellido_materno, \" \")) AS Nombre_cliente,\r\n" + 
+				"		cpp.referencia_pedido,\r\n" + 
+				"		cpp.fecha_preapartado,\r\n" + 
+				"		telas.nombre_tela,\r\n" + 
+				"		telas.color,\r\n" + 
+				"		coorPre.total_prendas,\r\n" + 
+				"		\"\" as r,\r\n" + 
+				"		\"\" as d,\r\n" + 
+				"		telas.foto,\r\n" + 
+				"		cpp.num_personas \r\n" + 
+				"\r\n" + 
+				"FROM alt_comercial_preapartado AS cpp\r\n" + 
+				"\r\n" + 
+				"INNER JOIN alt_comercial_coordinado_preapartado coorPre ON cpp.id_preapartado = coorPre.id_preapartado\r\n" + 
+				"INNER JOIN alt_comercial_prendas_preapartado prenPre ON coorPre.id_coordinado = prenPre.id_coordinado\r\n" + 
+				"INNER JOIN alt_comercial_cliente cliente ON cpp.id_cliente = cliente.id_cliente\r\n" + 
+				"INNER JOIN alt_disenio_tela telas ON prenPre.id_tela = telas.id_tela\r\n" + 
+				"\r\n" + 
+				"WHERE cpp.id_preapartado = "+id+"\r\n" + 
+				"GROUP BY telas.id_tela \r\n" + 
+				"ORDER BY id_tela").getResultList();
+	}
+	
 }
