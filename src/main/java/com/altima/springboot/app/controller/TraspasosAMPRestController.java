@@ -58,6 +58,7 @@ public class TraspasosAMPRestController {
 			traspaso.setObservaciones(cabeceroJson.getString("observaciones"));
 			traspaso.setFechaDocumento(cabeceroJson.getString("fechaMovimiento"));
 			traspaso.setEstatus("1");
+			traspaso.setTipo("0");
 			traspaso.setCreadoPor(auth.getName());
 			traspaso.setActualizadoPor(auth.getName());
 			traspasoService.save(traspaso);

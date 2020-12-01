@@ -71,6 +71,9 @@ public class AmpTraspaso implements Serializable {
 	@Column(name="estatus")
 	private String estatus;
 
+	@Column(name="tipo")
+	private String tipo;
+
 	public Long getIdTraspaso() {
 		return idTraspaso;
 	}
@@ -201,6 +204,14 @@ public class AmpTraspaso implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 	
 	

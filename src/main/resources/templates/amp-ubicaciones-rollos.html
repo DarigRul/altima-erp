@@ -54,6 +54,7 @@
 											<tr>
 												<th>Ubicaci&oacute;n</th>
 												<th>Rollo</th>
+												<th>Tela</th>
 												<th>Lote</th>
 												<th>Cantidad</th>
 												<th>Almac&eacute;n</th>
@@ -63,6 +64,7 @@
 											<tr th:each="casillero : ${casilleros}">
 												<td th:text="${casillero.casillero}"></td>
 												<td th:text="${casillero.idText}">15/06/20 14:00</td>
+												<td th:text="${casillero.nombreTela}">NombreTela</td>
 												<td th:text="${casillero.lote}">Salida</td>
 												<td th:text="${casillero.cantidad}">Salida a corte</td>
 												<td th:text="${casillero.almacenFisico}">Apartados</td>

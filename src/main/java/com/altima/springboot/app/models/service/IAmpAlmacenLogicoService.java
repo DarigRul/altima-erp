@@ -21,4 +21,6 @@ public interface IAmpAlmacenLogicoService {
 
 	boolean existHabilitacion();
 	boolean existMaterial();
+
+	AmpAlmacenLogico findByTipo(String tipo,String nombreAlmacenLogico);
 }

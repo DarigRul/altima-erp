@@ -18,6 +18,7 @@ public class ExplosionMateriaPrimaController {
     @GetMapping("/materia-prima/{idPedido}")
     public String MateriaPrimaList(Model m,@PathVariable Long idPedido) {
         m.addAttribute("apartadoTelas", explosionTelaService.findAllExplosion(idPedido));
+        m.addAttribute("idPedido", idPedido);
         return "materia-prima";
     }
 }

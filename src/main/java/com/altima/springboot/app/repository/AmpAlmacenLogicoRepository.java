@@ -6,4 +6,6 @@ import com.altima.springboot.app.models.entity.AmpAlmacenLogico;
 
 public interface AmpAlmacenLogicoRepository extends CrudRepository<AmpAlmacenLogico, Long> {
 
+    AmpAlmacenLogico findByTipoAndNombreAlmacenLogico(String tipo,String nombreAlmacenLogico);
+
 }

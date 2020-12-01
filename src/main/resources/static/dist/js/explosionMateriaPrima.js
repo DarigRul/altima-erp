@@ -10,8 +10,8 @@ $(document).ready(function () {
             const findRollosByIdTela = rollos.filter(element => element.idTela == idTela);
             const apartado = findRollosByIdTela.reduce((ac, rollo) => ac + rollo.cantidad, 0);
             $("#apartado-" + idTela).text(apartado);
-            $("#disponible-"+idTela).text(($(`#disponible-${idTela}`).data("content") - apartado).toFixed(2));
-            $("#faltante-"+idTela).text(($(`#consumo-${idTela}`).data("content") - apartado).toFixed(2));
+            $("#disponible-" + idTela).text(($(`#disponible-${idTela}`).data("content") - apartado).toFixed(2));
+            $("#faltante-" + idTela).text(($(`#consumo-${idTela}`).data("content") - apartado).toFixed(2));
         });
 
 
@@ -26,7 +26,7 @@ function getExistenciaByAlmacen(idTela) {
     $("#mod-disponible").text((parseFloat($(`#disponible-${idTela}`).text())).toFixed(2));
     $("#mod-requerido").text($(`#consumo-${idTela}`).text());
     $("#mod-apartado").text(apartado);
-    $("#mod-restante").text($("#faltante-"+idTela).text());
+    $("#mod-restante").text($("#faltante-" + idTela).text());
     $.ajax({
         type: "GET",
         url: "/multialmacen-articulos",
@@ -139,7 +139,7 @@ function agregarRollo() {
             .clear()
             .draw();
         rollos.push(tempRollo);
-        $.cookie('rollosCookie', rollos, { expires: 7 });
+        $.cookie('rollosCookie', rollos, { expires: 7, path: $(location).attr('pathname') });
         $('#selectRollo').find('[value=' + tempRollo.idRollo + ']').remove();
         $('#selectRollo').selectpicker('refresh');
         const findRollosByIdTela = rollos.filter(element => element.idTela == tempRollo.idTela);
@@ -163,8 +163,8 @@ function agregarRollo() {
         });
         //aqui es para los datos de requerido, apartado, disponible etc...
         $("#apartado-" + tempRollo.idTela).text(apartado);
-        $("#disponible-"+tempRollo.idTela).text((parseFloat($(`#disponible-${tempRollo.idTela}`).data("content")) - apartado).toFixed(2));
-        $("#faltante-"+tempRollo.idTela).text((parseFloat($(`#consumo-${tempRollo.idTela}`).data("content")) - apartado).toFixed(2));
+        $("#disponible-" + tempRollo.idTela).text((parseFloat($(`#disponible-${tempRollo.idTela}`).data("content")) - apartado).toFixed(2));
+        $("#faltante-" + tempRollo.idTela).text((parseFloat($(`#consumo-${tempRollo.idTela}`).data("content")) - apartado).toFixed(2));
         $("#mod-apartado").text(apartado);
         $("#mod-disponible").text((parseFloat($(`#disponible-${tempRollo.idTela}`).data("content")) - apartado).toFixed(2));
         $("#mod-restante").text((parseFloat($(`#consumo-${tempRollo.idTela}`).data("content")) - apartado).toFixed(2));
@@ -184,7 +184,7 @@ function deleteMovimiento(fila, id) {
     // Se elimina el objeto del array de objetos
     var removeIndex = rollos.map(function (item) { return item.idRollo }).indexOf(id);
     rollos.splice(removeIndex, 1);
-    $.cookie('rollosCookie', rollos, { expires: 7 });
+    $.cookie('rollosCookie', rollos, { expires: 7, path: $(location).attr('pathname') });
     //lo usamos para actulizar datos
     const findRollosByIdTela = rollos.filter(element => element.idTela == found.idTela);
     const apartado = findRollosByIdTela.reduce((ac, rollo) => ac + rollo.cantidad, 0);
@@ -192,8 +192,8 @@ function deleteMovimiento(fila, id) {
     console.log(apartado)
     $("#mod-apartado").text(apartado);
     $("#apartado-" + found.idTela).text(apartado);
-    $("#disponible-"+found.idTela).text((parseFloat($(`#disponible-${found.idTela}`).data("content")) - apartado).toFixed(2));
-    $("#faltante-"+found.idTela).text((parseFloat($(`#consumo-${found.idTela}`).data("content")) - apartado).toFixed(2));
+    $("#disponible-" + found.idTela).text((parseFloat($(`#disponible-${found.idTela}`).data("content")) - apartado).toFixed(2));
+    $("#faltante-" + found.idTela).text((parseFloat($(`#consumo-${found.idTela}`).data("content")) - apartado).toFixed(2));
     $("#mod-disponible").text((parseFloat($(`#disponible-${found.idTela}`).data("content")) - apartado).toFixed(2));
     $("#mod-restante").text((parseFloat($(`#consumo-${found.idTela}`).data("content")) - apartado).toFixed(2));
     const findRollosById = rollos.filter(element => element.idAlmacenLogico == found.idAlmacenLogico && element.idTela == found.idTela);
@@ -231,7 +231,9 @@ function deleteRollos() {
         reverseButtons: true
     }).then((result) => {
         if (result.value) {
-            if ($.removeCookie('rollosCookie')) {
+
+            if ($.removeCookie('rollosCookie'), { path: $(location).attr('pathname') }) {
+                $.removeCookie('rollosCookie', { path: $(location).attr('pathname') });
                 location.reload();
             }
             else {
@@ -250,6 +252,40 @@ function getUnique(array) {
         }
     }
     return uniqueArray;
+}
+function getUniqueId(array) {
+    var uniqueArray=[];
+
+    for (i = 0; i < array.length; i++) {
+        if (uniqueArray.indexOf(array[i]) === -1) {
+            uniqueArray.push(
+                
+                    array[i]
+                
+            );
+        }
+    }
+    return uniqueArray;
+}
+
+function guardar(idPedido) {
+    $.ajax({
+        type: "POST",
+        url: "/postExplosionTelas",
+        data: {
+            'idPedido': idPedido,
+            'rollos': JSON.stringify(rollos),
+            'idAlmacenes': JSON.stringify(getUniqueId(rollos.map(rollo => rollo.idAlmacenLogico))),
+            '_csrf': $("[name='_csrf']").val(),
+        },
+        success: function (response) {
+            $.removeCookie('rollosCookie', { path: $(location).attr('pathname') });
+            location.reload();
+        },
+        error: (e) => {
+            alert(e);
+        }
+    });
 }
 
 

@@ -79,11 +79,11 @@
                                                 <td th:data-content="${apartadoTela.apartado}" th:text="${apartadoTela.apartado}" th:id="'apartado-'+${apartadoTela.idTela}"></td>
                                                 <td th:data-content="${#numbers.formatDecimal(apartadoTela.spfConsumo+apartadoTela.consumo-apartadoTela.apartado,0,2)}" th:text="${#numbers.formatDecimal(apartadoTela.spfConsumo+apartadoTela.consumo-apartadoTela.apartado,0,2)}" th:id="'faltante-'+${apartadoTela.idTela}">
                                                 </td>
-                                                <td th:text="${apartadoTela.spfConsumo+apartadoTela.consumo-apartadoTela.apartado}==0?'Completo':'Faltante'">
+                                                <td th:text="${apartadoTela.spfConsumo+apartadoTela.consumo-apartadoTela.apartado}<=0?'Completo':'Faltante'">
                                                 </td>
                                                 <td class="text-center">
                                                     <button id="modalAlmacen" th:attr="onclick=|getExistenciaByAlmacen('${apartadoTela.idTela}')|" 
-                                                        class="btn btn-success btn-sm btn-circle popoverxd"
+                                                        class="btn btn-success btn-sm btn-circle popoverxd" th:disabled="${apartadoTela.spfConsumo+apartadoTela.consumo-apartadoTela.apartado}<=0?'true':'False'"
                                                         data-placement="top" data-content="Stock general"><i
                                                             class="fas fa-store-alt"
                                                             style="margin-left: -3px;"></i></button>
@@ -92,6 +92,7 @@
 
                                         </tbody>
                                     </table>
+                                    <button type="button" th:attr="onclick=|guardar('${idPedido}')|"  class="btn btn-primary">Guardar</button>
                                 </div>
                                 <div th:insert="materia-prima-almacen"></div>
                             </div>
