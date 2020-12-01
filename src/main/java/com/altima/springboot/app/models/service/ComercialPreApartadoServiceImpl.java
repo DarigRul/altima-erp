@@ -156,7 +156,7 @@ public class ComercialPreApartadoServiceImpl implements IComercialPreApartadoSer
 				"		cpp.fecha_preapartado,\r\n" + 
 				"		telas.nombre_tela,\r\n" + 
 				"		telas.color,\r\n" + 
-				"		coorPre.total_prendas,\r\n" + 
+				"		coorPre.total_prendas,\r\n" +  
 				"		IFNULL(((cpp.num_personas*coorPre.total_prendas)-(-((1.5 - telas.ancho)*(cpp.num_personas*coorPre.total_prendas))) \r\n" + 
 				"		+\r\n" + 
 				"		IF((telas.estampado!=\"Liso\" AND telas.estampado!=\"Fantasia\"),(cpp.num_personas)* 0.1 ,0) 		\r\n" + 
