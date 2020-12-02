@@ -153,7 +153,7 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 				"	requisicion.id_requisicion_almacen,\r\n" + 
 				"	requisicion.id_text,\r\n" + 
 				"	CONCAT( ahe.nombre_persona, ' ', ahe.apellido_paterno, ' ', ahe.apellido_materno ) solicitante,\r\n" + 
-				"	requisicion.fecha_creacion,\r\n" + 
+				"	DATE_FORMAT(requisicion.fecha_creacion,'%d/%m/%Y'),\r\n" + 
 				"	ahd.nombre_departamento,\r\n" + 
 				"CASE\r\n" + 
 				"		\r\n" + 
@@ -167,8 +167,16 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 				"		'Rechazado'\r\n" + 
 				"	END ,\r\n" + 
 				"	requisicion.estatus_envio,\r\n" + 
-				"   IFNULL((SELECT compras.id_text FROM alt_compras_requisicion_almacen AS compras WHERE compras.id_solicitud_almacen = requisicion.id_requisicion_almacen ) , '0'),\r\n"+
-				"	requisicion.tipo_requisicion\r\n" +
+				"  IFNULL((SELECT compras.id_text FROM alt_compras_requisicion_almacen AS compras WHERE compras.id_solicitud_almacen = requisicion.id_requisicion_almacen ) , '0'),\r\n" + 
+				"	requisicion.tipo_requisicion,\r\n" + 
+				"	case\r\n" + 
+				"	WHEN (SELECT COUNT(material.id_material) from alt_amp_requisicion_almacen_material as material WHERE material.id_requisicion_almacen = requisicion.id_requisicion_almacen and material.estatus=1  AND requisicion.estatus_envio=2 ) = (SELECT COUNT(material.id_material) from alt_amp_requisicion_almacen_material as material WHERE material.id_requisicion_almacen = requisicion.id_requisicion_almacen ) then 'En espera'\r\n" + 
+				"	\r\n" + 
+				"	WHEN (SELECT COUNT(material.id_material) from alt_amp_requisicion_almacen_material as material WHERE material.id_requisicion_almacen = requisicion.id_requisicion_almacen and material.estatus=2  AND requisicion.estatus_envio=2) >0 then 'Parcial'\r\n" + 
+				"	\r\n" + 
+				"	WHEN (SELECT COUNT(material.id_material) from alt_amp_requisicion_almacen_material as material WHERE material.id_requisicion_almacen = requisicion.id_requisicion_almacen and material.estatus=3 AND requisicion.estatus_envio=2  ) =(SELECT COUNT(material.id_material) from alt_amp_requisicion_almacen_material as material WHERE material.id_requisicion_almacen = requisicion.id_requisicion_almacen ) then 'Surtido'\r\n" + 
+				"	ELSE 'N/A' \r\n" + 
+				"	end \r\n" + 
 				"	FROM\r\n" + 
 				"		alt_amp_requisicion_almacen AS requisicion\r\n" + 
 				"		INNER JOIN alt_hr_usuario ahu ON ahu.id_usuario = requisicion.id_solicitante\r\n" + 

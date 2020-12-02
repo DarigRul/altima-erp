@@ -381,13 +381,6 @@ function aceptar (id){
     })
 }
 function detalles(id, estatus)  {
-	
-	var cabezera;
-	if ( estatus==2 && $('#rolAdmin').val() == 1){
-		cabezera ="<th>Estatus</th>" +"<th>Acciones</th>";
-	}else{
-		cabezera= "";
-	}
     $.ajax({
         method: "GET",
         url: "/detalles-riquisicion-almacen",
@@ -406,7 +399,7 @@ function detalles(id, estatus)  {
                     "<th>Clave</th>" +
                     "<th>Nombre</th>" +
 					"<th>Color</th>" +
-					cabezera+
+					"<th>Estatus</th>" +
                     "</tr>" +
                     "</thead>" +
                     "</table>" +
@@ -415,66 +408,13 @@ function detalles(id, estatus)  {
             var a;
             var b = [];
             for (i in data) {
-				if (estatus== 2 && $('#rolAdmin').val() == 1){
-					var td ;
-					if ( data[i][6] == "En espera" ){
-						td = "<button "+
-						"onclick='surtido(\"" + data[i][0] + "\" );'"+
-						"class='btn btn-success btn-sm btn-circle popoverxd'"+
-						"data-placement='top' data-content='Surtido' "+ ">"+
-							"<i class='fas fa-check'></i>"+
-						"</button>"+
-						"<button "+ 
-						"onclick='parcial(\"" + data[i][0] + "\" );'"+
-						"class='btn btn-warning btn-sm btn-circle popoverxd'"+
-						"data-placement='top' data-content='Parcial' "+ ">"+
-							"<i class='fas fa-hourglass-half'></i>"+
-						"</button>" 
-					}
-					else if (data[i][6] == "Parcial"){
-						td = "<button "+
-						"onclick='surtido(\"" + data[i][0] + "\" );'"+
-						"class='btn btn-success btn-sm btn-circle popoverxd'"+
-						"data-placement='top' data-content='Surtido' "+ ">"+
-							"<i class='fas fa-check'></i>"+
-						"</button>"
-					}
-					else{
-						td = "<button disabled "+
-						"onclick='surtido(\"" + data[i][0] + "\" );'"+
-						"class='btn btn-success btn-sm btn-circle popoverxd'"+
-						"data-placement='top' data-content='Surtido' "+ ">"+
-							"<i class='fas fa-check'></i>"+
-						"</button>"+
-						"<button disabled  "+ 
-						"onclick='parcial(\"" + data[i][0] + "\" );'"+
-						"class='btn btn-warning btn-sm btn-circle popoverxd'"+
-						"data-placement='top' data-content='Parcial' "+ ">"+
-							"<i class='fas fa-hourglass-half'></i>"+
-						"</button>" 
-					}
 					a = ["<tr>" + 
                 	"<td>" + data[i][2] + "</td>",
                 	"<td>" + data[i][3] + "</td>",
                 	"<td>" + data[i][4] + "</td>",
 					"<td>" + data[i][5] + "</td>",
 					"<td>" + data[i][6] + "</td>",
-					"<td >"+ td +"</td>",
-							
-                
                 	"<tr>"];
-				}else{
-					a = ["<tr>" + 
-                	"<td>" + data[i][2] + "</td>",
-                	"<td>" + data[i][3] + "</td>",
-                	"<td>" + data[i][4] + "</td>",
-					"<td>" + data[i][5] + "</td>",
-					
-                
-                	"<tr>"];
-				}
-                
-
                 b.push(a);
             }
             var tabla = $("#idtableDetalles").DataTable({

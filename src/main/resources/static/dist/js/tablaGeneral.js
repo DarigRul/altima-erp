@@ -3,7 +3,7 @@ $(document).ready(function() {
         .DataTable({
             "ordering": false,
             "pageLength": 5,
-            "responsive": true,
+            "scrollX": true,
             "stateSave": true,
             "drawCallback": function() {
                 $('.popoverxd').popover({
