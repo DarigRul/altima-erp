@@ -44,6 +44,8 @@ public interface ComercialClienteEmpleadoService {
 
 	List<ComercialClienteEmpleado> findAllEmpleadosEmpresaWithoutSPF(Long id);
 
+	List<ComercialClienteEmpleado> findAllEmpleadosEmpresaWithoutSPFAgregar(Long id);
+
 	
 	
 	

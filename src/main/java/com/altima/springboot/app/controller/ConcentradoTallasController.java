@@ -102,7 +102,7 @@ public class ConcentradoTallasController {
 
 		AdminConfiguracionPedido config = configService.findOne(Long.parseLong(pedido.getTipoPedido()));
 		if (config.getTipoPedido() == 1) {
-			model.addAttribute("empleados", ComClienteEmpleadoService.findAllEmpleadosEmpresaWithoutSPF(idpedido));
+			model.addAttribute("empleados", ComClienteEmpleadoService.findAllEmpleadosEmpresaWithoutSPFAgregar(idpedido));
 			//model.addAttribute("prendas", ConcentradoTallaService.findPrendaCliente(idpedido));
 			model.addAttribute("talla", ProduccionLookupService.findAllByType("Talla"));
 			model.addAttribute("largo", ProduccionLookupService.findAllByType("Largo"));
