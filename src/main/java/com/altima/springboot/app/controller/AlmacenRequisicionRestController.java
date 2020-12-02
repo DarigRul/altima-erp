@@ -154,7 +154,7 @@ public class AlmacenRequisicionRestController {
 	    
 	    @GetMapping("/detalles-riquisicion-almacen")
 	    public List<Object []> detalles (Long id) {
-	    	return ServiceAlmacen.viewMaterial(id);
+	    	return ServiceAlmacen.detalles(id);
 		}
 	@GetMapping("/clasificacion-almacen")
 	public List<Object []> clasificacion (String tipo) {
@@ -173,6 +173,32 @@ public class AlmacenRequisicionRestController {
 			return ServiceAlmacen.materialesbyclasificacion(Long.parseLong(tipo));
 		}
 	    
+	}
+
+	@GetMapping("/surtido-solicitud-material")
+	public Long  surtido (Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		AmpRequisicionAlmacenMaterial material = ServiceAlmacen.findOneMaterial(id);
+		material.setEstatus("3");
+		material.setActualizadoPor(auth.getName());
+		material.setUltimaFechaModificacion(hourdateFormat.format(date));
+		ServiceAlmacen.save(material);
+	    return material.getIdRequisicionAlmacen();
+	}
+
+	@GetMapping("/parcial-solicitud-material")
+	public Long  parcial (Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		AmpRequisicionAlmacenMaterial material = ServiceAlmacen.findOneMaterial(id);
+		material.setEstatus("2");
+		material.setActualizadoPor(auth.getName());
+		material.setUltimaFechaModificacion(hourdateFormat.format(date));
+		ServiceAlmacen.save(material);
+	    return material.getIdRequisicionAlmacen();
 	}
 
 }

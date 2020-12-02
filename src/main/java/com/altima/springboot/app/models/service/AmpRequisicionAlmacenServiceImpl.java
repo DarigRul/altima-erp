@@ -188,6 +188,11 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 		// TODO Auto-generated method stub
 		return repositoryAlmacen.findById(id).orElse(null);
 	}
+	@Override
+	public AmpRequisicionAlmacenMaterial findOneMaterial(Long id) {
+		// TODO Auto-generated method stub
+		return repositoryMaterial.findById(id).orElse(null);
+	}
 
 	
 	@SuppressWarnings("unchecked")
@@ -452,6 +457,130 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 				"AND tela.estatus_tela = 1 \r\n"+
 				"AND tela.estatus = 1 \r\n").getResultList();
 					
+		return re;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> detalles(Long id) {
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\r\n" + 
+				"	AM.id_requisicion_almacen_material AS id,\r\n" + 
+				"	AM.tipo_material AS tipo,\r\n" + 
+				"	AM.cantidad AS cantidad,\r\n" + 
+				"	material.id_text AS id_text,\r\n" + 
+				"	material.nombre_material AS nombre,\r\n" + 
+				"	color.nombre_lookup AS color,\r\n" + 
+				"CASE\r\n" + 
+				"		WHEN AM.estatus = 1 THEN\r\n" + 
+				"		'En espera' \r\n" + 
+				"		WHEN AM.estatus = 2 THEN\r\n" + 
+				"		'Parcial' \r\n" + 
+				"		WHEN AM.estatus = 3 THEN\r\n" + 
+				"		'Surtido' \r\n" + 
+				"	END \r\n" + 
+				"	FROM\r\n" + 
+				"		alt_amp_requisicion_almacen_material AS AM,\r\n" + 
+				"		alt_disenio_material AS material,\r\n" + 
+				"		alt_disenio_lookup AS look,\r\n" + 
+				"		alt_disenio_lookup AS color \r\n" + 
+				"	WHERE\r\n" + 
+				"		1 = 1 \r\n" + 
+				"		AND AM.id_material = material.id_material \r\n" + 
+				"		AND AM.tipo_material = 'm' \r\n" + 
+				"		AND AM.id_requisicion_almacen = "+id+" \r\n" + 
+				"		AND material.id_unidad_medida = look.id_lookup \r\n" + 
+				"		AND material.id_color = color.id_lookup \r\n" + 
+				"		AND material.estatus_material = 1 \r\n" + 
+				"		AND material.estatus = 1 UNION\r\n" + 
+				"	SELECT\r\n" + 
+				"		AM.id_requisicion_almacen_material AS id,\r\n" + 
+				"		AM.tipo_material AS tipo,\r\n" + 
+				"		AM.cantidad AS cantidad,\r\n" + 
+				"		tela.id_text AS id_text,\r\n" + 
+				"		tela.nombre_tela AS nombre,\r\n" + 
+				"		tela.color AS color,\r\n" + 
+				"	CASE\r\n" + 
+				"			WHEN AM.estatus = 1 THEN\r\n" + 
+				"			'En espera' \r\n" + 
+				"			WHEN AM.estatus = 2 THEN\r\n" + 
+				"			'Parcial' \r\n" + 
+				"			WHEN AM.estatus = 3 THEN\r\n" + 
+				"			'Surtido' \r\n" + 
+				"		END \r\n" + 
+				"		FROM\r\n" + 
+				"			alt_disenio_tela AS tela,\r\n" + 
+				"			alt_disenio_lookup AS look,\r\n" + 
+				"			alt_amp_requisicion_almacen_material AS AM \r\n" + 
+				"		WHERE\r\n" + 
+				"			1 = 1 \r\n" + 
+				"			AND AM.id_material = tela.id_tela \r\n" + 
+				"			AND AM.tipo_material = 't' \r\n" + 
+				"			AND AM.id_requisicion_almacen = "+id+" \r\n" + 
+				"			AND look.id_lookup = tela.id_unidad_medida \r\n" + 
+				"			AND tela.estatus_tela = 1 \r\n" + 
+				"			AND tela.estatus = 1 UNION\r\n" + 
+				"		SELECT\r\n" + 
+				"			AM.id_requisicion_almacen_material AS id,\r\n" + 
+				"			AM.tipo_material AS tipo,\r\n" + 
+				"			AM.cantidad AS cantidad,\r\n" + 
+				"			forro.id_text AS id_text,\r\n" + 
+				"			forro.nombre_forro AS nombre,\r\n" + 
+				"			forro.color AS color,\r\n" + 
+				"		CASE\r\n" + 
+				"				WHEN AM.estatus = 1 THEN\r\n" + 
+				"				'En espera' \r\n" + 
+				"				WHEN AM.estatus = 2 THEN\r\n" + 
+				"				'Parcial' \r\n" + 
+				"				WHEN AM.estatus = 3 THEN\r\n" + 
+				"				'Surtido' \r\n" + 
+				"			END \r\n" + 
+				"			FROM\r\n" + 
+				"				alt_disenio_forro AS forro,\r\n" + 
+				"				alt_disenio_lookup AS look,\r\n" + 
+				"				alt_amp_requisicion_almacen_material AS AM \r\n" + 
+				"			WHERE\r\n" + 
+				"				1 = 1 \r\n" + 
+				"				AND AM.id_material = forro.id_forro \r\n" + 
+				"				AND AM.tipo_material = 'f' \r\n" + 
+				"				AND AM.id_requisicion_almacen = "+id+" \r\n" + 
+				"				AND look.id_lookup = forro.id_unidad_medida \r\n" + 
+				"				AND forro.estatus_forro = 1 \r\n" + 
+				"				AND forro.estatus = 1 UNION\r\n" + 
+				"			SELECT\r\n" + 
+				"				AM.id_requisicion_almacen_material AS id,\r\n" + 
+				"				AM.tipo_material AS tipo,\r\n" + 
+				"				AM.cantidad AS cantidad,\r\n" + 
+				"				inventario.id_text AS id_text,\r\n" + 
+				"				inventario.articulo AS nombre,\r\n" + 
+				"				inventario.color,\r\n" + 
+				"			CASE\r\n" + 
+				"					WHEN AM.estatus = 1 THEN\r\n" + 
+				"					'En espera' \r\n" + 
+				"					WHEN AM.estatus = 2 THEN\r\n" + 
+				"					'Parcial' \r\n" + 
+				"					WHEN AM.estatus = 3 THEN\r\n" + 
+				"					'Surtido' \r\n" + 
+				"				END \r\n" + 
+				"				FROM\r\n" + 
+				"					alt_amp_inventario AS inventario,\r\n" + 
+				"					alt_amp_lookup AS look,\r\n" + 
+				"					alt_amp_lookup AS look_clas,\r\n" + 
+				"					alt_disenio_lookup AS look2,\r\n" + 
+				"					alt_amp_requisicion_almacen_material AS AM \r\n" + 
+				"				WHERE\r\n" + 
+				"					1 = 1 \r\n" + 
+				"					AND AM.id_material = inventario.id_inventario \r\n" + 
+				"					AND AM.tipo_material = 'aa' \r\n" + 
+				"					AND AM.id_requisicion_almacen = "+id+" \r\n" + 
+				"				AND inventario.id_unidad_medida = look2.id_lookup \r\n" + 
+				"	AND inventario.estatus = 1\r\n" + 
+				"	ORDER BY\r\n" + 
+				"	id_text,\r\n" + 
+				"	nombre").getResultList();
+		
 		return re;
 	}
 

@@ -34,4 +34,8 @@ public interface IAmpRequisicionAlmacenService {
 	List<Object []> materialesbyclasificacion(Long id);
 	List<Object []> tela();
 	List<Object []> forro();
+
+	List<Object []> detalles(Long id);
+
+	AmpRequisicionAlmacenMaterial findOneMaterial(Long id);
 }

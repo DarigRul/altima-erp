@@ -73,7 +73,7 @@
 												<td class="text-center">
                                                     <button
 												        class="btn btn-info btn-circle btn-sm text-white popoverxd"
-												        th:onclick="|detalles('${view[0]}')|"
+												        th:onclick="|detalles('${view[0]}', '${view[6]}')|"
 												        data-container="body" data-toggle="popover" data-placement="top" 
 												        data-content="Detalles"><i class="fas fa-info"></i>
 												    </button>
@@ -97,13 +97,14 @@
                                                         data-placement="top" data-content="Rechazar"><i
                                                         class="fas fa-times"></i>
                                                     </button>
+                                                   
                                                     <button
                                                         sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_SOLICITUD_GERENTE')"
                                                     	th:onclick="|aceptar('${view[0]}')|"
                                                         th:disabled="${view[5]}=='Enviado'?false:true"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Aceptar"><i
-                                                        class="fas fa-check"></i>
+                                                        data-placement="top" data-content="Aceptar">
+                                                        <i class="fas fa-check"></i>
                                                     </button>   
                                                     <button
                                                         sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_COMPRAS')"
@@ -120,6 +121,10 @@
                                     </table>
                                     <input type="hidden" name="_csrf" id="token"
                                     th:value="${_csrf.token}" />
+
+                                    <input type="hidden" value="1" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_ENTREGAR_MATERIALES_ALMACEN')" id="rolAdmin">
+                                    
+                                    
                                 </div>
                                 <!-- /.card-body -->
                             </div>

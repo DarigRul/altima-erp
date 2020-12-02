@@ -380,8 +380,14 @@ function aceptar (id){
         } // ////////////termina result value
     })
 }
-function detalles(id) {
-    console.log("id->" + id);
+function detalles(id, estatus)  {
+	
+	var cabezera;
+	if ( estatus==2 && $('#rolAdmin').val() == 1){
+		cabezera ="<th>Estatus</th>" +"<th>Acciones</th>";
+	}else{
+		cabezera= "";
+	}
     $.ajax({
         method: "GET",
         url: "/detalles-riquisicion-almacen",
@@ -399,7 +405,8 @@ function detalles(id) {
                     "<th>Cantidad</th>" +
                     "<th>Clave</th>" +
                     "<th>Nombre</th>" +
-                    "<th>Color</th>" +
+					"<th>Color</th>" +
+					cabezera+
                     "</tr>" +
                     "</thead>" +
                     "</table>" +
@@ -408,13 +415,65 @@ function detalles(id) {
             var a;
             var b = [];
             for (i in data) {
-                a = ["<tr>" + 
+				if (estatus== 2 && $('#rolAdmin').val() == 1){
+					var td ;
+					if ( data[i][6] == "En espera" ){
+						td = "<button "+
+						"onclick='surtido(\"" + data[i][0] + "\" );'"+
+						"class='btn btn-success btn-sm btn-circle popoverxd'"+
+						"data-placement='top' data-content='Surtido' "+ ">"+
+							"<i class='fas fa-check'></i>"+
+						"</button>"+
+						"<button "+ 
+						"onclick='parcial(\"" + data[i][0] + "\" );'"+
+						"class='btn btn-warning btn-sm btn-circle popoverxd'"+
+						"data-placement='top' data-content='Parcial' "+ ">"+
+							"<i class='fas fa-hourglass-half'></i>"+
+						"</button>" 
+					}
+					else if (data[i][6] == "Parcial"){
+						td = "<button "+
+						"onclick='surtido(\"" + data[i][0] + "\" );'"+
+						"class='btn btn-success btn-sm btn-circle popoverxd'"+
+						"data-placement='top' data-content='Surtido' "+ ">"+
+							"<i class='fas fa-check'></i>"+
+						"</button>"
+					}
+					else{
+						td = "<button disabled "+
+						"onclick='surtido(\"" + data[i][0] + "\" );'"+
+						"class='btn btn-success btn-sm btn-circle popoverxd'"+
+						"data-placement='top' data-content='Surtido' "+ ">"+
+							"<i class='fas fa-check'></i>"+
+						"</button>"+
+						"<button disabled  "+ 
+						"onclick='parcial(\"" + data[i][0] + "\" );'"+
+						"class='btn btn-warning btn-sm btn-circle popoverxd'"+
+						"data-placement='top' data-content='Parcial' "+ ">"+
+							"<i class='fas fa-hourglass-half'></i>"+
+						"</button>" 
+					}
+					a = ["<tr>" + 
                 	"<td>" + data[i][2] + "</td>",
                 	"<td>" + data[i][3] + "</td>",
                 	"<td>" + data[i][4] + "</td>",
-                	"<td>" + data[i][7] + "</td>",
+					"<td>" + data[i][5] + "</td>",
+					"<td>" + data[i][6] + "</td>",
+					"<td >"+ td +"</td>",
+							
                 
                 	"<tr>"];
+				}else{
+					a = ["<tr>" + 
+                	"<td>" + data[i][2] + "</td>",
+                	"<td>" + data[i][3] + "</td>",
+                	"<td>" + data[i][4] + "</td>",
+					"<td>" + data[i][5] + "</td>",
+					
+                
+                	"<tr>"];
+				}
+                
 
                 b.push(a);
             }
@@ -475,6 +534,75 @@ $( "#idEmpleadoSolicitante" ).change(function() {
 	$('#id-depa').html($("#idEmpleadoSolicitante option:selected").attr("depa")); 
   });
 
+function surtido(id){
+	Swal.fire({
+        title: '¿Deseas surtir este material?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/surtido-solicitud-material",
+                data: {
+                    'id': id
+                }
+
+            }).done(function(data) {
+
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Correcto',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+                detalles(data, 2);
+
+            });
+
+        }
+    });
+}
+
+function parcial(id){
+	Swal.fire({
+        title: '¿Deseas poner en parcial este material?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/parcial-solicitud-material",
+                data: {
+                    'id': id
+                }
+
+            }).done(function(data) {
+
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Correcto',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+                detalles(data, 2);
+
+            });
+
+        }
+    });
+}
 
 
 
