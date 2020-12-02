@@ -247,7 +247,7 @@ function editar (id){
 }
 function enviarEstatus(id) {
 	Swal.fire({
-        title: '¿Deseas enviar esta solicitud',
+        title: '¿Deseas enviar esta solicitud?',
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
