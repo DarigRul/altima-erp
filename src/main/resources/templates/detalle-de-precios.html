@@ -22,7 +22,7 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1>Detalle de precios <a th:href="@{/carga-de-pedidos}"><button data-toggle="popover"class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1>
+							<h1>Detalle de precios <a th:href="@{/carga-de-pedidos}"><button class="btn btn-sm icon-btn btn-danger text-white"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</button></a></h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
@@ -42,12 +42,12 @@
 						<div class="col-12">
 							<!-- Default box -->
 							<div class="card">
-								<div class="card-header bg-dark">
+								<div class="card-header bg-altima">
 									<h3 class="card-title" th:text="'No. Pedido: '+ ${numPedido}" ></h3> </div>
 								<div class="card-body">
 										<table class="table table-bordered tablaPrecios" style="width:100%">
 											<thead>
-												<tr>
+												<tr style="font-size:12.5px; text-align: center;">
 													<th>Coordinado</th>
 													<th>Prenda</th>
 													<th>Modelo</th>
@@ -61,9 +61,10 @@
 													<th>Precio final</th>
 													<th>Observaciones</th>
 													<th>Personalizado</th>
+												</tr>
 											</thead>
 											<tbody>
-											 <tr th:each="listCoor: ${listCoor}">
+											 <tr th:each="listCoor: ${listCoor}" style="font-size:12.5px;">
 											 	
 											 	<td th:text="${listCoor[1]}"></td>
 											 	<td th:text="${listCoor[2]}"></td>
@@ -143,9 +144,9 @@
         
         <script th:src="@{/dist/js/precioBordado.js}"></script>
 		<script>
-		$('#iComercial').removeClass('text-primary');
+		$('#iComercial').removeClass('text-altima');
 		$('#menuComercial').addClass('menu-open');
-		$('#navComercial').addClass('active');
+		$('#navComercial').addClass('active-altima');
 		$('#menuVenta').addClass('menu-open');
 		$('#navVenta').addClass('active');
 		$('#navVenta4').addClass('active');
