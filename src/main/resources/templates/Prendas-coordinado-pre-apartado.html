@@ -51,25 +51,78 @@
                            <div class="card-body">
                               <form>
                                  <div class="row">
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-6">
                                        <label for="coorPrenda">Famila Prenda</label> 
-                                       <select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="prendaCotizacion">
+                                       <select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="prendaCoordinado">
 											<option th:each="listPrendas: ${listPrendas}"
                                              th:value="${listPrendas.idLookup}"
                                              th:text="${listPrendas.nombreLookup}"></option>
 										</select>
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-6">
                                        <label for="coorModelo">Modelo</label> 
-                                       <select class="form-control selectpicker modeloCotizacion" data-live-search="true" title="Selecciona uno..." id="modeloCotizacion">
+                                       <select class="form-control selectpicker modeloCoordinado" data-live-search="true" title="Selecciona uno..." id="modeloCoordinado">
 									   </select>
 									</div>
-                                    <div class="form-group col-md-4">
+									<div class='card col-md-6' style="display: none" id ="contenedor-frente" >
+                                       <div class='image-upload'>
+                                          <label for='file-input'> <img  id="img1"
+                                             class='card-img-top' 
+                                             onerror="/dist/img/preview.png"
+                                             >
+                                          </label>
+                                       </div>
+                                       <div class='card-body'>
+                                          <p id="text-img1" class='card-text'></p>
+                                       </div>
+                                    </div>
+                                    <div class='card col-md-6' style="display: none" id ="contenedor-espalda">
+                                       <div class='image-upload'>
+                                          <label for='file-input'> <img  id="img2"
+                                             class='card-img-top' 
+                                             onerror="/dist/img/preview.png">
+                                          </label>
+                                       </div>
+                                       <div class='card-body'>
+                                          <p id="text-img2" class='card-text'></p>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-12 row   justify-content-center"
+                                       id="elimnar333">
+                                    </div>
+                                    <div class="form-group col-md-6">
                                           <label for="coorTela">Tela</label> 
-                                          <select class="form-control selectpicker modeloCotizacion" data-live-search="true" title="Selecciona uno..." id="telaCotizacion">
+                                          <select class="form-control selectpicker modeloCoordinado" data-live-search="true" title="Selecciona uno..." id="telaCoordinado">
 									   	  </select>
                                     </div>
+								 <div class='card col-md-6' style="display: none" id ="contenedor-tela">
+                                       <div class='image-upload'>
+                                          <label for='file-input'> <img  id="img3"
+                                             class='card-img-top' 
+                                             onerror="/dist/img/preview.png">
+                                          </label>
+                                       </div>
+                                       <div class='card-body'>
+                                          <p class='card-text'>TELA</p>
+                                       </div>
+                                    </div>
+                                    
+                                    
                                  </div>
+                                 <input type="hidden" name="_csrf" id="token"
+                                    th:value="${_csrf.token}" />
+                                 <div class="col-md-12 row   justify-content-center"
+                                    id="elimnar"></div>
+                                 <div class="col-md-12 row   justify-content-center"
+                                    id="elimnar22"></div>
+                                 <div class="col-md-12 row   justify-content-center"
+                                    id="elimnar222"></div>
+                                 <div class="col-md-12 row   justify-content-center"
+                                    id="escript">
+                                    <input id="coorCoordinado" type="hidden"
+                                       th:value="${idCoordinado}" />
+                                 </div>
+                                 <div class="row" id="elimnar" tabindex="0"></div>
                                  <div class="row">
                                     <div class="form-group col-md-12">
                                        <button type="button" th:onclick="'agregarPrendaCoordinado('+${idCoordinado}+')'"
