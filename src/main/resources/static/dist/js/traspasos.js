@@ -45,7 +45,7 @@ window.onload = function () {
         $("#almacenOrigenTraspaso").append("<option value='" + data[0] + "' data-id='" + data[2] + "' data-tipo='" + data[13] + "' data-salida='" + data[4] + "'>" + data[1] + "</option>")
         $("#almacenDestinoTraspaso").append("<option value='" + data[0] + "' data-id='" + data[2] + "'  data-tipo='" + data[13] + "' data-entrada='" + data[6] + "'>" + data[1] + "</option>")
       })
-      
+
       $('#almacenOrigenTraspaso').selectpicker('refresh');
       $('#almacenDestinoTraspaso').selectpicker('refresh');
     })
@@ -122,6 +122,7 @@ $('#almacenOrigenTraspaso').change(function () {
   $('#articuloTraspaso').selectpicker('refresh');
   $(`#movimientoSalida option[value=${$('#almacenOrigenTraspaso').children('option:selected').data('salida')}]`).prop('selected', true);
   $('#movimientoSalida').selectpicker('refresh');
+
   let params = {
     "idAlmacenLogico": $("#almacenOrigenTraspaso").val()
   };
@@ -165,7 +166,7 @@ $('#agregarArticulo').click(function () {
   var idRollo = null;
   var lote = null;
   $('#agregarArticulo').prop("disabled", true);
-  if (condicionAlmacen($("#articuloTraspaso").children('option:selected').data('tipo'),$("#almacenDestinoTraspaso").children('option:selected').data('tipo'),$("#almacenOrigenTraspaso").children('option:selected').data('tipo'))) {
+  if ($("#articuloTraspaso").children('option:selected').data('tipo')=='tela') {
     var cantidad = $('#rollo').children('option:selected').data('cantidad');
     idRollo = $('#rollo').val();
     rollo = $('#rollo').children('option:selected').data('idtext');
@@ -271,16 +272,17 @@ $('#agregarArticulo').click(function () {
                       rollo == null ? 'N/A' : rollo,
                       unidadMedida,
                       '<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,`' + (tipo == 'tela' ? idRollo : id + tipo) + '`)"><i class="fas fa-times text-white"></i></a>' +
-                      (condicionAlmacen($("#articuloTraspaso").children('option:selected').data('tipo'),$("#almacenDestinoTraspaso").children('option:selected').data('tipo'),$("#almacenOrigenTraspaso").children('option:selected').data('tipo')) ? '<button onClick="abrirUbicacion(`' + id + tipo + (idRollo == null ? '' : idRollo) + '`)" type="button" data-toggle="modal" id="modal_ubicacion" data-target="#modalUbicacion" class="btn btn-primary btn-circle btn-sm popoverxd"><i class="fas fa-thumbtack"></i></button>' : '')
+                      ($("#articuloTraspaso").children('option:selected').data('tipo')=='tela' && $("#almacenDestinoTraspaso").children('option:selected').data('tipo')!=2 ? '<button onClick="abrirUbicacion(`' + id + tipo + (idRollo == null ? '' : idRollo) + '`)" type="button" data-toggle="modal" id="modal_ubicacion" data-target="#modalUbicacion" class="btn btn-primary btn-circle btn-sm popoverxd"><i class="fas fa-thumbtack"></i></button>' : '')
 
                     ]
                   ).draw();
+                  console.log(idRollo);
                   $.ajax({
                     type: "GET",
                     url: "getUbicacionByRollo",
                     data: { 'idRollo': idRollo },
                     success: function (data) {
-                      if (data[0] != null && $('#almacenOrigenTraspaso').children('option:selected').data('id')==$('#almacenDestinoTraspaso').children('option:selected').data('id')) {
+                      if (data[0] != null && ($('#almacenOrigenTraspaso').children('option:selected').data('id') == $('#almacenDestinoTraspaso').children('option:selected').data('id') || $("#almacenOrigenTraspaso").children('option:selected').data('tipo')==2)) {
                         temp.ubicacion = data[0].idUbicacion;
                         movimientos.push(temp);
                       }
@@ -344,7 +346,7 @@ $('#guardarTraspasos').click(function () {
   var idAlmacenFisico = $("#almacenDestinoTraspaso").children('option:selected').data('id')
   movimientos.forEach(data => {
     console.log(data);
-    if (data.tipo == 'tela' && data.ubicacion == null&&$("#almacenDestinoTraspaso").children('option:selected').data('tipo')=='1'&& ($("#almacenOrigenTraspaso").children('option:selected').data('tipo') == '1'||$("#almacenOrigenTraspaso").children('option:selected').data('tipo') == '3')) {
+    if (data.tipo == 'tela' && data.ubicacion == null && $("#almacenDestinoTraspaso").children('option:selected').data('tipo') == '1' && ($("#almacenOrigenTraspaso").children('option:selected').data('tipo') == '1' || $("#almacenOrigenTraspaso").children('option:selected').data('tipo') == '3')) {
       console.log("entra");
       condition = false;
       return false;
@@ -447,6 +449,9 @@ function abrirUbicacion(id) {
       'estatus': true
     },
     success: function (data) {
+      console.log(data)
+      console.log(movimientos)
+      console.log(id)
       data.forEach(function (data) {
         //aqui va el codigo
         $("#selectUbicacion").append("<option value='" + data.idUbicacion + "' data-id='" + id + "'>" + data.nombre + "</option>")
@@ -508,17 +513,44 @@ $("#articuloTraspaso").change(function (e) {
   e.preventDefault();
   $('#rollo option').remove();
   $('#rollo').selectpicker('refresh');
-  if (condicionAlmacen($("#articuloTraspaso").children('option:selected').data('tipo'),$("#almacenDestinoTraspaso").children('option:selected').data('tipo'),$("#almacenOrigenTraspaso").children('option:selected').data('tipo'))) {
+  var tipoAlmacenOrigen = $("#almacenOrigenTraspaso").children('option:selected').data('tipo');
+  if ($("#articuloTraspaso").children('option:selected').data('tipo') == 'tela' && tipoAlmacenOrigen != 2) {
     $("#rollo").prop("disabled", false);
     $("#cantidadTraspaso").prop("disabled", true);
     $('#rollo').selectpicker('refresh');
     $.ajax({
       type: "GET",
-      url: "/getRolloByidAlmacenFisico",
-      data: { 'idAlmacenFisico': $("#almacenOrigenTraspaso").children('option:selected').data('id'), 'idTela': $(this).val() },
+      url: "/getRolloByidAlmacenLogico",
+      data:
+      {
+        'idAlmacenLogico': $("#almacenOrigenTraspaso").val(),
+        'idTela': $(this).val(),
+        'estatus':1
+      },
       success: function (data) {
         data.forEach(function (data) {
-          $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText+ "-" + data.cantidad +"-"+ data.lote + "</option>")
+          $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "-" + data.cantidad + "-" + data.lote + "</option>")
+        })
+        $('#rollo').selectpicker('refresh');
+      }
+    });
+  }
+  else if ($("#articuloTraspaso").children('option:selected').data('tipo') == 'tela' && tipoAlmacenOrigen == 2) {
+    $("#rollo").prop("disabled", false);
+    $("#cantidadTraspaso").prop("disabled", true);
+    $('#rollo').selectpicker('refresh');
+    $.ajax({
+      type: "GET",
+      url: "/getRolloByidAlmacenLogico",
+      data:
+      {
+        'idAlmacenLogico': $("#almacenDestinoTraspaso").val(),
+        'idTela': $(this).val(),
+        'estatus':0
+      },
+      success: function (data) {
+        data.forEach(function (data) {
+          $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "-" + data.cantidad + "-" + data.lote + "</option>")
         })
         $('#rollo').selectpicker('refresh');
       }
@@ -535,7 +567,3 @@ $("#rollo").change(function (e) {
   e.preventDefault();
   $('#cantidadTraspaso').val($(this).children('option:selected').data('cantidad'));
 });
-
-function condicionAlmacen(tipo,almacenDestinoTraspaso,almacenOrigenTraspaso) {
-  return tipo == 'tela' && almacenDestinoTraspaso == '1'&& (almacenOrigenTraspaso == '1'|| almacenOrigenTraspaso == '3')?true:false;
-}

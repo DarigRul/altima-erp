@@ -37,6 +37,9 @@ public class AmpRolloTela implements Serializable {
 	
 	@Column(name="id_tela")
 	private Long idTela;
+
+	@Column(name="id_pedido")
+	private Long idPedido;
 	
 	@Column(name="cantidad")
 	private Float cantidad;
@@ -170,6 +173,14 @@ public class AmpRolloTela implements Serializable {
 
 	public void setIdAlmacenLogico(Long idAlmacenLogico) {
 		this.idAlmacenLogico = idAlmacenLogico;
+	}
+
+	public Long getIdPedido() {
+		return idPedido;
+	}
+
+	public void setIdPedido(Long idPedido) {
+		this.idPedido = idPedido;
 	}
 
 	

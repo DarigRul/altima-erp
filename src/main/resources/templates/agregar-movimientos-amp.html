@@ -52,7 +52,7 @@
 								<div class="card-body">
 									<div class="row">
 
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-4">
 											<label for="tipoMovimiento">Movimiento</label>
 											<select class="form-control selectpicker"
 												onchange="listarConceptos(this.value)" title="Selecciona uno..."
@@ -62,7 +62,7 @@
 												<option value="Salida">Salida</option>
 											</select>
 										</div>
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-4">
 											<label for="almacenLogicoMovimiento">Almac&eacute;n l&oacute;gico</label>
 											<select class="form-control selectpicker" title="Selecciona uno..."
 												data-live-search="true" data-live-search-normalize="true"
@@ -83,16 +83,34 @@
 												id="almacenFisicoMovimiento">
 										</div>
 										<div class="form-group col-md-4">
-											<label for="referenciaMovimiento">Referencia</label>
+											<label for="referenciaMovimiento">Referencia Pedido</label>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
 													<div class="input-group-text">
-														<input type="checkbox">
+														<input type="checkbox" id="checkEnableReferencia"
+															onclick="checkEnable()">
+														<input class="d-none" type="checkbox"
+															id="checkDisableReferencia" onclick="checkDisabled()">
 													</div>
 												</div>
 												<select class="form-control selectpicker" title="Selecciona uno..."
 													data-live-search="true" data-live-search-normalize="true"
-													id="referenciaMovimiento">
+													id="referenciaMovimiento" disabled>
+													<option>1</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group col-md-4">
+											<label for="referenciaMovimiento">Referencia Orden de Producci&oacute;n</label>
+											<div class="input-group mb-3">
+												<div class="input-group-prepend">
+													<div class="input-group-text">
+														<input type="checkbox">
+														<input class="d-none" type="checkbox">
+													</div>
+												</div>
+												<select class="form-control selectpicker" title="Selecciona uno..."
+													data-live-search="true" data-live-search-normalize="true">
 													<option>1</option>
 												</select>
 											</div>
@@ -114,23 +132,23 @@
 										</div>
 										<div class="form-group col-md-3">
 											<label for="articuloMovimiento" style="margin-left:2px">Articulo</label>
-												<select class="form-control selectpicker" title="Selecciona uno..."
-													data-live-search="true" data-live-search-normalize="true"
-													id="articuloMovimiento">
-												</select>											
+											<select class="form-control selectpicker" title="Selecciona uno..."
+												data-live-search="true" data-live-search-normalize="true"
+												id="articuloMovimiento">
+											</select>
 										</div>
 										<div class="form-group col-md-3">
 											<label for="articuloMovimiento" style="margin-left:2px">Rollo</label>
-												<select class="form-control selectpicker" title="Selecciona uno..."
-													data-live-search="true" data-live-search-normalize="true"
-													id="rollo" disabled>
-												</select>											
+											<select class="form-control selectpicker" title="Selecciona uno..."
+												data-live-search="true" data-live-search-normalize="true" id="rollo"
+												disabled>
+											</select>
 										</div>
 										<div class="form-group col-md-3">
 											<label for="lote" style="margin-left:2px">Lote</label>
 											<div class="input-group mb-3">
 												<input type="text" class="form-control" id="lote" disabled
-												placeholder="LOT892SD">
+													placeholder="LOT892SD">
 												<div class="input-group-append" style="margin-left: 10px;">
 													<button class="btn icon-btn btn-altima text-white" type="button"
 														id="agregarArticulo"><span

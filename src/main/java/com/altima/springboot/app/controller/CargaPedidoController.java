@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.altima.springboot.app.component.AuthComponent;
+import com.altima.springboot.app.dto.SelectPedidoInformacionDto;
 import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialClienteEmpleado;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
@@ -443,6 +444,13 @@ public class CargaPedidoController {
 	public Boolean getEstatusValidacion(@PathVariable Long id) {
 		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
 		return pedido.getValidacion();
+	}
+
+	@GetMapping("/getPedidosByEstatus")
+	@ResponseBody
+	public List<SelectPedidoInformacionDto> getPedidosByEstatus(@RequestParam String estatus) {
+
+		return cargaPedidoService.findByEstatus(estatus);
 	}
 
 

@@ -94,7 +94,7 @@ window.onload = function () {
 $('#almacenLogicoMovimiento').change(function () {
     $('#articuloMovimiento option').remove();
     $('#articuloMovimiento').selectpicker('refresh');
-    $(`#conceptoMovimiento option[value=${$(this).children('option:selected').data((document.getElementById('tipoMovimiento').value=="Entrada"?'entrada':'salida'))}]`).prop('selected', true);
+    $(`#conceptoMovimiento option[value=${$(this).children('option:selected').data((document.getElementById('tipoMovimiento').value == "Entrada" ? 'entrada' : 'salida'))}]`).prop('selected', true);
     $('#conceptoMovimiento').selectpicker('refresh');
     $("#almacenFisicoMovimiento").val($(this).children('option:selected').data('id'));
     let params = {
@@ -177,21 +177,21 @@ $('#agregarArticulo').click(function () {
             text: 'Todos los campos deben de estar llenos!',
         })
     }
-    else if((lote==null || lote == "") && $('#tipoMovimiento').val() == 'Entrada' && tipo=='tela'){
+    else if ((lote == null || lote == "") && $('#tipoMovimiento').val() == 'Entrada' && tipo == 'tela') {
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'Todos los campos deben de estar llenos!',
         })
     }
-    else if((rollo==null || rollo == "") && $('#tipoMovimiento').val() == 'Salida' && tipo=='tela') {
+    else if ((rollo == null || rollo == "") && $('#tipoMovimiento').val() == 'Salida' && tipo == 'tela') {
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'Todos los campos deben de estar llenos!',
         })
-    } 
-        else {
+    }
+    else {
         $('#tipoMovimiento').prop("disabled", true);
         $('#almacenLogicoMovimiento').prop("disabled", true);
         $('#tipoMovimiento').selectpicker('refresh');
@@ -215,7 +215,7 @@ $('#agregarArticulo').click(function () {
 
                 },
                 success: function (response) {
-                    if(tipo!='tela'){
+                    if (tipo != 'tela') {
                         $('#articuloMovimiento').find('[value=' + temp.id + ']').remove();
                         $('#articuloMovimiento').selectpicker('refresh');
                     }
@@ -227,7 +227,7 @@ $('#agregarArticulo').click(function () {
                         })
                         return false;
                     }
-                    else if (($('#rollo').children('option:selected').data('cantidad') - cantidad) < 0 && $('#tipoMovimiento').val() == 'Salida'&&tipo=='tela') {
+                    else if (($('#rollo').children('option:selected').data('cantidad') - cantidad) < 0 && $('#tipoMovimiento').val() == 'Salida' && tipo == 'tela') {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
@@ -260,9 +260,9 @@ function deleteMovimiento(fila, id) {
 
     const found = movimientos.find(element => element.id + element.tipo == id);
     console.log(found);
-    if (found.tipo!='tela') {
+    if (found.tipo != 'tela') {
         $("#articuloMovimiento").append("<option value='" + found.id + "' data-tipo='" + found.tipo + "'data-idText='" + found.idText + "'data-unidadMedida='" + found.unidadMedida + "'>" + found.descripcion + "</option>");
-        $('#articuloMovimiento').selectpicker('refresh'); 
+        $('#articuloMovimiento').selectpicker('refresh');
     }
 
     // Se elimina el objeto del array de objetos
@@ -338,7 +338,7 @@ $('#guardarMovimientos').click(function () {
                         params.append('listIdText', JSON.stringify(msg.data));
                         params.append('format', "pdf");
                         console.log(params);
-                        window.open("/rollotelabarcode?"+params);
+                        window.open("/rollotelabarcode?" + params);
                         $(location).attr('href', '/movimientos-amp')
                     });
                 },
@@ -428,23 +428,45 @@ $("#articuloMovimiento").change(function (e) {
         $("#lote").prop("disabled", true);
     }
     //salida rollo
-    if ($("#tipoMovimiento").val() == 'Salida' && $(this).children('option:selected').data('tipo') == 'tela') {
+    if ($("#tipoMovimiento").val() == 'Salida' && $(this).children('option:selected').data('tipo') == 'tela' && $('#referenciaMovimiento').val() == '') {
         $("#rollo").prop("disabled", false);
         $("#lote").prop("disabled", true);
         $.ajax({
             type: "GET",
-            url: "/getRolloByidAlmacenFisico",
-            data: { 'idAlmacenFisico': $("#almacenLogicoMovimiento").children('option:selected').data('name'),'idTela':$(this).val()},
+            url: "/getRolloByidAlmacenLogico",
+            data: {
+                'idAlmacenLogico': $("#almacenLogicoMovimiento").val(),
+                'idTela': $(this).val(),
+                'estatus':1
+            },
             success: function (data) {
                 data.forEach(function (data) {
-                    $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText+ "-" + data.cantidad +"-"+ data.lote + "</option>")
+                    $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "-" + data.cantidad + "-" + data.lote + "</option>")
                 })
                 $('#rollo').selectpicker('refresh');
             }
         });
-
-
-    } else {
+    }
+    else if ($("#tipoMovimiento").val() == 'Salida' && $(this).children('option:selected').data('tipo') == 'tela' && $('#referenciaMovimiento').val() != '') {
+        $("#rollo").prop("disabled", false);
+        $("#lote").prop("disabled", true);
+        $.ajax({
+            type: "GET",
+            url: "/getRolloByidPedidoAndidTela",
+            data: {
+                'idPedido': $('#referenciaMovimiento').val(),
+                'idTela': $(this).val(),
+                'estatus': 0
+            },
+            success: function (data) {
+                data.forEach(function (data) {
+                    $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "-" + data.cantidad + "-" + data.lote + "</option>")
+                })
+                $('#rollo').selectpicker('refresh');
+            }
+        });
+    }
+    else {
         $("#rollo").prop("disabled", true);
         $('#rollo').selectpicker('refresh');
 
@@ -455,3 +477,35 @@ $("#rollo").change(function (e) {
     e.preventDefault();
     $('#cantidadMovimiento').val($(this).children('option:selected').data('cantidad'));
 });
+
+function checkDisabled() {
+    $('#referenciaMovimiento option').remove();
+    $('#referenciaMovimiento').selectpicker('refresh');
+    $('#referenciaMovimiento').prop('disabled', true);
+    $('#checkEnableReferencia').prop('checked', false);
+    $('#referenciaMovimiento').selectpicker('refresh');
+    $("#checkEnableReferencia").removeClass("d-none");
+    $("#checkDisableReferencia").addClass("d-none");
+}
+function checkEnable() {
+    $('#referenciaMovimiento option').remove();
+    $('#referenciaMovimiento').selectpicker('refresh');
+    $('#referenciaMovimiento').prop('disabled', false);
+    $('#checkDisableReferencia').prop('checked', true);
+    $('#referenciaMovimiento').selectpicker('refresh');
+    $("#checkEnableReferencia").addClass("d-none");
+    $("#checkDisableReferencia").removeClass("d-none");
+    $.ajax({
+        type: "GET",
+        url: "/getPedidosByEstatus",
+        data: {
+            estatus: 1
+        },
+        success: function (data) {
+            data.forEach(pedido => {
+                $("#referenciaMovimiento").append("<option value='" + pedido.idPedidoInformacion + "'>" + pedido.idText + "</option>")
+            })
+            $('#referenciaMovimiento').selectpicker('refresh');
+        }
+    });
+}

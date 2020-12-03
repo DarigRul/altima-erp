@@ -73,7 +73,8 @@ function getExistenciaRolloByAlmacen(idAlmacenLogico, idTela) {
         data:
         {
             idAlmacenLogico: idAlmacenLogico,
-            idTela: idTela
+            idTela: idTela,
+            estatus:1
         },
         success: function (response) {
             console.table(response);
@@ -254,14 +255,14 @@ function getUnique(array) {
     return uniqueArray;
 }
 function getUniqueId(array) {
-    var uniqueArray=[];
+    var uniqueArray = [];
 
     for (i = 0; i < array.length; i++) {
         if (uniqueArray.indexOf(array[i]) === -1) {
             uniqueArray.push(
-                
-                    array[i]
-                
+
+                array[i]
+
             );
         }
     }
@@ -279,11 +280,25 @@ function guardar(idPedido) {
             '_csrf': $("[name='_csrf']").val(),
         },
         success: function (response) {
-            $.removeCookie('rollosCookie', { path: $(location).attr('pathname') });
-            location.reload();
+            Swal.fire({
+
+                position: 'center',
+                icon: 'success',
+                title: 'Explosión generada correctamente!',
+                showConfirmButton: false,
+                timer: 2500
+            }).then((result) => {
+                $.removeCookie('rollosCookie', { path: $(location).attr('pathname') });
+                $(location).attr('href', '/explosion-de-materiales')
+
+            });
         },
         error: (e) => {
-            alert(e);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La cantidad disponible cambio ó la tela no esta agregada al almacen de apartados!',
+            })
         }
     });
 }

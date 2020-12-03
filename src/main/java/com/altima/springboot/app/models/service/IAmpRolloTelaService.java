@@ -16,5 +16,10 @@ public interface IAmpRolloTelaService {
 
 	List<AmpRolloTela> findByIdAlmacenFisico(Long idAlmacenFisico,Long idTela);
 
-	List<AmpRolloTela> findByIdAlmacenLogico(Long idAlmacenLogico,Long idTela);
+	List<AmpRolloTela> findByIdAlmacenLogico(Long idAlmacenLogico,Long idTela,String estatus);
+
+	List<AmpRolloTela> findByIdTela(Long idTela,String estatus);
+
+	List<AmpRolloTela> findByIdPedidoAndIdTela(Long idPedido,String estatus,Long idTela);
+
 }

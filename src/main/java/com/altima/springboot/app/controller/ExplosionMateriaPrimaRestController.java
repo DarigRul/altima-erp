@@ -125,6 +125,7 @@ public class ExplosionMateriaPrimaRestController {
                         System.out.println("entra al trans: "+rollosJson.getLong("idRollo"));
                         AmpRolloTela rollo = rolloTelaService.findOne(rollosJson.getLong("idRollo"));
                         rollo.setEstatus("0");
+                        rollo.setIdPedido(idPedido);
                         rolloTelaService.save(rollo);
                     }
 

@@ -106,7 +106,7 @@ public class AmpAlmacenLogicoServiceImpl implements IAmpAlmacenLogicoService {
 	@Override
 	// tipo1=normal tipo2=apartados tipo3=almacen de paso
 	public AmpAlmacenLogico findByTipo(String tipo,String nombreAlmacenLogico) {
-		return repository.findByTipoAndNombreAlmacenLogico(tipo,nombreAlmacenLogico);
+		return repository.findByTipoAndNombreAlmacenLogico(tipo,nombreAlmacenLogico).orElse(null);
 	}
 
 }

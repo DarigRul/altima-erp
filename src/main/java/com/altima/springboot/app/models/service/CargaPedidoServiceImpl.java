@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.dto.PedidoInformacionDTO;
+import com.altima.springboot.app.dto.SelectPedidoInformacionDto;
 import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.repository.CargaPedidoRepository;
@@ -455,6 +456,15 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 				"informacion.fecha_creacion DESC").getResultList();
 		}
 		return re;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<SelectPedidoInformacionDto> findByEstatus(String estatus) {
+		return em.createNativeQuery(
+			"SELECT acpi.id_pedido_informacion,acpi.id_text FROM alt_comercial_pedido_informacion acpi WHERE 1=1 AND acpi.estatus=:estatus",
+			SelectPedidoInformacionDto.class).setParameter("estatus", estatus).getResultList();
 	}
 
 }
