@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-    <title id="pageTitle">Movimientos agente de ventas | Altima</title>
+    <title id="pageTitle">Movimientos | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
@@ -25,14 +25,16 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>
-                                Movimientos agente de ventas&nbsp;<button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" id="modalcode"
-                                    onclick="insertarCodigo()" class="btn btn-primary btn-circle btn-sm popoverxd" data-content="Insertar c&oacute;digo"><i class="fas fa-plus"></i></button>
+                                Movimientos&nbsp;
+                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" id="modalcode"
+                                    onclick="insertarCodigo()" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nueva solicitud</button>
                             </h1>
                             <div th:insert="modal-traspaso"></div>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
                                 <li class="breadcrumb-item active">Agentes de venta</li>
                                 <li class="breadcrumb-item active">Movimientos</li>
                             </ol>
@@ -49,7 +51,7 @@
                         <div class="col-12">
                             <!-- Default box -->
                             <div class="card">
-                                <div class="card-header bg-dark">
+                                <div class="card-header bg-altima">
                                     <h3 class="card-title">Listado</h3>
                                 </div>
                                 <div class="card-body">
@@ -115,9 +117,9 @@
 
 
     <script>
-        $('#iComercial').removeClass('text-primary');
+        $('#iComercial').removeClass('text-altima');
         $('#menuComercial').addClass('menu-open');
-        $('#navComercial').addClass('active');
+        $('#navComercial').addClass('active-altima');
         $('#menuMuestrario').addClass('menu-open');
         $('#navMuestrario').addClass('active');
         $('#navMuestrario2').addClass('active');
