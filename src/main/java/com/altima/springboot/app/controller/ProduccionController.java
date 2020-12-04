@@ -45,11 +45,6 @@ public class ProduccionController {
 		return "pedidos-vencer";
 	}
 	
-	@GetMapping("/asignacion-ruta-programa-pedido")
-	public String asignacionRuta() {
-		return "asignacion-ruta-programa-pedido";
-	}
-	
 	@GetMapping("calculo-carga-produccion")
 	public String calculoCarga() {
 		return "calculo-carga-produccion";

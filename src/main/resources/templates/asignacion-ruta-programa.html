@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Asignaci&oacute;n de ruta y programa est&aacute;ndar | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Asignaci&oacute;n de ruta y programa est&aacute;ndar
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Producci&oacute;n</li>
+                                <li class="breadcrumb-item active">Asignaci&oacute;n de ruta</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Asignar ruta y programa est&aacute;ndar</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class=" tablaGeneral table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Pedido</th>
+                                                <th>Cliente</th>
+                                                <th>Agente de Ventas</th>
+                                                <th>Sastre</th>
+                                                <th>Cierre de pedido</th>
+                                                <th>Entrega pedido</th>
+                                                <th>Estatus programa</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+											<tr>
+												<td>PED10025</td>
+												<td>Santiago Textil S.A. de C.V.</td>
+												<td>Diana Rodriguez</td>
+												<td>Veronica Ceron</td>
+												<td>20/09/2020</td>
+												<td>29/10/2020</td>
+												<td>Programado</td>
+												<td class="text-center">
+													<a th:href="@{asignacion-programa}" class="btn btn-altima text-white btn-sm btn-circle popoverxd" data-placement="top" data-content="Asignaci&oacute;n de programa"><i class="fas fa-clipboard-list"></i></a>
+												</td>
+											</tr>
+											<tr>
+												<td>PED10089</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td>Sin programar</td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>PED10043</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td>Programa parcial</td>
+												<td></td>
+											</tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneral.js"></script>
+	<script>
+        $('#iProduccion').removeClass('text-altima');
+        $('#menuProduccion').addClass('menu-open');
+        $('#navProduccion').addClass('active-altima');
+        $('#navProRut').addClass('active');
+    </script>
+</body>
+
+</html>

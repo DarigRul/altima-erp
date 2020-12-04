@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Tiempos de corte | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Tiempos de corte
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Producci&oacute;n</li>
+                                <li class="breadcrumb-item active">Tiempos de corte</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Tiempos</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class=" tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Modelo</th>
+                                                <th>Prenda</th>
+                                                <th>Estampado</th>
+                                                <th>Confecci&oacute;n</th>
+                                                <th>OP</th>
+                                                <th>Cant. Tallas</th>
+                                                <th>Tiempo</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+											<tr>
+												<td>1</td>
+												<td>SAC1036</td>
+												<td>Saco</td>
+												<td>Liso</td>
+												<td>381</td>
+												<td>5</td>
+												<td>4</td>
+												<td>2880 min</td>
+												<td class="text-center">
+													<button data-toggle="modal" data-target="#asignacionTiempo" class="btn btn-altima btn-sm btn-circle popoverxd" data-placement="top" data-content="Asignaci&oacute;n de tiempo"><i class="fas fa-clock"></i></button>
+													<button data-toggle="modal" data-target="#tiempoDetalle" class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+												</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div th:insert="tiempos-de-corte-tiempo"></div>
+                                <div th:insert="tiempos-de-corte-detalle"></div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneral.js"></script>
+	<script>
+        $('#iProduccion').removeClass('text-altima');
+        $('#menuProduccion').addClass('menu-open');
+        $('#navProduccion').addClass('active-altima');
+        $('#navProTie').addClass('active');
+    </script>
+</body>
+
+</html>
