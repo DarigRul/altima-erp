@@ -22,6 +22,7 @@ import com.altima.springboot.app.models.entity.ComercialCoordinadoPreapartado;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.entity.ComercialPreApartado;
 import com.altima.springboot.app.models.entity.ComercialPrendaPreapartado;
+import com.altima.springboot.app.models.entity.ComercialTelasPreapartado;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialAgentesVentaService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
@@ -263,16 +264,21 @@ public class ApartadoTelas {
 		return "Prendas-Coordinado-pre-apartado";
 	}
 	
-	@RequestMapping("/nueva-prenda-coordinado/{idCoordinado}FEDrf3{idTela}5edcs3{idPrenda}fsc5FS3sd{idFamPrenda}")
+	@RequestMapping("/nueva-prenda-coordinado/{idCoordinado}FED{idsTelas}rREdw3{idsMateriales}232f3{idTela}5edcs3{idPrenda}fsc5FS3sd{idFamPrenda}")
 	public String guardarNuevvaPrendaCoordinado(@PathVariable(value="idCoordinado")Long idCoordinado,
 												@PathVariable(value="idTela")Long idTela,
 												@PathVariable(value="idPrenda")Long idPrenda,
-												@PathVariable(value="idFamPrenda")Long idFamPrenda) {
+												@PathVariable(value="idFamPrenda")Long idFamPrenda,
+												@PathVariable(value="idsTelas")String idsTelas,
+												@PathVariable(value="idsMateriales")String idsMateriales) {
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		ComercialPrendaPreapartado coorPrenda = new ComercialPrendaPreapartado();
+		
+		String[] idTelas= idsTelas.split("id_tela");
+		String[] idMats= idsMateriales.split("id_materialConv");
 		
 		coorPrenda.setIdPrenda(idPrenda);
 		coorPrenda.setIdFamiliaPrenda(idFamPrenda);
@@ -285,7 +291,19 @@ public class ApartadoTelas {
 		
 		preapartadoService.savePrendaCoordinado(coorPrenda);
 		
-		
+		for(int i = 0; i<idTelas.length;i++) {
+			ComercialTelasPreapartado telasPreapartado = new ComercialTelasPreapartado();
+			 
+				telasPreapartado.setIdPrendaPreapartado(coorPrenda.getIdPrendaPreapartado());
+				telasPreapartado.setIdTela(Long.parseLong(idTelas[i]));
+				telasPreapartado.setIdMaterial(Long.parseLong(idMats[i]));
+				telasPreapartado.setCreadoPor(auth.getName());
+				telasPreapartado.setActualizadoPor(auth.getName());
+				telasPreapartado.setFechaCreacion(dtf.format(now));
+				telasPreapartado.setUltimaFechaModificacion(dtf.format(now));
+				
+				preapartadoService.saveTelasCoordinado(telasPreapartado);
+			}
 		
 		ComercialCoordinadoPreapartado coorPreapartado = preapartadoService.findCoordinado(idCoordinado);
 		

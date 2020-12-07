@@ -148,12 +148,12 @@
                                           <td th:text="${listCoorPrenda[1]}"></td>
                                           <td th:text="${listCoorPrenda[2]}"></td>
                                           <td th:text="${listCoorPrenda[3]}"></td>
-                                          <td class="tdcenter"><a
+                                          <td class="tdcenter"><button th:onclick="'detalles('+${listCoorPrenda[0]}+')'"
                                              class="btn btn-info text-white btn-circle btn-sm popoverxd"
                                              data-container="body" data-toggle="popover"
                                              data-placement="top" data-content="Ver detalles">
                                              <i class="fas fa-info"></i>
-                                             </a> &nbsp; <a
+                                             </button> &nbsp; <a
                                                 th:href="@{/eliminar-prenda-coordinado-preapartado/}+${idCoordinado}+'/'+${listCoorPrenda[0]}"
                                                 class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
                                                 data-container="body" data-toggle="popover"

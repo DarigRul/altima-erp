@@ -5,6 +5,7 @@ import java.util.List;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPreapartado;
 import com.altima.springboot.app.models.entity.ComercialPreApartado;
 import com.altima.springboot.app.models.entity.ComercialPrendaPreapartado;
+import com.altima.springboot.app.models.entity.ComercialTelasPreapartado;
 
 public interface IComercialPreApartadoService {
 
@@ -31,5 +32,11 @@ public interface IComercialPreApartadoService {
 	void deletePrendaCoordinado(Long id);
 	
 	List<Object[]> reportePreapartados(Long id);
+	
+	void saveTelasCoordinado(ComercialTelasPreapartado comercialTelasPreapartado);
+	
+	void deleteTelasCoordinado(Long id);
+	
+	ComercialTelasPreapartado findTelaCoordinado(Long id);
 	
 }

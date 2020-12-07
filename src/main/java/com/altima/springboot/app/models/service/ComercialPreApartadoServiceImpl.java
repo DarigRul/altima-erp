@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPreapartado;
 import com.altima.springboot.app.models.entity.ComercialPreApartado;
 import com.altima.springboot.app.models.entity.ComercialPrendaPreapartado;
+import com.altima.springboot.app.models.entity.ComercialTelasPreapartado;
 import com.altima.springboot.app.repository.ComercialPreApartadoRepository;
 
 @SuppressWarnings("unchecked")
@@ -48,7 +49,7 @@ public class ComercialPreApartadoServiceImpl implements IComercialPreApartadoSer
 									"FROM alt_comercial_preapartado AS preapartado\r\n" + 
 									"\r\n" + 
 									"INNER JOIN alt_comercial_cliente cliente ON preapartado.id_cliente = cliente.id_cliente\r\n" + 
-									"INNER JOIN alt_hr_empleado empleado ON empleado.id_empleado = preapartado.id_empleado").getResultList();
+									"INNER JOIN alt_hr_empleado empleado ON empleado.id_empleado = preapartado.id_empleado ORDER BY preapartado.id_preapartado DESC").getResultList();
 	}
 
 	
@@ -145,43 +146,39 @@ public class ComercialPreApartadoServiceImpl implements IComercialPreApartadoSer
 	@Override
 	public List<Object[]> reportePreapartados(Long id) {
 		
-		return em.createNativeQuery("SELECT cpp.id_preapartado,\r\n" + 
-				"		cpp.id_cliente,\r\n" + 
-				"		cpp.id_empleado,\r\n" + 
-				"		telas.id_text,\r\n" + 
-				"		telas.id_tela,\r\n" + 
-				"		prenPre.id_prenda,\r\n" + 
-				"		CONCAT(cliente.nombre, \" \", IFNULL(cliente.apellido_paterno, \" \"), \" \", IFNULL(cliente.apellido_materno, \" \")) AS Nombre_cliente,\r\n" + 
-				"		cpp.referencia_pedido,\r\n" + 
-				"		cpp.fecha_preapartado,\r\n" + 
-				"		telas.nombre_tela,\r\n" + 
-				"		telas.color,\r\n" + 
-				"		coorPre.total_prendas,\r\n" +  
-				"		IFNULL(((cpp.num_personas*coorPre.total_prendas)-(-((1.5 - telas.ancho)*(cpp.num_personas*coorPre.total_prendas))) \r\n" + 
-				"		+\r\n" + 
-				"		IF((telas.estampado!=\"Liso\" AND telas.estampado!=\"Fantasia\"),(cpp.num_personas)* 0.1 ,0) 		\r\n" + 
-				"		+\r\n" + 
-				"		(telas.prueba_encogimiento/100)*(\r\n" + 
-				"			(matPrenda.cantidad)-(-((1.5 - telas.ancho)*(cpp.num_personas*coorPre.total_prendas))) \r\n" + 
-				"		+\r\n" + 
-				"		IF((telas.estampado!=\"Liso\" AND telas.estampado!=\"Fantasia\"),(cpp.num_personas*coorPre.total_prendas)* 0.1 ,0))), 0) as consumo, \r\n" + 
-				"		\"\" as d,\r\n" + 
-				"		telas.foto,\r\n" + 
-				"		cpp.num_personas \r\n" + 
-				"\r\n" + 
-				"FROM alt_comercial_preapartado AS cpp\r\n" + 
-				"\r\n" + 
-				"INNER JOIN alt_comercial_coordinado_preapartado coorPre ON cpp.id_preapartado = coorPre.id_preapartado\r\n" + 
-				"INNER JOIN alt_comercial_prendas_preapartado prenPre ON coorPre.id_coordinado = prenPre.id_coordinado\r\n" + 
-				"INNER JOIN alt_comercial_cliente cliente ON cpp.id_cliente = cliente.id_cliente\r\n" + 
-				"INNER JOIN alt_disenio_tela telas ON prenPre.id_tela = telas.id_tela\r\n" + 
-				"INNER JOIN alt_disenio_prenda prenda ON prenPre.id_prenda = prenda.id_prenda\r\n" + 
-				"INNER JOIN alt_disenio_material_prenda matPrenda ON prenda.id_prenda = matPrenda.id_prenda\r\n" + 
-				"INNER JOIN alt_disenio_material mat ON matPrenda.id_material = mat.id_material AND mat.nombre_material = \"Tela Principal\" \r\n" +
-				"\r\n" + 
-				"WHERE cpp.id_preapartado = "+id+"\r\n" + 
-				"GROUP BY telas.id_tela \r\n" + 
-				"ORDER BY id_tela").getResultList();
+		return em.createNativeQuery("SELECT * FROM `alt_view_pre_apartado_telas_reporte` where id_preapartado = "+id+" ORDER BY id_tela").getResultList();
 	}
+
+	@Transactional
+	@Override
+	public void saveTelasCoordinado(ComercialTelasPreapartado comercialTelasPreapartado) {
+		// TODO Auto-generated method stub
+		
+		if(comercialTelasPreapartado.getIdTelaPreapartado() !=null && comercialTelasPreapartado.getIdTelaPreapartado()>0) {
+			em.merge(comercialTelasPreapartado);
+
+		}
+		else {
+			em.persist(comercialTelasPreapartado);
+		}
+	}
+
+	@Transactional
+	@Override
+	public void deleteTelasCoordinado(Long id) {
+		// TODO Auto-generated method stub
+		
+		em.remove(findTelaCoordinado(id));
+	}
+	
+	@Transactional
+	@Override
+	public ComercialTelasPreapartado findTelaCoordinado(Long id) {
+		// TODO Auto-generated method stub
+		
+		return em.find(ComercialTelasPreapartado.class,id);
+		
+	}
+	
 	
 }

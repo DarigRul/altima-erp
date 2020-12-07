@@ -62,6 +62,9 @@ public interface IComercialCoordinadoService {
 	// pa editar
 	ComercialCoordinadoMaterial searchMaterial ( Long CoorPrenda, Long idMaterial);
 	void deleteMaterial( Long CoorPrenda);
+	
+	//Listar materiales del preapartado
+	List<Object []>detallesMatarialesPreapartado(Long id);
 }
 
 

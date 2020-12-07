@@ -118,9 +118,104 @@ function agregarPrendaCoordinado(idCoordinado){
 	var idTela = $('#telaCoordinado').val();
 	var idPrenda = $('#modeloCoordinado').val();
 	var idFamPrenda = $('#prendaCoordinado').val();
+	var idsTelas = "";
+	var idsMateriales = "";
 	
-	location.href ="/nueva-prenda-coordinado/"+idCoordinado+"FEDrf3"+idTela+"5edcs3"+idPrenda+"fsc5FS3sd"+idFamPrenda;
+	$("#elimnar22 select").each(function(index, dato1){
+   	 
+		console.log('entro al for 22');
+   			 
+		if ( $(dato1).val() == null || $(dato1).val() == ""  ){
+		 
+			return;
+		}
+		else{
+			idsTelas += $(dato1).val() + 'id_tela';
+			idsMateriales += $(dato1).attr('name') + 'id_materialConv';
+		}
+	});
 	
+	location.href ="/nueva-prenda-coordinado/"+idCoordinado+"FED"+idsTelas+"rREdw3"+idsMateriales+"232f3"+idTela+"5edcs3"+idPrenda+"fsc5FS3sd"+idFamPrenda;
+	
+}
+
+//Esta URL está en coordinadoController
+function detalles(id) {
+    console.log("id->" + id);
+    $.ajax({
+        method: "GET",
+        url: "/detalles-material-preapartado",
+        data: {
+            id: id,
+            _csrf: $("#token").val(),
+        },
+        success: (data) => {
+            $("#quitarDetalles").remove();
+            $("#contenedorTablaContador").append(
+                "<div class='modal-body' id='quitarDetalles'>" +
+                    "<table class='table table-striped table-bordered' id='idtableDetalles' style='width:100%' >" +
+                    "<thead>" +
+                    "<tr>" +
+                    "<th>Material</th>" +
+                    "<th>Color</th>" +
+                    "</tr>" +
+                    "</thead>" +
+                    "</table>" +
+                    "</div>"
+            );
+            var a;
+            var b = [];
+            for (i in data) {
+                console.log("material->" + data[i][0]);
+                console.log("cofigo  ->" + data[i][2]);
+                console.log("color   ->" + data[i][1]);
+                a = ["<tr>" + "<td>" + data[i][0] + "</td>", "<td> <i class=" + "'fa fa-tint'" + "  style=" + "'color:" + data[i][2] + "'" + ";  > </i>  " + data[i][1] + "  </td> ", "<tr>"];
+
+                b.push(a);
+            }
+            var tabla = $("#idtableDetalles").DataTable({
+                data: b,
+                ordering: true,
+                pageLength: 5,
+                lengthMenu: [
+                    [5, 10, 25, 50, 10],
+                    [5, 10, 25, 50, 10],
+                ],
+                "language": {
+					"sProcessing": "Procesando...",
+					"sLengthMenu": "Mostrar _MENU_ registros",
+					"sZeroRecords": "No se encontraron resultados",
+					"sEmptyTable": "Ningún dato disponible en esta tabla =(",
+					"sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+					"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+					"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+					"sInfoPostFix": "",
+					"sSearch": "Buscar:",
+					"sUrl": "",
+					"sInfoThousands": ",",
+					"sLoadingRecords": "Cargando...",
+					"oPaginate": {
+						"sFirst": "Primero",
+						"sLast": "Último",
+						"sNext": "Siguiente",
+						"sPrevious": "Anterior"
+					},
+					"oAria": {
+						"sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+						"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+					},
+					"buttons": {
+						"copy": "Copiar",
+						"colvis": "Visibilidad"
+					}
+				},
+            });
+            $("#detalles").modal("show");
+        },
+        error: (e) => {
+            // location.reload();nnn
+        },
+    });
 }
 
 function idPreapartadoB(idPreapartado){
@@ -453,69 +548,69 @@ $("#telaCoordinado").change(function(){
 
     	$("#elimnar222").empty()
 
-if($(this).val() != '')
-{
-  $.ajax({
-      data: { id : $('#modeloCoordinado').val() },
-      url:   '/mostrar-materiales-prenda-extra2',
-      type:  'GET',
-      beforeSend: function () 
-      {
-      	// durante la petici?n
-      },
-      success:  function (r) 
-      {
-          // se elimina el div pa que no haya gases por si el puto usuario la caga 
-          	
-			$("#elimnar222").empty()
-
-          $(r).each(function(i, v){
-          	console.log("RORTULUS="+i)
-
-          	$("#elimnar222").append('<div class="form-group col-sm-3">'+
-						   '<label for="coorAdorno">'+v[1]+'</label>'+
-						   '<select   name="'+v[0]+'"  id="material_'+i+'"  class="form-control selectCustom '+v[0]+'"  data-live-search="true" required>'+
-						  
-						      
-						    '</select>'+
-						'</div>');
-        	
-            $.ajax({
-                url : "/mostrar-listas-forro",
-                type : "GET",
-                data: {  
-                	id:$('#telaCoordinado').val(), 
-                	},
-                success: function(data){
-                	
-                	$.each(data, function(key, val) {
-    		    		$('.'+v[0]+'').append('<option value="'+val[0]+'" data-content="<i class='+"'fa fa-tint'"+'  style='+"'color:"+val[2]+"'"+';  > </i> '+val[1]+'  "> </option> ');
-    		    		
-    		    		
-                	})
-                	$('.'+v[0]+'').selectpicker(["refresh"]);
-                	
-                },
-                error : function(xhr,errmsg,err) {
-                  console.log(xhr.status + ": " + xhr.responseText);
-                }
-              });
-          })
-
-          //cursos.prop('disabled', false);
-      },
-      error: function()
-      {
-          alert('error en el segundo Ajax ..');
-         // alumnos.prop('disabled', false);
-      }
-  });
-}
-else
-{
- // cursos.find('option').remove();
-  //cursos.prop('disabled', true);
-}
+//if($(this).val() != '')
+//{
+//  $.ajax({
+//      data: { id : $('#modeloCoordinado').val() },
+//      url:   '/mostrar-materiales-prenda-extra2',
+//      type:  'GET',
+//      beforeSend: function () 
+//      {
+//      	// durante la petici?n
+//      },
+//      success:  function (r) 
+//      {
+//          // se elimina el div pa que no haya gases por si el puto usuario la caga 
+//          	
+//			$("#elimnar222").empty();
+//
+//          $(r).each(function(i, v){
+//          	console.log("RORTULUS="+i)
+//
+//          	$("#elimnar222").append('<div class="form-group col-sm-3">'+
+//						   '<label for="coorAdorno">'+v[1]+'</label>'+
+//						   '<select   name="'+v[0]+'"  id="material_'+i+'"  class="form-control selectCustom '+v[0]+'"  data-live-search="true" required>'+
+//						  
+//						      
+//						    '</select>'+
+//						'</div>');
+//        	
+//            $.ajax({
+//                url : "/mostrar-listas-forro",
+//                type : "GET",
+//                data: {  
+//                	id:$('#telaCoordinado').val(), 
+//                	},
+//                success: function(data){
+//                	
+//                	$.each(data, function(key, val) {
+//    		    		$('.'+v[0]+'').append('<option value="'+val[0]+'" data-content="<i class='+"'fa fa-tint'"+'  style='+"'color:"+val[2]+"'"+';  > </i> '+val[1]+'  "> </option> ');
+//    		    		
+//    		    		
+//                	})
+//                	$('.'+v[0]+'').selectpicker(["refresh"]);
+//                	
+//                },
+//                error : function(xhr,errmsg,err) {
+//                  console.log(xhr.status + ": " + xhr.responseText);
+//                }
+//              });
+//          })
+//
+//          //cursos.prop('disabled', false);
+//      },
+//      error: function()
+//      {
+//          alert('error en el segundo Ajax ..');
+//         // alumnos.prop('disabled', false);
+//      }
+//  });
+//}
+//else
+//{
+// // cursos.find('option').remove();
+//  //cursos.prop('disabled', true);
+//}
 })
 
 
@@ -612,26 +707,26 @@ $("#modeloCoordinado").change(function(){
                });
 	    	$("#elimnar333").empty()
 
-    if($(this).val() != '')
-    {
-        $.ajax({
-            data: { id : $('#modeloCoordinado').val() },
-            url:   '/mostrar-materiales-prenda',
-            type:  'GET',
-            beforeSend: function () 
-            {
-            	// durante la petici?n
-            },
-            success:  function (r) 
-            {
-                // se elimina el div pa que no haya gases por si el puto usuario la caga 
-                	
-				$("#elimnar333").empty()
-
-                $(r).each(function(i, v){
-                	
-                	console.log("i="+i)
-
+//    if($(this).val() != '')
+//    {
+//        $.ajax({
+//            data: { id : $('#modeloCoordinado').val() },
+//            url:   '/mostrar-materiales-prenda',
+//            type:  'GET',
+//            beforeSend: function () 
+//            {
+//            	// durante la petici?n
+//            },
+//            success:  function (r) 
+//            {
+//                // se elimina el div pa que no haya gases por si el puto usuario la caga 
+//                	
+//				$("#elimnar333").empty()
+//
+//                $(r).each(function(i, v){
+//                	
+//                	console.log("i="+i)
+//
 //                	$("#elimnar333").append('<div class="form-group col-sm-3">'+
 //							   '<label id="label_'+i+'" for="coorAdorno">'+v[1]+'</label>'+
 //							   '<select onchange="selected('+i+');"  id="select'+i+'" value="'+v[0]+'" class="form-control selectCustom '+v[2]+'"  data-live-search="true" required>'+
@@ -639,50 +734,50 @@ $("#modeloCoordinado").change(function(){
 //							      
 //							    '</select>'+
 //							'</div>');
-                	
-                	   $.ajax({
-                           url : "/mostrar-lista-materiales-extra",
-                           type : "GET",
-                           data: { idPrendaMaterial :v[2] 
-                           	
-                           	},
-                           success: function(data){
-                           	
-                           	$.each(data, function(key, val) {
-                           		if (key == 0){
-                           			
-                           			$('.'+v[2]+'').append('<option value="'+val[0]+'" data-content=" '+val[1]+' -Principal- ">'+val[1]+'  </option> ');
-                           			
-                           		}else{
-                           			
-                           			$('.'+v[2]+'').append('<option value="'+val[0]+'" data-content=" '+val[1]+'  ">'+val[1]+'  </option> ');
-                           			
-                           		}
-               		    		
-                           	})
-                           	$('.'+v[2]+'').selectpicker(["refresh"]);
-                           	
-                           },
-                           error : function(xhr,errmsg,err) {
-                             console.log(xhr.status + ": " + xhr.responseText);
-                           }
-                         });
-                })
-
-                //cursos.prop('disabled', false);
-            },
-            error: function()
-            {
-                alert('Ocurrio un error en el servidor ..');
-               // alumnos.prop('disabled', false);
-            }
-        });
-    }
-    else
-    {
-       // cursos.find('option').remove();
-        //cursos.prop('disabled', true);
-    }
+//                	
+//                	   $.ajax({
+//                           url : "/mostrar-lista-materiales-extra",
+//                           type : "GET",
+//                           data: { idPrendaMaterial :v[2] 
+//                           	
+//                           	},
+//                           success: function(data){
+//                           	
+//                           	$.each(data, function(key, val) {
+//                           		if (key == 0){
+//                           			
+//                           			$('.'+v[2]+'').append('<option value="'+val[0]+'" data-content=" '+val[1]+' -Principal- ">'+val[1]+'  </option> ');
+//                           			
+//                           		}else{
+//                           			
+//                           			$('.'+v[2]+'').append('<option value="'+val[0]+'" data-content=" '+val[1]+'  ">'+val[1]+'  </option> ');
+//                           			
+//                           		}
+//               		    		
+//                           	})
+//                           	$('.'+v[2]+'').selectpicker(["refresh"]);
+//                           	
+//                           },
+//                           error : function(xhr,errmsg,err) {
+//                             console.log(xhr.status + ": " + xhr.responseText);
+//                           }
+//                         });
+//                })
+//
+//                //cursos.prop('disabled', false);
+//            },
+//            error: function()
+//            {
+//                alert('Ocurrio un error en el servidor ..');
+//               // alumnos.prop('disabled', false);
+//            }
+//        });
+//    }
+//    else
+//    {
+//       // cursos.find('option').remove();
+//        //cursos.prop('disabled', true);
+//    }
 })
 
 
