@@ -1,12 +1,14 @@
 <form class="row" th:object="${solicitud}">
-	<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+  <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
 	<div class="form-group col-md-3" th:if="${accion == 'crear'}">
       <label for="fechaCita">Fecha y hora cita</label>
-      <input type="datetime-local" class="form-control" id="fechaCita" th:value="*{ fechaCreacion}">
+      <input type="datetime-local" class="form-control" id="fechaCita" th:value="*{fechaHoraDeCita}">
     </div>
+
+    <input type="hidden" name="idSolicitudServicioAlCliente" id="idSolicitudServicioAlCliente" th:value="*{idSolicitudServicioAlCliente}"/>
     <div class="form-group col-md-3" th:if="${accion == 'editar'}">
       <label for="fechaCita">Fecha y hora cita</label>
-      <input type="datetime-local" class="form-control" id="fechaCita" th:value="*{ fechaCreacion.substring(0,4) + '-' + fechaCreacion.substring(5, 7) + '-' + fechaCreacion.substring(8,10) + 'T' + fechaCreacion.substring(11, 13) + ':' + fechaCreacion.substring(14, 16) }" >
+      <input type="datetime-local" class="form-control" id="fechaCita" th:value="*{ fechaHoraDeCita.substring(0,4) + '-' + fechaHoraDeCita.substring(5, 7) + '-' + fechaHoraDeCita.substring(8,10) + 'T' + fechaHoraDeCita.substring(11, 13) + ':' + fechaHoraDeCita.substring(14, 16) }" >
     </div>
     <div class="form-group col-md-3">
       <label for="clienteCita">Cliente</label>
@@ -19,37 +21,68 @@
     </div>
     <div class="form-group col-md-3" th:if="${accion == 'crear'}">
       <label for="pedidoCita">Pedido</label>
-      <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="pedidoCita">
+      <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="pedidoCita">
       <!--  -->
       </select>
     </div>
     <div class="form-group col-md-3" th:if="${accion == 'editar'}">
       <label for="pedidoCita">Pedido</label>
       <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="pedidoCita">
-     	<option th:each="pedido: ${pedidos}" th:value="${pedido.idPedidoInformacion}" th:text="${pedido.idText}" th:selected="(${pedido.idPedidoInformacion} == *{idPedidoInformacion})"></option>
+     	<option th:each="pedido: ${pedidos}" th:value="${pedido[0]}" th:text="${pedido[1]}" th:selected="(${pedido[0]} == *{idPedidoInformacion})"></option>
       </select>
     </div>
-    <div class="form-group col-md-3">
-        <label for="direccionCita">Direcci&oacute;n</label>
-        <input type="text" class="form-control" id="direccionCita" placeholder="Direcci&oacute;n de Cliente" th:value="${DireccionDelCliente}">
-     </div>
+     <div class="form-group col-md-3" th:if="${accion == 'crear'}">
+      <label for="sucursalCita">Sucursal</label>
+      <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="sucursalCita">
+      <!--  -->
+      </select>
+    </div>
+    <div class="form-group col-md-3" th:if="${accion == 'editar'}">
+      <label for="sucursalCita">Sucursal</label>
+      <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="sucursalCita">
+        <option th:each="sucursal: ${sucursal}" 
+          th:value="${sucursal[0]}" 
+          th:direccion="${sucursal[4]}" 
+          th:telefono="${sucursal[2]}" 
+          th:contacto="${sucursal[3]}" 
+
+          th:text="${sucursal[1]}" th:selected="(${sucursal[0]} == *{idSucrsal})">
+
+        </option>
+
+        
+      </select>
+    </div>
+
+    <div class="form-group col-md-12">
+      <label for="direccion">Direcci&oacute;n</label>
+      <input type="text" class="form-control" id="direccion" disabled placeholder="Direccion" th:value="${DireccionDelCliente}">
+    </div>
      <div class="form-group col-md-3">
         <label for="telefonoCita">Tel&eacute;fono</label>
-        <input type="text" class="form-control" id="telefonoCita" placeholder="222 123 5324" th:value="${ElCliente.Telefono}">
+        <input type="text" class="form-control" id="telefonoCita" disabled placeholder="222 123 5324" th:value="${TelefonoDelCliente}">
       </div>
       <div class="form-group col-md-3">
         <label for="dirigirseCita">Dirigirse con</label>
-        <input type="text" class="form-control" id="dirigirseCita" placeholder="Jorge Manuel Martinez" th:value="${ElCliente.nombreContacto}">
+        <input type="text" class="form-control" id="dirigirseCita" placeholder="Jorge Manuel Martinez" th:value="*{dirigirseCon}">
       </div>
-      <div class="form-group col-md-3">
-        <label for="fechaSalida">Hora Salida Altima</label>
-        <input type="datetime-local" class="form-control" id="fechaSalida" th:value="*{ horaSalidaAltima.substring(0,4) + '-' + horaSalidaAltima.substring(5, 7) + '-' + horaSalidaAltima.substring(8,10) + 'T' + horaSalidaAltima.substring(11, 13) + ':' + horaSalidaAltima.substring(14, 16) }">
+
+      <div class="form-group col-md-3" th:if="${accion == 'crear'}">
+        <label for="fechaCita">Hora Salida Altima</label>
+        <input type="datetime-local" class="form-control" id="fechaSalida" th:value="*{horaSalidaAltima}">
+      </div>
+      <div class="form-group col-md-3" th:if="${accion == 'editar'}">
+        <label for="fechaCita">Hora Salida Altima</label>
+        <input type="datetime-local" class="form-control" id="fechaSalida" th:value="*{ horaSalidaAltima.substring(0,4) + '-' + horaSalidaAltima.substring(5, 7) + '-' + horaSalidaAltima.substring(8,10) + 'T' + horaSalidaAltima.substring(11, 13) + ':' + horaSalidaAltima.substring(14, 16) }" >
       </div>
       <div class="form-group col-md-3">
         <label for="actividadCita">Actividad</label>
         <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="actividadCita">
-            <option value="Toma de Tallas" th:selected="${solicitud.actividad} == 'Toma de Tallas'">Toma de Tallas</option>
-            <option value="Entrega de Prendas" th:selected="${solicitud.actividad} == 'Entrega de Prendas'">Entrega de Prendas</option>
+          <option value="Entrega de Prendas" th:selected="${solicitud.actividad} == 'Entrega de Prendas'">Entrega de Prendas</option>
+          <option value="Entrega con toma de ajustes" th:selected="${solicitud.actividad} == 'Entrega con toma de ajustes'">Entrega con Toma de Ajsutes</option>
+          <option value="Toma de Tallas" th:selected="${solicitud.actividad} == 'Toma de Tallas'">Toma de Tallas</option>
+          <option value="Toma de Ajustes" th:selected="${solicitud.actividad} == 'Toma de Ajustes'">Toma de Ajustes</option>
+          <option value="Toma de Re-ajustes" th:selected="${solicitud.actividad} == 'Toma de Re-ajustes'">Toma de Re-ajustes</option>  
         </select>
       </div>
       <div class="form-group col-md-12">

@@ -68,6 +68,12 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 	
 	@Column(name="estatus")
 	private String estatus;
+
+	@Column(name="id_sucursal")
+	private String idSucrsal;
+
+	@Column(name="dirigirse_con")
+	private String dirigirseCon;
 	
 	
 	
@@ -196,6 +202,23 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getIdSucrsal() {
+		return idSucrsal;
+	}
+
+	public void setIdSucrsal(String idSucrsal) {
+		this.idSucrsal = idSucrsal;
+	}
+
+	public String getDirigirseCon() {
+		return dirigirseCon;
+	}
+
+	public void setDirigirseCon(String dirigirseCon) {
+		this.dirigirseCon = dirigirseCon;
+	}
+	
 	
 	
 	

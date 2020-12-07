@@ -1,11 +1,11 @@
-<form class="row">
+<form name="formAuxiliar" class="row">
     <div class="form-group col-md-6">
       <label for="generoAuxiliarVentas">G&eacute;nero</label>
       <div class="spinner-border spinner-border-sm text-primary" role="status" id="CargandoGenerosAuxiliarVentas" style="display: none;">
   		<span class="sr-only">Loading...</span>
 	  </div>
       <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="generoAuxiliarVentas">
-       	<option th:each="opc : ${selectAuxiliares}" th:value="${opc}" th:text="${opc}"></option>
+       	<option th:each="opc : ${selectAuxiliares}"  th:if="${opc != 'Indistinto'}" th:value="${opc}" th:text="${opc}"></option>
        </select>
     </div>
     <div class="form-group col-md-6">
@@ -45,7 +45,7 @@
                 <tr th:each="auxiliar: ${auxiliares}">
                     <td th:text="${auxiliar.genero}"></td>
                     <td th:text="${auxiliar.cantidad}"></td>
-                    <td class="text-center">
+                    <td >
                         <button type="button" class="btn icon-btn btn-danger text-white" th:onclick="'BorrarFilaAuxiliarVentas(this, \'' + ${auxiliar.idSolicitudServicioAlClienteAuxiliarVentas} + '\');'"><span
                             class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
                     </td>
