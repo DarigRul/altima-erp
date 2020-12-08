@@ -107,7 +107,7 @@
                                        </div>
                                     </div>
                                     
-                                    
+                                    <input type="hidden" th:value="${idPreapartado}" id="idPreapartado">
                                  </div>
                                  <input type="hidden" name="_csrf" id="token"
                                     th:value="${_csrf.token}" />
@@ -154,7 +154,7 @@
                                              data-placement="top" data-content="Ver detalles">
                                              <i class="fas fa-info"></i>
                                              </button> &nbsp; <a
-                                                th:href="@{/eliminar-prenda-coordinado-preapartado/}+${idCoordinado}+'/'+${listCoorPrenda[0]}"
+                                                th:href="@{/eliminar-prenda-coordinado-preapartado/}+${idCoordinado}+'/'+${listCoorPrenda[0]}+'/'+${idPreapartado}"
                                                 class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
                                                 data-container="body" data-toggle="popover"
                                                 data-placement="top" data-content="Eliminar">

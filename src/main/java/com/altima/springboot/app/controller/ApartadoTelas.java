@@ -411,13 +411,14 @@ public class ApartadoTelas {
 	}
 	
 	@Transactional
-	@RequestMapping("/nueva-prenda-coordinado/{idCoordinado}FED{idsTelas}rREdw3{idsMateriales}232f3{idTela}5edcs3{idPrenda}fsc5FS3sd{idFamPrenda}")
+	@RequestMapping("/nueva-prenda-coordinado/{idCoordinado}FED{idsTelas}rREdw3{idsMateriales}232f3{idTela}5edcs3{idPrenda}fsc5FS3sd{idFamPrenda}/{idPreapartado}")
 	public String guardarNuevaPrendaCoordinado(@PathVariable(value="idCoordinado")Long idCoordinado,
 												@PathVariable(value="idTela")Long idTela,
 												@PathVariable(value="idPrenda")Long idPrenda,
 												@PathVariable(value="idFamPrenda")Long idFamPrenda,
 												@PathVariable(value="idsTelas", required=false)String idsTelas,
-												@PathVariable(value="idsMateriales", required=false)String idsMateriales) {
+												@PathVariable(value="idsMateriales", required=false)String idsMateriales,
+												@PathVariable(value="idPreapartado")Long idPreapartado) {
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
@@ -464,11 +465,11 @@ public class ApartadoTelas {
 			
 			preapartadoService.saveCoordinado(coorPreapartado);
 			
-			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado;
+			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado+"/"+idPreapartado;
 		}
 		catch(Exception e) {
 			
-			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado;
+			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado+"/"+idPreapartado;
 		}
 		
 		finally {
@@ -478,9 +479,10 @@ public class ApartadoTelas {
 	}
 	
 	@Transactional
-	@RequestMapping("/eliminar-prenda-coordinado-preapartado/{idCoordinado}/{idPrendaCoordinadoPreapartado}")
+	@RequestMapping("/eliminar-prenda-coordinado-preapartado/{idCoordinado}/{idPrendaCoordinadoPreapartado}/{idPreapartado}")
 	public String eliminarPrendaCoordinado(@PathVariable(value="idCoordinado")Long idCoordinado,
-									 @PathVariable(value="idPrendaCoordinadoPreapartado")Long idPrendaCoordinadoPreapartado) {
+									 @PathVariable(value="idPrendaCoordinadoPreapartado")Long idPrendaCoordinadoPreapartado,
+									 @PathVariable(value="idPreapartado")Long idPreapartado) {
 		
 		try {
 			preapartadoService.deletePrendaCoordinado(idPrendaCoordinadoPreapartado);
@@ -491,11 +493,11 @@ public class ApartadoTelas {
 			
 			preapartadoService.saveCoordinado(coorPreapartado);
 			
-			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado;
+			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado+"/"+idPreapartado;
 		}
 		catch(Exception e) {
 			
-			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado;
+			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado+"/"+idPreapartado;
 		}
 		
 		finally {

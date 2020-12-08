@@ -121,6 +121,7 @@ function agregarPrendaCoordinado(idCoordinado){
 	var idFamPrenda = $('#prendaCoordinado').val();
 	var idsTelas = "";
 	var idsMateriales = "";
+	var idPreapartado = $('#idPreapartado').val();
 	
 	$("#elimnar22 select").each(function(index, dato1){
    	 
@@ -136,7 +137,7 @@ function agregarPrendaCoordinado(idCoordinado){
 		}
 	});
 	
-	location.href ="/nueva-prenda-coordinado/"+idCoordinado+"FED"+idsTelas+"rREdw3"+idsMateriales+"232f3"+idTela+"5edcs3"+idPrenda+"fsc5FS3sd"+idFamPrenda;
+	location.href ="/nueva-prenda-coordinado/"+idCoordinado+"FED"+idsTelas+"rREdw3"+idsMateriales+"232f3"+idTela+"5edcs3"+idPrenda+"fsc5FS3sd"+idFamPrenda+"/"+idPreapartado;
 	
 }
 
