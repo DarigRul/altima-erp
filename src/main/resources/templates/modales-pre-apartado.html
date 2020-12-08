@@ -8,6 +8,12 @@
                 </button>
             </div>
             <div class="modal-body row">
+            	<div class="form-group col-12" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')">
+             		<label for="numeroPedido">Agente</label>
+            		<select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" id="selectAgente">
+            		<option th:each="agenteVentas: ${ListaAgentesVenta}" th:value="${agenteVentas[0]}" th:text="${agenteVentas[1]}+' '+${agenteVentas[2]}+' '+${agenteVentas[3]}"></option>
+	           		</select>
+            	</div>
             	<div class="form-group col-12">
                 	<label class="form-check-label" for="">Cliente</label>
                 	<select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..." id="idCliente">
