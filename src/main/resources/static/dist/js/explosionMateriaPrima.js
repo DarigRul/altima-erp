@@ -9,7 +9,7 @@ $(document).ready(function () {
         rolloIdTela.forEach(idTela => {
             const findRollosByIdTela = rollos.filter(element => element.idTela == idTela);
             const apartado = findRollosByIdTela.reduce((ac, rollo) => ac + rollo.cantidad, 0);
-            $("#apartado-" + idTela).text(apartado);
+            $("#apartado-" + idTela).text(apartado+parseFloat($(`#apartado-${idTela}`).data("content")));
             $("#disponible-" + idTela).text(($(`#disponible-${idTela}`).data("content") - apartado).toFixed(2));
             $("#faltante-" + idTela).text(($(`#consumo-${idTela}`).data("content") - apartado).toFixed(2));
         });
@@ -25,7 +25,7 @@ function getExistenciaByAlmacen(idTela) {
         .draw();
     $("#mod-disponible").text((parseFloat($(`#disponible-${idTela}`).text())).toFixed(2));
     $("#mod-requerido").text($(`#consumo-${idTela}`).text());
-    $("#mod-apartado").text(apartado);
+    $("#mod-apartado").text(apartado+parseFloat($(`#apartado-${idTela}`).data("content")));
     $("#mod-restante").text($("#faltante-" + idTela).text());
     $.ajax({
         type: "GET",
@@ -163,10 +163,10 @@ function agregarRollo() {
 
         });
         //aqui es para los datos de requerido, apartado, disponible etc...
-        $("#apartado-" + tempRollo.idTela).text(apartado);
+        $("#apartado-" + tempRollo.idTela).text(apartado+parseFloat($(`#apartado-${tempRollo.idTela}`).data("content")));
         $("#disponible-" + tempRollo.idTela).text((parseFloat($(`#disponible-${tempRollo.idTela}`).data("content")) - apartado).toFixed(2));
         $("#faltante-" + tempRollo.idTela).text((parseFloat($(`#consumo-${tempRollo.idTela}`).data("content")) - apartado).toFixed(2));
-        $("#mod-apartado").text(apartado);
+        $("#mod-apartado").text(apartado+parseFloat($(`#apartado-${tempRollo.idTela}`).data("content")));
         $("#mod-disponible").text((parseFloat($(`#disponible-${tempRollo.idTela}`).data("content")) - apartado).toFixed(2));
         $("#mod-restante").text((parseFloat($(`#consumo-${tempRollo.idTela}`).data("content")) - apartado).toFixed(2));
 
@@ -191,8 +191,8 @@ function deleteMovimiento(fila, id) {
     const apartado = findRollosByIdTela.reduce((ac, rollo) => ac + rollo.cantidad, 0);
     //aqui es para los datos de requerido, apartado, disponible etc...
     console.log(apartado)
-    $("#mod-apartado").text(apartado);
-    $("#apartado-" + found.idTela).text(apartado);
+    $("#mod-apartado").text(apartado+parseFloat($(`#apartado-${found.idTela}`).data("content")));
+    $("#apartado-" + found.idTela).text(apartado+parseFloat($(`#apartado-${found.idTela}`).data("content")));
     $("#disponible-" + found.idTela).text((parseFloat($(`#disponible-${found.idTela}`).data("content")) - apartado).toFixed(2));
     $("#faltante-" + found.idTela).text((parseFloat($(`#consumo-${found.idTela}`).data("content")) - apartado).toFixed(2));
     $("#mod-disponible").text((parseFloat($(`#disponible-${found.idTela}`).data("content")) - apartado).toFixed(2));

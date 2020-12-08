@@ -168,7 +168,7 @@ public class DisenioPrendaServiceImpl implements IDisenioPrendaService {
 	@Transactional(readOnly = true)
 	public List<PrendaListDTO> findAllMin() {
 		// TODO Auto-generated method stub
-		return em.createNativeQuery("SELECT adp.id_prenda,adp.id_text,adp.id_text_prospecto,adp.descripcion_prenda,adlfampre.nombre_lookup tipo_prenda,adp.prenda_local,adp.estatus_recepcion_muestra,adp.estatus FROM `alt_disenio_prenda` adp INNER JOIN alt_disenio_lookup adlfampre ON adlfampre.id_lookup=adp.id_familia_prenda",PrendaListDTO.class).getResultList();
+		return em.createNativeQuery("SELECT adp.id_prenda,adp.id_text,adp.id_text_prospecto,adp.descripcion_prenda,adlfampre.nombre_lookup tipo_prenda,adp.prenda_local,adp.estatus_recepcion_muestra,adp.estatus,adp.mostrar FROM `alt_disenio_prenda` adp INNER JOIN alt_disenio_lookup adlfampre ON adlfampre.id_lookup=adp.id_familia_prenda",PrendaListDTO.class).getResultList();
 	}
 	
 	

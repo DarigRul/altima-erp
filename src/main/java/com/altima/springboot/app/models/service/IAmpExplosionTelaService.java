@@ -17,4 +17,6 @@ public interface IAmpExplosionTelaService {
     
     List<ExplosionTelaDto> findAllExplosion(Long idPedido);
 
+    float findAllExplosionByIdTela(Long idPedido, Long idTela);
+
 }

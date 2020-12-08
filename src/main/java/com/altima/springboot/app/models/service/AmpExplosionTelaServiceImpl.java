@@ -53,7 +53,18 @@ public class AmpExplosionTelaServiceImpl implements IAmpExplosionTelaService {
     @Transactional(readOnly = true)
     public List<ExplosionTelaDto> findAllExplosion(Long idPedido) {
         // TODO Auto-generated method stub
-        return em.createNativeQuery("CALL alt_pr_explosion_tela(:idPedido);",ExplosionTelaDto.class).setParameter("idPedido", idPedido).getResultList();
+        return em.createNativeQuery("CALL alt_pr_explosion_tela(:idPedido);", ExplosionTelaDto.class)
+                .setParameter("idPedido", idPedido).getResultList();
     }
-    
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional(readOnly = true)
+    public float findAllExplosionByIdTela(Long idPedido, Long idTela) {
+        // TODO Auto-generated method stub
+        return Float.parseFloat(em
+                .createNativeQuery(" CALL `alt_pr_explosion_tela_total`(:idPedido, :idTela)")
+                .setParameter("idPedido", idPedido).setParameter("idTela", idTela).getSingleResult().toString());
+    }
+
 }

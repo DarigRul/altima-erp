@@ -68,6 +68,11 @@ public class ExplosionMateriaPrimaRestController {
         return explosionTelaService.findAllExplosion(idPedido);
     }
 
+    @GetMapping("/getApartadoTelasByIdTela")
+    public float getApartadoTelasByIdTela(@RequestParam Long idPedido,@RequestParam Long idTela) {
+        return explosionTelaService.findAllExplosionByIdTela(idPedido, idTela);
+    }
+
     @Transactional
     @PostMapping("/postExplosionTelas")
     public ResponseEntity<?> postMovimientosEntradaAlmacen(@RequestParam Long idPedido, @RequestParam String rollos,

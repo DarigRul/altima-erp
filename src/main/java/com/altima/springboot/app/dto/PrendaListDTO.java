@@ -14,6 +14,7 @@ public class PrendaListDTO {
     private int prendaLocal;
     private String estatusRecepcionMuestra;
     private String estatus;
+    private Boolean mostrar;
 
     public Long getIdPrenda() {
         return idPrenda;
@@ -78,4 +79,13 @@ public class PrendaListDTO {
     public void setIdTextProspecto(String idTextProspecto) {
         this.idTextProspecto = idTextProspecto;
     }
+
+    public Boolean getMostrar() {
+        return mostrar;
+    }
+
+    public void setMostrar(Boolean mostrar) {
+        this.mostrar = mostrar;
+    }
+
 }

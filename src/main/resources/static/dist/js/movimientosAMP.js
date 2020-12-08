@@ -132,6 +132,7 @@ $('#almacenLogicoMovimiento').change(function () {
 
 //Agregamos el Articulo
 $('#agregarArticulo').click(function () {
+    var tipoMovimiento = $('#tipoMovimiento').val()
     if ($("#tipoMovimiento").val() == "Salida") {
         var idText = $('#articuloMovimiento').children('option:selected').data('idtext');
         var unidadMedida = $('#articuloMovimiento').children('option:selected').data('unidadmedida');
@@ -247,6 +248,14 @@ $('#agregarArticulo').click(function () {
                         ).draw();
                         $("#lote").val('');
                         movimientos.push(temp);
+                        if (tipoMovimiento == "Salida") {
+                            $('#rollo').find(`[value=${idRollo}]`).remove();
+                            $('#rollo').selectpicker('refresh');
+                        }
+                        var filterMovimientos = movimientos.filter(linea => linea.id + linea.tipo == id + 'tela');
+                        var sumaMovimientos = filterMovimientos.reduce((acc, linea) => acc + parseFloat(linea.cantidad), 0);
+                        $("#telaTomada").text(sumaMovimientos);
+
                     }
                 }
             });
@@ -257,7 +266,7 @@ $('#agregarArticulo').click(function () {
 });
 
 function deleteMovimiento(fila, id) {
-
+    var tipoMovimiento = $('#tipoMovimiento').val()
     const found = movimientos.find(element => element.id + element.tipo == id);
     console.log(found);
     if (found.tipo != 'tela') {
@@ -272,6 +281,40 @@ function deleteMovimiento(fila, id) {
         .row($(fila).parents('tr'))
         .remove()
         .draw();
+
+    if ($('#articuloMovimiento').val()==found.id&&found.tipo == 'tela'&&tipoMovimiento=='Salida') {
+        $('#rollo option').remove();
+        $('#rollo').selectpicker('refresh');
+        $.ajax({
+            type: "GET",
+            url: "/getRolloByidPedidoAndidTela",
+            data: {
+                'idPedido': $('#referenciaMovimiento').val(),
+                'idTela': found.id,
+                'estatus': 0
+            },
+            success: function (data) {
+                var filterMovimientos = movimientos.filter(linea => linea.id + linea.tipo == found.id + 'tela');
+                // esta parte es para filtrar los rollos que ya estaban agregados
+                let difference=data;
+                if (filterMovimientos.length > 0) {
+                    difference = data.filter(function(x){
+                        var condicion=true;
+                        filterMovimientos.forEach(element => {
+                            if (element.idRollo==x.idRolloTela) {
+                                condicion= false;
+                            }
+                        });
+                        return condicion;
+                    });
+                }
+                difference.forEach(function (data) {
+                    $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "-" + data.cantidad + "-" + data.lote + "</option>");
+                })
+                $('#rollo').selectpicker('refresh');
+            }
+        });
+    }
 }
 
 
@@ -282,6 +325,7 @@ $('#guardarMovimientos').click(function () {
     var concepto = $('#conceptoMovimiento').val()
     var idAlmacenLogico = $('#almacenLogicoMovimiento').val()
     var idAlmacenFisico = $("#almacenLogicoMovimiento").children('option:selected').data('name')
+    var idPedido = $("#referenciaMovimiento").val()
     console.log(movimientos);
     if (movimientos[0] == null || tipoMovimiento == null || concepto == null || idAlmacenLogico == null || fechaMovimiento == null || tipoMovimiento == "" || concepto == "" || idAlmacenLogico == "" || fechaMovimiento == "") {
         Swal.fire({
@@ -297,9 +341,11 @@ $('#guardarMovimientos').click(function () {
             'tipoMovimiento': tipoMovimiento,
             'concepto': concepto,
             'idAlmacenLogico': idAlmacenLogico,
-            'idAlmacenFisico': idAlmacenFisico
+            'idAlmacenFisico': idAlmacenFisico,
+            'idPedido': idPedido
         }
         movimientoCabecero.push(temp);
+        console.log($("#referenciaMovimiento").val())
         if (temp.tipoMovimiento === 'Entrada') {
             $.ajax({
                 type: "POST",
@@ -422,6 +468,8 @@ $("#articuloMovimiento").change(function (e) {
     $('#rollo option').remove();
     $('#rollo').selectpicker('refresh');
     $("#lote").val('');
+    var idText = $(this).children('option:selected').data('idtext');
+    var idTela = $(this).val();
     if ($(this).children('option:selected').data('tipo') === 'tela') {
         $("#lote").prop("disabled", false);
     } else {
@@ -437,7 +485,7 @@ $("#articuloMovimiento").change(function (e) {
             data: {
                 'idAlmacenLogico': $("#almacenLogicoMovimiento").val(),
                 'idTela': $(this).val(),
-                'estatus':1
+                'estatus': 1
             },
             success: function (data) {
                 data.forEach(function (data) {
@@ -450,19 +498,57 @@ $("#articuloMovimiento").change(function (e) {
     else if ($("#tipoMovimiento").val() == 'Salida' && $(this).children('option:selected').data('tipo') == 'tela' && $('#referenciaMovimiento').val() != '') {
         $("#rollo").prop("disabled", false);
         $("#lote").prop("disabled", true);
+        $("#floating").removeClass("d-none");
         $.ajax({
             type: "GET",
             url: "/getRolloByidPedidoAndidTela",
             data: {
                 'idPedido': $('#referenciaMovimiento').val(),
-                'idTela': $(this).val(),
+                'idTela': idTela,
                 'estatus': 0
             },
             success: function (data) {
-                data.forEach(function (data) {
-                    $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "-" + data.cantidad + "-" + data.lote + "</option>")
+                var filterMovimientos = movimientos.filter(linea => linea.id + linea.tipo == idTela + 'tela');
+                // esta parte es para filtrar los rollos que ya estaban agregados
+                let difference=data;
+                if (filterMovimientos.length > 0) {
+                    difference = data.filter(function(x){
+                        var condicion=true;
+                        filterMovimientos.forEach(element => {
+                            if (element.idRollo==x.idRolloTela) {
+                                condicion= false;
+                            }
+                        });
+                        return condicion;
+                    });
+                }
+                difference.forEach(function (data) {
+                    $("#rollo").append("<option value='" + data.idRolloTela + "' data-cantidad='" + data.cantidad + "' data-lote='" + data.lote + "' data-idText='" + data.idText + "'>" + data.idText + "-" + data.cantidad + "-" + data.lote + "</option>");
                 })
                 $('#rollo').selectpicker('refresh');
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: "/getApartadoTelasByIdTela",
+            data:
+            {
+                idPedido: $('#referenciaMovimiento').val(),
+                idTela: idTela
+            },
+            success: function (data) {
+                var filterMovimientos = movimientos.filter(linea => linea.id + linea.tipo == idTela + 'tela');
+                var sumaMovimientos = filterMovimientos.reduce((acc, linea) => acc + parseFloat(linea.cantidad), 0);
+                console.log(sumaMovimientos);
+                $("#totalTela").text(data);
+                $("#telaSurtida").text(idText);
+                $("#telaTomada").text(sumaMovimientos);
+            },
+            error: function (e) {
+                console.log(e);
+                $("#totalTela").text(0.0);
+                $("#telaSurtida").text('');
+                $("#telaTomada").text(0.0);
             }
         });
     }

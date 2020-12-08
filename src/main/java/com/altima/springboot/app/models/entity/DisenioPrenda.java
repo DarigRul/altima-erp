@@ -102,8 +102,8 @@ public class DisenioPrenda implements Serializable {
 	@Column(name = "id_genero")
 	private String idGenero;
 
-	
-	
+	@Column(name = "mostrar")
+	private Boolean mostrar;
 	
 	public Long getIdPrenda() {
 		return idPrenda;
@@ -299,6 +299,14 @@ public class DisenioPrenda implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Boolean getMostrar() {
+		return mostrar;
+	}
+
+	public void setMostrar(Boolean mostrar) {
+		this.mostrar = mostrar;
 	}
 
 	

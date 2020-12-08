@@ -170,5 +170,22 @@ public class PrendasController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"")
 				.body(recurso);
 	}
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION"})
+	@GetMapping("regresar_prenda_produccion/{id}")
+	public String regresarPrenda(@PathVariable Long id,Model model) {
+		DisenioPrenda prenda = disenioPrendaService.findOne(id);
+		prenda.setMostrar(false);
+		disenioPrendaService.save(prenda);
+		return "redirect:/prendas";
+	}
+
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION"})
+	@GetMapping("recibir_prenda_produccion/{id}")
+	public String recibirPrenda(@PathVariable Long id,Model model) {
+		DisenioPrenda prenda = disenioPrendaService.findOne(id);
+		prenda.setMostrar(true);
+		disenioPrendaService.save(prenda);
+		return "redirect:/prendas";
+	}
 	
 }
