@@ -387,7 +387,7 @@ public class ApartadoTelas {
 	
 	//Estos métodos son para las prendas de los coordinados de un preapartado
 	@Transactional
-	@RequestMapping("/prendas-Coordinados-pre-apartado/{id}/{idPreapartado}")
+	@RequestMapping("/prendas-coordinado-pre-apartado/{id}/{idPreapartado}")
 	public String PrendasCoordinados (Model model, @PathVariable(value="id")Long idCoordinado,
 												   @PathVariable(value="idPreapartado")Long idPreapartado, Map<String, Object> m) {
 		
@@ -398,11 +398,11 @@ public class ApartadoTelas {
 			m.put("listPrendas", CoordinadoService.findAllPrenda());
 			model.addAttribute("listPrendasCoordinadoPreapartado", preapartadoService.findPrendasByCoordinados(idCoordinado));
 			
-			return "prendas-Coordinado-pre-apartado";
+			return "prendas-coordinado-pre-apartado";
 		}
 		catch(Exception e) {
 			
-			return "prendas-Coordinado-pre-apartado";
+			return "prendas-coordinado-pre-apartado";
 		}
 		
 		finally {
@@ -464,11 +464,11 @@ public class ApartadoTelas {
 			
 			preapartadoService.saveCoordinado(coorPreapartado);
 			
-			return "redirect:/prendas-Coordinados-pre-apartado/"+idCoordinado;
+			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado;
 		}
 		catch(Exception e) {
 			
-			return "redirect:/prendas-Coordinados-pre-apartado/"+idCoordinado;
+			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado;
 		}
 		
 		finally {
@@ -491,11 +491,11 @@ public class ApartadoTelas {
 			
 			preapartadoService.saveCoordinado(coorPreapartado);
 			
-			return "redirect:/prendas-Coordinados-pre-apartado/"+idCoordinado;
+			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado;
 		}
 		catch(Exception e) {
 			
-			return "redirect:/prendas-Coordinados-pre-apartado/"+idCoordinado;
+			return "redirect:/prendas-coordinado-pre-apartado/"+idCoordinado;
 		}
 		
 		finally {
