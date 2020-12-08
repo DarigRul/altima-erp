@@ -16,4 +16,6 @@ public interface IComercialSolicitudServicioAlClienteService {
 	List<Object[]> pedidosDeCliente(Long id);
 	
 	List<Object[]> devolverSelectMateriales(Long idSolicitud);
+
+	List<Object[]> direccionesSucursales(Long id);
 }

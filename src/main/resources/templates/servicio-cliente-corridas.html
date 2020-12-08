@@ -1,11 +1,11 @@
-<form class="row">
+<form  name="formCorridas" class="row">
     <div class="form-group col-md-6">
       <label for="generoCorridas">G&eacute;nero</label>
       <div class="spinner-border spinner-border-sm text-primary" role="status" id="CargandoGenerosCorridas" style="display: none;">
   		<span class="sr-only">Loading...</span>
 	  </div>
       <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="generoCorridas">
-        <option th:each="opc : ${selectCorridas}" th:value="${opc}" th:text="${opc}"></option>
+        <option th:each="opc : ${selectCorridas}" th:if="${opc != 'Indistinto'}" th:value="${opc}" th:text="${opc}"></option>
        </select>
     </div>
     <div class="form-group col-md-6">
@@ -48,7 +48,7 @@
                 <tr th:each="corrida : ${corridas}">
                     <td th:text="${corrida.genero}"></td>
                     <td th:text="${corrida.tipo}"></td>
-                    <td class="text-center">
+                    <td >
                         <button type="button" class="btn icon-btn btn-danger text-white" th:onclick="'BorrarFilaCorrida(this, \'' + ${corrida.idSolicitudServicioAlClienteCorrida} + '\');'"><span
                             class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
                     </td>

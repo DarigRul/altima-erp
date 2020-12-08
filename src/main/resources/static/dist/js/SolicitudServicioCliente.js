@@ -7,9 +7,11 @@ $(document).ready(function () {
  * Esta funcion cambia la direccion, el telefono y el dirigirse con, del formulario en base al cliente seleccionado
  */
 function CambiarDatosCliente(input){
-	$('#direccionCita').val('');
+	$("#direccion").val(null);
+	$("#telefonoCita").val(null);
+	$("#dirigirseCita").val(null);	
 	$('#cargandoDireccion').css('display', '');
-	  $.ajax({
+	  /*$.ajax({
 			type: "GET",
 			url: "/get_datos_de_cliente",
 			data: { id: input.value },
@@ -18,30 +20,60 @@ function CambiarDatosCliente(input){
 				$('#telefonoCita').val(data[1]);
 				$('#dirigirseCita').val(data[2]);
 				
-				  $.ajax({
-						type: "GET",
-						url: "/get_pedidos_de_cliente",
-						data: { id: input.value },
-						success: (data2) => {
-							$('#pedidoCita').empty();
-							for(var i = 0; i < data2.length; i++){
-								$('#pedidoCita').append("<option value='" + data2[i][0] + "'>" + data2[i][1] + "</option>");
-							}
-							$('#pedidoCita').selectpicker("refresh");
-							$('#cargandoDireccion').css('display', 'none');
-						},
-						error: (e) => {
-							console.log(e);
-						}
-					});
-				  
+  
 			},
 			error: (e) => {
 				console.log(e);
 			}
-		});
-}
+		});*/
 
+		
+
+	$.ajax({
+		type: "GET",
+		url: "/get_pedidos_de_cliente",
+		data: { id: input.value },
+		success: (data2) => {
+			$('#pedidoCita').empty();
+			for(var i = 0; i < data2.length; i++){
+					$('#pedidoCita').append("<option value='" + data2[i][0] + "'>" + data2[i][1] + "</option>");
+				}
+				$('#pedidoCita').selectpicker("refresh");
+				$('#cargandoDireccion').css('display', 'none');
+			},
+		error: (e) => {
+			console.log(e);
+		}
+	});
+
+	$.ajax({
+		type: "GET",
+		url: "/get_sucursal_direccion",
+		data: { id: input.value },
+		success: (data2) => {
+			$('#sucursalCita').empty();
+			for(var i = 0; i < data2.length; i++){
+					$('#sucursalCita').append('<option '+ 
+						'value="' + data2[i][0] + '" '+
+						'direccion="' +data2[i][4] + '" '+ 
+						'telefono="' + data2[i][2] + '" '+
+						'contacto="' + data2[i][3] + '"  >'+data2[i][1]+' </option>');
+				}
+				$('#sucursalCita').selectpicker("refresh");
+				$('#cargandoDireccion').css('display', 'none');
+			},
+		error: (e) => {
+			console.log(e);
+		}
+	});
+}
+$('#sucursalCita').on('change', function() {
+	//console.log($("#sucursalCita option:selected").attr("direccion"))
+	$("#direccion").val($("#sucursalCita option:selected").attr("direccion"));
+	$("#telefonoCita").val($("#sucursalCita option:selected").attr("telefono"));
+	$("#dirigirseCita").val($("#sucursalCita option:selected").attr("contacto"));	
+	
+})
 function CargarSelectsDeNuevo(){
 	
 	//Se muestran los spinners
@@ -60,7 +92,10 @@ function CargarSelectsDeNuevo(){
 			  //Pegamos los de Sastre
 			  $('#generoSastre').empty();
 			  for(var sastre = 0; sastre < data[0].length; sastre++){
-				  $('#generoSastre').append("<option value='" + data[0][sastre] + "'>" + data[0][sastre] + "</option>");
+				  if (data[0][sastre] != "Indistinto" ){
+					$('#generoSastre').append("<option value='" + data[0][sastre] + "'>" + data[0][sastre] + "</option>");
+				  }
+				 
 			  }
 			  $('#generoSastre').selectpicker("refresh");
 			  $('#CargandoGenerosSastres').css('display', 'none');
@@ -68,23 +103,31 @@ function CargarSelectsDeNuevo(){
 			  //Pegamos los de Auxiliares
 			  $('#generoAuxiliarVentas').empty();
 			  for(var auxiliar = 0; auxiliar < data[1].length; auxiliar++){
-				  $('#generoAuxiliarVentas').append("<option value='" + data[1][auxiliar] + "'>" + data[1][auxiliar] + "</option>");
+				if ( data[1][auxiliar] != "Indistinto" ){
+					$('#generoAuxiliarVentas').append("<option value='" + data[1][auxiliar] + "'>" + data[1][auxiliar] + "</option>");
+				}
+				 
 			  }
 			  $('#generoAuxiliarVentas').selectpicker("refresh");
 			  $('#CargandoGenerosAuxiliarVentas').css('display', 'none');
 			  
 			  //Pegamos los de Materiales
-			  $('#materialMaterial').empty();
+			  /*$('#materialMaterial').empty();
 			  for(var material = 0; material < data[2].length; material++){
 				  $('#materialMaterial').append("<option value='" + data[2][material][0] + "'>" + data[2][material][1] + "</option>");
 			  }
 			  $('#materialMaterial').selectpicker("refresh");
-			  $('#CargandoMaterialesMaterial').css('display', 'none');
+			  */
+			 $('#CargandoMaterialesMaterial').css('display', 'none');
 			  
 			  //Pegamos los de las Corridas
 			  $('#generoCorridas').empty();
-			  for(var corrida = 0; corrida < data[3].length; corrida++){
-				  $('#generoCorridas').append("<option value='" + data[3][corrida] + "'>" + data[3][corrida] + "</option>");
+			  for(var corrida = 0; corrida < data[2].length; corrida++){
+
+				if ( data[2][corrida] != "Indistinto" ){
+					$('#generoCorridas').append("<option value='" + data[2][corrida] + "'>" + data[2][corrida] + "</option>");
+				}
+				  
 			  }
 			  $('#generoCorridas').selectpicker("refresh");
 			  $('#CargandoGenerosCorridas').css('display', 'none');
@@ -99,42 +142,61 @@ function CargarSelectsDeNuevo(){
  * Esta funcion guarda la solicitud de servicio al cliente actual
  */
 function GuardarSolicitudServicioCliente(){
-
-	var Solicitud = {fechaCita: $('#fechaCita').val(), clienteID: $('#clienteCita').val(), fechaSalida: $('#fechaSalida').val(),
-			actividadCita: $('#actividadCita').val(), damasAtender: parseInt($('#damasAtender').val()), idPedido: $('#pedidoCita').val(),
-			caballerosAtender: parseInt($('#caballerosAtender').val()), comentarios: $('#comentariosCita').val()}
-	console.log(Solicitud);
-	$.ajax({
-		type: "POST",
-		url: "/save_solicitud_servicio_cliente",
-		data: { 
-			"_csrf": $('#token').val(),
-			"Solicitud": JSON.stringify(Solicitud)
-		},
-		success: (data) => {
-			console.log(data);
-			$('#idSolicitudServicioAlCliente').val(data.idSolicitudServicioAlCliente);
+	console.log("soy la funcion")
+	if ($('#fechaCita').val()== null || $('#clienteCita').val() == null || $('#pedidoCita').val() == null ||
+		$('#sucursalCita').val() == null || $('#dirigirseCita').val() == null || $('#fechaSalida').val() == null ||
+		$('#actividadCita').val() == null || $('#damasAtender').val()<=0 || $('#caballerosAtender').val() <=0  ){
 			Swal.fire({
-				icon: 'success',
-				title: 'Guardado!',
-				text: 'Se ha guardado el registro.'
+				icon: 'error',
+				title: 'Error!',
+				text: 'Complete todo los campos.'
 			  })
-		},
-		error: (e) => {
-			console.log(e);
+		return 0;
+	}
+	else{
+		var sucursal = 0;
+		if ($('#sucursalCita').val() !='MATRIZ' ){
+			sucursal = $('#sucursalCita').val();
 		}
-	});
+		var Solicitud = { fechaCita: $('#fechaCita').val(), clienteID: $('#clienteCita').val(), fechaSalida: $('#fechaSalida').val(),
+			actividadCita: $('#actividadCita').val(), damasAtender: parseInt($('#damasAtender').val()), idPedido: $('#pedidoCita').val(),
+			caballerosAtender: parseInt($('#caballerosAtender').val()), comentarios: $('#comentariosCita').val(), sucur:parseInt(sucursal), dirigirse:$('#dirigirseCita').val()}
+		$.ajax({
+			type: "POST",
+			url: "/save_solicitud_servicio_cliente",
+			data: { 
+				"_csrf": $('#token').val(),
+				"Solicitud": JSON.stringify(Solicitud),
+				'idSolicitud': $('#idSolicitudServicioAlCliente').val()
+			},
+			success: (data) => {
+				$('#idSolicitudServicioAlCliente').val(data.idSolicitudServicioAlCliente);
+				Swal.fire({
+					icon: 'success',
+					title: 'Guardado!',
+					text: 'Se ha guardado el registro.'
+				})
+			},
+			error: (e) => {
+				console.log(e);
+			}
+		});
+	}
+
 }
 
 function ValidarTabs(id){
+
+	
 	if(parseInt($('#idSolicitudServicioAlCliente').val()) > 0){
+		console.log(id);
 		$('#' + id + '-tab-boton').click();
 	}else{
 		console.log('no paso');
 		Swal.fire({
 			icon: 'error',
 			title: 'Error',
-			text: 'La cantidad debe de ser mayor a 0!'
+			text: 'Por favor complete el formulario!'
 		  })
 	}
 }
@@ -249,9 +311,16 @@ function BorrarFilaCorrida(input, id){
  **/
 function GuardarSastre(){
 	
-	var validacion = ValidarGuardarSastre();
-	if(validacion){
-		
+	if( document.formSastre.cantidadSastre.value <= 0 ||  document.formSastre.generoSastre.value == "" ){
+		document.formSastre.cantidadSastre.focus() ;
+		document.formSastre.generoSastre.focus() ;
+		Swal.fire({
+			icon: 'error',
+			title: 'Error!',
+			text: 'Complete todo los campos.'
+		  })
+	}
+	else{
 		//Se agrega a la BD
 		$.ajax({
 			type: "POST",
@@ -278,6 +347,7 @@ function GuardarSastre(){
 					title: 'Guardado!',
 					text: 'Se ha guardado el registro.'
 				  })
+				  $('#cantidadSastre').val("");
 			},
 			error: (e) => {
 				console.log(e);
@@ -286,16 +356,7 @@ function GuardarSastre(){
 	}
 }
 
-function ValidarGuardarSastre(){
-	
-	if($('#generoSastre').val() != null && $('#cantidadSastre').val() != null){
-		return true;
-	}
-	else{
-		return false;
-	}
-	
-}
+
 /**
  * 
  * 
@@ -304,9 +365,16 @@ function ValidarGuardarSastre(){
  *
  **/
 function GuardarAuxiliarVentas(){
-	
-	var validacion = ValidarGuardarAuxiliarVentas();
-	if(validacion){
+	if( document.formAuxiliar.generoAuxiliarVentas.value == "" ||  document.formAuxiliar.cantidadAuxiliarVentas.value <= 0 ){
+		document.formAuxiliar.generoAuxiliarVentas.focus() ;
+		document.formAuxiliar.cantidadAuxiliarVentas.focus() ;
+		Swal.fire({
+			icon: 'error',
+			title: 'Error!',
+			text: 'Complete todo los campos.'
+		  })
+	}
+	else{
 		
 		//Se agrega a la BD
 		$.ajax({
@@ -314,7 +382,7 @@ function GuardarAuxiliarVentas(){
 			url: "/save_servicio_cliente_auxiliar_ventas",
 			data: { 
 				"_csrf": $('#token').val(),
-				"idSolicitud": $('#idSolicitudServicioAlCliente').val(),
+				"idSolicitud":$('#idSolicitudServicioAlCliente').val(),
 				"genero": $('#generoAuxiliarVentas').val(),
 				"cantidad": $('#cantidadAuxiliarVentas').val()
 			},
@@ -335,6 +403,8 @@ function GuardarAuxiliarVentas(){
 					title: 'Guardado!',
 					text: 'Se ha guardado el registro.'
 				  })
+				  $('#generoAuxiliarVentas').val("");
+				  $('#cantidadAuxiliarVentas').val("");
 			},
 			error: (e) => {
 				console.log(e);
@@ -360,42 +430,80 @@ function ValidarGuardarAuxiliarVentas(){
  *
  **/
 function GuardarMaterial(){
-	var validacion = ValidarGuardarMaterial();
-	if(validacion){
+
+	if ( document.formMaterial.materialMaterial.value == "" ||  document.formMaterial.cantidadMaterial.value <= 0 || document.formMaterial.cantidadMaterial.value =="" ){
+		document.formAuxiliar.generoAuxiliarVentas.focus() ;
+		document.formAuxiliar.cantidadAuxiliarVentas.focus() ;
+		Swal.fire({
+			icon: 'error',
+			title: 'Error!',
+			text: 'Complete todo los campos.'
+		})
 		
-		//Se agrega a la BD
+	}
+		
+	else{
 		$.ajax({
-			type: "POST",
-			url: "/save_servicio_cliente_material",
+			type: "GET",
+			url: "/validarMaterial",
 			data: { 
-				"_csrf": $('#token').val(),
-				"idSolicitud": $('#idSolicitudServicioAlCliente').val(),
-				"material": $('#materialMaterial').val(),
-				"cantidad": $('#cantidadMaterial').val()
+				"id": $('#idSolicitudServicioAlCliente').val(),
+				"material": $('#materialMaterial').val()
 			},
 			success: (data) => {
-				console.log(data);
-				var fila = null;
-				fila = tablaMaterial.row.add([ data.idLookup, data.cantidad, "<td class='text-center'>" +
-			  		"<button type='button' class='btn icon-btn btn-danger text-white' onclick='BorrarFilaMaterial(this, " + data.idSolicitudServicioAlClienteMaterial  + ")' >" + 
-		  			"<span class='btn-glyphicon fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button></td>" ]).draw().node();
-				$( fila ).prop('id', "FILA_MATERIAL_" + data.idSolicitudServicioAlClienteMaterial);
-				fila = null;
-				
-				//Se cargan de new los selects
-				  CargarSelectsDeNuevo();
-				
-				Swal.fire({
-					icon: 'success',
-					title: 'Guardado!',
-					text: 'Se ha guardado el registro.'
-				  })
+				if ( data == 0){
+								
+					//Se agrega a la BD
+					$.ajax({
+						type: "POST",
+						url: "/save_servicio_cliente_material",
+						data: { 
+							"_csrf": $('#token').val(),
+							"idSolicitud": $('#idSolicitudServicioAlCliente').val(),
+							"material": $('#materialMaterial').val(),
+							"cantidad": $('#cantidadMaterial').val()
+						},
+						success: (data) => {
+							console.log(data);
+							var fila = null;
+							fila = tablaMaterial.row.add([ data.material, data.cantidad, "<td class='text-center'>" +
+								"<button type='button' class='btn icon-btn btn-danger text-white' onclick='BorrarFilaMaterial(this, " + data.idSolicitudServicioAlClienteMaterial  + ")' >" + 
+								"<span class='btn-glyphicon fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button></td>" ]).draw().node();
+							$( fila ).prop('id', "FILA_MATERIAL_" + data.idSolicitudServicioAlClienteMaterial);
+							fila = null;
+							
+							//Se cargan de new los selects
+							CargarSelectsDeNuevo();
+							
+							Swal.fire({
+								icon: 'success',
+								title: 'Guardado!',
+								text: 'Se ha guardado el registro.'
+							})
+
+							$('#materialMaterial').val("");
+							$('#cantidadMaterial').val("");
+						},
+						error: (e) => {
+							console.log(e);
+						}
+					});
+					
+				}else{
+					Swal.fire({
+						icon: 'error',
+						title: 'Error!',
+						text: 'Material ya ingresado, ¡por favor ingrese otro!.'
+					})
+				}
 			},
 			error: (e) => {
 				console.log(e);
 			}
 		});
-	}
+			
+	}	
+	
 }
 
 function ValidarGuardarMaterial(){
@@ -415,8 +523,18 @@ function ValidarGuardarMaterial(){
  *
  **/
 function GuardarCorridas(){
-	var validacion = ValidarGuardarCorridas();
-	if(validacion){
+	if ( document.formCorridas.generoCorridas.value == "" ||  document.formCorridas.tipoCorridas.value == "" ){
+		document.formCorridas.generoCorridas.focus() ;
+		document.formCorridas.tipoCorridas.focus() ;
+		Swal.fire({
+			icon: 'error',
+			title: 'Error!',
+			text: 'Complete todo los campos.'
+		})
+		
+	}
+
+	else{
 		
 		//Se agrega a la BD
 		$.ajax({
@@ -445,6 +563,9 @@ function GuardarCorridas(){
 					title: 'Guardado!',
 					text: 'Se ha guardado el registro.'
 				  })
+
+				  $('#tipoCorridas').val(null);
+				  $('#tipoCorridas').selectpicker('refresh');
 			},
 			error: (e) => {
 				console.log(e);
@@ -462,3 +583,4 @@ function ValidarGuardarCorridas(){
 		return false;
 	}
 }
+

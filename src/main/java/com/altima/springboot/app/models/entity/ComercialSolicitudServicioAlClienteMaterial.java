@@ -29,11 +29,10 @@ public class ComercialSolicitudServicioAlClienteMaterial implements Serializable
 	@Column(name="id_solicitud_servicio_al_cliente")
 	private Long idSolicitudServicioAlCliente;
 	
-	@Column(name="id_lookup")
-	private Long idLookup;
+	@Column(name="material")
+	private String material;
 	
-	@Column(name="id_text")
-	private String idText;
+
 	
 	@Column(name="cantidad")
 	private Long cantidad;
@@ -69,21 +68,6 @@ public class ComercialSolicitudServicioAlClienteMaterial implements Serializable
 		this.idSolicitudServicioAlCliente = idSolicitudServicioAlCliente;
 	}
 
-	public Long getIdLookup() {
-		return idLookup;
-	}
-
-	public void setIdLookup(Long idLookup) {
-		this.idLookup = idLookup;
-	}
-
-	public String getIdText() {
-		return idText;
-	}
-
-	public void setIdText(String idText) {
-		this.idText = idText;
-	}
 
 	public Long getCantidad() {
 		return cantidad;
@@ -135,6 +119,14 @@ public class ComercialSolicitudServicioAlClienteMaterial implements Serializable
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(String material) {
+		this.material = material;
 	}
 
 	

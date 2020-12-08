@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.altima.springboot.app.models.entity.ComercialCliente;
+import com.altima.springboot.app.models.entity.ComercialClienteSucursal;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.entity.ComercialSolicitudServicioAlCliente;
 import com.altima.springboot.app.models.entity.HrDireccion;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
+import com.altima.springboot.app.models.service.IComercialClienteSucursalService;
 import com.altima.springboot.app.models.service.IComercialSolicitudServicioAlClienteAuxiliarVentasService;
 import com.altima.springboot.app.models.service.IComercialSolicitudServicioAlClienteCorridaService;
 import com.altima.springboot.app.models.service.IComercialSolicitudServicioAlClienteMaterialService;
@@ -48,7 +50,9 @@ public class ServicioClienteController {
 	@Autowired
 	private IComercialSolicitudServicioAlClienteCorridaService solicitudServicioClienteCorridaService;
 	@Autowired
-    private IHrLookupService hrLookupService;
+	private IHrLookupService hrLookupService;
+	@Autowired
+    private IComercialClienteSucursalService SucursalService;
 	
 	
     @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_SERVICIOCLIENTE_LISTAR"})
@@ -79,16 +83,27 @@ public class ServicioClienteController {
     public String ServicioClienteEditarSol(@PathVariable(name = "id") Long idSolicitud, Model model) throws ParseException{
     	ComercialSolicitudServicioAlCliente solicitud =solicitudServicioClienteService.findOne(idSolicitud);
     	model.addAttribute("solicitud", solicitud);
-    	model.addAttribute("clientes", ClienteService.findAll(null));
-    	ComercialCliente cliente = ClienteService.findOne(solicitud.getIdCliente());
-    	model.addAttribute("ElCliente", cliente);
-    	HrDireccion direccion = direciconSercice.findOne(cliente.getIdDireccion());
-    	String direccionCompleta = direccion.getCalle() + ", #" + direccion.getNumeroExt() + ". Colonia: " + direccion.getColonia() + ". " + direccion.getMunicipio() + ", " + direccion.getEstado() + ". CP:" + direccion.getCodigoPostal();
+		model.addAttribute("clientes", ClienteService.findAll(null));
+		String direccionCompleta;
+		String telefono;
+		if ( solicitud.getIdSucrsal().equals("0") ){
+			ComercialCliente cliente = ClienteService.findOne(solicitud.getIdCliente());
+    		HrDireccion direccion = direciconSercice.findOne(cliente.getIdDireccion());
+    	 	direccionCompleta = direccion.getCalle() + ", #" + direccion.getNumeroExt() + ". Colonia: " + direccion.getColonia() + ". " + direccion.getMunicipio() + ", " + direccion.getEstado() + ". CP:" + direccion.getCodigoPostal();
+			 telefono=cliente.getTelefono();
+		}else{
+			ComercialClienteSucursal sucursal =  SucursalService.findOne(Long.parseLong(solicitud.getIdSucrsal()));
+			HrDireccion direccion = direciconSercice.findOne(sucursal.getIdDireccion());
+    	 	direccionCompleta = direccion.getCalle() + ", #" + direccion.getNumeroExt() + ". Colonia: " + direccion.getColonia() + ". " + direccion.getMunicipio() + ", " + direccion.getEstado() + ". CP:" + direccion.getCodigoPostal();
+			 telefono=sucursal.getTelefonoSucursal();
+
+		}
+    	
     	
     	//Selects
     	model.addAttribute("selectSastres", solicitudServicioClienteSastreService.devolverSelectSastre(idSolicitud));
     	model.addAttribute("selectAuxiliares", solicitudServicioClienteAuxiliarVentasService.devolverSelectAuxiliarVentas(idSolicitud));
-    	model.addAttribute("selectMateriales", solicitudServicioClienteService.devolverSelectMateriales(idSolicitud));
+    	//model.addAttribute("selectMateriales", solicitudServicioClienteService.devolverSelectMateriales(idSolicitud));
     	model.addAttribute("selectCorridas", solicitudServicioClienteCorridaService.devolverSelectCorridas(idSolicitud));
     	
     	//Objetos
@@ -96,8 +111,10 @@ public class ServicioClienteController {
     	model.addAttribute("auxiliares", solicitudServicioClienteAuxiliarVentasService.findBySolicitud(idSolicitud));
     	model.addAttribute("materiales", solicitudServicioClienteMaterialService.findBySolicitud(idSolicitud));
     	model.addAttribute("corridas", solicitudServicioClienteCorridaService.findBySolicitud(idSolicitud));
-    	model.addAttribute("DireccionDelCliente", direccionCompleta);
-    	model.addAttribute("pedidos", cargaPedidoService.findAll());
+		model.addAttribute("DireccionDelCliente", direccionCompleta);
+		model.addAttribute("TelefonoDelCliente", telefono);
+		model.addAttribute("pedidos", solicitudServicioClienteService.pedidosDeCliente(solicitud.getIdCliente()) );
+		model.addAttribute("sucursal", solicitudServicioClienteService.direccionesSucursales(solicitud.getIdCliente()));
     	model.addAttribute("accion", "editar");
         return"servicio-cliente-solicitud";
     }

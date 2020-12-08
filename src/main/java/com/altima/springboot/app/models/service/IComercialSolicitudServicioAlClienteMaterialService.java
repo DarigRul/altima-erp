@@ -11,4 +11,6 @@ public interface IComercialSolicitudServicioAlClienteMaterialService {
 	void delete(Long id);
 	
 	List<ComercialSolicitudServicioAlClienteMaterial> findBySolicitud(Long id);
+
+	Integer buscarMaterial(Long id , String material);
 }
