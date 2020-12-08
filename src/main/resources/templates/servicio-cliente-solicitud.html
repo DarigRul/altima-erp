@@ -39,7 +39,6 @@
 			</section>
 			<!-- Main content -->
 			<section class="content">
-				<input type="hidden"  id="idSolicitudServicioAlCliente"/>
 				<div class="container-fluid">
 					<div class="row">
                         <div class="col-12">
@@ -110,6 +109,15 @@
       $('#navComercial').addClass('active-altima');
       $('#navSer').addClass('active');
     </script>
+     <script th:if="${detalle != null}" th:inline="javascript">
+      $("#formGeneral :input").attr("disabled", true); 
+      $("#formSastre :input").attr("disabled", true); 
+      $("#formAuxiliar :input").attr("disabled", true); 
+      $("#formMaterial :input").attr("disabled", true); 
+      $("#formCorridas :input").attr("disabled", true); 
+   
+      
+  </script>
 </body>
 
 </html>

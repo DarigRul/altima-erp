@@ -97,7 +97,7 @@ public class ServicioClienteRestController {
 			ssc.setActualizadoPor(auth.getName());
 			ssc.setFechaCreacion(fechaConHora.format(now));
 			ssc.setUltimaFechaModificacion(fechaConHora.format(now));
-			ssc.setEstatus("1");
+			ssc.setEstatus("0");
 			solicitudServicioClienteService.save(ssc);
 			
 			ssc.setIdText("SOLSER" + (10000 + ssc.getIdSolicitudServicioAlCliente()));
@@ -250,6 +250,45 @@ public class ServicioClienteRestController {
 		listaMaestra.add(corridasSelect);
 		
 		return listaMaestra;
+	}
+
+	@RequestMapping(value = "/enviar_servicio_cliente", method = RequestMethod.POST)
+	public boolean enviar (@RequestParam(name = "id") Long id){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateTimeFormatter fechaConHora = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		ComercialSolicitudServicioAlCliente ssc = solicitudServicioClienteService.findOne(id);
+		ssc.setEstatus("1");
+		ssc.setActualizadoPor(auth.getName());
+		ssc.setUltimaFechaModificacion(fechaConHora.format(now));
+		solicitudServicioClienteService.save(ssc);
+		return true;
+	}
+
+	@RequestMapping(value = "/aceptar_servicio_cliente", method = RequestMethod.POST)
+	public boolean aceptar (@RequestParam(name = "id") Long id){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateTimeFormatter fechaConHora = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		ComercialSolicitudServicioAlCliente ssc = solicitudServicioClienteService.findOne(id);
+		ssc.setEstatus("2");
+		ssc.setActualizadoPor(auth.getName());
+		ssc.setUltimaFechaModificacion(fechaConHora.format(now));
+		solicitudServicioClienteService.save(ssc);
+		return true;
+	}
+
+	@RequestMapping(value = "/rechazar_servicio_cliente", method = RequestMethod.POST)
+	public boolean rechazar (@RequestParam(name = "id") Long id){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateTimeFormatter fechaConHora = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		ComercialSolicitudServicioAlCliente ssc = solicitudServicioClienteService.findOne(id);
+		ssc.setEstatus("3");
+		ssc.setActualizadoPor(auth.getName());
+		ssc.setUltimaFechaModificacion(fechaConHora.format(now));
+		solicitudServicioClienteService.save(ssc);
+		return true;
 	}
 	
 }

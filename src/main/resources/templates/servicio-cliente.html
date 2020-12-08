@@ -23,7 +23,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>Servicio al cliente&nbsp;
-                                <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_LLAMADAS '')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/servicio-cliente-solicitud'}" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nueva solicitud</a>
+                                <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/servicio-cliente-solicitud'}" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nueva solicitud</a>
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -70,18 +70,54 @@
                                                 <td th:text="${solicitud[5]}"></td>
                                                 <td th:text="${solicitud[6]}"></td>
                                                 <td th:text="${solicitud[7]}"></td>
-                                                <td th:text="${solicitud[8] == 1} ? 'Activa' : 'Cerrada'"></td>
+                                                <td th:switch="${solicitud[8]}" >
+                                                    <p th:case="0" >No enviada</p>
+                                                    <p th:case="1" >Enviada</p>
+                                                    <p th:case="2" >Aceptado</p>
+                                                    <p th:case="3" >Rechazado</p>
+                                                   
+                                                </td>
                                                 <td class="text-center">
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/servicio-cliente-editar-solicitud/'} + ${solicitud[0]}" class="btn btn-warning btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
-                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_ENVIAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-altima btn-sm btn-circle popoverxd" data-placement="top" data-content="Enviar solicitud"><i style="margin-left: -2px;" class="fas fa-paper-plane"></i></button>
-                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
-                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_ACEPTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>
-                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_ACEPTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" 
+                                                        th:disabled="${solicitud[8]}=='0'?false:true"
+                                                        th:onclick="|editar('${solicitud[0]}')|"
+                                                        class="btn btn-warning btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Editar">
+                                                        <i class="fas fa-pen"></i>
+                                                    </button>
+                                                    <button th:disabled="${solicitud[8]}=='0'?false:true" 
+                                                            th:onclick="|enviar('${solicitud[0]}')|"
+                                                            th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_ENVIAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" 
+                                                            class="btn btn-altima btn-sm btn-circle popoverxd" 
+                                                            data-placement="top" data-content="Enviar solicitud">
+                                                            <i style="margin-left: -2px;" class="fas fa-paper-plane"></i>
+                                                    </button>
+                                                    <botton th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" 
+                                                            th:onclick="|detalles('${solicitud[0]}')|"
+                                                            class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" 
+                                                            data-content="Detalles">
+                                                            <i class="fas fa-info"></i>
+                                                    </botton>
+                                                    <button th:disabled="${solicitud[8]}=='1'?false:true" th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_ACEPTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" 
+                                                            
+                                                            th:onclick="|aceptar('${solicitud[0]}')|"
+                                                            class="btn btn-success btn-sm btn-circle popoverxd" 
+                                                            data-placement="top" data-content="Aceptar">
+                                                            <i class="fas fa-check"></i>
+                                                
+                                                    </button>
+                                                    <button th:disabled="${solicitud[8]}=='1'?false:true" th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SERVICIOCLIENTE_ACEPTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" 
+                                                            th:onclick="|rechazar('${solicitud[0]}')|"
+                                                            class="btn btn-danger btn-sm btn-circle popoverxd"
+                                                             data-placement="top" data-content="Rechazar">
+                                                             <i class="fas fa-times"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <input type="hidden" name="_csrf" id="token"
+                                    th:value="${_csrf.token}" />
                                 </div>
                                 <!-- /.card-footer-->
                             </div>
@@ -97,6 +133,8 @@
     </div>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/servicioCliente.js"></script>
+    
     <script>
         $('#iComercial').removeClass('text-altima');
         $('#menuComercial').addClass('menu-open');

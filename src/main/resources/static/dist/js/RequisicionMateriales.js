@@ -293,7 +293,7 @@ function enviarEstatus(id) {
 function rechazar (id){
 	
 	Swal.fire({
-        title: '¿Deseas rechazar esta solicitud',
+        title: '¿Deseas rechazar esta solicitud?',
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
@@ -338,7 +338,7 @@ function rechazar (id){
 function aceptar (id){
 	
 	Swal.fire({
-        title: '¿Deseas aceptar esta solicitud',
+        title: '¿Deseas aceptar esta solicitud?',
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',

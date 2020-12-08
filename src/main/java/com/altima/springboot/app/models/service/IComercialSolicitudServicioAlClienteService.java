@@ -5,7 +5,7 @@ import com.altima.springboot.app.models.entity.ComercialSolicitudServicioAlClien
 
 public interface IComercialSolicitudServicioAlClienteService {
 	
-	List<Object[]> findAll();
+	List<Object[]> findAll(Long id);
 	
 	void save(ComercialSolicitudServicioAlCliente comercialSolicitudServicioAlCliente);
 	

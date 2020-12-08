@@ -142,10 +142,9 @@ function CargarSelectsDeNuevo(){
  * Esta funcion guarda la solicitud de servicio al cliente actual
  */
 function GuardarSolicitudServicioCliente(){
-	console.log("soy la funcion")
 	if ($('#fechaCita').val()== null || $('#clienteCita').val() == null || $('#pedidoCita').val() == null ||
-		$('#sucursalCita').val() == null || $('#dirigirseCita').val() == null || $('#fechaSalida').val() == null ||
-		$('#actividadCita').val() == null || $('#damasAtender').val()<=0 || $('#caballerosAtender').val() <=0  ){
+		$('#sucursalCita').val() == null || $('#dirigirseCita').val() == null || $('#fechaSalida').val() == "" ||
+		$('#actividadCita').val() == "" || $('#damasAtender').val()<0 || $('#caballerosAtender').val() <0  || $('#damasAtender').val() == "" || $('#caballerosAtender').val() == ""  ){
 			Swal.fire({
 				icon: 'error',
 				title: 'Error!',
@@ -186,10 +185,8 @@ function GuardarSolicitudServicioCliente(){
 }
 
 function ValidarTabs(id){
-
-	
 	if(parseInt($('#idSolicitudServicioAlCliente').val()) > 0){
-		console.log(id);
+		CargarSelectsDeNuevo();
 		$('#' + id + '-tab-boton').click();
 	}else{
 		console.log('no paso');

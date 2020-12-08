@@ -1,4 +1,4 @@
-<form class="row" th:object="${solicitud}">
+<form name="formGeneral" id="formGeneral" class="row" th:object="${solicitud}">
   <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
 	<div class="form-group col-md-3" th:if="${accion == 'crear'}">
       <label for="fechaCita">Fecha y hora cita</label>
