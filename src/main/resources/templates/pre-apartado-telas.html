@@ -91,7 +91,7 @@
                                                     <button th:if="${preapartado[6]==0}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'coordinados('+${preapartado[0]}+')'"
                                                         data-container="body" data-toggle="popover" data-placement="top" data-content="Coordinados"><i class="fas fa-question"></i></button>
                                                 	<button th:if="${preapartado[6]==1}" class="btn btn-primary btn-circle btn-sm popoverxd text-white" th:onclick="'detalleReportePreapartado('+${preapartado[0]}+')'"
-                                                		data-container="body" data-placement="top" data-content="Enviar"><i class="fas fa-paper-plane"></i></button>
+                                                		data-container="body" data-placement="top" data-content="Imprimir"><i class="fas fa-print"></i></button>
                                                 	<button th:if="${preapartado[6]==0}" class="btn btn-success btn-circle btn-sm text-white popoverxd" th:onclick="'autorizarPedidoPreapartado('+${preapartado[0]}+')'"
                                                 		data-container="body" data-placement="top" data-content="Autorizar"><i class="fas fa-check"></i></button>
                                                 	<button th:if="${preapartado[6]==0}" class="btn btn-danger btn-circle btn-sm popoverxd text-white" th:onclick="'rechazarPedidoPreapartado('+${preapartado[0]}+')'"
