@@ -11,7 +11,7 @@ public interface IComercialPreApartadoService {
 
 	void save (ComercialPreApartado comercialPreApartado);
 	
-	List<Object[]> findPreapartados ();
+	List<Object[]> findPreapartados (String nombreSUsuario);
 	
 	ComercialPreApartado findOne (Long id);
 	

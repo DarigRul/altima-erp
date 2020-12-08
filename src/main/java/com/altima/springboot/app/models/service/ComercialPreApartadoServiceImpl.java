@@ -34,8 +34,9 @@ public class ComercialPreApartadoServiceImpl implements IComercialPreApartadoSer
 
 	@Transactional
 	@Override
-	public List<Object[]> findPreapartados() {
+	public List<Object[]> findPreapartados(String NombreUsuario) {
 		// TODO Auto-generated method stub
+		if(NombreUsuario.equals("")) {
 		return em.createNativeQuery("SELECT preapartado.id_preapartado, \r\n" + 
 											"preapartado.id_text AS Folio, \r\n" + 
 											"CONCAT(cliente.nombre, \" \", IFNULL(cliente.apellido_paterno, \" \"), \" \", IFNULL(cliente.apellido_materno, \" \")) AS Nombre_cliente,\r\n" + 
@@ -50,6 +51,27 @@ public class ComercialPreApartadoServiceImpl implements IComercialPreApartadoSer
 									"\r\n" + 
 									"INNER JOIN alt_comercial_cliente cliente ON preapartado.id_cliente = cliente.id_cliente\r\n" + 
 									"INNER JOIN alt_hr_empleado empleado ON empleado.id_empleado = preapartado.id_empleado ORDER BY preapartado.id_preapartado DESC").getResultList();
+		}
+		else {
+			return em.createNativeQuery("SELECT preapartado.id_preapartado,  \r\n" + 
+					"											preapartado.id_text AS Folio,  \r\n" + 
+					"											CONCAT(cliente.nombre, \" \", IFNULL(cliente.apellido_paterno, \" \"), \" \", IFNULL(cliente.apellido_materno, \" \")) AS Nombre_cliente, \r\n" + 
+					"											preapartado.fecha_preapartado, \r\n" + 
+					"											preapartado.num_personas, \r\n" + 
+					"											CONCAT(empleado.nombre_persona,\" \",IFNULL(empleado.apellido_paterno, \" \"),\" \",IFNULL(empleado.apellido_materno, \" \")) AS Nombre_empleado, \r\n" + 
+					"											preapartado.estatus, \r\n" + 
+					"											preapartado.estatus_pedido, \r\n" + 
+					"											preapartado.referencia_pedido \r\n" + 
+					"											 \r\n" + 
+					"									FROM alt_comercial_preapartado AS preapartado \r\n" + 
+					"									 \r\n" + 
+					"									INNER JOIN alt_comercial_cliente cliente ON preapartado.id_cliente = cliente.id_cliente \r\n" + 
+					"									INNER JOIN alt_hr_empleado empleado ON empleado.id_empleado = preapartado.id_empleado \r\n" + 
+					"									INNER JOIN alt_hr_usuario usuario ON empleado.id_empleado = usuario.id_empleado\r\n" + 
+					"									\r\n" + 
+					"									WHERE usuario.nombre_usuario ='"+NombreUsuario+"'"+ 
+					"									ORDER BY preapartado.id_preapartado DESC").getResultList();
+		}
 	}
 
 	

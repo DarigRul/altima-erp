@@ -63,7 +63,7 @@
                                                 <td th:text="${coordinados.idText}"></td>
                                                 <td th:text="${coordinados.totalPrendas}"></td>
                                                  <td class="text-center">
-                                                	<a th:href="@{/Prendas-Coordinados-pre-apartado/}+${coordinados.idCoordinado}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
+                                                	<a th:href="@{/prendas-Coordinados-pre-apartado/}+${coordinados.idCoordinado}+'/'+${idPreapartado}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
                                                 	<a  id="delete" th:href="@{/eliminar-coordinado-preapartado/}+${coordinados.idCoordinado}+'/'+${idPreapartado}" class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
                                                          data-container="body" data-toggle="popover" data-placement="top"
                                                           data-content="Eliminar">  <i class="fas fa-caret-down"></i> </a>

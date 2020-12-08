@@ -29,8 +29,9 @@ function listarClientes(){
 function guardarPreapartado (){
 	var idCliente = $('#idCliente').val();
 	var numPersonas = $('#numPersonas').val();
+	var selectAgente = $('#selectAgente').val();
 	console.log(idCliente);
-	location.href = "confirmacion-pre-apartado/h58fhgkt673GSRF"+idCliente+"GH63GS63dd"+numPersonas+"gresdr2";
+	location.href = "confirmacion-pre-apartado/h58fhgkt673GSRF"+idCliente+"GH63"+selectAgente+"GS63dd"+numPersonas+"gresdr2";
 	
 }
 
