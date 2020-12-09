@@ -63,12 +63,12 @@ public class ServicioClienteController {
 	@Autowired
 	IUsuarioService usuarioService;
 	
-    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_SERVICIOCLIENTE_LISTAR"})
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_SERVICIOCLIENTE_LISTAR","ROLE_COMERCIAL_SERVICIOCLIENTE_ACEPTAR"})
     @GetMapping("/servicio-cliente")
     public String ServicioCliente(Model model){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String roles =auth.getAuthorities().toString();
-		if (roles.contains("ROLE_ADMINISTRADOR")) {
+		if (roles.contains("ROLE_ADMINISTRADOR") || roles.contains("ROLE_COMERCIAL_SERVICIOCLIENTE_ACEPTAR") ) {
 			model.addAttribute("solicitudes", solicitudServicioClienteService.findAll(0L));
 		} 
 		else{

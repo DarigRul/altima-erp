@@ -52,7 +52,7 @@
                                             <tr>
                                                 <th>Folio</th>
                                                 <th>Fecha de solicitud</th>
-                                                <th>Agente de ventas</th>
+                                                <th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_SERVICIOCLIENTE_ACEPTAR','')">Agente de ventas</th>
                                                 <th>Pedido</th>
                                                 <th>Cliente</th>
                                                 <th>Fecha y hora cita</th>
@@ -65,7 +65,7 @@
                                             <tr th:each="solicitud : ${solicitudes}">
                                                 <td th:text="${solicitud[1]}"></td>
                                                 <td th:text="${solicitud[2]}"></td>
-                                                <td th:text="${solicitud[3]}"></td>
+                                                <td sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_SERVICIOCLIENTE_ACEPTAR','')"  th:text="${solicitud[3]}"></td>
                                                 <td th:text="${solicitud[4]}"></td>
                                                 <td th:text="${solicitud[5]}"></td>
                                                 <td th:text="${solicitud[6]}"></td>
