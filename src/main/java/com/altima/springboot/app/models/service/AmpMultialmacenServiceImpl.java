@@ -89,15 +89,11 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String roles = auth.getAuthorities().toString();
 		Integer tipoAlmacen=null;
-		System.out.println(roles);
 		if (roles.contains("ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_MATERIAL")) {
-			System.out.println("0");
 			tipoAlmacen=0;
 		} else if (roles.contains("ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_MP")) {
-			System.out.println("1");
 			tipoAlmacen=1;
 		} else if (roles.contains("ROLE_ADMINISTRADOR")) {
-			System.out.println("2");
 			tipoAlmacen=2;
 		}
 		return em
