@@ -45,8 +45,8 @@ public class ComercialPreApartadoServiceImpl implements IComercialPreApartadoSer
 											"CONCAT(empleado.nombre_persona,\" \",IFNULL(empleado.apellido_paterno, \" \"),\" \",IFNULL(empleado.apellido_materno, \" \")) AS Nombre_empleado,\r\n" + 
 											"preapartado.estatus,\r\n" + 
 											"preapartado.estatus_pedido,\r\n" + 
-											"preapartado.referencia_pedido\r\n" + 
-											"\r\n" + 
+											"preapartado.referencia_pedido,\r\n" + 
+											"preapartado.fecha_vigencia\r\n" + 
 									"FROM alt_comercial_preapartado AS preapartado\r\n" + 
 									"\r\n" + 
 									"INNER JOIN alt_comercial_cliente cliente ON preapartado.id_cliente = cliente.id_cliente\r\n" + 
@@ -62,7 +62,7 @@ public class ComercialPreApartadoServiceImpl implements IComercialPreApartadoSer
 					"											preapartado.estatus, \r\n" + 
 					"											preapartado.estatus_pedido, \r\n" + 
 					"											preapartado.referencia_pedido \r\n" + 
-					"											 \r\n" + 
+					"											preapartado.fecha_vigencia \r\n" + 
 					"									FROM alt_comercial_preapartado AS preapartado \r\n" + 
 					"									 \r\n" + 
 					"									INNER JOIN alt_comercial_cliente cliente ON preapartado.id_cliente = cliente.id_cliente \r\n" + 

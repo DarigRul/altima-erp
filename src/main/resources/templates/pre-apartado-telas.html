@@ -58,11 +58,12 @@
                                             <tr>
                                                 <th style="width:5%">Folio</th>
                                                 <th style="width:5%">Fecha pre-apartado</th>
-                                                <th style="width:18%">Cliente</th>
+                                                <th style="width:16%">Cliente</th>
                                                 <th style="width:4%">Aprox. personas</th>
-                                                <th style="width:18%">Agente de ventas</th>
+                                                <th style="width:16%">Agente de ventas</th>
+                                                <th style="width:7%">Fecha vigencia</th>
                                                 <th style="width:6%">Estatus</th>
-                                                <th style="width:9%">Estatus pedido</th>
+                                                <th style="width:6%">Estatus pedido</th>
                                                 <th style="width:8%">Ref. pedido</th>
                                                 <th style="width:12%">Acciones</th>
                                             </tr>
@@ -74,6 +75,7 @@
                                                 <td th:text="${preapartado[2]}"></td>
                                                 <td th:text="${preapartado[4]}"></td>
                                                 <td th:text="${preapartado[5]}"></td>
+                                                <td th:text="${preapartado[9]==null || preapartado[9]==''}?'Sin fecha':${preapartado[9]}"></td>
                                                 
                                                 <td th:if="${preapartado[6]==0}">En espera</td>
                                                 <td th:if="${preapartado[6]==1}">Autorizado</td>
@@ -88,6 +90,8 @@
                                                 <td class="tdcenter">
                                                     <button th:if="${preapartado[6]!=0}" class="btn btn-info btn-circle btn-sm text-white popoverxd" th:onclick="'idPreapartadoB('+${preapartado[0]}+')'"
                                                         data-container="body" data-target="#modal-estatus-preapartado" data-toggle="modal" data-placement="top" data-content="Estatus del pedido"><i class="fas fa-info"></i></button>
+                                                    <button th:if="${preapartado[6]!=0}" class="btn btn-info btn-circle btn-sm text-white popoverxd" th:onclick="'idPreapartadoB('+${preapartado[0]}+')'"
+                                                        data-container="body" data-target="#modal-vigencia-preapartado" data-toggle="modal" data-placement="top" data-content="Vigencia del pedido"><i class="fas fa-calendar-alt"></i></button>
                                                     <button th:if="${preapartado[6]==0}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'coordinados('+${preapartado[0]}+')'"
                                                         data-container="body" data-toggle="popover" data-placement="top" data-content="Coordinados"><i class="fas fa-question"></i></button>
                                                 	<button th:if="${preapartado[6]==1}" class="btn btn-primary btn-circle btn-sm popoverxd text-white" th:onclick="'detalleReportePreapartado('+${preapartado[0]}+')'"

@@ -3,6 +3,30 @@
  */
 var arrayId = [];
 
+$('#selectAgente').on('change',function(){
+	var idAgente = $(this).val();
+	$('#idCliente').find('option').remove();
+	$('#idCliente').selectpicker('refresh');
+		$.ajax({
+			 method: "GET",
+			    url: "/listarEmpresasMovimiento",
+			    data: {
+			    	idAgente: idAgente
+			    },
+			    success: (data) => {
+					for (i in data){
+						$('#idCliente').append("<option value='"+data[i][0]+"'>"+ data[i][1] + "</option>");
+					}
+
+					$('#idCliente').selectpicker('refresh');
+			    },
+			    error: (e) => {
+			        // location.reload();
+
+			    }
+			});
+	})
+
 function listarClientes(){
 	if(listaClientes[0].idCliente!=undefined){
 		
@@ -40,6 +64,23 @@ function guardarEstatusPedidoPreapartado(){
 	var estatusPedido = $('#estatusPedido').val();
 	var refPedido = $('#refPedido').val();
 	location.href = "confirmacion-estatus-pre-apartado/h58fhg"+idPreapartado+"kt673GSRF"+estatusPedido+"GH63GS63dd"+refPedido+"gresdr2";
+	
+}
+
+function guardarVigenciaPedidoPreapartado(){
+	var idPreapartado = $('#idPreapartado').val();
+	var fechaVigencia = $('#fechaVigencia').val();
+	console.log(idPreapartado);
+	Swal.fire({
+	      position: 'center',
+      icon: 'success',
+      title: '¡Fecha de vigencia enviada correctamente!',
+      showConfirmButton: false,
+      timer: 2000,
+	      onClose: () => {
+	    	  location.href = "confirmacion-vigencia-pre-apartado/h58fhg"+idPreapartado+"kt673GSRF"+fechaVigencia+"GH63GS63ddgresdr2";
+	      }
+	})
 	
 }
 

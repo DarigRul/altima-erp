@@ -193,7 +193,7 @@ public class ApartadoTelas {
 	@GetMapping("confirmacion-pre-apartado/h58fhgkt673GSRF{idCliente}GH63{selectAgente}GS63dd{numPersonas}gresdr2")
 	public String guardarPreapartado(@PathVariable(value="idCliente")Long idCliente,
 									 @PathVariable(value="numPersonas")int numPersonas,
-									 @PathVariable(value="selectAgente", required=false)Long selectAgente) {
+									 @PathVariable(value="selectAgente", required=false)String selectAgente) {
 
 		try {
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -203,7 +203,7 @@ public class ApartadoTelas {
 			try {
 				
 				if(auth.getName().equalsIgnoreCase("ADMIN")) {
-					preApartado.setIdEmpleado(selectAgente);
+					preApartado.setIdEmpleado(Long.parseLong(selectAgente));
 				}
 				else {
 					Object[] empleado = usuarioService.findEmpleadoByUserName(auth.getName());
@@ -229,7 +229,7 @@ public class ApartadoTelas {
 			preApartado.setActualizadoPor(auth.getName());
 			
 			preapartadoService.save(preApartado);
-			preApartado.setIdText("PRE"+(100000+preApartado.getIdPreapatado()));
+			preApartado.setIdText("PRE"+(100000+preApartado.getIdPreapartado()));
 			preapartadoService.save(preApartado);
 			
 			return "redirect:/pre-apartado-telas";
@@ -250,6 +250,7 @@ public class ApartadoTelas {
 												  @PathVariable(value="estatusPedido")int estatusPedido,
 												  @PathVariable(value="refPedido")String refPedido) {
 		
+		//si estatusPedido es 0 es en espera, si es 1 es ganado, si es 2 es perdido
 		try {
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 			LocalDateTime now = LocalDateTime.now();
@@ -274,6 +275,39 @@ public class ApartadoTelas {
 			System.out.println("Fin de método cambioEstatusPedidoPreapartado");
 		}
 	}
+	
+	
+	@Transactional
+	@RequestMapping("confirmacion-vigencia-pre-apartado/h58fhg{idPreapartado}kt673GSRF{fechaVigencia}GH63GS63ddgresdr2")
+	public String cambioFechaVigenciaPreapartado (@PathVariable(value="idPreapartado")Long idPreapartado, 
+												  @PathVariable(value="fechaVigencia")String fechaVigencia) {
+		
+		//si estatusPedido es 0 es en espera, si es 1 es ganado, si es 2 es perdido
+		try {
+			System.out.println(idPreapartado);
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+			LocalDateTime now = LocalDateTime.now();
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			ComercialPreApartado preApartado = preapartadoService.findOne(idPreapartado);
+			System.out.println(fechaVigencia);
+			preApartado.setFechaVigencia(fechaVigencia);
+			preApartado.setUltimaFechaModificacion(dtf.format(now));
+			preApartado.setActualizadoPor(auth.getName());
+			
+			preapartadoService.save(preApartado);
+			
+			return "redirect:/pre-apartado-telas";
+		}
+		catch(Exception e) {
+			
+			return "redirect:/pre-apartado-telas";
+		}
+		
+		finally {
+			System.out.println("Fin de método cambioFechaVigenciaPedidoPreapartado");
+		}
+	}
+	
 	
 	@Transactional
 	@RequestMapping("confirmacion-estatus-pre-apartado/h58fhg{idPreapartado}kt673GSRFGH63GS63dd{estatusValue}gresdr2")

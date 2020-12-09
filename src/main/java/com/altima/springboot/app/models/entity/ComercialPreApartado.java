@@ -44,6 +44,9 @@ public class ComercialPreApartado implements Serializable {
 	@Column(name="fecha_preapartado")
 	private String fechaPreapartado;
 	
+	@Column(name="fecha_vigencia")
+	private String fechaVigencia;
+	
 	@Column(name="estatus")
 	private int estatus;
 	
@@ -62,12 +65,12 @@ public class ComercialPreApartado implements Serializable {
 	@Column(name="actualizado_por")
 	private String actualizadoPor;
 
-	public Long getIdPreapatado() {
+	public Long getIdPreapartado() {
 		return IdPreapartado;
 	}
 
-	public void setIdPreapatado(Long idPreapatado) {
-		IdPreapartado = idPreapatado;
+	public void setIdPreapartado(Long idPreapartado) {
+		IdPreapartado = idPreapartado;
 	}
 
 	public String getIdText() {
@@ -116,6 +119,14 @@ public class ComercialPreApartado implements Serializable {
 
 	public void setFechaPreapartado(String fechaPreapartado) {
 		this.fechaPreapartado = fechaPreapartado;
+	}
+
+	public String getFechaVigencia() {
+		return fechaVigencia;
+	}
+
+	public void setFechaVigencia(String fechaVigencia) {
+		this.fechaVigencia = fechaVigencia;
 	}
 
 	public int getEstatus() {
@@ -170,5 +181,4 @@ public class ComercialPreApartado implements Serializable {
 		return serialVersionUID;
 	}
 
-	
 }
