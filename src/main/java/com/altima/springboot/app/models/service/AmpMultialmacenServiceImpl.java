@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,13 +65,12 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 	@Transactional
 	public List<Object[]> findAllAMPLogicItem(Long articulo, String tipo) {
 
-		return em
-				.createNativeQuery("" + "SELECT\r\n" + "	am.id_multialmacen,\r\n"
-						+ "	al.nombre_almacen_logico,\r\n" + "	am.id_articulo,\r\n" + "	am.existencia,al.tipo,al.id_almacen_fisico,al.id_almacen_logico \r\n"
-						+ "FROM\r\n" + "	alt_amp_multialmacen am,\r\n" + "	alt_amp_almacen_logico al \r\n"
-						+ "WHERE\r\n" + "	am.id_almacen_logico = al.id_almacen_logico \r\n"
-						+ "	AND am.id_articulo = " + articulo + " \r\n" + "	AND am.tipo = '" + tipo + "'")
-				.getResultList();
+		return em.createNativeQuery("" + "SELECT\r\n" + "	am.id_multialmacen,\r\n"
+				+ "	al.nombre_almacen_logico,\r\n" + "	am.id_articulo,\r\n"
+				+ "	am.existencia,al.tipo,al.id_almacen_fisico,al.id_almacen_logico \r\n" + "FROM\r\n"
+				+ "	alt_amp_multialmacen am,\r\n" + "	alt_amp_almacen_logico al \r\n" + "WHERE\r\n"
+				+ "	am.id_almacen_logico = al.id_almacen_logico \r\n" + "	AND am.id_articulo = " + articulo + " \r\n"
+				+ "	AND am.tipo = '" + tipo + "'").getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -85,9 +86,25 @@ public class AmpMultialmacenServiceImpl implements IAmpMultialmacenService {
 	@Override
 	@Transactional
 	public List<ArticulosMultialmacenDto> findArticulosByMultialmacen(Long idAlmacenLogico) {
-		// TODO Auto-generated method stub
-		return em.createNativeQuery("call alt_pr_articulos_multialmacen(" + idAlmacenLogico + ")",
-				ArticulosMultialmacenDto.class).getResultList();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String roles = auth.getAuthorities().toString();
+		Integer tipoAlmacen=null;
+		System.out.println(roles);
+		if (roles.contains("ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_MATERIAL")) {
+			System.out.println("0");
+			tipoAlmacen=0;
+		} else if (roles.contains("ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_MP")) {
+			System.out.println("1");
+			tipoAlmacen=1;
+		} else if (roles.contains("ROLE_ADMINISTRADOR")) {
+			System.out.println("2");
+			tipoAlmacen=2;
+		}
+		return em
+				.createNativeQuery("call alt_pr_articulos_multialmacen(:idAlmacenLogico,:tipoAlamcen)",
+						ArticulosMultialmacenDto.class)
+				.setParameter("idAlmacenLogico", idAlmacenLogico).setParameter("tipoAlamcen", tipoAlmacen).getResultList();
+
 	}
 
 	@SuppressWarnings("unchecked")

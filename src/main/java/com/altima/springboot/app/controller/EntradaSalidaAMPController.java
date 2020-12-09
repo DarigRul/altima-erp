@@ -30,7 +30,7 @@ public class EntradaSalidaAMPController {
 	@Autowired
 	IAmpMultialmacenService multialmacenService;
 
-	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_CATALOGOPRENDAS_LISTAR"})
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_LISTAR"})
 	@GetMapping("/movimientos-amp")
 	public String Index(Model m) {
 		m.addAttribute("movimientos", multialmacenService.findAllMovimientos());
