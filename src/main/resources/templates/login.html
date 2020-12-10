@@ -8,16 +8,17 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/dist/img/favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="/dist/css/login/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/dist/css/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
 	<link rel="stylesheet" type="text/css" href="/dist/css/login/vendor/animate/animate.css">
 	<link rel="stylesheet" type="text/css" href="/dist/css/login/vendor/css-hamburgers/hamburgers.min.css">
 	<link rel="stylesheet" type="text/css" href="/dist/css/login/vendor/select2/select2.min.css">
 	<link rel="stylesheet" type="text/css" href="/dist/css/login/css/util.css">
 	<link rel="stylesheet" type="text/css" href="/dist/css/login/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/dist/css/login/css/main-cat.css">
 </head>
 
 <body>
-	<div id="particles-js" class="changeColor blackBackground"></div>
+	<div id="particles-js" class="particlesCircles changeColor blackBackground"></div>
 	<div class="limiter">
 		<div class="container-login100" style="background: none;">
 			<div class="wrap-login100">
@@ -59,11 +60,12 @@
 			<input type="checkbox" name="adminToggle" class="adminToggle" />
 			<a class="adminButton" href="#!"><i class="fa fa-cog"></i></a>
 			<div class="adminButtons">
-				<a id="blueBackgroundChange" title="Azul"><i class="fa fa-paint-brush"></i></a>
-				<a id="redBackgroundChange" title="Rojo"><i class="fa fa-paint-brush"></i></a>
-				<a id="greenBackgroundChange" title="Verde"><i class="fa fa-paint-brush"></i></a>
-				<a id="yellowBackgroundChange" title="Amarillo"><i class="fa fa-paint-brush"></i></a>
-				<a id="blackBackgroundChange" title=" Negro"><i class="fa fa-paint-brush"></i></a>
+				<a id="blueBackgroundChange" class="text-white" title="Azul"><i class="fa fa-paint-brush"></i></a>
+				<a id="redBackgroundChange" class="text-white" title="Rojo"><i class="fa fa-paint-brush"></i></a>
+				<a id="greenBackgroundChange" class="text-white" title="Verde"><i class="fa fa-paint-brush"></i></a>
+				<a id="yellowBackgroundChange" class="text-dark" title="Amarillo"><i class="fa fa-paint-brush"></i></a>
+				<a id="blackBackgroundChange" class="text-white" title=" Negro"><i class="fa fa-paint-brush"></i></a>
+				<a id="catBackgroundChange" class="text-white" title=" Nylan Cat"><i class="fa fa-cat"></i></a>
 			</div>
 		</div>
 	</div>
@@ -81,8 +83,11 @@
 		})
 	</script>
 	<script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-	<script src="/dist/js/login-particles.js"></script>
+	<script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
 	<script src="/dist/js/sweetalert.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+	<script src="/dist/js/login-color.js"></script>
+	<script src="/dist/css/login/js/main.js"></script>
 	<script th:inline="javascript">
 	/*<![CDATA[*/
 	var errorlogin =[[${param.error} != null ? true:false]]
@@ -107,68 +112,6 @@
 		}
 	/*]]>*/
 	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-	<script>
-		$(document).ready(function () {
-			$("#blackBackgroundChange").click(function () {
-				var cookies = $.cookie();
-				for (var cookie in cookies) {
-					$.removeCookie(cookie);
-				}
-				location.reload();
-			});
-
-			$("#blueBackgroundChange").click(function () {
-				var cookies = $.cookie();
-				for (var cookie in cookies) {
-					$.removeCookie(cookie);
-				}
-				$.cookie("blueColor", "blueBackground", { expires: 10000 });
-				location.reload();
-			});
-
-			$("#redBackgroundChange").click(function () {
-				var cookies = $.cookie();
-				for (var cookie in cookies) {
-					$.removeCookie(cookie);
-				}
-				$.cookie("redColor", "redBackground", { expires: 10000 });
-				location.reload();
-			});
-
-			$("#greenBackgroundChange").click(function () {
-				var cookies = $.cookie();
-				for (var cookie in cookies) {
-					$.removeCookie(cookie);
-				}
-				$.cookie("greenColor", "greenBackground", { expires: 10000 });
-				location.reload();
-			});
-
-			$("#yellowBackgroundChange").click(function () {
-				var cookies = $.cookie();
-				for (var cookie in cookies) {
-					$.removeCookie(cookie);
-				}
-				$.cookie("yellowColor", "yellowBackground", { expires: 10000 });
-				location.reload();
-			});
-
-			if ($.cookie("blueColor")) {
-			$(".changeColor").removeClass("blackBackground").addClass($.cookie("blueColor"));
-			}
-			if ($.cookie("redColor")) {
-			$(".changeColor").removeClass("blackBackground").addClass($.cookie("redColor"));
-			}
-			if ($.cookie("greenColor")) {
-			$(".changeColor").removeClass("blackBackground").addClass($.cookie("greenColor"));
-			}
-			if ($.cookie("yellowColor")) {
-			$(".changeColor").removeClass("blackBackground").addClass($.cookie("yellowColor"));
-			}
-		});
-	</script>
-	<script src="/dist/css/login/js/main.js"></script>
 </body>
 
 </html>
