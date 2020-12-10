@@ -95,7 +95,7 @@ public class RolServiceImpl implements IRolService {
 									"				INNER JOIN alt_hr_rol roles ON roluser.id_rol = roles.id_rol\r\n" + 
 									"				WHERE roluser.id_usuario ="+id+") AS secciones\r\n" + 
 									"	WHERE rol.departamento_rol = secciones.departamento_rol\r\n" + 
-									"	AND rol.seccion_rol = secciones.seccion_rol").getResultList();
+									"	AND rol.seccion_rol = secciones.seccion_rol ORDER BY rol.seccion_rol").getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
