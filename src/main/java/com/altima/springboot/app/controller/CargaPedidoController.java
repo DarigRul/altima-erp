@@ -453,5 +453,50 @@ public class CargaPedidoController {
 		return cargaPedidoService.findByEstatus(estatus);
 	}
 
+	@RequestMapping(value = "/traerPedido", method = RequestMethod.GET)
+	@ResponseBody
+	public ComercialPedidoInformacion traerPedido(@RequestParam(value="idPedido") Long idPedido) {
+		
+		try {
+			return cargaPedidoService.findOne(idPedido);
+		}
+		catch (Exception e) {
+			return null;
+		}
+		
+		finally{
+			
+		}
+	}
+	
+	@RequestMapping(value = "/guardarExtras", method = RequestMethod.GET)
+	@ResponseBody
+	public int guardarExtra(@RequestParam(value="extraVal") String extraVal,
+							@RequestParam(value="idPedido") Long idPedido) {
+		
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Date date = new Date();
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			ComercialPedidoInformacion pedido = cargaPedidoService.findOne(idPedido);
+			
+			pedido.setExtras(extraVal);
+			pedido.setActualizadoPor(auth.getName());
+			pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
+			cargaPedidoService.save(pedido);
+			
+			return 1;
+		}
+		catch (Exception e) {
+			return 0;
+		}
+		
+		finally{
+			
+		}
+		
+		
+		
+	}
 
 }

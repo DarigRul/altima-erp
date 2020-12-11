@@ -131,7 +131,8 @@
 
                                                         <a th:onclick="|cerrar('${pedidos[0]}')|" class="btn btn-danger text-white popoverxd" data-container="body" data-placement="top" data-content="Cerrar expediente"><i
                                                 class="fas fa-file-download"></i></a>
-
+														<a th:onclick="'anadirExtras('+${pedidos[0]}+')'" class="btn btn-secondary text-white popoverxd" data-container="body" data-placement="top" data-content="Extras"><i
+                                                class="fas fa-ellipsis-v"></i></a>
                                                         <a th:if="${pedidos[11]==0}" class="btn btn-warning popoverxd" data-container="body" th:href="@{/patchPedidoValidacionFalda/true/}+ ${pedidos[0]}" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_AGENTES_CARGA_VALIDACION_FALDA')" data-placement="top"
                                                             data-content="Desbloquear Validacion"><i
                                                 class="fas fa-cogs"></i></a>
@@ -218,6 +219,7 @@
 
                                                         <a th:onclick="|cerrarStock('${pedidos[0]}')|" class="btn btn-danger text-white popoverxd" data-container="body" data-placement="top" data-content="Cerrar expediente"><i
                                                 class="fas fa-file-download"></i></a>
+                                                
                                                     </div>
 
 

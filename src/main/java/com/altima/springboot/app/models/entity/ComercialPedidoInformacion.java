@@ -113,6 +113,9 @@ public class ComercialPedidoInformacion implements Serializable{
 	@Column(name="fecha_apartado_telas")
 	private String fechaApartadoTelas;
 	
+	@Column(name="extras")
+	private String extras;
+	
 
 	public String getFechaCierre() {
 		return fechaCierre;
@@ -325,10 +328,13 @@ public class ComercialPedidoInformacion implements Serializable{
 	public void setFechaApartadoTelas(String fechaApartadoTelas) {
 		this.fechaApartadoTelas = fechaApartadoTelas;
 	}
-	
-	
-	
-	
-	
+
+	public String getExtras() {
+		return extras;
+	}
+
+	public void setExtras(String extras) {
+		this.extras = extras;
+	}
 	
 }

@@ -379,7 +379,7 @@
                 		Swal.fire({
 	                       	  position: 'center',
 	                             icon: 'error',
-	                             title: 'No se puedo cerrar el pedido',
+	                             title: 'No se puede cerrar el pedido',
 	                             showConfirmButton: false,
 	                             timer: 2250
 	                             
@@ -394,3 +394,132 @@
             })
       		
 		}
+      	
+      	
+      	
+function anadirExtras(idPedido){
+
+	$('#idPed').val(idPedido);
+	$('#Otro').hide();
+	$('#Otro').val("");
+	$('#cubrePolvo').prop("checked", false);
+	$('#portaTraje').prop("checked", false);
+	$('#otroExtra').prop("checked", false);
+	
+	$.ajax({
+        type: "GET",
+        url: "/traerPedido",
+        data: { 
+     	   idPedido: idPedido
+        },
+        success: function(data) {
+     	   if(data==null){
+     		  Swal.fire({
+	         	  position: 'center',
+	               icon: 'error',
+	               title: 'Algo salió mal, intente más tarde',
+	               showConfirmButton: false,
+	               timer: 2250
+	         });
+     	   }
+     	   
+     	   else{
+     		   if(data.extras=="Cubre polvo"){
+     			  $('#cubrePolvo').prop("checked", true);
+     		   }
+     		   if(data.extras == "Porta traje"){
+     			  $('#portaTraje').prop("checked", true);
+     		   }
+     		   if(data.extras != "Cubre polvo" && data.extras != "Porta traje" && data.extras != null && data.extras != ""){
+     			  $('#otroExtra').prop("checked", true);
+     			 $('#Otro').val(data.extras);
+     			$('#Otro').show();
+     		   }
+     	   }
+     	  $('#extrasCargaPedido').modal("toggle");
+         }
+    })
+}
+
+//ocultar o mostrar el cuadro de texto del modal de extras//
+$('#otroExtra').on("change", function(){		//
+	var checked = this.checked;				  	//
+    if (checked) {								//
+        $('#Otro').show();						//
+    }											//
+})												//
+												//
+$('#portaTraje').on("change", function(){		//
+	var checked = this.checked;				  	//
+    if (checked) {								//
+    	$('#Otro').hide();						//
+    	$('#Otro').val("");						//
+    }											//
+})												//
+												//
+$('#cubrePolvo').on("change", function(){		//
+	var checked = this.checked;				  	//
+    if (checked) {								//
+    	$('#Otro').hide();						//
+    	$('#Otro').val("");						//
+    }											//
+})												//
+//===============================================//
+
+function guardarExtra(){
+
+	if($('input:radio[name=radioExtra]:checked').val() == "Cubre polvo" || 
+			$('input:radio[name=radioExtra]:checked').val() == "Porta traje" ||
+			($('#Otro').val() != "" && $('input:radio[name=radioExtra]:checked').val()== "Otro")){
+		
+		var extraVal = $('input:radio[name=radioExtra]:checked').val();
+		var idPedido = $('#idPed').val();
+		console.log(idPedido);
+		if(extraVal=="Otro"){
+			extraVal = $('#Otro').val();
+		}
+		
+		 $.ajax({
+               type: "GET",
+               url: "/guardarExtras",
+               data: { 
+            	   extraVal: extraVal,
+            	   idPedido: idPedido
+               },
+               success: function(data) {
+            	   if(data==1){
+	            	   Swal.fire({
+	                  	  position: 'center',
+	                        icon: 'success',
+	                        title: 'Se ha guardado correctamente',
+	                        showConfirmButton: false,
+	                        timer: 2250,
+	                        onClose: () => {
+					        	location.reload();
+						  }
+	                  });
+            	   }
+            	   else{
+            		   Swal.fire({
+            	         	  position: 'center',
+            	               icon: 'error',
+            	               title: 'Algo salió mal, intente más tarde',
+            	               showConfirmButton: false,
+            	               timer: 2250
+            	         });
+            	   }
+                }
+           })
+		
+	}
+	
+	else{
+		Swal.fire({
+         	  position: 'center',
+               icon: 'error',
+               title: 'No se puede insertar campos vacíos',
+               showConfirmButton: false,
+               timer: 2250
+         });
+	}
+}
