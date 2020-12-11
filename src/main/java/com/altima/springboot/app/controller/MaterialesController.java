@@ -35,10 +35,11 @@ import com.cloudinary.utils.ObjectUtils;
 import com.altima.springboot.app.models.entity.DisenioForro;
 import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.DisenioMaterial;
-//import com.altima.springboot.app.models.entity.DisenioProceso;
+//import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.DisenioTela;
 import com.altima.springboot.app.models.service.IAmpInventarioProovedorService;
 import com.altima.springboot.app.models.service.IDisenioForroService;
+import com.altima.springboot.app.models.service.IDisenioLookupService;
 import com.altima.springboot.app.models.service.IDisenioMaterialService;
 //import com.altima.springboot.app.models.service.IDisenioProcesoService;
 import com.altima.springboot.app.models.service.IDisenioTelaService;
@@ -52,6 +53,9 @@ public class MaterialesController {
 	@Autowired
 	private IDisenioMaterialService disenioMaterialService;
 
+	@Autowired
+	private IDisenioLookupService disenioLookupService;
+	
 	@Autowired
 	private IDisenioForroService forroService;
 	@Autowired
@@ -224,7 +228,8 @@ public class MaterialesController {
 		String compara = material.getNombreMaterial();
 		System.out.println("aqui esta la palabra que se va a comparar" + compara);
 		String flag = disenioMaterialService.Exist2(compara);
-
+		DisenioLookup lookup = disenioLookupService.findOne(material.getIdTipoMaterial());
+		System.out.println(lookup.getIdLookup());
 		Long compara2 = material.getIdMaterial();
 
 		String flag2 = disenioMaterialService.Exist3(compara2);
@@ -308,14 +313,15 @@ public class MaterialesController {
 
 				System.out.println(auth.getName() + "entro al if ");
 
-				System.out.println("vamos que pedo" + material.getIdTipoMaterial());
-				String unique = disenioMaterialService.findunique(material.getIdTipoMaterial());
-				System.out.println("aqui esta el result de la query pref " + unique);
-				String prefijo = unique.substring(1, 4);
-				System.out.println("aqui esta el prefijo" + prefijo);
+				//System.out.println("vamos que pedo" + material.getDescripcionLookup());
+				//String prefijo = disenioMaterialService.findunique(lookup.getDescripcionLookup());
+				//String prefijo = lookup.getDescripcionLookup();
+				//System.out.println("aqui esta el result de la query pref " + unique);
+				//String prefijo = unique.substring(1, 4);
+				//System.out.println("aqui esta el prefijo" + prefijo);
 				int contador = disenioMaterialService.count(material.getIdTipoMaterial());
 				System.out.println("aqui esta el contador de la query" + contador);
-				material.setIdTextProspecto("PROSP" + prefijo.toUpperCase() + fmt.format("%05d", (contador + 1)));
+				material.setIdTextProspecto("PROSP" + lookup.getDescripcionLookup().toUpperCase() + fmt.format("%05d", (contador + 1)));
 				material.setIdText("00");
 				material.setEstatus("1");
 				fmt.close();
@@ -435,10 +441,12 @@ public class MaterialesController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Formatter fmt = new Formatter();
 		DisenioMaterial material = disenioMaterialService.findOne(idMaterial);
-		String unique = disenioMaterialService.findunique(material.getIdTipoMaterial());
-		String prefijo = unique.substring(1, 4);
+		//DisenioLookup lookup = disenioLookupService.findOne(descripcionLookup);
+		DisenioLookup lookup = disenioLookupService.findOne(material.getIdTipoMaterial());
+		//String prefijo= disenioMaterialService.findunique(lookup.getDescripcionLookup());
+		//String prefijo = unique.substring(1, 4);
 		int contador2 = disenioMaterialService.count2(material.getIdTipoMaterial());
-		material.setIdText(prefijo.toUpperCase() + fmt.format("%05d", (contador2 + 1)));
+		material.setIdText(lookup.getDescripcionLookup().toUpperCase() + fmt.format("%05d", (contador2 + 1)));
 		material.setEstatusMaterial("1");
 		material.setUltimaFechaModificacion(currentDate());
 		material.setActualizadoPor(auth.getName());

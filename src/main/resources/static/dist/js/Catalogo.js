@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
 
     listarColores();
     listarTrazos();
@@ -54,30 +54,30 @@ function listarcuidadosjson2(idcomposicion) {
         },
         success: (data3) => {
 
-            $('#selectcuidados2').append("<div >" +
-                "<table  class='table'>" +
-                "<thead>" +
-                "<tr>" +
-                "<th scope='col'>Código cuidado</th>" +
-                "<th scope='col'>Nombre</th>" +
-                "<th scope='col'></th>" +
-                "</tr>" +
-                "</thead>" +
-                "<tbody id='selectcuidado2'>" +
-                "</tbody>" +
-                "</table>" +
-                "</div>");
-            for (i in data3) {
-                $('#selectcuidado2').append(
+                $('#selectcuidados2').append("<div >" +
+                    "<table  class='table'>" +
+                    "<thead>" +
                     "<tr>" +
-                    "<td>" + data3[i][1] + "</td>" +
-                    "<td>" + data3[i][2] + "</td>" +
-                    "<td><button class='btn btn-danger btn-circle btn-sm'><i class='fas fa-minus' onclick=bajarcomposicioncuidado(" + data3[i][5] + ")></i></button></td>" +
-                    "</tr>"
-                );
-            }
+                    "<th scope='col'>Código cuidado</th>" +
+                    "<th scope='col'>Nombre</th>" +
+                    "<th scope='col'></th>" +
+                    "</tr>" +
+                    "</thead>" +
+                    "<tbody id='selectcuidado2'>" +
+                    "</tbody>" +
+                    "</table>" +
+                    "</div>");
+                for (i in data3) {
+                    $('#selectcuidado2').append(
+                        "<tr>" +
+                        "<td>" + data3[i][1] + "</td>" +
+                        "<td>" + data3[i][2] + "</td>" +
+                        "<td><button class='btn btn-danger btn-circle btn-sm'><i class='fas fa-minus' onclick=bajarcomposicioncuidado(" + data3[i][5] + ")></i></button></td>" +
+                        "</tr>"
+                    );
+                }
 
-        } // /////////////
+            } // /////////////
 
     });
 
@@ -189,20 +189,20 @@ function listarColores() {
                         "pageLength": 5,
                         "responsive": true,
                         "stateSave": true,
-                        "drawCallback": function () {
+                        "drawCallback": function() {
                             $('.popoverxd').popover({
                                 container: 'body',
                                 trigger: 'hover'
                             });
                         },
                         "columnDefs": [{
-                            "type": "html",
-                            "targets": '_all'
-                        },
-                        {
-                            targets: 3,
-                            className: 'dt-body-center'
-                        }
+                                "type": "html",
+                                "targets": '_all'
+                            },
+                            {
+                                targets: 3,
+                                className: 'dt-body-center'
+                            }
                         ],
                         "lengthMenu": [
                             [5, 10, 25, 50, 100],
@@ -314,20 +314,20 @@ function listarTrazos() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function () {
+                "drawCallback": function() {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                    "type": "html",
-                    "targets": '_all'
-                },
-                {
-                    targets: 2,
-                    className: 'dt-body-center'
-                }
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 2,
+                        className: 'dt-body-center'
+                    }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -439,20 +439,20 @@ function listarPrendas() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function () {
+                "drawCallback": function() {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                    "type": "html",
-                    "targets": '_all'
-                },
-                {
-                    targets: 3,
-                    className: 'dt-body-center'
-                }
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 3,
+                        className: 'dt-body-center'
+                    }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -561,20 +561,20 @@ function listarGeneros() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function () {
+                "drawCallback": function() {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                    "type": "html",
-                    "targets": '_all'
-                },
-                {
-                    targets: 2,
-                    className: 'dt-body-center'
-                }
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 2,
+                        className: 'dt-body-center'
+                    }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -683,20 +683,20 @@ function listarComposiciones() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function () {
+                "drawCallback": function() {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                    "type": "html",
-                    "targets": '_all'
-                },
-                {
-                    targets: 2,
-                    className: 'dt-body-center'
-                }
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 2,
+                        className: 'dt-body-center'
+                    }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -808,20 +808,20 @@ function listarCuidados() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function () {
+                "drawCallback": function() {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                    "type": "html",
-                    "targets": '_all'
-                },
-                {
-                    targets: 3,
-                    className: 'dt-body-center'
-                }
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 3,
+                        className: 'dt-body-center'
+                    }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -933,20 +933,20 @@ function listarMedidas() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function () {
+                "drawCallback": function() {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                    "type": "html",
-                    "targets": '_all'
-                },
-                {
-                    targets: 3,
-                    className: 'dt-body-center'
-                }
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 3,
+                        className: 'dt-body-center'
+                    }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -1004,6 +1004,7 @@ function listarMateriales() {
                 "<tr>" +
                 "<th>Clave</th>" +
                 "<th>Nombre</th>" +
+                "<th>Codigo</th>" +
                 "<th>Tipo</th>" +
                 "<th>Clasificacion</th>" +
                 "<th>Acciones</th>" +
@@ -1019,11 +1020,12 @@ function listarMateriales() {
                         "<tr>" +
                         "<td>" + data[i][1] + "</td>",
                         "<td>" + data[i][2] + "</td>",
+                        "<td>" + data[i][11] + "</td>",
                         (data[i][3] == 1 ? "<td>Material Principal</td>" : "<td>Material General</td>"),
                         "<td>" + data[i][4] + "</td>",
                         "<td style='text-align: center;'>" +
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][8] + " <br /><strong>Fecha de creación:</strong> " + data[i][7] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
-                        "<button onclick='editarMaterial(this);' atributo1='" + data[i][3] + "' atributo2='" + data[i][5] + "' idlookup='" + data[i][0] + "' nombre='" + data[i][2] + "'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        "<button onclick='editarMaterial(this);' atributo1='" + data[i][3] + "' atributo2='" + data[i][5] + "' idlookup='" + data[i][0] + "' nombre='" + data[i][2] + "' codigo='" + data[i][11] + "'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
                         (data[i][6] == 1 ? "<button onclick='bajarMaterial(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
                         (data[i][6] == 0 ? "<button onclick='reactivar(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
                         "</td>" +
@@ -1044,7 +1046,7 @@ function listarMateriales() {
                             "<td>" + data[i][4] + "</td>",
                             "<td style='text-align: center;'>" +
                             "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i][7] + " <br /><strong>Fecha de creación:</strong> " + data[i][8] + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i][10] + "'><i class='fas fa-info'></i></button> " +
-                            (rolEditar == 1 ? "<button onclick='editarMaterial(this);' atributo1='" + data[i][3] + "' atributo2='" + data[i][5] + "' idlookup='" + data[i][0] + "' nombre='" + data[i][2] + "'  class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " :"")+
+                            (rolEditar == 1 ? "<button onclick='editarMaterial(this);' atributo1='" + data[i][3] + "' atributo2='" + data[i][5] + "' idlookup='" + data[i][0] + "' nombre='" + data[i][2] + "' codigo='" + data[i][11] + "' class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " : "") +
                             (rolEditar == 1 ? "<button onclick='bajarMaterial(" + data[i][0] + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
                             (rolEliminar == 1 ? "<button onclick='reactivar(" + data[i][0] + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
                             "</td>" +
@@ -1063,20 +1065,20 @@ function listarMateriales() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function () {
+                "drawCallback": function() {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                    "type": "html",
-                    "targets": '_all'
-                },
-                {
-                    targets: 3,
-                    className: 'dt-body-center'
-                }
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 3,
+                        className: 'dt-body-center'
+                    }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -1186,20 +1188,20 @@ function listarMarcadores() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function () {
+                "drawCallback": function() {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                    "type": "html",
-                    "targets": '_all'
-                },
-                {
-                    targets: 2,
-                    className: 'dt-body-center'
-                }
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 2,
+                        className: 'dt-body-center'
+                    }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -1306,20 +1308,20 @@ function listarComposiciones1() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function () {
+                "drawCallback": function() {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                    "type": "html",
-                    "targets": '_all'
-                },
-                {
-                    targets: 2,
-                    className: 'dt-body-center'
-                }
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 2,
+                        className: 'dt-body-center'
+                    }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -1434,20 +1436,20 @@ function listarPreciosComposicion() {
                 "pageLength": 5,
                 "responsive": true,
                 "stateSave": true,
-                "drawCallback": function () {
+                "drawCallback": function() {
                     $('.popoverxd').popover({
                         container: 'body',
                         trigger: 'hover'
                     });
                 },
                 "columnDefs": [{
-                    "type": "html",
-                    "targets": '_all'
-                },
-                {
-                    targets: 3,
-                    className: 'dt-body-center'
-                }
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 3,
+                        className: 'dt-body-center'
+                    }
                 ],
                 "lengthMenu": [
                     [5, 10, 25, 50, 100],
@@ -1572,7 +1574,7 @@ function agregarPrecioComposicion() {
                         })
                     }
                 },
-                error: (e) => { }
+                error: (e) => {}
             })
         }
     });
@@ -1761,12 +1763,12 @@ function listarFamiliaComposicion(idFamComposicion) {
 
 
 // Habilitar form de SweetAlert2
-$('#detalleMarcas').on('shown.bs.modal', function () {
+$('#detalleMarcas').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 // //////////////////////7
 // Habilitar form de SweetAlert2
-$('#detalleColores').on('shown.bs.modal', function () {
+$('#detalleColores').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -1829,7 +1831,7 @@ function agregarColor() {
 
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 console.log($('#proveedorColor').val());
                 if (data == false) {
 
@@ -1845,17 +1847,17 @@ function agregarColor() {
 
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarColores();
                     });
                     Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Insertado correctamente',
-                        showConfirmButton: false,
-                        timer: 1250
-                    })
-                    // / window.setTimeout(function(){location.reload()}, 2000);
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Insertado correctamente',
+                            showConfirmButton: false,
+                            timer: 1250
+                        })
+                        // / window.setTimeout(function(){location.reload()}, 2000);
                 } // /fin segundoif
                 else {
                     Swal.fire({
@@ -1875,95 +1877,95 @@ function agregarColor() {
     })
 }
 // Editar color
-$(document).on('click', '.edit_data_color', function () {
-    var color_id = $(this).attr("id");
-    var color_nombre = $(this).attr("value");
-    var color_repr = $(this).attr("color");
-    var provee = $(this).attr("proveedorColor");
-    console.log(provee);
-    Swal.fire({
-        title: 'Editar color',
-        html: '<div class="row">' +
-            '<div class="form-group col-sm-12">' +
-            '<label for="pedidonom">Nombre del color</label>' +
-            '<input type="text" class="form-control" name="color" id="color" value="' + color_nombre + '" placeholder="Rojo">' +
-            '<label for="pedidonom">Codigo del color</label>' +
-            '<input type="color" class="form-control" id="color_repr" value="' + color_repr + '" placeholder="Rojo">' +
-            '<label for="proveedorColor">Proveedor</label>' +
-            '<select class="form-control" id="proveedorColor" value=' + provee + '><option value="">Seleccione uno...</option>' + listarProveedores(provee) + '</select>' +
+$(document).on('click', '.edit_data_color', function() {
+        var color_id = $(this).attr("id");
+        var color_nombre = $(this).attr("value");
+        var color_repr = $(this).attr("color");
+        var provee = $(this).attr("proveedorColor");
+        console.log(provee);
+        Swal.fire({
+            title: 'Editar color',
+            html: '<div class="row">' +
+                '<div class="form-group col-sm-12">' +
+                '<label for="pedidonom">Nombre del color</label>' +
+                '<input type="text" class="form-control" name="color" id="color" value="' + color_nombre + '" placeholder="Rojo">' +
+                '<label for="pedidonom">Codigo del color</label>' +
+                '<input type="color" class="form-control" id="color_repr" value="' + color_repr + '" placeholder="Rojo">' +
+                '<label for="proveedorColor">Proveedor</label>' +
+                '<select class="form-control" id="proveedorColor" value=' + provee + '><option value="">Seleccione uno...</option>' + listarProveedores(provee) + '</select>' +
 
-            '</div>' +
-            '</div>',
-        inputAttributes: {
-            autocapitalize: 'off'
-        },
-        showCancelButton: true,
-        cancelButtonColor: '#dc3545',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Actualizar',
-        confirmButtonColor: '#0288d1',
-        preConfirm: (color) => {
-            if (document.getElementById("color").value.length < 1) {
-                Swal.showValidationMessage(
-                    `Complete todos los campos`
-                )
+                '</div>' +
+                '</div>',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            cancelButtonColor: '#dc3545',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Actualizar',
+            confirmButtonColor: '#0288d1',
+            preConfirm: (color) => {
+                if (document.getElementById("color").value.length < 1) {
+                    Swal.showValidationMessage(
+                        `Complete todos los campos`
+                    )
+                }
+
+
             }
+        }).then((result) => {
+            if (result.value && document.getElementById("color").value) {
+                var Color = document.getElementById("color").value;
+                var ColorRepr = document.getElementById("color_repr").value;
+                var proveedorr = document.getElementById("proveedorColor").value;
+                $.ajax({
+                    type: "GET",
+                    url: "/verifduplicado",
+                    data: {
+                        'Lookup': Color,
+                        'Tipo': "Color"
+                    }
 
+                }).done(function(data) {
+                    if (data == false) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/editarcatalogo",
+                            data: {
+                                "_csrf": $('#token').val(),
+                                'Color': Color,
+                                'idLookup': color_id,
+                                'CodigoColor': ColorRepr,
+                                'proveedor': proveedorr
+                                    // ,'Descripcion':Descripcion
+                            }
 
-        }
-    }).then((result) => {
-        if (result.value && document.getElementById("color").value) {
-            var Color = document.getElementById("color").value;
-            var ColorRepr = document.getElementById("color_repr").value;
-            var proveedorr = document.getElementById("proveedorColor").value;
-            $.ajax({
-                type: "GET",
-                url: "/verifduplicado",
-                data: {
-                    'Lookup': Color,
-                    'Tipo': "Color"
-                }
+                        }).done(function(data) {
+                            listarColores();
+                        });
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'editado correctamente',
+                            showConfirmButton: false,
+                            timer: 1250
+                        })
+                    } else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Registro duplicado no se ha editado',
+                            showConfirmButton: false,
+                            timer: 1250
+                        })
 
-            }).done(function (data) {
-                if (data == false) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/editarcatalogo",
-                        data: {
-                            "_csrf": $('#token').val(),
-                            'Color': Color,
-                            'idLookup': color_id,
-                            'CodigoColor': ColorRepr,
-                            'proveedor': proveedorr
-                            // ,'Descripcion':Descripcion
-                        }
+                    }
+                });
 
-                    }).done(function (data) {
-                        listarColores();
-                    });
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'editado correctamente',
-                        showConfirmButton: false,
-                        timer: 1250
-                    })
-                } else {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'Registro duplicado no se ha editado',
-                        showConfirmButton: false,
-                        timer: 1250
-                    })
-
-                }
-            });
-
-        } // ////////////fin primer if
+            } // ////////////fin primer if
+        })
     })
-})
-// /////////////////////Reactivar
+    // /////////////////////Reactivar
 function reactivar(idreactivar) {
     var id = idreactivar;
     Swal.fire({
@@ -1984,7 +1986,7 @@ function reactivar(idreactivar) {
                     'idcatalogo': id
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 switch (data) {
                     case "Color":
                         listarColores();
@@ -2052,7 +2054,7 @@ function bajarColor(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
 
                 listarColores();
             });
@@ -2067,7 +2069,7 @@ function bajarColor(idbaja) {
     })
 }
 // Reactivar color
-$('#detalleTrazo').on('shown.bs.modal', function () {
+$('#detalleTrazo').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -2104,10 +2106,10 @@ function agregarTrazo() {
                 data: {
                     'Lookup': Trazo,
                     'Tipo': 'Pieza Trazo'
-                    // ,'Descripcion':Descripcion
+                        // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     // /////////
 
@@ -2118,10 +2120,10 @@ function agregarTrazo() {
                         data: {
                             "_csrf": $('#token').val(),
                             'PiezaTrazo': Trazo
-                            // ,'Descripcion':Descripcion
+                                // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarTrazos();
                     });
                     Swal.fire({
@@ -2147,86 +2149,86 @@ function agregarTrazo() {
     })
 }
 // Editar Trazo
-$(document).on('click', '.edit_data_trazo', function () {
-    var trazo_id = $(this).attr("id");
-    var trazo_nombre = $(this).attr("value");
-    Swal.fire({
-        title: 'Editar pieza trazo',
-        html: '<div class="row">' +
-            '<div class="form-group col-sm-12">' +
-            '<label for="pedidonom">Nombre pieza trazo</label>' +
-            '<input type="text" class="form-control" name="trazo" id="trazo" value="' + trazo_nombre + '" placeholder="Delantero">' +
-            '<input type="hidden" value=" ' + trazo_id + ' ">' +
-            '</div>' +
-            '</div>',
-        inputAttributes: {
-            autocapitalize: 'off'
-        },
-        showCancelButton: true,
-        cancelButtonColor: '#dc3545',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Actualizar',
-        confirmButtonColor: '#0288d1',
-        preConfirm: (trazo) => {
-            if (document.getElementById("trazo").value.length < 1) {
-                Swal.showValidationMessage(
-                    `Complete todos los campos`
-                )
+$(document).on('click', '.edit_data_trazo', function() {
+        var trazo_id = $(this).attr("id");
+        var trazo_nombre = $(this).attr("value");
+        Swal.fire({
+            title: 'Editar pieza trazo',
+            html: '<div class="row">' +
+                '<div class="form-group col-sm-12">' +
+                '<label for="pedidonom">Nombre pieza trazo</label>' +
+                '<input type="text" class="form-control" name="trazo" id="trazo" value="' + trazo_nombre + '" placeholder="Delantero">' +
+                '<input type="hidden" value=" ' + trazo_id + ' ">' +
+                '</div>' +
+                '</div>',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            cancelButtonColor: '#dc3545',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Actualizar',
+            confirmButtonColor: '#0288d1',
+            preConfirm: (trazo) => {
+                if (document.getElementById("trazo").value.length < 1) {
+                    Swal.showValidationMessage(
+                        `Complete todos los campos`
+                    )
+                }
             }
-        }
-    }).then((result) => {
-        if (result.value && document.getElementById("trazo").value) {
-            var Trazo = document.getElementById("trazo").value;
-            $.ajax({
-                type: "GET",
-                url: "/verifduplicado",
-                data: {
-                    'Lookup': Trazo,
-                    'Tipo': "Pieza Trazo"
+        }).then((result) => {
+            if (result.value && document.getElementById("trazo").value) {
+                var Trazo = document.getElementById("trazo").value;
+                $.ajax({
+                    type: "GET",
+                    url: "/verifduplicado",
+                    data: {
+                        'Lookup': Trazo,
+                        'Tipo': "Pieza Trazo"
 
 
-                }
+                    }
 
-            }).done(function (data) {
-                if (data == false) {
+                }).done(function(data) {
+                    if (data == false) {
 
-                    $.ajax({
-                        type: "POST",
-                        url: "/editarcatalogo",
-                        data: {
-                            "_csrf": $('#token').val(),
-                            'PiezaTrazo': Trazo,
-                            'idLookup': trazo_id
-                            // ,'Descripcion':Descripcion
-                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "/editarcatalogo",
+                            data: {
+                                "_csrf": $('#token').val(),
+                                'PiezaTrazo': Trazo,
+                                'idLookup': trazo_id
+                                    // ,'Descripcion':Descripcion
+                            }
 
-                    }).done(function (data) {
-                        listarTrazos();
-                    });
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'editado correctamente',
-                        showConfirmButton: false,
-                        timer: 1250
-                    })
-                } // /fin segundoif
-                else {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'Registro duplicado no se ha editado',
-                        showConfirmButton: false,
-                        timer: 1250
-                    })
+                        }).done(function(data) {
+                            listarTrazos();
+                        });
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'editado correctamente',
+                            showConfirmButton: false,
+                            timer: 1250
+                        })
+                    } // /fin segundoif
+                    else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Registro duplicado no se ha editado',
+                            showConfirmButton: false,
+                            timer: 1250
+                        })
 
-                }
-            });
+                    }
+                });
 
-        } // /fin if
+            } // /fin if
+        })
     })
-})
-// Dar de baja pieza de trazo
+    // Dar de baja pieza de trazo
 function bajarTrazo(idbaja) {
     var id = idbaja;
     Swal.fire({
@@ -2250,7 +2252,7 @@ function bajarTrazo(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
 
                 listarTrazos();
             });
@@ -2265,7 +2267,7 @@ function bajarTrazo(idbaja) {
     })
 }
 // Reactivar pieza de trazo
-$('#detallePrenda').on('shown.bs.modal', function () {
+$('#detallePrenda').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 // Agregar Familia de prendas
@@ -2311,7 +2313,7 @@ function agregarPrenda() {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     // /////////////////
                     $.ajax({
@@ -2326,7 +2328,7 @@ function agregarPrenda() {
                             // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarPrendas();
                     });
                     Swal.fire({
@@ -2402,7 +2404,7 @@ function editarPrenda(e) {
 
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -2412,10 +2414,10 @@ function editarPrenda(e) {
                             'FamiliaPrenda': FamiliaPrenda,
                             'Posicion': Posicion,
                             'idLookup': idLookup
-                            // ,'Descripcion':Descripcion
+                                // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarPrendas();
                     });
                     Swal.fire({
@@ -2465,7 +2467,7 @@ function bajarPrenda(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
 
                 listarPrendas();
             });
@@ -2480,7 +2482,7 @@ function bajarPrenda(idbaja) {
     })
 }
 // Reactivar prenda
-$('#detalleGenero').on('shown.bs.modal', function () {
+$('#detalleGenero').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 // Agregar familia de genero
@@ -2515,10 +2517,10 @@ function agregarGenero() {
                 data: {
                     'Lookup': Genero,
                     'Tipo': 'Familia Genero'
-                    // ,'Descripcion':Descripcion
+                        // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     // ///////////
                     $.ajax({
@@ -2531,7 +2533,7 @@ function agregarGenero() {
                             // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarGeneros();
                     });
                     Swal.fire({
@@ -2602,7 +2604,7 @@ function editarGenero(e) {
 
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -2611,20 +2613,20 @@ function editarGenero(e) {
                             "_csrf": $('#token').val(),
                             'FamiliaGenero': FamiliaGenero,
                             'idLookup': idLookup
-                            // ,'Descripcion':Descripcion
+                                // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarGeneros();
                     });
                     Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'editado correctamente',
-                        showConfirmButton: false,
-                        timer: 1250
-                    })
-                    // window.setTimeout(function(){location.reload()}, 2000);
+                            position: 'center',
+                            icon: 'success',
+                            title: 'editado correctamente',
+                            showConfirmButton: false,
+                            timer: 1250
+                        })
+                        // window.setTimeout(function(){location.reload()}, 2000);
                 } // /fin segundoif
                 else {
                     Swal.fire({
@@ -2663,7 +2665,7 @@ function bajarGenero(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
 
                 listarGeneros();
             });
@@ -2678,7 +2680,7 @@ function bajarGenero(idbaja) {
     })
 }
 // Reactivar familia de genero
-$('#detalleMantenimiento').on('shown.bs.modal', function () {
+$('#detalleMantenimiento').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 // Agregar composicion
@@ -2752,7 +2754,7 @@ function bajarcomposicioncuidado(idbaja) {
                 // ,'Descripcion':Descripcion
             }
 
-        }).done(function (data) {
+        }).done(function(data) {
             var idcomposicion = data.idLookup;
             var nombrecomposicion = data.nombreLookup;
             listarcuidadosjson2(idcomposicion);
@@ -2837,10 +2839,10 @@ function insertar() {
             data: {
                 'Lookup': Composicion,
                 'Tipo': 'Familia Composicion'
-                // ,'Descripcion':Descripcion
+                    // ,'Descripcion':Descripcion
             }
 
-        }).done(function (data) {
+        }).done(function(data) {
             if (data == false) {
                 // /////////////////
                 $.ajax({
@@ -2851,11 +2853,11 @@ function insertar() {
                         'FamiliaComposicion': Composicion,
                         'idcuidado': Cuidado,
                         'idcomposicion': Idcomposicion
-                        // ,'Descripcion':Descripcion
+                            // ,'Descripcion':Descripcion
                     },
 
 
-                }).done(function (data) {
+                }).done(function(data) {
                     var idcomposicion = data[0];
                     var nombrecomposicion = data[1];
                     listarcuidadosjson2(idcomposicion);
@@ -3062,7 +3064,7 @@ function editarComposicion(e) {
 
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -3071,10 +3073,10 @@ function editarComposicion(e) {
                             "_csrf": $('#token').val(),
                             'FamiliaComposicion': FamiliaComposicion,
                             'idLookup': idLookup
-                            // ,'Descripcion':Descripcion
+                                // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarComposiciones();
                     });
                     Swal.fire({
@@ -3127,7 +3129,7 @@ function bajarComposicion(idbaja) {
 
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
 
                 listarComposiciones();
             });
@@ -3142,7 +3144,7 @@ function bajarComposicion(idbaja) {
     })
 }
 // Reactivar familia de genero
-$('#detalleCuidado').on('shown.bs.modal', function () {
+$('#detalleCuidado').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -3188,10 +3190,10 @@ function agregarCuidado() {
                 data: {
                     'Lookup': Cuidado,
                     'Tipo': 'Instruccion Cuidado'
-                    // ,'Descripcion':Descripcion
+                        // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     // ////////////////
                     var data1 = new FormData(form);
@@ -3204,7 +3206,7 @@ function agregarCuidado() {
                         cache: false,
                         timeout: 600000
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarCuidados();
                     });
                     Swal.fire({
@@ -3298,7 +3300,7 @@ function editarCuidado(e) {
 
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     var data1 = new FormData(form);
                     console.log(data1);
@@ -3311,7 +3313,7 @@ function editarCuidado(e) {
                         cache: false,
                         timeout: 600000
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarCuidados();
                     });
                     Swal.fire({
@@ -3362,7 +3364,7 @@ function bajarCuidado(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
 
                 listarCuidados();
             });
@@ -3377,7 +3379,7 @@ function bajarCuidado(idbaja) {
     })
 }
 // Reactivar familia de genero
-$('#detalleMedida').on('shown.bs.modal', function () {
+$('#detalleMedida').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -3416,10 +3418,10 @@ function agregarMedida() {
                 data: {
                     'Lookup': Medida,
                     'Tipo': 'Unidad Medida'
-                    // ,'Descripcion':Descripcion
+                        // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     // //////////////
 
@@ -3434,7 +3436,7 @@ function agregarMedida() {
                             // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarMedidas();
                     });
                     Swal.fire({
@@ -3518,7 +3520,7 @@ function editarMedida(e) {
 
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -3528,10 +3530,10 @@ function editarMedida(e) {
                             'UnidadMedida': Medida,
                             'idLookup': idLookup,
                             'Simbolo': Simbolo
-                            // ,'Descripcion':Descripcion
+                                // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarMedidas();
                     });
                     Swal.fire({
@@ -3582,7 +3584,7 @@ function bajarMedida(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
 
                 listarMedidas();
             });
@@ -3597,7 +3599,7 @@ function bajarMedida(idbaja) {
     })
 }
 // Reactivar familia de genero
-$('#detalleMaterial').on('shown.bs.modal', function () {
+$('#detalleMaterial').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -3608,6 +3610,10 @@ function agregarMaterial() {
             '<div class="form-group col-sm-12">' +
             '<label for="pedidonom">Nombre material</label>' +
             '<input type="text" class="swal2-input" name="material" id="material" placeholder="Entretela">' +
+            '</div>' +
+            '<div class="form-group col-sm-12">' +
+            '<label for="pedidonom">Codigo</label>' +
+            '<input type="text" class="swal2-input" name="codigo" id="codigo" placeholder="Mat0000">' +
             '</div>' +
             '<div class="form-group col-sm-12">' +
             '<label for="tipomaterial">Tipo</label>' +
@@ -3629,9 +3635,11 @@ function agregarMaterial() {
         cancelButtonText: 'Cancelar',
         confirmButtonText: 'Agregar',
         confirmButtonColor: '#0288d1',
-        preConfirm: (tipomaterial, material) => {
+        preConfirm: (tipomaterial, material, codigo) => {
+
             if (document.getElementById("tipomaterial").value.length != 1 ||
                 document.getElementById("material").value.length < 1 ||
+                document.getElementById("codigo").value.length < 1 ||
                 document.getElementById("clasificacion").value == 0
             ) {
                 Swal.showValidationMessage(
@@ -3644,23 +3652,26 @@ function agregarMaterial() {
         }
     }).then((result) => {
         if (result.value && document.getElementById("material").value &&
+            document.getElementById("codigo").value &&
             document.getElementById("tipomaterial").value.length == 1 &&
             document.getElementById("clasificacion").value) {
             var Material = document.getElementById("material").value;
+            var Codigo = document.getElementById("codigo").value;
             var TipoMaterial = document.getElementById("tipomaterial").value;
             var CategoriaMaterial = document.getElementById("clasificacion").value;
             // console.log(TipoMaterial)
             console.log(CategoriaMaterial)
+            console.log(codigo)
             $.ajax({
                 type: "GET",
                 url: "/verifduplicado",
                 data: {
                     'Lookup': Material,
                     'Tipo': "Material"
-                    // ,'Descripcion':Descripcion
+                        // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     // ////////////
 
@@ -3670,12 +3681,13 @@ function agregarMaterial() {
                         data: {
                             "_csrf": $('#token').val(),
                             'Material': Material,
+                            'Codigo': Codigo,
                             'TipoMaterial': TipoMaterial,
                             'CategoriaMaterial': CategoriaMaterial
-                            // ,'Descripcion':Descripcion
+                                // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarMateriales();
                     });
                     Swal.fire({
@@ -3708,10 +3720,10 @@ function agregarMaterial() {
             "Tipo": "Clasificacion"
         },
         success: (data) => {
-            $.each(data, function (key, val) {
-                $('#clasificacion').append('<option value="' + val.idLookup + '">' + val.nombreLookup + '</option>');
-            })
-            //$('.selectpicker').selectpicker(["refresh"]);
+            $.each(data, function(key, val) {
+                    $('#clasificacion').append('<option value="' + val.idLookup + '">' + val.nombreLookup + '</option>');
+                })
+                //$('.selectpicker').selectpicker(["refresh"]);
         },
         error: (e) => {
 
@@ -3736,6 +3748,10 @@ function editarMaterial(e) {
             '<input type="text" name="nombre" value="' + e.getAttribute("nombre") + '" class="swal2-input" id="nombre" placeholder="Entretela">' +
             '</div>' +
             '<div class="form-group col-sm-12">' +
+            '<label for="pedidonom">Codigo</label>' +
+            '<input type="text" name="codigo" value="' + e.getAttribute("codigo") + '" class="swal2-input" id="codigo" placeholder="Mat0000">' +
+            '</div>' +
+            '<div class="form-group col-sm-12">' +
             '<label for="tipomaterial">Tipo</label>' +
             '<select name="tipomaterial" id="tipomaterial" class="form-control">' +
             (e.getAttribute("atributo1") == 1 ? "<option value='1'>Material Principal</option>" : "<option value='0'>Material General</option>") +
@@ -3745,7 +3761,6 @@ function editarMaterial(e) {
             '<div class="form-group col-sm-12">' +
             '<label for="ubicacionTalla">Clasificaci&oacute;n</label>' +
             '<select class="form-control" id="clasificacion" name="clasificacion" >' +
-
             '</select>' +
             '</div>' +
             '<input type="hidden" value=" ' + e.getAttribute("idlookup") + ' " class="swal2-input" id="idlookup" placeholder="Parisina">' +
@@ -3766,6 +3781,7 @@ function editarMaterial(e) {
         if (result.value && document.getElementById("nombre").value && document.getElementById("idlookup").value) {
             var Material = document.getElementById("nombre").value;
 
+            var Codigo = document.getElementById("codigo").value;
             var idLookup = document.getElementById("idlookup").value;
             var TipoMaterial = document.getElementById("tipomaterial").value;
             var CategoriaMaterial = document.getElementById("clasificacion").value;
@@ -3779,7 +3795,7 @@ function editarMaterial(e) {
 
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -3787,13 +3803,14 @@ function editarMaterial(e) {
                         data: {
                             "_csrf": $('#token').val(),
                             'Material': Material,
+                            'Codigo': Codigo,
                             'idLookup': idLookup,
                             'TipoMaterial': TipoMaterial,
                             'CategoriaMaterial': CategoriaMaterial
-                            // ,'Descripcion':Descripcion
+                                // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarMateriales();
                     });
                     Swal.fire({
@@ -3825,16 +3842,16 @@ function editarMaterial(e) {
             "Tipo": "Clasificacion"
         },
         success: (data) => {
-            $.each(data, function (key, val) {
+            $.each(data, function(key, val) {
 
-                if (val.idLookup == idClasificacion) {
-                    $('#clasificacion').append('<option selected value="' + val.idLookup + '">' + val.nombreLookup + '</option>');
-                } else {
-                    $('#clasificacion').append('<option value="' + val.idLookup + '">' + val.nombreLookup + '</option>');
-                }
+                    if (val.idLookup == idClasificacion) {
+                        $('#clasificacion').append('<option selected value="' + val.idLookup + '">' + val.nombreLookup + '</option>');
+                    } else {
+                        $('#clasificacion').append('<option value="' + val.idLookup + '">' + val.nombreLookup + '</option>');
+                    }
 
-            })
-            //$('.selectpicker').selectpicker(["refresh"]);
+                })
+                //$('.selectpicker').selectpicker(["refresh"]);
         },
         error: (e) => {
 
@@ -3864,7 +3881,7 @@ function bajarMaterial(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
 
                 listarMateriales();
             });
@@ -3879,7 +3896,7 @@ function bajarMaterial(idbaja) {
     })
 }
 // Reactivar familia de genero
-$('#detalleMarcador').on('shown.bs.modal', function () {
+$('#detalleMarcador').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -3914,10 +3931,10 @@ function agregarMarcador() {
                 data: {
                     'Lookup': Marcador,
                     'Tipo': "Marcador"
-                    // ,'Descripcion':Descripcion
+                        // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
 
                     // ////////////////
@@ -3932,7 +3949,7 @@ function agregarMarcador() {
                             // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarMarcadores();
                     });
                     Swal.fire({
@@ -4006,7 +4023,7 @@ function editarMarcador(e) {
 
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -4015,10 +4032,10 @@ function editarMarcador(e) {
                             "_csrf": $('#token').val(),
                             'Marcador': Marcador,
                             'idLookup': idLookup
-                            // ,'Descripcion':Descripcion
+                                // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarMarcadores();
                     });
                     Swal.fire({
@@ -4067,7 +4084,7 @@ function bajarMarcador(idbaja) {
                     // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
 
                 listarMarcadores();
             });
@@ -4084,7 +4101,7 @@ function bajarMarcador(idbaja) {
 // Reactivar familia de genero
 
 // Habilitar form de SweetAlert2
-$('#detalleComposicion').on('shown.bs.modal', function () {
+$('#detalleComposicion').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
 
@@ -4119,10 +4136,10 @@ function agregarComposicion1() {
                 data: {
                     'Lookup': Composicion,
                     'Tipo': "Composicion"
-                    // ,'Descripcion':Descripcion
+                        // ,'Descripcion':Descripcion
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     // /////////////
 
@@ -4136,7 +4153,7 @@ function agregarComposicion1() {
                             // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarComposiciones1();
                     });
                     Swal.fire({
@@ -4210,7 +4227,7 @@ function editarComposicion1(e) {
 
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -4219,10 +4236,10 @@ function editarComposicion1(e) {
                             "_csrf": $('#token').val(),
                             'Composicion': Composicion,
                             'idLookup': idLookup
-                            // ,'Descripcion':Descripcion
+                                // ,'Descripcion':Descripcion
                         }
 
-                    }).done(function (data) {
+                    }).done(function(data) {
                         listarComposiciones1();
                     });
                     Swal.fire({
@@ -4271,7 +4288,7 @@ function bajarComposicion1(idbaja) {
 
                 }
 
-            }).done(function (data) {
+            }).done(function(data) {
 
                 listarComposiciones1();
             });

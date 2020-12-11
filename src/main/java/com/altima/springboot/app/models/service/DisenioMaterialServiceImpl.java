@@ -49,7 +49,7 @@ public class DisenioMaterialServiceImpl implements IDisenioMaterialService {
 	@Transactional
 	public DisenioMaterial findOne(Long id) {
 		// TODO Auto-generated method stub
-		return repository.findById(id).orElse(null);
+		return repository.findById(id).orElse(null);   //aqui
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -225,7 +225,7 @@ public class DisenioMaterialServiceImpl implements IDisenioMaterialService {
 	@Transactional
 	public int count2(Long id) {
 		// TODO Auto-generated method stub
-		String auxs = em.createNativeQuery ("SELECT COUNT(*) FROM alt_disenio_material WHERE id_tipo_material =" + id+" and estatus_material=1 ").getSingleResult().toString();
+		String auxs = em.createNativeQuery ("SELECT COUNT(*) FROM alt_disenio_material WHERE id_tipo_material =" + id +" and estatus_material=1 ").getSingleResult().toString();
 		int aux = Integer.parseInt(auxs);	
 		return aux + 1;
 	}

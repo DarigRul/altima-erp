@@ -127,8 +127,8 @@ public class CatalogoServiceImpl implements ICatalogoService {
 				"	DATE_FORMAT(lookup.fecha_creacion, '%Y-%m-%d %H:%i:%S'),\n" + 
 				"	lookup.creado_por,\n" + 
 				"	lookup.actualizado_por,\n" + 
-				"	DATE_FORMAT(lookup.ultima_fecha_modificacion, '%Y-%m-%d %H:%i:%S')\n" + 
-				"	\n" + 
+				"	DATE_FORMAT(lookup.ultima_fecha_modificacion, '%Y-%m-%d %H:%i:%S'),\n" + 
+				"	lookup.descripcion_lookup\n" + 
 				"FROM\n" + 
 				"	alt_disenio_lookup AS lookup,\n" + 
 				"	alt_amp_lookup AS lookAMP \n" + 

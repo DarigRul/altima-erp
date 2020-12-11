@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.models.entity.DisenioLookup;
+import com.altima.springboot.app.repository.DisenioLookupRepository;
 
 @Service
 public class DisenioLookupServiceImpl implements IDisenioLookupService {
 	
 	@Autowired
 	private EntityManager em;
+	@Autowired
+	private DisenioLookupRepository repository;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -62,6 +65,12 @@ public class DisenioLookupServiceImpl implements IDisenioLookupService {
 	public Object findClothesPosition(String prenda) {
 		return em.createNativeQuery("select atributo_1 From alt_disenio_lookup where nombre_lookup LIKE '%"+prenda+"%' and tipo_lookup='Familia Prenda' LIMIT 1 ").getSingleResult();
 	}
+
+	// @Override
+	// public DisenioLookup findOne(Long id) {
+	// 	// TODO Auto-generated method stub
+	// 	return repository.findById(id).orElse(null);
+	// }
 	
 	
 	
