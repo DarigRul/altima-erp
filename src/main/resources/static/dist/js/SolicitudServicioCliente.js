@@ -140,7 +140,7 @@ function CargarSelectsDeNuevo(){
 			  $('#generoCorridas').empty();
 			  for(var corrida = 0; corrida < data[3].length; corrida++){
 
-				if ( data[2][corrida] != "Indistinto" ){
+				if ( data[3][corrida] != "Indistinto" ){
 					$('#generoCorridas').append("<option value='" + data[3][corrida] + "'>" + data[3][corrida] + "</option>");
 				}
 				  
