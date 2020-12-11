@@ -64,6 +64,10 @@ html {
   background: #e9ba2c!important;
 }
 
+.whiteBackground{
+  background: #ffffff!important;
+}
+
 .adminActions {
   position: fixed;
   bottom: 35px;
@@ -119,29 +123,19 @@ html {
   transition: opacity 0.2s ease-in-out 0.3s, transform 0.15s ease-in-out;
 }
 .adminButtons a:nth-child(2) {
+  background-color: #DA83FF;
+  transition: opacity 0.2s ease-in-out 0.15s, transform 0.15s ease-in-out;
+}
+.adminButtons a:nth-child(3) {
   background-color: #dc3545;
   color: #fff;
   transition: opacity 0.2s ease-in-out 0.25s, transform 0.15s ease-in-out;
 }
-.adminButtons a:nth-child(3) {
-  background-color: #28a745;
-  transition: opacity 0.2s ease-in-out 0.2s, transform 0.15s ease-in-out;
-}
 .adminButtons a:nth-child(4) {
-  background-color: #ffc107;
-  color: #000000;
-  transition: opacity 0.2s ease-in-out 0.15s, transform 0.15s ease-in-out;
-}
-.adminButtons a:nth-child(5) {
-  background-color: #000000;
-  border: 1px solid rgb(99, 99, 99);
+  background-color: #17a2b8;
   transition: opacity 0.2s ease-in-out 0.15s, transform 0.15s ease-in-out;
 }
 
-.adminButtons a:nth-child(6) {
-  background-color: #DA83FF;
-  transition: opacity 0.2s ease-in-out 0.15s, transform 0.15s ease-in-out;
-}
 
 .adminActions a i {
   position: absolute;

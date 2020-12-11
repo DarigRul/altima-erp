@@ -18,7 +18,7 @@
 </head>
 
 <body>
-	<div id="particles-js" class="particlesCircles changeColor blackBackground"></div>
+	<div id="particles-js" class="changeColor particlesCircles blackBackground"></div>
 	<div class="limiter">
 		<div class="container-login100" style="background: none;">
 			<div class="wrap-login100">
@@ -32,7 +32,8 @@
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="username" id="username" required placeholder="Usuario">
+						<input class="input100" type="text" name="username" id="username" required
+							placeholder="Usuario">
 						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
@@ -41,7 +42,8 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
-						<input class="input100" type="password" name="password" id="password" placeholder="Contrase&ntilde;a">
+						<input class="input100" type="password" name="password" id="password"
+							placeholder="Contrase&ntilde;a">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -60,18 +62,61 @@
 			<input type="checkbox" name="adminToggle" class="adminToggle" />
 			<a class="adminButton" href="#!"><i class="fa fa-cog"></i></a>
 			<div class="adminButtons">
-				<a id="blueBackgroundChange" class="text-white" title="Azul"><i class="fa fa-paint-brush"></i></a>
-				<a id="redBackgroundChange" class="text-white" title="Rojo"><i class="fa fa-paint-brush"></i></a>
-				<a id="greenBackgroundChange" class="text-white" title="Verde"><i class="fa fa-paint-brush"></i></a>
-				<a id="yellowBackgroundChange" class="text-dark" title="Amarillo"><i class="fa fa-paint-brush"></i></a>
-				<a id="blackBackgroundChange" class="text-white" title=" Negro"><i class="fa fa-paint-brush"></i></a>
-				<a id="catBackgroundChange" class="text-white" title=" Nylan Cat"><i class="fa fa-cat"></i></a>
+				<a id="dotColors" class="text-white" title=" Particles"><i class="fa fa-dot-circle"></i></a>
+				<a id="catColors" class="text-white" title=" Nylan Cat"><i class="fa fa-cat"></i></a>
+				<a id="bubbleColors" class="text-white" title="Bubble"><i class="fab fa-buffer"></i></a>
+				<a id="snowBackgroundChange" class="text-white" title="Snow"><i class="fas fa-snowflake"></i></a>
 			</div>
 		</div>
+		<div class="zoom">
+			<ul class="zoom-menu">
+				<li><a id="blueBackgroundChange" class="zoom-fab zoom-btn-sm zoom-btn-person scale-transition scale-out text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="redBackgroundChange" class="zoom-fab zoom-btn-sm zoom-btn-doc scale-transition scale-out text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="greenBackgroundChange" class="zoom-fab zoom-btn-sm zoom-btn-tangram scale-transition scale-out text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="yellowBackgroundChange" class="zoom-fab zoom-btn-sm zoom-btn-report scale-transition scale-out text-dark"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="blackBackgroundChange" class="zoom-fab zoom-btn-sm zoom-btn-feedback scale-transition scale-out text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="whiteBackgroundChange" class="zoom-fab zoom-btn-sm zoom-btn-white scale-transition scale-out text-dark"><i
+							class="fa fa-paint-brush"></i></a></li>
+			</ul>
+		</div>
+		<div class="zoom1">
+			<ul class="zoom-menu1">
+				<li><a id="blueCat" class="zoom-fab1 zoom-btn-sm1 zoom-btn-person1 scale-transition1 scale-out1 text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="redCat" class="zoom-fab1 zoom-btn-sm1 zoom-btn-doc1 scale-transition1 scale-out1 text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="greenCat" class="zoom-fab1 zoom-btn-sm1 zoom-btn-tangram1 scale-transition1 scale-out1 text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="yellowCat" class="zoom-fab1 zoom-btn-sm1 zoom-btn-report1 scale-transition1 scale-out1 text-dark"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="blackCat" class="zoom-fab1 zoom-btn-sm1 zoom-btn-feedback1 scale-transition1 scale-out1 text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="whiteCat" class="zoom-fab1 zoom-btn-sm1 zoom-btn-white1 scale-transition1 scale-out1 text-dark"><i
+							class="fa fa-paint-brush"></i></a></li>
+			</ul>
+		</div>
+		<div class="zoom2">
+			<ul class="zoom-menu2">
+				<li><a id="blueBubble" class="zoom-fab2 zoom-btn-sm2 zoom-btn-person2 scale-transition2 scale-out2 text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="redBubble" class="zoom-fab2 zoom-btn-sm2 zoom-btn-doc2 scale-transition2 scale-out2 text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="greenBubble" class="zoom-fab2 zoom-btn-sm2 zoom-btn-tangram2 scale-transition2 scale-out2 text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="yellowBubble" class="zoom-fab2 zoom-btn-sm2 zoom-btn-report2 scale-transition2 scale-out2 text-dark"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="blackBubble" class="zoom-fab2 zoom-btn-sm2 zoom-btn-feedback2 scale-transition2 scale-out2 text-white"><i
+							class="fa fa-paint-brush"></i></a></li>
+				<li><a id="whiteBubble" class="zoom-fab2 zoom-btn-sm2 zoom-btn-white2 scale-transition2 scale-out2 text-dark"><i
+							class="fa fa-paint-brush"></i></a></li>
+			</ul>
+		</div>
 	</div>
-
-
-
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="/dist/css/login/vendor/bootstrap/js/popper.js"></script>
@@ -88,26 +133,46 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 	<script src="/dist/js/login-color.js"></script>
 	<script src="/dist/css/login/js/main.js"></script>
+	<script>
+		$('#dotColors').click(function () {
+			$('.zoom-btn-sm').toggleClass('scale-out');
+			if (!$('.zoom-card').hasClass('scale-out')) {
+				$('.zoom-card').toggleClass('scale-out');
+			}
+		});
+		$('#catColors').click(function () {
+			$('.zoom-btn-sm1').toggleClass('scale-out1');
+			if (!$('.zoom-card1').hasClass('scale-out1')) {
+				$('.zoom-card1').toggleClass('scale-out1');
+			}
+		});
+		$('#bubbleColors').click(function () {
+			$('.zoom-btn-sm2').toggleClass('scale-out2');
+			if (!$('.zoom-card2').hasClass('scale-out2')) {
+				$('.zoom-card2').toggleClass('scale-out2');
+			}
+		});
+	</script>
 	<script th:inline="javascript">
-	/*<![CDATA[*/
-	var errorlogin =[[${param.error} != null ? true:false]]
-	if(errorlogin){
-		Swal.fire({
-			  position: 'center',
-			  icon: 'error',
-			  title: 'Usuario y/o contrase&ntilde;a incorrectas',
-			  showConfirmButton: false,
-			  timer: 2300
+		/*<![CDATA[*/
+		var errorlogin = [[${ param.error } != null ? true : false]]
+		if (errorlogin) {
+			Swal.fire({
+				position: 'center',
+				icon: 'error',
+				title: 'Usuario y/o contrase&ntilde;a incorrectas',
+				showConfirmButton: false,
+				timer: 2300
 			})
 		}
-	var logoutlogin =[[${param.logout} != null ? true:false]]
-	if(logoutlogin){
-		Swal.fire({
-			  position: 'center',
-			  icon: 'success',
-			  title: 'Sesi&oacute;n cerrada correctamente',
-			  showConfirmButton: false,
-			  timer: 2300
+		var logoutlogin = [[${ param.logout } != null ? true : false]]
+		if (logoutlogin) {
+			Swal.fire({
+				position: 'center',
+				icon: 'success',
+				title: 'Sesi&oacute;n cerrada correctamente',
+				showConfirmButton: false,
+				timer: 2300
 			})
 		}
 	/*]]>*/
