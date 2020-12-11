@@ -156,20 +156,7 @@ public class ServicioClienteController {
 		} else {
 			model.addAttribute("clientes", ClienteService.findAll(iduser));
 		}
-		String direccionCompleta;
-		String telefono;
-		if ( solicitud.getIdSucrsal().equals("0") ){
-			ComercialCliente cliente = ClienteService.findOne(solicitud.getIdCliente());
-    		HrDireccion direccion = direciconSercice.findOne(cliente.getIdDireccion());
-    	 	direccionCompleta = direccion.getCalle() + ", #" + direccion.getNumeroExt() + ". Colonia: " + direccion.getColonia() + ". " + direccion.getMunicipio() + ", " + direccion.getEstado() + ". CP:" + direccion.getCodigoPostal();
-			 telefono=cliente.getTelefono();
-		}else{
-			ComercialClienteSucursal sucursal =  SucursalService.findOne(Long.parseLong(solicitud.getIdSucrsal()));
-			HrDireccion direccion = direciconSercice.findOne(sucursal.getIdDireccion());
-    	 	direccionCompleta = direccion.getCalle() + ", #" + direccion.getNumeroExt() + ". Colonia: " + direccion.getColonia() + ". " + direccion.getMunicipio() + ", " + direccion.getEstado() + ". CP:" + direccion.getCodigoPostal();
-			 telefono=sucursal.getTelefonoSucursal();
-
-		}
+		
     	
     	
     	//Selects
@@ -181,13 +168,11 @@ public class ServicioClienteController {
     	//Objetos
     	model.addAttribute("sastres", solicitudServicioClienteSastreService.findBySolicitud(idSolicitud));
     	model.addAttribute("auxiliares", solicitudServicioClienteAuxiliarVentasService.findBySolicitud(idSolicitud));
-    	model.addAttribute("materiales", solicitudServicioClienteMaterialService.findBySolicitud(idSolicitud));
+    	model.addAttribute("materiales", solicitudServicioClienteMaterialService.findBySolicitudId(idSolicitud));
     	model.addAttribute("corridas", solicitudServicioClienteCorridaService.findBySolicitud(idSolicitud));
-		model.addAttribute("DireccionDelCliente", direccionCompleta);
-		model.addAttribute("TelefonoDelCliente", telefono);
 		model.addAttribute("pedidos", solicitudServicioClienteService.pedidosDeCliente(solicitud.getIdCliente()) );
 		model.addAttribute("sucursal", solicitudServicioClienteService.direccionesSucursales(solicitud.getIdCliente()));
-		model.addAttribute("accion", "editar");
+    	model.addAttribute("accion", "editar");
 		model.addAttribute("detalle", "detalle");
         return"servicio-cliente-solicitud";
     }
