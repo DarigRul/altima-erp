@@ -6,6 +6,22 @@ $(document).ready(function () {
 /*
  * Esta funcion cambia la direccion, el telefono y el dirigirse con, del formulario en base al cliente seleccionado
  */
+function checkEnable (){
+	$('#pedidoCita').prop('disabled', false);
+	$('#pedidoCita').selectpicker('refresh');
+	$('#checkDisableReferencia').prop('checked', true);
+	$("#checkEnableReferencia").addClass("d-none");
+    $("#checkDisableReferencia").removeClass("d-none");
+	
+}
+function checkDisabled (){
+	$('#pedidoCita').prop('disabled', true);
+	$('#pedidoCita').val(null);
+	$('#pedidoCita').selectpicker('refresh');
+	$('#checkEnableReferencia').prop('checked', false);
+	$("#checkEnableReferencia").removeClass("d-none");
+    $("#checkDisableReferencia").addClass("d-none");
+}
 function CambiarDatosCliente(input){
 	$("#direccion").val(null);
 	$("#telefonoCita").val(null);
@@ -112,20 +128,20 @@ function CargarSelectsDeNuevo(){
 			  $('#CargandoGenerosAuxiliarVentas').css('display', 'none');
 			  
 			  //Pegamos los de Materiales
-			  /*$('#materialMaterial').empty();
+			  $('#materialMaterial').empty();
 			  for(var material = 0; material < data[2].length; material++){
 				  $('#materialMaterial').append("<option value='" + data[2][material][0] + "'>" + data[2][material][1] + "</option>");
 			  }
 			  $('#materialMaterial').selectpicker("refresh");
-			  */
+			  
 			 $('#CargandoMaterialesMaterial').css('display', 'none');
 			  
 			  //Pegamos los de las Corridas
 			  $('#generoCorridas').empty();
-			  for(var corrida = 0; corrida < data[2].length; corrida++){
+			  for(var corrida = 0; corrida < data[3].length; corrida++){
 
 				if ( data[2][corrida] != "Indistinto" ){
-					$('#generoCorridas').append("<option value='" + data[2][corrida] + "'>" + data[2][corrida] + "</option>");
+					$('#generoCorridas').append("<option value='" + data[3][corrida] + "'>" + data[3][corrida] + "</option>");
 				}
 				  
 			  }
@@ -142,9 +158,29 @@ function CargarSelectsDeNuevo(){
  * Esta funcion guarda la solicitud de servicio al cliente actual
  */
 function GuardarSolicitudServicioCliente(){
-	if ($('#fechaCita').val()== null || $('#clienteCita').val() == null || $('#pedidoCita').val() == null ||
+	var valPedido = false;
+	var idPedido;
+	if( $('#checkEnableReferencia').prop('checked') ) {
+		
+		if ($('#pedidoCita').val() == null || $('#pedidoCita').val() == "" ){
+			
+			valPedido = true;
+		}
+		else{
+			valPedido = false;
+			idPedido= $('#pedidoCita').val();
+		}
+	}else{
+		idPedido= 0;
+	}
+	
+
+
+	if ($('#fechaCita').val()== null || $('#fechaCita').val()== "" || $('#clienteCita').val() == null || valPedido == true   ||
 		$('#sucursalCita').val() == null || $('#dirigirseCita').val() == null || $('#fechaSalida').val() == "" ||
-		$('#actividadCita').val() == "" || $('#damasAtender').val()<0 || $('#caballerosAtender').val() <0  || $('#damasAtender').val() == "" || $('#caballerosAtender').val() == ""  ){
+		$('#actividadCita').val() == "" || $('#damasAtender').val()<0 || $('#caballerosAtender').val() <0  ||
+		$('#damasAtender').val() == "" || $('#caballerosAtender').val() == "" ||
+		$('#telefonoCita').val() == ""  || $('#direccion').val() == ""   ){
 			Swal.fire({
 				icon: 'error',
 				title: 'Error!',
@@ -158,8 +194,9 @@ function GuardarSolicitudServicioCliente(){
 			sucursal = $('#sucursalCita').val();
 		}
 		var Solicitud = { fechaCita: $('#fechaCita').val(), clienteID: $('#clienteCita').val(), fechaSalida: $('#fechaSalida').val(),
-			actividadCita: $('#actividadCita').val(), damasAtender: parseInt($('#damasAtender').val()), idPedido: $('#pedidoCita').val(),
-			caballerosAtender: parseInt($('#caballerosAtender').val()), comentarios: $('#comentariosCita').val(), sucur:parseInt(sucursal), dirigirse:$('#dirigirseCita').val()}
+			actividadCita: $('#actividadCita').val(), damasAtender: parseInt($('#damasAtender').val()), idPedido: idPedido,
+			caballerosAtender: parseInt($('#caballerosAtender').val()), comentarios: $('#comentariosCita').val(), 
+			sucur:parseInt(sucursal), dirigirse:$('#dirigirseCita').val() , telefono : $('#telefonoCita').val(), direccion:$('#direccion').val()}
 		$.ajax({
 			type: "POST",
 			url: "/save_solicitud_servicio_cliente",
@@ -440,16 +477,7 @@ function GuardarMaterial(){
 	}
 		
 	else{
-		$.ajax({
-			type: "GET",
-			url: "/validarMaterial",
-			data: { 
-				"id": $('#idSolicitudServicioAlCliente').val(),
-				"material": $('#materialMaterial').val()
-			},
-			success: (data) => {
-				if ( data == 0){
-								
+				
 					//Se agrega a la BD
 					$.ajax({
 						type: "POST",
@@ -463,8 +491,8 @@ function GuardarMaterial(){
 						success: (data) => {
 							console.log(data);
 							var fila = null;
-							fila = tablaMaterial.row.add([ data.material, data.cantidad, "<td class='text-center'>" +
-								"<button type='button' class='btn icon-btn btn-danger text-white' onclick='BorrarFilaMaterial(this, " + data.idSolicitudServicioAlClienteMaterial  + ")' >" + 
+							fila = tablaMaterial.row.add([ data[1], data[2], "<td class='text-center'>" +
+								"<button type='button' class='btn icon-btn btn-danger text-white' onclick='BorrarFilaMaterial(this, " + data[0]  + ")' >" + 
 								"<span class='btn-glyphicon fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button></td>" ]).draw().node();
 							$( fila ).prop('id', "FILA_MATERIAL_" + data.idSolicitudServicioAlClienteMaterial);
 							fila = null;
@@ -485,19 +513,6 @@ function GuardarMaterial(){
 							console.log(e);
 						}
 					});
-					
-				}else{
-					Swal.fire({
-						icon: 'error',
-						title: 'Error!',
-						text: 'Material ya ingresado, ¡por favor ingrese otro!.'
-					})
-				}
-			},
-			error: (e) => {
-				console.log(e);
-			}
-		});
 			
 	}	
 	

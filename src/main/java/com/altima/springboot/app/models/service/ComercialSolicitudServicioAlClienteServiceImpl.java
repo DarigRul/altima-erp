@@ -21,24 +21,29 @@ public class ComercialSolicitudServicioAlClienteServiceImpl implements IComercia
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> findAll(Long id) {
-		List<Object[]> re = em.createNativeQuery("SELECT \r\n" + 
-				"		solicitud.id_solicitud_servicio_al_cliente,\r\n" + 
-				"    solicitud.id_text AS idText1,\r\n" + 
-				"  	 DATE_FORMAT(solicitud.fecha_creacion,'%Y-%m-%d'),\r\n" + 
-				"    agente.nombre_usuario,\r\n" + 
-				"    pedido.id_text AS IdText2,\r\n" + 
-				"    cliente.nombre,\r\n" + 
-				"    DATE_FORMAT(solicitud.fecha_hora_de_cita,'%Y-%m-%d %k:%i'),\r\n" + 
-				"    solicitud.actividad,\r\n" + 
-				"    solicitud.estatus\r\n" + 
-				"    \r\n" + 
-				"FROM alt_comercial_solicitud_servicio_al_cliente solicitud\r\n" + 
-				"\r\n" + 
-				"INNER JOIN alt_comercial_pedido_informacion AS pedido ON solicitud.id_pedido_informacion = pedido.id_pedido_informacion\r\n" + 
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT \r\n" + 
+				"	solicitud.id_solicitud_servicio_al_cliente,\r\n" + 
+				"   solicitud.id_text AS idText1,\r\n" + 
+				"  	DATE_FORMAT(solicitud.fecha_creacion,'%Y-%m-%d'),\r\n" + 
+				"   agente.nombre_usuario,\r\n" + 
+				"	if ( solicitud.id_pedido_informacion is null, 'N/A', pedido.id_text) AS IdText2,\r\n" + 
+				"   cliente.nombre,\r\n" + 
+				"   DATE_FORMAT(solicitud.fecha_hora_de_cita,'%Y-%m-%d %k:%i'),\r\n" + 
+				"   solicitud.actividad,\r\n" + 
+				"   solicitud.estatus\r\n" + 
+				"FROM \r\n" + 
+				"alt_comercial_pedido_informacion as pedido ,\r\n" + 
+				"alt_comercial_solicitud_servicio_al_cliente solicitud \r\n" + 
 				"INNER JOIN alt_comercial_cliente AS cliente ON solicitud.id_cliente = cliente.id_cliente\r\n" + 
-				"INNER JOIN alt_hr_usuario AS agente ON pedido.id_usuario = agente.id_usuario\r\n" + 
+				"INNER JOIN alt_hr_usuario AS agente ON cliente.id_usuario = agente.id_usuario\r\n" + 
 				"WHERE IF("+id+"=0,1=1,agente.id_usuario="+id+")\r\n"+
-				"ORDER BY solicitud.id_solicitud_servicio_al_cliente desc").getResultList();
+				"AND  (solicitud.id_pedido_informacion = pedido.id_pedido_informacion or solicitud.id_pedido_informacion is null)\r\n" + 
+				"GROUP BY solicitud.id_solicitud_servicio_al_cliente\r\n" + 
+				"ORDER BY solicitud.id_solicitud_servicio_al_cliente desc\r\n" + 
+				"").getResultList();
+		
+		
 		return re;
 	}
 

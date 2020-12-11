@@ -19,36 +19,36 @@ public class ComercialSolicitudServicioAlClienteMaterial implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@Column(name="id_solicitud_servicio_al_cliente_material")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
 	@GenericGenerator(name="native",strategy="native")
 	private Long idSolicitudServicioAlClienteMaterial;
-	
+
 	@Column(name="id_solicitud_servicio_al_cliente")
 	private Long idSolicitudServicioAlCliente;
-	
-	@Column(name="material")
-	private String material;
-	
 
-	
+	@Column(name="id_lookup")
+	private Long idLookup;
+
+
+
 	@Column(name="cantidad")
 	private Long cantidad;
-	
+
 	@Column(name="creado_por")
 	private String creadoPor;
-	
+
 	@Column(name="actualizado_por")
 	private String actualizadoPor;
-	
+
 	@Column(name="fecha_creacion")
 	private String fechaCreacion;
-	
+
 	@Column(name="ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
-	
+
 	@Column(name="estatus")
 	private String estatus;
 
@@ -67,6 +67,15 @@ public class ComercialSolicitudServicioAlClienteMaterial implements Serializable
 	public void setIdSolicitudServicioAlCliente(Long idSolicitudServicioAlCliente) {
 		this.idSolicitudServicioAlCliente = idSolicitudServicioAlCliente;
 	}
+
+	public Long getIdLookup() {
+		return idLookup;
+	}
+
+	public void setIdLookup(Long idLookup) {
+		this.idLookup = idLookup;
+	}
+
 
 
 	public Long getCantidad() {
@@ -120,16 +129,4 @@ public class ComercialSolicitudServicioAlClienteMaterial implements Serializable
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	public String getMaterial() {
-		return material;
-	}
-
-	public void setMaterial(String material) {
-		this.material = material;
-	}
-
-	
-	
-
 }

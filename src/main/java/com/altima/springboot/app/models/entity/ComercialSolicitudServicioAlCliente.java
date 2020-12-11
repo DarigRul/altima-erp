@@ -74,6 +74,12 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 
 	@Column(name="dirigirse_con")
 	private String dirigirseCon;
+
+	@Column(name="direccion_cita")
+	private String direccionCita;
+
+	@Column(name="telefono_cita")
+	private String telefonoCita;
 	
 	
 	
@@ -217,6 +223,22 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 
 	public void setDirigirseCon(String dirigirseCon) {
 		this.dirigirseCon = dirigirseCon;
+	}
+
+	public String getDireccionCita() {
+		return direccionCita;
+	}
+
+	public void setDireccionCita(String direccionCita) {
+		this.direccionCita = direccionCita;
+	}
+
+	public String getTelefonoCita() {
+		return telefonoCita;
+	}
+
+	public void setTelefonoCita(String telefonoCita) {
+		this.telefonoCita = telefonoCita;
 	}
 	
 	

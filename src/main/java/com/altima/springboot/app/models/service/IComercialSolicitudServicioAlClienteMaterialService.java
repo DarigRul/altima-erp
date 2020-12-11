@@ -12,5 +12,9 @@ public interface IComercialSolicitudServicioAlClienteMaterialService {
 	
 	List<ComercialSolicitudServicioAlClienteMaterial> findBySolicitud(Long id);
 
+	List<Object[]> findBySolicitudId(Long id);
+
+	String nombreMaterial( Long idMaterial);
+
 	Integer buscarMaterial(Long id , String material);
 }

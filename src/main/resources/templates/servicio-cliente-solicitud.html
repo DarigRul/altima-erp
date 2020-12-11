@@ -118,6 +118,18 @@
    
       
   </script>
+  <script th:if="*{solicitud.idPedidoInformacion != null}" th:inline="javascript">
+     checkEnable();
+     $('#checkEnableReferencia').prop('checked', true);
+    
+    
+     
+</script>
+<script th:if="*{solicitud.idPedidoInformacion == null}" th:inline="javascript">
+    
+    checkDisabled();
+    
+</script>
 </body>
 
 </html>

@@ -83,7 +83,12 @@ public class ServicioClienteRestController {
 		if ( idSolicitud==null){
 			ComercialSolicitudServicioAlCliente ssc = new ComercialSolicitudServicioAlCliente();;
 			ssc.setIdText(" ");
-			ssc.setIdPedidoInformacion(Long.valueOf(solicitudObjeto.get("idPedido").toString()));
+			if (solicitudObjeto.get("idPedido").toString().equals("0") ){
+				ssc.setIdPedidoInformacion(null);
+			}else{
+				ssc.setIdPedidoInformacion(Long.valueOf(solicitudObjeto.get("idPedido").toString()));
+			}
+			
 			ssc.setIdCliente(Long.valueOf(solicitudObjeto.get("clienteID").toString()));
 			ssc.setFechaHoraDeCita(solicitudObjeto.get("fechaCita").toString());
 			ssc.setHoraSalidaAltima(solicitudObjeto.get("fechaSalida").toString());
@@ -97,6 +102,8 @@ public class ServicioClienteRestController {
 			ssc.setActualizadoPor(auth.getName());
 			ssc.setFechaCreacion(fechaConHora.format(now));
 			ssc.setUltimaFechaModificacion(fechaConHora.format(now));
+			ssc.setDireccionCita(solicitudObjeto.get("direccion").toString());
+			ssc.setTelefonoCita(solicitudObjeto.get("telefono").toString());
 			ssc.setEstatus("0");
 			solicitudServicioClienteService.save(ssc);
 			
@@ -105,7 +112,12 @@ public class ServicioClienteRestController {
 			return ssc;
 		}else{
 			ComercialSolicitudServicioAlCliente ssc2 = solicitudServicioClienteService.findOne(idSolicitud);
-			ssc2.setIdPedidoInformacion(Long.valueOf(solicitudObjeto.get("idPedido").toString()));
+			if (solicitudObjeto.get("idPedido").toString().equals("0") ){
+				ssc2.setIdPedidoInformacion(null);
+			}else{
+				ssc2.setIdPedidoInformacion(Long.valueOf(solicitudObjeto.get("idPedido").toString()));
+			}
+			
 			ssc2.setIdCliente(Long.valueOf(solicitudObjeto.get("clienteID").toString()));
 			ssc2.setFechaHoraDeCita(solicitudObjeto.get("fechaCita").toString());
 			ssc2.setHoraSalidaAltima(solicitudObjeto.get("fechaSalida").toString());
@@ -115,7 +127,8 @@ public class ServicioClienteRestController {
 			ssc2.setComentarios(solicitudObjeto.get("comentarios").toString());
 			
 			ssc2.setIdSucrsal(solicitudObjeto.get("sucur").toString());
-		
+			ssc2.setDireccionCita(solicitudObjeto.get("direccion").toString());
+			ssc2.setTelefonoCita(solicitudObjeto.get("telefono").toString());
 			ssc2.setDirigirseCon(solicitudObjeto.get("dirigirse").toString());
 			ssc2.setActualizadoPor(auth.getName());
 			ssc2.setUltimaFechaModificacion(fechaConHora.format(now));
@@ -175,12 +188,12 @@ public class ServicioClienteRestController {
 	}
 	
 	@RequestMapping(value = "/save_servicio_cliente_material", method = RequestMethod.POST)
-	public ComercialSolicitudServicioAlClienteMaterial saveServicioAlClienteMaterial(@RequestParam(name = "material") String mat, @RequestParam(name = "cantidad") Long cantidad, @RequestParam(name = "idSolicitud") Long idSolicitud) {
+	public List<String> saveServicioAlClienteMaterial(@RequestParam(name = "material") Long mat, @RequestParam(name = "cantidad") Long cantidad, @RequestParam(name = "idSolicitud") Long idSolicitud) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateTimeFormatter fechaConHora = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		ComercialSolicitudServicioAlClienteMaterial material = new ComercialSolicitudServicioAlClienteMaterial();
-		material.setMaterial(mat);
+		material.setIdLookup(mat);
 		material.setCantidad(cantidad);
 		material.setIdSolicitudServicioAlCliente(idSolicitud);
 		material.setCreadoPor(auth.getName());
@@ -189,7 +202,11 @@ public class ServicioClienteRestController {
 		material.setUltimaFechaModificacion(fechaConHora.format(now));
 		material.setEstatus("1");
 		solicitudServicioClienteMaterialService.save(material);
-		return material;
+		List<String> listaMaestra = new ArrayList<String>();
+		listaMaestra.add(""+material.getIdSolicitudServicioAlClienteMaterial());
+		listaMaestra.add(solicitudServicioClienteMaterialService.nombreMaterial(material.getIdLookup()));
+		listaMaestra.add(""+material.getCantidad());
+		return listaMaestra;
 	}
 	
 	@RequestMapping(value = "/save_servicio_cliente_corrida", method = RequestMethod.POST)
@@ -242,11 +259,11 @@ public class ServicioClienteRestController {
 		List<String> sastresSelect = solicitudServicioClienteSastreService.devolverSelectSastre(idSolicitud);
 		List<String> auxiliaresSelect = solicitudServicioClienteAuxiliarVentasService.devolverSelectAuxiliarVentas(idSolicitud);
 		List<String> corridasSelect = solicitudServicioClienteCorridaService.devolverSelectCorridas(idSolicitud);
-		//List<Object[]> materialesSelect = solicitudServicioClienteService.devolverSelectMateriales(idSolicitud);
+		List<Object[]> materialesSelect = solicitudServicioClienteService.devolverSelectMateriales(idSolicitud);
 		
 		listaMaestra.add(sastresSelect);
 		listaMaestra.add(auxiliaresSelect);
-		//listaMaestra.add(materialesSelect);
+		listaMaestra.add(materialesSelect);
 		listaMaestra.add(corridasSelect);
 		
 		return listaMaestra;
