@@ -52,7 +52,7 @@
                                 </div>
                                 <div th:insert="requisicion-de-telas-modal"></div>
                                 <div class="card-body">
-                                    <table class="table requisicionTabla table-striped table-bordered" style="width: 100%;">
+                                    <table class="table requisicionTabla table-striped table-bordered display nowrap" style="width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th class="text-center"><input type="checkbox" /></th>
@@ -67,6 +67,7 @@
                                                 <th class="select-filter">F. Prom. Rec.</th>
                                                 <th class="select-filter">Estatus compra</th>
                                                 <th class="select-filter">Estatus</th>
+                                                <th class="text-center">Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -83,6 +84,10 @@
                                                 <td>30/08/2020</td>
                                                 <td>Pedida</td>
                                                 <td>Autorizada</td>
+                                                <td>
+                                                    <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-center"><input type="checkbox" /></td>
@@ -97,6 +102,10 @@
                                                 <td>30/08/2020</td>
                                                 <td>Extemporanea</td>
                                                 <td>Rechazada</td>
+                                                <td>
+                                                    <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-center"><input type="checkbox" /></td>
@@ -111,6 +120,10 @@
                                                 <td>30/08/2020</td>
                                                 <td>Extemporanea</td>
                                                 <td>Autorizada</td>
+                                                <td>
+                                                    <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-center"><input disabled="disabled" type="checkbox" /></td>
@@ -125,6 +138,10 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
+                                                <td>
+                                                    <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-center"><input disabled="disabled" type="checkbox" /></td>
@@ -139,6 +156,10 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
+                                                <td>
+                                                    <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>
+                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
