@@ -93,26 +93,38 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 	public List<Object[]> findListasSeguimientoByidCliente (Long id){
 		
 		return em.createNativeQuery("SELECT servCliente.id_solicitud_servicio_al_cliente AS idPrimary, \r\n" + 
-									"		servCliente.actividad, \r\n" + 
-									"		servCliente.fecha_hora_de_cita AS fechaCita, \r\n" + 
-									"		'serviciocliente' AS tabla, \r\n" + 
-									"		servCliente.id_cliente,\r\n" + 
-									"		servCliente.observaciones_seguimiento COLLATE utf8_general_ci \r\n" + 
-									"FROM alt_comercial_solicitud_servicio_al_cliente AS servCliente\r\n" + 
-									"WHERE servCliente.id_cliente = "+id+" \r\n" + 
-									"\r\n" + 
-									"UNION ALL\r\n" + 
-									"\r\n" + 
-									"SELECT solModel.id_solicitud_modelo AS idPrimary, \r\n" + 
-									"		'Presentación' AS actividad, \r\n" + 
-									"		solModel.fecha_cita AS fechaCita, \r\n" + 
-									"		'solmodelo' AS tabla, \r\n" + 
-									"		solModel.id_cliente,\r\n" + 
-									"		solModel.observaciones_seguimiento \r\n" +
-									"FROM alt_comercial_solicitud_modelo AS solModel\r\n" + 
-									"WHERE solModel.id_cliente = "+id+" \r\n" + 
-									"\r\n" + 
-									"ORDER BY fechaCita").getResultList();
+				"		servCliente.actividad, \r\n" + 
+				"		servCliente.fecha_hora_de_cita AS fechaCita, \r\n" + 
+				"		'servciocliente' AS tabla, \r\n" + 
+				"		servCliente.id_text COLLATE utf8_general_ci,\r\n" + 
+				"		servCliente.observaciones_seguimiento COLLATE utf8_general_ci\r\n" + 
+				"FROM alt_comercial_solicitud_servicio_al_cliente AS servCliente\r\n" + 
+				"WHERE servCliente.id_cliente = "+id+" \r\n" + 
+				"\r\n" + 
+				"UNION ALL\r\n" + 
+				"\r\n" + 
+				"SELECT solModel.id_solicitud_modelo AS idPrimary, \r\n" + 
+				"		'Presentación' AS actividad, \r\n" + 
+				"		solModel.fecha_cita AS fechaCita, \r\n" + 
+				"		'solmodelo' AS tabla, \r\n" + 
+				"		solModel.id_text,\r\n" + 
+				"		solModel.observaciones_seguimiento\r\n" + 
+				"FROM alt_comercial_solicitud_modelo AS solModel\r\n" + 
+				"WHERE solModel.id_cliente = "+id+" \r\n" + 
+				"\r\n" + 
+				"UNION ALL\r\n" + 
+				"\r\n" + 
+				"SELECT coti.id_cotizacion AS idPrimary, \r\n" + 
+				"		IF(coti.tipo_cotizacion=1,'Lista de precios', IF(coti.tipo_cotizacion=2,'Cotización por prenda','Cotización desglozada')) AS actividad, \r\n" + 
+				"		coti.ultima_fecha_modificacion AS fechaCita, \r\n" + 
+				"		'cotizacion' AS tabla, \r\n" + 
+				"		coti.id_text,\r\n" + 
+				"		coti.observaciones_seguimiento\r\n" + 
+				"FROM alt_comercial_cotizacion AS coti\r\n" + 
+				"WHERE coti.id_cliente = "+id+"\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"ORDER BY fechaCita").getResultList();
 		
 	}
 	

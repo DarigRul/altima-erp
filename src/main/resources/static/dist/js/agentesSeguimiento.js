@@ -16,6 +16,7 @@ function mostrarListaSeguimiento(idCliente){
 				'<table class="table table-striped table-bordered" style="width:100%" id="tablaSeguimientosAgente">'+
                     '<thead>' +
                         '<tr> ' +
+                        	'<th>Folio</th>' +
                             '<th>Actividad</th>' +
                             '<th>Fecha</th>' +
                             '<th>Observaciones</th> ' +
@@ -57,6 +58,7 @@ function mostrarListaSeguimiento(idCliente){
 				var fecha = data[i][2].replace("T", " ");
 				fecha = fecha.substring(0,18);
 				tabla.row.add([
+					data[i][4],
 					data[i][1],
 					fecha,
 					"<input type='hidden' value="+data[i][0]+">"+
