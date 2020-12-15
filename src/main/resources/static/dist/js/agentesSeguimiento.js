@@ -1,6 +1,6 @@
 /**
  * Victor Hugo García Ilhuicatzi
- * Uso el controller de AgenteVentaController
+ * Uso el controller de AgenteVentaController y ComercialAgenteVentasSeguimientoController
  * Service de comercialAgentesVentaService
  */
 $(document).ready(function() {

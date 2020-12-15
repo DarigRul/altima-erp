@@ -18,4 +18,6 @@ public interface IComercialAgentesVentaService {
 	List<Object[]> findAllApartadoTelas();
 
 	List<Object[]> findDatosReporteApartadoTelas(Long id,boolean agrupar);
+	
+	List<Object[]> findListasSeguimientoByidCliente (Long id);
 }

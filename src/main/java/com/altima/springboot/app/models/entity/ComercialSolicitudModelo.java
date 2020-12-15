@@ -55,6 +55,10 @@ public class ComercialSolicitudModelo implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	@Column(name="observaciones_seguimiento")
+	private String observacionesSeguimiento;
+
 
 	public Long getIdSolicitudModelo() {
 		return idSolicitudModelo;
@@ -150,6 +154,13 @@ public class ComercialSolicitudModelo implements Serializable{
 		return serialVersionUID;
 	}
 	
+	public String getObservacionesSeguimiento() {
+		return observacionesSeguimiento;
+	}
+
+	public void setObservacionesSeguimiento(String observacionesSeguimiento) {
+		this.observacionesSeguimiento = observacionesSeguimiento;
+	}
 	
 
 }

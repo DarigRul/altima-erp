@@ -89,6 +89,8 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 	private String numeroInt;
 	@Column(name="codigo_postal")
 	private String codigoPostal;
+	@Column(name="observaciones_seguimiento")
+	private String observacionesSeguimiento;
 
 
 	@Column(name="telefono_cita")
@@ -302,6 +304,14 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 
 	public void setCodigoPostal(String codigoPostal) {
 		this.codigoPostal = codigoPostal;
+	}
+
+	public String getObservacionesSeguimiento() {
+		return observacionesSeguimiento;
+	}
+
+	public void setObservacionesSeguimiento(String observacionesSeguimiento) {
+		this.observacionesSeguimiento = observacionesSeguimiento;
 	}
 	
 	

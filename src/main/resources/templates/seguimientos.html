@@ -64,7 +64,7 @@
                                                 <td th:text="${#strings.concat(clientes.Nombre , ' ' , clientes.ApellidoPaterno , ' ' , clientes.ApellidoMaterno , ' ' , clientes.RazonSocial )}">Static content
                                                 </td>
                                                 <td class="text-center">
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_VER'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#accionesClienteAgente" class="btn btn-info btn-circle btn-sm popoverxd text-white"
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_VER'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="'mostrarListaSeguimiento('+${clientes.idCliente}+')'" class="btn btn-info btn-circle btn-sm popoverxd text-white"
                                                         data-container="body" data-placement="top" data-content="Ver seguimiento"><i
 														class="fas fa-info"></i></a>
                                                     <div th:insert="modal-seguimiento"></div>
@@ -97,6 +97,7 @@
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/Llamadas.js"></script>
     <script src="dist/js/tablaGeneral.js"></script>
+    <script src="dist/js/agentesSeguimiento.js"></script>
     <script>
         $('#iComercial').removeClass('text-altima');
         $('#menuComercial').addClass('menu-open');

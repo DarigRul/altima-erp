@@ -86,7 +86,34 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 		else {
 			return em.createNativeQuery("SELECT*,sum(Consumo),sum(SPF_consumo) FROM (SELECT*FROM `alt_view_apartado_telas_reporte` WHERE idPedido=:id GROUP BY CodigoPrenda,Principal_Combinacion) AS consumos GROUP BY consumos.id_tela").setParameter("id", id).getResultList();
 		}
+	}
+	
+	@Override
+	@Transactional
+	public List<Object[]> findListasSeguimientoByidCliente (Long id){
 		
+		return em.createNativeQuery("SELECT servCliente.id_solicitud_servicio_al_cliente AS idPrimary, \r\n" + 
+									"		servCliente.actividad, \r\n" + 
+									"		servCliente.fecha_hora_de_cita AS fechaCita, \r\n" + 
+									"		'serviciocliente' AS tabla, \r\n" + 
+									"		servCliente.id_cliente,\r\n" + 
+									"		servCliente.observaciones_seguimiento COLLATE utf8_general_ci \r\n" + 
+									"FROM alt_comercial_solicitud_servicio_al_cliente AS servCliente\r\n" + 
+									"WHERE servCliente.id_cliente = "+id+" \r\n" + 
+									"\r\n" + 
+									"UNION ALL\r\n" + 
+									"\r\n" + 
+									"SELECT solModel.id_solicitud_modelo AS idPrimary, \r\n" + 
+									"		'Presentación' AS actividad, \r\n" + 
+									"		solModel.fecha_cita AS fechaCita, \r\n" + 
+									"		'solmodelo' AS tabla, \r\n" + 
+									"		solModel.id_cliente,\r\n" + 
+									"		solModel.observaciones_seguimiento \r\n" +
+									"FROM alt_comercial_solicitud_modelo AS solModel\r\n" + 
+									"WHERE solModel.id_cliente = "+id+" \r\n" + 
+									"\r\n" + 
+									"ORDER BY fechaCita").getResultList();
 		
 	}
+	
 }
