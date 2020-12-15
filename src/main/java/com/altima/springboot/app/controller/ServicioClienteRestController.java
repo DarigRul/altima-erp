@@ -4,19 +4,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.support.rowset.ResultSetWrappingSqlRowSetMetaData;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.entity.ComercialSolicitudServicioAlCliente;
 import com.altima.springboot.app.models.entity.ComercialSolicitudServicioAlClienteAuxiliarVentas;
 import com.altima.springboot.app.models.entity.ComercialSolicitudServicioAlClienteCorrida;
@@ -51,6 +46,8 @@ public class ServicioClienteRestController {
 	private IComercialSolicitudServicioAlClienteMaterialService solicitudServicioClienteMaterialService;
 	@Autowired
 	private IComercialSolicitudServicioAlClienteCorridaService solicitudServicioClienteCorridaService;
+	@Autowired 
+	private IHrDireccionService direciconSercice;
 	
 	@RequestMapping(value = "/get_datos_de_cliente", method = RequestMethod.GET)
 	public String[] getDatosDeCliente(@RequestParam(name = "id") Long id) {
@@ -71,6 +68,16 @@ public class ServicioClienteRestController {
 	@RequestMapping(value = "/get_sucursal_direccion", method = RequestMethod.GET)
 	public List<Object[]> sucursalDireccion (@RequestParam(name = "id") Long id){
 		return solicitudServicioClienteService.direccionesSucursales(id);
+	}
+
+	@RequestMapping(value = "/get_sucursal_direccion2", method = RequestMethod.GET)
+	public HrDireccion sucursalDireccion2 (@RequestParam(name = "id") Long id){
+		return direciconSercice.findOne(id);
+	}
+
+	@RequestMapping(value = "/get_tipo_corrida_por_genero", method = RequestMethod.GET)
+	public List<String> tiposPorGenero (@RequestParam(name = "id") Long id, @RequestParam (name="genero") String genero){
+		return solicitudServicioClienteCorridaService.devolverSelectCorridasTipo(id, genero);
 	}
 	
 	@RequestMapping(value = "/save_solicitud_servicio_cliente", method = RequestMethod.POST)
@@ -102,7 +109,17 @@ public class ServicioClienteRestController {
 			ssc.setActualizadoPor(auth.getName());
 			ssc.setFechaCreacion(fechaConHora.format(now));
 			ssc.setUltimaFechaModificacion(fechaConHora.format(now));
-			ssc.setDireccionCita(solicitudObjeto.get("direccion").toString());
+			ssc.setCalle(solicitudObjeto.get("calle").toString());
+			if ( solicitudObjeto.get("NumeroExt").toString().equals("") ){
+				ssc.setNumeroExt("S/N");
+			}else{
+				ssc.setNumeroExt(solicitudObjeto.get("NumeroExt").toString());
+			}
+			ssc.setNumeroInt(solicitudObjeto.get("numeroInt").toString());
+			ssc.setEstado(solicitudObjeto.get("estado").toString());
+			ssc.setMunicipio(solicitudObjeto.get("municipio").toString());
+			ssc.setColonia(solicitudObjeto.get("colonia").toString());
+			ssc.setCodigoPostal(solicitudObjeto.get("codigoPostal").toString());
 			ssc.setTelefonoCita(solicitudObjeto.get("telefono").toString());
 			ssc.setEstatus("0");
 			solicitudServicioClienteService.save(ssc);
@@ -127,7 +144,18 @@ public class ServicioClienteRestController {
 			ssc2.setComentarios(solicitudObjeto.get("comentarios").toString());
 			
 			ssc2.setIdSucrsal(solicitudObjeto.get("sucur").toString());
-			ssc2.setDireccionCita(solicitudObjeto.get("direccion").toString());
+			ssc2.setCalle(solicitudObjeto.get("calle").toString());
+			if ( solicitudObjeto.get("NumeroExt").toString().equals("") ){
+				ssc2.setNumeroExt("S/N");
+			}else{
+				ssc2.setNumeroExt(solicitudObjeto.get("NumeroExt").toString());
+			}
+			ssc2.setNumeroInt(solicitudObjeto.get("NumeroInt").toString());
+			ssc2.setEstado(solicitudObjeto.get("estado").toString());
+			ssc2.setMunicipio(solicitudObjeto.get("municipio").toString());
+			ssc2.setColonia(solicitudObjeto.get("colonia").toString());
+			ssc2.setCodigoPostal(solicitudObjeto.get("codigoPostal").toString());
+			ssc2.setTelefonoCita(solicitudObjeto.get("telefono").toString());
 			ssc2.setTelefonoCita(solicitudObjeto.get("telefono").toString());
 			ssc2.setDirigirseCon(solicitudObjeto.get("dirigirse").toString());
 			ssc2.setActualizadoPor(auth.getName());
@@ -210,7 +238,7 @@ public class ServicioClienteRestController {
 	}
 	
 	@RequestMapping(value = "/save_servicio_cliente_corrida", method = RequestMethod.POST)
-	public ComercialSolicitudServicioAlClienteCorrida saveServicioAlClienteCorrida(@RequestParam(name = "genero") String genero, @RequestParam(name = "tipo") String tipo, @RequestParam(name = "idSolicitud") Long idSolicitud) {
+	public ComercialSolicitudServicioAlClienteCorrida saveServicioAlClienteCorrida(@RequestParam(name = "genero") String genero, @RequestParam(name = "tipo") String tipo, @RequestParam(name = "idSolicitud") Long idSolicitud, @RequestParam(name = "cantidad") Integer cantidad) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateTimeFormatter fechaConHora = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
@@ -225,6 +253,7 @@ public class ServicioClienteRestController {
 		corrida.setUltimaFechaModificacion(fechaConHora.format(now));
 		corrida.setEstatus("1");
 		corrida.setIdText(" ");
+		corrida.setCantidad(cantidad);
 		solicitudServicioClienteCorridaService.save(corrida);
 		corrida.setIdText("SOLCOR" + (10000 + corrida.getIdSolicitudServicioAlClienteCorrida()));
 		solicitudServicioClienteCorridaService.save(corrida);

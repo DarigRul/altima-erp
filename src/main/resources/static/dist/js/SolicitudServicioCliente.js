@@ -1,8 +1,46 @@
-$(document).ready(function () {
-	
-	
+$(document).ready(function () {	
 });
+$(function() {
+	$("#telefonoCita").inputmask({"mask": "(999)999-9999"});
+	$("#codigoPostal").inputmask({"mask": "99999"});
+	$('.popoverxd').popover({
+		container: 'body',
+		trigger: 'hover'
+	})
+})
+function mayus(e) {
+	e.value = e.value.toUpperCase();
+}
 
+function capitalizarPrimeraLetra(e) {
+	//almacenamos el valor del inpu
+	var palabra = e.value;
+	//Si el valor es nulo o undefined salimos
+	if(!e.value) return;
+	// almacenamos la mayuscula
+	var mayuscula = palabra.substring(0,1).toUpperCase();
+	//si la palabra tiene más de una letra almacenamos las minúsculas
+	if (palabra.length > 0) {
+	  var minuscula = palabra.substring(1);
+	}
+	//escribimos la palabra con la primera letra mayuscula
+	e.value = mayuscula.concat(minuscula);
+  }
+
+  $('#SN').click(function(){
+	if($(this).prop("checked") == true){
+		console.log("Checkbox is checked.");
+		$("#NumeroExt").prop('value', '');
+		$("#NumeroInt").prop('value', '');
+		$("#NumeroExt").prop('disabled', true);
+		$("#NumeroInt").prop('disabled', true);
+	}
+	else if($(this).prop("checked") == false){
+		console.log("Checkbox is unchecked.");
+		$("#NumeroExt").prop('disabled', false);
+		$("#NumeroInt").prop('disabled', false);
+	}
+});
 /*
  * Esta funcion cambia la direccion, el telefono y el dirigirse con, del formulario en base al cliente seleccionado
  */
@@ -84,10 +122,46 @@ function CambiarDatosCliente(input){
 	});
 }
 $('#sucursalCita').on('change', function() {
-	//console.log($("#sucursalCita option:selected").attr("direccion"))
-	$("#direccion").val($("#sucursalCita option:selected").attr("direccion"));
+	$('#cargandoDireccionObjec').css('display', '');
 	$("#telefonoCita").val($("#sucursalCita option:selected").attr("telefono"));
 	$("#dirigirseCita").val($("#sucursalCita option:selected").attr("contacto"));	
+
+	$.ajax({
+		type: "GET",
+		url: "/get_sucursal_direccion2",
+		data: { id: $("#sucursalCita option:selected").attr("direccion") },
+		success: (data) => {
+			
+			$('#calle').val(data.calle);
+			$('#estado').val(data.estado);
+			$('#municipio').val(data.municipio); 
+			$('#colonia').val(data.colonia);
+			$('#codigoPostal').val(data.codigoPostal);
+			if ( data.numeroExt == "S/N"){
+				$('#SN').prop('checked', true);
+				$("#NumeroExt").prop('value', '');
+				$("#NumeroInt").prop('value', '');
+				$("#NumeroExt").prop('disabled', true);
+				$("#NumeroInt").prop('disabled', true);
+			}else{
+				$('#SN').prop('checked', false);
+				$("#NumeroExt").prop('disabled', false);
+				$("#NumeroInt").prop('disabled', false);
+				$('#NumeroExt').val(data.numeroExt);
+				$('#NumeroInt').val(data.numeroExt);
+				
+			}
+			
+
+
+			$('#cargandoDireccionObjec').css('display', 'none');
+			},
+		error: (e) => {
+			console.log(e);
+		}
+	});
+
+	
 	
 })
 function CargarSelectsDeNuevo(){
@@ -173,6 +247,18 @@ function GuardarSolicitudServicioCliente(){
 	}else{
 		idPedido= 0;
 	}
+	var valNumeroExterno = false;
+	if (!$('#SN').prop('checked') ){
+		
+		if ($('#NumeroExt').val() == null || $('#NumeroExt').val() == "" ){
+			valNumeroExterno = true; 
+
+		}
+		else{
+			valNumeroExterno = false 
+		}
+
+	}
 	
 
 
@@ -180,7 +266,8 @@ function GuardarSolicitudServicioCliente(){
 		$('#sucursalCita').val() == null || $('#dirigirseCita').val() == null || $('#fechaSalida').val() == "" ||
 		$('#actividadCita').val() == "" || $('#damasAtender').val()<0 || $('#caballerosAtender').val() <0  ||
 		$('#damasAtender').val() == "" || $('#caballerosAtender').val() == "" ||
-		$('#telefonoCita').val() == ""  || $('#direccion').val() == ""   ){
+		$('#telefonoCita').val() == ""  ||   $('#calle').val() == ""  || valNumeroExterno  == true ||
+		$('#estado').val() == "" ||  $('#municipio').val() == "" ||  $('#colonia').val() == "" ||  $('#codigoPostal').val() == ""		){
 			Swal.fire({
 				icon: 'error',
 				title: 'Error!',
@@ -196,7 +283,9 @@ function GuardarSolicitudServicioCliente(){
 		var Solicitud = { fechaCita: $('#fechaCita').val(), clienteID: $('#clienteCita').val(), fechaSalida: $('#fechaSalida').val(),
 			actividadCita: $('#actividadCita').val(), damasAtender: parseInt($('#damasAtender').val()), idPedido: idPedido,
 			caballerosAtender: parseInt($('#caballerosAtender').val()), comentarios: $('#comentariosCita').val(), 
-			sucur:parseInt(sucursal), dirigirse:$('#dirigirseCita').val() , telefono : $('#telefonoCita').val(), direccion:$('#direccion').val()}
+			sucur:parseInt(sucursal), dirigirse:$('#dirigirseCita').val() , telefono : $('#telefonoCita').val(), calle:$('#calle').val(), 
+			NumeroExt:$('#NumeroExt').val() , NumeroInt:$('#NumeroInt').val(), 
+			estado:$('#estado').val(), municipio:$('#municipio').val(), colonia:$('#colonia').val(), codigoPostal:$('#codigoPostal').val() }
 		$.ajax({
 			type: "POST",
 			url: "/save_solicitud_servicio_cliente",
@@ -225,6 +314,12 @@ function ValidarTabs(id){
 	if(parseInt($('#idSolicitudServicioAlCliente').val()) > 0){
 		CargarSelectsDeNuevo();
 		$('#' + id + '-tab-boton').click();
+		$("#a-datos-generales").removeClass("active");
+		$("#a-sastre").removeClass("active");
+		$("#a-auxiliar-ventas").removeClass("active");
+		$("#a-material").removeClass("active");
+		$("#a-corridas").removeClass("active");
+		$("#a-"+id).addClass("active");		
 	}else{
 		console.log('no paso');
 		Swal.fire({
@@ -534,8 +629,37 @@ function ValidarGuardarMaterial(){
  * 
  *
  **/
+
+ function mostrarTipoPorGenero (genero){
+	$('#CargandoTipoCorridas').css('display', '');
+	$.ajax({
+		type: "GET",
+		url: "/get_tipo_corrida_por_genero",
+		data: { 
+			"id": $('#idSolicitudServicioAlCliente').val(),
+			"genero": genero
+		},
+		success: (data) => {
+			CargandoTipoCorridas
+			$('#tipoCorridas').empty();
+			for(var corrida = 0; corrida < data.length; corrida++){
+				
+				  $('#tipoCorridas').append("<option value='" + data[corrida] + "'>" + data[corrida] + "</option>");
+				
+			   
+			}
+			$('#tipoCorridas').selectpicker("refresh");
+			$('#CargandoTipoCorridas').css('display', 'none');
+		},
+		error: (e) => {
+			console.log(e);
+		}
+	});
+
+ }
 function GuardarCorridas(){
-	if ( document.formCorridas.generoCorridas.value == "" ||  document.formCorridas.tipoCorridas.value == "" ){
+	if ( document.formCorridas.generoCorridas.value == "" ||  document.formCorridas.tipoCorridas.value == "" || 
+		document.formCorridas.cantidadCorridas.value == "" || document.formCorridas.cantidadCorridas.value <1 ){
 		document.formCorridas.generoCorridas.focus() ;
 		document.formCorridas.tipoCorridas.focus() ;
 		Swal.fire({
@@ -556,12 +680,13 @@ function GuardarCorridas(){
 				"_csrf": $('#token').val(),
 				"idSolicitud": $('#idSolicitudServicioAlCliente').val(),
 				"genero": $('#generoCorridas').val(),
-				"tipo": $('#tipoCorridas').val()
+				"tipo": $('#tipoCorridas').val(),
+				"cantidad": $('#cantidadCorridas').val()
 			},
 			success: (data) => {
 				
 				var fila = null;
-				fila = tablaCorrida.row.add([ data.genero, data.tipo, "<td class='text-center'>" +
+				fila = tablaCorrida.row.add([ data.genero,data.cantidad, data.tipo, "<td class='text-center'>" +
 			  		"<button type='button' class='btn icon-btn btn-danger text-white' onclick='BorrarFilaCorrida(this, " + data.idSolicitudServicioAlClienteCorrida  + ")' >" + 
 		  			"<span class='btn-glyphicon fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button></td>" ]).draw().node();
 				$( fila ).prop('id', "FILA_CORRIDA_" + data.idSolicitudServicioAlClienteCorrida);
@@ -576,7 +701,8 @@ function GuardarCorridas(){
 					text: 'Se ha guardado el registro.'
 				  })
 
-				  $('#tipoCorridas').val(null);
+				  $('#cantidadCorridas').val(null)
+				  $('#tipoCorridas').empty();
 				  $('#tipoCorridas').selectpicker('refresh');
 			},
 			error: (e) => {

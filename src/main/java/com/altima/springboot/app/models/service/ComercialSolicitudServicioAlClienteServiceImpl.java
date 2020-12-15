@@ -102,26 +102,13 @@ public class ComercialSolicitudServicioAlClienteServiceImpl implements IComercia
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> direccionesSucursales(Long id) {
-		// TODO Auto-generated method stub
 		List<Object[]> response = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	'MATRIZ',\r\n" + 
 				"	CONCAT( 'PPAL. ', cliente.nombre ),\r\n" + 
 				"	cliente.telefono,\r\n" + 
 				"	cliente.nombre_contacto,\r\n" + 
-				"	CONCAT(\r\n" + 
-				"		direccion.calle,\r\n" + 
-				"		', #',\r\n" + 
-				"		direccion.numero_ext,\r\n" + 
-				"		'. Colonia: ',\r\n" + 
-				"		direccion.colonia,\r\n" + 
-				"		'. ',\r\n" + 
-				"		direccion.municipio,\r\n" + 
-				"		', ',\r\n" + 
-				"		direccion.estado,\r\n" + 
-				"		'. CP:',\r\n" + 
-				"		direccion.codigo_postal \r\n" + 
-				"	) \r\n" + 
+				"	CONCAT(direccion.id_direccion) \r\n" + 
 				"FROM\r\n" + 
 				"	alt_comercial_cliente AS cliente,\r\n" + 
 				"	alt_hr_direccion AS direccion \r\n" + 
@@ -135,19 +122,7 @@ public class ComercialSolicitudServicioAlClienteServiceImpl implements IComercia
 				"		CONCAT( 'Suc. ', sucursal.nombre_sucursal ),\r\n" + 
 				"		sucursal.telefono_sucursal,\r\n" + 
 				"		sucursal.contacto_sucursal,\r\n" + 
-				"		CONCAT(\r\n" + 
-				"			direccion.calle,\r\n" + 
-				"			', #',\r\n" + 
-				"			direccion.numero_ext,\r\n" + 
-				"			'. Colonia: ',\r\n" + 
-				"			direccion.colonia,\r\n" + 
-				"			'. ',\r\n" + 
-				"			direccion.municipio,\r\n" + 
-				"			', ',\r\n" + 
-				"			direccion.estado,\r\n" + 
-				"			'. CP:',\r\n" + 
-				"			direccion.codigo_postal \r\n" + 
-				"		) \r\n" + 
+				"		CONCAT(direccion.id_direccion) \r\n" + 
 				"	FROM\r\n" + 
 				"		alt_comercial_cliente AS cliente,\r\n" + 
 				"		alt_comercial_cliente_sucursal AS sucursal,\r\n" + 

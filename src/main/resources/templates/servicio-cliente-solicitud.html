@@ -47,24 +47,24 @@
                                 <div class="card-header bg-altima p-0 pt-1">
                                   <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                                     <li class="nav-item">
-                                      <a class="nav-link active text-white modal-rounded-header" onclick="ValidarTabs('datos-generales')">Datos generales</a>
+                                      <a id="a-datos-generales" class="nav-link text-white modal-rounded-header active" onclick="ValidarTabs('datos-generales')">Datos generales</a>
                                       <button type="hidden" id="datos-generales-tab-boton" data-toggle="pill" href="#datos-generales" role="tab" aria-controls="datos-generales" aria-selected="true" style="display: none;"></button>
                                     </li>
                                     <li class="nav-item">
-                                      <a class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('sastre')">Sastre</a>
+                                      <a id="a-sastre" class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('sastre')">Sastre</a>
                                       <button type="hidden" id="sastre-tab-boton" data-toggle="pill" href="#sastre" role="tab" aria-controls="sastre" style="display: none;"></button>
                                     </li>
                                     <li class="nav-item">
-                                      <a class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('auxiliar-ventas')">Auxiliar de ventas</a>
+                                      <a id="a-auxiliar-ventas" class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('auxiliar-ventas')">Auxiliar de ventas</a>
                                       <button type="hidden" id="auxiliar-ventas-tab-boton" data-toggle="pill" href="#auxiliar-ventas" role="tab" aria-controls="auxiliar-ventas" style="display: none;"></button>
                                     </li>
                                     <li class="nav-item">
-                                      	<a class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('material')">Material</a>
+                                      	<a id="a-material" class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('material')">Material</a>
                                       	<button type="hidden" id="material-tab-boton" data-toggle="pill" href="#material" role="tab" aria-controls="material" style="display: none;"></button>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('corridas')">Corridas</a>
-                                        <button type="hidden" id="corridas-tab-boton" data-toggle="pill" href="#corridas" role="tab" aria-controls="corridas" style="display: none;"></button>
+                                        <a id="a-corridas" class="nav-link text-white modal-rounded-header" onclick="ValidarTabs('corridas')">Corridas</a>
+                                        <button type="button" id="corridas-tab-boton" data-toggle="pill" href="#corridas" role="tab" aria-controls="corridas" style="display: none;" ></button>
                                       </li>
                                   </ul>
                                 </div>
@@ -101,6 +101,9 @@
 	</div>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/TablasSolicitudServicioAlCliente.js"></script>
+    <!-- InputMask -->
+    <script th:src="@{/plugins/moment/moment.min.js}"></script>
+  <script th:src="@{/plugins/inputmask/min/jquery.inputmask.bundle.min.js}"></script>
     <script src="/dist/js/SolicitudServicioCliente.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
     <script>

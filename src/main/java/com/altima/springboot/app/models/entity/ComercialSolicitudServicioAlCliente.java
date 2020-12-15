@@ -75,8 +75,21 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 	@Column(name="dirigirse_con")
 	private String dirigirseCon;
 
-	@Column(name="direccion_cita")
-	private String direccionCita;
+	@Column(name="estado")
+	private String estado;
+	@Column(name="municipio")
+	private String municipio;
+	@Column(name="colonia")
+	private String colonia;
+	@Column(name="calle")
+	private String calle;
+	@Column(name="numero_ext")
+	private String numeroExt;
+	@Column(name="numero_int")
+	private String numeroInt;
+	@Column(name="codigo_postal")
+	private String codigoPostal;
+
 
 	@Column(name="telefono_cita")
 	private String telefonoCita;
@@ -225,13 +238,7 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 		this.dirigirseCon = dirigirseCon;
 	}
 
-	public String getDireccionCita() {
-		return direccionCita;
-	}
-
-	public void setDireccionCita(String direccionCita) {
-		this.direccionCita = direccionCita;
-	}
+	
 
 	public String getTelefonoCita() {
 		return telefonoCita;
@@ -239,6 +246,62 @@ public class ComercialSolicitudServicioAlCliente implements Serializable {
 
 	public void setTelefonoCita(String telefonoCita) {
 		this.telefonoCita = telefonoCita;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getMunicipio() {
+		return municipio;
+	}
+
+	public void setMunicipio(String municipio) {
+		this.municipio = municipio;
+	}
+
+	public String getColonia() {
+		return colonia;
+	}
+
+	public void setColonia(String colonia) {
+		this.colonia = colonia;
+	}
+
+	public String getCalle() {
+		return calle;
+	}
+
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+
+	public String getNumeroExt() {
+		return numeroExt;
+	}
+
+	public void setNumeroExt(String numeroExt) {
+		this.numeroExt = numeroExt;
+	}
+
+	public String getNumeroInt() {
+		return numeroInt;
+	}
+
+	public void setNumeroInt(String numeroInt) {
+		this.numeroInt = numeroInt;
+	}
+
+	public String getCodigoPostal() {
+		return codigoPostal;
+	}
+
+	public void setCodigoPostal(String codigoPostal) {
+		this.codigoPostal = codigoPostal;
 	}
 	
 	

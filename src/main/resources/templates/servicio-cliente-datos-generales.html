@@ -13,8 +13,8 @@
     <div class="form-group col-md-6">
       <label for="clienteCita">Cliente</label>
       <div class="spinner-border text-primary spinner-border-sm" role="status" id="cargandoDireccion" style="display: none;">
-  		<span class="sr-only">Loading...</span>
-	  </div>
+  		  <span class="sr-only">Loading...</span>
+	    </div>
       <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="clienteCita" onchange="CambiarDatosCliente(this)">
           <option th:each="cliente: ${clientes}" th:value="${cliente.idCliente}" th:text="${cliente.Nombre}" th:selected="(${cliente.idCliente} == *{idCliente})"></option>
       </select>
@@ -51,12 +51,18 @@
     </div>
      <div class="form-group col-md-6" th:if="${accion == 'crear'}">
       <label for="sucursalCita">Sucursal</label>
+      <div class="spinner-border text-primary spinner-border-sm" role="status" id="cargandoDireccionObjec" style="display: none;">
+  		  <span class="sr-only">Loading...</span>
+	    </div>
       <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="sucursalCita">
       <!--  -->
       </select>
     </div>
     <div class="form-group col-md-6" th:if="${accion == 'editar'}">
       <label for="sucursalCita">Sucursal</label>
+      <div class="spinner-border text-primary spinner-border-sm" role="status" id="cargandoDireccionObjec" style="display: none;">
+  		  <span class="sr-only">Loading...</span>
+	    </div>
       <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="sucursalCita">
         <option th:each="sucursal: ${sucursal}" 
           th:value="${sucursal[0]}" 
@@ -72,17 +78,126 @@
       </select>
     </div>
 
-    <div class="form-group col-md-12">
-      <label for="direccion">Direcci&oacute;n</label>
-      <input type="text" class="form-control" id="direccion"  placeholder="Direccion" th:value="*{direccionCita}" >
+    <div class="form-group col-sm-8">
+      <label for="direccionEmpresa">Calle</label> <input
+        type="text" th:field="*{calle}"
+        class="form-control" maxlength="45"
+        onkeyup="capitalizarPrimeraLetra(this);"
+        placeholder="Av. 1ro de Mayo" required>
     </div>
+
+    <div th:if="*{NumeroExt != 'S/N'}"
+											class="form-group col-sm-1">
+											<div class="custom-control custom-checkbox"
+												style="margin-top: 38px">
+												<input class="custom-control-input" type="checkbox" id="SN"
+													value="option1"> <label for="SN"
+													class="custom-control-label">S/N</label>
+											</div>
+										</div>
+
+										<div th:if="*{NumeroExt == 'S/N'}"
+											class="form-group col-sm-1">
+											<div class="custom-control custom-checkbox"
+												style="margin-top: 38px">
+												<input class="custom-control-input" type="checkbox" checked
+													id="SN" value="option1"> <label for="SN"
+													class="custom-control-label">S/N</label>
+											</div>
+										</div>
+
+										<div th:if="*{NumeroExt == 'S/N'}"
+											class="form-group col-sm-1">
+											<label for="direccionExt">No. Ext.</label> <input
+												type="number" disabled maxlength="5"
+												th:field="*{NumeroExt}" class="form-control"
+												 placeholder="63" required>
+										</div>
+										<div th:if="*{NumeroExt == 'S/N'}"
+											class="form-group col-sm-2">
+											<label for="direccionInt">No. Int. (opcional)</label> <input
+												type="text" disabled th:field="*{NumeroInt}"
+												class="form-control"  placeholder="12">
+										</div>
+
+
+										<div th:if="*{NumeroExt != 'S/N'}"
+											class="form-group col-sm-1">
+											<label for="direccionExt">No. Ext.</label> <input
+												type="number" min="1" max="99999"
+												th:field="*{NumeroExt}" class="form-control"
+												 placeholder="63" required>
+										</div>
+										<div th:if="*{NumeroExt != 'S/N'}"
+											class="form-group col-sm-2">
+											<label for="direccionInt">No. Int. (opcional)</label> <input
+												type="text" maxlength="5" th:field="*{NumeroInt}"
+												class="form-control"  placeholder="12">
+                    </div>
+                    
+                    <div class="form-group col-sm-2">
+											<label for="estadoEmpresa">Estado</label> <select
+												th:field="*{estado}" class="form-control" required>
+												<option value="">Seleccione uno...</option>
+												<option value="Aguascalientes">Aguascalientes</option>
+												<option value="Baja California">Baja California</option>
+												<option value="Baja California Sur">Baja California Sur</option>
+												<option value="Campeche">Campeche</option>
+												<option value="Chiapas">Chiapas</option>
+												<option value="Chihuahua">Chihuahua</option>
+												<option value="Coahuila">Coahuila</option>
+												<option value="Colima">Colima</option>
+												<option value="Distrito Federal">Distrito Federal</option>
+												<option value="Durango">Durango</option>
+												<option value="Estado de México">Estado de México</option>
+												<option value="Guanajuato">Guanajuato</option>
+												<option value="Guerrero">Guerrero</option>
+												<option value="Hidalgo">Hidalgo</option>
+												<option value="Jalisco">Jalisco</option>
+												<option value="Michoacán">Michoacán</option>
+												<option value="Morelos">Morelos</option>
+												<option value="Nayarit">Nayarit</option>
+												<option value="Nuevo León">Nuevo León</option>
+												<option value="Oaxaca">Oaxaca</option>
+												<option value="Puebla">Puebla</option>
+												<option value="Querétaro">Querétaro</option>
+												<option value="Quintana Roo">Quintana Roo</option>
+												<option value="San Luis Potosí">San Luis Potosí</option>
+												<option value="Sinaloa">Sinaloa</option>
+												<option value="Sonora">Sonora</option>
+												<option value="Tabasco">Tabasco</option>
+												<option value="Tamaulipas">Tamaulipas</option>
+												<option value="Tlaxcala">Tlaxcala</option>
+												<option value="Veracruz">Veracruz</option>
+												<option value="Yucatán">Yucatán</option>
+												<option value="Zacatecas">Zacatecas</option>
+											</select>
+
+										</div>
+										<div class="form-group col-sm-4">
+											<label for="municipioEmpresa">Municipio</label> <input
+												type="text" maxlength="45" th:field="*{municipio}"
+												onkeyup="capitalizarPrimeraLetra(this);"
+												placeholder=" Ecatepec" class="form-control" required>
+                    </div>
+                    
+    <div class="form-group col-sm-4">
+      <label for="coloniaEmpresa">Colonia</label> 
+      <input type="text" maxlength="45" th:field="*{colonia}" onkeyup="capitalizarPrimeraLetra(this);" class="form-control" 		placeholder="8 de Agosto" required>
+    </div>
+    <div class="form-group col-sm-2">
+      <label for="cpEmpresa">C&oacute;digo postal</label> 
+      <input type="text" th:field="*{codigoPostal}" class="form-control" placeholder="90688" required>
+		</div>
+
+  
      <div class="form-group col-md-3">
         <label for="telefonoCita">Tel&eacute;fono</label>
         <input type="text" class="form-control" id="telefonoCita" placeholder="222 123 5324" th:value="*{telefonoCita}">
       </div>
       <div class="form-group col-md-3">
         <label for="dirigirseCita">Dirigirse con</label>
-        <input type="text" class="form-control" id="dirigirseCita" placeholder="Jorge Manuel Martinez" th:value="*{dirigirseCon}">
+        <input type="text" class="form-control" id="dirigirseCita" onkeyup="capitalizarPrimeraLetra(this);" placeholder="Jorge Manuel Martinez" th:value="*{dirigirseCon}">
       </div>
 
       <div class="form-group col-md-3" th:if="${accion == 'crear'}">
