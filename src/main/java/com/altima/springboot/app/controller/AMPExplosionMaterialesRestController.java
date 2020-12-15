@@ -51,6 +51,7 @@ public class AMPExplosionMaterialesRestController {
 					AmpTraspaso traspaso2 = new AmpTraspaso();
 					traspaso2.setIdAlmacenLogicoDestino(Long.parseLong(destino));
 					traspaso2.setIdAlmacenLogicoOrigen(Long.parseLong(origen));
+					traspaso2.setTipo("2");
 					AmpExplosionMaterialesService.SaveTraspaso(traspaso2);
 
 					AmpTraspasoDetalle traspasodetalle2 = new AmpTraspasoDetalle();

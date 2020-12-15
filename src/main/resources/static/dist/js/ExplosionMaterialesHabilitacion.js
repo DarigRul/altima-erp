@@ -62,6 +62,7 @@ $(document).ready(function () {
 	);
 	
 	console.log(document.getElementById("idpedido").value);
+	 //new $.fn.dataTable.FixedHeader(myTable2);
 
 });
 
@@ -433,7 +434,7 @@ console.log($("#surtir".concat(arrayReg[0].articulo)));
 //.val(document.getElementById("surtir").innerHTML);
 //$("#surtir".concat(arrayReg[0].articulo)).val();
 //console.log($("#surtir".concat(arrayReg[0].articulo)).val());
-document.getElementById("surtir".concat(arrayReg[0].articulo)).textContent = document.getElementById("surtir").innerHTML;
+//document.getElementById("surtir".concat(arrayReg[0].articulo)).textContent = document.getElementById("surtir").innerHTML;
 document.getElementById("disponible".concat(arrayReg[0].articulo)).textContent = document.getElementById("disponible").innerHTML;
 document.getElementById("apartado".concat(arrayReg[0].articulo)).textContent = document.getElementById("apartado").innerHTML;
 document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent = document.getElementById("surtir").innerHTML;
@@ -463,7 +464,7 @@ if(document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent=
 
 
 function guardar(){
-	
+	console.log(arrayReg);
 	Swal.fire({
 		  title: '¿Está seguro que desea guardar los cambios?',
 		  text: "Ésta operación es permanente!",
