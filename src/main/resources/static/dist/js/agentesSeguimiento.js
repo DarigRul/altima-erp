@@ -11,6 +11,21 @@ var tabla;
 
 function mostrarListaSeguimiento(idCliente){
 	tabla.rows().remove();
+	$('#borrar').remove();
+	$('#aparecer').append('<div id="borrar">' +
+				'<table class="table table-striped table-bordered" style="width:100%" id="tablaSeguimientosAgente">'+
+                    '<thead>' +
+                        '<tr> ' +
+                            '<th>Actividad</th>' +
+                            '<th>Fecha</th>' +
+                            '<th>Observaciones</th> ' +
+                            '<th>Acciones</th>' +
+                        '</tr>' +
+                    '</thead>' +
+                '</table>' +
+             '</div>');
+	tablaSeguimiento();
+	
 	$.ajax({
 		method:"GET",
 		url:"/seguimientoDetalles",
@@ -38,9 +53,12 @@ function mostrarListaSeguimiento(idCliente){
             });
 			
 			for (i in data){
+				
+				var fecha = data[i][2].replace("T", " ");
+				fecha = fecha.substring(0,18);
 				tabla.row.add([
 					data[i][1],
-					data[i][2],
+					fecha,
 					"<input type='hidden' value="+data[i][0]+">"+
 					"<input type='hidden' value="+data[i][3]+">"+
 					(data[i][5]==null?"":data[i][5]),
