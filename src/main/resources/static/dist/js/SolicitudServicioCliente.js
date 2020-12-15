@@ -267,7 +267,7 @@ function GuardarSolicitudServicioCliente(){
 		$('#actividadCita').val() == "" || $('#damasAtender').val()<0 || $('#caballerosAtender').val() <0  ||
 		$('#damasAtender').val() == "" || $('#caballerosAtender').val() == "" ||
 		$('#telefonoCita').val() == ""  ||   $('#calle').val() == ""  || valNumeroExterno  == true ||
-		$('#estado').val() == "" ||  $('#municipio').val() == "" ||  $('#colonia').val() == "" ||  $('#codigoPostal').val() == ""		){
+		$('#estado').val() == "" ||  $('#municipio').val() == "" ||  $('#colonia').val() == "" ||  $('#codigoPostal').val() == ""){
 			Swal.fire({
 				icon: 'error',
 				title: 'Error!',

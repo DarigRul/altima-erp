@@ -115,7 +115,7 @@ public class ServicioClienteRestController {
 			}else{
 				ssc.setNumeroExt(solicitudObjeto.get("NumeroExt").toString());
 			}
-			ssc.setNumeroInt(solicitudObjeto.get("numeroInt").toString());
+			ssc.setNumeroInt(solicitudObjeto.get("NumeroInt").toString());
 			ssc.setEstado(solicitudObjeto.get("estado").toString());
 			ssc.setMunicipio(solicitudObjeto.get("municipio").toString());
 			ssc.setColonia(solicitudObjeto.get("colonia").toString());
