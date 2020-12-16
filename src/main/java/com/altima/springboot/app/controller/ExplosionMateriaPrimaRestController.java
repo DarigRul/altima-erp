@@ -15,16 +15,20 @@ import com.altima.springboot.app.models.entity.AmpAlmacenLogico;
 import com.altima.springboot.app.models.entity.AmpAlmacenUbicacionArticulo;
 import com.altima.springboot.app.models.entity.AmpMultialmacen;
 import com.altima.springboot.app.models.entity.AmpRolloTela;
+import com.altima.springboot.app.models.entity.AmpTelaFaltante;
 import com.altima.springboot.app.models.entity.AmpTraspaso;
 import com.altima.springboot.app.models.entity.AmpTraspasoDetalle;
+import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.service.IAmpAlmacenLogicoService;
 import com.altima.springboot.app.models.service.IAmpAlmacenUbicacionArticuloService;
 import com.altima.springboot.app.models.service.IAmpExplosionTelaService;
 import com.altima.springboot.app.models.service.IAmpLoookupService;
 import com.altima.springboot.app.models.service.IAmpMultialmacenService;
 import com.altima.springboot.app.models.service.IAmpRolloTelaService;
+import com.altima.springboot.app.models.service.IAmpTelaFaltanteService;
 import com.altima.springboot.app.models.service.IAmpTraspasoDetalleService;
 import com.altima.springboot.app.models.service.IAmpTraspasoService;
+import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.cloudinary.http44.api.Response;
 
 import org.json.JSONArray;
@@ -63,30 +67,54 @@ public class ExplosionMateriaPrimaRestController {
     @Autowired
     IAmpAlmacenLogicoService almacenLogicoService;
 
+    @Autowired
+    ICargaPedidoService pedidoService;
+
+    @Autowired
+    IAmpTelaFaltanteService telaFaltanteService;
+
     @GetMapping("/getApartadoTelasById")
     public List<ExplosionTelaDto> getApartadoTelasById(@RequestParam Long idPedido) {
         return explosionTelaService.findAllExplosion(idPedido);
     }
 
     @GetMapping("/getApartadoTelasByIdTela")
-    public float getApartadoTelasByIdTela(@RequestParam Long idPedido,@RequestParam Long idTela) {
+    public float getApartadoTelasByIdTela(@RequestParam Long idPedido, @RequestParam Long idTela) {
         return explosionTelaService.findAllExplosionByIdTela(idPedido, idTela);
     }
 
     @Transactional
     @PostMapping("/postExplosionTelas")
     public ResponseEntity<?> postMovimientosEntradaAlmacen(@RequestParam Long idPedido, @RequestParam String rollos,
-            @RequestParam String idAlmacenes) {
+            @RequestParam String idAlmacenes, @RequestParam String telasFaltantes) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(rollos);
         Map<String, Object> response = new HashMap<>();
         JSONArray rollosArray = new JSONArray(rollos);
         JSONArray idAlmacenesArray = new JSONArray(idAlmacenes);
-        AmpAlmacenLogico almacenLogicoDestino = almacenLogicoService
-                .findOne(almacenLogicoService.findByTipo("2", "Apartados").getIdAlmacenLogico());
+        JSONArray telasFaltantesArray = new JSONArray(telasFaltantes);
         try {
+            ComercialPedidoInformacion pedido = pedidoService.findOne(idPedido);
+            pedido.setFechaExplosionMateriaPrima(currentDate());
+            pedido.setEstatusExplosionMateriaPrima("1");
+            pedidoService.save(pedido);
+            AmpAlmacenLogico almacenLogicoDestino = almacenLogicoService
+                    .findOne(almacenLogicoService.findByTipo("2", "Apartados").getIdAlmacenLogico());
+            for (int i = 0; i < telasFaltantesArray.length(); i++) {
+                AmpTelaFaltante telaFaltante = new AmpTelaFaltante();
+                JSONObject telasFaltantesJson = telasFaltantesArray.getJSONObject(i);
+                telaFaltante.setCantidad(telasFaltantesJson.getFloat("faltante"));
+                telaFaltante.setEstatus(0);
+                telaFaltante.setIdPedido(idPedido);
+                telaFaltante.setIdTela(telasFaltantesJson.getLong("idTela"));
+                telaFaltante.setCreadoPor(auth.getName());
+                telaFaltante.setActualizadoPor(auth.getName());
+                telaFaltanteService.save(telaFaltante);
+            }
+
             for (int i = 0; i < idAlmacenesArray.length(); i++) {
-                AmpAlmacenLogico almacenLogicoOrigen = almacenLogicoService.findOne(Long.parseLong(idAlmacenesArray.get(i).toString()));
+                AmpAlmacenLogico almacenLogicoOrigen = almacenLogicoService
+                        .findOne(Long.parseLong(idAlmacenesArray.get(i).toString()));
                 AmpTraspaso traspaso = new AmpTraspaso();
                 traspaso.setIdAlmacenLogicoOrigen(almacenLogicoOrigen.getIdAlmacenLogico());
                 traspaso.setIdAlmacenLogicoDestino(almacenLogicoDestino.getIdAlmacenLogico());
@@ -127,7 +155,7 @@ public class ExplosionMateriaPrimaRestController {
                         multialmacenEntrada
                                 .setExistencia(multialmacenEntrada.getExistencia() + traspasoDetalle.getCantidad());
                         multialmacenService.save(multialmacenSalida);
-                        System.out.println("entra al trans: "+rollosJson.getLong("idRollo"));
+                        System.out.println("entra al trans: " + rollosJson.getLong("idRollo"));
                         AmpRolloTela rollo = rolloTelaService.findOne(rollosJson.getLong("idRollo"));
                         rollo.setEstatus("0");
                         rollo.setIdPedido(idPedido);
@@ -139,8 +167,8 @@ public class ExplosionMateriaPrimaRestController {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             response.put("mensaje", "Error");
-			response.put("error", e.getLocalizedMessage());
-			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("error", e.getLocalizedMessage());
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         response.put("mensaje", "Success");
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);

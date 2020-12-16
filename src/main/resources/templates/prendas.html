@@ -60,6 +60,8 @@
                                                 <th>Modelo</th>
                                                 <th>Descripci&oacute;n</th>
                                                 <th>Tipo</th>
+                                                <th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION','ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION')">Estatus Producci&oacute;n</th>
+                                                <th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION','ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION')">Fecha Recepcion</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -73,6 +75,8 @@
                                                 <td>
                                                     <p th:text="${prenda.tipoPrenda}"></p>
                                                 </td>
+                                                <td th:text="${prenda.mostrar}==true?'Recibida':'Diseño'"></td>
+                                                <td th:text="${prenda.mostrar}==true?${prenda.fechaRecepcionProduccion}:${prenda.fechaDevolucionProduccion}"></td>
                                                 <td class="tdcenter">
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
                                                         th:href="@{'/detalle-prenda/' + ${prenda.idPrenda}}"

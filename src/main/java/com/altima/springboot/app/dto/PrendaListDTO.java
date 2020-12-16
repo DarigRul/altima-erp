@@ -15,6 +15,8 @@ public class PrendaListDTO {
     private String estatusRecepcionMuestra;
     private String estatus;
     private Boolean mostrar;
+	private String fechaRecepcionProduccion;
+	private String fechaDevolucionProduccion;
 
     public Long getIdPrenda() {
         return idPrenda;
@@ -86,6 +88,22 @@ public class PrendaListDTO {
 
     public void setMostrar(Boolean mostrar) {
         this.mostrar = mostrar;
+    }
+
+    public String getFechaRecepcionProduccion() {
+        return fechaRecepcionProduccion;
+    }
+
+    public void setFechaRecepcionProduccion(String fechaRecepcionProduccion) {
+        this.fechaRecepcionProduccion = fechaRecepcionProduccion;
+    }
+
+    public String getFechaDevolucionProduccion() {
+        return fechaDevolucionProduccion;
+    }
+
+    public void setFechaDevolucionProduccion(String fechaDevolucionProduccion) {
+        this.fechaDevolucionProduccion = fechaDevolucionProduccion;
     }
 
 }

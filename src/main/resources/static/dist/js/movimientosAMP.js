@@ -380,11 +380,15 @@ $('#guardarMovimientos').click(function () {
                         timer: 2500
                     }).then((result) => {
                         // Reload the Page
-                        const params = new URLSearchParams();
-                        params.append('listIdText', JSON.stringify(msg.data));
-                        params.append('format', "pdf");
-                        console.log(params);
-                        window.open("/rollotelabarcode?" + params);
+                        var movimientoTipo=movimientos.map(movimiento=>movimiento.tipo);
+                        if (movimientoTipo.includes("tela")) {
+                            const params = new URLSearchParams();
+                            params.append('listIdText', JSON.stringify(msg.data));
+                            params.append('format', "pdf");
+                            window.open("/rollotelabarcode?" + params);
+                        }
+                        console.log(movimientoTipo);
+
                         $(location).attr('href', '/movimientos-amp')
                     });
                 },

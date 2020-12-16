@@ -1,34 +1,24 @@
-$(document).ready(function() {
-    $('.requisicionTabla thead tr').clone(true).appendTo( '.requisicionTabla thead' );
-    $('.requisicionTabla thead tr:eq(1) th.select-filter').each( function (i) {
-        var title = $(this).text();
-        $(this).html( '<input class="form-control" type="text" placeholder="Buscar" />' );
- 
-        $( 'input', this ).on( 'keyup change', function () {
-            if ( table.column(i).search() !== this.value ) {
-                table
-                    .column(i)
-                    .search( this.value )
-                    .draw();
-            }
-        } );
-    } );
-    var table = $('.requisicionTabla')
+var table;
+$(document).ready(function () {
+    $('.requisicionTabla thead tr').clone(true).appendTo('.requisicionTabla thead');
+    $('.requisicionTabla thead tr:eq(0) th').each(function () {
+        var title = $('.requisicionTabla thead th').eq($(this).index()).text();
+        $(this).html('<input type="text" class="form-control" placeholder="Buscar" />');
+    });
+    table = $('.requisicionTabla')
         .DataTable({
             "ordering": false,
+            "orderCellsTop": true,
+            "fixedHeader": true,
             "pageLength": 5,
-            "scrollX": true,
             "stateSave": true,
-            "drawCallback": function() {
+            "scrollX": true,
+            "drawCallback": function () {
                 $('.popoverxd').popover({
                     container: 'body',
                     trigger: 'hover'
                 });
             },
-            "columnDefs": [{
-                "type": "html",
-                "targets": '_all'
-            }],
             "lengthMenu": [
                 [5, 10, 25, 50, 100],
                 [5, 10, 25, 50, 100]
@@ -62,6 +52,28 @@ $(document).ready(function() {
                 }
             }
         });
-    new $.fn.dataTable.FixedHeader(table);
+    // Restore state
+    var state = table.state.loaded();
+    if (state) {
+        table.columns().eq(0).each(function (colIdx) {
+            var colSearch = state.columns[colIdx].search;
 
+            if (colSearch.search) {
+                $('input', table.column(colIdx).header()).val(colSearch.search);
+            }
+        });
+
+        table.draw();
+    }
+
+
+    // Apply the search
+    table.columns().eq(0).each(function (colIdx) {
+        $('input', table.column(colIdx).header()).on('keyup change', function () {
+            table
+                .column(colIdx)
+                .search(this.value)
+                .draw();
+        });
+    });
 });

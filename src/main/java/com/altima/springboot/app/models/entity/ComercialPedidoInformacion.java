@@ -43,6 +43,12 @@ public class ComercialPedidoInformacion implements Serializable{
 
 	@Column(name="validacion")
 	private Boolean validacion;
+
+	@Column(name="fecha_explosion_materia_prima")
+	private String 	fechaExplosionMateriaPrima;
+
+	@Column(name="estatus_explosion_materia_prima")
+	private String estatusExplosionMateriaPrima;
 	
 	public Long getIdPedido() {
 		return idPedido;
@@ -368,6 +374,22 @@ public class ComercialPedidoInformacion implements Serializable{
 
 	public void setOtrosTexto(String otrosTexto) {
 		this.otrosTexto = otrosTexto;
+	}
+
+	public String getFechaExplosionMateriaPrima() {
+		return fechaExplosionMateriaPrima;
+	}
+
+	public void setFechaExplosionMateriaPrima(String fechaExplosionMateriaPrima) {
+		this.fechaExplosionMateriaPrima = fechaExplosionMateriaPrima;
+	}
+
+	public String getEstatusExplosionMateriaPrima() {
+		return estatusExplosionMateriaPrima;
+	}
+
+	public void setEstatusExplosionMateriaPrima(String estatusExplosionMateriaPrima) {
+		this.estatusExplosionMateriaPrima = estatusExplosionMateriaPrima;
 	}
 
 	

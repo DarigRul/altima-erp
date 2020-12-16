@@ -44,18 +44,29 @@
                             <!-- Default box -->
                             <div class="card">
                                 <div class="card-header bg-altima">
-                                    <h3 class="card-title">Listado de requisiciones&nbsp;<button data-target="#cambiarFechaPromesa"
-                                        data-toggle="modal" class="btn btn-sm icon-btn btn-danger text-white">
-                                        <span class="btn-glyphicon fas fa-calendar img-circle text-danger"></span>F. Prom. Rec.</button>&nbsp;
-                                        <button class="btn btn-sm icon-btn btn-success text-white" data-target="#generarOrden" data-toggle="modal">
-                                            <span class="btn-glyphicon fas fa-clipboard img-circle text-success"></span>Generar orden de compra</button></h3>
+                                    <h3 class="card-title">Listado de requisiciones&nbsp;<button
+                                            data-target="#cambiarFechaPromesa" data-toggle="modal"
+                                            class="btn btn-sm icon-btn btn-danger text-white">
+                                            <span class="btn-glyphicon fas fa-calendar img-circle text-danger"></span>F.
+                                            Prom. Rec.</button>&nbsp;
+                                        <button class="btn btn-sm icon-btn btn-success text-white"
+                                            data-target="#generarOrden" data-toggle="modal">
+                                            <span
+                                                class="btn-glyphicon fas fa-clipboard img-circle text-success"></span>Generar
+                                            orden de compra</button>
+                                    </h3>
                                 </div>
                                 <div th:insert="requisicion-de-telas-modal"></div>
                                 <div class="card-body">
-                                    <table class="table requisicionTabla table-striped table-bordered display nowrap" style="width: 100%;">
+
+                                    <div class="form-group">
+
+                                    </div>
+                                    <table class="table requisicionTabla table-striped table-bordered display nowrap"
+                                        style="width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th class="text-center"><input type="checkbox" /></th>
+                                                <th><input type="checkbox" id="selectAll"></th>
                                                 <th class="select-filter">Pedido</th>
                                                 <th class="select-filter">Clave</th>
                                                 <th class="select-filter">Cliente</th>
@@ -71,94 +82,27 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center"><input type="checkbox" /></td>
-                                                <td>5153</td>
-                                                <td>LS664</td>
-                                                <td>Caja Gonzalo Vega S.C de A.P</td>
-                                                <td>22/10/2020</td>
-                                                <td>Agente 1</td>
-                                                <td>100</td>
-                                                <td>20/08/2020</td>
-                                                <td>OC0001</td>
-                                                <td>30/08/2020</td>
-                                                <td>Pedida</td>
-                                                <td>Autorizada</td>
+                                            <tr th:each=" tela: ${telasFaltantes}">
+                                                <td><input type="checkbox" class="messageCheckbox"
+                                                        th:value="${tela.idTelaFaltante}" /></td>
+                                                <td th:text="${tela.idTextPedido}">5153</td>
+                                                <td th:text="${tela.idTextTela}">LS664</td>
+                                                <td th:text="${tela.cliente}">Caja Gonzalo Vega S.C de A.P</td>
+                                                <td th:text="${tela.fechaEntrega}">22/10/2020</td>
+                                                <td th:text="${tela.agente}">Agente 1</td>
+                                                <td th:text="${tela.cantidad}">100</td>
+                                                <td th:text="${tela.fechaOrdenCompra}">20/08/2020</td>
+                                                <td th:text="${tela.folioOrdenCompra}">OC0001</td>
+                                                <td th:text="${tela.fechaPomesa}">30/08/2020</td>
+                                                <td th:text="${tela.estatusCompra}">Pedida</td>
+                                                <td th:text="${tela.estatusComercial}">Autorizada</td>
                                                 <td>
-                                                    <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>
-                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><input type="checkbox" /></td>
-                                                <td>5161</td>
-                                                <td>LS664</td>
-                                                <td>Fabrica de galletas La Moderna</td>
-                                                <td>24/09/2020</td>
-                                                <td>Agente 2</td>
-                                                <td>50</td>
-                                                <td>20/08/2020</td>
-                                                <td>OC0001</td>
-                                                <td>30/08/2020</td>
-                                                <td>Extemporanea</td>
-                                                <td>Rechazada</td>
-                                                <td>
-                                                    <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>
-                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><input type="checkbox" /></td>
-                                                <td>5163</td>
-                                                <td>LS958</td>
-                                                <td>Hospital San Jos&eacute;</td>
-                                                <td>25/09/2020</td>
-                                                <td>Agente 3</td>
-                                                <td>40</td>
-                                                <td>20/08/2020</td>
-                                                <td>OC0001</td>
-                                                <td>30/08/2020</td>
-                                                <td>Extemporanea</td>
-                                                <td>Autorizada</td>
-                                                <td>
-                                                    <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>
-                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><input disabled="disabled" type="checkbox" /></td>
-                                                <td>5187</td>
-                                                <td>LS673</td>
-                                                <td>SADASI</td>
-                                                <td>25/10/2020</td>
-                                                <td>Agente 4</td>
-                                                <td>80</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>
-                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><input disabled="disabled" type="checkbox" /></td>
-                                                <td>5148</td>
-                                                <td>DI002</td>
-                                                <td>Cruz Azul</td>
-                                                <td>25/09/2020</td>
-                                                <td>Agente 5</td>
-                                                <td>100</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <button class="btn btn-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Aceptar"><i class="fas fa-check"></i></button>
-                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
+                                                    <button class="btn btn-success btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Aceptar"><i
+                                                            class="fas fa-check"></i></button>
+                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd"
+                                                        data-placement="top" data-content="Rechazar"><i
+                                                            class="fas fa-times"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -178,6 +122,7 @@
     </div>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaRequisicionTelas.js"></script>
+    <script src="/dist/js/requisicionTelas.js"></script>
     <script>
         $('#iCompras').removeClass('text-altima');
         $('#menuCompras').addClass('menu-open');
