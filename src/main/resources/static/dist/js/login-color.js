@@ -201,6 +201,17 @@
                 $.cookie("snowJS", "/dist/js/login-snow.js", { expires: 10000 });
 				window.location.replace("http://localhost:8070/login");
 			});
+			
+			$(document).on("click", "#imageBackgroundChange", function() {
+			var cookies = $.cookie();
+			 	for (var cookie in cookies) {
+			 		$.removeCookie(cookie);
+			 	}
+                 $.cookie("imageCSS", "particlesIMG", { expires: 10000 });
+			 	var imagen = $("#imgSrc").val();
+                 $.cookie("imageSRC", imagen, { expires: 10000 });
+			 	window.location.replace("http://localhost:8070/login");
+			 });
 
 			// ----------------------- PARTICLES ----------------------
 
@@ -306,5 +317,11 @@
                 $(".changeColor").removeClass("particlesCircles blackBackground").addClass($.cookie("snowCSS"));
                 $('<script>').attr({
                     src: $.cookie("snowJS")}).appendTo('body')
+			}
+			
+			//-------------------------- IMAGEN ---------
+			if ($.cookie("imageSRC")) {
+                $(".changeColor").removeClass("particlesCircles blackBackground").addClass($.cookie("imageCSS"));
+				$('.particlesIMG').css("background-image", "url("+$.cookie("imageSRC") +")");
             }
 		});

@@ -62,6 +62,16 @@
 			<input type="checkbox" name="adminToggle" class="adminToggle" />
 			<a class="adminButton" href="#!"><i class="fa fa-cog"></i></a>
 			<div class="adminButtons">
+				<a class="text-white popoverxd" title="Imagen" data-toggle="popover" data-placement="left" data-html="true" data-content='<form><div class="form-row align-items-center" style="width: 260px;">
+					<div class="col-auto">
+					  <input type="text" class="form-control mb-2" id="imgSrc" placeholder="URL de la imagen">
+					</div>
+					<div class="col-auto">
+					  <button type="button" id="imageBackgroundChange" class="btn btn-primary mb-2"><i class="fas fa-plus"></i></button>
+					</div>
+				  </div>
+				</form>
+				'><i class="fas fa-image"></i></a>
 				<a id="dotColors" class="text-white" title=" Particles"><i class="fa fa-dot-circle"></i></a>
 				<a id="catColors" class="text-white" title=" Nylan Cat"><i class="fa fa-cat"></i></a>
 				<a id="bubbleColors" class="text-white" title="Bubble"><i class="fab fa-buffer"></i></a>
@@ -134,6 +144,11 @@
 	<script src="/dist/js/login-color.js"></script>
 	<script src="/dist/css/login/js/main.js"></script>
 	<script>
+		$(function () {
+			$('.popoverxd').popover({
+				container: 'body',
+			})
+		});
 		$('#dotColors').click(function () {
 			$('.zoom-btn-sm').toggleClass('scale-out');
 			if (!$('.zoom-card').hasClass('scale-out')) {
