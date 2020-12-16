@@ -12,6 +12,8 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -471,7 +473,10 @@ public class CargaPedidoController {
 	
 	@RequestMapping(value = "/guardarExtras", method = RequestMethod.GET)
 	@ResponseBody
-	public int guardarExtra(@RequestParam(value="extraVal") String extraVal,
+	public int guardarExtra(@RequestParam(value="cubrePolvo", required=false) String cubrePolvo,
+							@RequestParam(value="portaTraje", required=false) String portaTraje,
+							@RequestParam(value="otros", required=false) String otros,
+							@RequestParam(value="otrosTexto", required=false) String otrosTexto,
 							@RequestParam(value="idPedido") Long idPedido) {
 		
 		try {
@@ -480,7 +485,17 @@ public class CargaPedidoController {
 			DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			ComercialPedidoInformacion pedido = cargaPedidoService.findOne(idPedido);
 			
-			pedido.setExtras(extraVal);
+			if(!cubrePolvo.equals("")) {
+				pedido.setCubrePolvo(cubrePolvo);
+			}
+			if(!portaTraje.equals("")) {
+				pedido.setPortaTraje(portaTraje);
+			}
+			if(!otros.equals("")) {
+				pedido.setOtros(otros);
+				pedido.setOtrosTexto(otrosTexto);
+			}
+			
 			pedido.setActualizadoPor(auth.getName());
 			pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
 			cargaPedidoService.save(pedido);

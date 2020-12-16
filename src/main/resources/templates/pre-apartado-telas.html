@@ -80,6 +80,7 @@
                                                 <td th:if="${preapartado[6]==0}">En espera</td>
                                                 <td th:if="${preapartado[6]==1}">Autorizado</td>
                                                 <td th:if="${preapartado[6]==2}">Rechazado</td>
+                                                <td th:if="${preapartado[6]==3}">En espera</td>
                                                 
                                                 <td th:if="${preapartado[7]==2}">Perdido</td>
                                                 <td th:if="${preapartado[7]==1}">Ganado</td>
@@ -90,15 +91,15 @@
                                                 <td class="tdcenter">
                                                     <button th:if="${preapartado[6]!=0}" class="btn btn-info btn-circle btn-sm text-white popoverxd" th:onclick="'idPreapartadoB('+${preapartado[0]}+')'"
                                                         data-container="body" data-target="#modal-estatus-preapartado" data-toggle="modal" data-placement="top" data-content="Estatus del pedido"><i class="fas fa-info"></i></button>
-                                                    <button th:if="${preapartado[6]!=0}" class="btn btn-info btn-circle btn-sm text-white popoverxd" th:onclick="'idPreapartadoB('+${preapartado[0]}+')'"
+                                                    <button th:if="${preapartado[6]==0}" class="btn btn-info btn-circle btn-sm text-white popoverxd" th:onclick="'idPreapartadoB('+${preapartado[0]}+')'"
                                                         data-container="body" data-target="#modal-vigencia-preapartado" data-toggle="modal" data-placement="top" data-content="Vigencia del pedido"><i class="fas fa-calendar-alt"></i></button>
-                                                    <button th:if="${preapartado[6]==0}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'coordinados('+${preapartado[0]}+')'"
+                                                    <button th:if="${preapartado[6]==0 || preapartado[6]==3}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'coordinados('+${preapartado[0]}+')'"
                                                         data-container="body" data-toggle="popover" data-placement="top" data-content="Coordinados"><i class="fas fa-question"></i></button>
                                                 	<button th:if="${preapartado[6]==1}" class="btn btn-primary btn-circle btn-sm popoverxd text-white" th:onclick="'detalleReportePreapartado('+${preapartado[0]}+')'"
                                                 		data-container="body" data-placement="top" data-content="Imprimir"><i class="fas fa-print"></i></button>
-                                                	<button th:if="${preapartado[6]==0}" class="btn btn-success btn-circle btn-sm text-white popoverxd" th:onclick="'autorizarPedidoPreapartado('+${preapartado[0]}+')'"
+                                                	<button th:if="${preapartado[6]==3}" class="btn btn-success btn-circle btn-sm text-white popoverxd" th:onclick="'autorizarPedidoPreapartado('+${preapartado[0]}+')'"
                                                 		data-container="body" data-placement="top" data-content="Autorizar"><i class="fas fa-check"></i></button>
-                                                	<button th:if="${preapartado[6]==0}" class="btn btn-danger btn-circle btn-sm popoverxd text-white" th:onclick="'rechazarPedidoPreapartado('+${preapartado[0]}+')'"
+                                                	<button th:if="${preapartado[6]==0 || preapartado[6]==3}" class="btn btn-danger btn-circle btn-sm popoverxd text-white" th:onclick="'rechazarPedidoPreapartado('+${preapartado[0]}+')'"
                                                 		data-container="body" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
                                                 </td>
                                             </tr>

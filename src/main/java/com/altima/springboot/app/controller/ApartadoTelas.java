@@ -291,6 +291,7 @@ public class ApartadoTelas {
 			ComercialPreApartado preApartado = preapartadoService.findOne(idPreapartado);
 			System.out.println(fechaVigencia);
 			preApartado.setFechaVigencia(fechaVigencia);
+			preApartado.setEstatus(3);
 			preApartado.setUltimaFechaModificacion(dtf.format(now));
 			preApartado.setActualizadoPor(auth.getName());
 			

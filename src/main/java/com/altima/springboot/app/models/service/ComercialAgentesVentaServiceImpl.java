@@ -95,7 +95,7 @@ public class ComercialAgentesVentaServiceImpl implements IComercialAgentesVentaS
 		return em.createNativeQuery("SELECT servCliente.id_solicitud_servicio_al_cliente AS idPrimary, \r\n" + 
 				"		servCliente.actividad, \r\n" + 
 				"		servCliente.fecha_hora_de_cita AS fechaCita, \r\n" + 
-				"		'servciocliente' AS tabla, \r\n" + 
+				"		'serviciocliente' AS tabla, \r\n" + 
 				"		servCliente.id_text COLLATE utf8_general_ci,\r\n" + 
 				"		servCliente.observaciones_seguimiento COLLATE utf8_general_ci\r\n" + 
 				"FROM alt_comercial_solicitud_servicio_al_cliente AS servCliente\r\n" + 

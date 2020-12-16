@@ -395,11 +395,16 @@
       		
 		}
       	
-      	
+//////////////////////////////////////////////////////////////////////////////////////
+      	//desarrollado por Victor Hugo Garcia Ilhuicatzi
       	
 function anadirExtras(idPedido){
 
 	$('#idPed').val(idPedido);
+	$('#numCubres').val("");
+	$('#numPortas').val("");
+	$('#numOtros').val("");
+	
 	$('#Otro').hide();
 	$('#Otro').val("");
 	$('#cubrePolvo').prop("checked", false);
@@ -424,15 +429,19 @@ function anadirExtras(idPedido){
      	   }
      	   
      	   else{
-     		   if(data.extras=="Cubre polvo"){
+     		   console.log(data);
+     		   if(data.cubrePolvo!="" && data.cubrePolvo != null){
      			  $('#cubrePolvo').prop("checked", true);
+     			 $('#numCubres').val(data.cubrePolvo);
      		   }
-     		   if(data.extras == "Porta traje"){
+     		   if(data.portaTraje != "" && data.portaTraje != null){
      			  $('#portaTraje').prop("checked", true);
+     			 $('#numPortas').val(data.portaTraje);
      		   }
-     		   if(data.extras != "Cubre polvo" && data.extras != "Porta traje" && data.extras != null && data.extras != ""){
+     		   if(data.otros != null && data.otros != ""){
      			  $('#otroExtra').prop("checked", true);
-     			 $('#Otro').val(data.extras);
+     			 $('#numOtros').val(data.otros);
+     			 $('#Otro').val(data.otrosTexto);
      			$('#Otro').show();
      		   }
      	   }
@@ -447,43 +456,40 @@ $('#otroExtra').on("change", function(){		//
     if (checked) {								//
         $('#Otro').show();						//
     }											//
-})												//
-												//
-$('#portaTraje').on("change", function(){		//
-	var checked = this.checked;				  	//
-    if (checked) {								//
+    else{										//
     	$('#Otro').hide();						//
-    	$('#Otro').val("");						//
-    }											//
-})												//
-												//
-$('#cubrePolvo').on("change", function(){		//
-	var checked = this.checked;				  	//
-    if (checked) {								//
-    	$('#Otro').hide();						//
-    	$('#Otro').val("");						//
     }											//
 })												//
 //===============================================//
 
 function guardarExtra(){
-
-	if($('input:radio[name=radioExtra]:checked').val() == "Cubre polvo" || 
-			$('input:radio[name=radioExtra]:checked').val() == "Porta traje" ||
-			($('#Otro').val() != "" && $('input:radio[name=radioExtra]:checked').val()== "Otro")){
-		
-		var extraVal = $('input:radio[name=radioExtra]:checked').val();
-		var idPedido = $('#idPed').val();
-		console.log(idPedido);
-		if(extraVal=="Otro"){
-			extraVal = $('#Otro').val();
+	if(($('input:checkbox[name=cubrePolvo]:checked').val() == "Cubre polvo" && ($('#numCubres').val()!='' && $('#numCubres').val()!=null && $('#numCubres').val()!=undefined)) || 
+			($('input:checkbox[name=portaTraje]:checked').val() == "Porta traje"  && ($('#numPortas').val()!='' && $('#numPortas').val()!=null && $('#numPortas').val()!=undefined)) ||
+			($('#Otro').val() != "" && $('input:checkbox[name=otroExtra]:checked').val()== "Otro"  && ($('#numOtros').val()!='' && $('#numOtros').val()!=null && $('#numOtros').val()!=undefined))){
+		var cubrePolvo = "";
+		var portaTraje = "";
+		var otros 	   = "";
+		var otrosTexto = "";
+		if($('input:checkbox[name=cubrePolvo]:checked')){
+		var cubrePolvo = $('#numCubres').val();
 		}
+		if($('input:checkbox[name=portaTraje]:checked')){
+		var portaTraje = $('#numPortas').val();
+		}
+		if($('input:checkbox[name=otroExtra]:checked')){
+		var otros 	   = $('#numOtros').val();
+		var otrosTexto = $('#Otro').val();
+		}
+		var idPedido = $('#idPed').val();
 		
 		 $.ajax({
                type: "GET",
                url: "/guardarExtras",
                data: { 
-            	   extraVal: extraVal,
+            	   cubrePolvo: cubrePolvo,
+            	   portaTraje: portaTraje,
+            	   otros: otros,
+            	   otrosTexto: otrosTexto,
             	   idPedido: idPedido
                },
                success: function(data) {

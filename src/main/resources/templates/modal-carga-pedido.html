@@ -55,32 +55,51 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content modal-rounded-body">
             <div class="modal-header bg-altima modal-rounded-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Muestras&nbsp;</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Extras&nbsp;</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                      
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group col-12">
-        			<div class="form-group">
-			            <div class="custom-control custom-radio">
-			                <input class="custom-control-input" type="radio" id="cubrePolvo" value="Cubre polvo" name="radioExtra">
-			                <label for="cubrePolvo" class="custom-control-label">Cubre polvo</label>
-			            </div>
-			            <div class="custom-control custom-radio">
-			                <input class="custom-control-input" type="radio" id="portaTraje" value="Porta traje" name="radioExtra">
-			                <label for="portaTraje" class="custom-control-label">Porta traje</label>
-			            </div>
-			            <div class="custom-control custom-radio">
-			                <input class="custom-control-input" type="radio" id="otroExtra" value="Otro" name="radioExtra">
-			                <label for="otroExtra" class="custom-control-label">Otro</label>
-			            </div> <input type="hidden" id="idPed">
-			        </div>
-                </div>
-                <div class="form-group col-4">
-                	<input class="form-control" type="text" id="Otro">
-                </div>
+            	<div class="row">
+	                <div class="col-md-12">
+	                	<div class="form-group col-md-6">
+				            <div class="custom-control custom-switch">
+				                <input class="custom-control-input" type="checkbox" id="cubrePolvo" value="Cubre polvo" name="cubrePolvo">
+				                <label for="cubrePolvo" class="custom-control-label">Cubre polvo</label>
+				            </div>
+				       	</div>
+				       	<div class="col-md-3">
+				       		<input type="text" class="form-control" id="numCubres" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 45'>
+				       	</div>
+				     </div>
+				     <div class="col-md-12">
+				     	<div class="form-group col-md-6">
+				            <div class="custom-control custom-switch">
+				                <input class="custom-control-input" type="checkbox" id="portaTraje" value="Porta traje" name="portaTraje">
+				                <label for="portaTraje" class="custom-control-label">Porta traje</label>
+				            </div>
+				     	</div>
+				       	<div class="col-md-3">
+				       		<input type="text" class="form-control" id="numPortas" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 45'>
+				       	</div>
+				     </div>
+				     <div class="col-md-12">
+				     	<div class="form-group col-md-6">
+				            <div class="custom-control custom-switch">
+				                <input class="custom-control-input" type="checkbox" id="otroExtra" value="Otro" name="otroExtra">
+				                <label for="otroExtra" class="custom-control-label">Otro</label>
+				            </div>
+				    	</div>
+				       	<div class="col-md-3">
+				       		<input type="text" class="form-control" id="numOtros" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 45'>
+				       	</div> 																	<input type="hidden" id="idPed">
+				       	<div class="form-group col-md-6">
+                			<textarea class="form-control textareaCustom" id="Otro" rows="3"></textarea>
+                		</div>
+	               	</div>
+	            </div>
             </div>
             <div class="modal-footer modal-rounded-footer">
             	<button type="button" class="btn btn-danger mr-auto" data-target="#extrasCargaPedido"data-toggle="modal" >Cancelar</button>

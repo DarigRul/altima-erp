@@ -113,8 +113,17 @@ public class ComercialPedidoInformacion implements Serializable{
 	@Column(name="fecha_apartado_telas")
 	private String fechaApartadoTelas;
 	
-	@Column(name="extras")
-	private String extras;
+	@Column(name="cubre_polvo")
+	private String cubrePolvo;
+	
+	@Column(name="porta_traje")
+	private String portaTraje;
+	
+	@Column(name="otros")
+	private String otros;
+	
+	@Column(name="otros_texto")
+	private String otrosTexto;
 	
 
 	public String getFechaCierre() {
@@ -329,12 +338,37 @@ public class ComercialPedidoInformacion implements Serializable{
 		this.fechaApartadoTelas = fechaApartadoTelas;
 	}
 
-	public String getExtras() {
-		return extras;
+	public String getCubrePolvo() {
+		return cubrePolvo;
 	}
 
-	public void setExtras(String extras) {
-		this.extras = extras;
+	public void setCubrePolvo(String cubrePolvo) {
+		this.cubrePolvo = cubrePolvo;
 	}
+
+	public String getPortaTraje() {
+		return portaTraje;
+	}
+
+	public void setPortaTraje(String portaTraje) {
+		this.portaTraje = portaTraje;
+	}
+
+	public String getOtros() {
+		return otros;
+	}
+
+	public void setOtros(String otros) {
+		this.otros = otros;
+	}
+
+	public String getOtrosTexto() {
+		return otrosTexto;
+	}
+
+	public void setOtrosTexto(String otrosTexto) {
+		this.otrosTexto = otrosTexto;
+	}
+
 	
 }
