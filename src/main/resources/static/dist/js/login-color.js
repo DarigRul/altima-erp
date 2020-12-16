@@ -10,7 +10,7 @@
 				}
 				$.cookie("blackColor", "blackBackground", { expires: 10000 });
                 $.cookie("blackJS", "/dist/js/login-particles.js", { expires: 10000 });
-                window.location.replace("http://localhost:8070/login");
+                window.location.replace("/login");
 			});
 
 			$("#blueBackgroundChange").click(function () {
@@ -20,7 +20,7 @@
 				}
 				$.cookie("blueColor", "blueBackground", { expires: 10000 });
 				$.cookie("blueJS", "/dist/js/login-particles.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			$("#whiteBackgroundChange").click(function () {
@@ -30,7 +30,7 @@
 				}
 				$.cookie("whiteColor", "whiteBackground", { expires: 10000 });
 				$.cookie("whiteJS", "/dist/js/login-black.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			$("#redBackgroundChange").click(function () {
@@ -40,7 +40,7 @@
 				}
                 $.cookie("redColor", "redBackground", { expires: 10000 });
                 $.cookie("redJS", "/dist/js/login-particles.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			$("#greenBackgroundChange").click(function () {
@@ -50,7 +50,7 @@
 				}
                 $.cookie("greenColor", "greenBackground", { expires: 10000 });
                 $.cookie("greenJS", "/dist/js/login-particles.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			$("#yellowBackgroundChange").click(function () {
@@ -60,7 +60,7 @@
 				}
                 $.cookie("yellowColor", "yellowBackground", { expires: 10000 });
                 $.cookie("yellowJS", "/dist/js/login-black.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 			
 			//--------------COLORES NYAN CAT -------------
@@ -73,7 +73,7 @@
 				}
                 $.cookie("catBlueCSS", "particlesCatsBlue", { expires: 10000 });
                 $.cookie("catBlueJS", "/dist/js/login-cat.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 			$("#redCat").click(function () {
 				var cookies = $.cookie();
@@ -82,7 +82,7 @@
 				}
                 $.cookie("catRedCSS", "particlesCatsRed", { expires: 10000 });
                 $.cookie("catRedJS", "/dist/js/login-cat.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 			$("#greenCat").click(function () {
 				var cookies = $.cookie();
@@ -91,7 +91,7 @@
 				}
                 $.cookie("catGreenCSS", "particlesCatsGreen", { expires: 10000 });
                 $.cookie("catGreenJS", "/dist/js/login-cat.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 			$("#yellowCat").click(function () {
 				var cookies = $.cookie();
@@ -100,7 +100,7 @@
 				}
                 $.cookie("catYellowCSS", "particlesCatsYellow", { expires: 10000 });
                 $.cookie("catYellowJS", "/dist/js/login-cat-dark.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			$("#blackCat").click(function () {
@@ -110,7 +110,7 @@
 				}
                 $.cookie("catBlackCSS", "particlesCatsBlack", { expires: 10000 });
                 $.cookie("catBlackJS", "/dist/js/login-cat.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			$("#whiteCat").click(function () {
@@ -120,7 +120,7 @@
 				}
                 $.cookie("catWhiteCSS", "particlesCatsWhite", { expires: 10000 });
                 $.cookie("catWhiteJS", "/dist/js/login-cat-dark.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			//--------------- BUBBLE COLORES -------------
@@ -133,7 +133,7 @@
                 $.cookie("bubbleBlueCSS", "particlesBubbles", { expires: 10000 });
                 $.cookie("bubbleBlueClass", "blueBackground", { expires: 10000 });
                 $.cookie("bubbleBlueJS", "/dist/js/login-bubble.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			$("#redBubble").click(function () {
@@ -144,7 +144,7 @@
                 $.cookie("bubbleRedCSS", "particlesBubbles", { expires: 10000 });
                 $.cookie("bubbleRedClass", "redBackground", { expires: 10000 });
                 $.cookie("bubbleRedJS", "/dist/js/login-bubble.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			$("#greenBubble").click(function () {
@@ -155,7 +155,7 @@
                 $.cookie("bubbleGreenCSS", "particlesBubbles", { expires: 10000 });
                 $.cookie("bubbleGreenClass", "greenBackground", { expires: 10000 });
                 $.cookie("bubbleGreenJS", "/dist/js/login-bubble.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			$("#yellowBubble").click(function () {
@@ -166,7 +166,7 @@
                 $.cookie("bubbleYellowCSS", "particlesBubbles", { expires: 10000 });
                 $.cookie("bubbleYellowClass", "yellowBackground", { expires: 10000 });
                 $.cookie("bubbleYellowJS", "/dist/js/login-bubble.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			$("#blackBubble").click(function () {
@@ -177,7 +177,7 @@
                 $.cookie("bubbleBlackCSS", "particlesBubbles", { expires: 10000 });
                 $.cookie("bubbleBlackClass", "blackBackground", { expires: 10000 });
                 $.cookie("bubbleBlackJS", "/dist/js/login-bubble-white.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			$("#whiteBubble").click(function () {
@@ -188,7 +188,7 @@
                 $.cookie("bubbleWhiteCSS", "particlesBubbles", { expires: 10000 });
                 $.cookie("bubbleWhiteClass", "whiteBackground", { expires: 10000 });
                 $.cookie("bubbleWhiteJS", "/dist/js/login-bubble-white.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 
 			///----------------SNOW COLORS -----------------
@@ -199,7 +199,7 @@
 				}
                 $.cookie("snowCSS", "particlesSnows", { expires: 10000 });
                 $.cookie("snowJS", "/dist/js/login-snow.js", { expires: 10000 });
-				window.location.replace("http://localhost:8070/login");
+				window.location.replace("/login");
 			});
 			
 			$(document).on("click", "#imageBackgroundChange", function() {
@@ -210,7 +210,7 @@
                  $.cookie("imageCSS", "particlesIMG", { expires: 10000 });
 			 	var imagen = $("#imgSrc").val();
                  $.cookie("imageSRC", imagen, { expires: 10000 });
-			 	window.location.replace("http://localhost:8070/login");
+			 	window.location.replace("/login");
 			 });
 
 			// ----------------------- PARTICLES ----------------------
