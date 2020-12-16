@@ -25,8 +25,7 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>
-                                Empalme de telas  <button data-toggle="modal" data-target="#nuevoFolio" class="btn btn-sm icon-btn btn-altima text-white mr-auto" type="button"><span
-                                    class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nuevo folio</button>
+                                Empalme de telas
                             </h1>
                         </div>
                         <div th:insert="empalme-telas-folio"></div>
@@ -49,58 +48,67 @@
                             <!-- Default box -->
                             <div class="card">
                                 <div class="card-header bg-altima">
-                                    <h3 class="card-title">Listado de empalmes</h3>
+                                    <h3 class="card-title">Listado de empalmes
+                                        <button data-toggle="modal" data-target="#nuevoFolio" class="btn btn-sm icon-btn btn-success text-white mr-auto" type="button"><span
+                                            class="btn-glyphicon fas fa-plus img-circle text-success"></span>Nuevo folio</button>
+                                             <button data-toggle="modal" data-target="#nuevoRuta" class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
+                                            class="btn-glyphicon fas fa-plus img-circle text-danger"></span>Ruta</button>
+                                            <button data-toggle="modal" data-target="#nuevoPrograma" class="btn btn-sm icon-btn btn-secondary text-white mr-auto" type="button"><span
+                                                class="btn-glyphicon fas fa-plus img-circle text-secondary"></span>Programa</button>
+                                    </h3>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table table-striped table-bordered" style="width: 100%;">
+                                    <table class="table tableEmpalme table-striped table-bordered display nowrap" style="width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th></th>
+                                                <th style="width: 1%;"></th>
                                                 <th>Pedido</th>
                                                 <th>Fecha de entrega</th>
+                                                <th>Programa</th>
                                                 <th>Coord.</th>
                                                 <th>Prenda</th>
                                                 <th>Modelo</th>
+                                                <th>Personalizaci&oacute;n</th>
+                                                <th>Ruta</th>
                                                 <th>Confecci&oacute;n</th>
                                                 <th>Clave tela</th>
+                                                <th>Ancho</th>
+                                                <th>Composici&oacute;n</th>
+                                                <th>Encog./Estir.</th>
                                                 <th>Estampado</th>
-                                                <th>Estatus tela</th>
+                                                <th>Estatus gral. tela</th>
                                                 <th>Folio</th>
+                                                <th>Detalles</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 											<tr>
-												<td class="text-center">
+												<td style="text-align: center; vertical-align: middle;">
                                                     <input type="checkbox"/>
                                                 </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>Completa</td>
+                                                <td>PED1020</td>
+                                                <td>28/12/2020</td>
+                                                <td>DD7</td>
                                                 <td>1</td>
-                                            </tr>
-                                            <tr>
-												<td class="text-center">
-                                                    <input type="checkbox"/>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>Saco</td>
+                                                <td>SAC6280</td>
+                                                <td>N/A</td>
+                                                <td>1</td>
+                                                <td>95</td>
+                                                <td>LS576</td>
+                                                <td>1.42</td>
+                                                <td>Lino</td>
+                                                <td>-5</td>
+                                                <td>Lisa</td>
                                                 <td>Faltante</td>
                                                 <td>1</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-info"></i></button>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div th:insert="empalme-telas-detalle"></div>
                                 </div>
                             </div>
                             <!-- /.card -->
@@ -117,6 +125,7 @@
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/tablaEmpalme.js"></script>
+    <script src="dist/js/tablaGeneral.js"></script>
 	<script>
         $('#iProduccion').removeClass('text-altima');
         $('#menuProduccion').addClass('menu-open');

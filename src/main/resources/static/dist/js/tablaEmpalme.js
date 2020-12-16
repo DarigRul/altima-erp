@@ -1,23 +1,25 @@
 
-    $('.table thead tr').clone(true).appendTo('.table thead');
-    $('.table thead tr:eq(0) th').each(function () {
-        var title = $('.table thead th').eq($(this).index()).text();
+    $('.tableEmpalme thead tr').clone(true).appendTo('.tableEmpalme thead');
+    $('.tableEmpalme thead tr:eq(0) th').each(function () {
+        var title = $('.tableEmpalme thead th').eq($(this).index()).text();
         $(this).html('<input type="text" class="form-control" placeholder="Buscar" />');
     });
-    table = $('.table')
+    table = $('.tableEmpalme')
         .DataTable({
             "ordering": false,
-            "orderCellsTop": true,
-            "fixedHeader": true,
             "pageLength": 5,
+            "scrollX": true,
             "stateSave": true,
-            "responsive": true,
-            "drawCallback": function () {
+            "drawCallback": function() {
                 $('.popoverxd').popover({
                     container: 'body',
                     trigger: 'hover'
                 });
             },
+            "columnDefs": [{
+                "type": "html",
+                "targets": '_all'
+            }],
             "lengthMenu": [
                 [5, 10, 25, 50, 100],
                 [5, 10, 25, 50, 100]
@@ -51,6 +53,8 @@
                 }
             }
         });
+    new $.fn.dataTable.FixedHeader(table);
+
     // new $.fn.dataTable.FixedHeader(table);
     // Restore state
     var state = table.state.loaded();
