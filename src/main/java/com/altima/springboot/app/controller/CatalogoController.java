@@ -98,10 +98,10 @@ public class CatalogoController {
 	
 	@RequestMapping(value = "/verifduplicado", method = RequestMethod.GET)
 	@ResponseBody
-	public boolean verificaduplicado(String Lookup, String Tipo,@RequestParam(required=false) String atributo) {
+	public boolean verificaduplicado(String Lookup, String Tipo,@RequestParam(required=false) String atributo, String CodigoPrenda) {
 		boolean resp;
 		try {
-			resp=catalogo.findDuplicate(Lookup, Tipo, atributo);
+			resp=catalogo.findDuplicate(Lookup, Tipo, atributo, CodigoPrenda);
 		} catch (Exception e) {
 			resp=catalogo.findDuplicate(Lookup, Tipo);
 		}
@@ -193,7 +193,7 @@ public class CatalogoController {
 	@PostMapping("/guardarcatalogo")
 	public String guardacatalogo(String Descripcion, String Color, String PiezaTrazo, String FamiliaPrenda,
 			String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado, String UnidadMedida,
-			String proveedorColor, String Material, String Codigo, HttpServletRequest request, String Marcador, String CodigoColor, 
+			String proveedorColor, String Material, String Codigo, String CodigoPrenda, HttpServletRequest request, String Marcador, String CodigoColor, 
 			String Posicion, @RequestParam(required = false) MultipartFile iconocuidado, Long Idcuidado, String Simbolo,
 			String Composicion, String TipoMaterial, String CategoriaMaterial) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -281,6 +281,7 @@ public class CatalogoController {
 
 			familiaprenda.setNombreLookup(StringUtils.capitalize(FamiliaPrenda));
 			familiaprenda.setTipoLookup("Familia Prenda");
+			familiaprenda.setDescripcionLookup(CodigoPrenda);
 			familiaprenda.setCreadoPor(auth.getName());
 			familiaprenda.setAtributo1(Posicion);
 			familiaprenda.setFechaCreacion(dateFormat.format(date));
@@ -661,7 +662,7 @@ public class CatalogoController {
 	@PostMapping("/editarcatalogo")
 	public String editacatalogo(Model model, final Long idLookup, String Color, String PiezaTrazo, String FamiliaPrenda,
 			String Descripcion, String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado,
-			String UnidadMedida, String Material, String Codigo, String proveedor, String Marcador, String CodigoColor, String Posicion, String Simbolo,
+			String UnidadMedida, String Material, String Codigo, String CodigoPrenda, String proveedor, String Marcador, String CodigoColor, String Posicion, String Simbolo,
 			String Composicion, String TipoMaterial, String CategoriaMaterial, @RequestParam(required = false) MultipartFile iconocuidado) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DisenioLookup color = null;
@@ -695,6 +696,7 @@ public class CatalogoController {
 		if (FamiliaPrenda != null && idLookup > 0) {
 			familiaprenda = catalogo.findOne(idLookup);
 			familiaprenda.setNombreLookup(StringUtils.capitalize(FamiliaPrenda));
+			familiaprenda.setDescripcionLookup(CodigoPrenda);
 			familiaprenda.setUltimaFechaModificacion(currentDate());
 			familiaprenda.setAtributo1(Posicion);
 			familiaprenda.setActualizadoPor(auth.getName());
