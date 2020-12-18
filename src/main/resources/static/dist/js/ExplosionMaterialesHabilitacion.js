@@ -126,7 +126,7 @@ function tablamulti(material,disponible_actual,disponible_inicio,apartados,surti
 		method: "GET",
 		url: "/explosion-materiales-habilitacion",
 		data: {
-
+			'Idpedido' : $('#idpedido').val() , 
 			'IdArticulo':material
 		},
 		success: (data) => {
@@ -265,8 +265,13 @@ function inputapartados(
 	var disponible_existencia_almacen=arreglo[contador1[0]][6];
 	Swal.fire({
 		title: 'Ingrese la cantidad a apartar',
-		input: 'text',
-
+		input: 'number',
+		 inputAttributes: {
+		       min: 0,
+		       max: 1000000
+		       
+		       
+		    },
 		showCancelButton: true,
 		onOpen: function() {document.getElementsByClassName('swal2-confirm swal2-styled')[0].setAttribute('id', 'btnconfirm');}
 	,
@@ -277,9 +282,9 @@ function inputapartados(
 		// console.log("surtir"+surtir);
 		var disponible4=parseInt(document.getElementById("disponible").innerHTML);
 		var surtir4=parseInt(document.getElementById("surtir").innerHTML);
-		if (!value) {
+		if (!value || value<0) {
 
-			return 'Ingrese un valor valido no puede estar vacio'
+			return 'Ingrese un valor valido no puede estar vacio ni ser un valor negativo'
 		}
 		else if (parseInt(value)>disponible4 || parseInt(value)>surtir4 || parseInt(value)>parseInt(disponible_existencia_almacen)) {
 			// console.log(value);

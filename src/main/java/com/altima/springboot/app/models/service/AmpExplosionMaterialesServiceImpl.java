@@ -72,7 +72,8 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 	@Transactional
 	@Override
 	public List<Object[]> findAllExplosion() {
-		return em.createNativeQuery("select  acpi.fecha_cierre,acpi.id_text,acpi.id_pedido_informacion,ifnull(acpi.fecha_explosion_habilitacion,'Pendiente'),IF(acpi.estatus_explosion_habilitacion=1 and acpi.estatus_explosion_materia_prima=1,'Explosionado','Sin explosionar'),ifnull(acpi.fecha_explosion_materia_prima,'Pendiente')\r\n"
+		return em.createNativeQuery(
+				"select  acpi.fecha_cierre,acpi.id_text,acpi.id_pedido_informacion,ifnull(acpi.fecha_explosion_habilitacion,'Pendiente'),IF(acpi.estatus_explosion_habilitacion=1 and acpi.estatus_explosion_materia_prima=1,'Explosionado','Sin explosionar'),ifnull(acpi.fecha_explosion_materia_prima,'Pendiente')\r\n"
 						+ "from alt_comercial_pedido_informacion acpi\r\n" + "where acpi.estatus=3")
 				.getResultList();
 	}
@@ -261,7 +262,7 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 				+ "LEFT JOIN alt_amp_traspaso_detalle\r\n" + "ON amt.id_traspaso =\r\n"
 				+ "alt_amp_traspaso_detalle.id_traspaso\r\n" + "AND alt_amp_traspaso_detalle.tipo = 'material'\r\n"
 				+ "WHERE  am.id_almacen_logico = al.id_almacen_logico\r\n" + "AND am.tipo = 'material'\r\n"
-				+ "GROUP  BY am.id_multialmacen) AS APARTADO\r\n" + "ON APARTADO.id = resultado2.id_material\r\n"
+				+ "GROUP  BY am.id_articulo) AS APARTADO\r\n" + "ON APARTADO.id = resultado2.id_material\r\n"
 				+ "AND APARTADO.id2 = resultado2.id_material\r\n"
 				+ "WHERE  resultado2.tipo_material <> \"tela material\"; ").getResultList();
 
@@ -270,27 +271,40 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
-	public List<Object[]> findAvailableMaterials(Long IdArticulo) {
-		return em.createNativeQuery("SELECT\r\n" + "   al2.id_almacen_logico id_destino,\r\n"
-				+ "   al.id_almacen_logico id_origen,\r\n" + "   al.nombre_almacen_logico,\r\n"
-				+ "   am.id_articulo,\r\n" + "   amt.id_traspaso,\r\n"
-				+ "   alt_amp_traspaso_detalle.id_traspaso_detalle,\r\n" + "   am.existencia,\r\n"
-				+ "   IFNULL(alt_amp_traspaso_detalle.cantidad, 0) apartado,\r\n" + "   (\r\n"
-				+ "      existencia - IFNULL(alt_amp_traspaso_detalle.cantidad, 0)\r\n" + "   )\r\n"
-				+ "   disponible \r\n" + "FROM\r\n" + "   alt_amp_multialmacen am,\r\n"
-				+ "   alt_amp_almacen_logico al \r\n" + "   LEFT JOIN\r\n" + "      alt_amp_almacen_logico al2 \r\n"
-				+ "      on al2.id_almacen_logico = \r\n" + "      (\r\n" + "         select\r\n"
-				+ "            id_almacen_logico \r\n" + "         from\r\n" + "            alt_amp_almacen_logico \r\n"
-				+ "         where\r\n" + "            tipo = 2 LIMIT 1\r\n" + "      )\r\n" + "   LEFT JOIN\r\n"
-				+ "      alt_amp_traspaso amt \r\n"
-				+ "      on al2.id_almacen_logico = amt.id_almacen_logico_destino \r\n"
-				+ "      and al.id_almacen_logico = amt.id_almacen_logico_origen \r\n" + "   LEFT JOIN\r\n"
-				+ "      alt_amp_traspaso_detalle \r\n"
-				+ "      on amt.id_traspaso = alt_amp_traspaso_detalle.id_traspaso \r\n"
-				+ "      and alt_amp_traspaso_detalle.id_articulo = " + IdArticulo + " \r\n"
-				+ "      and alt_amp_traspaso_detalle.tipo = 'material' \r\n" + "WHERE\r\n"
-				+ "   am.id_almacen_logico = al.id_almacen_logico \r\n" + "   AND am.id_articulo = " + IdArticulo
-				+ " \r\n" + "   AND am.tipo = 'material' group by am.id_multialmacen").getResultList();
+	public List<Object[]> findAvailableMaterials(Long IdArticulo, Long Idpedido) {
+		return em.createNativeQuery("SELECT al2.id_almacen_logico                        id_destino,\r\n"
+				+ "       al.id_almacen_logico                         id_origen,\r\n"
+				+ "       al.nombre_almacen_logico,\r\n" + "       am.id_articulo,\r\n" + "       amt.id_traspaso,\r\n"
+				+ "       alt_amp_traspaso_detalle.id_traspaso_detalle,\r\n" + "       am.existencia,\r\n"
+				+ "       Ifnull(alt_amp_traspaso_detalle.cantidad, 0) apartado,\r\n"
+				+ "       QUERYDISPONIBLE.disponible\r\n" + "FROM   alt_amp_multialmacen am,\r\n"
+				+ "       alt_amp_almacen_logico al\r\n" + "       LEFT JOIN alt_amp_almacen_logico al2\r\n"
+				+ "              ON al2.id_almacen_logico = (SELECT id_almacen_logico\r\n"
+				+ "                                          FROM   alt_amp_almacen_logico\r\n"
+				+ "                                          WHERE  tipo = 2\r\n"
+				+ "                                          LIMIT  1)\r\n"
+				+ "       LEFT JOIN alt_amp_traspaso amt\r\n"
+				+ "              ON al2.id_almacen_logico = amt.id_almacen_logico_destino\r\n"
+				+ "                 AND al.id_almacen_logico = amt.id_almacen_logico_origen\r\n"
+				+ "                 AND amt.tipo = 2\r\n" + "                 AND amt.referencia = " + Idpedido + "\r\n"
+				+ "       LEFT JOIN alt_amp_traspaso_detalle\r\n"
+				+ "              ON amt.id_traspaso = alt_amp_traspaso_detalle.id_traspaso\r\n"
+				+ "                 AND alt_amp_traspaso_detalle.id_articulo = " + IdArticulo + "\r\n"
+				+ "                 AND alt_amp_traspaso_detalle.tipo = 'material'\r\n"
+				+ "       LEFT JOIN(SELECT alt_amp_traspaso.id_almacen_logico_origen,\r\n"
+				+ "                        Sum(alt_amp_traspaso_detalle.cantidad) AS DISPONIBLE\r\n"
+				+ "                 FROM   alt_amp_traspaso_detalle,\r\n"
+				+ "                        alt_amp_traspaso\r\n"
+				+ "                 WHERE  alt_amp_traspaso_detalle.id_articulo = " + IdArticulo + "\r\n"
+				+ "                        AND alt_amp_traspaso_detalle.tipo = \"material\"\r\n"
+				+ "                        AND alt_amp_traspaso.id_traspaso =\r\n"
+				+ "                            alt_amp_traspaso_detalle.id_traspaso\r\n"
+				+ "                        AND alt_amp_traspaso.tipo = 2\r\n"
+				+ "                 GROUP  BY alt_amp_traspaso.id_almacen_logico_origen) AS\r\n"
+				+ "       QUERYDISPONIBLE\r\n"
+				+ "              ON QUERYDISPONIBLE.id_almacen_logico_origen = al.id_almacen_logico\r\n"
+				+ "WHERE  am.id_almacen_logico = al.id_almacen_logico\r\n" + "       AND am.id_articulo = " + IdArticulo
+				+ "\r\n" + "       AND am.tipo = 'material'\r\n" + "GROUP  BY am.id_multialmacen ").getResultList();
 
 	}
 

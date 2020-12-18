@@ -21,8 +21,8 @@ public class AMPExplosionMaterialesRestController {
 	IAmpExplosionMaterialesService AmpExplosionMaterialesService;
 
 	@GetMapping("/explosion-materiales-habilitacion")
-	public List<Object[]> ExplosionMateriales(Model model, Long IdArticulo) {
-		return AmpExplosionMaterialesService.findAvailableMaterials(IdArticulo);
+	public List<Object[]> ExplosionMateriales(Model model,Long Idpedido, Long IdArticulo) {
+		return AmpExplosionMaterialesService.findAvailableMaterials(IdArticulo,Idpedido);
 	}
 
 	@GetMapping("/explosion-materiales-habilitacion-header")

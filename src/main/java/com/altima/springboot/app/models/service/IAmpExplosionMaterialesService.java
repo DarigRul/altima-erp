@@ -18,7 +18,7 @@ public interface IAmpExplosionMaterialesService {
 
 	List<Object[]> findTotalMaterials(Long idpedido);
 
-	List<Object[]> findAvailableMaterials(Long IdArticulo);
+	List<Object[]> findAvailableMaterials(Long IdArticulo, Long Idpedido);
 
 	List<Object[]> findMaterialsHeader(Long IdArticulo, Long IdPedido);
 
