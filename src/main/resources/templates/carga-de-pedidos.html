@@ -74,7 +74,7 @@
                                                 <td th:if="${pedidos[6]!=0}"> Monto Existente</td>
 
                                                 <td class="text-center">
-                                                    <div th:if="${pedidos[8]} != null and  ${pedidos[7]} == '1' and  ${pedidos[9]} == 1" class="btn-group" role="group" aria-label="Basic example">
+                                                    <div th:if="${pedidos[8]} != null and  ${pedidos[7]} == '1' and  ${pedidos[9]} == 1 or ${pedidos[9]} == 4" class="btn-group" role="group" aria-label="Basic example">
                                                         <a data-toggle="modal" th:attr="data-target='#observacion'+${pedidos[0]}" class="btn btn-danger popoverxd text-white" data-container="body" data-placement="top" data-content="Ver observaciones"><i
                                                 class="fas fa-eye fa-sm"></i></a>
                                                         <div class="modal fade" th:id="'observacion'+${pedidos[0]}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

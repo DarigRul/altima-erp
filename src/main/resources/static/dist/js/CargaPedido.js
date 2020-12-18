@@ -109,7 +109,8 @@
         		  valid= true;
         	  }
         
-        	
+        	console.log(document.getElementById("cargaTipopedido").value);
+        	console.log(document.getElementById("cargaEmpresa").value);
                if (document.getElementById("cargaTipopedido").value && 
              		  document.getElementById("cargaEmpresa").value && valid  ) {
          		 var cargaTipopedido=document.getElementById("cargaTipopedido").value;
@@ -129,7 +130,15 @@
                  },
                  
                  beforeSend: function () {
-                 	 
+                	 Swal.fire({
+                         title: 'Cargando ',
+                         html: 'Por favor espere, se est&aacute; extrayendo la informaci&oacute;n',// add html attribute if you want or remove
+                         allowOutsideClick: false,
+                         timerProgressBar: true,
+                         onBeforeOpen: () => {
+                             Swal.showLoading()
+                         },
+                     });
                  },
                  success: function(data) {
                 	 if ( data =="1"){

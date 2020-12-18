@@ -353,6 +353,30 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"AND coor_prenda.id_coordinado="+id).getResultList();
 		return re;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<ComercialCoordinadoPrenda>findAllCoorPrendasEntities(Long idCoordinado ) {
+		List<ComercialCoordinadoPrenda> re = em.createQuery("FROM ComercialCoordinadoPrenda WHERE idCoordinado="+idCoordinado).getResultList();
+		return re;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<ComercialCoordinadoTela>findAllCoorTelasEntities(Long idCoordinadoPrenda ) {
+		List<ComercialCoordinadoTela> re = em.createQuery("FROM ComercialCoordinadoTela WHERE idCoordinadoPrenda="+idCoordinadoPrenda).getResultList();
+		return re;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<ComercialCoordinadoForro>findAllCoorForrosEntities(Long idCoordinadoPrenda ) {
+		List<ComercialCoordinadoForro> re = em.createQuery("FROM ComercialCoordinadoForro WHERE idCoordinadoPrenda="+idCoordinadoPrenda).getResultList();
+		return re;
+	}
 
 	@Override
 	public void saveCoorPrenda(ComercialCoordinadoPrenda prenda) {

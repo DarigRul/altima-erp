@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +31,13 @@ import com.altima.springboot.app.component.AuthComponent;
 import com.altima.springboot.app.dto.SelectPedidoInformacionDto;
 import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialClienteEmpleado;
+import com.altima.springboot.app.models.entity.ComercialCoordinado;
+import com.altima.springboot.app.models.entity.ComercialCoordinadoForro;
+import com.altima.springboot.app.models.entity.ComercialCoordinadoMaterial;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
+import com.altima.springboot.app.models.entity.ComercialCoordinadoTela;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
+import com.altima.springboot.app.models.entity.ComercialPrendaBordado;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
 import com.altima.springboot.app.models.service.IAdminConfiguracionPedidoService;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
@@ -72,6 +78,9 @@ public class CargaPedidoController {
 
 	@Autowired
 	IUsuarioService usuarioService;
+	
+	@Autowired
+	IComercialPrendaBordadoService prendaBordadoService;
 
 	@Autowired
 	AuthComponent currentuserid;
@@ -84,6 +93,7 @@ public class CargaPedidoController {
 	}
 
 	@PostMapping("/guardar-carga-pedido")
+	@Transactional
 	@ResponseBody
 	public String guardacatalogo(Long cargaEmpresa, String cargaTipopedido, Long id_pedido, String fechaTallas,
 			HttpServletRequest request, RedirectAttributes redirectAttrs) {
@@ -154,6 +164,152 @@ public class CargaPedidoController {
 				return "2";
 			}
 
+		}
+		else if(config.getTipoPedido() == 4) {
+			
+			ComercialPedidoInformacion pedidoAux = cargaPedidoService.findOne(id_pedido);
+			List<Object[]> listCoordinados = CoordinadoService.findAllEmpresa(id_pedido);
+			if (pedidoAux.getEstatus().equals("2")) {
+
+				if (cargaPedidoService.validarNumStockPedido(id_pedido)
+						&& cargaPedidoService.validarFechaStockPedido(id_pedido)) {
+					System.out.println("eL ID de pedido es: " + id_pedido);
+					pedido.setIdEmpresa(cargaEmpresa);
+					pedido.setTipoPedido(cargaTipopedido);
+					pedido.setIdPedido(id_pedido);
+					pedido.setCreadoPor(auth.getName());
+					pedido.setFechaCreacion(hourdateFormat.format(date));
+					pedido.setUltimaFechaCreacion(hourdateFormat.format(date));
+					pedido.setEstatus("1");
+					pedido.setFechaTomaTalla(fechaTallas);
+					pedido.setIdUsuario(currentuserid.currentuserid());
+					cargaPedidoService.save(pedido);
+					pedido.setIdText("R" + cargaPedidoService.ContadorStock(id_pedido) + pedidoAux.getIdText());
+					cargaPedidoService.save(pedido);
+					
+					for(int i=0;i<listCoordinados.size();i++) {
+						ComercialCoordinado coordinado = new ComercialCoordinado();
+						Integer contador = CoordinadoService.ContadorCoordinadoCliente(pedido.getIdPedidoInformacion());
+						coordinado.setEstatus("1");
+						coordinado.setIdPedido(pedido.getIdPedidoInformacion());
+						// coor.setIdCliente(id);
+						coordinado.setNumeroCoordinado(String.valueOf((contador + 1)));
+						coordinado.setCreadoPor(auth.getName());
+						coordinado.setFechaCreacion(hourdateFormat.format(date));
+						coordinado.setUltimaFechaModificacion(hourdateFormat.format(date));
+						coordinado.setIdText("COOR" + ((contador + 1) + 100));
+						CoordinadoService.save(coordinado);
+						
+						List<ComercialCoordinadoPrenda> listaCoorPrendas = CoordinadoService.findAllCoorPrendasEntities(Long.parseLong(listCoordinados.get(i)[0].toString()));
+						for(int j = 0; j< listaCoorPrendas.size();j++) {
+							ComercialCoordinadoPrenda coorPrenda = new ComercialCoordinadoPrenda();
+							
+							coorPrenda.setIdFamilaGenero(listaCoorPrendas.get(j).getIdFamilaGenero());
+							coorPrenda.setIdPrenda(listaCoorPrendas.get(j).getIdPrenda());
+							coorPrenda.setIdTela(listaCoorPrendas.get(j).getIdTela());
+							coorPrenda.setIdCoordinado(coordinado.getIdCoordinado());
+							coorPrenda.setAdicional(listaCoorPrendas.get(j).getAdicional());
+							coorPrenda.setMontoAdicional(listaCoorPrendas.get(j).getMontoAdicional());
+							coorPrenda.setPrecioFinal(listaCoorPrendas.get(j).getPrecioFinal());
+							coorPrenda.setObservaciones(listaCoorPrendas.get(j).getObservaciones());
+							coorPrenda.setEstatus(listaCoorPrendas.get(j).getEstatus());
+							coorPrenda.setPrecio(listaCoorPrendas.get(j).getPrecio());
+							coorPrenda.setIdFamiliaComposicion(listaCoorPrendas.get(j).getIdFamiliaComposicion());
+							coorPrenda.setTipoPrecioCotizacion(listaCoorPrendas.get(j).getTipoPrecioCotizacion());
+							coorPrenda.setCreadoPor(auth.getName());
+							coorPrenda.setActualizadoPor(auth.getName());
+							coorPrenda.setFechaCreacion(hourdateFormat.format(date));
+							coorPrenda.setUltimaFechaModificacion(hourdateFormat.format(date));
+							
+							CoordinadoService.saveCoorPrenda(coorPrenda);
+							
+							List<ComercialCoordinadoTela> ListCoorTelas = CoordinadoService.findAllCoorTelasEntities(listaCoorPrendas.get(j).getIdCoordinadoPrenda());
+							for(int p = 0; p<ListCoorTelas.size();p++) {
+								ComercialCoordinadoTela coorTela = new ComercialCoordinadoTela();
+								
+								coorTela.setIdTela(ListCoorTelas.get(p).getIdTela());
+								coorTela.setIdCoordinadoPrenda(coorPrenda.getIdCoordinadoPrenda());
+								coorTela.setCreado_por(auth.getName());
+								coorTela.setActualizadoPor(auth.getName());
+								coorTela.setDescripcion(ListCoorTelas.get(p).getDescripcion());
+								coorTela.setFechaCreacion(hourdateFormat.format(date));
+								coorTela.setUltimaFechaModificacion(null);
+								CoordinadoService.saveTelaMaterial(coorTela);
+								
+							}
+							List<ComercialCoordinadoMaterial> listCoorMateriales = CoordinadoService.findAllCoorMaterial(listaCoorPrendas.get(j).getIdCoordinadoPrenda());
+							for(int m = 0; m<listCoorMateriales.size(); m++) {
+								ComercialCoordinadoMaterial material = new ComercialCoordinadoMaterial();
+								
+								material.setIdMaterial(listCoorMateriales.get(m).getIdMaterial());
+								material.setColor(listCoorMateriales.get(m).getColor());
+								material.setColorCodigo(listCoorMateriales.get(m).getColorCodigo());
+								material.setIdCoordinadoPrenda(coorPrenda.getIdCoordinadoPrenda());
+								material.setCreadoPor(auth.getName());
+								material.setActualizadoPor(auth.getName());
+								material.setFechaCreacion(hourdateFormat.format(date));
+								material.setUltimaFechaModificacion(hourdateFormat.format(date));
+								CoordinadoService.saveCoorMaterial(material);
+							}
+							
+							List<ComercialCoordinadoForro> listCoorForros = CoordinadoService.findAllCoorForrosEntities(listaCoorPrendas.get(j).getIdCoordinadoPrenda());
+							for(int f = 0; f<listCoorForros.size();f++) {
+								ComercialCoordinadoForro detalleForro = new ComercialCoordinadoForro();
+								
+								detalleForro.setDescripcion(listCoorForros.get(f).getDescripcion());
+								detalleForro.setIdForro(listCoorForros.get(f).getIdForro());
+								detalleForro.setIdCoordinadoPrenda(coorPrenda.getIdCoordinadoPrenda());
+
+								detalleForro.setCreado_por(auth.getName());
+								detalleForro.setActualizadoPor(auth.getName());
+								detalleForro.setFechaCreacion(hourdateFormat.format(date));
+								detalleForro.setUltimaFechaModificacion(hourdateFormat.format(date));
+								CoordinadoService.saveForroMaterial(detalleForro);
+							}
+							
+							List<ComercialPrendaBordado> listCoorBordados = prendaBordadoService.findAll(listaCoorPrendas.get(j).getIdCoordinadoPrenda());
+							for(int b = 0; b<listCoorBordados.size(); b++) {
+								ComercialPrendaBordado coorBordado = new ComercialPrendaBordado();
+								
+								coorBordado.setIdCoordinadoPrenda(coorPrenda.getIdCoordinadoPrenda());
+								coorBordado.setPrecioBordado(listCoorBordados.get(b).getPrecioBordado());
+								coorBordado.setArchivoBordado(listCoorBordados.get(b).getArchivoBordado());
+								coorBordado.setIdBordado(listCoorBordados.get(b).getIdBordado());
+								coorBordado.setCreadoPor(auth.getName());
+								coorBordado.setActualizadoPor(auth.getName());
+								coorBordado.setFechaCreacion(hourdateFormat.format(date));
+								coorBordado.setUltimaFechaModificacion(hourdateFormat.format(date));
+								
+								prendaBordadoService.save(coorBordado);
+								
+							}
+							
+						}
+						
+					}
+
+					redirectAttrs.addFlashAttribute("title", "Pedido guardado correctamente").addFlashAttribute("icon",
+							"success");
+					return "1";
+				} else {
+
+					if (!cargaPedidoService.validarNumStockPedido(id_pedido)) {
+						redirectAttrs
+								.addFlashAttribute("title", "Solo se puede realizar un maximo de 3 Stock por pedido")
+								.addFlashAttribute("icon", "warning");
+						return "3";
+					}
+					if (!cargaPedidoService.validarFechaStockPedido(id_pedido)) {
+						redirectAttrs.addFlashAttribute("title", "Solo se puede realizar Stock un año antes")
+								.addFlashAttribute("icon", "warning");
+						return "4";
+					}
+				}
+			} else {
+				redirectAttrs.addFlashAttribute("title", "Solo se puede realizar Stock de pedidos cerrados")
+						.addFlashAttribute("icon", "warning");
+				return "2";
+			}
 		}
 		return cargaTipopedido;
 
