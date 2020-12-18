@@ -59,5 +59,9 @@ public interface ICargaPedidoService {
 
 	List<SelectPedidoInformacionDto> findByEstatus(String estatus);
 
+	int validarNumEmpleadosResurtidoPedido(Long id);
+
+	int validarNumResurtidosPedido(Long id);
+
 
 }

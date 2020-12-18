@@ -171,7 +171,8 @@ public class CargaPedidoController {
 			List<Object[]> listCoordinados = CoordinadoService.findAllEmpresa(id_pedido);
 			if (pedidoAux.getEstatus().equals("2")) {
 
-				if (cargaPedidoService.validarNumStockPedido(id_pedido)
+				if (((cargaPedidoService.validarNumResurtidosPedido(id_pedido)<1 && cargaPedidoService.validarNumEmpleadosResurtidoPedido(id_pedido)==1) || 
+						cargaPedidoService.validarNumResurtidosPedido(id_pedido)<2 && cargaPedidoService.validarNumEmpleadosResurtidoPedido(id_pedido)==2)
 						&& cargaPedidoService.validarFechaStockPedido(id_pedido)) {
 					System.out.println("eL ID de pedido es: " + id_pedido);
 					pedido.setIdEmpresa(cargaEmpresa);
@@ -293,20 +294,25 @@ public class CargaPedidoController {
 					return "1";
 				} else {
 
-					if (!cargaPedidoService.validarNumStockPedido(id_pedido)) {
+					if ((cargaPedidoService.validarNumResurtidosPedido(id_pedido)>=1 && cargaPedidoService.validarNumEmpleadosResurtidoPedido(id_pedido)==1)) {
 						redirectAttrs
-								.addFlashAttribute("title", "Solo se puede realizar un maximo de 3 Stock por pedido")
+								.addFlashAttribute("title", "Solo se puede realizar un resurtido por pedido")
 								.addFlashAttribute("icon", "warning");
-						return "3";
+						return "5";
+					}
+					if((cargaPedidoService.validarNumResurtidosPedido(id_pedido)>=2 && cargaPedidoService.validarNumEmpleadosResurtidoPedido(id_pedido)==2)) {
+						redirectAttrs.addFlashAttribute("title", "Solo se puede realizar un máximo de 2 Resurtidos por pedido")
+						.addFlashAttribute("icon", "warning");
+						return "6";
 					}
 					if (!cargaPedidoService.validarFechaStockPedido(id_pedido)) {
-						redirectAttrs.addFlashAttribute("title", "Solo se puede realizar Stock un año antes")
+						redirectAttrs.addFlashAttribute("title", "Solo se puede realizar Resurtido un año antes")
 								.addFlashAttribute("icon", "warning");
-						return "4";
+						return "7";
 					}
 				}
 			} else {
-				redirectAttrs.addFlashAttribute("title", "Solo se puede realizar Stock de pedidos cerrados")
+				redirectAttrs.addFlashAttribute("title", "Solo se puede realizar Resurtido de pedidos cerrados")
 						.addFlashAttribute("icon", "warning");
 				return "2";
 			}

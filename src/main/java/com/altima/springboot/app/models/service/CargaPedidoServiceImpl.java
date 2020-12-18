@@ -263,6 +263,51 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 		}
 
 	}
+	
+	@Override
+	@Transactional
+	public int validarNumEmpleadosResurtidoPedido(Long id) {
+
+		try {
+			String re = em.createNativeQuery("SELECT COUNT(DISTINCT cliEmp.id_empleado)\n" + 
+					"		FROM alt_comercial_coordinado_prenda AS coorPre\n" + 
+					"		INNER JOIN alt_comercial_coordinado coor ON coorPre.id_coordinado = coor.id_coordinado\n" + 
+					"		INNER JOIN alt_comercial_pedido_informacion ped ON coor.id_pedido = ped.id_pedido_informacion\n" + 
+					"		INNER JOIN alt_comercial_cliente_empleado cliEmp ON cliEmp.id_pedido_informacion = ped.id_pedido_informacion\n" + 
+					"		WHERE cliEmp.id_pedido_informacion = "+id+" AND cliEmp.nombre_empleado NOT LIKE \"%spf%\"")
+					.getSingleResult().toString();
+			if(Integer.parseInt(re)<20) {
+				return 1;
+			}
+			else if(Integer.parseInt(re)>=20) {
+				return 2;
+			}
+			else {
+				return 0;
+			}
+			
+		} catch (Exception e) {
+
+			return 0;
+		}
+	}
+	
+	@Override
+	@Transactional
+	public int validarNumResurtidosPedido(Long id) {
+
+		try {
+			int re = Integer.parseInt(em.createNativeQuery("SELECT COUNT(DISTINCT pedInf.id_pedido_informacion) FROM alt_comercial_pedido_informacion AS pedInf \n" + 
+					"WHERE pedInf.id_pedido = "+id+" AND pedInf.tipo_pedido = 2")
+					.getSingleResult().toString());
+			
+			return re;
+			
+		} catch (Exception e) {
+
+			return 0;
+		}
+	}
 
 	@Override
 	@Transactional

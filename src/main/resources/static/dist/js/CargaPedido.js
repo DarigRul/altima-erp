@@ -182,6 +182,33 @@
                           });
                      	
                 	 }
+                	 else if (data =="5"){
+                		 Swal.fire({
+                     		 position: 'center',
+                  				icon: 'warning',
+                  				title: 'Solo se puede realizar un Resurtido por pedido'
+                             
+                          
+                		 });    
+                     	
+                	 }
+                	 else if ( data =="6"){
+                		 Swal.fire({
+                     		 position: 'center',
+                  				icon: 'error',
+                  				title: 'Solo se puede realizar un máximo de 2 Resurtidos por pedido'
+
+                          });
+                     	
+                	 }
+                	 else if (data =="7"){
+                		 Swal.fire({
+                     		 position: 'center',
+                  				icon: 'error',
+                  				title: 'Solo se puede realizar Stock un año antes'
+                          });
+                     	
+                	 }
                     },
                     complete: function() {    		
              			
