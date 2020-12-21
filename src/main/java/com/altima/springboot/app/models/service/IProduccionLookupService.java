@@ -28,4 +28,7 @@ public interface IProduccionLookupService {
 
 	List<ProduccionLookup> findAllByType(String Posicion, String Genero, String Tipo);
 
+
+	List<ProduccionLookup> findAllLookup(String Tipo, String estatus);
+
 }

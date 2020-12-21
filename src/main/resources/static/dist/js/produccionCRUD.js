@@ -3,6 +3,58 @@ $(document).ready(function () {
 	listarLargo();
 	listarProceso();
 	listarMaquila();
+	listarRuta();
+
+	// no borrar pues afectara el funcionamiento de rutas
+	var table = $('.tablaProcesos')
+	.DataTable({
+		"ordering": false,
+		"pageLength": 5,
+		"responsive": true,
+		"stateSave": true,
+		"drawCallback": function() {
+			$('.popoverxd').popover({
+				container: 'body',
+				trigger: 'hover'
+			});
+		},
+		"columnDefs": [
+			{"className": "hidden","searchable": false, "targets": 0}
+		],
+		"lengthMenu": [
+			[5, 10, 25, 50, 100],
+			[5, 10, 25, 50, 100]
+		],
+		"language": {
+			"sProcessing": "Procesando...",
+			"sLengthMenu": "Mostrar _MENU_ registros",
+			"sZeroRecords": "No se encontraron resultados",
+			"sEmptyTable": "Ningún dato disponible en esta tabla =(",
+			"sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+			"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+			"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+			"sInfoPostFix": "",
+			"sSearch": "Buscar:",
+			"sUrl": "",
+			"sInfoThousands": ",",
+			"sLoadingRecords": "Cargando...",
+			"oPaginate": {
+				"sFirst": "Primero",
+				"sLast": "Último",
+				"sNext": "Siguiente",
+				"sPrevious": "Anterior"
+			},
+			"oAria": {
+				"sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+				"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+			},
+			"buttons": {
+				"copy": "Copiar",
+				"colvis": "Visibilidad"
+			}
+		}
+	});
+	new $.fn.dataTable.FixedHeader(table);
 
 });
 
@@ -536,186 +588,493 @@ function reactiveProceso(id){
 		});
 }
 
-function addRuta(){
-	Swal.fire({
-		  title: 'Nueva ruta',
-		  html:
-			  '<div class="row">'+
-				  '<div class="form-group col-sm-12">'+
-					  '<label>Proceso</label>'+
-					  '<div class="input-group mb-3">'+
-						'<select class="form-control" id="origenProceso">'+
-					    	'<option>Trazo</option>'+
-					    	'<option>Confección</option>'+
-					    '</select>'+
-						  '<div class="input-group-append">'+
-						    '<button class="btn btn-primary" type="button"><i class="fas fa-plus"></i></button>'+
-						  '</div>'+
-					  '</div>'+
-				  '</div>'+
-				  '<div class="form-group col-sm-12">'+
-					  '<table class="table">'+
-						  '<thead>'+
-						    '<tr>'+
-						      '<th scope="col">Proceso</th>'+
-						      '<th scope="col">Eliminar</th>'+
-						    '</tr>'+
-						  '</thead>'+
-						  '<tbody>'+
-						    '<tr>'+
-						      '<td>Trazo</td>'+
-						      '<td class="text-center">'+
-						      	'<a class="btn icon-btn btn-danger text-white" type="submit"><span class="btn-glyphicon fas fa-minus img-circle text-danger"></span>Eliminar</a>'+
-						      '</td>'+
-						    '</tr>'+
-						  '</tbody>'+
-					'</table>'+
-				  '</div>'+
-			  '</div>',
-		  inputAttributes: {
-		    autocapitalize: 'off'
-		  },
-		  showCancelButton: true,
-		  confirmButtonText: 'Agregar',
-		  cancelButtonText: 'Cancelar',
-		  showLoaderOnConfirm: true,
-		  preConfirm: (login) => {
-		    return fetch(`//api.github.com/users/${login}`)
-		      .then(response => {
-		        if (!response.ok) {
-		          throw new Error(response.statusText)
-		        }
-		        return response.json()
-		      })
-		      .catch(error => {
-		        Swal.showValidationMessage(
-		          `Request failed: ${error}`
-		        )
-		      })
-		  },
-		  allowOutsideClick: () => !Swal.isLoading()
-		}).then((result) => {
-		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Proceso agregado correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
-		  }
-		});
+//Reactivar pieza de trazo
+$('#detalleRuta').on('shown.bs.modal', function() {
+    $(document).off('focusin.modal');
+});
+
+
+function listarRuta() {
+
+	$.ajax({
+		method: "GET",
+		url: "/listar-catalogo-produccion",
+		data:{
+			"Tipo":"Ruta"
+		} ,
+		success: (data) => {
+
+        	var tabla = $('#tableRuta').DataTable();
+        	
+        
+        	 
+        	tabla.clear();
+        	    
+            $(data).each(function(i, v){ // indice, valor
+            	var fecha;
+        		var actualizo;
+            	if (v.actualizadoPor == null && v.ultimaFechaModificacion == null ){
+            		fecha='';
+            		actualizo='';
+            	}else{
+            		actualizo=v.actualizadoPor;
+            		fecha=v.ultimaFechaModificacion;
+            	}
+            	
+            	if (v.estatus == 1 ){
+            		tabla.row.add([	
+						v.idText ,
+						'<td class="text-center">'+
+						'<button onclick="verProcesosRuta('+v.idLookup+')" class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>'+
+						'</td>',
+                		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v.creadoPor +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v.fechaCreacion+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
+    					'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarRuta(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
+    					'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteRuta('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>'
+            
+               		 ]).node().id ="row";
+            	}else{
+            		tabla.row.add([	
+						v.idText ,
+						'<td class="text-center">'+
+						'<button onclick="verProcesosRuta('+v.idLookup+')" class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>'+
+						'</td>',
+                		
+                		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v.creadoPor +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v.fechaCreacion+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
+                		'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarRuta(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
+    					'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveRuta('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>'
+            
+               		 ]).node().id ="row";
+            	}
+            	
+           	tabla.draw( false );
+            	//fila = '<tr> <td>'+v[1]+'</td>  <td >'+ v[2] +'</td> <td >'+ v[3] +'</td> <td >'+ v[4] +'</td>  </tr>' ;
+            	
+            	
+            	
+            })
+            
+       	
+		},
+		error: (e) => {
+
+		}
+	})
 }
-function editRuta(){
-	Swal.fire({
-		  title: 'Editar ruta',
-		  html:
-			  '<div class="row">'+
-				  '<div class="form-group col-sm-12">'+
-					  '<label>Proceso</label>'+
-					  '<div class="input-group mb-3">'+
-						'<select class="form-control" id="origenProceso">'+
-					    	'<option>Trazo</option>'+
-					    	'<option>Confección</option>'+
-					    '</select>'+
-						  '<div class="input-group-append">'+
-						    '<button class="btn btn-primary" type="button"><i class="fas fa-plus"></i></button>'+
-						  '</div>'+
-					  '</div>'+
-				  '</div>'+
-				  '<div class="form-group col-sm-12">'+
-					  '<table class="table">'+
-						  '<thead>'+
-						    '<tr>'+
-						      '<th scope="col">Proceso</th>'+
-						      '<th scope="col">Eliminar</th>'+
-						    '</tr>'+
-						  '</thead>'+
-						  '<tbody>'+
-						    '<tr>'+
-						      '<td>Trazo</td>'+
-						      '<td class="text-center">'+
-						      	'<a class="btn icon-btn btn-danger text-white" type="submit"><span class="btn-glyphicon fas fa-minus img-circle text-danger"></span>Eliminar</a>'+
-						      '</td>'+
-						    '</tr>'+
-						  '</tbody>'+
-					'</table>'+
-				  '</div>'+
-			  '</div>',
-		  inputAttributes: {
-		    autocapitalize: 'off'
-		  },
-		  showCancelButton: true,
-		  confirmButtonText: 'Agregar',
-		  cancelButtonText: 'Cancelar',
-		  showLoaderOnConfirm: true,
-		  preConfirm: (login) => {
-		    return fetch(`//api.github.com/users/${login}`)
-		      .then(response => {
-		        if (!response.ok) {
-		          throw new Error(response.statusText)
-		        }
-		        return response.json()
-		      })
-		      .catch(error => {
-		        Swal.showValidationMessage(
-		          `Request failed: ${error}`
-		        )
-		      })
-		  },
-		  allowOutsideClick: () => !Swal.isLoading()
-		}).then((result) => {
-		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Proceso editado correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
-		  }
+//listar_rutas_procesos
+function verProcesosRuta (id){
+	$.ajax({
+		method: "GET",
+		url: "/listar_rutas_procesos",
+		data:{
+			"id":id
+		} ,
+		success: (data) => {
+			var tabla = $('#tableListaProcesos').DataTable();
+			var rows = tabla
+    			.rows()
+    			.remove()
+    			.draw(); 
+			for (i in data) {
+				tabla.row.add([	data[i][1]]).node().id ="row";
+			   tabla.draw( false );
+			}
+		},
+		error: (e) => {
+		}
+	})
+}
+function editarRuta (e){
+	SelectListarProcesos();
+	$.ajax({
+		method: "GET",
+		url: "/listar_rutas_procesos",
+		data:{
+			"id": e.getAttribute("idLookup")
+		} ,
+		success: (data) => {
+			var tabla = $('#tablaProcesos').DataTable();
+			var rows = tabla
+    			.rows()
+    			.remove()
+    			.draw(); 
+			for (i in data) {
+				tabla.row.add([	
+					data[i][3],
+					data[i][1],
+					'<td><button type="button" onclick="eliminardeBase('+data[i][0]+', this)" class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>'
+				
+				]).node().id ="row";
+			   tabla.draw( false );
+			}
+		},
+		error: (e) => {
+		}
+	})
+	console.log(e.getAttribute("nombre"))
+	$('#nombreRuta').val(e.getAttribute("nombre"));
+	$('#idLookupRuta').val(e.getAttribute("idLookup"));
+	$('#botonGuardarRuta').attr('onclick', 'editar_ruta_proceso()');
+	$('#addRuta').modal('show');
+	
+
+
+}
+function SelectListarProcesos(){
+	$.ajax({
+		method: "GET",
+		url: "/listar-catalogo-produccion-procesos",
+		data:{
+			"Tipo":"Proceso"
+		} ,
+		success: (data) => {
+			$('#proceso').empty();
+			
+			for (i in data) {
+                $('#proceso').append("<option value=" + data[i].idLookup + " text=" + data[i].nombreLookup + " >" + data[i].nombreLookup + "</option>");
+			}
+			$('#proceso').selectpicker('refresh');
+			
+			$( "#boton-add-proceso" ).prop( "disabled", false );
+
+			
+			
+		},
+		error: (e) => {
+	
+		}
+	})
+}
+function addRuta(){
+	SelectListarProcesos();
+	$('#addRuta').modal('show');
+	var table = $('#tablaProcesos').DataTable();
+	var rows = table
+    .rows()
+    .remove()
+	.draw(); 
+	$('#botonGuardarRuta').attr('onclick', 'guardarRuta()');
+	$('#nombreRuta').val(null);
+	
+}
+function agregarProceso (){
+	var t = $('#tablaProcesos').DataTable();
+	var repetido = false;
+	console.log(document.getElementById("proceso").value == null)
+
+
+	if (document.getElementById("proceso").value != 0){
+		$('#tablaProcesos tr').each(function () {
+			
+			if ($(this).find('td').eq(0).html() == $("#proceso option:selected").attr("value") ){
+				Swal.fire({
+					position: 'center',
+					icon: 'error',
+					title: 'Ya ha seleccionado ese proceso',
+					showConfirmButton: true
+				});
+				repetido = true;
+			}
+			
+
 		});
+		
+		if ( repetido != true){
+
+		
+			t.row.add( [
+			'<td style="display:none;" >'+$("#proceso option:selected").attr("value")+'</td>',
+			
+			'<td>'+$("#proceso option:selected").attr("text")+'</td>',
+			'<td><button type="button" onclick="eliminar(this)" class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>'
+		
+
+			] ).draw( false );
+			$('#proceso').val(null);
+			
+			$('#proceso').selectpicker('refresh');
+		
+		}
+		
+	
+	}
+	else{
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Seleccione un proceso',
+			showConfirmButton: true
+		});
+	}
 }
 
-function deleteRuta(){
-	Swal.fire({
-		  title: '¿Deseas eliminar la ruta?',
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  confirmButtonText: 'Confirmar'
-		}).then((result) => {
-		  if (result.value) {
-			  Swal.fire({
-				  position: 'center',
-				  icon: 'success',
-				  title: 'Ruta eliminada correctamente',
-				  showConfirmButton: false,
-				  timer: 2500
-				})
-		  }
+function guardarRuta(){
+	var  datos = [];
+	$('#tablaProcesos tr').each(function () {
+		if ($(this).find('td').eq(1).html() !=null){
+			datos.push({
+				'id_proceso':$(this).find('td').eq(0).html(), 	 
+			});
+		}		
+   });
+
+   if ( $('#nombreRuta').val()== null || $('#nombreRuta').val()=="" ){
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Ingrese un nombre de ruta, por favor',
+			showConfirmButton: true
 		});
+	}
+	else if ( $.isEmptyObject(datos) ){
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Ingrese al menos un proceso, por favor',
+			showConfirmButton: true
+		});
+	}
+	else{
+		$.ajax({
+			type: "GET",
+			url: "/verificar-duplicado-produccion",
+			data: {
+				'Lookup': $('#nombreRuta').val(),
+				'Tipo': "Ruta"
+
+
+			}
+
+		}).done(function (data) {
+			console.log ("dataaa----->"+data)
+			if(data==false){
+
+				$.ajax({
+					type: "POST",
+					url:"/guardar-catalogo-produccion",
+					data: { 
+						datos :JSON.stringify(datos),
+						'ruta': $('#nombreRuta').val(),
+						"_csrf": $('#token').val()        
+					},
+					beforeSend: function () {
+						
+					},
+				
+					success: function(data) {
+						$("#addRuta").modal("hide");
+						Swal.fire({
+							position: 'center',
+								icon: 'success',
+								title: 'Agregado correctamente',
+							showConfirmButton: true,
+							onBeforeOpen: () => {
+							   
+							},
+						});
+				   }
+				})
+				// / window.setTimeout(function(){location.reload()}, 2000);
+			}// /fin segundoif
+			else{
+				Swal.fire({
+					position: 'center',
+					icon: 'error',
+					title: 'registro duplicado no se ha insertado',
+					showConfirmButton: false,
+					timer: 1250
+				})
+
+			}
+		});
+	}
 }
-function reactiveRuta(){
+
+function editar_ruta_proceso(){
+	
+	var  datos = [];
+	$('#tablaProcesos tr').each(function () {
+		if ($(this).find('td').eq(1).html() !=null){
+			datos.push({
+				'id_proceso':$(this).find('td').eq(0).html(), 	 
+			});
+		}		
+   });
+
+   if ( $('#nombreRuta').val()== null || $('#nombreRuta').val()=="" ){
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Ingrese un nombre de ruta, por favor',
+			showConfirmButton: true
+		});
+	}
+	else if ( $.isEmptyObject(datos) ){
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Ingrese al menos un proceso, por favor',
+			showConfirmButton: true
+		});
+	}
+	else{
+		$.ajax({
+			type: "GET",
+			url: "/validar-ruta-editar",
+			data: {
+				'idLookup': $('#idLookupRuta').val(),
+				'nombre': $('#nombreRuta').val()
+
+
+			}
+
+		}).done(function (data) {
+			console.log ("dataaa----->"+data)
+			if(data==false){
+
+				$.ajax({
+					type: "POST",
+					url:"/edita-ruta-produccion",
+					data: { 
+						datos :JSON.stringify(datos),
+						'nombre': $('#nombreRuta').val(),
+						'idLookup':$('#idLookupRuta').val(),
+						"_csrf": $('#token').val()        
+					},
+					beforeSend: function () {
+						
+					},
+				
+					success: function(data) {
+						$("#addRuta").modal("hide");
+						Swal.fire({
+							position: 'center',
+								icon: 'success',
+								title: 'Editado correctamente',
+							showConfirmButton: true,
+							onBeforeOpen: () => {
+							   
+							},
+						});
+				   }
+				})
+				// / window.setTimeout(function(){location.reload()}, 2000);
+			}// /fin segundoif
+			else{
+				Swal.fire({
+					position: 'center',
+					icon: 'error',
+					title: 'registro duplicado no se ha insertado',
+					showConfirmButton: true,
+					timer: 1250
+				})
+
+			}
+		});
+	}
+
+}
+
+function eliminar(t) {
+	var tabla = $('#tablaProcesos').DataTable();
+				var td = t.parentNode;
+				var tr = td.parentNode;
+				var table = tr.parentNode;
+				tabla.row(tr).remove().draw(false);
+}
+function eliminardeBase(id, t){
+	$.ajax({
+		data: {'id':id},
+		  url:   '/elimiar_MN_ruta',
+		  type:  'GET',
+	  
+		  success: function(data) {
+			   Swal.fire({
+				   position: 'center',
+					   icon: 'success',
+					   title: 'Eliminado correctamente',
+					   showConfirmButton: true
+				   
+			   });
+		 },
+		 complete: function() {   
+			 var tabla = $('#tablaProcesos').DataTable();
+			  var td = t.parentNode;
+			  var tr = td.parentNode;
+			  var table = tr.parentNode;
+			  tabla.row(tr).remove().draw(false);
+		  
+		  },
+	  })
+	
+}
+
+
+function deleteRuta(id){
+
 	Swal.fire({
-		  title: '¿Deseas reactivar la ruta?',
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  confirmButtonText: 'Confirmar'
-		}).then((result) => {
-		  if (result.value) {
+		title: '¿Deseas dar de baja la ruta?',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Confirmar'
+	  }).then((result) => {
+		if (result.value && id != null) {
+
+			  $.ajax({
+				  type: "POST",
+				  url: "/baja-catalogo-produccion",
+				  data: {
+					  "_csrf": $('#token').val(),
+					  'id': id
+				  }
+
+			  }).done(function(data) {
+
+				  listarRuta();
+			  });
 			  Swal.fire({
 				  position: 'center',
 				  icon: 'success',
-				  title: 'Ruta reactivada correctamente',
+				  title: 'Dado de baja correctamente',
 				  showConfirmButton: false,
-				  timer: 2500
-				})
-		  }
-		});
+				  timer: 1250
+			  })
+		}
+	  });
+}
+function reactiveRuta(id){
+
+	Swal.fire({
+		title: '¿Deseas reactivar la ruta?',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Confirmar'
+	  }).then((result) => {
+		if (result.value && id != null) {
+			$.ajax({
+				  type: "POST",
+				  url: "/reactivar-catalogo-produccion",
+				  data: {
+					  "_csrf": $('#token').val(),
+					  'idcatalogo': id
+				  }
+
+			  }).done(function(data) {
+
+				  listarRuta();
+			  });
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Reactivado correctamente',
+				  showConfirmButton: false,
+				  timer: 1250
+			  })
+		}
+	  });
 }
 
 // ALMACEN LOGICO

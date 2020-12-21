@@ -22,7 +22,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                 <table class="table table-striped table-bordered tablaCatalogosProduccion" style="width:100%;">
+                 <table id ="tableRuta" class="table table-striped table-bordered tablaCatalogosProduccion" style="width:100%;">
                     <thead>
                         <tr>
                         	<th>Clave Ruta</th>
@@ -50,6 +50,61 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="addRuta" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header">
+                <h5  id="exampleModalLongTitle" aling="center">Nueva ruta</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <label>Nombre</label>
+                        <div class="input-group mb-3">
+                            <input type="text" id="nombreRuta" name="nombreRuta" class="form-control" placeholder="Ruta" >
+                            <input type="hidden" id="idLookupRuta" name="idLookupRuta" class="form-control" placeholder="Ruta" >
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label>Proceso</label>
+                        <div class="input-group mb-3">
+                          <select  class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="proceso" name="proceso">
+                          </select>
+                            <div class="input-group-append">
+                              <button class="btn btn-primary" id="boton-add-proceso" disabled onclick="agregarProceso()" type="button"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+               
+                <table class="table table-striped table-bordered tablaProcesos" style="width:100%;" id="tablaProcesos" >
+                    <thead>
+                        <tr>
+                            <th>Proceso</th>
+                            <th>Proceso</th>
+                            <th>Eliminar</th>
+                           <!--  <th></th>--->
+                        </tr>
+                    </thead>
+                 	<tbody>
+                 	
+                    </tbody>
+                </table>
+               
+
+                <div  >
+                    <button id="botonGuardarRuta"onclick="guardarRuta()">Guardar</button>
+                    <button  data-dismiss="modal" aria-label="Close" >Cancelar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal Marcas Tabla -->
 <div class="modal fade" id="infoProcesos" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" id="modalMarcasMobile">
@@ -62,7 +117,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                 <table class="table table-striped table-bordered tablaCatalogosProduccion" style="width:100%;">
+                 <table id="tableListaProcesos" class="table table-striped table-bordered tablaCatalogosProduccion" style="width:100%;">
                     <thead>
                         <tr>
                         	<th>Proceso</th>
@@ -70,12 +125,7 @@
                         </tr>
                     </thead>
                  	<tbody>
-                 		<tr>
-                 			<td>Trazo</td>
-                 		</tr>
-                 		<tr>
-                 			<td>Confeccion</td>
-                 		</tr>
+                 		
                     </tbody>
                 </table>
             </div>
