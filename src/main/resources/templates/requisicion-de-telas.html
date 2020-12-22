@@ -50,7 +50,8 @@
                                             <span class="btn-glyphicon fas fa-calendar img-circle text-danger"></span>F.
                                             Prom. Rec.</button>&nbsp;
                                         <button class="btn btn-sm icon-btn btn-success text-white"
-                                            data-target="#generarOrden" data-toggle="modal">
+                                            data-target="#generarOrden" data-toggle="modal" id="btnGenerarOrden"
+                                            data-backdrop="static" data-keyboard="false">
                                             <span
                                                 class="btn-glyphicon fas fa-clipboard img-circle text-success"></span>Generar
                                             orden de compra</button>
@@ -83,8 +84,12 @@
                                         </thead>
                                         <tbody>
                                             <tr th:each=" tela: ${telasFaltantes}">
-                                                <td><input type="checkbox" class="messageCheckbox"
-                                                        th:value="${tela.idTelaFaltante}" /></td>
+                                                <td><input th:if="${tela.estatusCompra}!='Agotada' and ${tela.estatusCompra}!='Pedida' and  ${tela.estatusComercial}!='Rechazada'"
+                                                        type="checkbox" th:class="messageCheckbox"
+                                                        th:value="${tela.idTelaFaltante}" />
+                                                    <input type="checkbox" th:disabled="${tela.estatusCompra}=='Agotada' or ${tela.estatusCompra}=='Pedida' or ${tela.estatusComercial}=='Rechazada'?true:false"
+                                                    th:if="(${tela.estatusCompra}=='Agotada' or ${tela.estatusCompra}=='Pedida') or ${tela.estatusComercial}=='Rechazada'" />
+                                                </td>
                                                 <td th:text="${tela.idTextPedido}">5153</td>
                                                 <td th:text="${tela.idTextTela}">LS664</td>
                                                 <td th:text="${tela.cliente}">Caja Gonzalo Vega S.C de A.P</td>
@@ -97,12 +102,18 @@
                                                 <td th:text="${tela.estatusCompra}">Pedida</td>
                                                 <td th:text="${tela.estatusComercial}">Autorizada</td>
                                                 <td>
-                                                    <button class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Aceptar"><i
-                                                            class="fas fa-check"></i></button>
-                                                    <button class="btn btn-danger btn-sm btn-circle popoverxd"
+                                                    <button
+                                                        th:disabled="${tela.estatusComercial}!='Pendiente' or ${tela.estatusCompra}!='Extemporanea'?true:false"
+                                                        class="btn btn-success btn-sm btn-circle popoverxd"
+                                                        th:attr="onclick=|aceptarComercial('${tela.idTelaFaltante}')|"
+                                                        data-placement="top" data-content="Aceptar"
+                                                        id="aceptarComercial"><i class="fas fa-check"></i></button>
+                                                    <button
+                                                    th:disabled="${tela.estatusComercial}!='Pendiente' or ${tela.estatusCompra}!='Extemporanea'?true:false"
+                                                        class="btn btn-danger btn-sm btn-circle popoverxd"
+                                                        th:attr="onclick=|rechazarComercial('${tela.idTelaFaltante}')|"
                                                         data-placement="top" data-content="Rechazar"><i
-                                                            class="fas fa-times"></i></button>
+                                                            class="fas fa-times" id="rechazarComercial"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -122,6 +133,9 @@
     </div>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaRequisicionTelas.js"></script>
+    <script th:inline="javascript">
+        var telasFaltantesList = /*[[${telasFaltantes}]]*/
+    </script>
     <script src="/dist/js/requisicionTelas.js"></script>
     <script>
         $('#iCompras').removeClass('text-altima');

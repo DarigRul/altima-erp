@@ -9,20 +9,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="">
+            <form>
             <div class="modal-body">
                 <div class="form-check form-check-inline" style="margin-left: 38%; margin-bottom: 2%;">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                    <label class="form-check-label font-weight-bold" for="inlineCheckbox1">Tela agotada</label>
+                    <input class="form-check-input" type="checkbox" id="checkTelaAgotada" value="option1">
+                    <label class="form-check-label font-weight-bold" for="checkTelaAgotada">Tela agotada</label>
                   </div>
                 <div class="form-group col-md-12">
-                    <label for="fechaNueva">Nueva fecha de promesa de recepci&oacute;n</label>
-                    <input type="date" class="form-control" id="fechaNueva">
+                    <label for="fechaPromesa">Nueva fecha de promesa de recepci&oacute;n</label>
+                    <input type="date" class="form-control" id="fechaPromesa">
                   </div>
             </div>
             <div class="modal-footer">
-                <button data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar</button>
-                <button class="btn icon-btn btn-altima text-white" type="submit"><span class="btn-glyphicon fas fa-check img-circle text-altima"></span>Confirmar</button>
+                <button data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="button"><span class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar</button>
+                <button class="btn icon-btn btn-altima text-white" type="button" id="guardarFechaPromesa"><span class="btn-glyphicon fas fa-check img-circle text-altima"></span>Confirmar</button>
             </div>
             </form>
         </div>
@@ -35,14 +35,11 @@
         <div class="modal-content modal-rounded-body">
             <div class="modal-header bg-altima modal-rounded-header">
                 <h5 class="modal-title">Orden de compra</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <form action="">
             <div class="modal-body">
                 <ul class="list-group list-group-horizontal-md" style="margin-bottom: 20px;">
-                    <li class="list-group-item" style="width: 50%;border: none;"><strong>Proveedor: </strong><a>ALTIMATEX</a></li>
+                    <li class="list-group-item" style="width: 50%;border: none;"><strong>Proveedor: </strong><a id="proveedor"></a></li>
                     <li class="list-group-item" style="width: 50%;border:none"><strong>Fecha: </strong><a>20/08/2020</a></li>
                 </ul>
                 <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
@@ -61,58 +58,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>150</td>
-                            <td>
-                                <input type="number" class="form-control">
-                            </td>
-                            <td>200</td>
-                            <td>LS664</td>
-                            <td>Oxford</td>
-                            <td>
-                                <input type="number" class="form-control">
-                            </td>
-                            <td>16</td>
-                            <td>
-                                <input type="number" class="form-control">
-                            </td>
-                            <td>
-                                <input type="number" class="form-control">
-                            </td>
-                            <td style="width: 10%;">1200</td>
-                        </tr>
-                        <tr>
-                            <td>40</td>
-                            <td>
-                                <input type="number" class="form-control">
-                            </td>
-                            <td>0</td>
-                            <td>LS958</td>
-                            <td>Oxford</td>
-                            <td>
-                                <input type="number" class="form-control">
-                            </td>
-                            <td>16</td>
-                            <td>
-                                <input type="number" class="form-control">
-                            </td>
-                            <td>
-                                <input type="number" class="form-control">
-                            </td>
-                            <td style="width: 10%;">384</td>
-                        </tr>
+
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="9"></th>
-                            <th class="text-center">Total: <a>1584</a></th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
             <div class="modal-footer">
-                <button data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar</button>
-                <button class="btn icon-btn btn-altima text-white" type="submit"><span class="btn-glyphicon fas fa-check img-circle text-altima"></span>Generar</button>
+                <button class="btn icon-btn btn-danger text-white mr-auto" type="button" id="cerrarModalOrden"><span class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar</button>
+                <button class="btn icon-btn btn-altima text-white" type="button" id="enviarOrden" ><span class="btn-glyphicon fas fa-check img-circle text-altima"></span>Generar</button>
             </div>
             </form>
         </div>

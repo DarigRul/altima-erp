@@ -26,6 +26,10 @@ public class TelaFaltanteListDto implements Serializable{
 	private String fechaPomesa;
     private String estatusCompra;
     private String estatusComercial;
+    private String nombreTela;
+    private String idTela;
+    private String idProveedor;
+    private String nombreProveedor;
 
     public Long getIdTelaFaltante() {
         return idTelaFaltante;
@@ -121,6 +125,38 @@ public class TelaFaltanteListDto implements Serializable{
 
     public void setEstatusComercial(String estatusComercial) {
         this.estatusComercial = estatusComercial;
+    }
+
+    public String getNombreTela() {
+        return nombreTela;
+    }
+
+    public void setNombreTela(String nombreTela) {
+        this.nombreTela = nombreTela;
+    }
+
+    public String getIdTela() {
+        return idTela;
+    }
+
+    public void setIdTela(String idTela) {
+        this.idTela = idTela;
+    }
+
+    public String getIdProveedor() {
+        return idProveedor;
+    }
+
+    public void setIdProveedor(String idProveedor) {
+        this.idProveedor = idProveedor;
+    }
+
+    public String getNombreProveedor() {
+        return nombreProveedor;
+    }
+
+    public void setNombreProveedor(String nombreProveedor) {
+        this.nombreProveedor = nombreProveedor;
     }
 
     

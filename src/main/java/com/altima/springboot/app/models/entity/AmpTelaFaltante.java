@@ -41,6 +41,9 @@ public class AmpTelaFaltante implements Serializable {
     @Column(name = "estatus")
     private int estatus;
 
+    @Column(name = "estatus_comercial")
+    private int estatusComercial;
+
     @Column(name = "creado_por")
     private String creadoPor;
 
@@ -139,6 +142,14 @@ public class AmpTelaFaltante implements Serializable {
                 + creadoPor + ", estatus=" + estatus + ", fechaCreacion=" + fechaCreacion + ", fechaPromesa="
                 + fechaPromesa + ", idPedido=" + idPedido + ", idTela=" + idTela + ", idTelaFaltante=" + idTelaFaltante
                 + ", ultimaFechaModificacion=" + ultimaFechaModificacion + "]";
+    }
+
+    public int getEstatusComercial() {
+        return estatusComercial;
+    }
+
+    public void setEstatusComercial(int estatusComercial) {
+        this.estatusComercial = estatusComercial;
     }
 
 }
