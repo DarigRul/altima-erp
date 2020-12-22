@@ -59,6 +59,14 @@ public class ProduccionLookupServiceImpl implements IProduccionLookupService {
 	public List<ProduccionLookup> findAllLookup(String Tipo) {
 		return em.createQuery("from ProduccionLookup where tipo_lookup='"+Tipo+"'").getResultList();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	@OrderBy("idLookup ASC")
+	public List<ProduccionLookup> findAllLookup(String Tipo, String estatus) {
+		return em.createQuery("from ProduccionLookup where tipo_lookup='"+Tipo+"' and estatus="+estatus).getResultList();
+	}
 	
 	@Override
 	@Transactional
