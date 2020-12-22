@@ -145,4 +145,31 @@ public class ComercialClienteServiceImpl implements IComercialClienteService {
 									"WHERE empleado.id_empleado ="+idEmpleado+" \n" + 
 									"ORDER BY cliente.nombre").getResultList();
 	}	
+	
+	@Override
+	@Transactional
+	public List<Object[]> findClientesWithAgenteVentas (Long idUsuario){
+		
+		if(idUsuario==null) {
+			return em.createNativeQuery("SELECT cliente.id_cliente, \n"  + 
+					"		CONCAT(cliente.nombre,' ',IFNULL(cliente.apellido_paterno,'') , ' ', IFNULL(cliente.apellido_materno,'')), \n" + 
+					" 		CONCAT(empleado.nombre_persona,' ',IFNULL(empleado.apellido_paterno,'') , ' ', IFNULL(empleado.apellido_materno,'')) \n" + 
+					"		FROM alt_comercial_cliente AS cliente \n" + 
+					"		INNER JOIN alt_hr_usuario usuario ON cliente.id_usuario = usuario.id_usuario \n" + 
+					"		INNER JOIN alt_hr_empleado empleado ON usuario.id_empleado = empleado.id_empleado \n" + 
+					"		ORDER BY cliente.id_cliente DESC").getResultList();
+		}
+		else {
+			
+		
+			return em.createNativeQuery("SELECT cliente.id_cliente, \n" + 
+										"		CONCAT(cliente.nombre,' ',IFNULL(cliente.apellido_paterno,'') , ' ', IFNULL(cliente.apellido_materno,'')), \n" + 
+										" 		CONCAT(empleado.nombre_persona,' ',IFNULL(empleado.apellido_paterno,'') , ' ', IFNULL(empleado.apellido_materno,'')) \n" + 
+										"FROM alt_comercial_cliente AS cliente \n" + 
+										"INNER JOIN alt_hr_usuario usuario ON cliente.id_usuario = usuario.id_usuario \n" + 
+										"INNER JOIN alt_hr_empleado empleado ON usuario.id_empleado = empleado.id_empleado \n" + 
+										"WHERE usuario.id_usuario ="+idUsuario+" \n" + 
+										"ORDER BY cliente.id_cliente DESC").getResultList();
+		}
+	}
 }

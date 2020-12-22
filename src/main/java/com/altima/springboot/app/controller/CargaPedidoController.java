@@ -172,7 +172,7 @@ public class CargaPedidoController {
 			if (pedidoAux.getEstatus().equals("2")) {
 
 				if (((cargaPedidoService.validarNumResurtidosPedido(id_pedido)<1 && cargaPedidoService.validarNumEmpleadosResurtidoPedido(id_pedido)==1) || 
-						cargaPedidoService.validarNumResurtidosPedido(id_pedido)<2 && cargaPedidoService.validarNumEmpleadosResurtidoPedido(id_pedido)==2)
+						(cargaPedidoService.validarNumResurtidosPedido(id_pedido)<2 && cargaPedidoService.validarNumEmpleadosResurtidoPedido(id_pedido)==2))
 						&& cargaPedidoService.validarFechaStockPedido(id_pedido)) {
 					System.out.println("eL ID de pedido es: " + id_pedido);
 					pedido.setIdEmpresa(cargaEmpresa);

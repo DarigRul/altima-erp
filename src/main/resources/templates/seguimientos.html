@@ -55,16 +55,17 @@
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>
+                                                <th>Agente</th>
                                                 <th>Seguimiento</th>
                                                 <th>Llamadas</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr th:each="clientes, cliente:${Listclientes}">
-                                                <td th:text="${#strings.concat(clientes.Nombre , ' ' , clientes.ApellidoPaterno , ' ' , clientes.ApellidoMaterno , ' ' , clientes.RazonSocial )}">Static content
-                                                </td>
+                                                <td th:text="${clientes[1]}">Static content</td>
+                                                <td th:text="${clientes[2]}"></td>
                                                 <td class="text-center">
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_VER'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="'mostrarListaSeguimiento('+${clientes.idCliente}+')'" class="btn btn-info btn-circle btn-sm popoverxd text-white"
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_VER'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="'mostrarListaSeguimiento('+${clientes[0]}+')'" class="btn btn-info btn-circle btn-sm popoverxd text-white"
                                                         data-container="body" data-placement="top" data-content="Ver seguimiento"><i
 														class="fas fa-info"></i></a>
                                                     <div th:insert="modal-seguimiento"></div>

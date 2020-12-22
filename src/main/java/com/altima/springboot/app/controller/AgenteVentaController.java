@@ -87,9 +87,30 @@ public class AgenteVentaController {
 	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_LISTAR"})
 	@GetMapping("/seguimientos")
 	public String listSeguimientos(Model model) {
-		model.addAttribute("Listclientes", clienteservice.findAll(null));
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(auth.getName().equalsIgnoreCase("ADMIN")) {
+		model.addAttribute("Listclientes", clienteservice.findClientesWithAgenteVentas(null));
 		model.addAttribute("Listcalendario", calendarioservice.findAll());
 		return "seguimientos";
+		}
+		else {
+			try {
+				Object[] empleado = usuarioService.findEmpleadoByUserName(auth.getName());
+				System.out.println("Es un agente de ventas");
+				model.addAttribute("Listclientes", clienteservice.findClientesWithAgenteVentas(Long.parseLong(empleado[4].toString())));
+				model.addAttribute("Listcalendario", calendarioservice.findAll());
+				return "seguimientos";
+				
+			}
+			catch(Exception e) {
+				System.out.println("No es un agente de ventas \n"+e);
+				model.addAttribute("Listclientes", clienteservice.findClientesWithAgenteVentas(null));
+				model.addAttribute("Listcalendario", calendarioservice.findAll());
+				return "seguimientos";
+			}
+		}
 	}
 	
 	@PostMapping("/guardar-seguimientos")
