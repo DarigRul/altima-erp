@@ -48,20 +48,23 @@
                             <!-- Default box -->
                             <div class="card">
                                 <div class="card-header bg-altima">
-                                    <h3 class="card-title">Listado de empalmes
-                                        <button data-toggle="modal" data-target="#nuevoFolio" class="btn btn-sm icon-btn btn-success text-white mr-auto" type="button"><span
-                                            class="btn-glyphicon fas fa-plus img-circle text-success"></span>Nuevo folio</button>
-                                             <button data-toggle="modal" data-target="#nuevoRuta" class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
-                                            class="btn-glyphicon fas fa-plus img-circle text-danger"></span>Ruta</button>
-                                            <button data-toggle="modal" data-target="#nuevoPrograma" class="btn btn-sm icon-btn btn-secondary text-white mr-auto" type="button"><span
-                                                class="btn-glyphicon fas fa-plus img-circle text-secondary"></span>Programa</button>
+                                    <h3 class="card-title">Listado de empalme
+                                        <button  onclick="nuevoFolio()" class="btn btn-sm icon-btn btn-success text-white mr-auto" type="button"><span
+                                            class="btn-glyphicon fas fa-plus img-circle text-success"></span>Nuevo folio
+                                        </button>
+                                        <button onclick="nuevaRuta()"  class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
+                                            class="btn-glyphicon fas fa-plus img-circle text-danger"></span>Ruta
+                                        </button>
+                                        <button onclick ="nuevoPrograma()" class="btn btn-sm icon-btn btn-secondary text-white mr-auto" type="button"><span
+                                                class="btn-glyphicon fas fa-plus img-circle text-secondary"></span>Programa
+                                        </button>
                                     </h3>
                                 </div>
                                 <div class="card-body">
                                     <table class="table tableEmpalme table-striped table-bordered display nowrap" style="width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th style="width: 1%;"></th>
+                                                <th > <input type="checkbox" id="selectAll"> </th>
                                                 <th>Pedido</th>
                                                 <th>Fecha de entrega</th>
                                                 <th>Programa</th>
@@ -82,26 +85,27 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-											<tr>
+											<tr th:each="view, iview: ${view}" >
+											
 												<td style="text-align: center; vertical-align: middle;">
-                                                    <input type="checkbox"/>
+														<input type="checkbox" class="messageCheckbox" th:value="${view[0]}" />
                                                 </td>
-                                                <td>PED1020</td>
-                                                <td>28/12/2020</td>
-                                                <td>DD7</td>
-                                                <td>1</td>
-                                                <td>Saco</td>
-                                                <td>SAC6280</td>
-                                                <td>N/A</td>
-                                                <td>1</td>
-                                                <td>95</td>
-                                                <td>LS576</td>
-                                                <td>1.42</td>
-                                                <td>Lino</td>
-                                                <td>-5</td>
-                                                <td>Lisa</td>
-                                                <td>Faltante</td>
-                                                <td>1</td>
+                                                <td th:text="${view[1]}" >PED1020</td>
+                                                <td th:text="${view[2]}">28/12/2020</td>
+                                                <td th:text="${view[3]}">DD7</td>
+                                                <td th:text="${view[4]}">1</td>
+                                                <td th:text="${view[5]}">Saco</td>
+                                                <td th:text="${view[6]}">SAC6280</td>
+                                                <td th:text="${view[7]}">N/A</td>
+                                                <td th:text="${view[8]}">1</td>
+                                                <td th:text="${view[9]}">95</td>
+                                                <td th:text="${view[10]}">LS576</td>
+                                                <td th:text="${view[11]}">1.42</td>
+                                                <td th:text="${view[12]}">Lino</td>
+                                                <td th:text="${view[13]}">-5</td>
+                                                <td th:text="${view[14]}">Lisa</td>
+                                                <td th:text="${view[15]}">Faltante</td>
+                                                <td th:text="${view[16]}">1</td>
                                                 <td class="text-center">
                                                     <button class="btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-info"></i></button>
                                                 </td>
@@ -125,7 +129,7 @@
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/tablaEmpalme.js"></script>
-    <script src="dist/js/tablaGeneral.js"></script>
+    <script src="dist/js/EmpalmeTelas.js"></script>
 	<script>
         $('#iProduccion').removeClass('text-altima');
         $('#menuProduccion').addClass('menu-open');

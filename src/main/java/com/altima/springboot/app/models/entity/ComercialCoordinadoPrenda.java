@@ -74,6 +74,15 @@ public class ComercialCoordinadoPrenda implements Serializable{
 	@Column(name="estatus")
 	private String estatus;
 	
+	@Column(name="folio")
+	private String folio;
+	
+	@Column(name="id_ruta")
+	private Integer id_ruta;
+	
+	@Column(name="programa")
+	private String programa;
+	
 	
 
 	
@@ -218,6 +227,30 @@ public class ComercialCoordinadoPrenda implements Serializable{
 
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
+	}
+
+	public String getFolio() {
+		return folio;
+	}
+
+	public void setFolio(String folio) {
+		this.folio = folio;
+	}
+
+	public Integer getId_ruta() {
+		return id_ruta;
+	}
+
+	public void setId_ruta(Integer id_ruta) {
+		this.id_ruta = id_ruta;
+	}
+
+	public String getPrograma() {
+		return programa;
+	}
+
+	public void setPrograma(String programa) {
+		this.programa = programa;
 	}
 
 	

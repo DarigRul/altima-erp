@@ -17,8 +17,5 @@ public class ControladorProvisionalController {
 	public String tiemposCorte() {
 		return "tiempos-de-corte";
 	}
-	@GetMapping("/empalme-telas")
-	public String empalmeTela() {
-		return "empalme-telas";
-	}
+
 }

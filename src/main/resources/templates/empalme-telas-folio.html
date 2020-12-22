@@ -1,3 +1,5 @@
+ <input type="hidden" name="_csrf" id="token"
+                                    th:value="${_csrf.token}" />
 <div class="modal fade" id="nuevoFolio" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content modal-rounded-body">
@@ -20,7 +22,7 @@
         <div class="modal-footer">
           <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="button"><span
               class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-          <a class="btn icon-btn btn-altima text-white" type="submit"><span
+          <a onclick ="guardarFolio()" class="btn icon-btn btn-altima text-white" type="submit"><span
               class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</a>
         </div>
       </div>
@@ -40,7 +42,11 @@
             <div class="row">
               <div class="form-group col-md-12">
                 <label for="rutaText">Ruta</label>
-                <input type="text" class="form-control" id="rutaText" placeholder="1">
+                
+                <select required id="idRuta" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Seleccione uno...">
+				<option th:each="ruta: ${SelectRuta}" th:if="${ruta.estatus == '1'}" th:value="${ruta.idLookup}" th:text="${ruta.nombreLookup}"></option>
+
+				</select>
               </div>
             </div>
           </form>
@@ -48,7 +54,7 @@
         <div class="modal-footer">
           <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="button"><span
               class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-          <a class="btn icon-btn btn-altima text-white" type="submit"><span
+          <a onclick="guardarRuta()" class="btn icon-btn btn-altima text-white" type="submit"><span
               class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</a>
         </div>
       </div>
@@ -68,7 +74,7 @@
             <div class="row">
               <div class="form-group col-md-12">
                 <label for="programaText">Programa</label>
-                <input type="text" class="form-control" id="programaText" placeholder="1">
+                <input type="number" class="form-control" id="programaText" placeholder="1">
               </div>
             </div>
           </form>
@@ -76,7 +82,7 @@
         <div class="modal-footer">
           <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="button"><span
               class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-          <a class="btn icon-btn btn-altima text-white" type="submit"><span
+          <a onclick="guardarPrograma()" class="btn icon-btn btn-altima text-white" type="submit"><span
               class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</a>
         </div>
       </div>

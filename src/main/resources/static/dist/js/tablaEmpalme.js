@@ -1,4 +1,5 @@
-
+var table;
+$(document).ready(function () {
     $('.tableEmpalme thead tr').clone(true).appendTo('.tableEmpalme thead');
     $('.tableEmpalme thead tr:eq(0) th').each(function () {
         var title = $('.tableEmpalme thead th').eq($(this).index()).text();
@@ -7,19 +8,17 @@
     table = $('.tableEmpalme')
         .DataTable({
             "ordering": false,
+            "orderCellsTop": true,
+            "fixedHeader": true,
             "pageLength": 5,
-            "scrollX": true,
             "stateSave": true,
-            "drawCallback": function() {
+            "scrollX": true,
+            "drawCallback": function () {
                 $('.popoverxd').popover({
                     container: 'body',
                     trigger: 'hover'
                 });
             },
-            "columnDefs": [{
-                "type": "html",
-                "targets": '_all'
-            }],
             "lengthMenu": [
                 [5, 10, 25, 50, 100],
                 [5, 10, 25, 50, 100]
@@ -53,9 +52,6 @@
                 }
             }
         });
-    new $.fn.dataTable.FixedHeader(table);
-
-    // new $.fn.dataTable.FixedHeader(table);
     // Restore state
     var state = table.state.loaded();
     if (state) {
@@ -80,3 +76,6 @@
                 .draw();
         });
     });
+});
+
+  
