@@ -31,7 +31,7 @@ public class AMPExplosionMaterialesRestController {
 	}
 
 	@PostMapping("/guardar-habilitacion")
-	public boolean GuardarHabilitacionExplosion(@RequestParam(name = "arrayReg") String arrayReg) {
+	public boolean GuardarHabilitacionExplosion(@RequestParam(name = "arrayReg") String arrayReg,String pedido) {
 		boolean response;
 		try {
 			JSONArray json = new JSONArray(arrayReg);
@@ -52,6 +52,7 @@ public class AMPExplosionMaterialesRestController {
 					traspaso2.setIdAlmacenLogicoDestino(Long.parseLong(destino));
 					traspaso2.setIdAlmacenLogicoOrigen(Long.parseLong(origen));
 					traspaso2.setTipo("2");
+					traspaso2.setReferencia(pedido);
 					AmpExplosionMaterialesService.SaveTraspaso(traspaso2);
 
 					AmpTraspasoDetalle traspasodetalle2 = new AmpTraspasoDetalle();

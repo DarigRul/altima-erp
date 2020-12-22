@@ -62,7 +62,6 @@ $(document).ready(function () {
 	);
 	
 	console.log(document.getElementById("idpedido").value);
-	 //new $.fn.dataTable.FixedHeader(myTable2);
 
 });
 
@@ -90,10 +89,6 @@ function tablamulti(material,disponible_actual,disponible_inicio,apartados,surti
 				arrayReg[i].existencia,
 				arrayReg[i].apartados,
 				'<button id="modalTomar" onclick="contador('+i+','+(surtir3-arrayReg[contador1[0]].apartados)+','+(disponible3-arrayReg[contador1[0]].apartados)+');inputapartados('+separateddata3+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
-
-
-
-
 				] ).draw( false );
 			console.log(arrayReg[i]);
 
@@ -111,9 +106,7 @@ function tablamulti(material,disponible_actual,disponible_inicio,apartados,surti
 
 	}
 	else{
-
-
-		disponible=disponible_actual;
+	disponible=disponible_actual;
 	}
 	if(surtir_actual==null || surtir_actual=="null"){
 
@@ -155,7 +148,6 @@ function tablamulti(material,disponible_actual,disponible_inicio,apartados,surti
 			for (i in data) {
 				
 				var separateddata= "'" + data.join("','") + "'";
-				//console.log(separateddata);
 				var tr2='\'tr\'';
 				a = [
 					'<tr>' +
@@ -239,28 +231,20 @@ function tablamulti(material,disponible_actual,disponible_inicio,apartados,surti
 
 function contador(contador,surtir,disponible){
 	contador1=[contador,surtir,disponible];
-	// console.log(contador1);
 	return contador1;
 }
 
 function inputapartados(	
 ){
-	// console.log(tablaMultialmacenes.rows().data());
-
-	// console.log("contador"+contador1[0]);
 	var surtir2=contador1[1];
 	var disponible2=contador1[2];
 	var i;
 	var array2;
 	var arreglo=[];
 	for (i = 0; i < arguments.length; i++) {
-		array2 = arguments[i].split(',');
-		// console.log(array2[i]);
-		// console.log(array2[0]);
-		// console.log(array2);
 
+		array2 = arguments[i].split(',');
 		arreglo.push(array2);
-		// console.log(arreglo);
 	}
 	var disponible_existencia_almacen=arreglo[contador1[0]][6];
 	Swal.fire({
@@ -276,10 +260,6 @@ function inputapartados(
 		onOpen: function() {document.getElementsByClassName('swal2-confirm swal2-styled')[0].setAttribute('id', 'btnconfirm');}
 	,
 	inputValidator: (value) => {
-
-
-		// console.log("disponible"+disponible);
-		// console.log("surtir"+surtir);
 		var disponible4=parseInt(document.getElementById("disponible").innerHTML);
 		var surtir4=parseInt(document.getElementById("surtir").innerHTML);
 		if (!value || value<0) {
@@ -287,61 +267,28 @@ function inputapartados(
 			return 'Ingrese un valor valido no puede estar vacio ni ser un valor negativo'
 		}
 		else if (parseInt(value)>disponible4 || parseInt(value)>surtir4 || parseInt(value)>parseInt(disponible_existencia_almacen)) {
-			// console.log(value);
-			// console.log(disponible2);
-			// console.log(surtir2);
-			// console.log(disponible_existencia_almacen);
-
 			return 'Ingrese un valor valido la cantidad a apartadar no puede ser mayor a la cantidad disponible: '+disponible4+' , a la cantida a surtir: '+surtir4+' o a la cantidad exitente es este almacen: '+disponible_existencia_almacen+''
 		} 
 		else{
 
-			// fila.remove().draw();
 			tablaMultialmacenes.clear().draw();
-            //console.log("borrar");
-			// let arrayReg=[];
-
 			 console.log(arguments);
 			 
-			//if(arrayReg.filter(x => x.articulo === array3).length<1){
-			//}
+			
 			 var articuloarr;
 			 for (i = 0; i < arguments.length; i++) {
 
-					// console.log( arguments[i]);
-					 articuloarr = arguments[i].split(',');
-					// console.log(array[3]);
-					/*try {
-						if(arrayReg.filter(x => x.articulo === array3).length<1){
-							
-							
-						}
-						n=[];
-						arrayReg=[];
-					} catch (e) {
-						// TODO: handle exception
-					}*/
+					articuloarr = arguments[i].split(',');
 					articuloarr=articuloarr[3];
-console.log(articuloarr);					
+					console.log(articuloarr);					
 					
 					
 				}
 			if(arrayReg.filter(x => x.articulo === articuloarr).length<1){
 			for (i = 0; i < arguments.length; i++) {
 
-				// console.log( arguments[i]);
+				
 				var array = arguments[i].split(',');
-				// console.log(array[3]);
-				/*try {
-					if(arrayReg.filter(x => x.articulo === array3).length<1){
-						
-						
-					}
-					n=[];
-					arrayReg=[];
-				} catch (e) {
-					// TODO: handle exception
-				}*/
 				var Reg = new Object();
 				Reg.destino = array[0];
 				Reg.origen = array[1];
@@ -353,10 +300,6 @@ console.log(articuloarr);
 				Reg.apartadoanterior = parseInt(array[7]);
 				Reg.disponible = parseInt(array[8]);
 				Reg.apartados= parseInt(array[7]);	
-				// for (var i = 0; i < arguments.length; i++) {
-					// console.log(array[3]);
-//console.log(Reg(0));
-				// }
 				arrayReg.push(Reg);
 			}console.log(Reg);
 			}else{
@@ -365,48 +308,28 @@ console.log(articuloarr);
 				console.log(arrayReg.filter(x => x.origen === '7'));
 				
 			}
-			//arrayReg[contador1[0]].apartados=arrayReg[contador1[0]].apartadoanterior+parseInt(value);
 			console.log(arrayReg);
 			arrayReg[contador1[0]].apartados=arrayReg[contador1[0]].apartadoanterior+parseInt(value);
             arrayReg[contador1[0]].apartadoanterior=arrayReg[contador1[0]].apartadoanterior+parseInt(value);
-			// console.log(arrayReg[i].apartadoanterior);
 			arrayReg[contador1[0]].existencia=arrayReg[contador1[0]].existencia-parseInt(value);
 			arrayReg[contador1[0]].disponible=arrayReg[contador1[0]].disponible-parseInt(value);
-			// console.log(arrayReg[contador1[0]].existencia);
-			// console.log(arrayReg[contador1[0]].existencia-parseInt(value));
-
 			 disponible3=parseInt(document.getElementById("disponible").innerHTML);
-//			document.getElementById("disponible").innerHTML=disponible3-arrayReg[contador1[0]].apartados;
 			document.getElementById("disponible").innerHTML=disponible3-value;
-
 			surtir3=parseInt(document.getElementById("surtir").innerHTML);
-			//document.getElementById("surtir").innerHTML=surtir3-arrayReg[contador1[0]].apartados;
 			document.getElementById("surtir").innerHTML=surtir3-value;
-
 			var apartado3=parseInt(document.getElementById("apartado").innerHTML);
-			//document.getElementById("apartado").innerHTML=apartado3+arrayReg[contador1[0]].apartados;
 			document.getElementById("apartado").innerHTML=apartado3+parseInt(value);
-
-			//console.log(disponible3);
-			//console.log(surtir3);
-
 			var arr2=[];
-	console.log(arrayReg);// 2
-			//console.log(arrayReg.find(x => x.destino === '9'));
+			console.log(arrayReg);
 			console.log(arrayReg.filter(x => x.origen === '7'));
 
 			var arr9=[];
 			for ( var j in arrayReg) {
 
-//console.log(arrayReg);
 				var arr8=[arrayReg[j].destino,arrayReg[j].origen,arrayReg[j].almacen,arrayReg[j].articulo,arrayReg[j].traspaso,arrayReg[j].traspasodetalle,arrayReg[j].existencia,arrayReg[j].apartados,arrayReg[j].disponible];
-// console.log(arr8);
 				arr9.push(arr8);
 			}
-			// console.log(arr9);
 		 separateddata3= "'" + arr9.join("','") + "'";
-			// console.log(separateddata3);
-			//console.log(arrayReg.find(x => x.articulo === '7'));
 			for ( var i in arrayReg) {
 
 
@@ -420,41 +343,18 @@ console.log(articuloarr);
 */
 
 					] ).draw( false );
-			
-				// console.log(arrayReg[i].destino);
-			//	console.log(arrayReg);
-				//console.log(document.getElementById("hola").innerHTML);
-			//document.getElementById("hola").innerHTML="dsad";
-				//console.log(arrayReg.find(x => x.articulo === '7'));
-
-
 			}
 			console.log(arrayReg);
-			//console.log(document.getElementById("surtir".concat(arrayReg[0].articulo)));
-			//console.log(document.getElementById("surtir").innerHTML);
-			//document.getElementById("surtir".concat(arrayReg[0].articulo)).value=document.getElementById("surtir").innerHTML;
-//console.log(document.getElementById("surtir".concat(arrayReg[0].articulo)).value);
-console.log($("#surtir".concat(arrayReg[0].articulo)));
+			console.log($("#surtir".concat(arrayReg[0].articulo)));
+			document.getElementById("disponible".concat(arrayReg[0].articulo)).textContent = document.getElementById("disponible").innerHTML;
+			document.getElementById("apartado".concat(arrayReg[0].articulo)).textContent = document.getElementById("apartado").innerHTML;
+			document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent = document.getElementById("surtir").innerHTML;
 
-//.val(document.getElementById("surtir").innerHTML);
-//$("#surtir".concat(arrayReg[0].articulo)).val();
-//console.log($("#surtir".concat(arrayReg[0].articulo)).val());
-//document.getElementById("surtir".concat(arrayReg[0].articulo)).textContent = document.getElementById("surtir").innerHTML;
-document.getElementById("disponible".concat(arrayReg[0].articulo)).textContent = document.getElementById("disponible").innerHTML;
-document.getElementById("apartado".concat(arrayReg[0].articulo)).textContent = document.getElementById("apartado").innerHTML;
-document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent = document.getElementById("surtir").innerHTML;
-
-console.log(document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent);
+			console.log(document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent);
 if(document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent==0){
 	console.log(document.getElementById("status".concat(arrayReg[0].articulo)));
-	//document.getElementById("status".concat(arrayReg[0].articulo)).textContent="Completo";
 	document.getElementById("status".concat(arrayReg[0].articulo)).textContent = "Completo";
-
 }
-
-//$("#surtir7").val(2);
-//alert("si llego");			// console.log(document.getElementById("disponible").innerHTML);
-			// console.log(arrayReg[contador1[0]].apartados);
 
 		}
 
@@ -486,9 +386,8 @@ function guardar(){
                   url: "/guardar-habilitacion",
                   headers: {
                       'X-CSRF-Token': $('#token').val(),
-                 }//,
-                  //contentType: 'application/json'
-                	  ,   data:{arrayReg: JSON.stringify(arrayReg)} //stringify is important
+                 }
+                	  ,   data:{arrayReg: JSON.stringify(arrayReg),pedido: $("#idpedido").val()} //stringify is important
 
               }).done(function(data) {
             	  if(data==true){
@@ -512,14 +411,9 @@ function guardar(){
     					  timer: 1500
     					})  
             	  }
-            	  //listarColores();
-            	 // listarAlmaceneslogicos();
+            	
               });
-		   /* Swal.fire(
-		      'Deleted!',
-		      'Your file has been deleted.',
-		      'success'
-		    )*/
+		  
 		  }
 		})
 	
