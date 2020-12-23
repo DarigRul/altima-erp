@@ -819,7 +819,17 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_ELIMINAR'')')})">
-                            <a th:href="${'/empalme-telas'}" class="nav-link" id="navProduccion1">
+                            <a th:href="${'/explosion-de-procesos'}" class="nav-link" id="navProExp">
+                                <i class="nav-icon fas fa-file-download"></i>
+                                <p>Explosi&oacute;n de procesos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_AGREGAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_ELIMINAR'')')})">
+                            <a th:href="${'/cierre-de-expediente'}" class="nav-link" id="navProduccion1">
                                 <i class="nav-icon fas fa-file-download"></i>
                                 <p>Cierre de expediente</p>
                             </a>
