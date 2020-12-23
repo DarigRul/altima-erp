@@ -79,7 +79,7 @@
                                                 <th>Composici&oacute;n</th>
                                                 <th>Encog./Estir.</th>
                                                 <th>Estampado</th>
-                                                <th>Estatus gral. tela</th>
+                                                <th>Estatus tela pral.</th>
                                                 <th>Folio</th>
                                                 <th>Detalles</th>
                                             </tr>
@@ -107,7 +107,7 @@
                                                 <td th:text="${view[15]}">Faltante</td>
                                                 <td th:text="${view[16]}">1</td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-info btn-circle btn-sm" data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-info"></i></button>
+                                                    <button class="btn btn-info btn-circle btn-sm" th:onclick="|detalles('${view[0]}')|" data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-info"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>

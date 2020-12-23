@@ -6,4 +6,6 @@ public interface IEmpalmeTelasService {
 
     List<Object []> view ();
     
+    List<Object []> detallesTelas (Long idCoorPrenda);
+    
 }

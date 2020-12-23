@@ -221,3 +221,37 @@ function guardarPrograma(){
 	    })
 	}
 }
+
+function detalles (id){
+	var table = $('#tablaDetalles').DataTable();
+	var rows = table
+    .rows()
+    .remove()
+	.draw(); 
+	
+	$.ajax({
+        type: "GET",
+        url:"/empalme_telas_detalles",
+        data: { 
+        	id:id
+        },
+        success: function(data) {
+        	for (i in data) {
+        		table.row.add([	
+        			data[i][0],
+        			data[i][1],
+        			data[i][2],
+        			data[i][3],
+        			data[i][4],
+        			data[i][5]
+        			
+        		
+        		]).node().id ="row";
+        		table.draw( false );
+			}
+        	//console.log(data)
+        }
+    	 
+    })
+	
+}

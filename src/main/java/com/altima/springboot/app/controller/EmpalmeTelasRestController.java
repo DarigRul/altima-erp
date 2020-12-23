@@ -4,9 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.altima.springboot.app.models.entity.ComercialCoordinadoMaterial;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IEmpalmeTelasService;
@@ -73,6 +68,11 @@ public class EmpalmeTelasRestController {
 			coorService.saveCoorPrenda(obj);	
 		}
 		return true;
+	}
+	
+	@RequestMapping(value="/empalme_telas_detalles", method=RequestMethod.GET)
+	public List<Object []> detalles (@RequestParam(name = "id") Long id){
+		return EmpalmeService.detallesTelas(id) ;
 	}
 
 }
