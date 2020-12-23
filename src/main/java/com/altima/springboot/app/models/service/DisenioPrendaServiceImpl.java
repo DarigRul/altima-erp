@@ -63,7 +63,7 @@ public class DisenioPrendaServiceImpl implements IDisenioPrendaService {
 
 		// Consecutivo Nombre
 		List<String> nombre = em
-				.createNativeQuery("SELECT nombre_lookup FROM `alt_disenio_lookup` WHERE id_lookup =" + familiaPrenda)
+				.createNativeQuery("SELECT descripcion_lookup FROM `alt_disenio_lookup` WHERE id_lookup =" + familiaPrenda)
 				.getResultList();
 		String[] soloUnaPalabra = nombre.get(0).split(" ");
 		response[1] = soloUnaPalabra[0];
