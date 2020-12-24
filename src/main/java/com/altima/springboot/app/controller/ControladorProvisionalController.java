@@ -21,5 +21,21 @@ public class ControladorProvisionalController {
 	public String explosionProcesos() {
 		return "explosion-de-procesos";
 	}
+	@GetMapping("/orden-de-compra")
+	public String ordenCompra() {
+		return "orden-de-compra";
+	}
+	@GetMapping("/orden-de-compra-nueva")
+	public String ordenCompraNew() {
+		return "orden-de-compra-nueva";
+	}
+	@GetMapping("/listado-de-requisiciones")
+	public String ReqMatHab() {
+		return "listado-de-requisiciones";
+	}
+	@GetMapping("/listado-de-requisiciones-goc")
+	public String ReqMatHabGenerarOC() {
+		return "listado-de-requisiciones-goc";
+	}
 
 }

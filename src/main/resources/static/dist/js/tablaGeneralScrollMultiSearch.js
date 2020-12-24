@@ -1,5 +1,19 @@
 $(document).ready(function() {
-    var table = $('.tablaGeneralScroll')
+    $('.tablaGeneralScrollMultiSearch thead tr').clone(true).appendTo( '.tablaGeneralScrollMultiSearch thead' );
+    $('.tablaGeneralScrollMultiSearch thead tr:eq(1) th.select-filter').each( function (i) {
+        var title = $(this).text();
+        $(this).html( '<input class="form-control" type="text" placeholder="Buscar" />' );
+ 
+        $( 'input', this ).on( 'keyup change', function () {
+            if ( table.column(i).search() !== this.value ) {
+                table
+                    .column(i)
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
+    var table = $('.tablaGeneralScrollMultiSearch')
         .DataTable({
             "ordering": false,
             "pageLength": 5,
