@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Control de tela | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Control de tela</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">AMP</li>
+                                <li class="breadcrumb-item active">Control de tela</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de controles</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Pedido</th>
+                                                <th>Cliente</th>
+                                                <th>F. Entrega</th>
+                                                <th>Clave</th>
+                                                <th>Tela</th>
+                                                <th>Agente de ventas</th>
+                                                <th>Estatus</th>
+                                                <th>F. Recepci&oacute;n</th>
+                                                <th>Total</th>
+                                                <th>Faltante</th>
+                                                <th>Detalles</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>PED5184</td>
+                                                <td>Caja Popular</td>
+                                                <td>20/01/2020</td>
+                                                <td>LS1205</td>
+                                                <td>Italian</td>
+                                                <td>Agente 1</td>
+                                                <td>Faltante</td>
+                                                <td></td>
+                                                <td>50.8</td>
+                                                <td>25</td>
+                                                <td class="text-center">
+                                                    <button data-toggle="modal" data-target="#detallePrendas" class="btn btn-info btn-circle btn-sm popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Completo</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="text-center">
+                                                    <button data-toggle="modal" data-target="#detallePrendas" class="btn btn-info btn-circle btn-sm popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Surtido</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="text-center">
+                                                    <button data-toggle="modal" data-target="#detallePrendas" class="btn btn-info btn-circle btn-sm popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>Parcial</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="text-center">
+                                                    <button data-toggle="modal" data-target="#detallePrendas" class="btn btn-info btn-circle btn-sm popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div th:insert="control-de-telas-detalle"></div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#navComercial').addClass('active-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#menuAMP').addClass('menu-open');
+        $('#navAMP').addClass('active');
+        $('#navAMPTel').addClass('active');
+    </script>
+</body>
+
+</html>

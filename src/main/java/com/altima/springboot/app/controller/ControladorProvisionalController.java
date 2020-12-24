@@ -37,5 +37,18 @@ public class ControladorProvisionalController {
 	public String ReqMatHabGenerarOC() {
 		return "listado-de-requisiciones-goc";
 	}
+	@GetMapping("/control-de-telas")
+	public String CtrlTelas() {
+		return "control-de-telas";
+	}
+	@GetMapping("/control-habilitacion")
+	public String CtrlHab() {
+		return "control-habilitacion";
+	}
+	@GetMapping("/control-habilitacion-material")
+	public String CtrlHabMat() {
+		return "control-habilitacion-material";
+	}
+
 
 }

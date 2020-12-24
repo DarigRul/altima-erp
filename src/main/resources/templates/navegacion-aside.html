@@ -425,6 +425,26 @@
                                         <p>Requisici&oacute;n de almac&eacute;n</p>
                                     </a>
                                 </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/control-de-telas'}" class="nav-link" id="navAMPTel">
+                                        <i class="nav-icon fas fa-list"></i>
+                                        <p>Control de telas</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_LISTAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_AGREGAR'')')}) or
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_EDITAR'')')}) or 
+                                (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EJEMPLO_ELIMINAR'')')})">
+                                    <a th:href="${'/control-habilitacion'}" class="nav-link" id="navAMPHab">
+                                        <i class="nav-icon fas fa-clipboard-list"></i>
+                                        <p>Control habilitaci&oacute;n</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item has-treeview" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
