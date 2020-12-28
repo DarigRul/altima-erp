@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Plantilla b&aacute;sica | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <div class="wrapper">
+        <div th:insert="navegacion-nav"></div>
+        <div th:insert="navegacion-logout"></div>
+        <div th:insert="navegacion-aside"></div>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Plantilla b&aacute;sica
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Plantilla b&aacute;sica</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Clave</th>
+                                                <th>Nombre</th>
+                                                <th>Pruebas</th>
+                                                <th>Estatus</th>
+                                                <th>Detalles</th>
+                                                <th>Operaciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                           <tr>
+                                               <td>NJI23E8IO23</td>
+                                               <td>Jose Manuel Blanco</td>
+                                               <td>Todas</td>
+                                               <td>En espera</td>
+                                               <td>Ninguno</td>
+                                               <td>2</td>
+                                           </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneral.js"></script>
+</body>
+
+</html>
