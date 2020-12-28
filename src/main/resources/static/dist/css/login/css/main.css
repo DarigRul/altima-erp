@@ -522,7 +522,8 @@ iframe {
 }
 
 .login100-form-btn:hover {
-  background: #333333;
+  background: #8e8e8e!important;
+  color:#282828;
 }
 
 .login100-form-btn {

@@ -28,6 +28,9 @@
 				for (var cookie in cookies) {
 					$.removeCookie(cookie);
 				}
+				$.cookie("whiteColorBackground", "backgroundLoginBlack", { expires: 10000 });
+				$.cookie("whiteText", "text-white", { expires: 10000 });
+				$.cookie("whiteButton", "buttonWhite", { expires: 10000 });
 				$.cookie("whiteColor", "whiteBackground", { expires: 10000 });
 				$.cookie("whiteJS", "/dist/js/login-black.js", { expires: 10000 });
 				window.location.replace("/login");
@@ -58,6 +61,9 @@
 				for (var cookie in cookies) {
 					$.removeCookie(cookie);
 				}
+				$.cookie("whiteColorBackground", "backgroundLoginBlack", { expires: 10000 });
+				$.cookie("whiteText", "text-white", { expires: 10000 });
+				$.cookie("whiteButton", "buttonWhite", { expires: 10000 });
                 $.cookie("yellowColor", "yellowBackground", { expires: 10000 });
                 $.cookie("yellowJS", "/dist/js/login-black.js", { expires: 10000 });
 				window.location.replace("/login");
@@ -98,6 +104,9 @@
 				for (var cookie in cookies) {
 					$.removeCookie(cookie);
 				}
+				$.cookie("whiteColorBackground", "backgroundLoginBlack", { expires: 10000 });
+				$.cookie("whiteText", "text-white", { expires: 10000 });
+				$.cookie("whiteButton", "buttonWhite", { expires: 10000 });
                 $.cookie("catYellowCSS", "particlesCatsYellow", { expires: 10000 });
                 $.cookie("catYellowJS", "/dist/js/login-cat-dark.js", { expires: 10000 });
 				window.location.replace("/login");
@@ -118,6 +127,9 @@
 				for (var cookie in cookies) {
 					$.removeCookie(cookie);
 				}
+				$.cookie("whiteColorBackground", "backgroundLoginBlack", { expires: 10000 });
+				$.cookie("whiteText", "text-white", { expires: 10000 });
+				$.cookie("whiteButton", "buttonWhite", { expires: 10000 });
                 $.cookie("catWhiteCSS", "particlesCatsWhite", { expires: 10000 });
                 $.cookie("catWhiteJS", "/dist/js/login-cat-dark.js", { expires: 10000 });
 				window.location.replace("/login");
@@ -163,6 +175,9 @@
 				for (var cookie in cookies) {
 					$.removeCookie(cookie);
 				}
+				$.cookie("whiteColorBackground", "backgroundLoginBlack", { expires: 10000 });
+				$.cookie("whiteText", "text-white", { expires: 10000 });
+				$.cookie("whiteButton", "buttonWhite", { expires: 10000 });
                 $.cookie("bubbleYellowCSS", "particlesBubbles", { expires: 10000 });
                 $.cookie("bubbleYellowClass", "yellowBackground", { expires: 10000 });
                 $.cookie("bubbleYellowJS", "/dist/js/login-bubble.js", { expires: 10000 });
@@ -185,6 +200,9 @@
 				for (var cookie in cookies) {
 					$.removeCookie(cookie);
 				}
+				$.cookie("whiteColorBackground", "backgroundLoginBlack", { expires: 10000 });
+				$.cookie("whiteText", "text-white", { expires: 10000 });
+				$.cookie("whiteButton", "buttonWhite", { expires: 10000 });
                 $.cookie("bubbleWhiteCSS", "particlesBubbles", { expires: 10000 });
                 $.cookie("bubbleWhiteClass", "whiteBackground", { expires: 10000 });
                 $.cookie("bubbleWhiteJS", "/dist/js/login-bubble-white.js", { expires: 10000 });
@@ -222,6 +240,9 @@
             }
 			if ($.cookie("whiteColor")) {
             $(".changeColor").removeClass("blackBackground").addClass($.cookie("whiteColor"));
+			$(".wrap-login100").addClass($.cookie("whiteColorBackground"));
+			$(".login100-form-title").addClass($.cookie("whiteText"));
+			$(".login100-form-btn").addClass($.cookie("whiteButton"));
             $('<script>').attr({
                 src: $.cookie("whiteJS")}).appendTo('body')
 			}
@@ -241,7 +262,10 @@
                 src: $.cookie("greenJS")}).appendTo('body')
 			}
 			if ($.cookie("yellowColor")) {
-            $(".changeColor").removeClass("blackBackground").addClass($.cookie("yellowColor"));
+			$(".changeColor").removeClass("blackBackground").addClass($.cookie("yellowColor"));
+			$(".wrap-login100").addClass($.cookie("whiteColorBackground"));
+			$(".login100-form-title").addClass($.cookie("whiteText"));
+			$(".login100-form-btn").addClass($.cookie("whiteButton"));
             $('<script>').attr({
                 src: $.cookie("yellowJS")}).appendTo('body')
 			}
@@ -264,7 +288,10 @@
                     src: $.cookie("catGreenJS")}).appendTo('body')
 			}
 			if ($.cookie("catYellowCSS")) {
-                $(".changeColor").removeClass("blackBackground particlesCircles").addClass($.cookie("catYellowCSS"));
+				$(".changeColor").removeClass("blackBackground particlesCircles").addClass($.cookie("catYellowCSS"));
+				$(".wrap-login100").addClass($.cookie("whiteColorBackground"));
+				$(".login100-form-title").addClass($.cookie("whiteText"));
+				$(".login100-form-btn").addClass($.cookie("whiteButton"));
                 $('<script>').attr({
                     src: $.cookie("catYellowJS")}).appendTo('body')
 			}
@@ -274,7 +301,10 @@
                     src: $.cookie("catBlackJS")}).appendTo('body')
 			}
 			if ($.cookie("catWhiteCSS")) {
-                $(".changeColor").removeClass("blackBackground particlesCircles").addClass($.cookie("catWhiteCSS"));
+				$(".changeColor").removeClass("blackBackground particlesCircles").addClass($.cookie("catWhiteCSS"));
+				$(".wrap-login100").addClass($.cookie("whiteColorBackground"));
+				$(".login100-form-title").addClass($.cookie("whiteText"));
+				$(".login100-form-btn").addClass($.cookie("whiteButton"));
                 $('<script>').attr({
                     src: $.cookie("catWhiteJS")}).appendTo('body')
 			}
@@ -297,7 +327,10 @@
                     src: $.cookie("bubbleGreenJS")}).appendTo('body')
 			}
 			if ($.cookie("bubbleYellowCSS")) {
-                $(".changeColor").removeClass("blackBackground particlesCircles").addClass($.cookie("bubbleYellowCSS")+' '+ $.cookie("bubbleYellowClass"));
+				$(".changeColor").removeClass("blackBackground particlesCircles").addClass($.cookie("bubbleYellowCSS")+' '+ $.cookie("bubbleYellowClass"));
+				$(".wrap-login100").addClass($.cookie("whiteColorBackground"));
+				$(".login100-form-title").addClass($.cookie("whiteText"));
+				$(".login100-form-btn").addClass($.cookie("whiteButton"));
                 $('<script>').attr({
                     src: $.cookie("bubbleYellowJS")}).appendTo('body')
 			}
@@ -308,7 +341,10 @@
 			}
 			if ($.cookie("bubbleWhiteCSS")) {
                 $(".changeColor").removeClass("WhiteBackground particlesCircles").addClass($.cookie("bubbleWhiteCSS")+' '+ $.cookie("bubbleWhiteClass"));
-                $('<script>').attr({
+				$(".wrap-login100").addClass($.cookie("whiteColorBackground"));
+				$(".login100-form-title").addClass($.cookie("whiteText"));
+				$(".login100-form-btn").addClass($.cookie("whiteButton"));
+				$('<script>').attr({
                     src: $.cookie("bubbleWhiteJS")}).appendTo('body')
 			}
 			//------------------------- SNOW ---------------
