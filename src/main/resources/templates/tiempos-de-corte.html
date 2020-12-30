@@ -77,7 +77,7 @@
                                                 <td th:unless="${v[7] == null}" th:text="${v[7]}" ></td>
 												<td class="text-center">
 													
-													<button data-toggle="modal" data-target="#tiempoDetalle"  th:onclick="|verDetalles(this)|" th:folio="${v[0]}"  class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+													<button   sec:authorize="hasAnyRole('ROLE_PRODUCCION_TIEMPO_CORTE_AÑADIR_TIEMPO','ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#tiempoDetalle"  th:onclick="|verDetalles(this)|" th:folio="${v[0]}"  class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
 												</td>
                                             </tr>
                                         </tbody>
