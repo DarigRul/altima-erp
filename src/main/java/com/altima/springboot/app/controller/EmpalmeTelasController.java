@@ -2,7 +2,7 @@ package com.altima.springboot.app.controller;
 
 import com.altima.springboot.app.models.service.IEmpalmeTelasService;
 import com.altima.springboot.app.models.service.IProduccionLookupService;
-
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +16,7 @@ public class EmpalmeTelasController {
     private IProduccionLookupService ProduccionLookup;
 
 
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_EMPALME_TELAS"})
     @GetMapping("/empalme-telas")
 	public String empalmeTela (Model model) {
         System.out.println("x");

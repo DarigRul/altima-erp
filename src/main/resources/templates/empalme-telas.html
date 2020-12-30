@@ -49,13 +49,13 @@
                             <div class="card">
                                 <div class="card-header bg-altima">
                                     <h3 class="card-title">Listado de empalme
-                                        <button  onclick="nuevoFolio()" class="btn btn-sm icon-btn btn-success text-white mr-auto" type="button"><span
+                                        <button  sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_FOLIO','ROLE_ADMINISTRADOR')" onclick="nuevoFolio()" class="btn btn-sm icon-btn btn-success text-white mr-auto" type="button"><span
                                             class="btn-glyphicon fas fa-plus img-circle text-success"></span>Nuevo folio
                                         </button>
-                                        <button onclick="nuevaRuta()"  class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
+                                        <button sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_RUTA','ROLE_ADMINISTRADOR')" onclick="nuevaRuta()"  class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
                                             class="btn-glyphicon fas fa-plus img-circle text-danger"></span>Ruta
                                         </button>
-                                        <button onclick ="nuevoPrograma()" class="btn btn-sm icon-btn btn-secondary text-white mr-auto" type="button"><span
+                                        <button sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_PROGRAMA','ROLE_ADMINISTRADOR')" onclick ="nuevoPrograma()" class="btn btn-sm icon-btn btn-secondary text-white mr-auto" type="button"><span
                                                 class="btn-glyphicon fas fa-plus img-circle text-secondary"></span>Programa
                                         </button>
                                     </h3>
@@ -107,7 +107,7 @@
                                                 <td th:text="${view[15]}">Faltante</td>
                                                 <td th:text="${view[16]}">1</td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-info btn-circle btn-sm" th:onclick="|detalles('${view[0]}')|" data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-info"></i></button>
+                                                    <button sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS','ROLE_ADMINISTRADOR')" class="btn btn-info btn-circle btn-sm" th:onclick="|detalles('${view[0]}')|" data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-info"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>

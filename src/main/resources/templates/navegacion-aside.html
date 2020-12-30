@@ -816,11 +816,8 @@
                                 <p>Catal&oacute;gos</p>
                             </a>
                         </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_ELIMINAR'')')})">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
+                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_EMPALME_TELAS'')')})">
                             <a th:href="${'/empalme-telas'}" class="nav-link" id="navProEmp">
                                 <i class="nav-icon flaticon-curling-hair-with-tissue-roll"></i>
                                 <p>Empalme de telas</p>

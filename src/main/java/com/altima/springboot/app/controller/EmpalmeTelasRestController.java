@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IEmpalmeTelasService;
-
+import org.springframework.security.access.annotation.Secured;
 @RestController
 public class EmpalmeTelasRestController {
 	
@@ -25,6 +25,7 @@ public class EmpalmeTelasRestController {
     private IComercialCoordinadoService coorService;
 	
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_RUTA"})
 	@RequestMapping(value="/guardar_ruta_a_coor_prenda", method=RequestMethod.POST)
 	public boolean ruta (@RequestParam(name = "ids") String[] ids, Integer idRuta){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -40,6 +41,7 @@ public class EmpalmeTelasRestController {
 		return true;
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_PROGRAMA"})
 	@RequestMapping(value="/guardar_programa_a_coor_prenda", method=RequestMethod.POST)
 	public boolean programa (@RequestParam(name = "ids") String[] ids, String programa){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -55,6 +57,7 @@ public class EmpalmeTelasRestController {
 		return true;
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_FOLIO"})
 	@RequestMapping(value="/guardar_folio_a_coor_prenda", method=RequestMethod.POST)
 	public boolean folio (@RequestParam(name = "ids") String[] ids, String folio){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -70,6 +73,7 @@ public class EmpalmeTelasRestController {
 		return true;
 	}
 	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_EMPALME_TELAS"})
 	@RequestMapping(value="/empalme_telas_detalles", method=RequestMethod.GET)
 	public List<Object []> detalles (@RequestParam(name = "id") Long id){
 		return EmpalmeService.detallesTelas(id) ;
