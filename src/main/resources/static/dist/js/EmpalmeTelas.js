@@ -177,11 +177,11 @@ function guardarFolio(){
 }
 
 function guardarPrograma(){
-	if ($('#programaText').val()== null || $('#programaText').val()==0){
+	if ($('#programaText').val()== null || $('#programaText').val()==""){
 		Swal.fire({
 			position: 'center',
 			icon: 'warning',
-			title: 'Seleccione el programa',
+			title: 'Ingrese el programa',
 			showConfirmButton: true
 		});	
 	}

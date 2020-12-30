@@ -102,3 +102,20 @@ function rendondiar(el) {
     var val = this.value;
     this.value = val.replace(/\D|\-/,'');
   });
+
+  
+$('#tiempoDetalle').on('hidden.bs.modal', function () {
+	
+    Swal.fire({
+        title: 'Actualizando',
+        icon: 'success',
+        allowOutsideClick: false,
+        timerProgressBar: true,
+        onBeforeOpen: () => {
+            Swal.showLoading()
+            location.reload();
+        },
+    });
+    
+   
+});

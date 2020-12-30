@@ -18,30 +18,35 @@ public class TiempoCorteServiceImpl implements ITiempoCorteService {
 	@Override
 	@Transactional
     public List<Object[]> view() {
-        
+    	//nueva query holaa
     	List<Object[]> re = null;
         re = em.createNativeQuery(""
         		+ "SELECT\r\n" + 
-        		"COOR_PRENDA.folio,\r\n" + 
-        		"LOOKUP.nombre_lookup,\r\n" + 
-        		"PRENDA.descripcion_prenda,\r\n" + 
-        		"TELA.estampado,\r\n" + 
-        		"(SELECT (SUM( conse.cantidad ) + SUM( conse.cantidad_especial )) FROM alt_comercial_concetrado_prenda AS conse WHERE conse.id_coordinado_prenda = COOR_PRENDA.id_coordinado_prenda) AS Confeccion,\r\n" + 
-        		"(SELECT COUNT(cp.tiempo) FROM alt_comercial_coordinado_prenda as cp WHERE cp.id_coordinado_prenda =  COOR_PRENDA.id_coordinado_prenda) as OP,\r\n" + 
-        		"(SELECT COUNT(DISTINCT tallas.id_talla ) from alt_comercial_concentrado_tallas as tallas WHERE tallas.id_prenda_cliente = COOR_PRENDA.id_coordinado_prenda ) as tallas,\r\n" + 
-        		"(SELECT SUM(cp.tiempo) FROM alt_comercial_coordinado_prenda as cp WHERE cp.id_coordinado_prenda =  COOR_PRENDA.id_coordinado_prenda) as tiempo\r\n" + 
+        		"	COOR_PRENDA.folio,\r\n" + 
+        		"	LOOKUP.nombre_lookup,\r\n" + 
+        		"	PRENDA.descripcion_prenda,\r\n" + 
+        		"	TELA.estampado,\r\n" + 
+        		"	(SELECT (SUM(conse.cantidad)+SUM(conse.cantidad_especial)) FROM alt_comercial_concetrado_prenda AS conse, alt_comercial_coordinado_prenda as cp \r\n" + 
+        		"				 WHERE 1=1 AND conse.id_coordinado_prenda = cp.id_coordinado_prenda ANd cp.folio = COOR_PRENDA.folio) AS Confeccion,\r\n" + 
+        		"				 \r\n" + 
+        		"	( SELECT COUNT( cp.id_coordinado_prenda ) FROM alt_comercial_coordinado_prenda AS cp WHERE cp.folio = COOR_PRENDA.folio ) AS OP,\r\n" + 
+        		"	\r\n" + 
+        		"	(SELECT COUNT(DISTINCT tallas.id_talla) FROM alt_comercial_concentrado_tallas AS tallas, alt_comercial_coordinado_prenda AS cp WHERE\r\n" + 
+        		"			tallas.id_prenda_cliente = cp.id_coordinado_prenda AND cp.folio = COOR_PRENDA.folio ) AS tallas,\r\n" + 
+        		"			\r\n" + 
+        		"	( SELECT SUM( cp.tiempo ) FROM alt_comercial_coordinado_prenda AS cp WHERE cp.folio = COOR_PRENDA.folio ) AS tiempo \r\n" + 
         		"FROM\r\n" + 
-        		"alt_comercial_coordinado_prenda AS COOR_PRENDA\r\n" + 
-        		"INNER JOIN alt_disenio_tela TELA ON TELA.id_tela = COOR_PRENDA.id_tela\r\n" + 
-        		"INNER JOIN alt_disenio_prenda PRENDA ON PRENDA.id_prenda = COOR_PRENDA.id_prenda\r\n" + 
-        		"INNER JOIN alt_disenio_lookup LOOKUP ON LOOKUP.id_lookup = PRENDA.id_familia_prenda\r\n" + 
-        		"INNER JOIN alt_view_apartado_telas_reporte reporte on reporte.id_coordinado_prenda = COOR_PRENDA.id_coordinado_prenda\r\n" + 
+        		"	alt_comercial_coordinado_prenda AS COOR_PRENDA\r\n" + 
+        		"	INNER JOIN alt_disenio_tela TELA ON TELA.id_tela = COOR_PRENDA.id_tela\r\n" + 
+        		"	INNER JOIN alt_disenio_prenda PRENDA ON PRENDA.id_prenda = COOR_PRENDA.id_prenda\r\n" + 
+        		"	INNER JOIN alt_disenio_lookup LOOKUP ON LOOKUP.id_lookup = PRENDA.id_familia_prenda\r\n" + 
+        		"	INNER JOIN alt_view_apartado_telas_reporte reporte ON reporte.id_coordinado_prenda = COOR_PRENDA.id_coordinado_prenda \r\n" + 
         		"WHERE\r\n" + 
-        		"1 = 1\r\n" + 
-        		"AND ( COOR_PRENDA.folio IS NOT NULL OR COOR_PRENDA.folio != '' )\r\n" + 
-        		"AND reporte.Principal_Combinacion ='Principal'\r\n" + 
-        		"GROUP BY COOR_PRENDA.folio\r\n" + 
-        		"").getResultList();
+        		"	1 = 1 \r\n" + 
+        		"	AND ( COOR_PRENDA.folio IS NOT NULL OR COOR_PRENDA.folio != '' ) \r\n" + 
+        		"	AND reporte.Principal_Combinacion = 'Principal' \r\n" + 
+        		"GROUP BY\r\n" + 
+        		"	COOR_PRENDA.folio").getResultList();
 
 		return re;
     }
