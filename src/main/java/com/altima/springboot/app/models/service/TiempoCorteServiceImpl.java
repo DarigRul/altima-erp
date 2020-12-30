@@ -26,10 +26,10 @@ public class TiempoCorteServiceImpl implements ITiempoCorteService {
         		"LOOKUP.nombre_lookup,\r\n" + 
         		"PRENDA.descripcion_prenda,\r\n" + 
         		"TELA.estampado,\r\n" + 
-        		"(SELECT (SUM( conse.cantidad ) + SUM( conse.cantidad_especial )) FROM alt_comercial_concetrado_prenda AS conse,alt_comercial_coordinado_prenda cp  WHERE conse.id_coordinado_prenda = cp.id_coordinado_prenda and cp.folio = COOR_PRENDA.folio) AS Confeccion,\r\n" + 
-        		"(SELECT COUNT(cp.tiempo) FROM alt_comercial_coordinado_prenda as cp WHERE cp.folio =  COOR_PRENDA.folio) as OP,\r\n" + 
-        		"(SELECT COUNT(tallas.id) from alt_comercial_concentrado_tallas as tallas, alt_comercial_coordinado_prenda cp WHERE tallas.id_prenda_cliente = cp.id_coordinado_prenda and cp.folio=COOR_PRENDA.folio) as tallas,\r\n" + 
-        		"(SELECT SUM(cp.tiempo) FROM alt_comercial_coordinado_prenda as cp WHERE cp.folio =  COOR_PRENDA.folio) as tiempo\r\n" + 
+        		"(SELECT (SUM( conse.cantidad ) + SUM( conse.cantidad_especial )) FROM alt_comercial_concetrado_prenda AS conse WHERE conse.id_coordinado_prenda = COOR_PRENDA.id_coordinado_prenda) AS Confeccion,\r\n" + 
+        		"(SELECT COUNT(cp.tiempo) FROM alt_comercial_coordinado_prenda as cp WHERE cp.id_coordinado_prenda =  COOR_PRENDA.id_coordinado_prenda) as OP,\r\n" + 
+        		"(SELECT COUNT(DISTINCT tallas.id_talla ) from alt_comercial_concentrado_tallas as tallas WHERE tallas.id_prenda_cliente = COOR_PRENDA.id_coordinado_prenda ) as tallas,\r\n" + 
+        		"(SELECT SUM(cp.tiempo) FROM alt_comercial_coordinado_prenda as cp WHERE cp.id_coordinado_prenda =  COOR_PRENDA.id_coordinado_prenda) as tiempo\r\n" + 
         		"FROM\r\n" + 
         		"alt_comercial_coordinado_prenda AS COOR_PRENDA\r\n" + 
         		"INNER JOIN alt_disenio_tela TELA ON TELA.id_tela = COOR_PRENDA.id_tela\r\n" + 
@@ -40,7 +40,8 @@ public class TiempoCorteServiceImpl implements ITiempoCorteService {
         		"1 = 1\r\n" + 
         		"AND ( COOR_PRENDA.folio IS NOT NULL OR COOR_PRENDA.folio != '' )\r\n" + 
         		"AND reporte.Principal_Combinacion ='Principal'\r\n" + 
-        		"GROUP BY COOR_PRENDA.folio").getResultList();
+        		"GROUP BY COOR_PRENDA.folio\r\n" + 
+        		"").getResultList();
 
 		return re;
     }
