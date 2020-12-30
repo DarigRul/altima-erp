@@ -13,10 +13,7 @@ public class ControladorProvisionalController {
 	public String asignacionPrograma() {
 		return "asignacion-programa";
 	}
-	@GetMapping("/tiempos-de-corte")
-	public String tiemposCorte() {
-		return "tiempos-de-corte";
-	}
+	
 	@GetMapping("/explosion-de-procesos")
 	public String explosionProcesos() {
 		return "explosion-de-procesos";
