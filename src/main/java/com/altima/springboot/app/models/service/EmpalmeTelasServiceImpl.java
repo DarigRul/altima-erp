@@ -125,7 +125,7 @@ public class EmpalmeTelasServiceImpl implements IEmpalmeTelasService {
 				"and reporte.id_tela = tela.id_tela\r\n" + 
 				"and reporte.idPedido = pedido.id_pedido_informacion\r\n" + 
 				"and reporte.id_coordinado_prenda= "+idCoorPrenda+" \r\n" + 
-				"GROUP BY tela.id_tela").getResultList();
+				"GROUP BY tela.id_tela ORDER BY reporte.Principal_Combinacion").getResultList();
 
 		return re;
     }

@@ -65,25 +65,27 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-											<tr>
-												<td>1</td>
-												<td>SAC1036</td>
-												<td>Saco</td>
-												<td>Liso</td>
-												<td>381</td>
-												<td>5</td>
-												<td>4</td>
-												<td>2880 min</td>
+                                            <tr th:each="v, iview: ${view}" >
+												<td th:text="${v[0]}" >1</td>
+												<td th:text="${v[1]}" >SAC1036</td>
+												<td th:text="${v[2]}" >Saco</td>
+												<td th:text="${v[3]}" >Liso</td>
+												<td th:text="${v[4]}" >381</td>
+												<td th:text="${v[5]}" >5</td>
+												<td th:text="${v[6]}" >4</td>
+                                                <td th:if="${v[7] == null}">Sin Tiempo</td>
+                                                <td th:unless="${v[7] == null}" th:text="${v[7]}" ></td>
 												<td class="text-center">
-													<button data-toggle="modal" data-target="#asignacionTiempo" class="btn btn-altima btn-sm btn-circle popoverxd" data-placement="top" data-content="Asignaci&oacute;n de tiempo"><i class="fas fa-clock"></i></button>
-													<button data-toggle="modal" data-target="#tiempoDetalle" class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+													
+													<button data-toggle="modal" data-target="#tiempoDetalle"  th:onclick="|verDetalles(this)|" th:folio="${v[0]}"  class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
 												</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div th:insert="tiempos-de-corte-tiempo"></div>
+                                
                                 <div th:insert="tiempos-de-corte-detalle"></div>
+                                <div th:insert="tiempos-de-corte-tiempo"></div>
                             </div>
                             <!-- /.card -->
                         </div>
@@ -99,6 +101,7 @@
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/TiempoCorte.js"></script>
 	<script>
         $('#iProduccion').removeClass('text-altima');
         $('#menuProduccion').addClass('menu-open');

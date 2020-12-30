@@ -82,6 +82,8 @@ public class ComercialCoordinadoPrenda implements Serializable{
 	
 	@Column(name="programa")
 	private String programa;
+	@Column(name="tiempo")
+	private String tiempo;
 	
 	
 
@@ -251,6 +253,14 @@ public class ComercialCoordinadoPrenda implements Serializable{
 
 	public void setPrograma(String programa) {
 		this.programa = programa;
+	}
+
+	public String getTiempo() {
+		return tiempo;
+	}
+
+	public void setTiempo(String tiempo) {
+		this.tiempo = tiempo;
 	}
 
 	
