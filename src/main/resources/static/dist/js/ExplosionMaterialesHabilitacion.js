@@ -61,7 +61,6 @@ $(document).ready(function () {
 			}
 	);
 	
-	console.log(document.getElementById("idpedido").value);
 
 });
 
@@ -69,67 +68,63 @@ $('#materialesAlmacen').on('shown.bs.modal', function () {
 	$(document).off('focusin.modal');
 });
 
+////////////////RETRASAR
+function wait(ms){
+	   var start = new Date().getTime();
+	   var end = start;
+	   while(end < start + ms) {
+	     end = new Date().getTime();
+	  }
+	}
 
 
+////PRIMER PASO PRIMERA FUNCION
+function tablamulti(materialp,surtirtotalp,disponiblep,apartadop,faltanteporsurtirp){
 
-
-function tablamulti(material,disponible_actual,disponible_inicio,apartados,surtir_actual,faltante,surtir_inicio,tabla){
-	
 	if(
-			arrayReg.filter(x => x.articulo === material).length>0
-	
+			/*SI LA CANTIDAD DE OBJETOS DE ACUERDO AL ID ARTICULO MAYOR 0
+			 QUE ES CUANDO SE INGRESA PERO SE GUARDA EN EL FRONT*/
+			arrayReg.filter(x => x.articulo === materialp).length>0
 	){
-		tablaMultialmacenes.clear().draw();
+		///SI LA CANTIDAD DE OBJETOS DE ACUERDO AL ID ARTICULO MAYOR 0
+		/// QUE ES CUANDO SE INGRESA PERO SE GUARDA EN EL FRONT
+	////SE BORRAN LOS DATOS DE LA TABLA DATATABLE
+		wait(200);
+	tablaMultialmacenes.clear().draw();
+	wait(200);
+	///RECORRER EL ARRAY QUE TENGA ESE ARTICULO SOLAMENTE PARA EVITAR QUE SE DUPLIQUE
+	for ( var i in arrayReg.filter(x => x.articulo === materialp)) {
 
-		for ( var i in arrayReg) {
 
 
 			tablaMultialmacenes.row.add( [
-				arrayReg[i].almacen,
-				arrayReg[i].existencia,
-				arrayReg[i].apartados,
-				'<button id="modalTomar" onclick="contador('+i+','+(surtir3-arrayReg[contador1[0]].apartados)+','+(disponible3-arrayReg[contador1[0]].apartados)+');inputapartados('+separateddata3+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
+				arrayReg.filter(x => x.articulo === materialp)[i].almacen,
+				arrayReg.filter(x => x.articulo === materialp)[i].existencia,
+				arrayReg.filter(x => x.articulo === materialp)[i].apartados,
+				'<button id="modalTomar" onclick="contador('+i+','+(surtir3-arrayReg.filter(x => x.articulo === materialp)[contador1[0]].apartados)+','+(disponible3-arrayReg.filter(x => x.articulo === materialp)[contador1[0]].apartados)+');inputapartados('+separateddata3+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
 				] ).draw( false );
-			console.log(arrayReg[i]);
 
 
 		}
 		
 	}else{
-	
-	var disponible;
-	var surtir;
-	var apartado=apartados;
-	if(disponible_actual==null || disponible_actual=="null"){
-
-		disponible=disponible_inicio;
-
-	}
-	else{
-	disponible=disponible_actual;
-	}
-	if(surtir_actual==null || surtir_actual=="null"){
-
-		surtir=surtir_inicio;
-	}else{
-		surtir=surtir_actual;
-	}
+////SI NO HAY NADA AUN INSERTADO EN EL FRONT PARA ESE ARTICULO ENTRA AQUI
 
 	$.ajax({
 		method: "GET",
 		url: "/explosion-materiales-habilitacion",
 		data: {
 			'Idpedido' : $('#idpedido').val() , 
-			'IdArticulo':material
+			'IdArticulo':materialp
 		},
 		success: (data) => {
 			$('#quitarmultialmacenes').remove();
 			$('#materialesAlmacenes').append("<div class='modal-body modal-rounded-footer' id='quitarmultialmacenes'>"+
 					"<ul class='list-group list-group-horizontal-md' style='margin-bottom: 20px;'>"+
-					"<li class='list-group-item'  style='width: 25%;'><strong>Disponible: </strong><a id='disponible'>"+disponible+"</a></li>"+
-					"<li class='list-group-item' style='width: 25%;'><strong>Requerido: </strong><a id='surtir'>"+surtir+"</a></li>"+
-					"<li class='list-group-item' style='width: 25%;'><strong>Apartado: </strong><a id='apartado'>"+apartado+"</a></li>"+
-					"<li class='list-group-item' style='width: 25%;'><strong>Restante: </strong><a>0</a></li>"+
+					"<li class='list-group-item'  style='width: 25%;'><strong>Disponible en almacenes: </strong><a id='disponible'>"+disponiblep+"</a></li>"+
+					"<li class='list-group-item' style='width: 25%;'><strong>Requerido inicio: </strong><a id='surtir'>"+surtirtotalp+"</a></li>"+
+					"<li class='list-group-item' style='width: 25%;'><strong>Apartado: </strong><a id='apartado'>"+apartadop+"</a></li>"+
+					"<li class='list-group-item' style='width: 25%;'><strong>Restante por surtir: </strong><a id='faltantesurtir'>"+faltanteporsurtirp+"</a></li>"+
 					"</ul>"+
 					"<table class='table tablaGeneral table-striped table-bordered' style='width:100%;' id='idtablemultialmacenes'>"+
 					"<thead>"+
@@ -147,7 +142,10 @@ function tablamulti(material,disponible_actual,disponible_inicio,apartados,surti
 
 			for (i in data) {
 				
+				
+				
 				var separateddata= "'" + data.join("','") + "'";
+				//console.log(separateddata);
 				var tr2='\'tr\'';
 				a = [
 					'<tr>' +
@@ -159,7 +157,7 @@ function tablamulti(material,disponible_actual,disponible_inicio,apartados,surti
 					'<td>' + 
 
 					
-					'<button id="modalTomar" onclick="contador('+i+','+surtir+','+disponible+');inputapartados('+separateddata+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>'+
+					'<button id="modalTomar" onclick="posicion('+i+');inputapartados('+separateddata+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>'+
 
 					'</td>',
 
@@ -228,25 +226,43 @@ function tablamulti(material,disponible_actual,disponible_inicio,apartados,surti
 
 	}
 }
-
-function contador(contador,surtir,disponible){
-	contador1=[contador,surtir,disponible];
-	return contador1;
+///posicion al apretar boton
+var posicionvar=null;
+function posicion(posicion){
+	
+     posicionvar=posicion;
+	return posicionvar;
 }
 
 function inputapartados(	
 ){
-	var surtir2=contador1[1];
-	var disponible2=contador1[2];
+	//var surtir2=contador1[1];
+	//var disponible2=contador1[2];
+//	console.log(posicionvar);
+	//console.log(arguments);
 	var i;
 	var array2;
+	//console.log(array2);
 	var arreglo=[];
 	for (i = 0; i < arguments.length; i++) {
 
 		array2 = arguments[i].split(',');
 		arreglo.push(array2);
 	}
-	var disponible_existencia_almacen=arreglo[contador1[0]][6];
+	//console.log(arreglo[posicionvar][8]);
+	//console.log(arreglo[0]);
+	//console.log(arreglo[0][2]);
+	
+//	arreglo[0]=destino almacen
+//	arreglo[1]=origen almacen
+//	arreglo[2]=nombre almacen
+//	arreglo[3]=articulo id
+//    arreglo[4]=id traspaso
+//	arreglo[5]=id traspaso detalle
+//    arreglo[6]=existencia inicio no importante
+//	arreglo[7]=apartado
+//    arreglo[8]=disponible en almacenes
+										
 	Swal.fire({
 		title: 'Ingrese la cantidad a apartar',
 		input: 'number',
@@ -261,18 +277,18 @@ function inputapartados(
 	,
 	inputValidator: (value) => {
 		var disponible4=parseInt(document.getElementById("disponible").innerHTML);
-		var surtir4=parseInt(document.getElementById("surtir").innerHTML);
+		var requeridoinicio=parseInt(document.getElementById("surtir").innerHTML);
+		var faltantesurtir=parseInt(document.getElementById("faltantesurtir").innerHTML);
 		if (!value || value<0) {
 
 			return 'Ingrese un valor valido no puede estar vacio ni ser un valor negativo'
 		}
-		else if (parseInt(value)>disponible4 || parseInt(value)>surtir4 || parseInt(value)>parseInt(disponible_existencia_almacen)) {
-			return 'Ingrese un valor valido la cantidad a apartadar no puede ser mayor a la cantidad disponible: '+disponible4+' , a la cantida a surtir: '+surtir4+' o a la cantidad exitente es este almacen: '+disponible_existencia_almacen+''
+		else if (parseInt(value)>document.getElementById("faltantesurtir").innerHTML || parseInt(value)>disponible4 || parseInt(value)>requeridoinicio || parseInt(value)>arreglo[posicionvar][8]) {
+			return 'Ingrese un valor valido la cantidad a apartadar no puede ser mayor a la cantidad disponible: '+disponible4+' , a la cantida requerida al inicio: '+requeridoinicio+' , a la cantidad exitente en este almacen: '+arreglo[posicionvar][8]+' , o a la cantidad faltante por surtir '+faltantesurtir+''
 		} 
 		else{
 
 			tablaMultialmacenes.clear().draw();
-			 console.log(arguments);
 			 
 			
 			 var articuloarr;
@@ -280,8 +296,8 @@ function inputapartados(
 
 					articuloarr = arguments[i].split(',');
 					articuloarr=articuloarr[3];
-					console.log(articuloarr);					
-					
+					 console.log("articulo"+articuloarr)
+
 					
 				}
 			if(arrayReg.filter(x => x.articulo === articuloarr).length<1){
@@ -296,65 +312,84 @@ function inputapartados(
 				Reg.articulo = array[3];
 				Reg.traspaso = array[4];
 				Reg.traspasodetalle = array[5];
-				Reg.existencia = parseInt(array[6]);
-				Reg.apartadoanterior = parseInt(array[7]);
-				Reg.disponible = parseInt(array[8]);
-				Reg.apartados= parseInt(array[7]);	
+				Reg.existencianoimportante = parseInt(array[6]);
+				Reg.apartado = parseInt(array[7]);
+				Reg.disponibleenalmacen = parseInt(array[8]);
+				Reg.posicion= i;
 				arrayReg.push(Reg);
-			}console.log(Reg);
+			}
 			}else{
-				console.log(arrayReg.filter(x => x.articulo === articuloarr)[contador1[0]]);
-				console.log(arrayReg);
-				console.log(arrayReg.filter(x => x.origen === '7'));
+				//console.log(arrayReg.filter(x => x.articulo === articuloarr)[contador1[0]]);
+				//console.log(arrayReg);
+				//console.log(arrayReg.filter(x => x.origen === '7'));
 				
 			}
-			console.log(arrayReg);
-			arrayReg[contador1[0]].apartados=arrayReg[contador1[0]].apartadoanterior+parseInt(value);
-            arrayReg[contador1[0]].apartadoanterior=arrayReg[contador1[0]].apartadoanterior+parseInt(value);
-			arrayReg[contador1[0]].existencia=arrayReg[contador1[0]].existencia-parseInt(value);
-			arrayReg[contador1[0]].disponible=arrayReg[contador1[0]].disponible-parseInt(value);
-			 disponible3=parseInt(document.getElementById("disponible").innerHTML);
-			document.getElementById("disponible").innerHTML=disponible3-value;
-			surtir3=parseInt(document.getElementById("surtir").innerHTML);
-			document.getElementById("surtir").innerHTML=surtir3-value;
-			var apartado3=parseInt(document.getElementById("apartado").innerHTML);
-			document.getElementById("apartado").innerHTML=apartado3+parseInt(value);
-			var arr2=[];
-			console.log(arrayReg);
-			console.log(arrayReg.filter(x => x.origen === '7'));
+			//arrayReg[contador1[0]].apartados=arrayReg[contador1[0]].apartadoanterior+parseInt(value);
+            //arrayReg[contador1[0]].apartadoanterior=arrayReg[contador1[0]].apartadoanterior+parseInt(value);
+			//arrayReg[contador1[0]].existencia=arrayReg[contador1[0]].existencia-parseInt(value);
+			//arrayReg[contador1[0]].disponible=arrayReg[contador1[0]].disponible-parseInt(value);
+			 //disponible3=parseInt(document.getElementById("disponible").innerHTML);
+			//document.getElementById("disponible").innerHTML=disponible3-value;
+			//surtir3=parseInt(document.getElementById("surtir").innerHTML);
+			//document.getElementById("surtir").innerHTML=surtir3-value;
+			//var apartado3=parseInt(document.getElementById("apartado").innerHTML);
+			//document.getElementById("apartado").innerHTML=apartado3+parseInt(value);
+			
+			
 
 			var arr9=[];
 			for ( var j in arrayReg) {
 
-				var arr8=[arrayReg[j].destino,arrayReg[j].origen,arrayReg[j].almacen,arrayReg[j].articulo,arrayReg[j].traspaso,arrayReg[j].traspasodetalle,arrayReg[j].existencia,arrayReg[j].apartados,arrayReg[j].disponible];
+				var arr8=[arrayReg[j].destino,arrayReg[j].origen,arrayReg[j].almacen,arrayReg[j].articulo,arrayReg[j].traspaso,arrayReg[j].traspasodetalle,arrayReg[j].apartado,arrayReg[j].disponibleenalmacen];
 				arr9.push(arr8);
 			}
 		 separateddata3= "'" + arr9.join("','") + "'";
-			for ( var i in arrayReg) {
+		 if(value==0){
+			 console.log(arrayReg);
+			 
+			 ///cambiar header tabla modal
+			document.getElementById("faltantesurtir").innerHTML=parseInt( document.getElementById("faltantesurtir").innerHTML)+parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].apartado);
+			document.getElementById("apartado").innerHTML=parseInt(document.getElementById("apartado").innerHTML)-parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].apartado);
+			document.getElementById("disponible").innerHTML=parseInt(document.getElementById("disponible").innerHTML)+parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].apartado);
+			 ///cambiar en tabla principal
+			document.getElementById("disponible".concat(articuloarr)).textContent=document.getElementById("disponible").innerHTML;
+			document.getElementById("apartado".concat(articuloarr)).textContent=document.getElementById("apartado").innerHTML;
+			document.getElementById("faltante".concat(articuloarr)).textContent=document.getElementById("faltantesurtir").innerHTML;
 
+			//para cambiar disponible en tabla modal
+			 arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].disponibleenalmacen = parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].disponibleenalmacen)+ parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].apartado);
+			 //para cambiar apartado en tabla modal
+	         arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].apartado=0;
+	        
+	       
+	         
+		 }
+		
+			for ( var i in arrayReg.filter(x => x.articulo === articuloarr)) {
 
+//console.log(contador1[0]);
 				tablaMultialmacenes.row.add( [
-					arrayReg[i].almacen,
-					arrayReg[i].existencia,
-					arrayReg[i].apartados,
-					'<button id="modalTomar" onclick="contador('+i+','+(surtir3-arrayReg[contador1[0]].apartados)+','+(disponible3-arrayReg[contador1[0]].apartados)+');inputapartados('+separateddata3+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
+					arrayReg.filter(x => x.articulo === articuloarr)[i].almacen,
+					arrayReg.filter(x => x.articulo === articuloarr)[i].disponibleenalmacen,
+					arrayReg.filter(x => x.articulo === articuloarr)[i].apartado,
+					'<button id="modalTomar" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
 
 /*hacer variables globales surtir3,arrayReg,contador1,apartados,disponible3,separateddata3
 */
 
 					] ).draw( false );
 			}
-			console.log(arrayReg);
-			console.log($("#surtir".concat(arrayReg[0].articulo)));
-			document.getElementById("disponible".concat(arrayReg[0].articulo)).textContent = document.getElementById("disponible").innerHTML;
-			document.getElementById("apartado".concat(arrayReg[0].articulo)).textContent = document.getElementById("apartado").innerHTML;
-			document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent = document.getElementById("surtir").innerHTML;
+//			console.log(arrayReg);
+			//console.log(document.getElementById("disponible").innerHTML);
+			//console.log(arrayReg[0].articulo);
+			//document.getElementById("disponible".concat(arrayReg[0].articulo)).textContent = document.getElementById("disponible").innerHTML;
+			//document.getElementById("apartado".concat(arrayReg[0].articulo)).textContent = document.getElementById("apartado").innerHTML;
+			
+			//document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent = document.getElementById("surtir").innerHTML;
 
-			console.log(document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent);
-if(document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent==0){
-	console.log(document.getElementById("status".concat(arrayReg[0].articulo)));
-	document.getElementById("status".concat(arrayReg[0].articulo)).textContent = "Completo";
-}
+//if(document.getElementById("faltante".concat(arrayReg[0].articulo)).textContent==0){
+	//document.getElementById("status".concat(arrayReg[0].articulo)).textContent = "Completo";
+//}
 
 		}
 

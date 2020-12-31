@@ -311,7 +311,7 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 				+ "AND alt_amp_traspaso_detalle.tipo = 'material'\r\n"
 				+ "WHERE  am.id_almacen_logico = al.id_almacen_logico\r\n"
 				+ "AND am.tipo = 'material'\r\n"
-				+ "GROUP  BY am.id_articulo) AS APARTADO\r\n"
+				+ "GROUP  BY am.id_articulo, alt_amp_traspaso_detalle.id_articulo) AS APARTADO\r\n"
 				+ "ON APARTADO.id = resultado2.id_material\r\n"
 				+ "AND APARTADO.id2 = resultado2.id_material\r\n"
 				+ "WHERE  resultado2.tipo_material <> \"tela material\"; ").getResultList();
@@ -327,7 +327,7 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 				+ "       al.nombre_almacen_logico,\r\n" + "       am.id_articulo,\r\n" + "       amt.id_traspaso,\r\n"
 				+ "       alt_amp_traspaso_detalle.id_traspaso_detalle,\r\n" + "       am.existencia,\r\n"
 				+ "       Ifnull(alt_amp_traspaso_detalle.cantidad, 0) apartado,\r\n"
-				+ "       IFNULL(QUERYDISPONIBLE.disponible, am.existencia)\r\n" + "FROM   alt_amp_multialmacen am,\r\n"
+				+ "       IFNULL(am.existencia-QUERYDISPONIBLE.disponible, am.existencia)\r\n" + "FROM   alt_amp_multialmacen am,\r\n"
 				+ "       alt_amp_almacen_logico al\r\n" + "       LEFT JOIN alt_amp_almacen_logico al2\r\n"
 				+ "              ON al2.id_almacen_logico = (SELECT id_almacen_logico\r\n"
 				+ "                                          FROM   alt_amp_almacen_logico\r\n"
@@ -354,7 +354,7 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 				+ "       QUERYDISPONIBLE\r\n"
 				+ "              ON QUERYDISPONIBLE.id_almacen_logico_origen = al.id_almacen_logico\r\n"
 				+ "WHERE  am.id_almacen_logico = al.id_almacen_logico\r\n" + "       AND am.id_articulo = " + IdArticulo
-				+ "\r\n" + "       AND am.tipo = 'material'\r\n" + "GROUP  BY am.id_multialmacen ").getResultList();
+				+ "\r\n" + "   and al.tipo != 2    AND am.tipo = 'material'\r\n" + "GROUP  BY am.id_multialmacen ").getResultList();
 
 	}
 
