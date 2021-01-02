@@ -21,8 +21,8 @@ public class AMPExplosionMaterialesRestController {
 	IAmpExplosionMaterialesService AmpExplosionMaterialesService;
 
 	@GetMapping("/explosion-materiales-habilitacion")
-	public List<Object[]> ExplosionMateriales(Model model,Long Idpedido, Long IdArticulo) {
-		return AmpExplosionMaterialesService.findAvailableMaterials(IdArticulo,Idpedido);
+	public List<Object[]> ExplosionMateriales(Model model, Long Idpedido, Long IdArticulo) {
+		return AmpExplosionMaterialesService.findAvailableMaterials(IdArticulo, Idpedido);
 	}
 
 	@GetMapping("/explosion-materiales-habilitacion-header")
@@ -31,7 +31,7 @@ public class AMPExplosionMaterialesRestController {
 	}
 
 	@PostMapping("/guardar-habilitacion")
-	public boolean GuardarHabilitacionExplosion(@RequestParam(name = "arrayReg") String arrayReg,String pedido) {
+	public boolean GuardarHabilitacionExplosion(@RequestParam(name = "arrayReg") String arrayReg, String pedido) {
 		boolean response;
 		try {
 			JSONArray json = new JSONArray(arrayReg);
@@ -39,13 +39,9 @@ public class AMPExplosionMaterialesRestController {
 				JSONObject object2 = (JSONObject) object;
 				String destino = object2.get("destino").toString();
 				String origen = object2.get("origen").toString();
-				;
 				String articulo = object2.get("articulo").toString();
-				;
 				String traspasodetalle = object2.get("traspasodetalle").toString();
-				;
-				String apartado = object2.get("apartados").toString();
-				;
+				String apartado = object2.get("apartado").toString();
 
 				if (traspasodetalle.isEmpty()) {
 					AmpTraspaso traspaso2 = new AmpTraspaso();
@@ -71,14 +67,13 @@ public class AMPExplosionMaterialesRestController {
 					AmpExplosionMaterialesService.SaveTraspasoDetalle(traspasodetalle3);
 				}
 			}
-			response=true;
+			response = true;
 		} catch (Exception e) {
 			// TODO: handle exception
-			response=false;
+			response = false;
 		}
-		
-return response;
+
+		return response;
 	}
 
 }
-
