@@ -59,7 +59,6 @@ public class AMPExplosionMaterialesRestController {
 					traspaso2.setIdConceptoEntrada(AmpExplosionMaterialesService.EntradaSalida().getIdMovimientoEntrada());
 					traspaso2.setIdConceptoSalida(AmpExplosionMaterialesService.EntradaSalida().getIdMovimientoSalida());
 					AmpExplosionMaterialesService.SaveTraspaso(traspaso2);
-
 					AmpTraspasoDetalle traspasodetalle2 = new AmpTraspasoDetalle();
 					traspasodetalle2.setIdTraspaso(traspaso2.getIdTraspaso());
 					traspasodetalle2.setIdArticulo(Long.parseLong(articulo));

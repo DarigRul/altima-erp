@@ -456,8 +456,7 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 	@Transactional
 	@Override
 	public AmpAlmacenLogico EntradaSalida(){
-		
-		return (AmpAlmacenLogico) em.createQuery("select idMovimientoEntrada,idMovimientoSalida from AmpAlmacenLogico where nombreAlmacenLogico=\"apartados\" and tipo=2 limit 1").getSingleResult();
+		return (AmpAlmacenLogico) em.createQuery("from AmpAlmacenLogico where nombreAlmacenLogico='apartados' and tipo=2").setMaxResults(1).getSingleResult();
 		
 	}
 	
