@@ -29,10 +29,17 @@ public class AMPExplosionMaterialesRestController {
 	public List<Object[]> ExplosionMaterialesModalHeader(Model model, Long IdArticulo, Long IdPedido) {
 		return AmpExplosionMaterialesService.findMaterialsHeader(IdArticulo, IdPedido);
 	}
+	
+	@GetMapping("/verificar-almacen-apartados")
+	public boolean VerificarAlmacenApartados(String material) {
+		boolean respuesta=AmpExplosionMaterialesService.VerificarAlmacenApartados(material);;
+		return respuesta;
+	}
 
 	@PostMapping("/guardar-habilitacion")
 	public boolean GuardarHabilitacionExplosion(@RequestParam(name = "arrayReg") String arrayReg, String pedido) {
 		boolean response;
+		
 		try {
 			JSONArray json = new JSONArray(arrayReg);
 			for (Object object : json) {
@@ -49,6 +56,8 @@ public class AMPExplosionMaterialesRestController {
 					traspaso2.setIdAlmacenLogicoOrigen(Long.parseLong(origen));
 					traspaso2.setTipo("2");
 					traspaso2.setReferencia(pedido);
+					traspaso2.setIdConceptoEntrada(AmpExplosionMaterialesService.EntradaSalida().getIdMovimientoEntrada());
+					traspaso2.setIdConceptoSalida(AmpExplosionMaterialesService.EntradaSalida().getIdMovimientoSalida());
 					AmpExplosionMaterialesService.SaveTraspaso(traspaso2);
 
 					AmpTraspasoDetalle traspasodetalle2 = new AmpTraspasoDetalle();

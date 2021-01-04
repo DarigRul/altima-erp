@@ -74,7 +74,26 @@ function wait(ms){
 
 ////PRIMER PASO PRIMERA FUNCION
 function tablamulti(materialp,surtirtotalp,disponiblep,apartadop,faltanteporsurtirp){
-
+	$.ajax({
+		method: "GET",
+		url: "/verificar-almacen-apartados",
+		data: {
+			'material' : materialp
+		},
+		success: (data) => {
+			if(data==false){
+				$('#materialesAlmacen').modal('hide');
+				Swal.fire({
+					  icon: 'warning',
+					  title: 'Este articulo no tiene asignado almacen de apartados',
+					  showConfirmButton: false,
+					  timer: 1500
+					})
+				
+			}
+			else{
+				
+			
 	if(
 			/*SI LA CANTIDAD DE OBJETOS DE ACUERDO AL ID ARTICULO MAYOR 0
 			 QUE ES CUANDO SE INGRESA PERO SE GUARDA EN EL FRONT*/
@@ -229,7 +248,11 @@ function tablamulti(materialp,surtirtotalp,disponiblep,apartadop,faltanteporsurt
 	})
 
 	}
-}
+			}
+		}
+		
+	})
+}//termina funcion tabla multi
 ///posicion al apretar boton
 var posicionvar=null;
 function posicion(posicion){
@@ -322,21 +345,8 @@ function inputapartados(
 				Reg.posicion= i;
 				arrayReg.push(Reg);
 			}
-			}else{
-				//console.log(arrayReg.filter(x => x.articulo === articuloarr)[contador1[0]]);
-				//console.log(arrayReg);
-				//console.log(arrayReg.filter(x => x.origen === '7'));
-				
 			}
 		
-			/*var arr9=[];
-			for ( var j in arrayReg) {
-
-				var arr8=[arrayReg[j].destino,arrayReg[j].origen,arrayReg[j].almacen,arrayReg[j].articulo,arrayReg[j].traspaso,arrayReg[j].traspasodetalle,arrayReg[j].apartado,arrayReg[j].disponibleenalmacen];
-				arr9.push(arr8);
-			}
-		 separateddata3= "'" + arr9.join("','") + "'";*/
-		 
 		 if(value==0){
 			 console.log(arrayReg);
 			 

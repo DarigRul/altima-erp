@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.altima.springboot.app.models.entity.AmpAlmacenLogico;
 import com.altima.springboot.app.models.entity.AmpExplosionMateriales;
 import com.altima.springboot.app.models.entity.AmpTraspaso;
 import com.altima.springboot.app.models.entity.AmpTraspasoDetalle;
@@ -449,6 +450,42 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 				+ "         where\r\n" + "            tipo = 2 LIMIT 1 \r\n" + "      )\r\n"
 				+ "			where resultado2.id_material=" + IdArticulo + "\r\n" + ";").getResultList();
 
+	}
+	
+	
+	@Transactional
+	@Override
+	public AmpAlmacenLogico EntradaSalida(){
+		
+		return (AmpAlmacenLogico) em.createQuery("select idMovimientoEntrada,idMovimientoSalida from AmpAlmacenLogico where nombreAlmacenLogico=\"apartados\" and tipo=2 limit 1").getSingleResult();
+		
+	}
+	
+	@Transactional
+	@Override
+	public boolean VerificarAlmacenApartados(String material) {
+		boolean respuesta=false;      
+		List resultado = em.createNativeQuery("SELECT\r\n"
+				+ "	al.nombre_almacen_logico,\r\n"
+				+ "	al.tipo\r\n"
+				+ "FROM\r\n"
+				+ "	alt_amp_multialmacen am,\r\n"
+				+ "	alt_amp_almacen_logico al \r\n"
+				+ "WHERE\r\n"
+				+ "	am.id_almacen_logico = al.id_almacen_logico \r\n"
+				+ "	AND am.id_articulo = "+material+" \r\n"
+				+ "	and al.tipo=2\r\n"
+				+ "	AND am.tipo = 'material'\r\n"
+				+ "	and al.nombre_almacen_logico=\"apartados\"\r\n"
+				+ "").getResultList();
+		      if(resultado.size()>0) {
+		    	  respuesta=true;
+		    	  
+		      }else {
+		    	  
+		    	  respuesta=false;
+		      }
+		return respuesta;
 	}
 
 }
