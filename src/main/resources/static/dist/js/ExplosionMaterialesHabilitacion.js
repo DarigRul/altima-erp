@@ -122,7 +122,7 @@ function tablamulti(materialp,surtirtotalp,disponiblep,apartadop,faltanteporsurt
 
 			tablaMultialmacenes.row.add( [
 				arrayReg.filter(x => x.articulo === materialp)[i].almacen,
-				arrayReg.filter(x => x.articulo === materialp)[i].disponibleenalmacen,
+				arrayReg.filter(x => x.articulo === materialp)[i].existencianoimportante,
 				arrayReg.filter(x => x.articulo === materialp)[i].apartado,
 				'<button id="modalTomar" onclick="posicion('+arrayReg.filter(x => x.articulo === materialp)[i].posicion+');inputapartados('+separateddata2+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
 				] ).draw( false );
@@ -174,7 +174,7 @@ function tablamulti(materialp,surtirtotalp,disponiblep,apartadop,faltanteporsurt
 					'<tr>' +
 					'<td>' + data[i][2] + '</td>',
 
-					'<td>' + data[i][8] + '</td>',
+					'<td>' + data[i][6] + '</td>',
 
 					'<td>' + data[i][7] + '</td>',
 					'<td>' + 
@@ -310,7 +310,7 @@ function inputapartados(
 
 			return 'Ingrese un valor valido no puede estar vacio ni ser un valor negativo'
 		}
-		else if (parseInt(value)>document.getElementById("faltantesurtir").innerHTML || parseInt(value)>disponible4 || parseInt(value)>requeridoinicio || parseInt(value)>arreglo[posicionvar][8]) {
+		else if (parseInt(value)>document.getElementById("faltantesurtir").innerHTML || parseInt(value)>disponible4 || parseInt(value)>requeridoinicio || parseFloat(value)>arreglo[posicionvar][8]) {
 			return 'Ingrese un valor valido la cantidad a apartadar no puede ser mayor a la cantidad disponible: '+disponible4+' , a la cantida requerida al inicio: '+requeridoinicio+' , a la cantidad exitente en este almacen: '+arreglo[posicionvar][8]+' , o a la cantidad faltante por surtir '+faltantesurtir+' si es necesario desaparte ingresando 0'
 		} 
 		else{
@@ -360,7 +360,7 @@ function inputapartados(
 			document.getElementById("faltante".concat(articuloarr)).textContent=document.getElementById("faltantesurtir").innerHTML;
 
 			//para cambiar disponible en tabla modal
-			 arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].disponibleenalmacen = parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].disponibleenalmacen)+ parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].apartado);
+			 arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].existencianoimportante = parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].existencianoimportante)+ parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].apartado);
 			 //para cambiar apartado en tabla modal
 	         arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].apartado=0;
 	        
@@ -380,7 +380,7 @@ function inputapartados(
 			document.getElementById("faltante".concat(articuloarr)).textContent=document.getElementById("faltantesurtir").innerHTML;
 
 			//para cambiar disponible en tabla modal
-			 arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].disponibleenalmacen = parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].disponibleenalmacen)-valuetosum;
+			 arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].existencianoimportante = parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].existencianoimportante)-valuetosum;
 			 //para cambiar apartado en tabla modal
 	         arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].apartado=value;
 	         
@@ -399,7 +399,7 @@ function inputapartados(
 				document.getElementById("faltante".concat(articuloarr)).textContent=document.getElementById("faltantesurtir").innerHTML;
 
 				//para cambiar disponible en tabla modal
-				 arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].disponibleenalmacen = parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].disponibleenalmacen)+valuetosum;
+				 arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].existencianoimportante = parseInt(arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].existencianoimportante)+valuetosum;
 				 //para cambiar apartado en tabla modal
 		         arrayReg.filter(x => x.articulo === articuloarr && x.posicion === posicionvar)[0].apartado=value;
 		         
@@ -421,7 +421,7 @@ function inputapartados(
 //console.log(contador1[0]);
 				tablaMultialmacenes.row.add( [
 					arrayReg.filter(x => x.articulo === articuloarr)[i].almacen,
-					arrayReg.filter(x => x.articulo === articuloarr)[i].disponibleenalmacen,
+					arrayReg.filter(x => x.articulo === articuloarr)[i].existencianoimportante,
 					arrayReg.filter(x => x.articulo === articuloarr)[i].apartado,
 					'<button id="modalTomar" onclick="posicion('+arrayReg.filter(x => x.articulo === articuloarr)[i].posicion+');inputapartados('+separateddata3+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
 

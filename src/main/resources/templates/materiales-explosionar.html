@@ -97,7 +97,7 @@
 												<td th:text="${material[10]}"></td>
 												<!-- disponible -->
 												<td th:id="disponible+${material[15]}"
-													th:text="${material[12]}"></td>
+													th:text="${material[11]}"></td>
 												<!-- apartado -->
 												<td th:id="apartado+${material[15]}"
 													th:text="${material[13]}"></td>
@@ -109,9 +109,9 @@
 												<td th:if="${material[8] != material[13] }"><strong
 													th:id="status+${material[15]}">Faltante</strong></td>
 												<td class="text-center">
-													<button data-toggle="modal"
+													<button data-toggle="modal" th:disabled="${material[14]}==0?'true':'False'"
 														data-target="#materialesAlmacen"
-														th:attr="onclick=|tablamulti('${material[15]}','${material[8]}','${material[12]}','${material[13]}','${material[14]}')|"
+														th:attr="onclick=|tablamulti('${material[15]}','${material[8]}','${material[11]}','${material[13]}','${material[14]}')|"
 														class="btn btn-success btn-sm btn-circle popoverxd"
 														data-placement="top" data-content="Stock general">
 														<i class="fas fa-store-alt" style="margin-left: -3px;"></i>

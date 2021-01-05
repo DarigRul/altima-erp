@@ -35,4 +35,6 @@ public interface IAmpExplosionMaterialesService {
 
 	AmpAlmacenLogico EntradaSalida();
 
+	AmpTraspaso findById(Long id);
+
 }

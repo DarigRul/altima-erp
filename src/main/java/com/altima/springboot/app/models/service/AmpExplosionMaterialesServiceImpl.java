@@ -36,6 +36,11 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 	public void SaveTraspaso(AmpTraspaso traspaso) {
 		repositorytraspaso.save(traspaso);
 	}
+	
+	@Override
+	public AmpTraspaso findById(Long id) {
+		return repositorytraspaso.findById(id).orElse(null);
+	}
 
 	@Override
 	public void SaveTraspasoDetalle(AmpTraspasoDetalle traspasodetalle) {
@@ -96,11 +101,11 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 				+ "       resultado2.clasificacion,\r\n"
 				+ "       Ifnull(resultado2.color, \"no aplica\")\r\n"
 				+ "       AS color,\r\n"
-				+ "       resultado2.surtir_inicio\r\n"
+				+ "       ROUND(resultado2.surtir_inicio,2)\r\n"
 				+ "       AS 'surtir total',\r\n"
-				+ "       resultado2.surtir_inicio_sin_spf\r\n"
+				+ "       ROUND(resultado2.surtir_inicio_sin_spf,2)\r\n"
 				+ "       AS 'surtir sin spf',\r\n"
-				+ "       Ifnull(resultado2.surtir_inicio_spf, 0)\r\n"
+				+ "       ROUND(Ifnull(resultado2.surtir_inicio_spf, 0),2)\r\n"
 				+ "       AS 'surtir con spf',\r\n"
 				+ "       resultado2.disponible_inicio,\r\n"
 				+ "       resultado2.disponible_inicio -\r\n"
@@ -108,7 +113,7 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 				+ "       'disponible en almacenes',\r\n"
 				+ "       Ifnull(APARTADO.apartado, 0)\r\n"
 				+ "       AS 'apartado',\r\n"
-				+ "       Ifnull(( resultado2.surtir_inicio - Ifnull(APARTADO.apartado, 0) ), 0)\r\n"
+				+ "       ROUND(Ifnull(( resultado2.surtir_inicio - Ifnull(APARTADO.apartado, 0) ), 0),2)\r\n"
 				+ "       AS\r\n"
 				+ "       faltante,\r\n"
 				+ "       resultado2.id_material,\r\n"
