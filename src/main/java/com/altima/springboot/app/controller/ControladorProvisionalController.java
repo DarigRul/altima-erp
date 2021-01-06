@@ -14,10 +14,6 @@ public class ControladorProvisionalController {
 		return "asignacion-programa";
 	}
 	
-	@GetMapping("/explosion-de-procesos")
-	public String explosionProcesos() {
-		return "explosion-de-procesos";
-	}
 	@GetMapping("/orden-de-compra")
 	public String ordenCompra() {
 		return "orden-de-compra";

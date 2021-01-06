@@ -624,6 +624,7 @@ function listarRuta() {
             	if (v.estatus == 1 ){
             		tabla.row.add([	
 						v.idText ,
+						v.nombreLookup,
 						'<td class="text-center">'+
 						'<button onclick="verProcesosRuta('+v.idLookup+')" class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>'+
 						'</td>',
@@ -635,6 +636,7 @@ function listarRuta() {
             	}else{
             		tabla.row.add([	
 						v.idText ,
+						v.nombreLookup,
 						'<td class="text-center">'+
 						'<button onclick="verProcesosRuta('+v.idLookup+')" class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>'+
 						'</td>',
@@ -700,6 +702,7 @@ function editarRuta (e){
 			for (i in data) {
 				tabla.row.add([	
 					data[i][3],
+					data[i][2],
 					data[i][1],
 					'<td><button type="button" onclick="eliminardeBase('+data[i][0]+', this)" class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>'
 				
@@ -783,7 +786,7 @@ function agregarProceso (){
 		
 			t.row.add( [
 			'<td style="display:none;" >'+$("#proceso option:selected").attr("value")+'</td>',
-			
+			'<td>'+$("#nombreRuta").val()+'</td>',
 			'<td>'+$("#proceso option:selected").attr("text")+'</td>',
 			'<td><button type="button" onclick="eliminar(this)" class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>'
 		

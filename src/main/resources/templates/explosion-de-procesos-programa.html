@@ -17,8 +17,72 @@
         </div>
         <div class="modal-footer modal-rounded-footer">
             <button data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
-            <button type="submit" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>            
+            <button type="submit" class="btn icon-btn btn-altima text-white float-right" onclick="explosionProcesos()"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>            
         </div>
       </div>
     </div>
   </div>
+  
+  <script>
+  	function explosionProcesos(){
+  		if($('#programaText').val()==null || $('#programaText').val() == '' || $('#programaText').val() == undefined){
+  			Swal.fire({
+       		 position: 'center',
+    				icon: 'warning',
+    				title: 'Debe llenar correctamente el nombre del programa'
+  		 }); 
+  		}
+  		else{
+  			var programa = $('#programaText').val();
+  			$.ajax({
+                type: "POST",
+                url: "/guardar-explosion-procesos",
+                data: { 
+                	 "_csrf": $('#token').val(),
+                	'programa': programa,
+                },
+                beforeSend: function () {
+               	 Swal.fire({
+                        title: 'Cargando ',
+                        html: 'Por favor espere, se est&aacute; extrayendo la informaci&oacute;n',// add html attribute if you want or remove
+                        allowOutsideClick: false,
+                        timerProgressBar: true,
+                        onBeforeOpen: () => {
+                            Swal.showLoading()
+                        },
+                    });
+                },
+                success: function(data) {
+               	 if ( data =="1"){
+               		 Swal.fire({
+                    		 position: 'center',
+                 				icon: 'success',
+                 				title: 'Se ha realizado la explosi&oacute;n',
+                             allowOutsideClick: false,
+                             timer: 1250,
+                             timerProgressBar: true,
+                             showConfirmButton: false,
+                             onBeforeOpen: () => {
+                             },
+                         });
+               		location.reload()
+               	 }
+               	 else if (data =="2"){
+               		 Swal.fire({
+                    		 position: 'center',
+                 				icon: 'warning',
+                 				title: 'No existe ese programa en el sistema'
+               		 });    
+               	 }
+               	 else if (data =="3"){
+              		 Swal.fire({
+                   		 position: 'center',
+                				icon: 'warning',
+                				title: 'Algo debi&oacute; salir mal, intente m&aacute;s tarde'
+              		 });    
+              	  }
+                }
+  			});
+  		}
+  	}
+  </script>

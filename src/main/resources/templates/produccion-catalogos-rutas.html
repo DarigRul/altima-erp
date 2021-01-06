@@ -13,8 +13,8 @@
 <!-- Modal Marcas Tabla -->
 <div class="modal fade" id="detalleRuta" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
-        <div class="modal-content" id="contenedorTabla">
-            <div class="modal-header bg-primary">
+        <div class="modal-content modal-rounded-body" id="contenedorTabla">
+            <div class="modal-header bg-primary modal-rounded-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Listado de rutas <button onclick="addRuta()" class="btn btn-light btn-circle btn-sm text-danger popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -26,13 +26,15 @@
                     <thead>
                         <tr>
                         	<th>Clave Ruta</th>
+                        	<th>Nombre Ruta</th>
                             <th>Procesos</th>
                             <th>Acciones</th>
                            <!--  <th></th>--->
                         </tr>
                     </thead>
                  	<tbody>
-                 		<tr>
+                 		 <!--<tr>
+                 			<td>1</td>
                  			<td>1</td>
                  			<td class="text-center">
                  				<button class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>
@@ -43,7 +45,7 @@
 								<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteRuta()" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
 								<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveRuta()" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>
 							</td>
-                 		</tr>
+                 		</tr>--->
                     </tbody>
                 </table>
             </div>
@@ -53,27 +55,30 @@
 
 <!-- Modal Marcas Tabla -->
 <div class="modal fade" id="addRuta" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document" id="modalMarcasMobile">
-        <div class="modal-content" id="contenedorTabla">
-            <div class="modal-header">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;" role="document" id="modalMarcasMobile">
+        <div class="modal-content modal-rounded-body" id="contenedorTabla">
+            <div class="modal-header bg-primary modal-rounded-header">
                 <h5  id="exampleModalLongTitle" aling="center">Nueva ruta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                	<span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="form-group col-sm-12">
+                    <div class="form-group col-sm-5">
                         <label>Nombre</label>
                         <div class="input-group mb-3">
                             <input type="text" id="nombreRuta" name="nombreRuta" class="form-control" placeholder="Ruta" >
                             <input type="hidden" id="idLookupRuta" name="idLookupRuta" class="form-control" placeholder="Ruta" >
                         </div>
                     </div>
-                    <div class="form-group col-sm-12">
+                    <div class="form-group col-sm-7">
                         <label>Proceso</label>
                         <div class="input-group mb-3">
                           <select  class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="proceso" name="proceso">
                           </select>
                             <div class="input-group-append">
-                              <button class="btn btn-primary" id="boton-add-proceso" disabled onclick="agregarProceso()" type="button"><i class="fas fa-plus"></i></button>
+                              <button class="btn btn-sm icon-btn btn-altima text-white float-right" id="boton-add-proceso" disabled onclick="agregarProceso()" type="button"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
                             </div>
                         </div>
                     </div>
@@ -84,6 +89,7 @@
                     <thead>
                         <tr>
                             <th>Proceso</th>
+                            <th>Descripci&oacute;n</th>
                             <th>Proceso</th>
                             <th>Eliminar</th>
                            <!--  <th></th>--->
@@ -95,9 +101,9 @@
                 </table>
                
 
-                <div  >
-                    <button id="botonGuardarRuta"onclick="guardarRuta()">Guardar</button>
-                    <button  data-dismiss="modal" aria-label="Close" >Cancelar</button>
+                <div class="modal-footer modal-rounded-footer">
+                    <button class="btn btn-danger mr-auto" data-dismiss="modal" aria-label="Close" >Cancelar</button>
+                    <button class="btn btn-primary" id="botonGuardarRuta"onclick="guardarRuta()">Guardar</button>
                 </div>
 
             </div>
@@ -107,9 +113,9 @@
 
 <!-- Modal Marcas Tabla -->
 <div class="modal fade" id="infoProcesos" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document" id="modalMarcasMobile">
-        <div class="modal-content" id="contenedorTabla">
-            <div class="modal-header">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;" role="document" id="modalMarcasMobile">
+        <div class="modal-content modal-rounded-body" id="contenedorTabla">
+            <div class="modal-header bg-primary modal-rounded-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Listado de procesos
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
