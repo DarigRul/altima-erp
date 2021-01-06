@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.altima.springboot.app.models.service.IProduccionCalendarioService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 public class ProduccionCalendarioRestController {
@@ -29,10 +31,12 @@ public class ProduccionCalendarioRestController {
     
     @RequestMapping(value = "/get_crear_calendario", method = RequestMethod.GET)
 	public boolean crear() {
-        System.out.println("dddddddddddd");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Date date = new Date();
         DateFormat hourdateFormat = new SimpleDateFormat("yyyy");
-        CalendarioService.crearCalendario(hourdateFormat.format(date)+"-"+"01-01", hourdateFormat.format(date)+"-"+"12-31");
+        DateFormat hourdateFormat2 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+        CalendarioService.crearCalendario(hourdateFormat.format(date)+"-"+"01-01", hourdateFormat.format(date)+"-"+"12-31",auth.getName(),hourdateFormat2.format(date));
         return true;
 	}
 
