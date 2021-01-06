@@ -33,14 +33,8 @@ public class ProduccionExplosionProcesos implements Serializable {
 	@Column(name="programa")
 	private String programa;
 
-	@Column(name="consecutivo")
-	private Long consecutivo;
-	 
 	@Column(name="clave_proceso")
 	private Long claveProceso;
-	
-	@Column(name="consumo_tela")
-	private double consumoTela;
 	
 	@Column(name="fecha_planeada")
 	private String fechaPlaneada;
@@ -107,28 +101,12 @@ public class ProduccionExplosionProcesos implements Serializable {
 		this.idPedido = idPedido;
 	}
 
-	public Long getConsecutivo() {
-		return consecutivo;
-	}
-
-	public void setConsecutivo(Long consecutivo) {
-		this.consecutivo = consecutivo;
-	}
-
 	public Long getClaveProceso() {
 		return claveProceso;
 	}
 
 	public void setClaveProceso(Long claveProceso) {
 		this.claveProceso = claveProceso;
-	}
-
-	public double getConsumoTela() {
-		return consumoTela;
-	}
-
-	public void setConsumoTela(double consumoTela) {
-		this.consumoTela = consumoTela;
 	}
 
 	public String getFechaPlaneada() {
