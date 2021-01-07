@@ -806,6 +806,14 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HORAS_HABILES_CORTE_LISTAR'')')})">
+                            <a th:href="${'/horas-habiles-corte'}" class="nav-link" id="navProHorasHabiles">
+                                <i class="nav-icon far fa-calendar-check"></i>
+                                <p>Horas H&aacute;biles </p>
+                            </a>
+                        </li>
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_LISTAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_AGREGAR'')')}) or

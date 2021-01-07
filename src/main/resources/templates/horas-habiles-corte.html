@@ -17,14 +17,14 @@
                         <div class="col-sm-6">
                             <h1>
                                 Horas h&aacute;biles corte&nbsp;
-                                <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AUXILIARVENTAS_TICKETS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="|ver(${solicitanteEmpleado}, ${auxiliarEmpleado})|"
+                                <button th:if="${(#authorization.expression('hasRole(''ROLE_PRODUCCION_HORAS_HABILES_CORTE_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="|ver(${solicitanteEmpleado}, ${auxiliarEmpleado})|"
                                     class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-search img-circle text-altima"></span>Ver fechas</button>
                             </h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item altima">Altima</li>
-                                <li class="breadcrumb-item active">Plantilla b&aacute;sica</li>
+                                <li class="breadcrumb-item active">Horas h&aacute;biles corte&nbsp;</li>
                             </ol>
                         </div>
                     </div>
@@ -70,6 +70,7 @@
                 </div>
             </section>
         </div>
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_PRODUCCION_HORAS_HABILES_CORTE_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEditar"  value="1">
         <div th:insert="horas-habiles-corte-modal"></div>
         <div th:insert="navegacion-footer"></div>
     </div>
@@ -77,6 +78,13 @@
     <script src="dist/js/tablaGeneral.js"></script>
     <script src="dist/js/horas-habiles-corte.js"></script>
     <script th:src="@{/plugins/inputmask/min/jquery.inputmask.bundle.min.js}"></script>
+
+    <script>
+        $('#iProduccion').removeClass('text-altima');
+        $('#menuProduccion').addClass('menu-open');
+        $('#navProduccion').addClass('active-altima');
+        $('#navProHorasHabiles').addClass('active');
+    </script>
 </body>
 
 </html>

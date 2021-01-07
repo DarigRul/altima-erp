@@ -53,12 +53,13 @@
 				<form class="row" >
 					<div class="form-group col-md-6">
                         <label for="cargaEmpresa">Hombre</label>
-                        <input class="form-control selectpicker" type="text" id="horasHombre">
-						
+                       
+                        <input class="form-control selectpicker md-3" onblur="validarHoras(this.value,'horasHombre' )" type="text" id="horasHombre"> 
+                       
 					</div>
 					<div class="form-group col-md-6">
 						<label for="cargaEmpresa">Adeudo</label>
-						<input class="form-control selectpicker" type="text" id="horasAdeudo">
+						<input class="form-control selectpicker" onblur="validarHoras(this.value, 'horasAdeudo')" type="text" id="horasAdeudo">
                     </div>
                     <div class="form-group col-md-12">
 						<label for="cargaEmpresa">Observaciones</label>

@@ -1,7 +1,8 @@
 
 $(function() {      
-    Inputmask('datetime', {'inputFormat':'HH:MM'}).mask("#horasHombre");
-    Inputmask('datetime', {'inputFormat':'HH:MM'}).mask("#horasAdeudo");
+
+   $("#horasAdeudo").inputmask({"mask": "9{1,3}.99"});
+   $("#horasHombre").inputmask({"mask": "9{1,3}.99"});
 })
 
 
@@ -34,17 +35,32 @@ function buscarFechas(){
         },
 		success: (data) => {
             for (i in data) {
+                if ( $("#rolEditar").length > 0 ) {
+                    t.row.add( [
+                        '<p>'+data[i][1]+'</p>',
+                        '<p id="hour_men-'+data[i][0]+'">'+data[i][2]+'</p>',
+                        '<p id="hour_adeudo-'+data[i][0]+'">'+data[i][3]+'</p>',
+                        '<p id="hour_habi-'+data[i][0]+'">'+data[i][4]+'</p>',
+                        
+                        '<td>  <button  onclick="editar(' + data[i][0]+ ')"  class="btn btn-warning btn-circle btn-sm"  data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-pen"></i></button> </td>  '
                     
-                t.row.add( [
-                    '<p>'+data[i][1]+'</p>',
-                    '<p id="hour_men-'+data[i][0]+'">'+data[i][2]+'</p>',
-                    '<p id="hour_adeudo-'+data[i][0]+'">'+data[i][3]+'</p>',
-                    '<p id="hour_habi-'+data[i][0]+'">'+data[i][4]+'</p>',
+            
+                    ] ).draw( false );
+                }
+                else{
+
+                    t.row.add( [
+                        '<p>'+data[i][1]+'</p>',
+                        '<p id="hour_men-'+data[i][0]+'">'+data[i][2]+'</p>',
+                        '<p id="hour_adeudo-'+data[i][0]+'">'+data[i][3]+'</p>',
+                        '<p id="hour_habi-'+data[i][0]+'">'+data[i][4]+'</p>',
+                        
+                        '<td> Sin acciones </td>  '
                     
-                    '<td>  <button  onclick="editar(' + data[i][0]+ ')"  class="btn btn-warning btn-circle btn-sm"  data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-pen"></i></button> </td>  '
+            
+                    ] ).draw( false );
+                }
                 
-        
-                ] ).draw( false );
             }
             $('#verFechas').modal('toggle');
 			
@@ -64,8 +80,6 @@ function editar (id){
             'id': id
         },
 		success: (data) => {
-            console.log(data)
-            
             $('#idCalendario').val(data.idCalendarioFecha);
             $('#horasHombre').val(data.hombre);
             $('#horasAdeudo').val(data.adeudo);
@@ -128,4 +142,22 @@ function guardarHoras (){
 
 
     }
+}
+
+function validarHoras(text, nombreInput){
+    var arrayDeCadenas = text.split('.');
+    var hours = parseInt(arrayDeCadenas[0]);
+    var minute = parseInt(arrayDeCadenas[1]);
+
+    if ( parseInt(arrayDeCadenas[0])  < 10 ){
+        hours = '0'+hours;
+        
+    }
+    if ( parseInt(arrayDeCadenas[1])  > 59){
+        minute='59';
+        
+    }else if ( parseInt(arrayDeCadenas[1])  < 10) {
+        minute = minute+'0';
+    }
+    $("#"+nombreInput).val(hours+'.'+minute);  
 }

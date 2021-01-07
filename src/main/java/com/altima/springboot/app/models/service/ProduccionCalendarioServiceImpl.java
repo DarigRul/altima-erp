@@ -48,10 +48,10 @@ public class ProduccionCalendarioServiceImpl implements IProduccionCalendarioSer
             "SELECT\r\n" + 
                 "id_calendario_fecha,\r\n" + 
                 "fecha,\r\n"+ 
-                "IFNULL( DATE_FORMAT(hombre , '%H:%i')   ,'') as hombre,\r\n" +
-                 "IFNULL( DATE_FORMAT(adeudo , '%H:%i')   ,'') as adeudo,\r\n"+
-                  "IFNULL( DATE_FORMAT(SUBTIME(hombre,adeudo),'%H:%i') ,'') AS habiles \r\n" + 
-                  "FROM\r\n" + "alt_produccion_calendario \r\n"
+                "IFNULL( hombre, '' ) AS hombre,\r\n" +
+                "IFNULL( adeudo, '' ) AS adeudo,\r\n"+
+                "IFNULL( ROUND(( hombre - adeudo ),2), '' ) AS habiles  \r\n" + 
+                "FROM\r\n" + "alt_produccion_calendario \r\n"
                 + "WHERE\r\n" + "fecha BETWEEN '" + fechaInicio + "' AND '" + fehaFin + "'").getResultList();
         return re;
     }
@@ -73,8 +73,7 @@ public class ProduccionCalendarioServiceImpl implements IProduccionCalendarioSer
     @Override
     @Transactional
     public String restarHoras(String fechaInicio, String fehaFin) {
-        String re = (String) em.createNativeQuery("SELECT DATE_FORMAT(SUBTIME('"+fechaInicio+"','"+fehaFin+"'),'%H:%i')")
-                .getSingleResult();
+        String re = String.valueOf(em.createNativeQuery("SELECT ROUND('"+fechaInicio+"'-'"+fehaFin+"',2)").getSingleResult());
         return re;
     }
 
