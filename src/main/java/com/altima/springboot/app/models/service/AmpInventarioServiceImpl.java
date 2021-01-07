@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.altima.springboot.app.dto.InventarioListDto;
 import com.altima.springboot.app.models.entity.AmpInventario;
 import com.altima.springboot.app.repository.AmpInventarioRepository;
 
@@ -180,5 +181,15 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 		int i=Integer.parseInt(re);  
 		return i++;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
+	public List<InventarioListDto> findAllByProveedor(Long idProveedor) {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("CALL `alt_pr_materiales_all`(:idProveedor);",InventarioListDto.class).setParameter("idProveedor", idProveedor).getResultList();
+	}
+
+
 
 }

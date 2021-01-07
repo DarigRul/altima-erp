@@ -54,23 +54,17 @@
                                             <tr>
                                                 <th>Folio O.C.</th>
                                                 <th>Fecha O.C.</th>
-                                                <th>Tipo</th>
                                                 <th>Proveedor</th>
-                                                <th>F. Prom. Rec.</th>
                                                 <th>Estatus compra</th>
-                                                <th>Estatus</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td>MP/Habilitaci&oacute;n</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                            <tr th:each="orden : ${ordenes}">
+                                                <td th:text="${orden.idText}"></td>
+                                                <td th:text="${orden.fechaCreacion}"></td>
+                                                <td th:text="${orden.nombreProveedor}"></td>
+                                                <td th:text="${orden.estatus}"></td>
                                                 <td class="text-center">
                                                     <button class="btn btn-danger btn-circle btn-sm popoverxd" data-placement="top" data-content="Imprimir"><i class="fas fa-download"></i></button>
                                                 </td>

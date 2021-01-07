@@ -30,7 +30,10 @@ public class ComprasOrdenDetalle implements Serializable{
 	private Long idOrdenCompras;
 
 	@Column(name="id_material")
-	private Long idMaterial;
+    private Long idMaterial;
+    
+    @Column(name="id_color")
+	private Long idColor;
 	
 	@Column(name="tipo_material")
     private String tipoMaterial;
@@ -52,6 +55,12 @@ public class ComprasOrdenDetalle implements Serializable{
 
     @Column(name="precio_unitario")
     private float precioUnitario;
+
+    @Column(name="monto_cargo_descuento")
+    private float montoCargoDescuento;
+
+    @Column(name="iva")
+    private float iva;
 
     public Long getIdOrdenComprasDetalle() {
         return idOrdenComprasDetalle;
@@ -133,5 +142,27 @@ public class ComprasOrdenDetalle implements Serializable{
         this.precioUnitario = precioUnitario;
     }
 
-    
+    public float getMontoCargoDescuento() {
+        return montoCargoDescuento;
+    }
+
+    public void setMontoCargoDescuento(float montoCargoDescuento) {
+        this.montoCargoDescuento = montoCargoDescuento;
+    }
+
+    public float getIva() {
+        return iva;
+    }
+
+    public void setIva(float iva) {
+        this.iva = iva;
+    }
+
+    public Long getIdColor() {
+        return idColor;
+    }
+
+    public void setIdColor(Long idColor) {
+        this.idColor = idColor;
+    }
 }

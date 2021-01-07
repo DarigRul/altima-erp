@@ -1,6 +1,8 @@
 package com.altima.springboot.app.models.service;
 
 import java.util.List;
+
+import com.altima.springboot.app.dto.InventarioListDto;
 import com.altima.springboot.app.models.entity.AmpInventario;
 
 public interface IAmpInventarioService {
@@ -15,5 +17,6 @@ public interface IAmpInventarioService {
 	
 	Integer SumClas(Long id);
 
+	List<InventarioListDto> findAllByProveedor(Long idProveedor);
 
 }

@@ -2,6 +2,7 @@ package com.altima.springboot.app.repository;
 
 import java.util.List;
 
+import com.altima.springboot.app.dto.OrdenComprasListDto;
 import com.altima.springboot.app.models.entity.ComprasOrden;
 
 public interface IComprasOrdenService {
@@ -13,4 +14,6 @@ public interface IComprasOrdenService {
 	ComprasOrden findOne (Long id);
 	
 	void delete (Long id);
+
+	List<OrdenComprasListDto> findAllList();
 }

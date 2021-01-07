@@ -327,7 +327,7 @@ $("#enviarOrden").click(function (e) {
     } else {
         $.ajax({
             type: "POST",
-            url: "/postOrdenCompra",
+            url: "/postOrdenCompraTela",
             data: {
                 _csrf: $('[name=_csrf]').val(),
                 ordenCompraDetalle: JSON.stringify(ordenCompraDetalle),

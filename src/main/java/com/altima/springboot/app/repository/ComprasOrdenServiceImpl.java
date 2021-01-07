@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.altima.springboot.app.dto.OrdenComprasListDto;
 import com.altima.springboot.app.models.entity.ComprasOrden;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,14 @@ public class ComprasOrdenServiceImpl implements IComprasOrdenService {
     public void delete(Long id) {
         // TODO Auto-generated method stub
         repository.deleteById(id);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional
+    public List<OrdenComprasListDto> findAllList() {
+        // TODO Auto-generated method stub
+        return em.createNativeQuery("CALL alt_pr_orden_compras()",OrdenComprasListDto.class).getResultList();
     }
 
 }

@@ -13,15 +13,6 @@ public class ControladorProvisionalController {
 	public String asignacionPrograma() {
 		return "asignacion-programa";
 	}
-	
-	@GetMapping("/orden-de-compra")
-	public String ordenCompra() {
-		return "orden-de-compra";
-	}
-	@GetMapping("/orden-de-compra-nueva")
-	public String ordenCompraNew() {
-		return "orden-de-compra-nueva";
-	}
 	@GetMapping("/listado-de-requisiciones")
 	public String ReqMatHab() {
 		return "listado-de-requisiciones";

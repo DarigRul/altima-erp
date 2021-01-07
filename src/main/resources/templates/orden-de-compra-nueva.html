@@ -22,9 +22,10 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Orden de compra&nbsp;<a th:href="${'/orden-de-compra'}" class="btn btn-sm icon-btn btn-danger text-white mr-auto">
-                                <span
-                                    class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                            <h1>Orden de compra&nbsp;<a th:href="${'/orden-de-compra'}"
+                                    class="btn btn-sm icon-btn btn-danger text-white mr-auto">
+                                    <span
+                                        class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -56,30 +57,45 @@
                                             <table class="table table-borderless">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-left">Proveedor: <select class="col-form-label col-form-label-sm selectpicker" data-live-search="true" data-live-search-normalize="true" id="proveedorSelect">
-                                                            <option>ALTIMATEX S.A. de C.V.</option>
-                                                          </select></th>
-                                                        <th class="text-right">Fecha: <a class="font-weight-normal">20/08/2020</a></th>
+                                                        <th class="text-left">Proveedor: <select
+                                                                class="col-form-label col-form-label-sm selectpicker"
+                                                                data-live-search="true"
+                                                                data-live-search-normalize="true" id="proveedorSelect">
+                                                                <option value="">Seleccione uno...</option>
+                                                                <option th:each=" proveedor: ${proveedores}"
+                                                                    th:value="${proveedor[0]}"
+                                                                    th:text="${proveedor[1]}"></option>
+                                                            </select></th>
+                                                        <th class="text-right">Fecha: <a class="font-weight-normal"
+                                                                id="curdate"></a></th>
                                                     </tr>
                                                 </thead>
                                             </table>
                                             <table class="table table-borderless" style="margin-top: -17px;">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-left">RFC: <a class="font-weight-normal">DJKSD3SW</a></th>
-                                                        <th class="text-left">Calle: <a class="font-weight-normal">Calle Numero 20 entre 2 y 4</a></th>
-                                                        <th class="text-right" style="width: 10%;">No. Ext: <a class="font-weight-normal">12</a></th>
-                                                        <th class="text-right" style="width: 10%;">No. Int: <a class="font-weight-normal">20</a></th>
+                                                        <th class="text-left">RFC: <a class="font-weight-normal"
+                                                                id="rfc"></a></th>
+                                                        <th class="text-left">Calle: <a class="font-weight-normal"
+                                                                id="calle"></a></th>
+                                                        <th class="text-right" style="width: 10%;">No. Ext: <a
+                                                                class="font-weight-normal" id="noext"></a></th>
+                                                        <th class="text-right" style="width: 10%;">No. Int: <a
+                                                                class="font-weight-normal" id="noint"></a></th>
                                                     </tr>
                                                 </thead>
                                             </table>
-                                            <table class="table table-borderless"  style="margin-top: -17px;">
+                                            <table class="table table-borderless" style="margin-top: -17px;">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-left">Colonia: <a class="font-weight-normal">Pedregal</a></th>
-                                                        <th class="text-left">C&oacute;digo postal: <a class="font-weight-normal">12</a></th>
-                                                        <th class="text-left">Poblaci&oacute;n: <a class="font-weight-normal">20</a></th>
-                                                        <th class="text-left">Pa&iacute;s: <a class="font-weight-normal">20</a></th>
+                                                        <th class="text-left">Colonia: <a class="font-weight-normal"
+                                                                id="colonia"></a></th>
+                                                        <th class="text-left">C&oacute;digo postal: <a
+                                                                class="font-weight-normal" id="cp"></a></th>
+                                                        <th class="text-left">Poblaci&oacute;n: <a
+                                                                class="font-weight-normal" id="poblacion"></a></th>
+                                                        <th class="text-left">Pa&iacute;s: <a class="font-weight-normal"
+                                                                id="pais"></a></th>
                                                     </tr>
                                                 </thead>
                                             </table>
@@ -87,84 +103,72 @@
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label for="cantidadProveedor">Cantidad</label>
-                                            <input type="number" class="form-control" id="cantidadProveedor">
+                                            <input type="number" value="0" class="form-control" id="cantidadProveedor">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="claveMaterialProveedor">Clave material</label>
-                                            <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="claveMaterialProveedor">
-                                              <option>1</option>
+                                            <select class="form-control selectpicker" data-live-search="true"
+                                                data-live-search-normalize="true" id="claveMaterialProveedor">
+                                                <option value="">Seleccione uno...</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-5">
                                             <label for="coloresProveedor">Colores</label>
                                             <div class="input-group mb-3">
-                                                <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="coloresProveedor">
-                                                    <option>1</option>
-                                                  </select>
-                                                <div class="input-group-append" style="margin-left: 20px; display: block;">
-                                                    <a class="btn btn-sm icon-btn btn-altima text-white">
+                                                <select class="form-control selectpicker" data-live-search="true"
+                                                    disabled data-live-search-normalize="true" id="coloresProveedor">
+                                                    <option>Seleccione uno...</option>
+                                                </select>
+                                                <div class="input-group-append"
+                                                    style="margin-left: 20px; display: block;">
+                                                    <button class="btn btn-sm icon-btn btn-altima text-white"
+                                                        id="agregarMaterial">
                                                         <span
-                                                            class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</a>
+                                                            class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
                                                 </div>
-                                              </div>
+                                            </div>
                                         </div>
                                         <div class="form-group col-md-12">
-                                            <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                            <table class="tablaOrden table-striped table-bordered" style="width: 100%;">
                                                 <thead>
                                                     <tr>
                                                         <th>Cantidad</th>
-                                                        <th>Material extra</th>
-                                                        <th>Total material</th>
                                                         <th>Clave material</th>
                                                         <th>Descripci&oacute;n</th>
                                                         <th>Color</th>
-                                                        <th>Precio unitario</th>
                                                         <th>IVA</th>
-                                                        <th>% Desc/Cargo</th>
+                                                        <th>Precio unitario</th>
                                                         <th>Monto Desc/Cargo</th>
+                                                        <th>% Desc/Cargo</th>
                                                         <th>Subtotal</th>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
+
                                                 <tbody>
-                                                    <tr>
-                                                        <td>12</td>
-                                                        <td><input type="number" class="form-control"></td>
-                                                        <td>190</td>
-                                                        <td>CIE</td>
-                                                        <td>Oxford</td>
-                                                        <td></td>
-                                                        <td><input type="number" class="form-control"></td>
-                                                        <td>16</td>
-                                                        <td><input type="number" class="form-control"></td>
-                                                        <td><input type="number" class="form-control"></td>
-                                                        <td>1520</td>
-                                                        <td class="text-center">
-                                                            <button class="btn btn-danger btn-circle btn-sm popoverxd"
-                                                                onclick="eliminarOrden()" data-placement="top"
-                                                                data-content="Eliminar"><i class="fas fa-times"></i></button>
-                                                        </td>
-                                                    </tr>
+
                                                 </tbody>
+
                                                 <tfoot>
                                                     <tr>
-                                                        <th colspan="10"></th>
-                                                        <th colspan="2">
-                                                            Total: <a class="font-weight-normal">1520</a>
-                                                        </th>
+                                                        <th colspan="8"></th>
+                                                        <th>Total:</th>
+                                                        <th><p id="total">0</p></th>
                                                     </tr>
                                                 </tfoot>
+
                                             </table>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <a th:href="${'/orden-de-compra'}" class="btn btn-sm icon-btn btn-danger text-white mr-auto">
+                                    <a th:href="${'/orden-de-compra'}"
+                                        class="btn btn-sm icon-btn btn-danger text-white mr-auto">
                                         <span
                                             class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-                                    <a class="btn btn-sm icon-btn btn-altima text-white float-right">
+                                    <button class="btn btn-sm icon-btn btn-altima text-white float-right" id="enviarOrden">
                                         <span
-                                            class="btn-glyphicon fas fa-check img-circle text-altima"></span>Generar</a>
+                                            class="btn-glyphicon fas fa-check img-circle text-altima"></span>Generar</button>
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -179,30 +183,8 @@
         <div th:insert="navegacion-footer"></div>
     </div>
     <div th:replace="navegacion-scripts"></div>
-    <script src="/dist/js/tablaGeneral.js"></script>
-    <script>
-           function eliminarOrden(){
-		Swal.fire({
-			  title: '&#191;Deseas eliminar la orden?',
-			  icon: 'warning',
-			  showCancelButton: true,
-			  confirmButtonColor: '#0288d1',
-                cancelButtonColor: '#dc3545',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar'
-			}).then((result) => {
-			  if (result.value) {
-			    Swal.fire({
-			    	position: 'center',
-					icon: 'success',
-					title: 'Orden eliminada correctamente',
-					showConfirmButton: false,
-					timer: 2400
-			    })
-			  }
-			})
-	}
-    </script>
+    <script src="/dist/js/tablaOrdenCompra.js"></script>
+    <script src="/dist/js/ordenesCompra.js"></script>
     <script>
         $('#iCompras').removeClass('text-altima');
         $('#menuCompras').addClass('menu-open');

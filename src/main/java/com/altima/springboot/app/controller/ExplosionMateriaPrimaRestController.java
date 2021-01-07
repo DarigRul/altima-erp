@@ -155,6 +155,7 @@ public class ExplosionMateriaPrimaRestController {
                         multialmacenEntrada
                                 .setExistencia(multialmacenEntrada.getExistencia() + traspasoDetalle.getCantidad());
                         multialmacenService.save(multialmacenSalida);
+                        multialmacenService.save(multialmacenEntrada);
                         System.out.println("entra al trans: " + rollosJson.getLong("idRollo"));
                         AmpRolloTela rollo = rolloTelaService.findOne(rollosJson.getLong("idRollo"));
                         rollo.setEstatus("0");

@@ -99,7 +99,7 @@ public class ComprasRequisicionTelasRestController {
     }
 
     @Transactional
-    @PostMapping("/postOrdenCompra")
+    @PostMapping("/postOrdenCompraTela")
     public ResponseEntity<?> postOrdenCompra(@RequestParam String ordenCompraDetalle,@RequestParam Long idProveedor) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JSONArray ordenArray = new JSONArray(ordenCompraDetalle);

@@ -536,6 +536,7 @@ $("#articuloTraspaso").change(function (e) {
     });
   }
   else if ($("#articuloTraspaso").children('option:selected').data('tipo') == 'tela' && tipoAlmacenOrigen == 2) {
+    console.log($("#almacenDestinoTraspaso").val()+' '+ $(this).val())
     $("#rollo").prop("disabled", false);
     $("#cantidadTraspaso").prop("disabled", true);
     $('#rollo').selectpicker('refresh');

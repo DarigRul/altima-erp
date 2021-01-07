@@ -86,6 +86,7 @@ public class TraspasosAMPRestController {
 				multialmacenSalida.setExistencia(multialmacenSalida.getExistencia() - traspasoDetalle.getCantidad());
 				multialmacenEntrada.setExistencia(multialmacenEntrada.getExistencia() + traspasoDetalle.getCantidad());
 				multialmacenService.save(multialmacenSalida);
+				multialmacenService.save(multialmacenEntrada);
 				if (movimientosJson.getString("tipo").equals("tela")&&!movimientosJson.get("idRollo").equals(null)) {
 					System.out.println("entra al trans");
 					AmpRolloTela rollo=rolloTelaService.findOne(movimientosJson.getLong("idRollo"));
@@ -98,12 +99,13 @@ public class TraspasosAMPRestController {
 					else{
 						rollo.setEstatus("1");
 						rollo.setIdPedido(null);
+						rollo.setIdAlmacenLogico(cabeceroJson.getLong("almacenDestinoTraspaso"));
 					}
 					if (movimientosJson.get("ubicacion").equals(null)) {
 						rolloTelaService.save(rollo);
 					} else {
 						rollo.setIdAlmacenFisico(cabeceroJson.getLong("idAlmacenFisico"));
-						rollo.setIdAlmacenLogico(cabeceroJson.getLong("almacenDestinoTraspaso"));
+						
 						rolloTelaService.save(rollo);
 						AmpAlmacenUbicacionArticulo ubicacionArticulo = almacenUbicacionArticuloService.findByIdArticulo(movimientosJson.getLong("idRollo"), "tela");
 						ubicacionArticulo.setIdUbicacion(movimientosJson.getLong("ubicacion"));
