@@ -56,24 +56,26 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 	@Override
 	@Transactional
 	public List<Object[]> AllMateriales() {
-		List<Object[]> re = em.createNativeQuery("SELECT\r\n" + 
+
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\r\n" + 
 				"	material.id_material,\r\n" + 
 				"	material.id_text,\r\n" + 
 				"	material.nombre_material AS nombre,\r\n" + 
 				"	look.nombre_lookup AS medida,\r\n" + 
 				"	material.tamanio,\r\n" + 
-				"	color.nombre_lookup,\r\n" + 
+				"	IFNULL(color.nombre_lookup,'Sin color'),\r\n" + 
 				"	'm' \r\n" + 
 				"FROM\r\n" + 
-				"	alt_disenio_material AS material,\r\n" + 
-				"	alt_disenio_lookup AS look,\r\n" + 
-				"	alt_disenio_lookup AS color \r\n" + 
+				"	alt_disenio_material AS material\r\n" + 
+				"	INNER JOIN alt_disenio_lookup look ON material.id_unidad_medida = look.id_lookup\r\n" + 
+				"	LEFT JOIN alt_disenio_lookup color ON material.id_color = color.id_lookup \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
-				"	AND material.id_unidad_medida = look.id_lookup \r\n" + 
-				"	AND material.id_color = color.id_lookup \r\n" + 
 				"	AND material.estatus_material = 1 \r\n" + 
-				"	AND material.estatus = 1 UNION\r\n" + 
+				"	AND material.estatus = 1 \r\n" + 
+				"	AND material.nombre_material != 'Tela principal' \r\n" + 
+				"	AND material.nombre_material != 'Forro' UNION  \r\n" + 
 				"SELECT\r\n" + 
 				"	tela.id_tela,\r\n" + 
 				"	tela.id_text,\r\n" + 
@@ -207,6 +209,7 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 	@Override
 	@Transactional
 	public List<Object[]> viewMaterial(Long id) {
+
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	material.id_material,\r\n" + 
@@ -216,22 +219,19 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 				"	material.nombre_material AS nombre,\r\n" + 
 				"	look.nombre_lookup AS medida,\r\n" + 
 				"	material.tamanio,\r\n" + 
-				"	color.nombre_lookup, \r\n" + 
+				"	IFNULL(color.nombre_lookup,'Sin color'),\r\n" + 
 				"	AM.id_requisicion_almacen_material \r\n" + 
 				"FROM\r\n" + 
-				"	alt_amp_requisicion_almacen_material AS AM,\r\n" + 
-				"	alt_disenio_material AS material,\r\n" + 
-				"	alt_disenio_lookup AS look,\r\n" + 
-				"	alt_disenio_lookup AS color \r\n" + 
+				"	alt_amp_requisicion_almacen_material AS AM\r\n" + 
+				"	INNER JOIN alt_disenio_material material ON AM.id_material = material.id_material\r\n" + 
+				"	INNER JOIN alt_disenio_lookup look ON material.id_unidad_medida = look.id_lookup\r\n" + 
+				"	LEFT JOIN alt_disenio_lookup color ON material.id_color = color.id_lookup \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
-				"	AND AM.id_material = material.id_material \r\n" + 
 				"	AND AM.tipo_material = 'm' \r\n" + 
 				"	AND AM.id_requisicion_almacen = "+id+" \r\n" + 
-				"	AND material.id_unidad_medida = look.id_lookup \r\n" + 
-				"	AND material.id_color = color.id_lookup \r\n" + 
 				"	AND material.estatus_material = 1 \r\n" + 
-				"	AND material.estatus = 1 UNION\r\n" + 
+				"	AND material.estatus = 1 UNION  \r\n" + 
 				"SELECT\r\n" + 
 				"	tela.id_tela,\r\n" + 
 				"	't',\r\n" + 
@@ -372,48 +372,46 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 	@Override
 	@Transactional
 	public List<Object[]> materialesbyclasificacion(Long id) {
-		List<Object[]> re = em.createNativeQuery(""+
-				"SELECT \r\n"+
-				"inventario.id_inventario, \r\n"+
-				"inventario.id_text, \r\n"+
-				"inventario.articulo AS nombre, \r\n"+
-				"look.nombre_lookup AS medida, \r\n"+
-				"'N/P', \r\n"+
-				"inventario.color, \r\n"+
-				"'aa' \r\n"+
-			"FROM \r\n"+
-				"alt_amp_inventario AS inventario, \r\n"+
-				"alt_disenio_lookup AS look, \r\n"+
-				"alt_amp_lookup AS amp \r\n"+
-			"WHERE \r\n"+
-				"1 = 1  \r\n"+
-				"AND inventario.id_unidad_medida = look.id_lookup \r\n"+
-				"AND inventario.id_clasificacion = amp.id_lookup \r\n"+
-				"AND inventario.estatus = 1 \r\n"+
-				"AND amp.id_lookup = "+id+" UNION \r\n"+
-			"SELECT \r\n"+
-				"material.id_material, \r\n"+
-				"material.id_text, \r\n"+
-				"material.nombre_material AS nombre, \r\n"+
-				"look.nombre_lookup AS medida, \r\n"+
-				"material.tamanio, \r\n"+
-				"color.nombre_lookup, \r\n"+
-				"'m' \r\n"+
-			"FROM \r\n"+
-				"alt_disenio_material AS material, \r\n"+
-				"alt_disenio_lookup AS look, \r\n"+
-				"alt_disenio_lookup AS color, \r\n"+
-				"alt_disenio_lookup AS tipo,\r\n"+
-				"alt_amp_lookup AS amp \r\n"+
-			"WHERE \r\n"+
-				"1 = 1  \r\n"+
-				"AND material.id_unidad_medida = look.id_lookup \r\n"+
-				"AND material.id_color = color.id_lookup  \r\n"+
-				"AND tipo.id_lookup = material.id_tipo_material  \r\n"+
-				"AND tipo.atributo_2 = amp.id_lookup \r\n"+
-				"AND material.estatus_material = 1 \r\n"+
-				"AND material.estatus = 1 \r\n"+
-				"AND amp.id_lookup = "+id).getResultList();
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT\r\n" + 
+				"	inventario.id_inventario,\r\n" + 
+				"	inventario.id_text,\r\n" + 
+				"	inventario.articulo AS nombre,\r\n" + 
+				"	look.nombre_lookup AS medida,\r\n" + 
+				"	'N/P',\r\n" + 
+				"	inventario.color,\r\n" + 
+				"	'aa' \r\n" + 
+				"FROM\r\n" + 
+				"	alt_amp_inventario AS inventario,\r\n" + 
+				"	alt_disenio_lookup AS look,\r\n" + 
+				"	alt_amp_lookup AS amp \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND inventario.id_unidad_medida = look.id_lookup \r\n" + 
+				"	AND inventario.id_clasificacion = amp.id_lookup \r\n" + 
+				"	AND inventario.estatus = 1 \r\n" + 
+				"	AND amp.id_lookup = "+id+" UNION\r\n" + 
+				"SELECT\r\n" + 
+				"	material.id_material,\r\n" + 
+				"	material.id_text,\r\n" + 
+				"	material.nombre_material AS nombre,\r\n" + 
+				"	look.nombre_lookup AS medida,\r\n" + 
+				"	material.tamanio,\r\n" + 
+				"	IFNULL( color.nombre_lookup, 'Sin color' ) AS color,\r\n" + 
+				"	'm' \r\n" + 
+				"FROM\r\n" + 
+				"	alt_disenio_material AS material\r\n" + 
+				"	INNER JOIN alt_disenio_lookup look ON material.id_unidad_medida = look.id_lookup\r\n" + 
+				"	LEFT JOIN alt_disenio_lookup color ON material.id_color = color.id_lookup\r\n" + 
+				"	INNER JOIN alt_disenio_lookup tipo ON tipo.id_lookup = material.id_tipo_material\r\n" + 
+				"	INNER JOIN alt_amp_lookup amp ON tipo.atributo_2 = amp.id_lookup \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND material.estatus_material = 1 \r\n" + 
+				"	AND material.estatus = 1 \r\n" + 
+				"	AND amp.id_lookup = "+id+" \r\n" + 
+				"	AND material.nombre_material != 'Tela Principal' \r\n" + 
+				"	AND material.nombre_material != 'Forro'").getResultList();
 		
 		return re;
 	}
@@ -473,6 +471,7 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 	@Override
 	@Transactional
 	public List<Object[]> detalles(Long id) {
+
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	AM.id_requisicion_almacen_material AS id,\r\n" + 
@@ -480,29 +479,28 @@ public class AmpRequisicionAlmacenServiceImpl implements IAmpRequisicionAlmacenS
 				"	AM.cantidad AS cantidad,\r\n" + 
 				"	material.id_text AS id_text,\r\n" + 
 				"	material.nombre_material AS nombre,\r\n" + 
-				"	color.nombre_lookup AS color,\r\n" + 
+				"	IFNULL(color.nombre_lookup,'Sin color') as color,\r\n" + 
 				"CASE\r\n" + 
 				"		WHEN AM.estatus = 1 THEN\r\n" + 
-				"		'En espera' \r\n" + 
+				"		'En espera'\r\n" + 
 				"		WHEN AM.estatus = 2 THEN\r\n" + 
-				"		'Parcial' \r\n" + 
+				"		'Parcial'\r\n" + 
 				"		WHEN AM.estatus = 3 THEN\r\n" + 
-				"		'Surtido' \r\n" + 
-				"	END \r\n" + 
+				"		'Surtido'\r\n" + 
+				"	END\r\n" + 
 				"	FROM\r\n" + 
-				"		alt_amp_requisicion_almacen_material AS AM,\r\n" + 
-				"		alt_disenio_material AS material,\r\n" + 
-				"		alt_disenio_lookup AS look,\r\n" + 
-				"		alt_disenio_lookup AS color \r\n" + 
+				"		alt_amp_requisicion_almacen_material AS AM\r\n" + 
+				"		INNER JOIN alt_disenio_material material on  AM.id_material = material.id_material\r\n" + 
+				"		INNER JOIN alt_disenio_lookup look on material.id_unidad_medida = look.id_lookup\r\n" + 
+				"		LEFT JOIN alt_disenio_lookup  color on material.id_color = color.id_lookup\r\n" + 
 				"	WHERE\r\n" + 
-				"		1 = 1 \r\n" + 
-				"		AND AM.id_material = material.id_material \r\n" + 
-				"		AND AM.tipo_material = 'm' \r\n" + 
-				"		AND AM.id_requisicion_almacen = "+id+" \r\n" + 
-				"		AND material.id_unidad_medida = look.id_lookup \r\n" + 
-				"		AND material.id_color = color.id_lookup \r\n" + 
+				"		1 = 1\r\n" + 
+				"	\r\n" + 
+				"		AND AM.tipo_material = 'm'\r\n" + 
+				"		AND AM.id_requisicion_almacen = "+id+"\r\n" + 
+				"		\r\n" + 
 				"		AND material.estatus_material = 1 \r\n" + 
-				"		AND material.estatus = 1 UNION\r\n" + 
+				"		AND material.estatus = 1 UNION \r\n" + 
 				"	SELECT\r\n" + 
 				"		AM.id_requisicion_almacen_material AS id,\r\n" + 
 				"		AM.tipo_material AS tipo,\r\n" + 
