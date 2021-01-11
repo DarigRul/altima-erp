@@ -48,8 +48,8 @@ public class ProduccionCalendarioServiceImpl implements IProduccionCalendarioSer
             "SELECT\r\n" + 
                 "id_calendario_fecha,\r\n" + 
                 "fecha,\r\n"+ 
-                "IFNULL( hombre, '' ) AS hombre,\r\n" +
-                "IFNULL( adeudo, '' ) AS adeudo,\r\n"+
+                "IFNULL( hombre, '00.00' ) AS hombre,\r\n" +
+                "IFNULL( adeudo, '00.00' ) AS adeudo,\r\n"+
                 "IFNULL( ROUND(( hombre - adeudo ),2), '' ) AS habiles  \r\n" + 
                 "FROM\r\n" + "alt_produccion_calendario \r\n"
                 + "WHERE\r\n" + "fecha BETWEEN '" + fechaInicio + "' AND '" + fehaFin + "'").getResultList();
@@ -74,6 +74,23 @@ public class ProduccionCalendarioServiceImpl implements IProduccionCalendarioSer
     @Transactional
     public String restarHoras(String fechaInicio, String fehaFin) {
         String re = String.valueOf(em.createNativeQuery("SELECT ROUND('"+fechaInicio+"'-'"+fehaFin+"',2)").getSingleResult());
+        return re;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional
+    public List<Object[]> mostrar_fechas_disponibles_folio(String folio) {
+        List<Object[]> re = em.createNativeQuery(""+
+            "SELECT\r\n"+
+                "id_calendario_fecha,\r\n"+
+                "fecha\r\n"+
+            "FROM\r\n"+
+                "alt_produccion_calendario\r\n"+
+            "WHERE\r\n"+
+                "hombre IS NOT NULL\r\n"+
+                "AND (\r\n"+
+                "hombre - adeudo >= ( SELECT ROUND( ( SUM( cp.tiempo )* 0.0166667 ), 2 )  FROM alt_comercial_coordinado_prenda AS cp WHERE cp.folio = '"+folio+"' ))").getResultList();
         return re;
     }
 

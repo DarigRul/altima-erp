@@ -1,4 +1,6 @@
-console.log("d")
+$(function() {      
+
+ })
 function verDetalles(e){
     var folio = e.getAttribute("folio");
     var table = $('#tablaDetalles').DataTable();
@@ -165,4 +167,232 @@ function calendario(){
 
     
   //
+}
+
+function calendarizar (e){
+
+    var folio = e.getAttribute("folio");
+    $('#idCoorPrendaFolio').val(folio);
+    $('#idFecha').val(null);
+    
+}
+
+function guardarCalendarioFolio(){
+
+    if ( $('#idCoorPrendaFolio').val() == null ||  $('#idFecha').val() == "" || $('#idFecha').val() == null){
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Complete el formulario.'
+        })
+
+    }else{
+
+        $.ajax({
+            type: "GET",
+            url:"/guardar_fecha_por_folio",
+            data: {'folio':$('#idCoorPrendaFolio').val(), 'Fecha': $('#idFecha').val()},
+            success: function(data) {
+                $('#calendarizar').modal('toggle');
+                
+                if ( data == true){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Guardado!',
+                        text: 'Se ha guardado el registro.'
+                    })
+                }
+              
+                
+            }
+        })
+
+
+    }
+}
+
+$( "#idFecha" ).change(function() {
+
+    //validar_fecha_produccion_calendario
+    $.ajax({
+        type: "GET",
+        url:"/validar_fecha_produccion_calendario",
+        data: {'folio':$('#idCoorPrendaFolio').val(), 'fecha': $('#idFecha').val()},
+        beforeSend: function () {
+            Swal.fire({
+                title: 'Verificando fecha.',
+                html: '¡Por favor espere!',// add html attribute if you want or remove
+                allowOutsideClick: false,
+                timerProgressBar: true,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                },
+            });  
+       },
+        success: function(data) {
+            
+            if ( data ==0){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Esta fecha no cuenta con calendarización!'
+                })
+                $('#idFecha').val(null);
+            }
+            else if ( data ==1){
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'El folio supera el tiempo de la fecha.',
+                    text: '¿Le gustaria continuar?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Continuar',
+                    cancelButtonText: 'Cancelar',
+                  }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+
+
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                      ){
+                        console.log("aaaaaaaaa")
+                        $('#idFecha').val(null);
+                    }
+                  })
+
+            }
+            else if (data == 2){
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Fecha valida'
+                })
+            }
+        }
+    })
+    
+  });
+  function sumarDias(fecha, dias){
+    fecha.setDate(fecha.getDate() + dias);
+    return fecha;
+  }
+  function verCalendario(){
+    //calendarioFechaInicio  calendarioFechaFin
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    $("#calendarioFechaInicio").val(today);
+
+    now = sumarDias(now,+7);
+    day = ("0" + now.getDate()).slice(-2);
+    month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today2 = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    $("#calendarioFechaFin").val(today2);
+
+    var table = $('#tablaDetallesCalendario').DataTable();
+	var rows = table
+    .rows()
+    .remove()
+	.draw(); 
+    $.ajax({
+        type: "GET",
+        url:"/listar_fechas_calendario",
+        data: { 
+            'fecha1': $("#calendarioFechaInicio").val(),
+            'fecha2':$("#calendarioFechaFin").val()
+        },
+       
+        success: function(data) {
+        
+        	for (i in data) {
+
+                
+               
+        		table.row.add([	
+                    data[i][0],
+                    restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),
+                    formato("" + data[i][3] + ""),
+                    restarHoras(restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),  formato("" + data[i][3] + ""))
+        		]).node().id ="row";
+        		table.draw( false );
+			}
+        	console.log(data)
+        }
+    })
+
+
+
+  
+    $('#verCalendarioModal').modal('show'); // abrir
+    
+  }
+
+  function buscarfecha (){
+    var table = $('#tablaDetallesCalendario').DataTable();
+	var rows = table
+    .rows()
+    .remove()
+	.draw(); 
+    $.ajax({
+        type: "GET",
+        url:"/listar_fechas_calendario",
+        data: { 
+            'fecha1': $("#calendarioFechaInicio").val(),
+            'fecha2':$("#calendarioFechaFin").val()
+        },
+       
+        success: function(data) {
+        
+        	for (i in data) {
+               
+        		table.row.add([	
+                    data[i][0],
+                    restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),
+                    formato("" + data[i][3] + ""),
+                    restarHoras(restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),  formato("" + data[i][3] + ""))
+        		]).node().id ="row";
+        		table.draw( false );
+			}
+        	console.log(data)
+        }
+    })
+
+  }
+
+function formato (hora){
+    hora =hora.replace(/[:]/gi,'.');
+
+    var s = hora.split('.'); 
+    hora = s[0] + "." + s[1];
+    return hora;
+}
+function restarHoras(start, end){
+    s = start.split('.'); 
+    e = end.split('.'); 
+    min = s[1]-e[1]; 
+    hour_carry = 0; 
+    if(min < 0){ 
+        min += 60; 
+        hour_carry += 1; 
+    } 
+    hour = s[0]-e[0]-hour_carry; 
+
+    if ( hour < 10  && hour >0){
+        hour = '0'+hour;
+        
+    }else if (hour <0 && hour >-10 ){
+        hour=hour*-1;
+        hour='-0'+hour;
+    }
+    else if ( hour ==0){
+        hour = '0'+hour;
+    }
+    if ( min  < 10) {
+        min = '0'+min;
+    }
+    diff = hour + "." + min;
+
+    return diff
+
 }

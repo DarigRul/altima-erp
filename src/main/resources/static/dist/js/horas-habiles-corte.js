@@ -40,7 +40,7 @@ function buscarFechas(){
                         '<p>'+data[i][1]+'</p>',
                         '<p id="hour_men-'+data[i][0]+'">'+data[i][2]+'</p>',
                         '<p id="hour_adeudo-'+data[i][0]+'">'+data[i][3]+'</p>',
-                        '<p id="hour_habi-'+data[i][0]+'">'+data[i][4]+'</p>',
+                        '<p id="hour_habi-'+data[i][0]+'">'+restarHoras("" + data[i][2] + "",  ""+data[i][3] + "")+'</p>',
                         
                         '<td>  <button  onclick="editar(' + data[i][0]+ ')"  class="btn btn-warning btn-circle btn-sm"  data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-pen"></i></button> </td>  '
                     
@@ -160,4 +160,34 @@ function validarHoras(text, nombreInput){
         minute = minute+'0';
     }
     $("#"+nombreInput).val(hours+'.'+minute);  
+}
+
+function restarHoras(start, end){
+    s = start.split('.'); 
+    e = end.split('.'); 
+    min = s[1]-e[1]; 
+    hour_carry = 0; 
+    if(min < 0){ 
+        min += 60; 
+        hour_carry += 1; 
+    } 
+    hour = s[0]-e[0]-hour_carry; 
+
+    if ( hour < 10  && hour >0){
+        hour = '0'+hour;
+        
+    }else if (hour <0 && hour >-10 ){
+        hour=hour*-1;
+        hour='-0'+hour;
+    }
+    else if ( hour ==0){
+        hour = '0'+hour;
+    }
+    if ( min  < 10) {
+        min = '0'+min;
+    }
+    diff = hour + "." + min;
+
+    return diff
+
 }

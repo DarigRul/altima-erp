@@ -16,5 +16,7 @@ public interface IProduccionCalendarioService {
     void save(ProduccionCalendario calendario);
 
     String restarHoras(String fechaInicio , String fehaFin);
+
+    List<Object[]> mostrar_fechas_disponibles_folio(String folio);
     
 }
