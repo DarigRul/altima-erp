@@ -173,7 +173,23 @@ function calendarizar (e){
 
     var folio = e.getAttribute("folio");
     $('#idCoorPrendaFolio').val(folio);
-    $('#idFecha').val(null);
+     
+    $.ajax({
+        type: "GET",
+        url:"/buscar_fecha_existente_por_folio",
+        data: { 
+            'folio':folio
+        },
+       
+        success: function(data) {
+            if (data== null){
+                $('#idFecha').val(null);
+            }else{
+                $('#idFecha').val(data);
+            }
+        }
+    })
+    
     
 }
 

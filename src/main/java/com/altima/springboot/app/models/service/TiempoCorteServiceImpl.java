@@ -157,6 +157,32 @@ public class TiempoCorteServiceImpl implements ITiempoCorteService {
 		return re;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public String buscarFechaPorFolio (String folio){
+
+		try {
+			String re = em.createNativeQuery(""+
+			"SELECT\r\n"+
+				"ca.fecha\r\n"+
+			"FROM\r\n"+
+				"alt_produccion_fecha_coordinado_prenda AS fecha\r\n"+
+				"INNER JOIN alt_produccion_calendario ca ON ca.id_calendario_fecha = fecha.id_fecha\r\n"+
+				"INNER JOIN alt_comercial_coordinado_prenda cp on cp.id_coordinado_prenda = fecha.id_coordinado_prenda\r\n"+
+				"WHERE\r\n"+
+				"cp.folio='"+folio+"'\r\n"+	
+				"GROUP BY ca.fecha").getSingleResult().toString();
+
+		return re;
+			
+		} catch (Exception e) {
+			return null;
+		}
+
+		
+
+	}
 	
     
 
