@@ -124,7 +124,8 @@ function guardarHoras (){
 
                 $('#hour_men-'+$('#idCalendario').val()).text($('#horasHombre').val());
                 $('#hour_adeudo-'+$('#idCalendario').val()).text($('#horasAdeudo').val());
-                $('#hour_habi-'+$('#idCalendario').val()).text( data );
+
+                $('#hour_habi-'+$('#idCalendario').val()).text( restarHoras("" + $('#horasHombre').val() + "",  ""+$('#horasAdeudo').val() + ""),);
 
                 $('#detallesFecha').modal('toggle');
                 Swal.fire({
