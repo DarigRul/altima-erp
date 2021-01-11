@@ -177,6 +177,52 @@ $('#tablitaContactos').DataTable().row(hola).remove().draw();   //
 });                                                   			//
 //==============================================================//
 
+function listaContactosProveedor(idProveedor){
+	var tablaContactos = $('#tablaContactosProveedor').DataTable();
+	$.ajax({
+		method: "GET",
+		url: "/ListarModalContactosProveedor",
+		data: { idProveedor
+		},
+		beforeSend: function () {
+        	 Swal.fire({
+                 title: 'Cargando ',
+                 html: 'Por favor espere',// add html attribute if you want or remove
+                 allowOutsideClick: false,
+                 timerProgressBar: true,
+                 onBeforeOpen: () => {
+                     Swal.showLoading()
+                 },
+             });
+		},
+		success: (data) => {
+			for (i in data){
+				tablaContactos.row.add([
+					data[i].nombreContacto,
+					data[i].cargoContacto,
+					data[i].correoContacto,
+					data[i].telefonoContacto,
+					data[i].lada,
+					data[i].extensionContacto,
+					data[i].whatsContacto
+				]).draw(true);
+			}
+			
+			Swal.fire({
+			      position: 'center',
+		          icon: 'success',
+		          title: '¡Listo!',
+		          showConfirmButton: false,
+		          timer: 500,
+			      onClose: () => {
+			    	 $('#modal-contactos-proveedores').modal('toggle');
+			      }
+			})
+		}
+		
+		});
+}
+
 function guardarContactosProveedor(){
 	var listaContactos = [];
 	var sizeTable = $("#tablitaContactos").DataTable().rows().count();
