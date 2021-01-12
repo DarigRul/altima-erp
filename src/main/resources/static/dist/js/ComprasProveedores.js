@@ -179,6 +179,7 @@ $('#tablitaContactos').DataTable().row(hola).remove().draw();   //
 
 function listaContactosProveedor(idProveedor){
 	var tablaContactos = $('#tablaContactosProveedor').DataTable();
+	tablaContactos.rows().remove().draw();
 	$.ajax({
 		method: "GET",
 		url: "/ListarModalContactosProveedor",
@@ -658,6 +659,16 @@ function validarContacto(){
 			      position: 'center',
 		          icon: 'error',
 		          title: '¡Ingrese un número de teléfono válido!',
+		          showConfirmButton: false,
+		          timer: 2750,
+			})
+	}
+	else if ($('#altawhatsappContacto').val().length!=10 || !validarTelefono.test($('#altawhatsappContacto').val())){
+		 validador=0;
+			Swal.fire({
+			      position: 'center',
+		          icon: 'error',
+		          title: '¡Ingrese un número de whatsapp válido!',
 		          showConfirmButton: false,
 		          timer: 2750,
 			})

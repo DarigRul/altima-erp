@@ -147,6 +147,7 @@ public class ComprasProveedoresRestController {
 	@RequestMapping(value="/ListarModalContactosProveedor", method=RequestMethod.GET)
 	private List<ComprasProveedorContacto> listarContactoProveedor(@RequestParam(name="idProveedor", required=true)Long idProveedor){
 		
+		System.out.println(idProveedor);
 		return contactoService.findAllByProveedor(idProveedor);
 	}
 	
