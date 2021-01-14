@@ -4,6 +4,7 @@ $(document).ready(function () {
 	listarProceso();
 	listarMaquila();
 	listarRuta();
+	listarUbicaciones();
 
 	// no borrar pues afectara el funcionamiento de rutas
 	var table = $('.tablaProcesos')
@@ -1080,317 +1081,6 @@ function reactiveRuta(id){
 	  });
 }
 
-// ALMACEN LOGICO
-$('#detalleMaquileros').on('shown.bs.modal', function () {
-	$(document).off('focusin.modal');
-});
-
-function listarMaquila() {
-
-	$.ajax({
-		method: "GET",
-		url: "/listar-catalogo-produccion",
-		data:{
-			"Tipo":"Maquilero"
-		} ,
-		success: (data) => {
-
-        	var tabla = $('#tableMaquila').DataTable();
-        	
-        
-        	 
-        	tabla.clear();
-        	    
-            $(data).each(function(i, v){ // indice, valor
-            	var fecha;
-        		var actualizo;
-            	if (v.actualizadoPor == null && v.ultimaFechaModificacion == null ){
-            		fecha='';
-            		actualizo='';
-            	}else{
-            		actualizo=v.actualizadoPor;
-            		fecha=v.ultimaFechaModificacion;
-            	}
-            	
-            	if (v.estatus == 1 ){
-            		tabla.row.add([	
-                		v.idText ,
-                		v.nombreLookup ,
-                		v.descripcionLookup ,
-                		
-                		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v.creadoPor +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v.fechaCreacion+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
-    					'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarMaquileros(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
-    					'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="bajaMaquileros('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>'
-            
-               		 ]).node().id ="row";
-            	}else{
-            		tabla.row.add([	
-                		v.idText ,
-                		v.nombreLookup ,
-                		v.descripcionLookup ,
-                		
-                		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v.creadoPor +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v.fechaCreacion+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
-    					'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarMaquileros(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
-    					'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="altaMaquileros('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>'
-            
-               		 ]).node().id ="row";
-            	}
-            	
-           	tabla.draw( false );
-            	//fila = '<tr> <td>'+v[1]+'</td>  <td >'+ v[2] +'</td> <td >'+ v[3] +'</td> <td >'+ v[4] +'</td>  </tr>' ;
-            	
-            	
-            	
-            })
-            
-       	
-		},
-		error: (e) => {
-
-		}
-	})
-}
-
-function agregarMaquileros(){
-	Swal.fire({
-		  title: 'Nueva maquileros',
-		  html:
-			  '<div class="row">'+
-				  '<div class="form-group col-md-6">'+
-				  	'<label for="nombreMaquileros">Nombre</label>'+
-				  	'<input type="text" class="form-control" id="nombreMaquilero" name="nombreMaquilero" placeholder="Maquileros S.A. de C.V.">'+
-				  '</div>'+
-				  '<div class="form-group col-md-6">'+
-				  	'<label for="telefonoMaquileros">Tel&eacute;fono</label>'+
-				  	'<input type="number" class="form-control" id="telefonoMaquileros" placeholder="222 182 23 12">'+
-				  '</div>'+
-			  '</div>',
-			  showCancelButton: true,
-		        cancelButtonColor: '#dc3545',
-		        cancelButtonText: 'Cancelar',
-		        confirmButtonText: 'Agregar',
-		        confirmButtonColor: '#0288d1',
-		  preConfirm: (nombreMaquilero) => {
-			  if(document.getElementById("nombreMaquilero").value.length<1 || document.getElementById("telefonoMaquileros").value.length!=10 ){
-					console.log(document.getElementById("telefonoMaquileros").value.length);
-				  Swal.showValidationMessage(
-							`Complete todos los campos`
-					)
-				}
-		  },
-		}).then((result) => {
-			
-			if (result.value && document.getElementById("nombreMaquilero").value && document.getElementById("telefonoMaquileros").value ) {
-				  var maquilero = document.getElementById("nombreMaquilero").value;
-				  var telefono = document.getElementById("telefonoMaquileros").value;
-				  $.ajax({
-						type: "GET",
-						url: "/verificar-duplicado-produccion",
-						data: {
-							'Lookup': maquilero,
-							'descripcion': telefono,
-							'Tipo': "Maquilero"
-
-
-						}
-
-					}).done(function (data) {
-						console.log ("dataaa----->"+data)
-						if(data==false){
-
-							$.ajax({
-								type: "POST",
-								url: "/guardar-catalogo-produccion",
-								data: {
-									"_csrf": $('#token').val(),
-									'maquilero': maquilero,
-									'telefono': telefono
-
-								}
-
-							}).done(function (data) {
-								listarProceso();
-							});
-							Swal.fire({
-								position: 'center',
-								icon: 'success',
-								title: 'Insertado correctamente',
-								showConfirmButton: false,
-								timer: 1250
-							})
-							// / window.setTimeout(function(){location.reload()}, 2000);
-						}// /fin segundoif
-						else{
-							Swal.fire({
-								position: 'center',
-								icon: 'error',
-								title: 'registro duplicado no se ha insertado',
-								showConfirmButton: false,
-								timer: 1250
-							})
-
-						}
-					});
-
-				
-			  }
-		  
-		});
-}
-function editarMaquileros(e){
-	Swal.fire({
-		  title: 'Editar maquileros',
-		  html:
-			  '<div class="row">'+
-				  '<div class="form-group col-md-6">'+
-				  	'<label for="nombreMaquilerosE">Nombre</label>'+
-				  	'<input type="text" class="form-control" id="nombreMaquilero" name="nombreMaquilero" value="'+e.getAttribute("nombre")+'" placeholder="Maquileros S.A. de C.V.">'+
-				  '</div>'+
-				  '<div class="form-group col-md-6">'+
-				  	'<label for="telefonoMaquilerosE">Tel&eacute;fono</label>'+
-				  	'<input type="number" class="form-control" value="'+e.getAttribute("descripcion")+'" id="telefonoMaquileros" placeholder="222 182 23 12">'+
-				  '</div>'+
-				  '<input type="hidden" value=" ' + e.getAttribute("idlookup") + ' " class="swal2-input" id="idlookup" placeholder="Pantalón">' +
-			  '</div>',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  confirmButtonText: 'Confirmar',
-		  cancelButtonText: 'Cancelar' ,
-		  preConfirm: (nombreMaquilero) => {
-			  if(document.getElementById("nombreMaquilero").value.length<1 || document.getElementById("telefonoMaquileros").value.length!=10 ){
-					console.log(document.getElementById("telefonoMaquileros").value.length);
-				  Swal.showValidationMessage(
-							`Complete todos los campos`
-					)
-				}
-		  },
-		}).then((result) => {
-			
-			if (result.value && document.getElementById("nombreMaquilero").value && document.getElementById("telefonoMaquileros").value ) {
-				  var maquilero = document.getElementById("nombreMaquilero").value;
-				  var telefono = document.getElementById("telefonoMaquileros").value;
-				  var idLookup = document.getElementById("idlookup").value;
-				  $.ajax({
-						type: "GET",
-						url: "/verificar-duplicado-produccion",
-						data: {
-							'Lookup': maquilero,
-							'descripcion': telefono,
-							'Tipo': "Maquilero"
-
-
-						}
-
-					}).done(function (data) {
-						console.log ("dataaa----->"+data)
-						if(data==false){
-
-							$.ajax({
-								type: "POST",
-								url: "/editar-catalogo-produccion",
-								data: {
-									"_csrf": $('#token').val(),
-									'maquilero': maquilero,
-									'telefono': telefono,
-									'idLookup' : idLookup
-
-								}
-
-							}).done(function (data) {
-								listarMaquila();
-							});
-							Swal.fire({
-								position: 'center',
-								icon: 'success',
-								title: 'Actualizado correctamente',
-								showConfirmButton: false,
-								timer: 1250
-							})
-							// / window.setTimeout(function(){location.reload()}, 2000);
-						}// /fin segundoif
-						else{
-							Swal.fire({
-								position: 'center',
-								icon: 'error',
-								title: 'registro duplicado no se ha insertado',
-								showConfirmButton: false,
-								timer: 1250
-							})
-
-						}
-					});
-
-				
-			  }
-		  
-		});
-}
-function bajaMaquileros(id){
-	Swal.fire({
-		  title: '¿Deseas dar de baja el maquilero?',
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  confirmButtonText: 'Confirmar'
-		}).then((result) => {
-		  if (result.value && id != null) {
-
-	            $.ajax({
-	                type: "POST",
-	                url: "/baja-catalogo-produccion",
-	                data: {
-	                    "_csrf": $('#token').val(),
-	                    'id': id
-	                }
-
-	            }).done(function(data) {
-
-	            	listarMaquila();
-	            });
-	            Swal.fire({
-	                position: 'center',
-	                icon: 'success',
-	                title: 'Dado de baja correctamente',
-	                showConfirmButton: false,
-	                timer: 1250
-	            })
-		  }
-		});
-}
-function altaMaquileros(id){
-	Swal.fire({
-		  title: '¿Deseas reactivar el maquilero?',
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  confirmButtonText: 'Confirmar'
-		}).then((result) => {
-		  if (result.value && id != null) {
-			  $.ajax({
-	                type: "POST",
-	                url: "/reactivar-catalogo-produccion",
-	                data: {
-	                    "_csrf": $('#token').val(),
-	                    'idcatalogo': id
-	                }
-
-	            }).done(function(data) {
-
-	            	listarMaquila();
-	            });
-	            Swal.fire({
-	                position: 'center',
-	                icon: 'success',
-	                title: 'Reactivado correctamente',
-	                showConfirmButton: false,
-	                timer: 1250
-	            })
-		  }
-		});
-}
 
 // ALMACEN LOGICO
 $('#detalleEntrega').on('shown.bs.modal', function () {
@@ -1492,3 +1182,352 @@ function altaEntrega(){
 		  }
 		});
 }
+
+$('#detalleUbicacion').on('shown.bs.modal', function () {
+	$(document).off('focusin.modal');
+});
+function addUbicacion (){
+
+	Swal.fire({
+		title: 'Nueva ubicaci&oacute;n',
+		html:
+			'<div class="row">'+
+				'<div class="form-group col-md-6">'+
+					'<label for="nombreUbicacion">Nombre</label>'+
+					'<input type="text" class="form-control" id="nombreUbicacion" name="nombreUbicacion" placeholder="Ubicación">'+
+				'</div>'+
+				'<div class="form-group col-md-6">'+
+					'<label for="selectResponsableUbicacion">Responsable</label>'+
+					'<select id="selectResponsableUbicacion"  name="selectResponsableUbicacion"  class="form-control" >'+
+
+					
+					'</select>'+
+				'</div>'+
+			
+	
+			'</div>',
+			showCancelButton: true,
+			  cancelButtonColor: '#dc3545',
+			  cancelButtonText: 'Cancelar',
+			  confirmButtonText: 'Agregar',
+			  confirmButtonColor: '#0288d1',
+		preConfirm: (nombreUbicacion) => {
+			if(document.getElementById("nombreUbicacion").value.length<1 || document.getElementById("selectResponsableUbicacion").value.length=="" ){
+				
+				Swal.showValidationMessage(
+					 `Complete todos los campos`
+				)
+			  }
+		},
+	  }).then((result) => {
+		  
+		  if (result.value && document.getElementById("nombreUbicacion").value && document.getElementById("selectResponsableUbicacion").value ) {
+				var nombreUbicacion = document.getElementById("nombreUbicacion").value;
+				var responsable = document.getElementById("selectResponsableUbicacion").value;
+				$.ajax({
+					  type: "GET",
+					  url: "/verificar-duplicado-produccion",
+					  data: {
+						  'Lookup': nombreUbicacion,
+						  'descripcion': responsable,
+						  'Tipo': "Ubicación"
+
+
+					  }
+
+				  }).done(function (data) {
+					  if(data==false){
+
+						  $.ajax({
+							  type: "POST",
+							  url: "/guardar-catalogo-produccion",
+							  data: {
+								  "_csrf": $('#token').val(),
+								  'nombreUbicacion': nombreUbicacion,
+								  'responsablesUbicacion': responsable
+
+							  }
+
+						  }).done(function (data) {
+							listarUbicaciones();
+						  });
+						  Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Insertado correctamente',
+							  showConfirmButton: false,
+							  timer: 1250
+						  })
+						  // / window.setTimeout(function(){location.reload()}, 2000);
+					  }// /fin segundoif
+					  else{
+						  Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'registro duplicado no se ha insertado',
+							  showConfirmButton: false,
+							  timer: 1250
+						  })
+
+					  }
+				  });
+
+			  
+			}
+		
+  });
+
+  
+  $.ajax({
+	method: "GET",
+	url: "/listar_encargados_ubicaciones",
+	data: {},
+	success: (data) => {
+		$('#selectResponsableUbicacion').append('<option value="">Seleccione uno...</option>');
+		$.each(data, function(key, val) {
+				$('#selectResponsableUbicacion').append('<option value="' + val[0] + '">' + val[1] + '</option>');
+			})
+			//$('.selectpicker').selectpicker(["refresh"]);
+	},
+	error: (e) => {
+
+	}
+})
+
+}
+function listarUbicaciones(){
+	$.ajax({
+		method: "GET",
+		url: "/listar_ubicaciones",
+		data:{} ,
+		success: (data) => {
+        	var tabla = $('#tableUbicacion').DataTable();
+        	tabla.clear();
+            $(data).each(function(i, v){ // indice, valor
+            	var fecha;
+        		var actualizo;
+            	if (v[7] == null && v[8] == null ){
+            		fecha='';
+            		actualizo='';
+            	}else{
+            		actualizo=v[6];
+            		fecha=v[8];
+            	}
+            	if (v[4] == 1 ){
+            		tabla.row.add([	
+                		v[1] ,
+                		v[2] ,
+                		v[3] ,
+                		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v[5] +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v[6]+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
+    					'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarUbicacion(this)" idLookup ="'+v[0]+'"  nombre="'+v[2]+'" empleado="'+v[9]+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
+    					'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteUbicacion('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>'
+            
+               		 ]).node().id ="row";
+            	}else{
+					tabla.row.add([	
+                		v[1] ,
+                		v[2] ,
+                		v[3] ,
+                		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v[5] +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v[6]+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
+                		'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="'+v[1]+'"  nombre="'+v[1]+'" descripcion="'+v[1]+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
+    					'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveUbicacion('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>'
+            
+               		 ]).node().id ="row";
+            	}
+           		tabla.draw( false );
+            	//fila = '<tr> <td>'+v[1]+'</td>  <td >'+ v[2] +'</td> <td >'+ v[3] +'</td> <td >'+ v[4] +'</td>  </tr>' 
+            })
+        },
+		error: (e) => {
+
+		}
+	})
+}
+
+function deleteUbicacion (id){
+	console.log (id)
+	Swal.fire({
+		  title: '¿Deseas dar de baja la ubicación?',
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Confirmar'
+		}).then((result) => {
+		  if (result.value && id != null) {
+
+	            $.ajax({
+	                type: "POST",
+	                url: "/baja-catalogo-produccion",
+	                data: {
+	                    "_csrf": $('#token').val(),
+	                    'id': id
+	                }
+
+	            }).done(function(data) {
+
+					
+					listarUbicaciones();
+	            });
+	            Swal.fire({
+	                position: 'center',
+	                icon: 'success',
+	                title: 'Dado de baja correctamente',
+	                showConfirmButton: false,
+	                timer: 1250
+	            })
+		  }
+		});
+
+}
+function reactiveUbicacion (id){
+	Swal.fire({
+		title: '¿Deseas reactivar la ubicación?',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Confirmar'
+	  }).then((result) => {
+		if (result.value && id != null) {
+			$.ajax({
+				  type: "POST",
+				  url: "/reactivar-catalogo-produccion",
+				  data: {
+					  "_csrf": $('#token').val(),
+					  'idcatalogo': id
+				  }
+
+			  }).done(function(data) {
+
+				  listarUbicaciones();
+			  });
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Reactivado correctamente',
+				  showConfirmButton: false,
+				  timer: 1250
+			  })
+		}
+	  });
+
+
+}
+function editarUbicacion (e){
+	Swal.fire({
+		title: 'Editar ubicación',
+		html:
+				
+			'<div class="row">'+
+			'<div class="form-group col-md-6">'+
+				'<label for="nombreUbicacion">Nombre</label>'+
+				'<input type="text" class="form-control" value=" ' + e.getAttribute("nombre") + ' " id="nombreUbicacion" name="nombreUbicacion"  placeholder="Ubicación">'+
+			'</div>'+
+			'<input type="hidden" value=" ' + e.getAttribute("idlookup") + ' " id="idlookup" name="idlookup" >'+
+			'<div class="form-group col-md-6">'+
+				'<label for="selectResponsableUbicacion">Responsable</label>'+
+				'<select id="selectResponsableUbicacion" disabled name="selectResponsableUbicacion"  class="form-control" >'+
+
+				
+				'</select>'+
+			'</div>'+
+		
+
+		'</div>',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Confirmar',
+		cancelButtonText: 'Cancelar' ,
+		preConfirm: (nombreUbicacion) => {
+			if(document.getElementById("nombreUbicacion").value.length<1 || document.getElementById("selectResponsableUbicacion").value.length=="" ){
+				
+				Swal.showValidationMessage(
+					 `Complete todos los campos`
+				)
+			  }
+		},
+	  }).then((result) => {
+		  
+		if (result.value && document.getElementById("nombreUbicacion").value && document.getElementById("selectResponsableUbicacion").value ) {
+			var nombreUbicacion = document.getElementById("nombreUbicacion").value;
+			var responsable = document.getElementById("selectResponsableUbicacion").value;
+			var idLookup = document.getElementById("idlookup").value;;
+				$.ajax({
+					  type: "GET",
+					  url: "/verificar-duplicado-produccion",
+					  data: {
+						'Lookup': nombreUbicacion,
+						'descripcion': responsable,
+						'Tipo': "Ubicación"
+
+
+					}
+
+				  }).done(function (data) {
+					  console.log ("dataaa----->"+data)
+					  if(data==false){
+
+						  $.ajax({
+							  type: "POST",
+							  url: "/editar-catalogo-produccion",
+							  data: {
+								  "_csrf": $('#token').val(),
+								  'nombreUbicacion': nombreUbicacion,
+								  'responsablesUbicacion': responsable,
+								  'idLookup' : idLookup
+
+							  }
+
+						  }).done(function (data) {
+							  listarUbicaciones();
+						  });
+						  Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Actualizado correctamente',
+							  showConfirmButton: false,
+							  timer: 1250
+						  })
+						  // / window.setTimeout(function(){location.reload()}, 2000);
+					  }// /fin segundoif
+					  else{
+						  Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'registro duplicado no se ha insertado',
+							  showConfirmButton: false,
+							  timer: 1250
+						  })
+
+					  }
+				  });
+
+			  
+			}
+		
+	  });
+
+	  $.ajax({
+		method: "GET",
+		url: "/listar_encargados_ubicaciones",
+		data: {},
+		success: (data) => {
+			$.each(data, function(key, val) {
+					if( val[0]==e.getAttribute("empleado") ){
+						$('#selectResponsableUbicacion').append('<option selected value="' + val[0] + '">' + val[1] + '</option>');
+					}else{
+						$('#selectResponsableUbicacion').append('<option value="' + val[0] + '">' + val[1] + '</option>');
+					}
+					
+				})
+				document.getElementById("selectResponsableUbicacion").disabled = false;
+				//$('.selectpicker').selectpicker(["refresh"]);
+		},
+		error: (e) => {
+	
+		}
+	})
+}
+

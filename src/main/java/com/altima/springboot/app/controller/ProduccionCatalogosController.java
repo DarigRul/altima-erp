@@ -83,7 +83,7 @@ public class ProduccionCatalogosController {
 	@PostMapping("/guardar-catalogo-produccion")
 	public String guardacatalogo(String nomenclatura , String descripcion,
 			String num_talla, String id_genero,String genero,String descripcionProceso ,String origenProceso,
-			String maquilero, String telefono , String ruta , String datos) {
+			String maquilero, String telefono , String ruta , String datos, String nombreUbicacion, String responsablesUbicacion) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -268,10 +268,44 @@ public class ProduccionCatalogosController {
 				
 			}
 			
-			
 			return "catalogos";
 
 		}
+		//nombreUbicacion
+		if ( nombreUbicacion != null) {
+			System.out.println("hoola--->"+nombreUbicacion);
+			ProduccionLookup ubi = new ProduccionLookup();
+			ProduccionLookup ultimoid = null;
+			try {
+				ultimoid = LookupService.findLastLookupByType("Ubicación");
+
+			} catch (Exception e) {
+
+				System.out.println(e);
+			}
+
+			if (ultimoid == null) {
+				ubi.setIdText("UBI" + "0001");
+			} else {
+
+				String str = ultimoid.getIdText();
+				String[] part = str.split("(?<=\\D)(?=\\d)");
+				Integer cont = Integer.parseInt(part[1]);
+				ubi.setIdText("UBI" + fmt.format("%04d",(cont + 1)));
+			}
+
+			ubi.setNombreLookup(StringUtils.capitalize(nombreUbicacion));
+			ubi.setTipoLookup("Ubicación");
+			ubi.setCreadoPor(auth.getName());
+			ubi.setFechaCreacion(dateFormat.format(date));
+			ubi.setEstatus("1");
+			ubi.setDescripcionLookup(responsablesUbicacion);
+			LookupService.save(ubi);
+			
+			
+			return "catalogos";
+		}
+		
 		fmt.close();
 		return "redirect:catalogos";
 
@@ -297,6 +331,9 @@ public class ProduccionCatalogosController {
 			if (Tipo.equals("Maquilero")) {
 				resp=LookupService.findDuplicate(Lookup, Tipo, descripcion);
 			}
+			if (Tipo.equals("Ubicación")) {
+				resp=LookupService.findDuplicate(Lookup, Tipo, descripcion);
+			}
 		return  resp;
 
 	}
@@ -316,7 +353,7 @@ public class ProduccionCatalogosController {
 	}
 	
 	@PostMapping("/editar-catalogo-produccion")
-	public String editacatalogo(final Long idLookup, String descripcionProceso, String origenProceso, String maquilero,String telefono) {
+	public String editacatalogo(final Long idLookup, String descripcionProceso, String origenProceso, String maquilero,String telefono, String nombreUbicacion, String responsablesUbicacion) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		
@@ -331,14 +368,14 @@ public class ProduccionCatalogosController {
 			return "redirect:catalogos";
 		}
 		
-		if (maquilero != null && idLookup > 0) {
-			ProduccionLookup proceso = null;
-			proceso = LookupService.findOne(idLookup);
-			proceso.setNombreLookup(StringUtils.capitalize(maquilero));
-			proceso.setDescripcionLookup(telefono);
-			proceso.setUltimaFechaModificacion(currentDate());
-			proceso.setActualizadoPor(auth.getName());
-			LookupService.save(proceso);
+		if (nombreUbicacion != null && idLookup > 0) {
+			ProduccionLookup ubi = null;
+			ubi = LookupService.findOne(idLookup);
+			ubi.setNombreLookup(StringUtils.capitalize(nombreUbicacion));
+			ubi.setDescripcionLookup(responsablesUbicacion);
+			ubi.setUltimaFechaModificacion(currentDate());
+			ubi.setActualizadoPor(auth.getName());
+			LookupService.save(ubi);
 			return "redirect:catalogos";
 		}
 		
@@ -404,6 +441,19 @@ public class ProduccionCatalogosController {
 	@ResponseBody
 	public boolean validarRutaenEditar(Long idLookup,String nombre) {
 		return  RutaService.validarNombrerutaEditar(idLookup, nombre);
+	}
+
+	@RequestMapping(value = "/listar_encargados_ubicaciones", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> listarEncargados() {
+		return LookupService.encargadoUbicaciones();
+	}
+
+	@RequestMapping(value = "/listar_ubicaciones", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> listarUbicaciones() {
+		System.out.println("dddddddd");
+		return LookupService.listarUbicaciones();
 	}
 
 }

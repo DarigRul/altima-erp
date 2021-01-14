@@ -31,4 +31,8 @@ public interface IProduccionLookupService {
 
 	List<ProduccionLookup> findAllLookup(String Tipo, String estatus);
 
+	List<Object []> encargadoUbicaciones();
+
+	List<Object []> listarUbicaciones();
+
 }
