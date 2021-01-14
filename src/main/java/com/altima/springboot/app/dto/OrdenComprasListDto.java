@@ -14,6 +14,7 @@ public class OrdenComprasListDto implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
+    private Long idOrdenCompras;
     private String idText;
     private String fechaCreacion;
     private String nombreProveedor;
@@ -49,6 +50,14 @@ public class OrdenComprasListDto implements Serializable{
 
     public void setEstatus(String estatus) {
         this.estatus = estatus;
+    }
+
+    public Long getIdOrdenCompras() {
+        return idOrdenCompras;
+    }
+
+    public void setIdOrdenCompras(Long idOrdenCompras) {
+        this.idOrdenCompras = idOrdenCompras;
     }
 
     

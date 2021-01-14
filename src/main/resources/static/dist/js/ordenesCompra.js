@@ -1,4 +1,3 @@
-var iva = []
 var ordenCabecero = []
 var ordenDetalle = []
 $(document).ready(function () {
@@ -16,9 +15,29 @@ $(document).ready(function () {
             tipoLookup: 'iva'
         },
         success: function (response) {
-            iva = response;
+            response.forEach(data => {
+                $(`#selectIva`).append(`<option value='${data.atributo1}'>${data.atributo1}%</option>`)
+            });
+            $(`#selectIva`).selectpicker('refresh');
         }
     });
+    if (cabecero !== null) {
+        $('#rfc').text(proveedor.rfcProveedor);
+        $('#calle').text(proveedor.calle);
+        $('#noext').text(proveedor.numeroExterior);
+        $('#noint').text(proveedor.numeroInterior);
+        $('#colonia').text(proveedor.colonia);
+        $('#cp').text(proveedor.codigoPostal);
+        $('#poblacion').text(proveedor.poblacion);
+        $('#pais').text(proveedor.pais);
+        $("#proveedorSelect").append(`<option selected value="${proveedor.idProveedor}">${proveedor.nombreProveedor}</option>`)
+        $("#proveedorSelect").attr("disabled",true)
+        $('#proveedorSelect').change()
+        $('#proveedorSelect').selectpicker('refresh');
+        
+
+
+    }
 });
 
 $("#proveedorSelect").change(function (e) {
@@ -50,7 +69,7 @@ $("#proveedorSelect").change(function (e) {
             $("#claveMaterialProveedor").append(`<option value="">Seleccione uno...</option>`)
             response.forEach(function (data) {
                 //aqui va el codigo
-                $("#claveMaterialProveedor").append(`<option data-tipo='${data.tipo}' data-idtext='${data.id_text}' data-nombre='${data.nombre}' data-color='${data.color}' value='${data.id_material}'>${data.id_text} - ${data.nombre} </option>`)
+                $("#claveMaterialProveedor").append(`<option data-almacen='${data.almacen}' data-precio='${data.precio}' data-tipo='${data.tipo}' data-idtext='${data.id_text}' data-nombre='${data.nombre}' data-color='${data.color}' value='${data.id_material}'>${data.id_text} - ${data.nombre} </option>`)
             })
             $('#claveMaterialProveedor').selectpicker('refresh');
         },
@@ -63,14 +82,17 @@ $("#proveedorSelect").change(function (e) {
 $('#agregarMaterial').click(function (e) {
     e.preventDefault();
     $(this).attr('disabled', true);
+    $(`#proveedorSelect`).attr('disabled', true);
+    $('#proveedorSelect').selectpicker('refresh');
     var cantidad = $('#cantidadProveedor').val();
     var idMaterial = $('#claveMaterialProveedor').val();
     var color = $('#claveMaterialProveedor').children('option:selected').data('color') == '' ? $('#coloresProveedor').children('option:selected').data('name') : $('#claveMaterialProveedor').children('option:selected').data('color')
     var idText = $('#claveMaterialProveedor').children('option:selected').data('idtext')
     var nombre = $('#claveMaterialProveedor').children('option:selected').data('nombre')
     var tipo = $('#claveMaterialProveedor').children('option:selected').data('tipo')
-    var idColor = $("#coloresProveedor").val();
-
+    var idColor = $("#coloresProveedor").val() === '' ? 0 : $("#coloresProveedor").val();
+    var precio = $(`#claveMaterialProveedor`).children('option:selected').data('precio');
+    var almacen = $(`#claveMaterialProveedor`).children('option:selected').data('almacen');
     const found = ordenDetalle.find(element => element.idMaterial + element.tipo + element.idColor == idMaterial + tipo + idColor);
     if (found != null) {
         Swal.fire({
@@ -100,8 +122,7 @@ $('#agregarMaterial').click(function (e) {
             'idMaterial': idMaterial,
             'tipo': tipo,
             'idColor': idColor,
-            'iva': null,
-            'precioU': 0,
+            'precioU': precio,
             'montoCD': 0
         }
         ordenDetalle.push(temp);
@@ -110,30 +131,16 @@ $('#agregarMaterial').click(function (e) {
                 idText,
                 nombre,
                 color == "" ? 'N/A' : color,
-                `<select class="form-control selectIva selectpicker" id="iva-${idMaterial}-${tipo}-${idColor}" onChange="ivaf('${idMaterial}-${tipo}-${idColor}',this.value)" > <option value="">Seleccione uno...</option> </select>`,
-                `<input type="number" disabled class="form-control" id="precio-${idMaterial}-${tipo}-${idColor}" onInput="precioU('${idMaterial}-${tipo}-${idColor}',this.value,${cantidad})">`,
-                `<input type="number" disabled class="form-control" id="monto-${idMaterial}-${tipo}-${idColor}" onInput="monto('${idMaterial}-${tipo}-${idColor}',this.value)" > `,
-                `<input type="number" disabled class="form-control" id="porcentaje-${idMaterial}-${tipo}-${idColor}" onInput="porcentaje('${idMaterial}-${tipo}-${idColor}',this.value)" > `,
-                `<p class="subtotal" id="subtotal-${idMaterial}-${tipo}-${idColor}">0</p>`,
+                almacen,
+                `<input type="number"  class="form-control" value='${precio}' id="precio-${idMaterial}-${tipo}-${idColor}" onInput="precioU('${idMaterial}-${tipo}-${idColor}',this.value,${cantidad})">`,
+                `<input type="number" class="form-control" id="monto-${idMaterial}-${tipo}-${idColor}" value='0' onInput="monto('${idMaterial}-${tipo}-${idColor}',this.value)" > `,
+                `<input type="number" class="form-control" id="porcentaje-${idMaterial}-${tipo}-${idColor}" value='0' onInput="porcentaje('${idMaterial}-${tipo}-${idColor}',this.value)" > `,
+                `<p class="subtotal" id="subtotal-${idMaterial}-${tipo}-${idColor}">${precio * cantidad}</p>`,
                 `<a class="btn btn-danger btn-circle btn-sm delete" onclick="deleteMovimiento(this,'${idMaterial}${tipo}${idColor}')"><i class="fas fa-times text-white"></i></a>`
             ]
         ).draw();
         $(this).attr('disabled', false);
-        $('#selectIva').selectpicker('refresh');
-        $.ajax({
-            type: "GET",
-            url: "getComercialLookupByTipo",
-            data: {
-                tipoLookup: 'iva'
-            },
-            success: function (response) {
-                response.forEach(data => {
-                    $(`#iva-${idMaterial}-${tipo}-${idColor}`).append(`<option value='${data.atributo1}'>${data.atributo1}%</option>`)
-                });
-                $(`#iva-${idMaterial}-${tipo}-${idColor}`).selectpicker('refresh');
-
-            }
-        });
+        totales();
     }
 });
 
@@ -142,7 +149,7 @@ $("#claveMaterialProveedor").change(function (e) {
     var color = $(this).children('option:selected').data('color')
     console.log(color)
     $('#coloresProveedor option').remove();
-    $("#coloresProveedor").append(`<option value="">Seleccione uno...</option>`)
+    $("#coloresProveedor").append(`<option value="" data-name="">Seleccione uno...</option>`)
     $('#coloresProveedor').selectpicker('refresh');
     if (color.trim() === '') {
         $('#coloresProveedor').attr('disabled', false);
@@ -181,10 +188,11 @@ function deleteMovimiento(fila, id) {
         .row($(fila).parents('tr'))
         .remove()
         .draw();
+    totales();
+
 }
 
 function precioU(id, wrote, cantidad) {
-    var ivaSelected = parseFloat(($(`#iva-${id}`).val() / 100) + 1);
     var indexMaterial = ordenDetalle.map(orden => `${orden.idMaterial}-${orden.tipo}-${orden.idColor}`).indexOf(id);
     var sum = 0;
     console.log(indexMaterial);
@@ -194,65 +202,42 @@ function precioU(id, wrote, cantidad) {
     $(`#porcentaje-${id}`).val(0);
     $(`#monto-${id}`).attr("disabled", false);
     $(`#porcentaje-${id}`).attr("disabled", false);
-    $(`#subtotal-${id}`).text((parseFloat(wrote).toFixed(2) * parseInt(cantidad) * ivaSelected).toFixed(2));
-    $('.subtotal').each(function () {
-        sum += parseFloat($(this).text());
-        $(`#total`).text('$'+sum.toFixed(2));
-    });
+    $(`#subtotal-${id}`).text((parseFloat(wrote).toFixed(2) * parseInt(cantidad)).toFixed(2));
+    totales();
+
 }
 
 function porcentaje(id, wrote) {
     var sum = 0;
-    var ivaSelected = parseFloat(($(`#iva-${id}`).val() / 100) + 1);
     var indexMaterial = ordenDetalle.map(orden => `${orden.idMaterial}-${orden.tipo}-${orden.idColor}`).indexOf(id);
     if (wrote == "") {
         ordenDetalle[indexMaterial].montoCD = 0;
         $(`#monto-${id}`).val(0);
-        $(`#subtotal-${id}`).text((ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad * ivaSelected).toFixed(2));
+        $(`#subtotal-${id}`).text((ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad).toFixed(2));
         return false
     }
     var monto = (ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad / 100) * parseFloat(wrote)
     $(`#monto-${id}`).val(monto.toFixed(2));
     ordenDetalle[indexMaterial].montoCD = monto;
-    $(`#subtotal-${id}`).text(((ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad * ivaSelected) + ordenDetalle[indexMaterial].montoCD).toFixed(2));
-    $('.subtotal').each(function () {
-        sum += parseFloat($(this).text());
-        $(`#total`).text('$'+sum.toFixed(2));
-    });
+    $(`#subtotal-${id}`).text(((ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad) + ordenDetalle[indexMaterial].montoCD).toFixed(2));
+    totales();
+
 }
 
 function monto(id, wrote) {
     var sum = 0;
-    var ivaSelected = parseFloat(($(`#iva-${id}`).val() / 100) + 1);
     var indexMaterial = ordenDetalle.map(orden => `${orden.idMaterial}-${orden.tipo}-${orden.idColor}`).indexOf(id);
     if (wrote == "") {
         ordenDetalle[indexMaterial].montoCD = 0;
         $(`#porcentaje-${id}`).val(0);
-        $(`#subtotal-${id}`).text((ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad * ivaSelected).toFixed(2));
+        $(`#subtotal-${id}`).text((ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad).toFixed(2));
         return false
     }
     var porcentaje = (parseFloat(+wrote) / (ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad)) * 100
     $(`#porcentaje-${id}`).val(porcentaje.toFixed(2));
     ordenDetalle[indexMaterial].montoCD = parseFloat(wrote);
-    $(`#subtotal-${id}`).text(((ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad * ivaSelected) + ordenDetalle[indexMaterial].montoCD).toFixed(2));
-    $('.subtotal').each(function () {
-        sum += parseFloat($(this).text());
-        $(`#total`).text('$'+sum.toFixed(2));
-    });
-}
-
-function ivaf(id, value) {
-    console.log(value);
-    if (value.trim() === '') {
-        $(`#precio-${id}`).val(0);
-        $(`#precio-${id}`).attr("disabled", true);
-    } else {
-        var indexMaterial = ordenDetalle.map(orden => `${orden.idMaterial}-${orden.tipo}-${orden.idColor}`).indexOf(id);
-        ordenDetalle[indexMaterial].iva = +value;
-        $(`#precio-${id}`).val(0);
-        $(`#precio-${id}`).attr("disabled", false);
-        $(`#iva-${id}`).attr("disabled", true);
-    }
+    $(`#subtotal-${id}`).text(((ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad) + ordenDetalle[indexMaterial].montoCD).toFixed(2));
+    totales();
 
 }
 
@@ -261,6 +246,7 @@ $("#enviarOrden").click(function (e) {
     $("#enviarOrden").attr('disabled', true);
     var ordenesPrecio = ordenDetalle.map(orden => orden.precioU);
     var lengthOrdenesPrecio = ordenesPrecio.filter(precio => precio === 0).length;
+    var iva = $(`#selectIva`).val();
     if (lengthOrdenesPrecio > 0) {
         Swal.fire({
             icon: 'error',
@@ -270,14 +256,25 @@ $("#enviarOrden").click(function (e) {
             $("#enviarOrden").attr('disabled', false);
         })
 
-    } else {
+    }
+    else if (iva.trim() === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'El campo Iva es requerido!',
+        }).then(result => {
+            $("#enviarOrden").attr('disabled', false);
+        })
+    }
+    else {
         $.ajax({
             type: "POST",
             url: "/postOrdenCompra",
             data: {
                 _csrf: $('[name=_csrf]').val(),
                 ordenCompraDetalle: JSON.stringify(ordenDetalle),
-                idProveedor: $(`#proveedorSelect`).val()
+                idProveedor: $(`#proveedorSelect`).val(),
+                iva: iva
             },
             success: function (response) {
                 Swal.fire({
@@ -303,3 +300,20 @@ $("#enviarOrden").click(function (e) {
     }
 
 });
+
+$(`#selectIva`).change(function (e) {
+    e.preventDefault();
+    totales();
+
+});
+
+function totales() {
+    const iva = +$(`#selectIva`).val() / 100;
+    const totalIva = ordenDetalle.reduce((acc, detalle) => acc + ((detalle.precioU * detalle.cantidad) + detalle.montoCD) * iva, 0);
+    $(`#iva`).text('$' + totalIva.toFixed(2));
+    const descuento = ordenDetalle.reduce((acc, detalle) => acc + detalle.montoCD, 0);
+    $(`#descuento`).text('$' + descuento.toFixed(2));
+    const subtotal = ordenDetalle.reduce((acc, detalle) => acc + detalle.precioU * detalle.cantidad, 0);
+    $(`#subtotal`).text('$' + subtotal.toFixed(2));
+    $(`#total`).text('$' + (subtotal + totalIva + descuento).toFixed(2));
+}

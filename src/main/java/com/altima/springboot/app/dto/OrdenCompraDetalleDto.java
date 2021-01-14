@@ -1,65 +1,49 @@
-package com.altima.springboot.app.models.entity;
+package com.altima.springboot.app.dto;
 
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "alt_compras_orden_detalle")
-public class ComprasOrdenDetalle implements Serializable{
+public class OrdenCompraDetalleDto implements Serializable {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    
-    @Id
-	@Column(name="id_orden_compras_detalle")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@GenericGenerator(name="native",strategy="native")
-	private Long idOrdenComprasDetalle;
-	
-	@Column(name="id_orden_compras")
-	private Long idOrdenCompras;
 
-	@Column(name="id_material")
+    @Id
+    private Long idOrdenComprasDetalle;
+
+    private Long idOrdenCompras;
+
     private Long idMaterial;
-    
-    @Column(name="id_color")
-	private Long idColor;
-	
-	@Column(name="tipo_material")
+
+    private Long idColor;
+
     private String tipoMaterial;
-    
-    @Column(name="cantidad")
-	private float cantidad;
-	
-	@Column(name="actualizado_por")
-	private String actualizadoPor;
-	
-	@Column(name="fecha_creacion")
-	private String fechaCreacion;
-	
-	@Column(name="ultima_fecha_modificacion")
-	private String ultimaFechaModificacion;
-    
-    @Column(name="creado_por")
+
+    private float cantidad;
+
+    private String actualizadoPor;
+
+    private String fechaCreacion;
+
+    private String ultimaFechaModificacion;
+
     private String creadoPor;
 
-    @Column(name="precio_unitario")
     private float precioUnitario;
 
-    @Column(name="monto_cargo_descuento")
     private float montoCargoDescuento;
 
+    private String idText;
 
+    private String nombre;
+
+    private String color;
 
     public Long getIdOrdenComprasDetalle() {
         return idOrdenComprasDetalle;
@@ -83,6 +67,14 @@ public class ComprasOrdenDetalle implements Serializable{
 
     public void setIdMaterial(Long idMaterial) {
         this.idMaterial = idMaterial;
+    }
+
+    public Long getIdColor() {
+        return idColor;
+    }
+
+    public void setIdColor(Long idColor) {
+        this.idColor = idColor;
     }
 
     public String getTipoMaterial() {
@@ -149,11 +141,28 @@ public class ComprasOrdenDetalle implements Serializable{
         this.montoCargoDescuento = montoCargoDescuento;
     }
 
-    public Long getIdColor() {
-        return idColor;
+    public String getIdText() {
+        return idText;
     }
 
-    public void setIdColor(Long idColor) {
-        this.idColor = idColor;
+    public void setIdText(String idText) {
+        this.idText = idText;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
 }

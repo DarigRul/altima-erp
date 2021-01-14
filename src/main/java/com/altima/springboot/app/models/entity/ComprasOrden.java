@@ -30,7 +30,10 @@ public class ComprasOrden implements Serializable{
 	private int estatus;
 	
 	@Column(name="id_text")
-	private String idText;
+    private String idText;
+    
+    @Column(name="iva")
+    private float iva;
 	
 	@Column(name="actualizado_por")
 	private String actualizadoPor;
@@ -106,6 +109,14 @@ public class ComprasOrden implements Serializable{
 
     public void setCreadoPor(String creadoPor) {
         this.creadoPor = creadoPor;
+    }
+
+    public float getIva() {
+        return iva;
+    }
+
+    public void setIva(float iva) {
+        this.iva = iva;
     }
 
 

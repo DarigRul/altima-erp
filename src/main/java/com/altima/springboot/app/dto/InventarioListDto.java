@@ -20,6 +20,8 @@ public class InventarioListDto implements Serializable{
     private String medida;
     private String tamanio;
     private String color;
+    private float precio;
+    private String almacen;
     @Id
     private String tipo;
 
@@ -77,6 +79,22 @@ public class InventarioListDto implements Serializable{
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(float precio) {
+        this.precio = precio;
+    }
+
+    public String getAlmacen() {
+        return almacen;
+    }
+
+    public void setAlmacen(String almacen) {
+        this.almacen = almacen;
     }
     
 }

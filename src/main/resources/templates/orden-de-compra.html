@@ -66,7 +66,8 @@
                                                 <td th:text="${orden.nombreProveedor}"></td>
                                                 <td th:text="${orden.estatus}"></td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-danger btn-circle btn-sm popoverxd" data-placement="top" data-content="Imprimir"><i class="fas fa-download"></i></button>
+                                                    <!-- <a class="btn btn-warning btn-circle btn-sm popoverxd" data-placement="top" data-content="Imprimir" th:href="@{/orden-de-compra/}+${orden.idOrdenCompras}"><i class="fas fa-pen"></i></a> -->
+                                                    <a th:href="@{/orden-compra-reporte/}+${orden.idOrdenCompras}+@{?format=pdf}" class="btn btn-danger btn-circle btn-sm popoverxd" data-placement="top" data-content="Imprimir" target="_blank"><i class="fas fa-download" ></i></a>
                                                 </td>
                                             </tr>
                                         </tbody>

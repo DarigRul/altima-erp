@@ -66,6 +66,11 @@
                                                                     th:value="${proveedor[0]}"
                                                                     th:text="${proveedor[1]}"></option>
                                                             </select></th>
+                                                        <th class="text-left">Iva:<select class="form-control selectIva selectpicker"
+                                                                id="selectIva">
+                                                                <option value="">Seleccione uno...</option>
+                                                            </select>
+                                                        </th>
                                                         <th class="text-right">Fecha: <a class="font-weight-normal"
                                                                 id="curdate"></a></th>
                                                     </tr>
@@ -136,7 +141,7 @@
                                                         <th>Clave material</th>
                                                         <th>Descripci&oacute;n</th>
                                                         <th>Color</th>
-                                                        <th>IVA</th>
+                                                        <th>Almac&eacute;n</th>
                                                         <th>Precio unitario</th>
                                                         <th>Monto Desc/Cargo</th>
                                                         <th>% Desc/Cargo</th>
@@ -152,8 +157,31 @@
                                                 <tfoot>
                                                     <tr>
                                                         <th colspan="8"></th>
+                                                        <th>Subtotal:</th>
+                                                        <th>
+                                                            <p id="subtotal">0</p>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="8"></th>
+                                                        <th>Descuento/Cargo:</th>
+                                                        <th>
+                                                            <p id="descuento">0</p>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="8"></th>
+                                                        <th>Iva:</th>
+                                                        <th>
+                                                            <p id="iva">0</p>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="8"></th>
                                                         <th>Total:</th>
-                                                        <th><p id="total">0</p></th>
+                                                        <th>
+                                                            <p id="total">0</p>
+                                                        </th>
                                                     </tr>
                                                 </tfoot>
 
@@ -166,7 +194,8 @@
                                         class="btn btn-sm icon-btn btn-danger text-white mr-auto">
                                         <span
                                             class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-                                    <button class="btn btn-sm icon-btn btn-altima text-white float-right" id="enviarOrden">
+                                    <button class="btn btn-sm icon-btn btn-altima text-white float-right"
+                                        id="enviarOrden">
                                         <span
                                             class="btn-glyphicon fas fa-check img-circle text-altima"></span>Generar</button>
                                 </div>
@@ -183,6 +212,16 @@
         <div th:insert="navegacion-footer"></div>
     </div>
     <div th:replace="navegacion-scripts"></div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        
+            var cabecero = /*[[${cabecero}]]*/ 'default';
+            var proveedor = /*[[${proveedor}]]*/ 'default';
+            var detalles = /*[[${detalles}]]*/ 'default';
+            console.log({cabecero},{proveedor},{detalles});
+        
+        /*]]>*/
+        </script>
     <script src="/dist/js/tablaOrdenCompra.js"></script>
     <script src="/dist/js/ordenesCompra.js"></script>
     <script>

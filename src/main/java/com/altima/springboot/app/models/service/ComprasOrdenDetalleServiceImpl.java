@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.altima.springboot.app.dto.OrdenCompraDetalleDto;
 import com.altima.springboot.app.models.entity.ComprasOrdenDetalle;
 import com.altima.springboot.app.repository.ComprasOrdenDetalleRepository;
 
@@ -47,6 +48,14 @@ public class ComprasOrdenDetalleServiceImpl implements IComprasOrdenDetalleServi
     public void delete(Long id) {
         // TODO Auto-generated method stub
         repository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    @SuppressWarnings("unchecked")
+    public List<OrdenCompraDetalleDto> findByIdOrdenCompras(Long id) {
+        // TODO Auto-generated method stub
+        return em.createNativeQuery(" CALL `alt_pr_get_detalle_orden_compra`(:id);",OrdenCompraDetalleDto.class).setParameter("id", id).getResultList();
     }
     
 }
