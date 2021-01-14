@@ -100,7 +100,7 @@ public class ComprasRequisicionTelasRestController {
 
     @Transactional
     @PostMapping("/postOrdenCompraTela")
-    public ResponseEntity<?> postOrdenCompra(@RequestParam String ordenCompraDetalle,@RequestParam Long idProveedor) {
+    public ResponseEntity<?> postOrdenCompra(@RequestParam String ordenCompraDetalle,@RequestParam Long idProveedor,@RequestParam float iva) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JSONArray ordenArray = new JSONArray(ordenCompraDetalle);
         Formatter fmt = new Formatter();
@@ -111,6 +111,7 @@ public class ComprasRequisicionTelasRestController {
             orden.setEstatus(1);
             orden.setIdProveedor(idProveedor);
             orden.setIdText("idText");
+            orden.setIva(iva);
             ordenService.save(orden);
             orden.setIdText("ORDC"+fmt.format("%05d", orden.getIdOrdenCompras()));
             ordenService.save(orden);

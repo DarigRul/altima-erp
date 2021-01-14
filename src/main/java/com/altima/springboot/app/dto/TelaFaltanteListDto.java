@@ -21,6 +21,7 @@ public class TelaFaltanteListDto implements Serializable{
     private String fechaEntrega;
     private String agente;
     private float cantidad;
+    private float precio;
     private String fechaOrdenCompra;
     private String folioOrdenCompra;
 	private String fechaPomesa;
@@ -157,6 +158,14 @@ public class TelaFaltanteListDto implements Serializable{
 
     public void setNombreProveedor(String nombreProveedor) {
         this.nombreProveedor = nombreProveedor;
+    }
+
+    public float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(float precio) {
+        this.precio = precio;
     }
 
     

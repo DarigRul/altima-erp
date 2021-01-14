@@ -224,7 +224,7 @@ $('#btnGenerarOrden').click(function (e) {
                 nombreProveedor: telasFiltradas[0].nombreProveedor,
                 cantidad: telasFiltradas[0].cantidad,
                 cantidadExtra: 0,
-                precioU: 0,
+                precioU: telasFiltradas[0].precio,
                 montoCD: 0
 
             }
@@ -239,11 +239,11 @@ $('#btnGenerarOrden').click(function (e) {
                     `<p id="metrajeExtra-${detalle.idTelaFaltante}">${detalle.cantidad}</p>`,
                     detalle.idTextTela,
                     detalle.nombreTela,
-                    `<input type="number" class="form-control" onInput='precioU(${detalle.idTelaFaltante},this.value)'>`,
-                    16,
+                    `<input type="number" value="${detalle.precioU}" class="form-control" onInput='precioU(${detalle.idTelaFaltante},this.value)'>`,
+
                     `<input type="number" value="0" step="any" onInput='porcentaje(${detalle.idTelaFaltante},this.value)' class="form-control dc" id="porcentaje-${detalle.idTelaFaltante}">`,
                     `<input type="number" value="0" step="any" onInput='monto(${detalle.idTelaFaltante},this.value)' class="form-control dc" id="monto-${detalle.idTelaFaltante}">`,
-                    `<p id="subtotal-${detalle.idTelaFaltante}">0</p>`
+                    `<p id="subtotal-${detalle.idTelaFaltante}">${detalle.cantidad * detalle.precioU}</p>`
                 ]
             ).draw();
         });
@@ -259,64 +259,83 @@ $('#btnGenerarOrden').click(function (e) {
         })
     }
     $(`.dc`).val(0);
-    $(`.dc`).attr("disabled", true);
+    totales();
 });
 
 function metrajeExtra(idTelaFaltante, wrote) {
     console.log(ordenCompraDetalle);
     var indexTela = ordenCompraDetalle.map(item => item.idTelaFaltante).indexOf(idTelaFaltante);
     ordenCompraDetalle[indexTela].cantidadExtra = +wrote;
+    const sub = (ordenCompraDetalle[indexTela].cantidad + ordenCompraDetalle[indexTela].cantidadExtra) * ordenCompraDetalle[indexTela].precioU
     var totalMetraje = ordenCompraDetalle[indexTela].cantidad + (wrote == "" ? 0 : ordenCompraDetalle[indexTela].cantidadExtra)
     $(`#metrajeExtra-${idTelaFaltante}`).text(totalMetraje.toFixed(2));
+    ordenCompraDetalle[indexTela].montoCD = 0;
+    $(`#monto-${idTelaFaltante}`).val(0);
+    $(`#porcentaje-${idTelaFaltante}`).val(0);
+    $(`#subtotal-${idTelaFaltante}`).text(parseFloat(sub).toFixed(2));
+    totales();
 }
 
 function precioU(idTelaFaltante, wrote) {
     var indexTela = ordenCompraDetalle.map(item => item.idTelaFaltante).indexOf(idTelaFaltante);
     ordenCompraDetalle[indexTela].precioU = +wrote;
     ordenCompraDetalle[indexTela].montoCD = 0;
+    const sub = (ordenCompraDetalle[indexTela].cantidad + ordenCompraDetalle[indexTela].cantidadExtra) * ordenCompraDetalle[indexTela].precioU
     $(`#monto-${idTelaFaltante}`).val(0);
     $(`#porcentaje-${idTelaFaltante}`).val(0);
     $(`#monto-${idTelaFaltante}`).attr("disabled", false);
     $(`#porcentaje-${idTelaFaltante}`).attr("disabled", false);
-    $(`#subtotal-${idTelaFaltante}`).text(parseFloat(wrote).toFixed(2));
+    $(`#subtotal-${idTelaFaltante}`).text(parseFloat(sub).toFixed(2));
     console.table(ordenCompraDetalle[indexTela]);
+    totales();
 }
 
 function porcentaje(idTelaFaltante, wrote) {
     var indexTela = ordenCompraDetalle.map(item => item.idTelaFaltante).indexOf(idTelaFaltante);
     if (wrote == "") {
         ordenCompraDetalle[indexTela].montoCD = 0;
+        const sub = (ordenCompraDetalle[indexTela].cantidad + ordenCompraDetalle[indexTela].cantidadExtra) * ordenCompraDetalle[indexTela].precioU
+
         $(`#monto-${idTelaFaltante}`).val(0);
-        $(`#subtotal-${idTelaFaltante}`).text(ordenCompraDetalle[indexTela].precioU.toFixed(2));
+        $(`#subtotal-${idTelaFaltante}`).text(sub.toFixed(2));
+        totales();
+
         return false
     }
-    var monto = (ordenCompraDetalle[indexTela].precioU / 100) * parseFloat(wrote)
+    var monto = ((ordenCompraDetalle[indexTela].precioU * (ordenCompraDetalle[indexTela].cantidad + ordenCompraDetalle[indexTela].cantidadExtra)) / 100) * parseFloat(wrote)
     $(`#monto-${idTelaFaltante}`).val(monto);
     ordenCompraDetalle[indexTela].montoCD = monto;
-    $(`#subtotal-${idTelaFaltante}`).text((ordenCompraDetalle[indexTela].precioU + monto).toFixed(2));
+    $(`#subtotal-${idTelaFaltante}`).text(((ordenCompraDetalle[indexTela].precioU * (ordenCompraDetalle[indexTela].cantidad + ordenCompraDetalle[indexTela].cantidadExtra)) + monto).toFixed(2));
     console.table(ordenCompraDetalle[indexTela]);
+    totales();
 }
 
 function monto(idTelaFaltante, wrote) {
     var indexTela = ordenCompraDetalle.map(item => item.idTelaFaltante).indexOf(idTelaFaltante);
     if (wrote == "") {
         ordenCompraDetalle[indexTela].montoCD = 0;
+        const sub = (ordenCompraDetalle[indexTela].cantidad + ordenCompraDetalle[indexTela].cantidadExtra) * ordenCompraDetalle[indexTela].precioU
+
         $(`#porcentaje-${idTelaFaltante}`).val(0);
-        $(`#subtotal-${idTelaFaltante}`).text(ordenCompraDetalle[indexTela].precioU.toFixed(2));
+        $(`#subtotal-${idTelaFaltante}`).text(sub.toFixed(2));
+        totales();
+
         return false
     }
-    var porcentaje = (parseFloat(+wrote) / ordenCompraDetalle[indexTela].precioU) * 100
+    var porcentaje = (parseFloat(+wrote) / (ordenCompraDetalle[indexTela].precioU * (ordenCompraDetalle[indexTela].cantidad + ordenCompraDetalle[indexTela].cantidadExtra))) * 100
     $(`#porcentaje-${idTelaFaltante}`).val(porcentaje);
     ordenCompraDetalle[indexTela].montoCD = parseFloat(wrote);
-    $(`#subtotal-${idTelaFaltante}`).text((ordenCompraDetalle[indexTela].precioU + ordenCompraDetalle[indexTela].montoCD).toFixed(2));
+    $(`#subtotal-${idTelaFaltante}`).text(((ordenCompraDetalle[indexTela].precioU * (ordenCompraDetalle[indexTela].cantidad + ordenCompraDetalle[indexTela].cantidadExtra)) + ordenCompraDetalle[indexTela].montoCD).toFixed(2));
     console.table(ordenCompraDetalle[indexTela]);
-}
+    totales();
 
+}
 $("#enviarOrden").click(function (e) {
     e.preventDefault();
 
     var ordenesPrecio = ordenCompraDetalle.map(orden => orden.precioU);
     var lengthOrdenesPrecio = ordenesPrecio.filter(precio => precio > 0).length;
+    var iva = $(`#selectIva`).val();
     if (lengthOrdenesPrecio == 0) {
         Swal.fire({
             icon: 'error',
@@ -324,6 +343,15 @@ $("#enviarOrden").click(function (e) {
             text: 'Todas las telas deben tener un precio!',
         })
 
+    }
+    else if (iva.trim() === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'El campo Iva es requerido!',
+        }).then(result => {
+            $("#enviarOrden").attr('disabled', false);
+        })
     } else {
         $.ajax({
             type: "POST",
@@ -331,7 +359,8 @@ $("#enviarOrden").click(function (e) {
             data: {
                 _csrf: $('[name=_csrf]').val(),
                 ordenCompraDetalle: JSON.stringify(ordenCompraDetalle),
-                idProveedor:ordenCompraDetalle[0].idProveedor
+                idProveedor: ordenCompraDetalle[0].idProveedor,
+                iva: iva
             },
             success: function (response) {
                 Swal.fire({
@@ -378,4 +407,19 @@ $('#cerrarModalOrden').click(function (e) {
             $('#generarOrden').modal('hide');
         }
     })
+});
+
+function totales() {
+    const iva = +$(`#selectIva`).val() / 100;
+    const totalIva = ordenCompraDetalle.reduce((acc, detalle) => acc + ((detalle.precioU * (detalle.cantidad + detalle.cantidadExtra)) + detalle.montoCD) * iva, 0);
+    $(`#iva`).text('$' + totalIva.toFixed(2));
+    const descuento = ordenCompraDetalle.reduce((acc, detalle) => acc + detalle.montoCD, 0);
+    $(`#descuento`).text('$' + descuento.toFixed(2));
+    const subtotal = ordenCompraDetalle.reduce((acc, detalle) => acc + detalle.precioU * (detalle.cantidad + detalle.cantidadExtra), 0);
+    $(`#subtotal`).text('$' + subtotal.toFixed(2));
+    $(`#total`).text('$' + (subtotal + totalIva + descuento).toFixed(2));
+}
+$(`#selectIva`).change(function (e) {
+    e.preventDefault();
+    totales();
 });

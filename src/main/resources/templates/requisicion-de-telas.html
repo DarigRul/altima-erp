@@ -135,6 +135,20 @@
     <script src="/dist/js/tablaRequisicionTelas.js"></script>
     <script th:inline="javascript">
         var telasFaltantesList = /*[[${telasFaltantes}]]*/
+        console.log(telasFaltantesList)
+        $.ajax({
+        type: "GET",
+        url: "/getComercialLookupByTipo",
+        data: {
+            tipoLookup: 'iva'
+        },
+        success: function (response) {
+            response.forEach(data => {
+                $(`#selectIva`).append(`<option value='${data.atributo1}'>${data.atributo1}%</option>`)
+            });
+            $(`#selectIva`).selectpicker('refresh');
+        }
+    });
     </script>
     <script src="/dist/js/requisicionTelas.js"></script>
     <script>
