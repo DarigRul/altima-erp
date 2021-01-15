@@ -29,8 +29,8 @@ $('#SN').click(function(){
         $("#numeroIntMaquilero").prop('disabled', false);
     }
 });
-  function agregarMaquileros(){
-
+function limpiarformMaquileros(){
+    
     $('#nombreMaquilero').val(null);
     $('#idMaquilero').val(null);
     $('#calleMaquilero').val(null);
@@ -51,25 +51,39 @@ $('#SN').click(function(){
     $('#tipo').selectpicker('refresh');
     $('#descripcion').val(null);
     $('#telefono').val(null);
-  
+}
+function llenarSelectUbicaciones(idValor){
     $.ajax({
 		method: "GET",
 		url: "/listar_ubucaciones_activas",
 		data:{} ,
 		success: (data) => {
-            $("#idUbicacion").empty()
-            $.each(data, function(key, val) {
-
-                $('#idUbicacion').append('<option value="'+val.idLookup+'">' + val.nombreLookup+ '</option>');
-        
+            $("#idUbicacion").empty();
+            $(data).each(function(i, v){ 
+                if ( v.idLookup == idValor){
+                    $('#idUbicacion').append('<option  value="'+v.idLookup+'" selected    >' + v.nombreLookup+ '</option>');
+                }
+                else{
+                    $('#idUbicacion').append('<option  value="'+v.idLookup+'">' + v.nombreLookup+ '</option>');
+                }
+                
             })
             $('#idUbicacion').selectpicker('refresh');
        	
-		},
+		}, complete: function() {   
+            $('#idUbicacion').val(idValor);
+            $('#idUbicacion').selectpicker('refresh');
+         
+        },
 		error: (e) => {
 
 		}
 	})
+
+}
+  function agregarMaquileros(){
+    limpiarformMaquileros();
+    llenarSelectUbicaciones(null);
 	$('#addMaquilero').modal('show'); // abrir
 
 }
@@ -146,10 +160,7 @@ function guardarMaquilero(){
 }
 
 function editarMaquileros(id){
-
-
-    agregarMaquileros();
-    
+    limpiarformMaquileros();
     $.ajax({
         method: "GET",
         url: "/editar_maquilero",
@@ -175,13 +186,14 @@ function editarMaquileros(id){
             $('#municipioMaquilero').val(data.municipio);
             $('#coloniaMaquilero').val(data.colonia);
             $('#cpMaquilero').val(data.codigoPostal);
-            $('#idUbicacion').val(data.idUbicacion);
-            $('#idUbicacion').selectpicker('refresh');
+          
+            llenarSelectUbicaciones(data.idUbicacion);
             $('#produccionMax').val(data.produccionMaxima);
             $('#tipo').val(data.tipo);
             $('#tipo').selectpicker('refresh');
             $('#descripcion').val(data.descripcion);
             $('#telefono').val(data.telefono);
+            $('#addMaquilero').modal('show'); // abrir
           
            
            
