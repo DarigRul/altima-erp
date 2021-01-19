@@ -95,12 +95,12 @@ function listarColores() {
             "Tipo": "Color"
         },
         success: (data) => {
+            
             $.ajax({
                 type: "GET",
                 url: "/listarProveedoresColores",
                 success: (datitos) => {
                     Proveedores = datitos;
-
                     $('#quitar2').remove();
                     $('#contenedorTabla2').append("<div class='modal-body' id='quitar2'>" +
                         "<table class='table table-striped table-bordered' id='idtable2' style='width:100%'>" +
@@ -129,7 +129,8 @@ function listarColores() {
                                 nombreProveedor == '';
                             } else {
                                 idProveedor = parseInt(data[i].atributo2);
-                                nombreProveedor = Proveedores[idProveedor - 1].nombreProveedor;
+                                const proveedor=Proveedores.filter(pro=>pro.idProveedor==data[i].atributo2)
+                                nombreProveedor = proveedor.map(pro=>pro.nombreProveedor)
                             }
 
                             a = [

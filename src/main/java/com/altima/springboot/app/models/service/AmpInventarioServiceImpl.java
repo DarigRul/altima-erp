@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.dto.InventarioListDto;
+import com.altima.springboot.app.dto.RequisicionListDto;
 import com.altima.springboot.app.models.entity.AmpInventario;
 import com.altima.springboot.app.repository.AmpInventarioRepository;
 
@@ -309,6 +310,25 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 		return em.createNativeQuery("CALL `alt_pr_materiales_all`(:idProveedor);",InventarioListDto.class).setParameter("idProveedor", idProveedor).getResultList();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
+	public List<RequisicionListDto> findAllRequisicion() {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT * FROM `alt_view_list_requisisciones`",RequisicionListDto.class).getResultList();
+	}
 
+	@Override
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
+	public List<RequisicionListDto> findAllRequisicion(String ids) {
+		// TODO Auto-generated method stub
+		String[] idsArray=ids.split(",");
+		String where="";
+		for (String id : idsArray) {
+			where=where+" or id_requisicion_almacen_material="+id;
+		}
 
+		return em.createNativeQuery("SELECT * FROM `alt_view_list_requisisciones` where 1=2"+where,RequisicionListDto.class).getResultList();	
+	}
 }

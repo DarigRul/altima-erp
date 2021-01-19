@@ -13,14 +13,7 @@ public class ControladorProvisionalController {
 	public String asignacionPrograma() {
 		return "asignacion-programa";
 	}
-	@GetMapping("/listado-de-requisiciones")
-	public String ReqMatHab() {
-		return "listado-de-requisiciones";
-	}
-	@GetMapping("/listado-de-requisiciones-goc")
-	public String ReqMatHabGenerarOC() {
-		return "listado-de-requisiciones-goc";
-	}
+
 	@GetMapping("/control-de-telas")
 	public String CtrlTelas() {
 		return "control-de-telas";

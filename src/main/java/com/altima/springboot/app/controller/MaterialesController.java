@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,12 +33,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.altima.springboot.app.models.entity.ComprasProveedores;
 import com.altima.springboot.app.models.entity.DisenioForro;
 import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.DisenioMaterial;
 //import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.DisenioTela;
 import com.altima.springboot.app.models.service.IAmpInventarioProovedorService;
+import com.altima.springboot.app.models.service.ICatalogoService;
+import com.altima.springboot.app.models.service.IComprasProveedorService;
 import com.altima.springboot.app.models.service.IDisenioForroService;
 import com.altima.springboot.app.models.service.IDisenioLookupService;
 import com.altima.springboot.app.models.service.IDisenioMaterialService;
@@ -69,6 +73,12 @@ public class MaterialesController {
 	
 	@Autowired
 	private IAmpInventarioProovedorService ProveedorSerivice;
+
+	@Autowired
+	private IComprasProveedorService proveedorService;
+
+	@Autowired
+	ICatalogoService catalogo;
 
 	@GetMapping("/materiales")
 	public String listMateriales(Model model) {
@@ -479,14 +489,47 @@ public class MaterialesController {
 	public String aceptadoTela(@PathVariable("id") Long idTela, RedirectAttributes redirectAttrs) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
+		Formatter fmt = new Formatter();
+		Formatter fmt2 = new Formatter();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		DisenioTela dt = disenioTelaService.findOne(idTela);
+		ComprasProveedores provee = proveedorService.findOne(dt.getIdProveedor());
 		dt.setEstatusTela("1");
 		dt.setActualizadoPor(auth.getName());
 		dt.setUltimaFechaModificacion(hourdateFormat.format(date));
+		System.out.println(dt.getIdText());
 		if (dt.getIdText() == null || dt.getIdText() == " " || dt.getIdText().equalsIgnoreCase("")
 				|| dt.getIdText().equalsIgnoreCase(" ")) {
-			dt.setIdText("TELA" + ((10000 + disenioMaterialService.countTelasActivas()) + 1));
+
+			dt.setIdText(provee.getNomenclatura()+fmt.format("%05d",disenioMaterialService.countTelasActivas() + 1));
+			fmt.close();
+			DisenioLookup color = new DisenioLookup();
+			DisenioLookup ultimoid = null;
+			try {
+				ultimoid = catalogo.findLastLookupByType("Color");
+System.out.println("asi nomas quedo");
+			} catch (Exception e) {
+
+				System.err.println(e);
+			}
+
+			if (ultimoid == null) {
+				color.setIdText("COL" + "0001");
+			} else {
+				String str = ultimoid.getIdText();
+				String[] part = str.split("(?<=\\D)(?=\\d)");
+				Integer cont = Integer.parseInt(part[1]);
+				color.setIdText("COL" + fmt2.format("%04d", (cont + 1)));
+				fmt2.close();
+			}
+
+			color.setNombreLookup(dt.getIdText());
+			color.setTipoLookup("Color");
+			color.setCreadoPor(auth.getName());
+			color.setEstatus(1);
+			color.setAtributo1(dt.getCodigoColor());
+			color.setAtributo2(dt.getIdProveedor().toString());
+			catalogo.save(color);			
 		}
 		disenioTelaService.save(dt);
 		redirectAttrs.addFlashAttribute("title", "Material aceptado correctamente").addFlashAttribute("icon",
@@ -518,6 +561,7 @@ public class MaterialesController {
 	public String aceptadoForro(@PathVariable("id") Long idForro, RedirectAttributes redirectAttrs) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
+		Formatter fmt = new Formatter();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		DisenioForro df = forroService.findOne(idForro);
 		df.setEstatusForro("1");
@@ -525,7 +569,8 @@ public class MaterialesController {
 		df.setUltimaFechaModificacion(hourdateFormat.format(date));
 		if (df.getIdText() == null || df.getIdText() == " " || df.getIdText().equalsIgnoreCase("")
 				|| df.getIdText().equalsIgnoreCase(" ")) {
-			df.setIdText("FORRO" + ((10000 + disenioMaterialService.countForrosActivos()) + 1));
+			df.setIdText("FORRO" + fmt.format("%05d",(disenioMaterialService.countForrosActivos()) + 1));
+			fmt.close();
 		}
 		forroService.save(df);
 		redirectAttrs.addFlashAttribute("title", "Material aceptado correctamente").addFlashAttribute("icon",

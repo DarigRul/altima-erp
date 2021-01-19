@@ -343,7 +343,6 @@ public class OrdenCompraPdfView extends AbstractPdfView {
                 tablaPrendas.setWidthPercentage(100);
                 tablaPrendas.setWidths(new float[] { 3f, 3f, 4f, 3f, 3f, 3.5f, 3f });
 
-
                 PdfPCell vacio = new PdfPCell(new Phrase(""));
                 vacio.setBorder(0);
                 vacio.setBorderWidthBottom(2f);
@@ -417,8 +416,6 @@ public class OrdenCompraPdfView extends AbstractPdfView {
                         subTotal += ordenCompraDetalleDto.getPrecioUnitario() * ordenCompraDetalleDto.getCantidad();
                         descuento += ordenCompraDetalleDto.getMontoCargoDescuento();
 
-
-
                         PdfPCell cantidadV = new PdfPCell(
                                         new Phrase(String.valueOf(ordenCompraDetalleDto.getCantidad()), Helvetica));
                         PdfPCell claveMaterialV = new PdfPCell(
@@ -428,8 +425,11 @@ public class OrdenCompraPdfView extends AbstractPdfView {
                         PdfPCell colorV = new PdfPCell(new Phrase(ordenCompraDetalleDto.getColor(), Helvetica));
                         PdfPCell precioUnitarioV = new PdfPCell(new Phrase(
                                         String.valueOf(ordenCompraDetalleDto.getPrecioUnitario()), Helvetica));
-                        PdfPCell subtotalV = new PdfPCell(new Phrase(String.valueOf(ordenCompraDetalleDto.getCantidad()
-                                        * ordenCompraDetalleDto.getPrecioUnitario()), HelveticaBold));
+                        PdfPCell subtotalV = new PdfPCell(new Phrase(
+                                        String.format("%.2f",
+                                                        ordenCompraDetalleDto.getCantidad()
+                                                                        * ordenCompraDetalleDto.getPrecioUnitario()),
+                                        HelveticaBold));
 
                         // nombrePrenda.setPadding(3f);
                         // precioPrenda.setPadding(3f);
@@ -486,13 +486,13 @@ public class OrdenCompraPdfView extends AbstractPdfView {
                         tablaPrendas.addCell(subtotalV);
 
                 }
-                iva+= (subTotal+descuento)*(.16);
-                total=subTotal+descuento+iva;
+                iva += (subTotal + descuento) * (cabecero.getIva()/100);
+                total = subTotal + descuento + iva;
                 PdfPCell subTotalTitulo = new PdfPCell(new Phrase("Subotal", HelveticaBold));
-                PdfPCell subTotalNumero = new PdfPCell(new Phrase("" + subTotal + "0", HelveticaBold));
+                PdfPCell subTotalNumero = new PdfPCell(new Phrase("" + String.format("%.2f", subTotal), HelveticaBold));
 
                 PdfPCell descuentoTitulo = new PdfPCell(new Phrase("Descuento/cargo", HelveticaBold));
-                PdfPCell descuentoNumero = new PdfPCell(new Phrase(descuento + "0", HelveticaBold));
+                PdfPCell descuentoNumero = new PdfPCell(new Phrase(String.format("%.2f", descuento), HelveticaBold));
 
                 PdfPCell ivaTitulo = new PdfPCell(new Phrase("Iva", HelveticaBold));
                 PdfPCell ivaNumero = new PdfPCell(new Phrase("" + String.format("%.2f", iva), HelveticaBold));
