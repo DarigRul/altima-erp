@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Control de avances | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <div class="wrapper">
+        <div th:insert="navegacion-nav"></div>
+        <div th:insert="navegacion-logout"></div>
+        <div th:insert="navegacion-aside"></div>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                <div th:insert="modales-control-avances"></div>
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Control de avances
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Producci&oacute;n</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneralScroll table-striped table-bordered" style="width: 100%;" id="tablaExplosionesPorProceso">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Pedido</th>
+                                                <th>Cliente</th>
+                                                <th>Coordinado</th>
+                                                <th>Prenda</th>
+                                                <th>Modelo</th>
+                                                <th>Clave</th>
+                                                <th>Prendas a confeccionar</th>
+                                                <th>Fecha inicio</th>
+                                                <th>Fecha fin</th>
+                                                <th>Estatus de proceso</th>
+                                                <th>Programa</th>
+                                                <th>Fecha entrega</th>
+                                                <th>Tiempo de corte</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneralScroll.js"></script>
+     <script src="dist/js/ControlAvances.js"></script>
+</body>
+
+</html>
