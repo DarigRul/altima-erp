@@ -49,6 +49,7 @@ public class ProduccionExplosionProcesosController {
 					ProduccionExplosionProcesos explosionProcesos = new ProduccionExplosionProcesos();
 					
 					explosionProcesos.setIdPedido(Long.parseLong(registro[0].toString()));
+					explosionProcesos.setIdCoordinado(Long.parseLong(registro[1].toString()));
 					explosionProcesos.setClaveProceso(Long.parseLong(registro[6].toString()));
 					explosionProcesos.setClavePrenda(Long.parseLong(registro[3].toString()));
 					explosionProcesos.setFechaExplosion(dtf.format(now));

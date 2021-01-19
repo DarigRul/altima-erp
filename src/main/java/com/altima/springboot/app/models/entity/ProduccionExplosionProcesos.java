@@ -30,17 +30,20 @@ public class ProduccionExplosionProcesos implements Serializable {
 	@Column(name="id_pedido")
 	private Long idPedido;
 	
+	@Column(name="coordinado")
+	private Long idCoordinado;
+	
 	@Column(name="programa")
 	private String programa;
 
 	@Column(name="clave_proceso")
 	private Long claveProceso;
 	
-	@Column(name="fecha_planeada")
-	private String fechaPlaneada;
+	@Column(name="fecha_inicio")
+	private String fechaInicio;
 
-	@Column(name="fecha_real")
-	private String fechaReal;
+	@Column(name="fecha_fin")
+	private String fechaFin;
 	
 	@Column(name="quien_realizo")
 	private String quienRealizo;
@@ -51,8 +54,8 @@ public class ProduccionExplosionProcesos implements Serializable {
 	@Column(name="estatus_proceso")
 	private int estatusProceso;
 	
-	@Column(name="tiempo_proceso")
-	private double tiempoProceso;
+	@Column(name="tiempo_corte")
+	private double tiempoCorte;
 	
 	@Column(name="secuencia")
 	private int secuencia;
@@ -60,14 +63,17 @@ public class ProduccionExplosionProcesos implements Serializable {
 	@Column(name="clave_prenda")
 	private Long clavePrenda;
 	
-	@Column(name="fecha_planeada_recurrente")
-	private String fechaPlaneadaRecurrente;
+	@Column(name="fecha_entrega")
+	private String fechaEntrega;
 	
 	@Column(name="fecha_real_recurrente")
 	private String fechaRealRecurrente;
 	
 	@Column(name="fecha_explosion")
 	private String fechaExplosion;
+	
+	@Column(name="estatus")
+	private String estatus;
 
 	public String getPrograma() {
 		return programa;
@@ -101,6 +107,14 @@ public class ProduccionExplosionProcesos implements Serializable {
 		this.idPedido = idPedido;
 	}
 
+	public Long getIdCoordinado() {
+		return idCoordinado;
+	}
+
+	public void setIdCoordinado(Long idCoordinado) {
+		this.idCoordinado = idCoordinado;
+	}
+
 	public Long getClaveProceso() {
 		return claveProceso;
 	}
@@ -109,20 +123,20 @@ public class ProduccionExplosionProcesos implements Serializable {
 		this.claveProceso = claveProceso;
 	}
 
-	public String getFechaPlaneada() {
-		return fechaPlaneada;
+	public String getFechaInicio() {
+		return fechaInicio;
 	}
 
-	public void setFechaPlaneada(String fechaPlaneada) {
-		this.fechaPlaneada = fechaPlaneada;
+	public void setFechaInicio(String fechaInicio) {
+		this.fechaInicio = fechaInicio;
 	}
 
-	public String getFechaReal() {
-		return fechaReal;
+	public String getFechaFin() {
+		return fechaFin;
 	}
 
-	public void setFechaReal(String fechaReal) {
-		this.fechaReal = fechaReal;
+	public void setFechaFin(String fechaFin) {
+		this.fechaFin = fechaFin;
 	}
 
 	public String getQuienRealizo() {
@@ -149,12 +163,12 @@ public class ProduccionExplosionProcesos implements Serializable {
 		this.estatusProceso = estatusProceso;
 	}
 
-	public double getTiempoProceso() {
-		return tiempoProceso;
+	public double getTiempoCorte() {
+		return tiempoCorte;
 	}
 
-	public void setTiempoProceso(double tiempoProceso) {
-		this.tiempoProceso = tiempoProceso;
+	public void setTiempoCorte(double tiempoCorte) {
+		this.tiempoCorte = tiempoCorte;
 	}
 
 	public int getSecuencia() {
@@ -173,12 +187,12 @@ public class ProduccionExplosionProcesos implements Serializable {
 		this.clavePrenda = l;
 	}
 
-	public String getFechaPlaneadaRecurrente() {
-		return fechaPlaneadaRecurrente;
+	public String getFechaEntrega() {
+		return fechaEntrega;
 	}
 
-	public void setFechaPlaneadaRecurrente(String fechaPlaneadaRecurrente) {
-		this.fechaPlaneadaRecurrente = fechaPlaneadaRecurrente;
+	public void setFechaEntrega(String fechaEntrega) {
+		this.fechaEntrega = fechaEntrega;
 	}
 
 	public String getFechaRealRecurrente() {
@@ -187,6 +201,14 @@ public class ProduccionExplosionProcesos implements Serializable {
 
 	public void setFechaRealRecurrente(String fechaRealRecurrente) {
 		this.fechaRealRecurrente = fechaRealRecurrente;
+	}
+
+	public String getEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(String estatus) {
+		this.estatus = estatus;
 	}
 
 	public static long getSerialversionuid() {

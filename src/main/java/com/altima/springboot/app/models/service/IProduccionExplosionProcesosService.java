@@ -13,5 +13,7 @@ public interface IProduccionExplosionProcesosService {
 	List<Object[]> findAllByPrograma(String programa);
 
 	List<ProduccionExplosionProcesos> findProgramas();
+
+	List<ProduccionExplosionProcesos> listExplosionByProceso(Long id);
 	
 }

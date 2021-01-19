@@ -50,7 +50,8 @@ public class ProduccionExplosionProcesosServiceImpl implements IProduccionExplos
 									"		coorPrenda.id_ruta, \r\n" + 
 									"		lookupProceso.id_lookup AS id_proceso, \r\n" + 
 									"		lookupRuta.nombre_lookup AS Nombre_ruta, \r\n" + 
-									"		lookupProceso.nombre_lookup AS Nombre_proceso \r\n" + 
+									"		lookupProceso.nombre_lookup AS Nombre_proceso, \r\n" + 
+									"		coor.id_coordinado AS Nombre_proceso \r\n" + 
 									"   \r\n" + 
 									"FROM alt_comercial_coordinado_prenda AS coorPrenda \r\n" + 
 									"   \r\n" + 
@@ -64,6 +65,10 @@ public class ProduccionExplosionProcesosServiceImpl implements IProduccionExplos
 									"ORDER BY id_prenda, id_ruta, id_proceso").getResultList();
 	}
 	
-	
+	@Override
+	public List<ProduccionExplosionProcesos> listExplosionByProceso(Long idProceso){
+		
+		return em.createNativeQuery("call alt_pr_listar_explosiones_por_proceso("+idProceso+")").getResultList();
+	}
  	
 }
