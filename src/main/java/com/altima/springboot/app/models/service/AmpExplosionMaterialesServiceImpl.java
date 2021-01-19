@@ -87,7 +87,7 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override
-	public List<Object[]> findTotalMaterials(Long idpedido) {
+	public List<Object[]> findTotalMaterials(Long idpedido,String tipo) {
 		return em.createNativeQuery("SELECT resultado3.proceso, resultado3.id_text,\r\n"
 				+ "       resultado3.nombre_material,\r\n"
 				+ "       resultado3.tipo_material,\r\n"
@@ -264,7 +264,7 @@ public class AmpExplosionMaterialesServiceImpl implements IAmpExplosionMateriale
 				+ "                                         tipolook.id_lookup\r\n"
 				+ "                               INNER JOIN alt_amp_lookup aml\r\n"
 				+ "                                       ON tipolook.atributo_2 = aml.id_lookup\r\n"
-				+ "                                          AND aml.atributo_1 = \"habilitacion\"\r\n"
+				+ "                                          AND aml.atributo_1 = \""+tipo+"\"\r\n"
 				+ "                               LEFT JOIN alt_disenio_lookup colorlook\r\n"
 				+ "                                      ON alt_disenio_material.id_color =\r\n"
 				+ "                                         colorlook.id_lookup\r\n"
