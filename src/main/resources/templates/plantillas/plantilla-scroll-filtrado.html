@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Plantilla scroll filtrado | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <div class="wrapper">
+        <div th:insert="navegacion-nav"></div>
+        <div th:insert="navegacion-logout"></div>
+        <div th:insert="navegacion-aside"></div>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Plantilla scroll filtrado
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Plantilla scroll filtrado</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneralScrollMultiSearch table-striped table-bordered display nowrap" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    <input type="checkbox">
+                                                </th>
+                                                <th class="select-filter">Nombre</th>
+                                                <th class="select-filter">Pruebas</th>
+                                                <th class="select-filter">Estatus</th>
+                                                <th class="select-filter">Detalles</th>
+                                                <th class="select-filter">Nombre</th>
+                                                <th class="select-filter">Pruebas</th>
+                                                <th class="select-filter">Estatus</th>
+                                                <th class="select-filter">Detalles</th>
+                                                <th class="select-filter">Nombre</th>
+                                                <th class="select-filter">Pruebas</th>
+                                                <th class="select-filter">Estatus</th>
+                                                <th class="select-filter">Detalles</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                           <tr>
+                                               <td class="text-center">
+                                                   <input type="checkbox">
+                                               </td>
+                                               <td>Jose Manuel Blanco</td>
+                                               <td>Todas</td>
+                                               <td>En espera</td>
+                                               <td>Ninguno</td>
+                                               <td>Jose Manuel Blanco</td>
+                                               <td>Todas</td>
+                                               <td>En espera</td>
+                                               <td>Ninguno</td>
+                                               <td>Jose Manuel Blanco</td>
+                                               <td>Todas</td>
+                                               <td>En espera</td>
+                                               <td>Ninguno</td>
+                                               <td></td>
+                                           </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneralScrollMultiSearch.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Tiempos de corte | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Tiempos de corte &nbsp;<botton onclick="calendario()" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar calendario anual</botton>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Producci&oacute;n</li>
+                                <li class="breadcrumb-item active">Tiempos de corte</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Tiempos
+                                        <botton onclick="verCalendario()" class="btn btn-sm icon-btn btn-secondary text-white"><span class="btn-glyphicon fas fa-calendar img-circle text-secondary"></span>Fechas</botton>
+                                    </h3>
+
+                                    
+                                </div>
+                                <div class="card-body">
+                                    <table class=" tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Modelo</th>
+                                                <th>Prenda</th>
+                                                <th>Estampado</th>
+                                                <th>Confecci&oacute;n</th>
+                                                <th>OP</th>
+                                                <th>Cant. Tallas</th>
+                                                <th>Tiempo</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="v, iview: ${view}" >
+												<td th:text="${v[0]}" >1</td>
+												<td th:text="${v[1]}" >SAC1036</td>
+												<td th:text="${v[2]}" >Saco</td>
+												<td th:text="${v[3]}" >Liso</td>
+												<td th:text="${v[4]}" >381</td>
+												<td th:text="${v[5]}" >5</td>
+												<td th:text="${v[6]}" >4</td>
+                                                <td th:if="${v[7] == null}">Sin Tiempo</td>
+                                                <td th:unless="${v[7] == null}" th:text="${v[7]}" ></td>
+												<td class="text-center">
+													
+                                                    <button   sec:authorize="hasAnyRole('ROLE_PRODUCCION_TIEMPO_CORTE_AÑADIR_TIEMPO','ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#tiempoDetalle"  th:onclick="|verDetalles(this)|" th:folio="${v[0]}"  class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+                                                    
+                                                    <button  th:if="${v[7] == v[8]}"  sec:authorize="hasAnyRole('ROLE_PRODUCCION_TIEMPO_CORTE_AÑADIR_TIEMPO','ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#calendarizar"  th:onclick="|calendarizar(this)|" th:folio="${v[0]}"  class="btn bg-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Caledarizar"><i class="fas fa-calendar-day"></i></button>
+												</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div th:insert="tiempos-de-corte-ver-calendario"></div>
+                                <div th:insert="tiempos-de-corte-calendarizar"></div>
+                                <div th:insert="tiempos-de-corte-detalle"></div>
+                                <div th:insert="tiempos-de-corte-tiempo"></div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/TiempoCorte.js"></script>
+	<script>
+        $('#iProduccion').removeClass('text-altima');
+        $('#menuProduccion').addClass('menu-open');
+        $('#navProduccion').addClass('active-altima');
+        $('#navProTie').addClass('active');
+    </script>
+</body>
+
+</html>

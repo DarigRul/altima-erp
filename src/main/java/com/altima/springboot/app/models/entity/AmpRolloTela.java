@@ -31,15 +31,21 @@ public class AmpRolloTela implements Serializable {
 	
 	@Column(name="id_almacen_fisico")
 	private Long idAlmacenFisico;
+
+	@Column(name="id_almacen_logico")
+	private Long idAlmacenLogico;
 	
 	@Column(name="id_tela")
 	private Long idTela;
+
+	@Column(name="id_pedido")
+	private Long idPedido;
 	
 	@Column(name="cantidad")
-	private Float cantidad;
+	private float cantidad;
 	
 	@Column(name="cantidad_original")
-	private Float cantidadOriginal;
+	private float cantidadOriginal;
 	
 	@Column(name="lote")
 	private String lote;
@@ -66,24 +72,6 @@ public class AmpRolloTela implements Serializable {
 	
 	@Column(name="estatus")
 	private String estatus;
-	
-	
-
-	public Long getIdAlmacenFisico() {
-		return idAlmacenFisico;
-	}
-
-	public void setIdAlmacenFisico(Long idAlmacenFisico) {
-		this.idAlmacenFisico = idAlmacenFisico;
-	}
-
-	public Long getIdTela() {
-		return idTela;
-	}
-
-	public void setIdTela(Long idTela) {
-		this.idTela = idTela;
-	}
 
 	public Long getIdRolloTela() {
 		return idRolloTela;
@@ -101,12 +89,48 @@ public class AmpRolloTela implements Serializable {
 		this.idText = idText;
 	}
 
-	public Float getCantidad() {
+	public Long getIdAlmacenFisico() {
+		return idAlmacenFisico;
+	}
+
+	public void setIdAlmacenFisico(Long idAlmacenFisico) {
+		this.idAlmacenFisico = idAlmacenFisico;
+	}
+
+	public Long getIdAlmacenLogico() {
+		return idAlmacenLogico;
+	}
+
+	public void setIdAlmacenLogico(Long idAlmacenLogico) {
+		this.idAlmacenLogico = idAlmacenLogico;
+	}
+
+	public Long getIdTela() {
+		return idTela;
+	}
+
+	public void setIdTela(Long idTela) {
+		this.idTela = idTela;
+	}
+
+	public Long getIdPedido() {
+		return idPedido;
+	}
+
+	public void setIdPedido(Long idPedido) {
+		this.idPedido = idPedido;
+	}
+
+	public float getCantidad() {
 		return cantidad;
 	}
 
-	public void setCantidad(Float cantidad) {
+	public void setCantidad(float cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public void setCantidadOriginal(float cantidadOriginal) {
+		this.cantidadOriginal = cantidadOriginal;
 	}
 
 	public String getLote() {
@@ -156,11 +180,7 @@ public class AmpRolloTela implements Serializable {
 	public void setEstatus(String estatus) {
 		this.estatus = estatus;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	
+		
 	
 }

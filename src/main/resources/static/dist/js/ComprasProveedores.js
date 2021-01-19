@@ -177,6 +177,53 @@ $('#tablitaContactos').DataTable().row(hola).remove().draw();   //
 });                                                   			//
 //==============================================================//
 
+function listaContactosProveedor(idProveedor){
+	var tablaContactos = $('#tablaContactosProveedor').DataTable();
+	tablaContactos.rows().remove().draw();
+	$.ajax({
+		method: "GET",
+		url: "/ListarModalContactosProveedor",
+		data: { idProveedor
+		},
+		beforeSend: function () {
+        	 Swal.fire({
+                 title: 'Cargando ',
+                 html: 'Por favor espere',// add html attribute if you want or remove
+                 allowOutsideClick: false,
+                 timerProgressBar: true,
+                 onBeforeOpen: () => {
+                     Swal.showLoading()
+                 },
+             });
+		},
+		success: (data) => {
+			for (i in data){
+				tablaContactos.row.add([
+					data[i].nombreContacto,
+					data[i].cargoContacto,
+					data[i].correoContacto,
+					data[i].telefonoContacto,
+					data[i].lada,
+					data[i].extensionContacto,
+					data[i].whatsContacto
+				]).draw(true);
+			}
+			
+			Swal.fire({
+			      position: 'center',
+		          icon: 'success',
+		          title: '¡Listo!',
+		          showConfirmButton: false,
+		          timer: 500,
+			      onClose: () => {
+			    	 $('#modal-contactos-proveedores').modal('toggle');
+			      }
+			})
+		}
+		
+		});
+}
+
 function guardarContactosProveedor(){
 	var listaContactos = [];
 	var sizeTable = $("#tablitaContactos").DataTable().rows().count();
@@ -612,6 +659,16 @@ function validarContacto(){
 			      position: 'center',
 		          icon: 'error',
 		          title: '¡Ingrese un número de teléfono válido!',
+		          showConfirmButton: false,
+		          timer: 2750,
+			})
+	}
+	else if ($('#altawhatsappContacto').val().length!=10 || !validarTelefono.test($('#altawhatsappContacto').val())){
+		 validador=0;
+			Swal.fire({
+			      position: 'center',
+		          icon: 'error',
+		          title: '¡Ingrese un número de whatsapp válido!',
 		          showConfirmButton: false,
 		          timer: 2750,
 			})

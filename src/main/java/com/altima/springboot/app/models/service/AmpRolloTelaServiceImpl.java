@@ -43,15 +43,31 @@ public class AmpRolloTelaServiceImpl implements IAmpRolloTelaService {
     @Override
     @Transactional
     public AmpRolloTela findOne(Long id) {
-        // TODO Auto-generated method stub
         return repository.findById(id).orElse(null);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<AmpRolloTela> findByIdAlmacenFisico(Long idAlmacenFisico,Long idTela) {
-        // TODO Auto-generated method stub
         return repository.findByIdAlmacenFisicoAndEstatusAndIdTela(idAlmacenFisico,"1",idTela);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AmpRolloTela> findByIdAlmacenLogico(Long idAlmacenLogico,Long idTela,String estatus) {
+        return repository.findByIdAlmacenLogicoAndEstatusAndIdTela(idAlmacenLogico,estatus,idTela);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AmpRolloTela> findByIdTela(Long idTela, String estatus) {
+        return repository.findByEstatusAndIdTela(estatus, idTela);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AmpRolloTela> findByIdPedidoAndIdTela(Long idPedido, String estatus,Long idTela) {
+        return repository.findByEstatusAndIdPedidoAndIdTela(estatus, idPedido,idTela);
     }
     
 }

@@ -11,4 +11,11 @@ import org.springframework.stereotype.Repository;
 public interface AmpRolloTelaRepository extends CrudRepository<AmpRolloTela,Long>{
     
     List<AmpRolloTela> findByIdAlmacenFisicoAndEstatusAndIdTela(Long idAlmacenFisico,String estatus,Long idTela);
+
+    List<AmpRolloTela> findByIdAlmacenLogicoAndEstatusAndIdTela(Long idAlmacenLogico,String estatus,Long idTela);
+
+    List<AmpRolloTela> findByEstatusAndIdTela(String estatus,Long idTela);
+
+    List<AmpRolloTela> findByEstatusAndIdPedidoAndIdTela(String estatus,Long idPedido,Long idTela);
+
 }

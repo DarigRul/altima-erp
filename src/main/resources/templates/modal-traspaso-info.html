@@ -1,7 +1,7 @@
 <div class="modal fade" id="infoTraspaso" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-catalogo-info" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Muestras&nbsp;
                     <a onclick="devueltoIndividualSolicitud('tablaTraspasoinfo')" class="btn btn-light btn-circle btn-sm text-success popoverxd solicitud PantallaAgente" data-container="body" data-placement="top" data-content="Devolver"><i class="fas fa-check"></i></a>                    &nbsp;
                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_TRASPASAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="nuevoTraspaso()" class="btn btn-light text-warning btn-circle btn-sm popoverxd solicitud"

@@ -1,15 +1,71 @@
-$(document).ready(function () {
-	
-	
+$(document).ready(function () {	
 });
+$(function() {
+	$("#telefonoCita").inputmask({"mask": "(999)999-9999"});
+	$("#codigoPostal").inputmask({"mask": "99999"});
+	$('.popoverxd').popover({
+		container: 'body',
+		trigger: 'hover'
+	})
+})
+function mayus(e) {
+	e.value = e.value.toUpperCase();
+}
 
+function capitalizarPrimeraLetra(e) {
+	//almacenamos el valor del inpu
+	var palabra = e.value;
+	//Si el valor es nulo o undefined salimos
+	if(!e.value) return;
+	// almacenamos la mayuscula
+	var mayuscula = palabra.substring(0,1).toUpperCase();
+	//si la palabra tiene más de una letra almacenamos las minúsculas
+	if (palabra.length > 0) {
+	  var minuscula = palabra.substring(1);
+	}
+	//escribimos la palabra con la primera letra mayuscula
+	e.value = mayuscula.concat(minuscula);
+  }
+
+  $('#SN').click(function(){
+	if($(this).prop("checked") == true){
+		console.log("Checkbox is checked.");
+		$("#NumeroExt").prop('value', '');
+		$("#NumeroInt").prop('value', '');
+		$("#NumeroExt").prop('disabled', true);
+		$("#NumeroInt").prop('disabled', true);
+	}
+	else if($(this).prop("checked") == false){
+		console.log("Checkbox is unchecked.");
+		$("#NumeroExt").prop('disabled', false);
+		$("#NumeroInt").prop('disabled', false);
+	}
+});
 /*
  * Esta funcion cambia la direccion, el telefono y el dirigirse con, del formulario en base al cliente seleccionado
  */
+function checkEnable (){
+	$('#pedidoCita').prop('disabled', false);
+	$('#pedidoCita').selectpicker('refresh');
+	$('#checkDisableReferencia').prop('checked', true);
+	$("#checkEnableReferencia").addClass("d-none");
+    $("#checkDisableReferencia").removeClass("d-none");
+	
+}
+function checkDisabled (){
+	$('#pedidoCita').prop('disabled', true);
+	$('#pedidoCita').val(null);
+	$('#pedidoCita').selectpicker('refresh');
+	$('#checkEnableReferencia').prop('checked', false);
+	$("#checkEnableReferencia").removeClass("d-none");
+    $("#checkDisableReferencia").addClass("d-none");
+}
 function CambiarDatosCliente(input){
-	$('#direccionCita').val('');
+	$("#direccion").val(null);
+	$("#telefonoCita").val(null);
+	$("#dirigirseCita").val(null);	
 	$('#cargandoDireccion').css('display', '');
-	  $.ajax({
+	  /*$.ajax({
 			type: "GET",
 			url: "/get_datos_de_cliente",
 			data: { id: input.value },
@@ -18,30 +74,96 @@ function CambiarDatosCliente(input){
 				$('#telefonoCita').val(data[1]);
 				$('#dirigirseCita').val(data[2]);
 				
-				  $.ajax({
-						type: "GET",
-						url: "/get_pedidos_de_cliente",
-						data: { id: input.value },
-						success: (data2) => {
-							$('#pedidoCita').empty();
-							for(var i = 0; i < data2.length; i++){
-								$('#pedidoCita').append("<option value='" + data2[i][0] + "'>" + data2[i][1] + "</option>");
-							}
-							$('#pedidoCita').selectpicker("refresh");
-							$('#cargandoDireccion').css('display', 'none');
-						},
-						error: (e) => {
-							console.log(e);
-						}
-					});
-				  
+  
 			},
 			error: (e) => {
 				console.log(e);
 			}
-		});
-}
+		});*/
 
+		
+
+	$.ajax({
+		type: "GET",
+		url: "/get_pedidos_de_cliente",
+		data: { id: input.value },
+		success: (data2) => {
+			$('#pedidoCita').empty();
+			for(var i = 0; i < data2.length; i++){
+					$('#pedidoCita').append("<option value='" + data2[i][0] + "'>" + data2[i][1] + "</option>");
+				}
+				$('#pedidoCita').selectpicker("refresh");
+				$('#cargandoDireccion').css('display', 'none');
+			},
+		error: (e) => {
+			console.log(e);
+		}
+	});
+
+	$.ajax({
+		type: "GET",
+		url: "/get_sucursal_direccion",
+		data: { id: input.value },
+		success: (data2) => {
+			$('#sucursalCita').empty();
+			for(var i = 0; i < data2.length; i++){
+					$('#sucursalCita').append('<option '+ 
+						'value="' + data2[i][0] + '" '+
+						'direccion="' +data2[i][4] + '" '+ 
+						'telefono="' + data2[i][2] + '" '+
+						'contacto="' + data2[i][3] + '"  >'+data2[i][1]+' </option>');
+				}
+				$('#sucursalCita').selectpicker("refresh");
+				$('#cargandoDireccion').css('display', 'none');
+			},
+		error: (e) => {
+			console.log(e);
+		}
+	});
+}
+$('#sucursalCita').on('change', function() {
+	$('#cargandoDireccionObjec').css('display', '');
+	$("#telefonoCita").val($("#sucursalCita option:selected").attr("telefono"));
+	$("#dirigirseCita").val($("#sucursalCita option:selected").attr("contacto"));	
+
+	$.ajax({
+		type: "GET",
+		url: "/get_sucursal_direccion2",
+		data: { id: $("#sucursalCita option:selected").attr("direccion") },
+		success: (data) => {
+			
+			$('#calle').val(data.calle);
+			$('#estado').val(data.estado);
+			$('#municipio').val(data.municipio); 
+			$('#colonia').val(data.colonia);
+			$('#codigoPostal').val(data.codigoPostal);
+			if ( data.numeroExt == "S/N"){
+				$('#SN').prop('checked', true);
+				$("#NumeroExt").prop('value', '');
+				$("#NumeroInt").prop('value', '');
+				$("#NumeroExt").prop('disabled', true);
+				$("#NumeroInt").prop('disabled', true);
+			}else{
+				$('#SN').prop('checked', false);
+				$("#NumeroExt").prop('disabled', false);
+				$("#NumeroInt").prop('disabled', false);
+				$('#NumeroExt').val(data.numeroExt);
+				$('#NumeroInt').val(data.numeroExt);
+				
+			}
+			
+
+
+			$('#cargandoDireccionObjec').css('display', 'none');
+			},
+		error: (e) => {
+			console.log(e);
+		}
+	});
+
+	
+	
+})
 function CargarSelectsDeNuevo(){
 	
 	//Se muestran los spinners
@@ -60,7 +182,10 @@ function CargarSelectsDeNuevo(){
 			  //Pegamos los de Sastre
 			  $('#generoSastre').empty();
 			  for(var sastre = 0; sastre < data[0].length; sastre++){
-				  $('#generoSastre').append("<option value='" + data[0][sastre] + "'>" + data[0][sastre] + "</option>");
+				  if (data[0][sastre] != "Indistinto" ){
+					$('#generoSastre').append("<option value='" + data[0][sastre] + "'>" + data[0][sastre] + "</option>");
+				  }
+				 
 			  }
 			  $('#generoSastre').selectpicker("refresh");
 			  $('#CargandoGenerosSastres').css('display', 'none');
@@ -68,7 +193,10 @@ function CargarSelectsDeNuevo(){
 			  //Pegamos los de Auxiliares
 			  $('#generoAuxiliarVentas').empty();
 			  for(var auxiliar = 0; auxiliar < data[1].length; auxiliar++){
-				  $('#generoAuxiliarVentas').append("<option value='" + data[1][auxiliar] + "'>" + data[1][auxiliar] + "</option>");
+				if ( data[1][auxiliar] != "Indistinto" ){
+					$('#generoAuxiliarVentas').append("<option value='" + data[1][auxiliar] + "'>" + data[1][auxiliar] + "</option>");
+				}
+				 
 			  }
 			  $('#generoAuxiliarVentas').selectpicker("refresh");
 			  $('#CargandoGenerosAuxiliarVentas').css('display', 'none');
@@ -79,12 +207,17 @@ function CargarSelectsDeNuevo(){
 				  $('#materialMaterial').append("<option value='" + data[2][material][0] + "'>" + data[2][material][1] + "</option>");
 			  }
 			  $('#materialMaterial').selectpicker("refresh");
-			  $('#CargandoMaterialesMaterial').css('display', 'none');
+			  
+			 $('#CargandoMaterialesMaterial').css('display', 'none');
 			  
 			  //Pegamos los de las Corridas
 			  $('#generoCorridas').empty();
 			  for(var corrida = 0; corrida < data[3].length; corrida++){
-				  $('#generoCorridas').append("<option value='" + data[3][corrida] + "'>" + data[3][corrida] + "</option>");
+
+				if ( data[3][corrida] != "Indistinto" ){
+					$('#generoCorridas').append("<option value='" + data[3][corrida] + "'>" + data[3][corrida] + "</option>");
+				}
+				  
 			  }
 			  $('#generoCorridas').selectpicker("refresh");
 			  $('#CargandoGenerosCorridas').css('display', 'none');
@@ -99,42 +232,100 @@ function CargarSelectsDeNuevo(){
  * Esta funcion guarda la solicitud de servicio al cliente actual
  */
 function GuardarSolicitudServicioCliente(){
-
-	var Solicitud = {fechaCita: $('#fechaCita').val(), clienteID: $('#clienteCita').val(), fechaSalida: $('#fechaSalida').val(),
-			actividadCita: $('#actividadCita').val(), damasAtender: parseInt($('#damasAtender').val()), idPedido: $('#pedidoCita').val(),
-			caballerosAtender: parseInt($('#caballerosAtender').val()), comentarios: $('#comentariosCita').val()}
-	console.log(Solicitud);
-	$.ajax({
-		type: "POST",
-		url: "/save_solicitud_servicio_cliente",
-		data: { 
-			"_csrf": $('#token').val(),
-			"Solicitud": JSON.stringify(Solicitud)
-		},
-		success: (data) => {
-			console.log(data);
-			$('#idSolicitudServicioAlCliente').val(data.idSolicitudServicioAlCliente);
-			Swal.fire({
-				icon: 'success',
-				title: 'Guardado!',
-				text: 'Se ha guardado el registro.'
-			  })
-		},
-		error: (e) => {
-			console.log(e);
+	var valPedido = false;
+	var idPedido;
+	if( $('#checkEnableReferencia').prop('checked') ) {
+		
+		if ($('#pedidoCita').val() == null || $('#pedidoCita').val() == "" ){
+			
+			valPedido = true;
 		}
-	});
+		else{
+			valPedido = false;
+			idPedido= $('#pedidoCita').val();
+		}
+	}else{
+		idPedido= 0;
+	}
+	var valNumeroExterno = false;
+	if (!$('#SN').prop('checked') ){
+		
+		if ($('#NumeroExt').val() == null || $('#NumeroExt').val() == "" ){
+			valNumeroExterno = true; 
+
+		}
+		else{
+			valNumeroExterno = false 
+		}
+
+	}
+	
+
+
+	if ($('#fechaCita').val()== null || $('#fechaCita').val()== "" || $('#clienteCita').val() == null || valPedido == true   ||
+		$('#sucursalCita').val() == null || $('#dirigirseCita').val() == null || $('#fechaSalida').val() == "" ||
+		$('#actividadCita').val() == "" || $('#damasAtender').val()<0 || $('#caballerosAtender').val() <0  ||
+		$('#damasAtender').val() == "" || $('#caballerosAtender').val() == "" ||
+		$('#telefonoCita').val() == ""  ||   $('#calle').val() == ""  || valNumeroExterno  == true ||
+		$('#estado').val() == "" ||  $('#municipio').val() == "" ||  $('#colonia').val() == "" ||  $('#codigoPostal').val() == ""){
+			Swal.fire({
+				icon: 'error',
+				title: 'Error!',
+				text: 'Complete todo los campos.'
+			  })
+		return 0;
+	}
+	else{
+		var sucursal = 0;
+		if ($('#sucursalCita').val() !='MATRIZ' ){
+			sucursal = $('#sucursalCita').val();
+		}
+		var Solicitud = { fechaCita: $('#fechaCita').val(), clienteID: $('#clienteCita').val(), fechaSalida: $('#fechaSalida').val(),
+			actividadCita: $('#actividadCita').val(), damasAtender: parseInt($('#damasAtender').val()), idPedido: idPedido,
+			caballerosAtender: parseInt($('#caballerosAtender').val()), comentarios: $('#comentariosCita').val(), 
+			sucur:parseInt(sucursal), dirigirse:$('#dirigirseCita').val() , telefono : $('#telefonoCita').val(), calle:$('#calle').val(), 
+			NumeroExt:$('#NumeroExt').val() , NumeroInt:$('#NumeroInt').val(), 
+			estado:$('#estado').val(), municipio:$('#municipio').val(), colonia:$('#colonia').val(), codigoPostal:$('#codigoPostal').val() }
+		$.ajax({
+			type: "POST",
+			url: "/save_solicitud_servicio_cliente",
+			data: { 
+				"_csrf": $('#token').val(),
+				"Solicitud": JSON.stringify(Solicitud),
+				'idSolicitud': $('#idSolicitudServicioAlCliente').val()
+			},
+			success: (data) => {
+				$('#idSolicitudServicioAlCliente').val(data.idSolicitudServicioAlCliente);
+				Swal.fire({
+					icon: 'success',
+					title: 'Guardado!',
+					text: 'Se ha guardado el registro.'
+				})
+			},
+			error: (e) => {
+				console.log(e);
+			}
+		});
+	}
+
 }
 
 function ValidarTabs(id){
 	if(parseInt($('#idSolicitudServicioAlCliente').val()) > 0){
+		CargarSelectsDeNuevo();
 		$('#' + id + '-tab-boton').click();
+		$("#a-datos-generales").removeClass("active");
+		$("#a-sastre").removeClass("active");
+		$("#a-auxiliar-ventas").removeClass("active");
+		$("#a-material").removeClass("active");
+		$("#a-corridas").removeClass("active");
+		$("#a-"+id).addClass("active");		
 	}else{
 		console.log('no paso');
 		Swal.fire({
 			icon: 'error',
 			title: 'Error',
-			text: 'La cantidad debe de ser mayor a 0!'
+			text: 'Por favor complete el formulario!'
 		  })
 	}
 }
@@ -249,9 +440,16 @@ function BorrarFilaCorrida(input, id){
  **/
 function GuardarSastre(){
 	
-	var validacion = ValidarGuardarSastre();
-	if(validacion){
-		
+	if( document.formSastre.cantidadSastre.value <= 0 ||  document.formSastre.generoSastre.value == "" ){
+		document.formSastre.cantidadSastre.focus() ;
+		document.formSastre.generoSastre.focus() ;
+		Swal.fire({
+			icon: 'error',
+			title: 'Error!',
+			text: 'Complete todo los campos.'
+		  })
+	}
+	else{
 		//Se agrega a la BD
 		$.ajax({
 			type: "POST",
@@ -278,6 +476,7 @@ function GuardarSastre(){
 					title: 'Guardado!',
 					text: 'Se ha guardado el registro.'
 				  })
+				  $('#cantidadSastre').val("");
 			},
 			error: (e) => {
 				console.log(e);
@@ -286,16 +485,7 @@ function GuardarSastre(){
 	}
 }
 
-function ValidarGuardarSastre(){
-	
-	if($('#generoSastre').val() != null && $('#cantidadSastre').val() != null){
-		return true;
-	}
-	else{
-		return false;
-	}
-	
-}
+
 /**
  * 
  * 
@@ -304,9 +494,16 @@ function ValidarGuardarSastre(){
  *
  **/
 function GuardarAuxiliarVentas(){
-	
-	var validacion = ValidarGuardarAuxiliarVentas();
-	if(validacion){
+	if( document.formAuxiliar.generoAuxiliarVentas.value == "" ||  document.formAuxiliar.cantidadAuxiliarVentas.value <= 0 ){
+		document.formAuxiliar.generoAuxiliarVentas.focus() ;
+		document.formAuxiliar.cantidadAuxiliarVentas.focus() ;
+		Swal.fire({
+			icon: 'error',
+			title: 'Error!',
+			text: 'Complete todo los campos.'
+		  })
+	}
+	else{
 		
 		//Se agrega a la BD
 		$.ajax({
@@ -314,7 +511,7 @@ function GuardarAuxiliarVentas(){
 			url: "/save_servicio_cliente_auxiliar_ventas",
 			data: { 
 				"_csrf": $('#token').val(),
-				"idSolicitud": $('#idSolicitudServicioAlCliente').val(),
+				"idSolicitud":$('#idSolicitudServicioAlCliente').val(),
 				"genero": $('#generoAuxiliarVentas').val(),
 				"cantidad": $('#cantidadAuxiliarVentas').val()
 			},
@@ -335,6 +532,8 @@ function GuardarAuxiliarVentas(){
 					title: 'Guardado!',
 					text: 'Se ha guardado el registro.'
 				  })
+				  $('#generoAuxiliarVentas').val("");
+				  $('#cantidadAuxiliarVentas').val("");
 			},
 			error: (e) => {
 				console.log(e);
@@ -360,42 +559,58 @@ function ValidarGuardarAuxiliarVentas(){
  *
  **/
 function GuardarMaterial(){
-	var validacion = ValidarGuardarMaterial();
-	if(validacion){
+
+	if ( document.formMaterial.materialMaterial.value == "" ||  document.formMaterial.cantidadMaterial.value <= 0 || document.formMaterial.cantidadMaterial.value =="" ){
+		document.formAuxiliar.generoAuxiliarVentas.focus() ;
+		document.formAuxiliar.cantidadAuxiliarVentas.focus() ;
+		Swal.fire({
+			icon: 'error',
+			title: 'Error!',
+			text: 'Complete todo los campos.'
+		})
 		
-		//Se agrega a la BD
-		$.ajax({
-			type: "POST",
-			url: "/save_servicio_cliente_material",
-			data: { 
-				"_csrf": $('#token').val(),
-				"idSolicitud": $('#idSolicitudServicioAlCliente').val(),
-				"material": $('#materialMaterial').val(),
-				"cantidad": $('#cantidadMaterial').val()
-			},
-			success: (data) => {
-				console.log(data);
-				var fila = null;
-				fila = tablaMaterial.row.add([ data.idLookup, data.cantidad, "<td class='text-center'>" +
-			  		"<button type='button' class='btn icon-btn btn-danger text-white' onclick='BorrarFilaMaterial(this, " + data.idSolicitudServicioAlClienteMaterial  + ")' >" + 
-		  			"<span class='btn-glyphicon fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button></td>" ]).draw().node();
-				$( fila ).prop('id', "FILA_MATERIAL_" + data.idSolicitudServicioAlClienteMaterial);
-				fila = null;
-				
-				//Se cargan de new los selects
-				  CargarSelectsDeNuevo();
-				
-				Swal.fire({
-					icon: 'success',
-					title: 'Guardado!',
-					text: 'Se ha guardado el registro.'
-				  })
-			},
-			error: (e) => {
-				console.log(e);
-			}
-		});
 	}
+		
+	else{
+				
+					//Se agrega a la BD
+					$.ajax({
+						type: "POST",
+						url: "/save_servicio_cliente_material",
+						data: { 
+							"_csrf": $('#token').val(),
+							"idSolicitud": $('#idSolicitudServicioAlCliente').val(),
+							"material": $('#materialMaterial').val(),
+							"cantidad": $('#cantidadMaterial').val()
+						},
+						success: (data) => {
+							console.log(data);
+							var fila = null;
+							fila = tablaMaterial.row.add([ data[1], data[2], "<td class='text-center'>" +
+								"<button type='button' class='btn icon-btn btn-danger text-white' onclick='BorrarFilaMaterial(this, " + data[0]  + ")' >" + 
+								"<span class='btn-glyphicon fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button></td>" ]).draw().node();
+							$( fila ).prop('id', "FILA_MATERIAL_" + data.idSolicitudServicioAlClienteMaterial);
+							fila = null;
+							
+							//Se cargan de new los selects
+							CargarSelectsDeNuevo();
+							
+							Swal.fire({
+								icon: 'success',
+								title: 'Guardado!',
+								text: 'Se ha guardado el registro.'
+							})
+
+							$('#materialMaterial').val("");
+							$('#cantidadMaterial').val("");
+						},
+						error: (e) => {
+							console.log(e);
+						}
+					});
+			
+	}	
+	
 }
 
 function ValidarGuardarMaterial(){
@@ -414,9 +629,48 @@ function ValidarGuardarMaterial(){
  * 
  *
  **/
+
+ function mostrarTipoPorGenero (genero){
+	$('#CargandoTipoCorridas').css('display', '');
+	$.ajax({
+		type: "GET",
+		url: "/get_tipo_corrida_por_genero",
+		data: { 
+			"id": $('#idSolicitudServicioAlCliente').val(),
+			"genero": genero
+		},
+		success: (data) => {
+			CargandoTipoCorridas
+			$('#tipoCorridas').empty();
+			for(var corrida = 0; corrida < data.length; corrida++){
+				
+				  $('#tipoCorridas').append("<option value='" + data[corrida] + "'>" + data[corrida] + "</option>");
+				
+			   
+			}
+			$('#tipoCorridas').selectpicker("refresh");
+			$('#CargandoTipoCorridas').css('display', 'none');
+		},
+		error: (e) => {
+			console.log(e);
+		}
+	});
+
+ }
 function GuardarCorridas(){
-	var validacion = ValidarGuardarCorridas();
-	if(validacion){
+	if ( document.formCorridas.generoCorridas.value == "" ||  document.formCorridas.tipoCorridas.value == "" || 
+		document.formCorridas.cantidadCorridas.value == "" || document.formCorridas.cantidadCorridas.value <1 ){
+		document.formCorridas.generoCorridas.focus() ;
+		document.formCorridas.tipoCorridas.focus() ;
+		Swal.fire({
+			icon: 'error',
+			title: 'Error!',
+			text: 'Complete todo los campos.'
+		})
+		
+	}
+
+	else{
 		
 		//Se agrega a la BD
 		$.ajax({
@@ -426,12 +680,13 @@ function GuardarCorridas(){
 				"_csrf": $('#token').val(),
 				"idSolicitud": $('#idSolicitudServicioAlCliente').val(),
 				"genero": $('#generoCorridas').val(),
-				"tipo": $('#tipoCorridas').val()
+				"tipo": $('#tipoCorridas').val(),
+				"cantidad": $('#cantidadCorridas').val()
 			},
 			success: (data) => {
 				
 				var fila = null;
-				fila = tablaCorrida.row.add([ data.genero, data.tipo, "<td class='text-center'>" +
+				fila = tablaCorrida.row.add([ data.genero,data.cantidad, data.tipo, "<td class='text-center'>" +
 			  		"<button type='button' class='btn icon-btn btn-danger text-white' onclick='BorrarFilaCorrida(this, " + data.idSolicitudServicioAlClienteCorrida  + ")' >" + 
 		  			"<span class='btn-glyphicon fas fa-times fa-lg img-circle text-danger'></span>Eliminar</button></td>" ]).draw().node();
 				$( fila ).prop('id', "FILA_CORRIDA_" + data.idSolicitudServicioAlClienteCorrida);
@@ -445,6 +700,10 @@ function GuardarCorridas(){
 					title: 'Guardado!',
 					text: 'Se ha guardado el registro.'
 				  })
+
+				  $('#cantidadCorridas').val(null)
+				  $('#tipoCorridas').empty();
+				  $('#tipoCorridas').selectpicker('refresh');
 			},
 			error: (e) => {
 				console.log(e);
@@ -462,3 +721,4 @@ function ValidarGuardarCorridas(){
 		return false;
 	}
 }
+

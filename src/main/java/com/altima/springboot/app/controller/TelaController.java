@@ -197,10 +197,7 @@ public class TelaController {
 			}
 		}
 		else {
-			ComprasProveedores provee = proveedorService.findOne(tela.getIdProveedor());
-			
-			
-			tela.setIdText(provee.getNomenclatura()+(tela.getIdTela()+10000));
+
 			tela.setUltimaFechaModificacion(hourdateFormat.format(date));
 			tela.setActualizadoPor(auth.getName());
 			

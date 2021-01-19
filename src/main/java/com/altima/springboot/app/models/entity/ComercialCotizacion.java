@@ -70,6 +70,9 @@ public class ComercialCotizacion implements Serializable {
 	
 	@Column(name="estatus")
 	private int estatus;
+	
+	@Column(name="observaciones_seguimiento")
+	private String observacionesSeguimiento;
 
 	public Long getIdCotizacion() {
 		return idCotizacion;
@@ -197,6 +200,14 @@ public class ComercialCotizacion implements Serializable {
 
 	public void setEstatus(int estatus) {
 		this.estatus = estatus;
+	}
+
+	public String getObservacionesSeguimiento() {
+		return observacionesSeguimiento;
+	}
+
+	public void setObservacionesSeguimiento(String observacionesSeguimiento) {
+		this.observacionesSeguimiento = observacionesSeguimiento;
 	}
 
 	public static long getSerialversionuid() {

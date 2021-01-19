@@ -1,55 +1,224 @@
-<form class="row" th:object="${solicitud}">
-	<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
-	<div class="form-group col-md-3" th:if="${accion == 'crear'}">
+<form name="formGeneral" id="formGeneral" class="row" th:object="${solicitud}">
+  <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+	<div class="form-group col-md-6" th:if="${accion == 'crear'}">
       <label for="fechaCita">Fecha y hora cita</label>
-      <input type="datetime-local" class="form-control" id="fechaCita" th:value="*{ fechaCreacion}">
+      <input type="datetime-local" class="form-control" id="fechaCita" th:value="*{fechaHoraDeCita}">
     </div>
-    <div class="form-group col-md-3" th:if="${accion == 'editar'}">
+
+    <input type="hidden" name="idSolicitudServicioAlCliente" id="idSolicitudServicioAlCliente" th:value="*{idSolicitudServicioAlCliente}"/>
+    <div class="form-group col-md-6" th:if="${accion == 'editar'}">
       <label for="fechaCita">Fecha y hora cita</label>
-      <input type="datetime-local" class="form-control" id="fechaCita" th:value="*{ fechaCreacion.substring(0,4) + '-' + fechaCreacion.substring(5, 7) + '-' + fechaCreacion.substring(8,10) + 'T' + fechaCreacion.substring(11, 13) + ':' + fechaCreacion.substring(14, 16) }" >
+      <input type="datetime-local" class="form-control" id="fechaCita" th:value="*{ fechaHoraDeCita.substring(0,4) + '-' + fechaHoraDeCita.substring(5, 7) + '-' + fechaHoraDeCita.substring(8,10) + 'T' + fechaHoraDeCita.substring(11, 13) + ':' + fechaHoraDeCita.substring(14, 16) }" >
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-6">
       <label for="clienteCita">Cliente</label>
       <div class="spinner-border text-primary spinner-border-sm" role="status" id="cargandoDireccion" style="display: none;">
-  		<span class="sr-only">Loading...</span>
-	  </div>
+  		  <span class="sr-only">Loading...</span>
+	    </div>
       <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="clienteCita" onchange="CambiarDatosCliente(this)">
           <option th:each="cliente: ${clientes}" th:value="${cliente.idCliente}" th:text="${cliente.Nombre}" th:selected="(${cliente.idCliente} == *{idCliente})"></option>
       </select>
     </div>
-    <div class="form-group col-md-3" th:if="${accion == 'crear'}">
+    <div class="form-group col-md-6" th:if="${accion == 'crear'}">
       <label for="pedidoCita">Pedido</label>
-      <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="pedidoCita">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input type="checkbox" id="checkEnableReferencia" onclick="checkEnable()">
+            <input class="d-none" type="checkbox" id="checkDisableReferencia" onclick="checkDisabled()">
+          </div>
+        </div>
+        <select class="form-control selectpicker" title="Selecciona uno..."
+          data-live-search="true" data-live-search-normalize="true"
+          id="pedidoCita" disabled>
+          
+        </select>
+      </div>
+    </div>
+    <div class="form-group col-md-6" th:if="${accion == 'editar'}">
+      <label for="pedidoCita">Pedido</label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input type="checkbox" id="checkEnableReferencia" onclick="checkEnable()">
+            <input class="d-none" type="checkbox" id="checkDisableReferencia" onclick="checkDisabled()">
+          </div>
+        </div>
+        <select class="form-control selectpicker" data-live-search="true" title="Selecciona uno..."  data-live-search-normalize="true" id="pedidoCita">
+          <option th:each="pedido: ${pedidos}" th:value="${pedido[0]}" th:text="${pedido[1]}" th:selected="(${pedido[0]} == *{idPedidoInformacion})"></option>
+         </select>
+      </div>
+    </div>
+     <div class="form-group col-md-6" th:if="${accion == 'crear'}">
+      <label for="sucursalCita">Sucursal</label>
+      <div class="spinner-border text-primary spinner-border-sm" role="status" id="cargandoDireccionObjec" style="display: none;">
+  		  <span class="sr-only">Loading...</span>
+	    </div>
+      <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="sucursalCita">
       <!--  -->
       </select>
     </div>
-    <div class="form-group col-md-3" th:if="${accion == 'editar'}">
-      <label for="pedidoCita">Pedido</label>
-      <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="pedidoCita">
-     	<option th:each="pedido: ${pedidos}" th:value="${pedido.idPedidoInformacion}" th:text="${pedido.idText}" th:selected="(${pedido.idPedidoInformacion} == *{idPedidoInformacion})"></option>
+    <div class="form-group col-md-6" th:if="${accion == 'editar'}">
+      <label for="sucursalCita">Sucursal</label>
+      <div class="spinner-border text-primary spinner-border-sm" role="status" id="cargandoDireccionObjec" style="display: none;">
+  		  <span class="sr-only">Loading...</span>
+	    </div>
+      <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="sucursalCita">
+        <option th:each="sucursal: ${sucursal}" 
+          th:value="${sucursal[0]}" 
+          th:direccion="${sucursal[4]}" 
+          th:telefono="${sucursal[2]}" 
+          th:contacto="${sucursal[3]}" 
+
+          th:text="${sucursal[1]}" th:selected="(${sucursal[0]} == *{idSucrsal})">
+
+        </option>
+
+        
       </select>
     </div>
-    <div class="form-group col-md-3">
-        <label for="direccionCita">Direcci&oacute;n</label>
-        <input type="text" class="form-control" id="direccionCita" placeholder="Direcci&oacute;n de Cliente" th:value="${DireccionDelCliente}">
-     </div>
+
+    <div class="form-group col-sm-8">
+      <label for="direccionEmpresa">Calle</label> <input
+        type="text" th:field="*{calle}"
+        class="form-control" maxlength="45"
+        onkeyup="capitalizarPrimeraLetra(this);"
+        placeholder="Av. 1ro de Mayo" required>
+    </div>
+
+    <div th:if="*{NumeroExt != 'S/N'}"
+											class="form-group col-sm-1">
+											<div class="custom-control custom-checkbox"
+												style="margin-top: 38px">
+												<input class="custom-control-input" type="checkbox" id="SN"
+													value="option1"> <label for="SN"
+													class="custom-control-label">S/N</label>
+											</div>
+										</div>
+
+										<div th:if="*{NumeroExt == 'S/N'}"
+											class="form-group col-sm-1">
+											<div class="custom-control custom-checkbox"
+												style="margin-top: 38px">
+												<input class="custom-control-input" type="checkbox" checked
+													id="SN" value="option1"> <label for="SN"
+													class="custom-control-label">S/N</label>
+											</div>
+										</div>
+
+										<div th:if="*{NumeroExt == 'S/N'}"
+											class="form-group col-sm-1">
+											<label for="direccionExt">No. Ext.</label> <input
+												type="number" disabled maxlength="5"
+												th:field="*{NumeroExt}" class="form-control"
+												 placeholder="63" required>
+										</div>
+										<div th:if="*{NumeroExt == 'S/N'}"
+											class="form-group col-sm-2">
+											<label for="direccionInt">No. Int. (opcional)</label> <input
+												type="text" disabled th:field="*{NumeroInt}"
+												class="form-control"  placeholder="12">
+										</div>
+
+
+										<div th:if="*{NumeroExt != 'S/N'}"
+											class="form-group col-sm-1">
+											<label for="direccionExt">No. Ext.</label> <input
+												type="number" min="1" max="99999"
+												th:field="*{NumeroExt}" class="form-control"
+												 placeholder="63" required>
+										</div>
+										<div th:if="*{NumeroExt != 'S/N'}"
+											class="form-group col-sm-2">
+											<label for="direccionInt">No. Int. (opcional)</label> <input
+												type="text" maxlength="5" th:field="*{NumeroInt}"
+												class="form-control"  placeholder="12">
+                    </div>
+                    
+                    <div class="form-group col-sm-2">
+											<label for="estadoEmpresa">Estado</label> <select
+												th:field="*{estado}" class="form-control" required>
+												<option value="">Seleccione uno...</option>
+												<option value="Aguascalientes">Aguascalientes</option>
+												<option value="Baja California">Baja California</option>
+												<option value="Baja California Sur">Baja California Sur</option>
+												<option value="Campeche">Campeche</option>
+												<option value="Chiapas">Chiapas</option>
+												<option value="Chihuahua">Chihuahua</option>
+												<option value="Coahuila">Coahuila</option>
+												<option value="Colima">Colima</option>
+												<option value="Distrito Federal">Distrito Federal</option>
+												<option value="Durango">Durango</option>
+												<option value="Estado de México">Estado de México</option>
+												<option value="Guanajuato">Guanajuato</option>
+												<option value="Guerrero">Guerrero</option>
+												<option value="Hidalgo">Hidalgo</option>
+												<option value="Jalisco">Jalisco</option>
+												<option value="Michoacán">Michoacán</option>
+												<option value="Morelos">Morelos</option>
+												<option value="Nayarit">Nayarit</option>
+												<option value="Nuevo León">Nuevo León</option>
+												<option value="Oaxaca">Oaxaca</option>
+												<option value="Puebla">Puebla</option>
+												<option value="Querétaro">Querétaro</option>
+												<option value="Quintana Roo">Quintana Roo</option>
+												<option value="San Luis Potosí">San Luis Potosí</option>
+												<option value="Sinaloa">Sinaloa</option>
+												<option value="Sonora">Sonora</option>
+												<option value="Tabasco">Tabasco</option>
+												<option value="Tamaulipas">Tamaulipas</option>
+												<option value="Tlaxcala">Tlaxcala</option>
+												<option value="Veracruz">Veracruz</option>
+												<option value="Yucatán">Yucatán</option>
+												<option value="Zacatecas">Zacatecas</option>
+											</select>
+
+										</div>
+										<div class="form-group col-sm-4">
+											<label for="municipioEmpresa">Municipio</label> <input
+												type="text" maxlength="45" th:field="*{municipio}"
+												onkeyup="capitalizarPrimeraLetra(this);"
+												placeholder=" Ecatepec" class="form-control" required>
+                    </div>
+                    
+    <div class="form-group col-sm-4">
+      <label for="coloniaEmpresa">Colonia</label> 
+      <input type="text" maxlength="45" th:field="*{colonia}" onkeyup="capitalizarPrimeraLetra(this);" class="form-control" 		placeholder="8 de Agosto" required>
+    </div>
+    <div class="form-group col-sm-2">
+      <label for="cpEmpresa">C&oacute;digo postal</label> 
+      <input type="text" th:field="*{codigoPostal}" class="form-control" placeholder="90688" required>
+		</div>
+
+  
      <div class="form-group col-md-3">
         <label for="telefonoCita">Tel&eacute;fono</label>
-        <input type="text" class="form-control" id="telefonoCita" placeholder="222 123 5324" th:value="${ElCliente.Telefono}">
+        <input type="text" class="form-control" id="telefonoCita" placeholder="222 123 5324" th:value="*{telefonoCita}">
       </div>
       <div class="form-group col-md-3">
         <label for="dirigirseCita">Dirigirse con</label>
-        <input type="text" class="form-control" id="dirigirseCita" placeholder="Jorge Manuel Martinez" th:value="${ElCliente.nombreContacto}">
+        <input type="text" class="form-control" id="dirigirseCita" onkeyup="capitalizarPrimeraLetra(this);" placeholder="Jorge Manuel Martinez" th:value="*{dirigirseCon}">
       </div>
-      <div class="form-group col-md-3">
-        <label for="fechaSalida">Hora Salida Altima</label>
-        <input type="datetime-local" class="form-control" id="fechaSalida" th:value="*{ horaSalidaAltima.substring(0,4) + '-' + horaSalidaAltima.substring(5, 7) + '-' + horaSalidaAltima.substring(8,10) + 'T' + horaSalidaAltima.substring(11, 13) + ':' + horaSalidaAltima.substring(14, 16) }">
+
+      <div class="form-group col-md-3" th:if="${accion == 'crear'}">
+        <label for="fechaCita">Hora Salida Altima</label>
+        <input type="datetime-local" class="form-control" id="fechaSalida" th:value="*{horaSalidaAltima}">
+      </div>
+      <div class="form-group col-md-3" th:if="${accion == 'editar'}">
+        <label for="fechaCita">Hora Salida Altima</label>
+        <input type="datetime-local" class="form-control" id="fechaSalida" th:value="*{ horaSalidaAltima.substring(0,4) + '-' + horaSalidaAltima.substring(5, 7) + '-' + horaSalidaAltima.substring(8,10) + 'T' + horaSalidaAltima.substring(11, 13) + ':' + horaSalidaAltima.substring(14, 16) }" >
       </div>
       <div class="form-group col-md-3">
         <label for="actividadCita">Actividad</label>
         <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="actividadCita">
-            <option value="Toma de Tallas" th:selected="${solicitud.actividad} == 'Toma de Tallas'">Toma de Tallas</option>
-            <option value="Entrega de Prendas" th:selected="${solicitud.actividad} == 'Entrega de Prendas'">Entrega de Prendas</option>
+          <option value="Entrega de Prendas" th:selected="${solicitud.actividad} == 'Entrega de Prendas'">Entrega de Prendas</option>
+          <option value="Entrega con toma de ajustes" th:selected="${solicitud.actividad} == 'Entrega con toma de ajustes'">Entrega con Toma de Ajsutes</option>
+          <option value="Toma de Tallas" th:selected="${solicitud.actividad} == 'Toma de Tallas'">Toma de Tallas</option>
+
+          
+          <option value="Toma de Tallas con Cinta Metrica" th:selected="${solicitud.actividad} == 'Toma de Tallas con Cinta Metrica'">Toma de Tallas con Cinta Metrica</option>
+          <option value="Toma de Ajustes" th:selected="${solicitud.actividad} == 'Toma de Ajustes'">Toma de Ajustes</option>
+          <option value="Toma de Re-ajustes" th:selected="${solicitud.actividad} == 'Toma de Re-ajustes'">Toma de Re-ajustes</option>  
         </select>
       </div>
       <div class="form-group col-md-12">

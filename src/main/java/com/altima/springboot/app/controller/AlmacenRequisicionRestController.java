@@ -34,7 +34,7 @@ public class AlmacenRequisicionRestController {
 	@SuppressWarnings("null")
 	@RequestMapping(value = "/guardar-requisicion-materiales", method = RequestMethod.POST)
 	@ResponseBody
-	public String guardar(@RequestParam(name = "datos") String datos, Long idRequisicion, Long idEmpleadoSolicitante) {
+	public String guardar(@RequestParam(name = "datos") String datos, Long idRequisicion, Long idEmpleadoSolicitante, String tipoS) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -42,7 +42,8 @@ public class AlmacenRequisicionRestController {
 		if (idRequisicion == null) {
 			AmpRequisicionAlmacen  requi = new AmpRequisicionAlmacen ();
 			requi.setIdSolicitante(idEmpleadoSolicitante);
-			requi.setIdText("REQMA");
+			requi.setTipoRequisicion(tipoS);
+			requi.setIdText("SOLMA");
 			requi.setCreadoPor(auth.getName());
 			requi.setActualizadoPor(auth.getName());
 			requi.setFechaCreacion(hourdateFormat.format(date));
@@ -75,7 +76,7 @@ public class AlmacenRequisicionRestController {
 		} else {
 
 			AmpRequisicionAlmacen  requi = ServiceAlmacen.findOne(idRequisicion);
-			
+			requi.setIdSolicitante(idEmpleadoSolicitante);
 			JSONArray json = new JSONArray(datos);
 			for (int i = 0; i < json.length(); i++) {
 				AmpRequisicionAlmacenMaterial material = new AmpRequisicionAlmacenMaterial();
@@ -153,7 +154,51 @@ public class AlmacenRequisicionRestController {
 	    
 	    @GetMapping("/detalles-riquisicion-almacen")
 	    public List<Object []> detalles (Long id) {
-	    	return ServiceAlmacen.viewMaterial(id);
-	    }
+	    	return ServiceAlmacen.detalles(id);
+		}
+	@GetMapping("/clasificacion-almacen")
+	public List<Object []> clasificacion (String tipo) {
+	    return ServiceAlmacen.clasificacion(tipo);
+	}
+
+	@GetMapping("/materiales-por-clasificacion")
+	public List<Object []> mC (String tipo) {
+		if ( tipo.equals("tela")){
+			return ServiceAlmacen.tela();
+		}
+		else if ( tipo.equals("forro")){
+			return ServiceAlmacen.forro();
+		}
+		else{
+			return ServiceAlmacen.materialesbyclasificacion(Long.parseLong(tipo));
+		}
+	    
+	}
+
+	@GetMapping("/surtido-solicitud-material")
+	public Long  surtido (Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		AmpRequisicionAlmacenMaterial material = ServiceAlmacen.findOneMaterial(id);
+		material.setEstatus("3");
+		material.setActualizadoPor(auth.getName());
+		material.setUltimaFechaModificacion(hourdateFormat.format(date));
+		ServiceAlmacen.save(material);
+	    return material.getIdRequisicionAlmacen();
+	}
+
+	@GetMapping("/parcial-solicitud-material")
+	public Long  parcial (Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		AmpRequisicionAlmacenMaterial material = ServiceAlmacen.findOneMaterial(id);
+		material.setEstatus("2");
+		material.setActualizadoPor(auth.getName());
+		material.setUltimaFechaModificacion(hourdateFormat.format(date));
+		ServiceAlmacen.save(material);
+	    return material.getIdRequisicionAlmacen();
+	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.poi.hpsf.Decimal;
 
 import com.altima.springboot.app.dto.PedidoInformacionDTO;
+import com.altima.springboot.app.dto.SelectPedidoInformacionDto;
 import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 
@@ -55,5 +56,12 @@ public interface ICargaPedidoService {
 	List<PedidoInformacionDTO> findByEmpleado(Long idEmpleado);
 
 	List<Object []> pedidosCambioPrenda(Long iduser);
+
+	List<SelectPedidoInformacionDto> findByEstatus(String estatus);
+
+	int validarNumEmpleadosResurtidoPedido(Long id);
+
+	int validarNumResurtidosPedido(Long id);
+
 
 }

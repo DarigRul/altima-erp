@@ -28,6 +28,7 @@ public interface IComercialCoordinadoService {
 	// Tabla Coordinado prenda 
 	List<Object []> findAllCoorPrenda(Long id );
 	void saveCoorPrenda(ComercialCoordinadoPrenda prenda);
+	List<ComercialCoordinadoPrenda> findAllCoorPrendasEntities(Long idCoordinado);
 	ComercialCoordinadoPrenda findOneCoorPrenda(Long id);
 	//Tela Coordinado material 
 	List<ComercialCoordinadoMaterial> findAllCoorMaterial( Long id );
@@ -41,11 +42,13 @@ public interface IComercialCoordinadoService {
 	public void deletePrenda(Long id);	
 	// TABLA DE COORDINADO TELA
 	void saveTelaMaterial(ComercialCoordinadoTela telamaterial);
+	List<ComercialCoordinadoTela> findAllCoorTelasEntities(Long idCoordinadoPrenda);
 	ComercialCoordinadoTela searchTela ( Long CoorPrenda, String idMaterial);
 	void deleteTela ( Long CoorPrenda);
 	
 	//TABLA DE COORDINADO FORRO
 	void saveForroMaterial(ComercialCoordinadoForro forromaterial);
+	List<ComercialCoordinadoForro> findAllCoorForrosEntities(Long idCoordinadoPrenda);
 	ComercialCoordinadoForro searchForro ( Long CoorPrenda, String idMaterial);
 	void deleteForro ( Long CoorPrenda);
 
@@ -62,6 +65,9 @@ public interface IComercialCoordinadoService {
 	// pa editar
 	ComercialCoordinadoMaterial searchMaterial ( Long CoorPrenda, Long idMaterial);
 	void deleteMaterial( Long CoorPrenda);
+	
+	//Listar materiales del preapartado
+	List<Object []>detallesMatarialesPreapartado(Long id);
 }
 
 

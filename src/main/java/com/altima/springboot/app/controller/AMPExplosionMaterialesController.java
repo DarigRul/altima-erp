@@ -25,11 +25,6 @@ public class AMPExplosionMaterialesController {
         return"explosion-de-material";
     }
 
-    @GetMapping("/materia-prima")
-    public String MateriaPrimaList(){
-        return"materia-prima";
-    }
-
     @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIALES"})
     @GetMapping("/materiales-explosionar/{idpedido}")
     public String MaterialesExplostionarList(@PathVariable("idpedido") Long idpedido,Model model ){

@@ -34,7 +34,7 @@ public class ComprasProveedorServiceImpl implements IComprasProveedorService {
 	@Transactional
 	public List<ComprasProveedores> findAll() {
 
-		return (List<ComprasProveedores>) em.createQuery("FROM ComprasProveedores ORDER BY IdProveedor DESC").getResultList();
+		return (List<ComprasProveedores>) em.createQuery("FROM ComprasProveedores ORDER BY estatus DESC, IdProveedor DESC").getResultList();
 	}
 	@Override
 	@Transactional

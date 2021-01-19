@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Pre-apartado de telas | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div th:insert="modales-pre-apartado"></div>
+                        <div class="col-sm-6">
+                            <h1>
+                                Agregar Pre-apartado
+                                <button id="modalButton" onclick="listarClientes()" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-target="#modal-nuevo-preapartado" data-toggle="modal" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button>
+                            </h1>
+                            
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a th:href="@{'/'}">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Agentes de Venta</li>
+                                <li class="breadcrumb-item active">Pre-apartado de telas</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-dark">
+                                    <h3 class="card-title">Lista de pre-apartado de telas</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:5%">Folio</th>
+                                                <th style="width:5%">Fecha pre-apartado</th>
+                                                <th style="width:16%">Cliente</th>
+                                                <th style="width:4%">Aprox. personas</th>
+                                                <th style="width:16%">Agente de ventas</th>
+                                                <th style="width:7%">Fecha vigencia</th>
+                                                <th style="width:6%">Estatus</th>
+                                                <th style="width:6%">Estatus pedido</th>
+                                                <th style="width:8%">Ref. pedido</th>
+                                                <th style="width:12%">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="preapartado: ${ListPreapartados}">
+                                                <td th:text="${preapartado[1]}"></td>
+                                                <td th:text="${preapartado[3]}"></td>
+                                                <td th:text="${preapartado[2]}"></td>
+                                                <td th:text="${preapartado[4]}"></td>
+                                                <td th:text="${preapartado[5]}"></td>
+                                                <td th:text="${preapartado[9]==null || preapartado[9]==''}?'Sin fecha':${preapartado[9]}"></td>
+                                                
+                                                <td th:if="${preapartado[6]==0}">En espera</td>
+                                                <td th:if="${preapartado[6]==1}">Autorizado</td>
+                                                <td th:if="${preapartado[6]==2}">Rechazado</td>
+                                                <td th:if="${preapartado[6]==3}">En espera</td>
+                                                
+                                                <td th:if="${preapartado[7]==2}">Perdido</td>
+                                                <td th:if="${preapartado[7]==1}">Ganado</td>
+                                                <td th:if="${preapartado[7]==0}">En espera</td>
+                                                
+                                                <td th:text="${preapartado[8]==null || preapartado[8]==''}?'Sin referencia':${preapartado[8]}"></td>
+                                                
+                                                <td class="tdcenter">
+                                                    <button th:if="${preapartado[6]!=0}" class="btn btn-info btn-circle btn-sm text-white popoverxd" th:onclick="'idPreapartadoB('+${preapartado[0]}+')'"
+                                                        data-container="body" data-target="#modal-estatus-preapartado" data-toggle="modal" data-placement="top" data-content="Estatus del pedido"><i class="fas fa-info"></i></button>
+                                                    <button th:if="${preapartado[6]==0}" class="btn btn-info btn-circle btn-sm text-white popoverxd" th:onclick="'idPreapartadoB('+${preapartado[0]}+')'"
+                                                        data-container="body" data-target="#modal-vigencia-preapartado" data-toggle="modal" data-placement="top" data-content="Vigencia del pedido"><i class="fas fa-calendar-alt"></i></button>
+                                                    <button th:if="${preapartado[6]==0 || preapartado[6]==3}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'coordinados('+${preapartado[0]}+')'"
+                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Coordinados"><i class="fas fa-question"></i></button>
+                                                	<button th:if="${preapartado[6]==1}" class="btn btn-primary btn-circle btn-sm popoverxd text-white" th:onclick="'detalleReportePreapartado('+${preapartado[0]}+')'"
+                                                		data-container="body" data-placement="top" data-content="Imprimir"><i class="fas fa-print"></i></button>
+                                                	<button th:if="${preapartado[6]==3}" class="btn btn-success btn-circle btn-sm text-white popoverxd" th:onclick="'autorizarPedidoPreapartado('+${preapartado[0]}+')'"
+                                                		data-container="body" data-placement="top" data-content="Autorizar"><i class="fas fa-check"></i></button>
+                                                	<button th:if="${preapartado[6]==0 || preapartado[6]==3}" class="btn btn-danger btn-circle btn-sm popoverxd text-white" th:onclick="'rechazarPedidoPreapartado('+${preapartado[0]}+')'"
+                                                		data-container="body" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button>
+                                                </td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                    <input type="hidden" id="idPreapartado">
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+    <script th:src="@{/dist/js/tablaGeneral.js}"></script>
+     <script th:src="@{/dist/js/preApartados.js}"></script>
+
+    <script>
+        $('#iComercial').removeClass('text-primary');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active');
+        $('#menuVenta').addClass('menu-open');
+        $('#navVenta').addClass('active');
+        $('#navPreApartado').addClass('active');
+    </script>
+    
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    var listaClientes = /*[[${ListaClientes}]]*/ 'default';
+        /*]]>*/
+        console.log(listaClientes);
+  </script>
+  <script>
+  $(document).ready(function() {
+		listarClientes();
+	});
+  </script>
+  <script type="text/javascript">
+        function detalleReportePreapartado(id) {
+            window.open("/detalle-reporte-preapartado/" + id + "?format=pdf", '_blank');
+        }
+    </script>
+
+</body>
+</html>

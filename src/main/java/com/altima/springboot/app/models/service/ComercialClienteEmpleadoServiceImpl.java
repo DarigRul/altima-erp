@@ -66,6 +66,20 @@ public class ComercialClienteEmpleadoServiceImpl implements ComercialClienteEmpl
 		return em.createQuery("from ComercialClienteEmpleado  where idPedidoInformacion = " + id
 				+ " and nombre_empleado NOT LIKE '%SPF%' order by idText Desc ").getResultList();
 	}
+	
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<ComercialClienteEmpleado> findAllEmpleadosEmpresaWithoutSPFAgregar(Long id) {
+
+		return em.createNativeQuery("select DISTINCT alt_comercial_cliente_empleado.* from alt_comercial_cliente_empleado,alt_comercial_concentrado_tallas  where alt_comercial_cliente_empleado.id_pedido_informacion="+id+" \n"
+				+ " and alt_comercial_concentrado_tallas.id_pedido="+id+"\n"
+				+ " and alt_comercial_concentrado_tallas.id_empleado_pedido =alt_comercial_cliente_empleado.id_empleado\n"
+				+ " and alt_comercial_cliente_empleado.id_empleado \n"
+				+ " not in(select DISTINCT alt_comercial_concentrado_tallas.id_empleado_pedido from alt_comercial_concentrado_tallas where alt_comercial_concentrado_tallas.id_pedido="+id+")\n"
+				+ " ").getResultList();
+	}
 
 	@Override
 	public ComercialClienteEmpleado findUno(Long id) {

@@ -9,17 +9,23 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="">
-            <div class="modal-body">
-                <div class="form-group col-md-12">
-                    <label for="fechaNueva">Nueva fecha de promesa de recepci&oacute;n</label>
-                    <input type="date" class="form-control" id="fechaNueva">
-                  </div>
-            </div>
-            <div class="modal-footer">
-                <button data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar</button>
-                <button class="btn icon-btn btn-altima text-white" type="submit"><span class="btn-glyphicon fas fa-check img-circle text-altima"></span>Confirmar</button>
-            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="form-check form-check-inline" style="margin-left: 38%; margin-bottom: 2%;">
+                        <input class="form-check-input" type="checkbox" id="checkTelaAgotada" value="option1">
+                        <label class="form-check-label font-weight-bold" for="checkTelaAgotada">Tela agotada</label>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="fechaPromesa">Nueva fecha de promesa de recepci&oacute;n</label>
+                        <input type="date" class="form-control" id="fechaPromesa">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="button"><span
+                            class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar</button>
+                    <button class="btn icon-btn btn-altima text-white" type="button" id="guardarFechaPromesa"><span
+                            class="btn-glyphicon fas fa-check img-circle text-altima"></span>Confirmar</button>
+                </div>
             </form>
         </div>
     </div>
@@ -27,56 +33,79 @@
 <!-- Modal -->
 <div class="modal fade" id="generarOrden" tabindex="-1" role="dialog" aria-labelledby="materiaPrimaAlmacen"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 55%;" role="document">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 90%;" role="document">
         <div class="modal-content modal-rounded-body">
             <div class="modal-header bg-altima modal-rounded-header">
                 <h5 class="modal-title">Orden de compra</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <form action="">
-            <div class="modal-body">
-                <ul class="list-group list-group-horizontal-md" style="margin-bottom: 20px;">
-                    <li class="list-group-item" style="width: 33%;"><strong>Proveedor: </strong><a>ALTIMATEX</a></li>
-                    <li class="list-group-item" style="width: 34%;"><strong>Fecha: </strong><a>20/08/2020</a></li>
-                    <li class="list-group-item" style="width: 33%;"><strong>Documento: </strong><a>OC0001</a></li>
-                </ul>
-                <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Cantidad</th>
-                            <th>Clave tela</th>
-                            <th>Descripci&oacute;n</th>
-                            <th>Precio U.</th>
-                            <th>IVA</th>
-                            <th>Descuento/Cargo</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>150</td>
-                            <td>LS664</td>
-                            <td>Oxford</td>
-                            <td>50</td>
-                            <td>16</td>
-                            <td></td>
-                            <td>1200</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="6"></th>
-                            <th>Total: <a>1200</a></th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar</button>
-                <button class="btn icon-btn btn-altima text-white" type="submit"><span class="btn-glyphicon fas fa-check img-circle text-altima"></span>Generar</button>
-            </div>
+                <div class="modal-body">
+                    <ul class="list-group list-group-horizontal-md" style="margin-bottom: 20px;">
+                        <li class="list-group-item" style="width: 40%;border: none;"><strong>Proveedor: </strong><a
+                                id="proveedor"></a></li>
+                        <li class="list-group-item" style="width: 20%;border:none"><strong>Fecha:
+                            </strong><a>20/08/2020</a></li>
+                        <li class="list-group-item" style="width: 40%;border:none">Iva:<select class="form-control selectIva selectpicker" id="selectIva">
+                                <option value="">Seleccione uno...</option>
+                            </select>
+                        </li>
+                    </ul>
+
+                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                        <thead>
+                            <tr class="text-center" style="font-size: 14px;">
+                                <th>Cantidad</th>
+                                <th>Metraje extra</th>
+                                <th>Total metraje</th>
+                                <th>Clave tela</th>
+                                <th>Descripci&oacute;n</th>
+                                <th>Precio U.</th>
+                                <th>% Descuento/Cargo</th>
+                                <th>Monto Descuento/Cargo</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="7"></th>
+                                <th>Subtotal:</th>
+                                <th>
+                                    <p id="subtotal">0</p>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="7"></th>
+                                <th>Descuento/Cargo:</th>
+                                <th>
+                                    <p id="descuento">0</p>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="7"></th>
+                                <th>Iva:</th>
+                                <th>
+                                    <p id="iva">0</p>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="7"></th>
+                                <th>Total:</th>
+                                <th>
+                                    <p id="total">0</p>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn icon-btn btn-danger text-white mr-auto" type="button" id="cerrarModalOrden"><span
+                            class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar</button>
+                    <button class="btn icon-btn btn-altima text-white" type="button" id="enviarOrden"><span
+                            class="btn-glyphicon fas fa-check img-circle text-altima"></span>Generar</button>
+                </div>
             </form>
         </div>
     </div>

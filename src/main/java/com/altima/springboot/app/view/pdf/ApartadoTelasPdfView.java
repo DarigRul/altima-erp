@@ -100,6 +100,8 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		PdfPCell fechaEntrega = new PdfPCell(new Phrase());
 		PdfPCell PersonasTitulo = new PdfPCell(new Phrase());
 		PdfPCell personas = new PdfPCell(new Phrase());
+		PdfPCell PersonasEspecialesTitulo = new PdfPCell(new Phrase());
+		PdfPCell especiales = new PdfPCell(new Phrase());
 		PdfPCell SPFTitulo = new PdfPCell(new Phrase());
 		PdfPCell SPF = new PdfPCell(new Phrase());
 		
@@ -127,6 +129,8 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 			
 			PersonasTitulo = new PdfPCell(new Phrase("Personas: ", Helvetica));
 			personas = new PdfPCell(new Phrase(""+numPersonas, datosGris));
+			PersonasEspecialesTitulo = new PdfPCell(new Phrase("Tallas especiales: ", Helvetica));
+			especiales = new PdfPCell(new Phrase(filaUno[21].toString(), datosGris));
 			SPFTitulo = new PdfPCell(new Phrase("SPF: ", Helvetica));
 			SPF = new PdfPCell(new Phrase(""+numSpf, datosGris));
 		}
@@ -144,6 +148,8 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 			fechaEntrega = new PdfPCell(new Phrase("No hay registro", datosGris));
 			PersonasTitulo = new PdfPCell(new Phrase("Personas: ", Helvetica));
 			personas = new PdfPCell(new Phrase("No hay registro", datosGris));
+			PersonasEspecialesTitulo = new PdfPCell(new Phrase("No hay registro", datosGris));
+			especiales = new PdfPCell(new Phrase("No hay registro", datosGris));
 			SPFTitulo = new PdfPCell(new Phrase("SPF: ", Helvetica));
 			SPF = new PdfPCell(new Phrase("No hay registro", datosGris));
 		}
@@ -251,6 +257,20 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		personas.setBorderWidthBottom(2);
 		personas.setPaddingBottom(4f);
 		
+		PersonasEspecialesTitulo.setBorder(0);
+		PersonasEspecialesTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
+		PersonasEspecialesTitulo.setBorder(Rectangle.BOTTOM);
+		PersonasEspecialesTitulo.setBorderColorBottom(borderTable);
+		PersonasEspecialesTitulo.setBorderWidthBottom(2);
+		PersonasEspecialesTitulo.setPaddingBottom(4f);
+		
+		especiales.setBorder(0);
+		especiales.setHorizontalAlignment(Element.ALIGN_LEFT);
+		especiales.setBorder(Rectangle.BOTTOM);
+		especiales.setBorderColorBottom(borderTable);
+		especiales.setBorderWidthBottom(2);
+		especiales.setPaddingBottom(4f);
+		
 		SPFTitulo.setBorder(0);
 		SPFTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
 		SPFTitulo.setBorder(Rectangle.BOTTOM);
@@ -285,6 +305,12 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 		
 		tituloDocumento.addCell(apartadoTelaTitulo);
 		tituloDocumento.addCell(apartadoTela);
+		tituloDocumento.addCell(cellVacia);
+		tituloDocumento.addCell(PersonasEspecialesTitulo);
+		tituloDocumento.addCell(especiales);
+		
+		tituloDocumento.addCell(cellVacia);
+		tituloDocumento.addCell(cellVacia);
 		tituloDocumento.addCell(cellVacia);
 		tituloDocumento.addCell(SPFTitulo);
 		tituloDocumento.addCell(SPF);
@@ -532,7 +558,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 			String idTela = listaTelas.get(0)[4].toString();
 			String imgUrl = "";
 			float sumaPersonas = 0;
-			float totalConsumoCantidad = 0;
+			float sumaEspecial = 0;
 			float spfConsumo = 0;
 			int contador = 0;
 			String codigoTela = listaTelas.get(0)[3].toString();
@@ -575,8 +601,8 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 				Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
 				Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[15].toString()), datosGris));
 				Cabezero4 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[11].toString())), datosGris));
-				Cabezero5 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[15].toString())), datosGris));
-				Cabezero6 = new PdfPCell(new Phrase(""+df.format((Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()))), datosGris));
+				Cabezero5 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[17].toString())), datosGris));
+				Cabezero6 = new PdfPCell(new Phrase(""+df.format((Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[17].toString()))), datosGris));
 				Cabezero7 = new PdfPCell(new Phrase(fila[16].toString(), datosGris));
 				Cabezero1.setBorder(0);
 				Cabezero1.setPaddingBottom(8f);
@@ -633,10 +659,14 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					
 				
 					//  Suma el numero de personas, el consumo por la cantidad y suma consumo de spf
+				if(fila[16].toString().equals("Talla especial") || fila[16].toString().equals("Talla especial combinación")) {
+					sumaEspecial += Float.parseFloat(fila[11].toString());
+				}
+				else {
 					sumaPersonas += Float.parseFloat(fila[11].toString());
-					totalConsumoCantidad += (Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()));
-					spfConsumo += Float.parseFloat(fila[15].toString());
-			
+					spfConsumo += Float.parseFloat(fila[17].toString());
+					
+				}
 					//Se asigna la url de la imagen de la tela actual
 					imgUrl = fila[14].toString();
 				}
@@ -760,9 +790,11 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						PdfPCell ClaveTelaTitulo = new PdfPCell(new Phrase("Clave tela: ", Helvetica));
 						PdfPCell ClaveTela = new PdfPCell(new Phrase(codigoTela, datosGris));
 						PdfPCell totalConsumoTitulo = new PdfPCell(new Phrase("Total Consumo: ", Helvetica));
-						PdfPCell totalConsumo = new PdfPCell(new Phrase(""+df.format(totalConsumoCantidad), datosGris));
+						PdfPCell totalConsumo = new PdfPCell(new Phrase(""+df.format(sumaPersonas+sumaEspecial+spfConsumo), datosGris));//
 						PdfPCell surtirTitulo = new PdfPCell(new Phrase("Surtir: ", Helvetica));
 						PdfPCell surtir = new PdfPCell(new Phrase(""+df.format(sumaPersonas), datosGris));
+						PdfPCell especialTitulo = new PdfPCell(new Phrase("Especial: ", Helvetica));
+						PdfPCell especial = new PdfPCell(new Phrase(""+df.format(sumaEspecial), datosGris));
 						PdfPCell spfTitulo = new PdfPCell(new Phrase("SPF: ", Helvetica));
 						PdfPCell spf = new PdfPCell(new Phrase(""+df.format(spfConsumo), datosGris));
 						
@@ -808,6 +840,20 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						surtir.setBorderWidthBottom(2);
 						surtir.setPaddingBottom(4f);
 						
+						especialTitulo.setBorder(0);
+						especialTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
+						especialTitulo.setBorder(Rectangle.BOTTOM);
+						especialTitulo.setBorderColorBottom(borderTable);
+						especialTitulo.setBorderWidthBottom(2);
+						especialTitulo.setPaddingBottom(4f);
+						
+						especial.setBorder(0);
+						especial.setHorizontalAlignment(Element.ALIGN_LEFT);
+						especial.setBorder(Rectangle.BOTTOM);
+						especial.setBorderColorBottom(borderTable);
+						especial.setBorderWidthBottom(2);
+						especial.setPaddingBottom(4f);
+						
 						spfTitulo.setBorder(0);
 						spfTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
 						spfTitulo.setBorder(Rectangle.BOTTOM);
@@ -828,6 +874,8 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						ContenidoTelas.addCell(totalConsumo);
 						ContenidoTelas.addCell(surtirTitulo);
 						ContenidoTelas.addCell(surtir);
+						ContenidoTelas.addCell(especialTitulo);
+						ContenidoTelas.addCell(especial);
 						ContenidoTelas.addCell(spfTitulo);
 						ContenidoTelas.addCell(spf);
 				
@@ -872,7 +920,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						
 						//Se reinicia la suma para listar las prendas de la siguiente tela
 						sumaPersonas = 0;
-						totalConsumoCantidad = 0;
+						sumaEspecial = 0;
 						spfConsumo = 0;
 						
 						validador = 2; //Significa que si ya mapeó la primer tela ya no se vuelva a mapear más abajo
@@ -1003,9 +1051,11 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						PdfPCell ClaveTelaTitulo = new PdfPCell(new Phrase("Clave tela: ", Helvetica));
 						PdfPCell ClaveTela = new PdfPCell(new Phrase(codigoTela, datosGris));
 						PdfPCell totalConsumoTitulo = new PdfPCell(new Phrase("Total Consumo: ", Helvetica));
-						PdfPCell totalConsumo = new PdfPCell(new Phrase(""+df.format(totalConsumoCantidad), datosGris));
+						PdfPCell totalConsumo = new PdfPCell(new Phrase(""+df.format(sumaPersonas+sumaEspecial+spfConsumo), datosGris));//
 						PdfPCell surtirTitulo = new PdfPCell(new Phrase("Surtir: ", Helvetica));
 						PdfPCell surtir = new PdfPCell(new Phrase(""+df.format(sumaPersonas), datosGris));
+						PdfPCell especialTitulo = new PdfPCell(new Phrase("Especial: ", Helvetica));
+						PdfPCell especial = new PdfPCell(new Phrase(""+df.format(sumaEspecial), datosGris));
 						PdfPCell spfTitulo = new PdfPCell(new Phrase("SPF: ", Helvetica));
 						PdfPCell spf = new PdfPCell(new Phrase(""+df.format(spfConsumo), datosGris));
 						
@@ -1051,6 +1101,20 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						surtir.setBorderWidthBottom(2);
 						surtir.setPaddingBottom(4f);
 						
+						especialTitulo.setBorder(0);
+						especialTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
+						especialTitulo.setBorder(Rectangle.BOTTOM);
+						especialTitulo.setBorderColorBottom(borderTable);
+						especialTitulo.setBorderWidthBottom(2);
+						especialTitulo.setPaddingBottom(4f);
+						
+						especial.setBorder(0);
+						especial.setHorizontalAlignment(Element.ALIGN_LEFT);
+						especial.setBorder(Rectangle.BOTTOM);
+						especial.setBorderColorBottom(borderTable);
+						especial.setBorderWidthBottom(2);
+						especial.setPaddingBottom(4f);
+						
 						spfTitulo.setBorder(0);
 						spfTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
 						spfTitulo.setBorder(Rectangle.BOTTOM);
@@ -1071,6 +1135,8 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 						ContenidoTelas.addCell(totalConsumo);
 						ContenidoTelas.addCell(surtirTitulo);
 						ContenidoTelas.addCell(surtir);
+						ContenidoTelas.addCell(especialTitulo);
+						ContenidoTelas.addCell(especial);
 						ContenidoTelas.addCell(spfTitulo);
 						ContenidoTelas.addCell(spf);
 				
@@ -1115,17 +1181,17 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					
 					//Se reinicia la suma para listar las prendas de la siguiente tela
 					sumaPersonas = 0;
-					totalConsumoCantidad = 0;
+					sumaEspecial = 0;
 					spfConsumo = 0;
 					
 					
 					//Verifica que existe un cambio de tela para poder contemplar ese registro
 					Cabezero1 = new PdfPCell(new Phrase(fila[0].toString(), datosGris));
 					Cabezero2 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[10].toString()), datosGris));
-					Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[17].toString()), datosGris));
+					Cabezero3 = new PdfPCell(new Phrase(""+(int)Float.parseFloat(fila[15].toString()), datosGris));
 					Cabezero4 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[11].toString())), datosGris));
-					Cabezero5 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[15].toString())), datosGris));
-					Cabezero6 = new PdfPCell(new Phrase(""+df.format((Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()))), datosGris));
+					Cabezero5 = new PdfPCell(new Phrase(""+df.format(Float.parseFloat(fila[17].toString())), datosGris));
+					Cabezero6 = new PdfPCell(new Phrase(""+df.format((Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[17].toString()))), datosGris));
 					Cabezero7 = new PdfPCell(new Phrase(fila[16].toString(), datosGris));
 					Cabezero1.setBorder(0);
 					Cabezero1.setPaddingBottom(8f);
@@ -1180,9 +1246,14 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					tablaTelas.addCell(Cabezero6);
 					tablaTelas.addCell(Cabezero7);
 					
-					sumaPersonas += Float.parseFloat(fila[11].toString());
-					totalConsumoCantidad += (Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()));
-					spfConsumo += Float.parseFloat(fila[15].toString());
+					if(fila[16].toString().equals("Talla especial") || fila[16].toString().equals("Talla especial combinación")) {
+						sumaEspecial += Float.parseFloat(fila[11].toString());
+					}
+					else {
+						sumaPersonas += Float.parseFloat(fila[11].toString());
+						spfConsumo += Float.parseFloat(fila[17].toString());
+						
+					}
 					
 					imgUrl = fila[14].toString();
 				}
@@ -1302,9 +1373,11 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					PdfPCell ClaveTelaTitulo = new PdfPCell(new Phrase("Clave tela: ", Helvetica));
 					PdfPCell ClaveTela = new PdfPCell(new Phrase(codigoTela, datosGris));
 					PdfPCell totalConsumoTitulo = new PdfPCell(new Phrase("Total Consumo: ", Helvetica));
-					PdfPCell totalConsumo = new PdfPCell(new Phrase(""+df.format(totalConsumoCantidad), datosGris));
+					PdfPCell totalConsumo = new PdfPCell(new Phrase(""+df.format(sumaPersonas+sumaEspecial+spfConsumo), datosGris));
 					PdfPCell surtirTitulo = new PdfPCell(new Phrase("Surtir: ", Helvetica));
 					PdfPCell surtir = new PdfPCell(new Phrase(""+df.format(sumaPersonas), datosGris));
+					PdfPCell especialTitulo = new PdfPCell(new Phrase("Especial: ", Helvetica));
+					PdfPCell especial = new PdfPCell(new Phrase(""+df.format(sumaEspecial), datosGris));
 					PdfPCell spfTitulo = new PdfPCell(new Phrase("SPF: ", Helvetica));
 					PdfPCell spf = new PdfPCell(new Phrase(""+df.format(spfConsumo), datosGris));
 					
@@ -1350,6 +1423,20 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					surtir.setBorderWidthBottom(2);
 					surtir.setPaddingBottom(4f);
 					
+					especialTitulo.setBorder(0);
+					especialTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
+					especialTitulo.setBorder(Rectangle.BOTTOM);
+					especialTitulo.setBorderColorBottom(borderTable);
+					especialTitulo.setBorderWidthBottom(2);
+					especialTitulo.setPaddingBottom(4f);
+					
+					especial.setBorder(0);
+					especial.setHorizontalAlignment(Element.ALIGN_LEFT);
+					especial.setBorder(Rectangle.BOTTOM);
+					especial.setBorderColorBottom(borderTable);
+					especial.setBorderWidthBottom(2);
+					especial.setPaddingBottom(4f);
+					
 					spfTitulo.setBorder(0);
 					spfTitulo.setHorizontalAlignment(Element.ALIGN_LEFT);
 					spfTitulo.setBorder(Rectangle.BOTTOM);
@@ -1370,6 +1457,8 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					ContenidoTelas.addCell(totalConsumo);
 					ContenidoTelas.addCell(surtirTitulo);
 					ContenidoTelas.addCell(surtir);
+					ContenidoTelas.addCell(especialTitulo);
+					ContenidoTelas.addCell(especial);
 					ContenidoTelas.addCell(spfTitulo);
 					ContenidoTelas.addCell(spf);
 			
@@ -1418,7 +1507,7 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					
 					//Se reinicia la suma para listar las prendas de la siguiente tela
 					sumaPersonas = 0;
-					totalConsumoCantidad = 0;
+					sumaEspecial = 0;
 					spfConsumo = 0;
 					
 					tablaTelas = new PdfPTable(7);
@@ -1486,9 +1575,14 @@ public class ApartadoTelasPdfView extends AbstractPdfView{
 					tablaTelas.addCell(Cabezero6);
 					tablaTelas.addCell(Cabezero7);
 					
-					sumaPersonas += Float.parseFloat(fila[11].toString());
-					totalConsumoCantidad += (Float.parseFloat(fila[11].toString())+Float.parseFloat(fila[15].toString()));
-					spfConsumo += Float.parseFloat(fila[15].toString());
+					if(fila[16].toString().equals("Talla especial") || fila[16].toString().equals("Talla especial combinación")) {
+						sumaEspecial += Float.parseFloat(fila[11].toString());
+					}
+					else {
+						sumaPersonas += Float.parseFloat(fila[11].toString());
+						spfConsumo += Float.parseFloat(fila[17].toString());
+						
+					}
 				}
 				
 				if(validador==2) {

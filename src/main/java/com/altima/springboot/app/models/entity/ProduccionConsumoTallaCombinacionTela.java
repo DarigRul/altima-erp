@@ -56,6 +56,8 @@ public class ProduccionConsumoTallaCombinacionTela implements Serializable{
 	@Column(name="estatus")
 	private String estatus;
 	
+	@Column(name="id_talla_especial")
+	private Integer IdTallaEspecial;
 	
 	
 	@Column(name="id_tipo_largo")
@@ -161,6 +163,14 @@ public class ProduccionConsumoTallaCombinacionTela implements Serializable{
 
 	public void setIdTipoLargo(Long idTipoLargo) {
 		this.idTipoLargo = idTipoLargo;
+	}
+
+	public Integer getIdTallaEspecial() {
+		return IdTallaEspecial;
+	}
+
+	public void setIdTallaEspecial(Integer idTallaEspecial) {
+		IdTallaEspecial = idTallaEspecial;
 	}
 	
 	

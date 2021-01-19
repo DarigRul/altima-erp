@@ -94,7 +94,7 @@
                              />
                         </select>
                       </div>
-                       <div class="form-group col-md-4">
+                       <div class="form-group col-md-3">
                         <label for="cargaEmpresa">Genero</label> 
                         <select required
                           class="form-control selectpicker" data-live-search="true"
@@ -104,7 +104,7 @@
                             th:text="${genero.nombreLookup}" th:selected="false" />
                         </select>
                       </div>
-                      <div class="form-group col-md-4">
+                      <div class="form-group col-md-3">
                         <label for="cargaEmpresa">Talla</label> 
                         <select required
                           class="form-control selectpicker" data-live-search="true"
@@ -112,7 +112,7 @@
                          
                         </select>
                       </div>
-                      <div class="form-group col-md-4">
+                      <div class="form-group col-md-3">
                         <label for="cargaEmpresa">Largo</label> 
                         <select required
                           class="form-control selectpicker" data-live-search="true"
@@ -121,6 +121,13 @@
                             th:value="${largo.IdLookup}"
                             th:text="${largo.nombreLookup}" th:selected="false" />
                         </select>
+                      </div>
+                      <div class="form-grouo col-md-3">
+                     
+<input type="checkbox" class="form-check-input" id="myCheck" >
+                     <label  for="myCheck">
+    Talla especial
+  </label>
                       </div>
                       <div class="form-group col-md-12">
                       	<a onclick="GuardarPrendaTalla()" class="btn icon-btn btn-altima float-right text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar prenda</a>

@@ -20,24 +20,30 @@ public class ComercialSolicitudServicioAlClienteServiceImpl implements IComercia
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> findAll() {
-		// TODO Auto-generated method stub
-		List<Object[]> re = em.createNativeQuery("SELECT \r\n" + 
+	public List<Object[]> findAll(Long id) {
+		List<Object[]> re = em.createNativeQuery(""
+				+ "SELECT \r\n" + 
 				"	solicitud.id_solicitud_servicio_al_cliente,\r\n" + 
-				"    solicitud.id_text AS idText1,\r\n" + 
-				"    solicitud.fecha_creacion,\r\n" + 
-				"    agente.nombre_usuario,\r\n" + 
-				"    pedido.id_text AS IdText2,\r\n" + 
-				"    cliente.nombre,\r\n" + 
-				"    solicitud.fecha_hora_de_cita,\r\n" + 
-				"    solicitud.actividad,\r\n" + 
-				"    solicitud.estatus\r\n" + 
-				"    \r\n" + 
-				"FROM alt_comercial_solicitud_servicio_al_cliente solicitud\r\n" + 
-				"\r\n" + 
-				"INNER JOIN alt_comercial_pedido_informacion AS pedido ON solicitud.id_pedido_informacion = pedido.id_pedido_informacion\r\n" + 
+				"   solicitud.id_text AS idText1,\r\n" + 
+				"  	DATE_FORMAT(solicitud.fecha_creacion,'%Y-%m-%d'),\r\n" + 
+				"   agente.nombre_usuario,\r\n" + 
+				"	if ( solicitud.id_pedido_informacion is null, 'N/A', pedido.id_text) AS IdText2,\r\n" + 
+				"   cliente.nombre,\r\n" + 
+				"   DATE_FORMAT(solicitud.fecha_hora_de_cita,'%Y-%m-%d %k:%i'),\r\n" + 
+				"   solicitud.actividad,\r\n" + 
+				"   solicitud.estatus\r\n" + 
+				"FROM \r\n" + 
+				"alt_comercial_pedido_informacion as pedido ,\r\n" + 
+				"alt_comercial_solicitud_servicio_al_cliente solicitud \r\n" + 
 				"INNER JOIN alt_comercial_cliente AS cliente ON solicitud.id_cliente = cliente.id_cliente\r\n" + 
-				"INNER JOIN alt_hr_usuario AS agente ON pedido.id_usuario = agente.id_usuario;").getResultList();
+				"INNER JOIN alt_hr_usuario AS agente ON cliente.id_usuario = agente.id_usuario\r\n" + 
+				"WHERE IF("+id+"=0,1=1,agente.id_usuario="+id+")\r\n"+
+				"AND  (solicitud.id_pedido_informacion = pedido.id_pedido_informacion or solicitud.id_pedido_informacion is null)\r\n" + 
+				"GROUP BY solicitud.id_solicitud_servicio_al_cliente\r\n" + 
+				"ORDER BY solicitud.id_solicitud_servicio_al_cliente desc\r\n" + 
+				"").getResultList();
+		
+		
 		return re;
 	}
 
@@ -75,7 +81,7 @@ public class ComercialSolicitudServicioAlClienteServiceImpl implements IComercia
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> devolverSelectMateriales(Long idSolicitud) {
-		// TODO Auto-generated method stub
+	
 		List<Object[]> response = em.createNativeQuery("SELECT \r\n" + 
 				"	material.id_lookup AS ID,\r\n" + 
 				"    material.nombre_lookup AS NOM\r\n" + 
@@ -88,6 +94,47 @@ public class ComercialSolicitudServicioAlClienteServiceImpl implements IComercia
 				"			INNER JOIN alt_comercial_solicitud_servicio_al_cliente_material AS solicitud ON material2.id_lookup = solicitud.id_lookup\r\n" + 
 				"			WHERE material2.tipo_lookup = \"Material\"\r\n" + 
 				"			AND solicitud.id_solicitud_servicio_al_cliente = " + idSolicitud + ");").getResultList();
+		return response;
+	}
+
+
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> direccionesSucursales(Long id) {
+		List<Object[]> response = em.createNativeQuery(""
+				+ "SELECT\r\n" + 
+				"	'MATRIZ',\r\n" + 
+				"	CONCAT( 'PPAL. ', cliente.nombre ),\r\n" + 
+				"	cliente.telefono,\r\n" + 
+				"	cliente.nombre_contacto,\r\n" + 
+				"	CONCAT(direccion.id_direccion) \r\n" + 
+				"FROM\r\n" + 
+				"	alt_comercial_cliente AS cliente,\r\n" + 
+				"	alt_hr_direccion AS direccion \r\n" + 
+				"WHERE\r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND cliente.id_cliente = "+id+" \r\n" + 
+				"	AND cliente.id_direccion = direccion.id_direccion UNION ALL\r\n" + 
+				"	(\r\n" + 
+				"	SELECT\r\n" + 
+				"		sucursal.id_cliente_sucursal,\r\n" + 
+				"		CONCAT( 'Suc. ', sucursal.nombre_sucursal ),\r\n" + 
+				"		sucursal.telefono_sucursal,\r\n" + 
+				"		sucursal.contacto_sucursal,\r\n" + 
+				"		CONCAT(direccion.id_direccion) \r\n" + 
+				"	FROM\r\n" + 
+				"		alt_comercial_cliente AS cliente,\r\n" + 
+				"		alt_comercial_cliente_sucursal AS sucursal,\r\n" + 
+				"		alt_hr_direccion AS direccion \r\n" + 
+				"	WHERE\r\n" + 
+				"		1 = 1 \r\n" + 
+				"		AND cliente.id_cliente = sucursal.id_cliente \r\n" + 
+				"		AND sucursal.id_direccion = direccion.id_direccion \r\n" + 
+				"		AND sucursal.estatus = 1 \r\n" + 
+				"		AND cliente.id_cliente = "+id+" \r\n" + 
+				"ORDER BY\r\n" + 
+				"	sucursal.nombre_sucursal)").getResultList();
 		return response;
 	}
 }

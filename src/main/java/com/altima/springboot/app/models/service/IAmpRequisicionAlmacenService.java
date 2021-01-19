@@ -15,7 +15,7 @@ public interface IAmpRequisicionAlmacenService {
 	
 	void save(AmpRequisicionAlmacenMaterial obj);
 	
-	List<Object []> view(Long id);
+	List<Object []> view(Long id, String departamento);
 	
 	AmpRequisicionAlmacen findOne(Long id);
 	
@@ -28,5 +28,14 @@ public interface IAmpRequisicionAlmacenService {
 	List<Object []> viewListEmpleado();
 
 
-	//hola munfo
+	//Clasificación  por tipo 
+	List<Object []> clasificacion(String tipo);
+
+	List<Object []> materialesbyclasificacion(Long id);
+	List<Object []> tela();
+	List<Object []> forro();
+
+	List<Object []> detalles(Long id);
+
+	AmpRequisicionAlmacenMaterial findOneMaterial(Long id);
 }

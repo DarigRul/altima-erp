@@ -146,10 +146,10 @@ function agendarLlamadaAgente(idcliente){
 		'</div>'+
 		'</div>',
 		showCancelButton: true,
-		cancelButtonColor: '#6C757D',
+		cancelButtonColor: '#dc3545',
 		cancelButtonText: 'Cancelar',
 		confirmButtonText: 'Agendar',
-		confirmButtonColor:'#343a40',
+		confirmButtonColor:'#0288d1',
 	}).then((result) => {
 		if (result.value && document.getElementById("fechaLlamada").value && document.getElementById("observacionLlamada").value && document.getElementById("duracion").value) {
 			var Fecha = document.getElementById("fechaLlamada").value;
@@ -205,10 +205,10 @@ function editarLlamadaAgente(e){
 		'</div>'+
 		'</div>',
 		showCancelButton: true,
-		cancelButtonColor: '#6C757D',
+		cancelButtonColor: '#dc3545',
 		cancelButtonText: 'Cancelar',
 		confirmButtonText: 'Actualizar',
-		confirmButtonColor:'#343a40',
+		confirmButtonColor:'#0288d1',
 	}).then((result) => {
 		if (result.value &&  document.getElementById("observacionLlamada").value) {
 			var Observacion= document.getElementById("observacionLlamada").value;
@@ -259,10 +259,10 @@ function editarObservacionesClienteAgente(){
 		'</div>'+
 		'</div>',
 		showCancelButton: true,
-		cancelButtonColor: '#6C757D',
+		cancelButtonColor: '#dc3545',
 		cancelButtonText: 'Cancelar',
 		confirmButtonText: 'Actualizar',
-		confirmButtonColor:'#343a40',
+		confirmButtonColor:'#0288d1',
 		showLoaderOnConfirm: true,
 		preConfirm: (login) => {
 			return fetch(`//api.github.com/users/${login}`)

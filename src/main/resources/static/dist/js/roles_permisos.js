@@ -45,7 +45,7 @@ function cargarSeccion() {
 			var comercial = [];
 			var logistica = [];
 			var producción = [];
-			var servicioalcliente = [];
+//			var servicioalcliente = [];
 			var usuario = [];
 			var recursoshumanos = [];
 			var requisiciones = [];
@@ -65,9 +65,9 @@ function cargarSeccion() {
 				if (data[i][0]=="Producción"){
 					producción.push(data[i][1]);
 				}
-				if (data[i][0]=="Servicio al cliente"){
-					servicioalcliente.push(data[i][1]);
-				}
+//				if (data[i][0]=="Servicio al cliente"){
+//					servicioalcliente.push(data[i][1]);
+//				}
 				if (data[i][0]=="Usuarios"){
 					usuario.push(data[i][1]);
 				}
@@ -85,7 +85,7 @@ function cargarSeccion() {
 		      Comercial: comercial,
 		      Logística: logistica,
 		      Producción: producción,
-		      Servicioalcliente: servicioalcliente,
+//		      Servicioalcliente: servicioalcliente,
 		      Usuarios: usuario,
 		      Recursoshumanos : recursoshumanos,
 		      Requisiciones : requisiciones
@@ -603,7 +603,9 @@ function mapearPermisos(){
 		var data = roles;
 		
 		for (i in data){
-			if($(celdas[1]).text()==data[i][1]){
+			var infoVista = $(celdas[1]).text().trim();
+			var infoQuery = data[i][1].trim();
+			if(infoVista==infoQuery){
 			$(celdas[2]).find("select").append("<option value="+ data[i][0] +">"+ data[i][2] +"</option>");
 			}
 			
@@ -621,7 +623,9 @@ function checkSelect(){
 		var celdas = $(filas[i]).find("td");
 		var data = permisos;
 		for (u in data){
-			if($(celdas[1]).text()==data[u][1]){
+			var infoVista = $(celdas[1]).text().trim();
+			var infoQuery = data[u][1].trim();
+			if(infoVista==infoQuery){
 				console.log($(celdas[1]).text());
 				console.log(data[u][0]);
 				$($(celdas[2]).find("option[value="+data[u][0]+"]")).attr("selected", true);

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Empalme de telas | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Empalme de telas
+                            </h1>
+                        </div>
+                        <div th:insert="empalme-telas-folio"></div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Producci&oacute;n</li>
+                                <li class="breadcrumb-item active">Empalme de telas</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de empalme
+                                        <button  sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_FOLIO','ROLE_ADMINISTRADOR')" onclick="nuevoFolio()" class="btn btn-sm icon-btn btn-success text-white mr-auto" type="button"><span
+                                            class="btn-glyphicon fas fa-plus img-circle text-success"></span>Nuevo folio
+                                        </button>
+                                        <button sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_RUTA','ROLE_ADMINISTRADOR')" onclick="nuevaRuta()"  class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
+                                            class="btn-glyphicon fas fa-plus img-circle text-danger"></span>Ruta
+                                        </button>
+                                        <button sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_PROGRAMA','ROLE_ADMINISTRADOR')" onclick ="nuevoPrograma()" class="btn btn-sm icon-btn btn-secondary text-white mr-auto" type="button"><span
+                                                class="btn-glyphicon fas fa-plus img-circle text-secondary"></span>Programa
+                                        </button>
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tableEmpalme table-striped table-bordered display nowrap" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th > <input type="checkbox" id="selectAll"> </th>
+                                                <th>Pedido</th>
+                                                <th>Fecha de entrega</th>
+                                                <th>Programa</th>
+                                                <th>Coord.</th>
+                                                <th>Prenda</th>
+                                                <th>Modelo</th>
+                                                <th>Personalizaci&oacute;n</th>
+                                                <th>Ruta</th>
+                                                <th>Confecci&oacute;n</th>
+                                                <th>Clave tela</th>
+                                                <th>Ancho</th>
+                                                <th>Composici&oacute;n</th>
+                                                <th>Encog./Estir.</th>
+                                                <th>Estampado</th>
+                                                <th>Estatus tela pral.</th>
+                                                <th>Folio</th>
+                                                <th>Detalles</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+											<tr th:each="view, iview: ${view}" >
+											
+												<td style="text-align: center; vertical-align: middle;">
+														<input type="checkbox" class="messageCheckbox" th:value="${view[0]}" />
+                                                </td>
+                                                <td th:text="${view[1]}" >PED1020</td>
+                                                <td th:text="${view[2]}">28/12/2020</td>
+                                                <td th:text="${view[3]}">DD7</td>
+                                                <td th:text="${view[4]}">1</td>
+                                                <td th:text="${view[5]}">Saco</td>
+                                                <td th:text="${view[6]}">SAC6280</td>
+                                                <td th:text="${view[7]}">N/A</td>
+                                                <td th:text="${view[8]}">1</td>
+                                                <td th:text="${view[9]}">95</td>
+                                                <td th:text="${view[10]}">LS576</td>
+                                                <td th:text="${view[11]}">1.42</td>
+                                                <td th:text="${view[12]}">Lino</td>
+                                                <td th:text="${view[13]}">-5</td>
+                                                <td th:text="${view[14]}">Lisa</td>
+                                                <td th:text="${view[15]}">Faltante</td>
+                                                <td th:text="${view[16]}">1</td>
+                                                <td class="text-center">
+                                                    <button sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS','ROLE_ADMINISTRADOR')" class="btn btn-info btn-circle btn-sm" th:onclick="|detalles('${view[0]}')|" data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-info"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div th:insert="empalme-telas-detalle"></div>
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaEmpalme.js"></script>
+    <script src="dist/js/EmpalmeTelas.js"></script>
+	<script>
+        $('#iProduccion').removeClass('text-altima');
+        $('#menuProduccion').addClass('menu-open');
+        $('#navProduccion').addClass('active-altima');
+        $('#navProEmp').addClass('active');
+    </script>
+
+</body>
+
+</html>

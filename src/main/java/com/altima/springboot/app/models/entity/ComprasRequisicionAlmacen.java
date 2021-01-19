@@ -46,6 +46,9 @@ public class ComprasRequisicionAlmacen implements Serializable{
 	
 	@Column(name="estatus_envio")
 	private String estatusEnvio;
+	
+	@Column (name="id_solicitud_almacen")
+	private Long idSolicitudAlamcen;
 
 	public Long getIdRequsicionAlmacen() {
 		return idRequsicionAlmacen;
@@ -113,6 +116,14 @@ public class ComprasRequisicionAlmacen implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Long getIdSolicitudAlamcen() {
+		return idSolicitudAlamcen;
+	}
+
+	public void setIdSolicitudAlamcen(Long idSolicitudAlamcen) {
+		this.idSolicitudAlamcen = idSolicitudAlamcen;
 	}
 
 

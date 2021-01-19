@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Orden de compra | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Orden de compra&nbsp;<a th:href="${'/orden-de-compra'}"
+                                    class="btn btn-sm icon-btn btn-danger text-white mr-auto">
+                                    <span
+                                        class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Compras</li>
+                                <li class="breadcrumb-item active">Orden de compra
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Nueva orden de compra</h3>
+                                </div>
+                                <div th:insert="requisicion-de-materiales-modal"></div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <table class="table table-borderless">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left">Proveedor: <select
+                                                                class="col-form-label col-form-label-sm selectpicker"
+                                                                data-live-search="true"
+                                                                data-live-search-normalize="true" id="proveedorSelect">
+                                                                <option value="">Seleccione uno...</option>
+                                                                <option th:each=" proveedor: ${proveedores}"
+                                                                    th:value="${proveedor[0]}"
+                                                                    th:text="${proveedor[1]}"></option>
+                                                            </select></th>
+                                                        <th class="text-left">Iva:<select class="form-control selectIva selectpicker"
+                                                                id="selectIva">
+                                                                <option value="">Seleccione uno...</option>
+                                                            </select>
+                                                        </th>
+                                                        <th class="text-right">Fecha: <a class="font-weight-normal"
+                                                                id="curdate"></a></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <table class="table table-borderless" style="margin-top: -17px;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left">RFC: <a class="font-weight-normal"
+                                                                id="rfc"></a></th>
+                                                        <th class="text-left">Calle: <a class="font-weight-normal"
+                                                                id="calle"></a></th>
+                                                        <th class="text-right" style="width: 10%;">No. Ext: <a
+                                                                class="font-weight-normal" id="noext"></a></th>
+                                                        <th class="text-right" style="width: 10%;">No. Int: <a
+                                                                class="font-weight-normal" id="noint"></a></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <table class="table table-borderless" style="margin-top: -17px;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left">Colonia: <a class="font-weight-normal"
+                                                                id="colonia"></a></th>
+                                                        <th class="text-left">C&oacute;digo postal: <a
+                                                                class="font-weight-normal" id="cp"></a></th>
+                                                        <th class="text-left">Poblaci&oacute;n: <a
+                                                                class="font-weight-normal" id="poblacion"></a></th>
+                                                        <th class="text-left">Pa&iacute;s: <a class="font-weight-normal"
+                                                                id="pais"></a></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <hr>
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="cantidadProveedor">Cantidad</label>
+                                            <input type="number" value="0" class="form-control" id="cantidadProveedor">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="claveMaterialProveedor">Clave material</label>
+                                            <select class="form-control selectpicker" data-live-search="true"
+                                                data-live-search-normalize="true" id="claveMaterialProveedor">
+                                                <option value="">Seleccione uno...</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-5">
+                                            <label for="coloresProveedor">Colores</label>
+                                            <div class="input-group mb-3">
+                                                <select class="form-control selectpicker" data-live-search="true"
+                                                    disabled data-live-search-normalize="true" id="coloresProveedor">
+                                                    <option>Seleccione uno...</option>
+                                                </select>
+                                                <div class="input-group-append"
+                                                    style="margin-left: 20px; display: block;">
+                                                    <button class="btn btn-sm icon-btn btn-altima text-white"
+                                                        id="agregarMaterial">
+                                                        <span
+                                                            class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <table class="tablaOrden table-striped table-bordered" style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Cantidad</th>
+                                                        <th>Clave material</th>
+                                                        <th>Descripci&oacute;n</th>
+                                                        <th>Color</th>
+                                                        <th>Almac&eacute;n</th>
+                                                        <th>Precio unitario</th>
+                                                        <th>Monto Desc/Cargo</th>
+                                                        <th>% Desc/Cargo</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                </tbody>
+
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="8"></th>
+                                                        <th>Subtotal:</th>
+                                                        <th>
+                                                            <p id="subtotal">0</p>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="8"></th>
+                                                        <th>Descuento/Cargo:</th>
+                                                        <th>
+                                                            <p id="descuento">0</p>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="8"></th>
+                                                        <th>Iva:</th>
+                                                        <th>
+                                                            <p id="iva">0</p>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="8"></th>
+                                                        <th>Total:</th>
+                                                        <th>
+                                                            <p id="total">0</p>
+                                                        </th>
+                                                    </tr>
+                                                </tfoot>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a th:href="${'/orden-de-compra'}"
+                                        class="btn btn-sm icon-btn btn-danger text-white mr-auto">
+                                        <span
+                                            class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                                    <button class="btn btn-sm icon-btn btn-altima text-white float-right"
+                                        id="enviarOrden">
+                                        <span
+                                            class="btn-glyphicon fas fa-check img-circle text-altima"></span>Generar</button>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        
+            var cabecero = /*[[${cabecero}]]*/ 'default';
+            var proveedor = /*[[${proveedor}]]*/ 'default';
+            var detalles = /*[[${detalles}]]*/ 'default';
+            console.log({cabecero},{proveedor},{detalles});
+        
+        /*]]>*/
+        </script>
+    <script src="/dist/js/tablaOrdenCompra.js"></script>
+    <script src="/dist/js/ordenesCompra.js"></script>
+    <script>
+        $('#iCompras').removeClass('text-altima');
+        $('#menuCompras').addClass('menu-open');
+        $('#navCompras').addClass('active-altima');
+        $('#navComCom').addClass('active');
+    </script>
+</body>
+
+</html>

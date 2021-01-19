@@ -47,6 +47,9 @@ public class AmpRequisicionAlmacen implements Serializable{
 	@Column(name="estatus_envio")
 	private String estatusEnvio;
 
+	@Column(name="tipo_requisicion")
+	private String tipoRequisicion;
+
 	public Long getIdRequsicionAlmacen() {
 		return idRequsicionAlmacen;
 	}
@@ -115,6 +118,12 @@ public class AmpRequisicionAlmacen implements Serializable{
 		return serialVersionUID;
 	}
 	
-	
+	public String getTipoRequisicion() {
+		return tipoRequisicion;
+	}
+
+	public void setTipoRequisicion(String tipoRequisicion) {
+		this.tipoRequisicion = tipoRequisicion;
+	}
 
 }

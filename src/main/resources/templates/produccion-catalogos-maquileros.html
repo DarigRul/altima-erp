@@ -12,7 +12,8 @@
 </div>
 <!-- Modal Marcas Tabla -->
 <div class="modal fade" id="detalleMaquileros" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 75%;" role="document" id="modalMarcasMobile">
+ 
         <div class="modal-content modal-rounded-body" id="contenedorTabla">
             <div class="modal-header bg-success modal-rounded-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Listado de maquileros <button onclick="agregarMaquileros()" class="btn btn-light btn-circle btn-sm text-success popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
@@ -27,7 +28,11 @@
                         <tr>
                         	<th>Folio</th>
                             <th>Nombre</th>
-                            <th>Tel&eacute;fono</th>
+                            <th>Tipo</th>
+                            <th>Descripci&oacute;n</th>
+                            <th>Producci&oacute;n Max.</th>
+                            <th>Direcci&oacute;n</th>
+                            <th>Ubicaci&oacute;n</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -35,6 +40,146 @@
                  		
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="addMaquilero" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;" role="document" id="modalMarcasMobile">
+        <div class="modal-content modal-rounded-body" id="contenedorTabla">
+            <div class="modal-header bg-success modal-rounded-header">
+                <h5  id="exampleModalLongTitle" aling="center">Nuevo maquilero</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                	<span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <label for="nombreMaquilero">Nombre</label> 
+                        <input type="text"  maxlength="45" onkeyup="capitalizarPrimeraLetra(this);" class="form-control" id="nombreMaquilero" name="nombreMaquilero" placeholder="Maquilero">
+                        <input type="hidden"  id="idMaquilero" name="idMaquilero">
+                    </div>
+                    <div class="form-group col-sm-7">
+                        <label for="calleMaquilero">Calle</label> 
+                        <input type="text"  maxlength="45" onkeyup="capitalizarPrimeraLetra(this);" class="form-control" id="calleMaquilero" name="calleMaquilero" placeholder="Av. 1ro de Mayo No. 126">
+                    </div>
+                    <div class="form-group col-sm-1">
+						<div class="custom-control custom-checkbox" style="margin-top: 38px">
+                            <input class="custom-control-input" type="checkbox" id="SN" value="option"> 
+                            <label for="SN" class="custom-control-label">S/N</label>
+						</div>
+                    </div>
+                    
+                    <div  class="form-group col-sm-2">
+                        <label for="numeroExtMaquilero">No. Ext.</label> 
+                        <input type="text"  class="form-control" id="numeroExtMaquilero" name="numeroExtMaquilero" placeholder="63">
+					</div>
+                    
+                    <div  class="form-group col-sm-2">
+                        <label for="numeroIntMaquilero">No. Int. (opcional)</label> 
+                            <input type="text" class="form-control" id="numeroIntMaquilero" name="numeroIntMaquilero" placeholder="12">
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label for="estadoMaquilero">Estado</label> 
+                        <select  class="form-control selectpicker" id="estadoMaquilero" name="estadoMaquilero" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true">
+							<option value="Aguascalientes">Aguascalientes</option>
+							<option value="Baja California">Baja California</option>
+							<option value="Baja California Sur">Baja California Sur</option>
+							<option value="Campeche">Campeche</option>
+							<option value="Chiapas">Chiapas</option>
+							<option value="Chihuahua">Chihuahua</option>
+							<option value="Coahuila">Coahuila</option>
+							<option value="Colima">Colima</option>
+							<option value="Distrito Federal">Distrito Federal</option>
+							<option value="Durango">Durango</option>
+							<option value="Estado de México">Estado de México</option>
+							<option value="Guanajuato">Guanajuato</option>
+							<option value="Guerrero">Guerrero</option>
+							<option value="Hidalgo">Hidalgo</option>
+							<option value="Jalisco">Jalisco</option>
+							<option value="Michoacán">Michoacán</option>
+							<option value="Morelos">Morelos</option>
+							<option value="Nayarit">Nayarit</option>
+							<option value="Nuevo León">Nuevo León</option>
+							<option value="Oaxaca">Oaxaca</option>
+							<option value="Puebla">Puebla</option>
+							<option value="Querétaro">Querétaro</option>
+							<option value="Quintana Roo">Quintana Roo</option>
+							<option value="San Luis Potosí">San Luis Potosí</option>
+							<option value="Sinaloa">Sinaloa</option>
+							<option value="Sonora">Sonora</option>
+							<option value="Tabasco">Tabasco</option>
+							<option value="Tamaulipas">Tamaulipas</option>
+							<option value="Tlaxcala">Tlaxcala</option>
+							<option value="Veracruz">Veracruz</option>
+							<option value="Yucatán">Yucatán</option>
+							<option value="Zacatecas">Zacatecas</option>
+						</select>
+
+                    </div>
+                    
+                    <div class="form-group col-sm-4">
+                        <label for="municipioMaquilero">Municipio</label> 
+                        <input type="text"  maxlength="45" onkeyup="capitalizarPrimeraLetra(this);" placeholder=" Ecatepec" class="form-control" id="municipioMaquilero" name="municipioMaquilero" >
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="coloniaMaquilero">Colonia</label> 
+                        <input type="text"  maxlength="45" onkeyup="capitalizarPrimeraLetra(this);" class="form-control" id="coloniaMaquilero" name="coloniaMaquilero" placeholder="8 de Agosto" >
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label for="cpMaquilero">C&oacute;digo postal</label> 
+                        <input type="text"  class="form-control" id="cpMaquilero" name="cpMaquilero" placeholder="90688" >
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label for="idUbicacion">Ubicaci&oacute;n</label>
+                        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" name="idUbicacion" id="idUbicacion">
+
+                        </select>
+
+                    </div>
+
+                    <div class="form-group col-sm-2">
+                        <label for="produccionMax">Producci&oacute;n Max.</label>
+                        <input class="form-control" id="produccionMax" name="produccionMax" placeholder="100" type="text">
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label for="tipo">Tipo</label>
+                        <select class="form-control selectpicker " title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" name="tipo" id="tipo">
+                            <option value="Confección">Confecci&oacute;n</option>
+                            <option value="Personalización">Personalizaci&oacute;n</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label for="descripcion">Tel&eacute;fono</label>
+                        <input class="form-control" id="telefono" name="telefono" placeholder="Descripción" type="text">
+
+                    </div>
+
+                    <div class="form-group col-sm-8">
+                        <label for="descripcion">Descripci&oacute;n</label>
+                        <input class="form-control" id="descripcion" name="descripcion" placeholder="Descripción" type="text">
+
+                    </div>
+                   
+
+                </div>
+               
+             
+               
+
+                <div class="modal-footer modal-rounded-footer">
+                    <button class="btn btn-danger mr-auto" data-dismiss="modal" aria-label="Close" >Cancelar</button>
+                    <button class="btn btn-primary" onclick="guardarMaquilero()">Guardar</button>
+                </div>
+
             </div>
         </div>
     </div>

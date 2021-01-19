@@ -23,24 +23,27 @@ public class AlmacenRequisicionController {
 	@Autowired
     AuthComponent auth;
 	
-    @GetMapping("/requisicion-de-almacen")
+    @GetMapping("/solicitud-de-almacen")
     public String RequisicionAlmacenList(Model model){
-    	
-    	
-    	 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	     String roles =auth.getAuthorities().toString();
-	     
-	     if (roles.contains("ROLE_ADMINISTRADOR")) {
-	    	 System.out.println("Sooooy admin");
-	            model.addAttribute("view", ServiceAlmacen.view(0L));
-	        } else {
-	            model.addAttribute("view", ServiceAlmacen.view(this.auth.currentemployeeid()));
-	        }
-	    
-	     
-        return"requisicion-de-almacen";
-    }
-    @GetMapping("/requisicion-de-almacen-nueva")
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String roles =auth.getAuthorities().toString();
+	
+	    if (roles.contains("ROLE_ADMINISTRADOR")) {
+	        model.addAttribute("view", ServiceAlmacen.view(0L, "ADMIN"));
+		}
+		else if (roles.contains("ROLE_REQUISICION_SOLICITUD_GERENTE") ){
+
+			Object[] lista = ServiceAlmacen.infoUsuario(this.auth.currentuserid());
+	        model.addAttribute("view", ServiceAlmacen.view(0L, lista[1].toString()));
+		} 
+		else{
+			Object[] lista = ServiceAlmacen.infoUsuario(this.auth.currentuserid());
+	        model.addAttribute("view", ServiceAlmacen.view(this.auth.currentemployeeid(), lista[1].toString()));
+	    }
+	    return"requisicion-de-almacen";
+	}
+	
+    @GetMapping("/solicitud-de-almacen-nueva")
     public String RequisicionAlmacenAdd(Map<String, Object> model, Model m){
     	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -63,29 +66,27 @@ public class AlmacenRequisicionController {
 		model.put("idRequisicion", null);
 		
 		model.put("almacen", true);
-		m.addAttribute("materiales", ServiceAlmacen.AllMateriales());
+		//m.addAttribute("materiales", ServiceAlmacen.AllMateriales());
         return"requisicion-de-almacen-nueva";
     }
     
-    @GetMapping("/requisicion-de-almacen-editar/{id}")
+    @GetMapping("/solicitud-de-almacen-editar/{id}")
     public String editar(Map<String, Object> model, Model m,@PathVariable(value = "id") Long id){
-    	
-    
 		AmpRequisicionAlmacen obj = ServiceAlmacen.findOne(id);
-		System.out.println(id);
-		
-		if ( obj.getIdSolicitante() == 1) {
-			model.put("solicitante", "ADMIN");
-			model.put("departamento", "ADMIN");
-		}
-		
-		else {
-			Object[] lista = ServiceAlmacen.infoUsuario(obj.getIdSolicitante());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if ( auth.getName().equals("ADMIN") ) {
+			m.addAttribute("listSolicitante", ServiceAlmacen.viewListEmpleado());
+			model.put("idSelect",obj.getIdSolicitante());
+		}else {
+			Object[] lista = ServiceAlmacen.infoUsuario(this.auth.currentuserid());
 			model.put("solicitante", lista[0]);
 			model.put("departamento", lista[1]);
+			model.put("noAdmin", true);
+			model.put("idEmpleadoSolicitante",this.auth.currentuserid());
+			
 		}
 		
-	
+		model.put("tipo", obj.getTipoRequisicion());
 		model.put("fecha", obj.getFechaCreacion());
 		model.put("folio", obj.getIdText());
 		model.put("idRequisicion", obj.getIdRequsicionAlmacen());

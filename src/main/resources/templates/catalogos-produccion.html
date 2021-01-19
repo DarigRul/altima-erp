@@ -44,7 +44,8 @@
                       	<div th:insert="produccion-catalogos-rutas" class="col-lg-4 col-6"></div> 
                       	<div th:insert="produccion-catalogos-procesos" class="col-lg-4 col-6"></div>   
                       	<div th:insert="produccion-catalogos-maquileros" class="col-lg-6 col-6"></div>   
-                      	<div th:insert="produccion-catalogos-entrega" class="col-lg-6 col-6"></div>   
+                        <div th:insert="produccion-catalogos-entrega" class="col-lg-6 col-6"></div>
+                        <div th:insert="produccion-catalogos-ubicacion" class="col-lg-4 col-6"> </div>
                       	 <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
                     </div>
                     <!-- /.row -->
@@ -65,8 +66,10 @@
     <!-- Funcionalidad-->
     <script src="dist/js/tablaCatalogosProduccion.js"></script>
     <script src="dist/js/produccionCRUD.js"></script>
+    <script src="dist/js/produccionMaquileros.js"></script>
     <!-- QUITAR SCRIPT DE TABLA GENERAL CUANDO EMPIEZEN A PROGRAMAR -->
     <script src="/dist/js/tablaGeneral.js"></script>
+    <script th:src="@{/plugins/inputmask/min/jquery.inputmask.bundle.min.js}"></script>
 	<script>
 		$('#iProduccion').removeClass('text-primary');
 		$('#menuProduccion').addClass('menu-open');

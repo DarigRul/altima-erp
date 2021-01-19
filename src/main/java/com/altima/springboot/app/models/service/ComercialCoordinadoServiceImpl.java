@@ -353,6 +353,30 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"AND coor_prenda.id_coordinado="+id).getResultList();
 		return re;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<ComercialCoordinadoPrenda>findAllCoorPrendasEntities(Long idCoordinado ) {
+		List<ComercialCoordinadoPrenda> re = em.createQuery("FROM ComercialCoordinadoPrenda WHERE idCoordinado="+idCoordinado).getResultList();
+		return re;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<ComercialCoordinadoTela>findAllCoorTelasEntities(Long idCoordinadoPrenda ) {
+		List<ComercialCoordinadoTela> re = em.createQuery("FROM ComercialCoordinadoTela WHERE idCoordinadoPrenda="+idCoordinadoPrenda).getResultList();
+		return re;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<ComercialCoordinadoForro>findAllCoorForrosEntities(Long idCoordinadoPrenda ) {
+		List<ComercialCoordinadoForro> re = em.createQuery("FROM ComercialCoordinadoForro WHERE idCoordinadoPrenda="+idCoordinadoPrenda).getResultList();
+		return re;
+	}
 
 	@Override
 	public void saveCoorPrenda(ComercialCoordinadoPrenda prenda) {
@@ -767,6 +791,24 @@ public class ComercialCoordinadoServiceImpl implements IComercialCoordinadoServi
 				"	AND id_coordinado_prenda = "+CoorPrenda+" \r\n");
 		query.executeUpdate();
 
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object []>detallesMatarialesPreapartado(Long id ) {
+		
+		List<Object[]> re = em.createNativeQuery("SELECT CONCAT( 'Combinación ', tela.nombre_tela ), \n" + 
+				"					tela.color, \n" + 
+				"					tela.codigo_color  \n" + 
+				"				FROM \n" + 
+				"					alt_comercial_telas_preapartado AS coorTela, \n" + 
+				"					alt_disenio_tela AS tela  \n" + 
+				"				WHERE \n" + 
+				"					1 = 1  \n" + 
+				"					AND tela.id_tela = coorTela.id_tela  \n" + 
+				"					AND coorTela.id_prenda_preapartado ="+id).getResultList();
+		return re;
 	}
 }
 

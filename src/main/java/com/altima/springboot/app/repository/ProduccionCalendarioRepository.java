@@ -1,0 +1,11 @@
+package com.altima.springboot.app.repository;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.altima.springboot.app.models.entity.ProduccionCalendario;
+
+
+public interface ProduccionCalendarioRepository extends CrudRepository<ProduccionCalendario, Long> {
+
+}
+

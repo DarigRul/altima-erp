@@ -43,6 +43,12 @@ public class ComercialPedidoInformacion implements Serializable{
 
 	@Column(name="validacion")
 	private Boolean validacion;
+
+	@Column(name="fecha_explosion_materia_prima")
+	private String 	fechaExplosionMateriaPrima;
+
+	@Column(name="estatus_explosion_materia_prima")
+	private String estatusExplosionMateriaPrima;
 	
 	public Long getIdPedido() {
 		return idPedido;
@@ -112,6 +118,18 @@ public class ComercialPedidoInformacion implements Serializable{
 	
 	@Column(name="fecha_apartado_telas")
 	private String fechaApartadoTelas;
+	
+	@Column(name="cubre_polvo")
+	private String cubrePolvo;
+	
+	@Column(name="porta_traje")
+	private String portaTraje;
+	
+	@Column(name="otros")
+	private String otros;
+	
+	@Column(name="otros_texto")
+	private String otrosTexto;
 	
 
 	public String getFechaCierre() {
@@ -325,10 +343,54 @@ public class ComercialPedidoInformacion implements Serializable{
 	public void setFechaApartadoTelas(String fechaApartadoTelas) {
 		this.fechaApartadoTelas = fechaApartadoTelas;
 	}
-	
-	
-	
-	
-	
+
+	public String getCubrePolvo() {
+		return cubrePolvo;
+	}
+
+	public void setCubrePolvo(String cubrePolvo) {
+		this.cubrePolvo = cubrePolvo;
+	}
+
+	public String getPortaTraje() {
+		return portaTraje;
+	}
+
+	public void setPortaTraje(String portaTraje) {
+		this.portaTraje = portaTraje;
+	}
+
+	public String getOtros() {
+		return otros;
+	}
+
+	public void setOtros(String otros) {
+		this.otros = otros;
+	}
+
+	public String getOtrosTexto() {
+		return otrosTexto;
+	}
+
+	public void setOtrosTexto(String otrosTexto) {
+		this.otrosTexto = otrosTexto;
+	}
+
+	public String getFechaExplosionMateriaPrima() {
+		return fechaExplosionMateriaPrima;
+	}
+
+	public void setFechaExplosionMateriaPrima(String fechaExplosionMateriaPrima) {
+		this.fechaExplosionMateriaPrima = fechaExplosionMateriaPrima;
+	}
+
+	public String getEstatusExplosionMateriaPrima() {
+		return estatusExplosionMateriaPrima;
+	}
+
+	public void setEstatusExplosionMateriaPrima(String estatusExplosionMateriaPrima) {
+		this.estatusExplosionMateriaPrima = estatusExplosionMateriaPrima;
+	}
+
 	
 }

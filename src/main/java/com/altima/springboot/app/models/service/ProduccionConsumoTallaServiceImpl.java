@@ -49,6 +49,12 @@ public class ProduccionConsumoTallaServiceImpl implements IProduccionConsumoTall
 		// TODO Auto-generated method stub
 		return repository.findById(id).orElse(null);
 	}
+	@Override
+	@Transactional
+	public ProduccionConsumoTalla findOneSpecial(Long id) {
+		// TODO Auto-generated method stub
+		return (ProduccionConsumoTalla) em.createQuery("From ProduccionConsumoTalla where IdTallaEspecial=1 and idPrenda="+id+" ").getSingleResult();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Listado de requisiciones | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Listado de requisiciones
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Compras</li>
+                                <li class="breadcrumb-item active">Listado de requisiciones</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de requisiciones</h3>
+                                </div>
+                                <div th:insert="requisicion-de-materiales-modal"></div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneralScrollMultiSearch table-striped table-bordered"
+                                        style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" id="selectAll" /></th>
+                                                <th class="select-filter">REQ</th>
+                                                <th class="select-filter">Fecha Req.</th>
+                                                <th class="select-filter">Solicitante</th>
+                                                <th class="select-filter">Clave</th>
+                                                <th class="select-filter">Descripci&oacute;n</th>
+                                                <th class="select-filter">Proveedor</th>
+                                                <th class="select-filter">Clave proveedor</th>
+                                                <th class="select-filter">Color</th>
+                                                <!-- <th class="select-filter">Tama&ntilde;o</th>
+                                                <th class="select-filter">UOM</th> -->
+                                                <th class="select-filter">Cantidad</th>
+                                                <!-- <th class="select-filter">Fecha O.C.</th>
+                                                <th class="select-filter">Folio O.C.</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each=" material: ${materiales}">
+                                                <td class="text-center"><input type="checkbox"
+                                                        th:class="messageCheckbox"
+                                                        th:value="${material.idRequisicionAlmacenMaterial}" />
+                                                </td>
+                                                <td th:text="${material.idTextRequisicion}">REQ123</td>
+                                                <td th:text="${material.fechaCreacion}"></td>
+                                                <td th:text="${material.nombreUsuario}"></td>
+                                                <td th:text="${material.idTextMaterial}">CIE001</td>
+                                                <td th:text="${material.nombreMaterial}"></td>
+                                                <td th:text="${material.nombreProveedor}">YKK</td>
+                                                <td th:text="${material.modelo}">N/A</td>
+                                                <td th:text="${material.color}">021 Blanco YKK</td>
+                                                <!-- <td></td>
+                                                <td></td> -->
+                                                <td th:text="${material.cantidad}">100</td>
+                                                <!-- <td ></td>
+                                                <td ></td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-footer">
+                                    <button onclick="generarOrden()"
+                                        class="btn btn-sm icon-btn btn-danger text-white float-right">
+                                        <span
+                                            class="btn-glyphicon fas fa-clipboard img-circle text-danger"></span>Generar
+                                        orden de compra</button>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneralScrollMultiSearch.js"></script>
+    <script src="/dist/js/ListRequisicion.js"></script>
+    <script>
+        $('#iCompras').removeClass('text-altima');
+        $('#menuCompras').addClass('menu-open');
+        $('#navCompras').addClass('active-altima');
+        $('#navComHab').addClass('active');
+    </script>
+        <script th:inline="javascript">
+            var materialesList = /*[[${materiales}]]*/
+            console.log(materialesList)
+        </script>
+</body>
+
+</html>

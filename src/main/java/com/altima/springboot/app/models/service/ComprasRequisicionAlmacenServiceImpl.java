@@ -63,7 +63,7 @@ public class ComprasRequisicionAlmacenServiceImpl implements IComprasRequisicion
 				"	material.nombre_material AS nombre,\r\n" + 
 				"	look.nombre_lookup AS medida,\r\n" + 
 				"	material.tamanio,\r\n" + 
-				"	color.nombre_lookup,\r\n" + 
+				"	IFNULL(color.nombre_lookup,'Sin color') as color,\r\n" + 
 				"	'm' \r\n" + 
 				"FROM\r\n" + 
 				"	alt_disenio_material AS material,\r\n" + 
@@ -169,7 +169,7 @@ public class ComprasRequisicionAlmacenServiceImpl implements IComprasRequisicion
 				"	END ,\r\n" + 
 				"	requisicion.estatus_envio\r\n" + 
 				"	FROM\r\n" + 
-				"		alt_amp_requisicion_almacen AS requisicion\r\n" + 
+				"		alt_compras_requisicion_almacen AS requisicion\r\n" + 
 				"		INNER JOIN alt_hr_usuario ahu ON ahu.id_usuario = requisicion.id_solicitante\r\n" + 
 				"		INNER JOIN alt_hr_empleado ahe ON ahe.id_empleado = ahu.id_empleado\r\n" + 
 				"		INNER JOIN alt_hr_puesto ahp ON ahp.id_puesto = ahe.id_puesto\r\n" + 
@@ -192,6 +192,7 @@ public class ComprasRequisicionAlmacenServiceImpl implements IComprasRequisicion
 	@Override
 	@Transactional
 	public List<Object[]> viewMaterial(Long id) {
+
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	material.id_material,\r\n" + 
@@ -201,22 +202,19 @@ public class ComprasRequisicionAlmacenServiceImpl implements IComprasRequisicion
 				"	material.nombre_material AS nombre,\r\n" + 
 				"	look.nombre_lookup AS medida,\r\n" + 
 				"	material.tamanio,\r\n" + 
-				"	color.nombre_lookup, \r\n" + 
+				"	IFNULL(color.nombre_lookup,'Sin color') as color,\r\n" + 
 				"	AM.id_requisicion_almacen_material \r\n" + 
 				"FROM\r\n" + 
-				"	alt_amp_requisicion_almacen_material AS AM,\r\n" + 
-				"	alt_disenio_material AS material,\r\n" + 
-				"	alt_disenio_lookup AS look,\r\n" + 
-				"	alt_disenio_lookup AS color \r\n" + 
+				"	alt_compras_requisicion_almacen_material AS AM\r\n" + 
+				"	INNER JOIN alt_disenio_material material ON AM.id_material = material.id_material\r\n" + 
+				"	INNER JOIN alt_disenio_lookup look ON material.id_unidad_medida = look.id_lookup\r\n" + 
+				"	LEFT JOIN alt_disenio_lookup color ON material.id_color = color.id_lookup \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
-				"	AND AM.id_material = material.id_material \r\n" + 
 				"	AND AM.tipo_material = 'm' \r\n" + 
 				"	AND AM.id_requisicion_almacen = "+id+" \r\n" + 
-				"	AND material.id_unidad_medida = look.id_lookup \r\n" + 
-				"	AND material.id_color = color.id_lookup \r\n" + 
 				"	AND material.estatus_material = 1 \r\n" + 
-				"	AND material.estatus = 1 UNION\r\n" + 
+				"	AND material.estatus = 1 UNION \r\n" +
 				"SELECT\r\n" + 
 				"	tela.id_tela,\r\n" + 
 				"	't',\r\n" + 
@@ -230,7 +228,7 @@ public class ComprasRequisicionAlmacenServiceImpl implements IComprasRequisicion
 				"FROM\r\n" + 
 				"	alt_disenio_tela AS tela,\r\n" + 
 				"	alt_disenio_lookup AS look,\r\n" + 
-				"	alt_amp_requisicion_almacen_material AS AM \r\n" + 
+				"	alt_compras_requisicion_almacen_material AS AM \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
 				"	AND AM.id_material = tela.id_tela \r\n" + 
@@ -252,7 +250,7 @@ public class ComprasRequisicionAlmacenServiceImpl implements IComprasRequisicion
 				"FROM\r\n" + 
 				"	alt_disenio_forro AS forro,\r\n" + 
 				"	alt_disenio_lookup AS look,\r\n" + 
-				"	alt_amp_requisicion_almacen_material AS AM \r\n" + 
+				"	alt_compras_requisicion_almacen_material AS AM \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
 				"	AND AM.id_material = forro.id_forro \r\n" + 
@@ -276,7 +274,7 @@ public class ComprasRequisicionAlmacenServiceImpl implements IComprasRequisicion
 				"	alt_amp_lookup AS look,\r\n" + 
 				"	alt_amp_lookup AS look_clas,\r\n" + 
 				"	alt_disenio_lookup AS look2,\r\n" + 
-				"	alt_amp_requisicion_almacen_material AS AM \r\n" + 
+				"	alt_compras_requisicion_almacen_material AS AM \r\n" + 
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
 				"	AND AM.id_material = inventario.id_inventario \r\n" + 

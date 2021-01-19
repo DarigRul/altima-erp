@@ -11,11 +11,26 @@
             </div>
             <div class="modal-body modal-rounded-footer">
                 <ul class="list-group list-group-horizontal-md" style="margin-bottom: 20px;">
-                    <li class="list-group-item" style="width: 25%;"><strong>Disponible: </strong><a>1308.8</a></li>
-                    <li class="list-group-item" style="width: 25%;"><strong>Requerido: </strong><a>853.57</a></li>
-                    <li class="list-group-item" style="width: 25%;"><strong>Apartado: </strong><a>853.57</a></li>
-                    <li class="list-group-item" style="width: 25%;"><strong>Restante: </strong><a>0</a></li>
+                    <li class="list-group-item" style="width: 25%;"><strong>Disponible: </strong><a
+                            id="mod-disponible">1308.8</a></li>
+                    <li class="list-group-item" style="width: 25%;"><strong>Requerido: </strong><a
+                            id="mod-requerido">853.57</a></li>
+                    <li class="list-group-item" style="width: 25%;"><strong>Apartado: </strong><a
+                            id="mod-apartado">853.57</a></li>
+                    <li class="list-group-item" style="width: 25%;"><strong>Restante: </strong><a
+                            id="mod-restante">0</a></li>
                 </ul>
+                <table class="table-striped table-bordered tableExplosion" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Almac&eacute;n</th>
+                            <th>Existencia</th>
+                            <th>Traspaso</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                </table>
             </div>
         </div>
     </div>
@@ -31,55 +46,39 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <div class="form-group col-sm-12">
+                <label>Rollos</label>
+                <div class="input-group mb-3">
+                    <select class="form-control selectpicker" data-live-search="true" 
+                        data-live-search-normalize="true" title="Selecciona uno..." id="selectRollo" >
+                    </select>
+                    <div style="margin-left:8px">
+                        <button onclick="agregarRollo()"
+                            class="btn icon-btn btn-altima text-white float-right">
+                            <span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </select>
             <div class="modal-body">
-                <table class="table tablaGeneral table-striped table-bordered" style="width:100%;">
+                <table class="table tableExplosionRollos table-striped table-bordered" style="width:100%;">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" /></th>
-                            <th>Fecha R:</th>
                             <th>Clave &uacute;nica (rollo)</th>
                             <th>Metro</th>
                             <th>Lote</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="checkbox" /></td>
-                            <td>15/06/2020</td>
-                            <td>ROL0001</td>
-                            <td>55</td>
-                            <td>A</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" /></td>
-                            <td>15/06/2020</td>
-                            <td>ROL0002</td>
-                            <td>60</td>
-                            <td>C</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" /></td>
-                            <td>15/06/2020</td>
-                            <td>ROL0003</td>
-                            <td>70</td>
-                            <td>B</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" /></td>
-                            <td>15/06/2020</td>
-                            <td>ROL0004</td>
-                            <td>65</td>
-                            <td>A</td>
-                        </tr>
-                    </tbody>
                 </table>
             </div>
             <div class="modal-footer modal-rounded-footer">
                 <ul class="list-group list-group-horizontal-md float-right" style="margin-right: 40px!important;">
-                    <li class="list-group-item" style="width:100%;"><strong>Total: </strong><a>1308.8</a></li>
+                    <li class="list-group-item" style="width:100%;"><strong>Total: </strong><a id="totalTela">0.0</a></li>
                 </ul>
-                <a class="btn icon-btn btn-altima text-white" type="submit"><span
-                        class="btn-glyphicon fas fa-hand-pointer img-circle text-altima"></span>Tomar</a>
+                <!-- <a class="btn icon-btn btn-altima text-white" type="submit"><span
+                        class="btn-glyphicon fas fa-hand-pointer img-circle text-altima"></span>Tomar</a> -->
             </div>
         </div>
     </div>

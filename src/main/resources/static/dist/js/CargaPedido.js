@@ -109,7 +109,8 @@
         		  valid= true;
         	  }
         
-        	
+        	console.log(document.getElementById("cargaTipopedido").value);
+        	console.log(document.getElementById("cargaEmpresa").value);
                if (document.getElementById("cargaTipopedido").value && 
              		  document.getElementById("cargaEmpresa").value && valid  ) {
          		 var cargaTipopedido=document.getElementById("cargaTipopedido").value;
@@ -129,7 +130,15 @@
                  },
                  
                  beforeSend: function () {
-                 	 
+                	 Swal.fire({
+                         title: 'Cargando ',
+                         html: 'Por favor espere, se est&aacute; extrayendo la informaci&oacute;n',// add html attribute if you want or remove
+                         allowOutsideClick: false,
+                         timerProgressBar: true,
+                         onBeforeOpen: () => {
+                             Swal.showLoading()
+                         },
+                     });
                  },
                  success: function(data) {
                 	 if ( data =="1"){
@@ -166,6 +175,33 @@
                      	
                 	 }
                 	 else if (data =="4"){
+                		 Swal.fire({
+                     		 position: 'center',
+                  				icon: 'error',
+                  				title: 'Solo se puede realizar Stock un año antes'
+                          });
+                     	
+                	 }
+                	 else if (data =="5"){
+                		 Swal.fire({
+                     		 position: 'center',
+                  				icon: 'warning',
+                  				title: 'Solo se puede realizar un Resurtido por pedido'
+                             
+                          
+                		 });    
+                     	
+                	 }
+                	 else if ( data =="6"){
+                		 Swal.fire({
+                     		 position: 'center',
+                  				icon: 'error',
+                  				title: 'Solo se puede realizar un máximo de 2 Resurtidos por pedido'
+
+                          });
+                     	
+                	 }
+                	 else if (data =="7"){
                 		 Swal.fire({
                      		 position: 'center',
                   				icon: 'error',
@@ -379,7 +415,7 @@
                 		Swal.fire({
 	                       	  position: 'center',
 	                             icon: 'error',
-	                             title: 'No se puedo cerrar el pedido',
+	                             title: 'No se puede cerrar el pedido',
 	                             showConfirmButton: false,
 	                             timer: 2250
 	                             
@@ -394,3 +430,138 @@
             })
       		
 		}
+      	
+//////////////////////////////////////////////////////////////////////////////////////
+      	//desarrollado por Victor Hugo Garcia Ilhuicatzi
+      	
+function anadirExtras(idPedido){
+
+	$('#idPed').val(idPedido);
+	$('#numCubres').val("");
+	$('#numPortas').val("");
+	$('#numOtros').val("");
+	
+	$('#Otro').hide();
+	$('#Otro').val("");
+	$('#cubrePolvo').prop("checked", false);
+	$('#portaTraje').prop("checked", false);
+	$('#otroExtra').prop("checked", false);
+	
+	$.ajax({
+        type: "GET",
+        url: "/traerPedido",
+        data: { 
+     	   idPedido: idPedido
+        },
+        success: function(data) {
+     	   if(data==null){
+     		  Swal.fire({
+	         	  position: 'center',
+	               icon: 'error',
+	               title: 'Algo salió mal, intente más tarde',
+	               showConfirmButton: false,
+	               timer: 2250
+	         });
+     	   }
+     	   
+     	   else{
+     		   console.log(data);
+     		   if(data.cubrePolvo!="" && data.cubrePolvo != null){
+     			  $('#cubrePolvo').prop("checked", true);
+     			 $('#numCubres').val(data.cubrePolvo);
+     		   }
+     		   if(data.portaTraje != "" && data.portaTraje != null){
+     			  $('#portaTraje').prop("checked", true);
+     			 $('#numPortas').val(data.portaTraje);
+     		   }
+     		   if(data.otros != null && data.otros != ""){
+     			  $('#otroExtra').prop("checked", true);
+     			 $('#numOtros').val(data.otros);
+     			 $('#Otro').val(data.otrosTexto);
+     			$('#Otro').show();
+     		   }
+     	   }
+     	  $('#extrasCargaPedido').modal("toggle");
+         }
+    })
+}
+
+//ocultar o mostrar el cuadro de texto del modal de extras//
+$('#otroExtra').on("change", function(){		//
+	var checked = this.checked;				  	//
+    if (checked) {								//
+        $('#Otro').show();						//
+    }											//
+    else{										//
+    	$('#Otro').hide();						//
+    }											//
+})												//
+//===============================================//
+
+function guardarExtra(){
+	if(($('input:checkbox[name=cubrePolvo]:checked').val() == "Cubre polvo" && ($('#numCubres').val()!='' && $('#numCubres').val()!=null && $('#numCubres').val()!=undefined)) || 
+			($('input:checkbox[name=portaTraje]:checked').val() == "Porta traje"  && ($('#numPortas').val()!='' && $('#numPortas').val()!=null && $('#numPortas').val()!=undefined)) ||
+			($('#Otro').val() != "" && $('input:checkbox[name=otroExtra]:checked').val()== "Otro"  && ($('#numOtros').val()!='' && $('#numOtros').val()!=null && $('#numOtros').val()!=undefined))){
+		var cubrePolvo = "";
+		var portaTraje = "";
+		var otros 	   = "";
+		var otrosTexto = "";
+		if($('input:checkbox[name=cubrePolvo]:checked')){
+		var cubrePolvo = $('#numCubres').val();
+		}
+		if($('input:checkbox[name=portaTraje]:checked')){
+		var portaTraje = $('#numPortas').val();
+		}
+		if($('input:checkbox[name=otroExtra]:checked')){
+		var otros 	   = $('#numOtros').val();
+		var otrosTexto = $('#Otro').val();
+		}
+		var idPedido = $('#idPed').val();
+		
+		 $.ajax({
+               type: "GET",
+               url: "/guardarExtras",
+               data: { 
+            	   cubrePolvo: cubrePolvo,
+            	   portaTraje: portaTraje,
+            	   otros: otros,
+            	   otrosTexto: otrosTexto,
+            	   idPedido: idPedido
+               },
+               success: function(data) {
+            	   if(data==1){
+	            	   Swal.fire({
+	                  	  position: 'center',
+	                        icon: 'success',
+	                        title: 'Se ha guardado correctamente',
+	                        showConfirmButton: false,
+	                        timer: 2250,
+	                        onClose: () => {
+					        	location.reload();
+						  }
+	                  });
+            	   }
+            	   else{
+            		   Swal.fire({
+            	         	  position: 'center',
+            	               icon: 'error',
+            	               title: 'Algo salió mal, intente más tarde',
+            	               showConfirmButton: false,
+            	               timer: 2250
+            	         });
+            	   }
+                }
+           })
+		
+	}
+	
+	else{
+		Swal.fire({
+         	  position: 'center',
+               icon: 'error',
+               title: 'No se puede insertar campos vacíos',
+               showConfirmButton: false,
+               timer: 2250
+         });
+	}
+}

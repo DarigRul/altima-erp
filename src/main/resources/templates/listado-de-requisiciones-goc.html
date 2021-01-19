@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Listado de requisiciones | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Listado de requisiciones&nbsp;<a th:href="${'/listado-de-requisiciones'}"
+                                    class="btn btn-sm icon-btn btn-danger text-white mr-auto">
+                                    <span
+                                        class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Compras</li>
+                                <li class="breadcrumb-item active">Listado de requisiciones
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Orden de compra</h3>
+                                </div>
+                                <div th:insert="requisicion-de-materiales-modal"></div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <table class="table table-borderless">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left" colspan="2">Proveedor: <a
+                                                                class="font-weight-normal" th:text="${proveedor.nombreProveedor}">ALTIMATEX</a></th>
+                                                        <th class="text-left">Iva:<select
+                                                                class="form-control selectIva selectpicker"
+                                                                id="selectIva">
+                                                                <option value="">Seleccione uno...</option>
+                                                            </select>
+                                                        </th>
+                                                        <th class="text-right" colspan="2">Fecha: <a
+                                                                class="font-weight-normal">20/08/2020</a></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <table class="table table-borderless" style="margin-top: -17px;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left">RFC: <a
+                                                                class="font-weight-normal" th:text="${proveedor.rfcProveedor}">DJKSD3SW</a></th>
+                                                        <th class="text-left">Calle: <a class="font-weight-normal" th:text="${proveedor.calle}">Calle
+                                                                Numero 20 entre 2 y 4</a></th>
+                                                        <th class="text-right" style="width: 10%;" >No. Ext: <a
+                                                                class="font-weight-normal" th:text="${proveedor.numeroExterior}">12</a></th>
+                                                        <th class="text-right" style="width: 10%;">No. Int: <a
+                                                                class="font-weight-normal" th:text="${proveedor.numeroInterior}">20</a></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <table class="table table-borderless" style="margin-top: -17px;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-left">Colonia: <a
+                                                                class="font-weight-normal" th:text="${proveedor.colonia}">Pedregal</a></th>
+                                                        <th class="text-left">C&oacute;digo postal: <a
+                                                                class="font-weight-normal" th:text="${proveedor.codigoPostal}">12</a></th>
+                                                        <th class="text-left">Poblaci&oacute;n: <a
+                                                                class="font-weight-normal" th:text="${proveedor.municipio}">20</a></th>
+                                                        <th class="text-left">Pa&iacute;s: <a
+                                                                class="font-weight-normal" th:text="${proveedor.pais}">20</a></th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <table class="table tablaOrden table-striped table-bordered"
+                                                style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Cantidad</th>
+                                                        <th>Clave material</th>
+                                                        <th>Descripci&oacute;n</th>
+                                                        <th>Color</th>
+                                                        <th>Precio unitario</th>
+                                                        <th>% Desc/Cargo</th>
+                                                        <th>Monto Desc/Cargo</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each=" material: ${materiales}">
+                                                        <td><input type="number" th:value="${material.cantidad}"
+                                                                th:id="'cantidad-'+${material.idMaterial+'-'+material.tipo+'-'+material.idColor}"
+                                                                th:attr="onInput=|cantidad('${material.idMaterial}-${material.tipo}-${material.idColor}',this.value)|"
+                                                                class="form-control"></td>
+                                                        <td th:text="${material.modelo}">CIE</td>
+                                                        <td th:text="${material.nombreMaterial}">Oxford</td>
+                                                        <td th:text="${material.color}"></td>
+                                                        <td><input type="number" th:value="${material.precio}"
+                                                                th:attr="onInput=|precioU('${material.idMaterial}-${material.tipo}-${material.idColor}',this.value)|"
+                                                                th:id="'precio-'+${material.idMaterial+'-'+material.tipo+'-'+material.idColor}"
+                                                                class="form-control"></td>
+                                                        <td><input type="number" value="0" class="form-control"
+                                                                th:attr="onInput=|porcentaje('${material.idMaterial}-${material.tipo}-${material.idColor}',this.value)|"
+                                                                th:id="'porcentaje-'+${material.idMaterial+'-'+material.tipo+'-'+material.idColor}">
+                                                        </td>
+                                                        <td><input type="number" value="0" class="form-control"
+                                                                th:attr="onInput=|monto('${material.idMaterial}-${material.tipo}-${material.idColor}',this.value)|"
+                                                                th:id="'monto-'+${material.idMaterial+'-'+material.tipo+'-'+material.idColor}">
+                                                        </td>
+                                                        <td>
+                                                            <p th:id="'subtotal-'+${material.idMaterial+'-'+material.tipo+'-'+material.idColor}"
+                                                                th:text="${#numbers.formatDecimal(material.cantidad*material.precio,0,2)}">
+                                                            </p>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button class="btn btn-danger btn-circle btn-sm popoverxd"
+                                                                th:attr="onclick=|deleteMovimiento(this,'${material.idMaterial+material.tipo+material.idColor}')|"><i
+                                                                    class="fas fa-times"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="7"></th>
+                                                        <th>Subtotal:</th>
+                                                        <th>
+                                                            <p id="subtotal">0</p>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="7"></th>
+                                                        <th>Descuento/Cargo:</th>
+                                                        <th>
+                                                            <p id="descuento">0</p>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="7"></th>
+                                                        <th>Iva:</th>
+                                                        <th>
+                                                            <p id="iva">0</p>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="7"></th>
+                                                        <th>Total:</th>
+                                                        <th>
+                                                            <p id="total">0</p>
+                                                        </th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a th:href="${'/listado-de-requisiciones'}"
+                                        class="btn btn-sm icon-btn btn-danger text-white mr-auto">
+                                        <span
+                                            class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                                    <button class="btn btn-sm icon-btn btn-altima text-white float-right" id="enviarOrden">
+                                        <span
+                                            class="btn-glyphicon fas fa-check img-circle text-altima"></span>Generar</button>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaOrdenCompra.js"></script>
+    <script src="/dist/js/ListRequisicion.js"></script>
+    <script>
+        function eliminarOrden() {
+            Swal.fire({
+                title: '&#191;Deseas eliminar la orden?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0288d1',
+                cancelButtonColor: '#dc3545',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Orden eliminada correctamente',
+                        showConfirmButton: false,
+                        timer: 2400
+                    })
+                }
+            })
+        }
+    </script>
+    <script>
+        $('#iCompras').removeClass('text-altima');
+        $('#menuCompras').addClass('menu-open');
+        $('#navCompras').addClass('active-altima');
+        $('#navComHab').addClass('active');
+    </script>
+    <script th:inline="javascript">
+        var materialesList = /*[[${materiales}]]*/
+            console.log(materialesList)
+
+        var idProveedor = /*[[${idProveedor}]]*/
+            console.log(idProveedor)
+
+    </script>
+</body>
+
+</html>

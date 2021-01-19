@@ -13,4 +13,6 @@ public interface IComercialSolicitudServicioAlClienteCorridaService {
 	List<ComercialSolicitudServicioAlClienteCorrida> findBySolicitud(Long id);
 	
 	List<String> devolverSelectCorridas(Long idSolicitud);
+
+	List<String> devolverSelectCorridasTipo(Long idSolicitud, String genero);
 }

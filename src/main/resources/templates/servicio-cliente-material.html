@@ -1,12 +1,16 @@
-<form class="row">
+<form name="formMaterial" id="formMaterial" class="row">
     <div class="form-group col-md-6">
       <label for="materialMaterial">Material</label>
       <div class="spinner-border spinner-border-sm text-primary" role="status" id="CargandoMaterialesMaterial" style="display: none;">
   		<span class="sr-only">Loading...</span>
-	  </div>
-      <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="materialMaterial">
+      </div>
+      
+
+        <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="materialMaterial">
         <option th:each="opc : ${selectMateriales}" th:value="${opc[0]}" th:text="${opc[1]}"></option>
        </select>
+      
+      
     </div>
     <div class="form-group col-md-6">
         <label for="cantidadMaterial">Cantidad</label>
@@ -44,10 +48,10 @@
             <tbody id="CuerpoMaterialesTabla">
             	<!-- Cuerpo de la Tabla -->
                 <tr th:each="material : ${materiales}">
-                    <td th:text="${material.idLookup}"></td>
-                    <td th:text="${material.cantidad}"></td>
-                    <td class="text-center">
-                        <button type="button" class="btn icon-btn btn-danger text-white" th:onclick="'BorrarFilaMaterial(this, \'' + ${material.idSolicitudServicioAlClienteMaterial} + '\');'"><span
+                    <td th:text="${material[1]}"></td>
+                    <td th:text="${material[2]}"></td>
+                    <td >
+                        <button type="button" class="btn icon-btn btn-danger text-white" th:onclick="'BorrarFilaMaterial(this, \'' + ${material[0]} + '\');'"><span
                             class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
                     </td>
                 </tr>    

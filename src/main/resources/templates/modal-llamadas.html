@@ -1,11 +1,10 @@
 <!-- Modal -->
 <div class="modal fade" th:id="llamadasAgente+''+${cliente.index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content" th:id="contenedor+''+${clientes.idCliente}">
-            <input type="hidden" id="idcliente" th:value="${clientes.idCliente}">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Listado de llamadas <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:attr="onclick=|agendarLlamadaAgente('${clientes.idCliente}')|"
-                        class="bt btn-primary btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agendar llamada"><i class="fas fa-plus fa-sm"></i></button></h5>
+        <div class="modal-content modal-rounded-body" th:id="contenedor+''+${clientes[0]}">
+            <input type="hidden" id="idcliente" th:value="${clientes[0]}">
+            <div class="modal-header modal-rounded-header bg-altima">
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de llamadas <button type="button" th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:attr="onclick=|agendarLlamadaAgente('${clientes[0]}')|" class="btn btn-sm icon-btn btn-success text-white"><span class="btn-glyphicon fas fa-phone img-circle text-success"></span>Nueva llamada</button></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

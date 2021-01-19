@@ -60,6 +60,51 @@ public class ConsumoTallaPrenda {
 		return "consumo-talla-prenda";
 	}
 	
+	@PostMapping("/guardar-talla-especial-tela")
+	public String guardarTallaEspecialTela(Long id_prenda, Long id_tela_combinacion, String tipo, Model model,
+			Float consumo) {
+		System.out.println("hola");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		if (tipo.equals("Tela")) {
+			try {
+				ProduccionConsumoTalla oneprodconsumo = ConsumoService.findOneSpecial(id_prenda);
+				oneprodconsumo.setConsumo(consumo.toString());
+				ConsumoService.save(oneprodconsumo);
+			} catch (Exception e) {
+				ProduccionConsumoTalla newoneprodconsumo = new ProduccionConsumoTalla();
+				newoneprodconsumo.setConsumo(consumo.toString());
+				newoneprodconsumo.setCreadoPor(auth.getName());
+				newoneprodconsumo.setEstatus("1");
+				newoneprodconsumo.setIdPrenda(id_prenda);
+				newoneprodconsumo.setIdTallaEspecial(1);
+				newoneprodconsumo.setFechaCreacion(hourdateFormat.format(date));
+				ConsumoService.save(newoneprodconsumo);
+			}
+
+		} else if (tipo.equals("tela-combinacion")) {
+			try {
+				ProduccionConsumoTallaCombinacionTela oneprodconsumocombinacion = ConsumocombinacionService
+						.findOneSpecial(id_prenda);
+				oneprodconsumocombinacion.setConsumoAncho(consumo.toString());
+				ConsumocombinacionService.save(oneprodconsumocombinacion);
+			} catch (Exception e) {
+				// TODO: handle exception
+				ProduccionConsumoTallaCombinacionTela newoneprodconsumocombinacion = new ProduccionConsumoTallaCombinacionTela();
+				newoneprodconsumocombinacion.setConsumoAncho(consumo.toString());
+				newoneprodconsumocombinacion.setConsumoLargo("1");
+				newoneprodconsumocombinacion.setEstatus("1");
+				newoneprodconsumocombinacion.setFechaCreacion(hourdateFormat.format(date));
+				newoneprodconsumocombinacion.setIdPrenda(id_prenda);
+				newoneprodconsumocombinacion.setIdTallaEspecial(1);
+				newoneprodconsumocombinacion.setCreadoPor(auth.getName());
+				ConsumocombinacionService.save(newoneprodconsumocombinacion);
+			}
+
+		}
+		return "redirect:/consumo-talla-prenda/" + id_prenda + "/" + tipo + "/" + id_tela_combinacion + "";
+	}
 	
 	@GetMapping("/consumo-talla-prenda/{id}/{tipo}/{idExtra}")
 	public String vistas (@PathVariable(value = "id") Long id, Model model, @PathVariable(value = "tipo") String tipo,@PathVariable(value = "idExtra") Long idExtra) {
@@ -68,6 +113,8 @@ public class ConsumoTallaPrenda {
 		model.addAttribute("id_prenda", id);
 		
 		model.addAttribute("id_tela_combinacion", idExtra);
+		model.addAttribute("tipo", tipo);
+		
 		
 		if ( tipo.equals("Tela")) {
 			List<String> list = new ArrayList<>();
@@ -75,6 +122,15 @@ public class ConsumoTallaPrenda {
 			for (String d : ConsumoService.largo()) {
 				list.add(d);
 			}
+			try {
+				
+				model.addAttribute("consumo", ConsumoService.findOneSpecial(id).getConsumo());
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("no hay");
+			}
+			
 			model.addAttribute("head", list);
 			model.addAttribute("headTam", list.size());
 			model.addAttribute("listConsumo", ConsumoService.Consumo_Talla(id, ConsumoService.genpivot(list)));
@@ -107,6 +163,14 @@ public class ConsumoTallaPrenda {
 				list.add(d);
 				list2.add("Ancho");
 				list2.add("Largo");
+			}
+            try {
+				
+				model.addAttribute("consumo", ConsumocombinacionService.findOneSpecial(id).getConsumoAncho());
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("no hay");
 			}
 			model.addAttribute("numTallas", list2);
 			model.addAttribute("listConsumoExtras_id", ConsumocombinacionService.Consumo_Talla_id(id,idExtra));

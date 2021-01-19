@@ -24,8 +24,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Prendas&nbsp;<a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/agregar-prenda}" class="btn btn-sm icon-btn btn-altima text-white"
-                                    type="submit"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nueva prenda</a></h1>
+                            <h1>Prendas&nbsp;<a
+                                    th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                    th:href="@{/agregar-prenda}" class="btn btn-sm icon-btn btn-altima text-white"
+                                    type="submit"><span
+                                        class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nueva
+                                    prenda</a></h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -56,35 +60,90 @@
                                                 <th>Modelo</th>
                                                 <th>Descripci&oacute;n</th>
                                                 <th>Tipo</th>
+                                                <th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION','ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION')">Estatus Producci&oacute;n</th>
+                                                <th sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION','ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION')">Fecha Recepcion</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr th:each="prenda:${prendas}" th:unless="${prenda.prendaLocal == '0'}">
-                                                <td th:if="${prenda.estatusRecepcionMuestra == 'Prospecto'}" th:text="${prenda.idTextProspecto}"></td>
-                                                <td th:if="${prenda.estatusRecepcionMuestra == 'Definitivo'}" th:text="${prenda.idText}"></td>
+                                                <td th:if="${prenda.estatusRecepcionMuestra == 'Prospecto'}"
+                                                    th:text="${prenda.idTextProspecto}"></td>
+                                                <td th:if="${prenda.estatusRecepcionMuestra == 'Definitivo'}"
+                                                    th:text="${prenda.idText}"></td>
                                                 <td th:text="${prenda.descripcionPrenda}"></td>
                                                 <td>
                                                     <p th:text="${prenda.tipoPrenda}"></p>
                                                 </td>
+                                                <td th:text="${prenda.mostrar}==true?'Recibida':'Diseño'"></td>
+                                                <td th:text="${prenda.mostrar}==true?${prenda.fechaRecepcionProduccion}:${prenda.fechaDevolucionProduccion}"></td>
                                                 <td class="tdcenter">
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/detalle-prenda/' + ${prenda.idPrenda}}" class="btn btn-info btn-circle btn-sm popoverxd"
-                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_COPIAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/copiar-prenda/' + ${prenda.idPrenda}}" class="btn btn-primary btn-circle btn-sm popoverxd"
-                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Copiar Prenda"><i class="fas fa-copy"></i></a>
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{editar-prenda/} + ${prenda.IdPrenda}" data-container="body" data-toggle="popover" data-placement="top"
-                                                        data-content="Editar" class="btn btn-warning btn-circle btn-sm popoverxd"><i class="fas fa-pen"></i></a>
-                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_CONFIRMAR_PRENDA'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {prenda.estatusRecepcionMuestra == 'Prospecto'})}" th:onclick="|ModalConfirmarPrenda('${prenda.idPrenda}')|"
-                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Confirmar prenda" class="btn btn-success btn-circle btn-sm popoverxd"><i class="fas fa-check"></i></button>
-                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {prenda.estatus == 1})}" th:onclick="|ModalBajaPrenda('${prenda.idPrenda}')|" data-container="body"
-                                                        data-toggle="popover" data-placement="top" data-content="Dar de Baja Prenda" class="btn btn-danger btn-circle btn-sm popoverxd"><i class="fas fa-caret-down"></i></button>
-                                                    <button th:if="${prenda.estatus == 0}" th:onclick="|ModalAltaPrenda('${prenda.idPrenda}')|" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de Alta Prenda" class="btn btn-success btn-circle btn-sm popoverxd"><i class="fas fa-caret-up"></i></button>
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_PRECIO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/lista-precios/} + ${prenda.IdPrenda}" data-container="body" data-toggle="popover" data-placement="top"
-                                                        data-content="Precio prenda" class="btn btn-success btn-circle btn-sm popoverxd"><i class="fas fa-dollar-sign"></i></a>
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_COSTO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/costo-prenda/'} + ${prenda.IdPrenda}" data-container="body" data-toggle="popover" data-placement="top"
-                                                        data-content="Costo prenda" class="btn btn-altima btn-circle btn-sm popoverxd"><i style="margin-left:-3px" class="fas fa-tshirt"></i></a>
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_CONSUMO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/consumo-talla-prenda/'} + ${prenda.IdPrenda}" data-container="body" data-toggle="popover"
-                                                        data-placement="top" data-content="Consumo por prenda" class="btn btn-altima btn-circle btn-sm popoverxd"><i style="margin-left:-3px" class="fas fa-chart-line"></i></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                        th:href="@{'/detalle-prenda/' + ${prenda.idPrenda}}"
+                                                        class="btn btn-info btn-circle btn-sm popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Ver detalles"><i class="fas fa-info"></i></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_COPIAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                        th:href="@{'/copiar-prenda/' + ${prenda.idPrenda}}"
+                                                        class="btn btn-primary btn-circle btn-sm popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Copiar Prenda"><i class="fas fa-copy"></i></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {prenda.mostrar==false})}"
+                                                        th:href="@{editar-prenda/} + ${prenda.IdPrenda}"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Editar" 
+                                                        class="btn btn-warning btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-pen"></i></a>
+                                                    <button
+                                                        th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_CONFIRMAR_PRENDA'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {prenda.estatusRecepcionMuestra == 'Prospecto'})}"
+                                                        th:onclick="|ModalConfirmarPrenda('${prenda.idPrenda}')|"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Confirmar prenda"
+                                                        class="btn btn-success btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-check"></i></button>
+                                                    <button
+                                                        th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {prenda.estatus == 1})}"
+                                                        th:onclick="|ModalBajaPrenda('${prenda.idPrenda}')|"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Dar de Baja Prenda"
+                                                        class="btn btn-danger btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-caret-down"></i></button>
+                                                    <button th:if="${prenda.estatus == 0}"
+                                                        th:onclick="|ModalAltaPrenda('${prenda.idPrenda}')|"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Dar de Alta Prenda"
+                                                        class="btn btn-success btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-caret-up"></i></button>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_PRECIO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                        th:href="@{/lista-precios/} + ${prenda.IdPrenda}"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Precio prenda"
+                                                        class="btn btn-success btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-dollar-sign"></i></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_COSTO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                        th:href="@{'/costo-prenda/'} + ${prenda.IdPrenda}"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Costo prenda"
+                                                        class="btn btn-altima btn-circle btn-sm popoverxd"><i
+                                                            style="margin-left:-3px" class="fas fa-tshirt"></i></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_CONSUMO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                                        th:href="@{'/consumo-talla-prenda/'} + ${prenda.IdPrenda}"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Consumo por prenda"
+                                                        class="btn btn-altima btn-circle btn-sm popoverxd"><i
+                                                            style="margin-left:-3px" class="fas fa-chart-line"></i></a>
+                                                    <a th:if="${prenda.mostrar}==false" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION')"
+                                                        th:href="@{'/recibir_prenda_produccion/'} + ${prenda.IdPrenda}"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Aceptar Produccion"
+                                                        class="btn btn-success btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-clipboard-check"></i></a>
+                                                    <a th:if="${prenda.mostrar}==true" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION')"
+                                                        th:href="@{'/regresar_prenda_produccion/'} + ${prenda.IdPrenda}"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Regresar Produccion"
+                                                        class="btn btn-error btn-danger btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-undo"></i></a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -147,11 +206,11 @@
                                 showConfirmButton: false,
                                 timer: 2500
                             });
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 location.reload();
                             }, 2500);
                         },
-                        failure: function(errMsg) {
+                        failure: function (errMsg) {
                             alert(errMsg);
                         }
                     });
@@ -193,11 +252,11 @@
                                 showConfirmButton: false,
                                 timer: 2500
                             });
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 location.reload();
                             }, 2500);
                         },
-                        failure: function(errMsg) {
+                        failure: function (errMsg) {
                             alert(errMsg);
                         }
                     });
@@ -236,11 +295,11 @@
                                 showConfirmButton: false,
                                 timer: 2500
                             });
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 location.reload();
                             }, 2500);
                         },
-                        failure: function(errMsg) {
+                        failure: function (errMsg) {
                             alert(errMsg);
                         }
                     });

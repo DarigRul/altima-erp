@@ -42,15 +42,15 @@ public class ConcentradoTallasRestController {
 
 	@Autowired
 	private ICargaPedidoService cargaPedidoService;
-	
+
 	@Autowired
 	IDisenioLookupService DisenioLookupService;
 
 	@PostMapping("/guardar-concentrado-tallas")
 	public String guardarcontentradotallas(Model model, String Nombre,
-			@RequestParam(value = "values[]", required = false) String[] values, String Empleado, String Largo,
-			String PrendaCliente, String Talla, String Pulgadas, Long IdPedido) {
-		String[] prenda=PrendaCliente.split("\\s");
+			@RequestParam(value = "values[]", required = false) String[] values, String Empleado, Integer Largo,
+			String PrendaCliente, Integer Talla, String Pulgadas, Long IdPedido) {
+		String[] prenda = PrendaCliente.split("\\s");
 		try {
 			ComercialConcentradoTalla ComercialConcentradoTalla = new ComercialConcentradoTalla();
 			ComercialConcentradoTalla.setIdEmpleadoPedido(Empleado);
@@ -69,8 +69,8 @@ public class ConcentradoTallasRestController {
 
 	@PostMapping("/guardar-concentrado-tallas1")
 	public String guardarcontentradotallas1(Model model, String Nombre,
-			@RequestParam(value = "values[]", required = false) String[] values, String Empleado, String Largo,
-			String PrendaCliente, String Talla, String Pulgadas, Long IdPedido) {
+			@RequestParam(value = "values[]", required = false) String[] values, String Empleado, Integer Largo,
+			String PrendaCliente, Integer Talla, String Pulgadas, Long IdPedido) {
 
 		for (String especificacion : values) {
 
@@ -132,14 +132,13 @@ public class ConcentradoTallasRestController {
 	@RequestMapping(value = "/listar-especificacion", method = RequestMethod.GET)
 	public List<Object[]> listar(Long idpedido, Long idempleado, Long idprenda) {
 		List<Object[]> result = null;
-		if(ConcentradoTallaService.findSPF(idpedido) == null) {
-			result= ConcentradoTallaService.findTallasPrendaEspecificacion(idpedido, idempleado, idprenda);
+		if (ConcentradoTallaService.findSPF(idpedido) == null) {
+			result = ConcentradoTallaService.findTallasPrendaEspecificacion(idpedido, idempleado, idprenda);
 
-		}
-		else {
-			result= ConcentradoTallaService.findTallasPrendaEspecificacion(ConcentradoTallaService.findSPF(idpedido), idempleado, idprenda);
+		} else {
+			result = ConcentradoTallaService.findTallasPrendaEspecificacion(ConcentradoTallaService.findSPF(idpedido),
+					idempleado, idprenda);
 
-			
 		}
 		return result;
 	}
@@ -170,15 +169,33 @@ public class ConcentradoTallasRestController {
 	}
 
 	@DeleteMapping("/eliminar-especificacion")
-	public boolean eliminar(Long id) {
-		boolean response;
-		try {
-			ConcentradoTallaService.delete(id);
-			response = true;
-		} catch (Exception e) {
-			response = false;
-			System.out.println(e);
+	public boolean eliminar(Long ideliminar, Long id_empleado_pedido, Long id_prenda_cliente, Long id_pedido) {
+		boolean response = true;
+
+		if (ConcentradoTallaService.findByEmployeeClothesAndOrder(id_empleado_pedido, id_prenda_cliente, id_pedido)
+				.intValue() > 1) {
+
+			try {
+				ConcentradoTallaService.delete(ideliminar);
+				response = true;
+			} catch (Exception e) {
+				response = false;
+				// System.out.println(e);
+			}
+		} else {
+			try {
+				ComercialConcentradoTalla editt = ConcentradoTallaService.findOne(ideliminar);
+				editt.setEspecificacion(null);
+				editt.setPulgadas(null);
+				ConcentradoTallaService.save(editt);
+				response = true;
+			} catch (Exception e) {
+				// TODO: handle exception
+				return false;
+			}
+
 		}
+
 		System.out.println(response);
 		return response;
 
@@ -288,11 +305,16 @@ public class ConcentradoTallasRestController {
 	public boolean editar(Model model, @RequestParam(value = "talla", required = false) Long talla,
 			@RequestParam(value = "largo", required = false) Long largo, Long pedido, Long prenda, Long empleado) {
 		boolean respuesta = false;
+
 		if (largo != null && talla == null) {
 			ConcentradoTallaService.updateall(largo, empleado, pedido, prenda);
 			respuesta = true;
 		} else if (talla != null && largo == null) {
 			ConcentradoTallaService.updateall1(talla, empleado, pedido, prenda);
+			respuesta = true;
+
+		} else if (talla == null && largo == null) {
+			ConcentradoTallaService.updateall(empleado, pedido, prenda);
 			respuesta = true;
 		} else {
 			ConcentradoTallaService.updateall(talla, largo, empleado, pedido, prenda);
@@ -300,23 +322,24 @@ public class ConcentradoTallasRestController {
 		}
 		return respuesta;
 	}
-   @GetMapping("/obtener-posicion-prenda")
-   public String PosicionPrenda(String Prenda) {
-	   
-	  Object posicionprenda= DisenioLookupService.findClothesPosition(Prenda);
-	  
-	  return posicionprenda.toString();
-	   
-   }
-	
-   @GetMapping("/obtener-tallas")
-   public List<ProduccionLookup> ObtenerTallas(String Posicion,String Genero) {
-	   return ProduccionLookupService.findAllByType(Posicion, Genero, "Talla");
-   }
-   
-   @GetMapping("/obtener-largo-talla")
-   public List<ProduccionLookup> ObtenerLargoTalla() {
-	   return ProduccionLookupService.findAllByType("Largo");
-   }
-   
+
+	@GetMapping("/obtener-posicion-prenda")
+	public String PosicionPrenda(String Prenda) {
+
+		Object posicionprenda = DisenioLookupService.findClothesPosition(Prenda);
+
+		return posicionprenda.toString();
+
+	}
+
+	@GetMapping("/obtener-tallas")
+	public List<ProduccionLookup> ObtenerTallas(String Posicion, String Genero) {
+		return ProduccionLookupService.findAllByType(Posicion, Genero, "Talla");
+	}
+
+	@GetMapping("/obtener-largo-talla")
+	public List<ProduccionLookup> ObtenerLargoTalla() {
+		return ProduccionLookupService.findAllByType("Largo");
+	}
+
 }

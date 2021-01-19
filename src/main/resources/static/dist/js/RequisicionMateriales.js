@@ -1,4 +1,53 @@
+function Clasificacion (tipo){
+	$('#clasificacion').empty();
+	$('#materialRequisicion').empty()
+	$.ajax({
+		type: "GET",
+		url:"/clasificacion-almacen",
+		data: { 
+			'tipo': tipo
+		},
+		success: function(data) {
+			if ( tipo == 'Materia Prima'){
+				$('#clasificacion').append('<option value="tela">Tela</option>');
+				$('#clasificacion').append('<option value="forro">Forro</option>');
+			}
+			$.each(data, function(key, val) {
+				console.log(val[0]);
+				$('#clasificacion').append('<option value="' + val[0] + '">' + val[1] + '</option>');	
+			})
+			
+			$('#clasificacion').selectpicker('refresh');
+	   	}
+	})
+}
+function materiales (tipo){
+	$('#materialRequisicion').empty();
+	$.ajax({
+		type: "GET",
+		url:"/materiales-por-clasificacion",
+		data: { 
+			'tipo': tipo
+		},
+		success: function(data) {
+			$.each(data, function(key, val) {
+				$('#materialRequisicion').append('<option '+ 
+				'value="' + val[0] + '" '+
+				'idText="' + val[1] + '" '+ 
+				'nombre="' + val[2] + '" '+
+				'unidad="' + val[3] + '" '+
+				'tamanio="' + val[4] + '" '+
+				'color="' + val[5] + '" '+
+				'tipo="' + val[6] + '"  >' + val[1] + '  '+val[2]+' </option>');	
+			})
+			$('#materialRequisicion').selectpicker('refresh');
+	   	}
+	})
+}
+
 function agregar (){
+	$('#almacen').prop('disabled', true);
+	$('#almacen').selectpicker('refresh');
 	var t = $('#tablaGeneral').DataTable();
 	var repetido = false;
 	if ( document.getElementById("materialRequisicion").selectedIndex != null
@@ -160,7 +209,8 @@ function enviar() {
 	        	datos :JSON.stringify(datos),
 	        	'idRequisicion': $('#idRequisicion').val(),
 	            "_csrf": $('#token').val(),
-	            'idEmpleadoSolicitante':$('#idEmpleadoSolicitante').val()
+				'idEmpleadoSolicitante':$('#idEmpleadoSolicitante').val(),
+				'tipoS': $('#almacen').val()
 	            
 	        },
 	        beforeSend: function () {
@@ -181,7 +231,7 @@ function enviar() {
 	        success: function(data) {
 	       },
 	       complete: function() {   
-	    	   var url = "/requisicion-de-almacen";  
+	    	   var url = "/solicitud-de-almacen";  
 	    		 $(location).attr('href',url);
 			
 		    },
@@ -192,12 +242,12 @@ function enviar() {
 
 function editar (id){
 	
-	var url = "/requisicion-de-almacen-editar/"+id+"";  
+	var url = "/solicitud-de-almacen-editar/"+id+"";  
 	 $(location).attr('href',url);
 }
 function enviarEstatus(id) {
 	Swal.fire({
-        title: '¿Deseas enviar esta solicitud',
+        title: '¿Deseas enviar esta solicitud?',
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
@@ -243,7 +293,7 @@ function enviarEstatus(id) {
 function rechazar (id){
 	
 	Swal.fire({
-        title: '¿Deseas rechazar esta solicitud',
+        title: '¿Deseas rechazar esta solicitud?',
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
@@ -288,7 +338,7 @@ function rechazar (id){
 function aceptar (id){
 	
 	Swal.fire({
-        title: '¿Deseas aceptar esta solicitud',
+        title: '¿Deseas aceptar esta solicitud?',
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
@@ -330,8 +380,7 @@ function aceptar (id){
         } // ////////////termina result value
     })
 }
-function detalles(id) {
-    console.log("id->" + id);
+function detalles(id, estatus)  {
     $.ajax({
         method: "GET",
         url: "/detalles-riquisicion-almacen",
@@ -349,7 +398,8 @@ function detalles(id) {
                     "<th>Cantidad</th>" +
                     "<th>Clave</th>" +
                     "<th>Nombre</th>" +
-                    "<th>Color</th>" +
+					"<th>Color</th>" +
+					"<th>Estatus</th>" +
                     "</tr>" +
                     "</thead>" +
                     "</table>" +
@@ -358,14 +408,13 @@ function detalles(id) {
             var a;
             var b = [];
             for (i in data) {
-                a = ["<tr>" + 
+					a = ["<tr>" + 
                 	"<td>" + data[i][2] + "</td>",
                 	"<td>" + data[i][3] + "</td>",
                 	"<td>" + data[i][4] + "</td>",
-                	"<td>" + data[i][7] + "</td>",
-                
+					"<td>" + data[i][5] + "</td>",
+					"<td>" + data[i][6] + "</td>",
                 	"<tr>"];
-
                 b.push(a);
             }
             var tabla = $("#idtableDetalles").DataTable({
@@ -420,68 +469,80 @@ function compreas (id){
 }
 
 
-function enviarCompras() {
-
-	 var  datos = [];
-	$('#tablaGeneral tr').each(function () {
-		 if ($(this).find('td').eq(1).html() !=null){
-			 datos.push({
-				 'id_material':$(this).find('td').eq(0).html(), 
-				 'tipo':$(this).find('td').eq(1).html(),
-				 'cantidad':$(this).find('td').eq(2).html()	 
-			 });
-		 }		
-	});
-	
-	if ($.isEmptyObject(datos)  ){
-		Swal.fire({
-			position: 'center',
-			icon: 'error',
-			title: 'Ingrese datos, por favor',
-			showConfirmButton: false,
-			timer: 1250
-		});
-	}
-	else{
-		$.ajax({
-	        type: "POST",
-	        url:"/guardar-requisicion-compras",
-	        data: { 
-	        	datos :JSON.stringify(datos),
-	        	'idRequisicion': $('#idRequisicion').val(),
-	             "_csrf": $('#token').val(),
-	        },
-	        beforeSend: function () {
-	        	 Swal.fire({
-	        		 position: 'center',
-	     				icon: 'success',
-	     				title: 'Agregado correctamente',
-	                 allowOutsideClick: false,
-	                 timerProgressBar: true,
-	                 showConfirmButton: false,
-	                 onBeforeOpen: () => {
-	                    
-	                 },
-	             });
-	        	
-	        },
-	    
-	        success: function(data) {
-	       },
-	       complete: function() {   
-	    	   var url = "/requisicion-de-almacen";  
-	    		 $(location).attr('href',url);
-			
-		    },
-	    })
-	}
-	
-}
 
 $( "#idEmpleadoSolicitante" ).change(function() {
 	$('#id-depa').html($("#idEmpleadoSolicitante option:selected").attr("depa")); 
   });
 
+function surtido(id){
+	Swal.fire({
+        title: '¿Deseas surtir este material?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/surtido-solicitud-material",
+                data: {
+                    'id': id
+                }
+
+            }).done(function(data) {
+
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Correcto',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+                detalles(data, 2);
+
+            });
+
+        }
+    });
+}
+
+function parcial(id){
+	Swal.fire({
+        title: '¿Deseas poner en parcial este material?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "GET",
+                url: "/parcial-solicitud-material",
+                data: {
+                    'id': id
+                }
+
+            }).done(function(data) {
+
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Correcto',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+                detalles(data, 2);
+
+            });
+
+        }
+    });
+}
 
 
 

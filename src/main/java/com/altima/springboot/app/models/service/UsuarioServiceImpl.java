@@ -185,7 +185,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		return  (Object[]) em.createNativeQuery("SELECT hr.id_empleado, \n" + 
 				"	hr.nombre_persona, \n" + 
 				"	hr.apellido_paterno, \n" + 
-				"	hr.apellido_materno \n" + 
+				"	hr.apellido_materno, \n" +
+				"   usuario.id_usuario  \n" +
 				"\n" + 
 				"FROM alt_hr_usuario AS usuario\n" + 
 				"INNER JOIN alt_hr_empleado hr ON usuario.id_empleado = hr.id_empleado\n" + 

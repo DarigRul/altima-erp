@@ -4,6 +4,65 @@
 <head th:include="navegacion-head :: header">
 	<title id="pageTitle">Entradas y Salidas | Altima</title>
 </head>
+<style>
+	.label-container {
+		position: fixed;
+		bottom: 48px;
+		right: 105px;
+		display: table;
+		visibility: hidden;
+	}
+
+	.label-text {
+		color: #FFF;
+		background: rgba(0, 0, 0, 0.7);
+		display: table-cell;
+		vertical-align: middle;
+		padding: 10px;
+		border-radius: 3px;
+	}
+
+	.label-arrow {
+		display: table-cell;
+		vertical-align: middle;
+		color: #333;
+		opacity: 0.5;
+	}
+
+	.float {
+		position: fixed;
+		width: 60px;
+		height: 60px;
+		bottom: 40px;
+		right: 40px;
+		background-color: #0288d1;
+		color: #FFF;
+		border-radius: 50px;
+		text-align: center;
+		box-shadow: 2px 2px 3px #999;
+	}
+
+	.my-float {
+		font-size: 24px;
+		margin-top: 18px;
+	}
+
+	a.float+div.label-container {
+		visibility: hidden;
+		opacity: 0;
+		transition: visibility 0s, opacity 0.5s ease;
+	}
+
+	a.float:hover+div.label-container {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	a.float:hover {
+		background-color: #086394;
+		color: #fff;
+	}
+</style>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
 	<input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
@@ -23,10 +82,10 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1>Entradas y Salidas <a th:href="@{/movimientos-amp}"><button
-										class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
-										data-placement="right" data-content="Regresar"><i
-											class="fas fa-arrow-left"></i></button></a></h1>
+							<h1>Entradas y Salidas <a th:href="@{/movimientos-amp}"
+									class="btn btn-sm icon-btn btn-danger text-white"><span
+										class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+							</h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
@@ -52,7 +111,7 @@
 								<div class="card-body">
 									<div class="row">
 
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-4">
 											<label for="tipoMovimiento">Movimiento</label>
 											<select class="form-control selectpicker"
 												onchange="listarConceptos(this.value)" title="Selecciona uno..."
@@ -62,7 +121,7 @@
 												<option value="Salida">Salida</option>
 											</select>
 										</div>
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-4">
 											<label for="almacenLogicoMovimiento">Almac&eacute;n l&oacute;gico</label>
 											<select class="form-control selectpicker" title="Selecciona uno..."
 												data-live-search="true" data-live-search-normalize="true"
@@ -83,16 +142,35 @@
 												id="almacenFisicoMovimiento">
 										</div>
 										<div class="form-group col-md-4">
-											<label for="referenciaMovimiento">Referencia</label>
+											<label for="referenciaMovimiento">Referencia Pedido</label>
 											<div class="input-group mb-3">
 												<div class="input-group-prepend">
 													<div class="input-group-text">
-														<input type="checkbox">
+														<input type="checkbox" id="checkEnableReferencia"
+															onclick="checkEnable()">
+														<input class="d-none" type="checkbox"
+															id="checkDisableReferencia" onclick="checkDisabled()">
 													</div>
 												</div>
 												<select class="form-control selectpicker" title="Selecciona uno..."
 													data-live-search="true" data-live-search-normalize="true"
-													id="referenciaMovimiento">
+													id="referenciaMovimiento" disabled>
+													<option>1</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group col-md-4">
+											<label for="referenciaMovimiento">Referencia Orden de
+												Producci&oacute;n</label>
+											<div class="input-group mb-3">
+												<div class="input-group-prepend">
+													<div class="input-group-text">
+														<input type="checkbox">
+														<input class="d-none" type="checkbox">
+													</div>
+												</div>
+												<select class="form-control selectpicker" title="Selecciona uno..."
+													data-live-search="true" data-live-search-normalize="true">
 													<option>1</option>
 												</select>
 											</div>
@@ -114,23 +192,23 @@
 										</div>
 										<div class="form-group col-md-3">
 											<label for="articuloMovimiento" style="margin-left:2px">Articulo</label>
-												<select class="form-control selectpicker" title="Selecciona uno..."
-													data-live-search="true" data-live-search-normalize="true"
-													id="articuloMovimiento">
-												</select>											
+											<select class="form-control selectpicker" title="Selecciona uno..."
+												data-live-search="true" data-live-search-normalize="true"
+												id="articuloMovimiento">
+											</select>
 										</div>
 										<div class="form-group col-md-3">
 											<label for="articuloMovimiento" style="margin-left:2px">Rollo</label>
-												<select class="form-control selectpicker" title="Selecciona uno..."
-													data-live-search="true" data-live-search-normalize="true"
-													id="rollo" disabled>
-												</select>											
+											<select class="form-control selectpicker" title="Selecciona uno..."
+												data-live-search="true" data-live-search-normalize="true" id="rollo"
+												disabled>
+											</select>
 										</div>
 										<div class="form-group col-md-3">
 											<label for="lote" style="margin-left:2px">Lote</label>
 											<div class="input-group mb-3">
 												<input type="text" class="form-control" id="lote" disabled
-												placeholder="LOT892SD">
+													placeholder="LOT892SD">
 												<div class="input-group-append" style="margin-left: 10px;">
 													<button class="btn icon-btn btn-altima text-white" type="button"
 														id="agregarArticulo"><span
@@ -158,16 +236,41 @@
 											<div th:insert="agregar-movimientos-amp-modal"></div>
 										</div>
 										<div class="form-group col-md-12">
+											<a th:href="@{/movimientos-amp}"
+												class="btn icon-btn btn-danger text-white mr-auto"><span
+													class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
 											<button type="button" id="guardarMovimientos"
 												class="btn icon-btn btn-altima text-white float-right"><span
 													class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
-											<hr style="border:1px solid #e9ecef">
 										</div>
 									</div>
 								</div>
 								<!-- /.card-body -->
 							</div>
 							<!-- /.card -->
+						</div>
+					</div>
+					<a href="#" class="float d-none" id="floating">
+						<i class="fas fa-info my-float"></i>
+					</a>
+					<div class="label-container">
+						<div class="label-text">
+							<table class="table table-borderless">
+								<thead>
+									<tr>
+										<th scope="col">Tela</th>
+										<th scope="col">Cantidad requerida</th>
+										<th scope="col">Cantidad suministrada</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row" id="telaSurtida">Articulo 1</th>
+										<td class="text-center" id="totalTela">0.0</td>
+										<td class="text-center" id="telaTomada">0.0</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>

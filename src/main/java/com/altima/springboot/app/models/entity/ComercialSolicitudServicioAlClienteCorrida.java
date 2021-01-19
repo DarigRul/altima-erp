@@ -53,6 +53,9 @@ public class ComercialSolicitudServicioAlClienteCorrida implements Serializable{
 	@Column(name="estatus")
 	private String estatus;
 
+	@Column(name="cantidad")
+	private Integer cantidad;
+
 	
 	public String getGenero() {
 		return genero;
@@ -137,6 +140,15 @@ public class ComercialSolicitudServicioAlClienteCorrida implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
+	}
+	
 	
 	
 

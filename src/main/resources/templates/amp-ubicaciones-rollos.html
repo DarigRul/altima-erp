@@ -54,18 +54,22 @@
 											<tr>
 												<th>Ubicaci&oacute;n</th>
 												<th>Rollo</th>
+												<th>Tela</th>
 												<th>Lote</th>
 												<th>Cantidad</th>
 												<th>Almac&eacute;n</th>
+												<th>Estatus</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr th:each="casillero : ${casilleros}">
 												<td th:text="${casillero.casillero}"></td>
 												<td th:text="${casillero.idText}">15/06/20 14:00</td>
+												<td th:text="${casillero.nombreTela}">NombreTela</td>
 												<td th:text="${casillero.lote}">Salida</td>
 												<td th:text="${casillero.cantidad}">Salida a corte</td>
 												<td th:text="${casillero.almacenFisico}">Apartados</td>
+												<td th:text="${casillero.estatus}">estatus</td>
 												<!-- <td class="text-center">
 													<button class="btn btn-info btn-circle btn-sm popoverxd"
 														data-container="body" data-placement="top"

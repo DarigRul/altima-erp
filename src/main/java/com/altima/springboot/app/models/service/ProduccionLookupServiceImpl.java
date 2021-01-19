@@ -59,6 +59,14 @@ public class ProduccionLookupServiceImpl implements IProduccionLookupService {
 	public List<ProduccionLookup> findAllLookup(String Tipo) {
 		return em.createQuery("from ProduccionLookup where tipo_lookup='"+Tipo+"'").getResultList();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	@OrderBy("idLookup ASC")
+	public List<ProduccionLookup> findAllLookup(String Tipo, String estatus) {
+		return em.createQuery("from ProduccionLookup where tipo_lookup='"+Tipo+"' and estatus="+estatus).getResultList();
+	}
 	
 	@Override
 	@Transactional
@@ -130,6 +138,56 @@ public class ProduccionLookupServiceImpl implements IProduccionLookupService {
 	public List<ProduccionLookup> findAllByType(String Posicion,String Genero ,String Tipo) {
 		// TODO Auto-generated method stub
 		return em.createQuery("from ProduccionLookup where Estatus=1 and tipoLookup='Talla' and atributo1='"+Genero+"' ").getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> encargadoUbicaciones() {
+		List<Object[]> re = null;
+		re = em.createNativeQuery(""+
+			"SELECT\r\n"+
+				"empleado.id_empleado,\r\n"+
+				"CONCAT( empleado.nombre_persona, ' ', empleado.apellido_paterno,' ',empleado.apellido_materno )\r\n"+
+			"FROM\r\n"+
+				"alt_hr_empleado empleado\r\n"+
+				"INNER JOIN alt_hr_puesto puesto ON empleado.id_puesto = puesto.id_puesto\r\n"+
+				"INNER JOIN alt_hr_departamento depa ON puesto.id_departamento = depa.id_departamento\r\n"+
+				"INNER JOIN alt_hr_lookup look ON look.id_lookup = depa.id_area\r\n"+
+			"WHERE\r\n"+
+				"1 = 1 \r\n"+
+				"AND look.nombre_lookup = 'PRODUCCION' \r\n"+
+				"AND depa.nombre_departamento = 'MAQUILA' \r\n"+
+				"AND puesto.nombre_puesto = 'CHOFER' \r\n"+
+				"AND empleado.estatus=1").getResultList();
+
+		return re;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> listarUbicaciones() {
+		List<Object[]> re = null;
+		re = em.createNativeQuery(""+
+			"SELECT\r\n"+
+				"look.id_lookup,\r\n"+
+				"look.id_text,\r\n"+	
+				"look.nombre_lookup,\r\n"+
+				"CONCAT( empleado.nombre_persona, ' ', empleado.apellido_paterno, ' ', empleado.apellido_materno ),\r\n"+
+				"look.estatus,\r\n"+
+				"look.creado_por,\r\n"+
+				"DATE_FORMAT(	look.fecha_creacion,'%Y-%m-%d %T'),\r\n"+
+				"look.actualizado_por,\r\n"+
+				"DATE_FORMAT(	look.ultima_fecha_modificacion,'%Y-%m-%d %T'), empleado.id_empleado\r\n"+
+			"FROM\r\n"+
+				"alt_produccion_lookup AS look\r\n"+
+				"INNER JOIN alt_hr_empleado empleado ON look.descripcion_lookup = empleado.id_empleado \r\n"+
+			"WHERE\r\n"+
+				"1 = 1 \r\n"+
+				"AND look.tipo_lookup = 'Ubicación'").getResultList();
+
+		return re;
 	}
 
 

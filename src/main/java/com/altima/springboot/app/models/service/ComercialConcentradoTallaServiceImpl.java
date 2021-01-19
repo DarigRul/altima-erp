@@ -1,5 +1,6 @@
 package com.altima.springboot.app.models.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,16 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
 		repository.deleteById(id);
+	}
+
+	@Override
+	@Transactional
+	public BigInteger findByEmployeeClothesAndOrder(Long id_empleado_pedido, Long id_prenda_cliente, Long id_pedido) {
+		return (BigInteger) em.createNativeQuery(
+				"select count(*) from alt_comercial_concentrado_tallas where id_empleado_pedido=" + id_empleado_pedido
+						+ " and id_prenda_cliente=" + id_prenda_cliente + " and id_pedido=" + id_pedido + " ")
+				.getSingleResult();
+
 	}
 
 	@Override
@@ -180,41 +191,44 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 	@Transactional(readOnly = true)
 	public List<Object[]> findPrenda(Long idpedido, Long idempleado) {
 
-		return em.createNativeQuery("select\r\n" + "   query2.id_empleado_pedido,\r\n"
-				+ "   query2.id_prenda_cliente,\r\n" + "   query2.nombre_prenda,\r\n" + "   query2.talla,\r\n"
-				+ "   query2.largo\r\n" + "   #,GROUP_CONCAT(DISTINCT query2.pulgadas, query2.especificaciones \r\n"
-				+ "#ORDER BY\r\n" + " #  query2.especificaciones DESC SEPARATOR ', ')as especificacionesdesc \r\n"
-				+ "from\r\n" + "   (\r\n" + "      select\r\n" + "         alt_comercial_concentrado_tallas.*,\r\n"
-				+ "        # alt_comercial_lookup.nombre_lookup as especificaciones,\r\n"
-				+ "         l2.nombre_lookup as talla,\r\n" + "         l3.nombre_lookup as largo,\r\n"
-				+ "         query.nombre_prenda \r\n" + "      from\r\n" + "         (\r\n" + "            SELECT\r\n"
-				+ "               coor_prenda.id_coordinado_prenda,\r\n"
-				+ "               SUBSTRING_INDEX(look.nombre_lookup, ' ', 1)as 'nombre_prenda',\r\n"
-				+ "               prenda.descripcion_prenda,\r\n" + "               tela.nombre_tela,\r\n"
-				+ "               IF(coor_prenda.estatus = true, '1', '0') \r\n" + "            From\r\n"
-				+ "               alt_comercial_coordinado,\r\n" + "               alt_disenio_lookup as look,\r\n"
-				+ "               alt_disenio_prenda as prenda,\r\n" + "               alt_disenio_tela as tela,\r\n"
-				+ "               alt_comercial_coordinado_prenda as coor_prenda \r\n" + "            where\r\n"
-				+ "               coor_prenda.id_tela = tela.id_tela \r\n"
-				+ "               AND coor_prenda.id_prenda = prenda.id_prenda \r\n"
-				+ "                         AND prenda.id_familia_prenda = look.id_lookup\r\n"
-				+ "               AND coor_prenda.estatus = 1 \r\n"
-				+ "               and coor_prenda.id_coordinado = alt_comercial_coordinado.id_coordinado \r\n"
-				+ "               and alt_comercial_coordinado.id_pedido = " + idpedido + " \r\n" + "           \r\n"
-				+ "         )\r\n" + "         as query,\r\n" + "         alt_comercial_cliente_empleado,\r\n"
-				+ "         alt_comercial_concentrado_tallas,\r\n" + "         #alt_comercial_lookup,\r\n"
-				+ "         alt_produccion_lookup l2,\r\n" + "         alt_produccion_lookup l3 \r\n"
-				+ "      where\r\n"
-				+ "         query.id_coordinado_prenda = alt_comercial_concentrado_tallas.id_prenda_cliente \r\n"
-				+ "         and alt_comercial_concentrado_tallas.id_empleado_pedido = alt_comercial_cliente_empleado.id_empleado \r\n"
-				+ "         and alt_comercial_cliente_empleado.id_pedido_informacion = " + idpedido + " \r\n"
-				+ "         #and alt_comercial_concentrado_tallas.especificacion = alt_comercial_lookup.id_lookup \r\n"
-				+ "         and alt_comercial_concentrado_tallas.id_talla = l2.id_lookup \r\n"
-				+ "         and alt_comercial_concentrado_tallas.id_largo = l3.id_lookup \r\n"
-				+ "         and alt_comercial_concentrado_tallas.id_empleado_pedido = " + idempleado + "\r\n"
-				+ "   )\r\n" + "   as query2 \r\n" + "GROUP by\r\n"
-				+ "   query2.nombre_prenda ORDER BY FIELD(nombre_prenda,'Vestido','Sweater','Gabardina','Abrigo','Camisa','Blusa','Chaleco','Falda','Pantalón','Saco')DESC \r\n"
-				+ "").getResultList();
+		return em.createNativeQuery("select\n" + "   query5.id_empleado_pedido,\n" + "   query5.id_prenda_cliente,\n"
+				+ "   query5.nombre_prenda,\n" + "   IFNULL(queryy.talla,'Especial'),\n"
+				+ "   IFNULL(queryy.largo,'Especial') \n" + "from\n" + "   (\n" + "      select\n"
+				+ "         query2.* \n" + "      from\n" + "         (\n" + "            select\n"
+				+ "               alt_comercial_concentrado_tallas.*,\n" + "               query.nombre_prenda \n"
+				+ "            from\n" + "               (\n" + "                  SELECT\n"
+				+ "                     coor_prenda.id_coordinado_prenda,\n"
+				+ "                     SUBSTRING_INDEX(look.nombre_lookup, ' ', 1)as 'nombre_prenda',\n"
+				+ "                     prenda.descripcion_prenda,\n" + "                     tela.nombre_tela,\n"
+				+ "                     IF(coor_prenda.estatus = true, '1', '0') \n" + "                  From\n"
+				+ "                     alt_comercial_coordinado,\n"
+				+ "                     alt_disenio_lookup as look,\n"
+				+ "                     alt_disenio_prenda as prenda,\n"
+				+ "                     alt_disenio_tela as tela,\n"
+				+ "                     alt_comercial_coordinado_prenda as coor_prenda \n" + "                  where\n"
+				+ "                     coor_prenda.id_tela = tela.id_tela \n"
+				+ "                     AND coor_prenda.id_prenda = prenda.id_prenda \n"
+				+ "                     AND prenda.id_familia_prenda = look.id_lookup \n"
+				+ "                     AND coor_prenda.estatus = 1 \n"
+				+ "                     and coor_prenda.id_coordinado = alt_comercial_coordinado.id_coordinado \n"
+				+ "                     and alt_comercial_coordinado.id_pedido = " + idpedido + " \n"
+				+ "               )\n" + "               as query,\n"
+				+ "               alt_comercial_cliente_empleado,\n"
+				+ "               alt_comercial_concentrado_tallas \n" + "            where\n"
+				+ "               query.id_coordinado_prenda = alt_comercial_concentrado_tallas.id_prenda_cliente \n"
+				+ "               and alt_comercial_concentrado_tallas.id_empleado_pedido = alt_comercial_cliente_empleado.id_empleado \n"
+				+ "               and alt_comercial_cliente_empleado.id_pedido_informacion = " + idpedido + " \n"
+				+ "               and alt_comercial_concentrado_tallas.id_empleado_pedido = " + idempleado + " \n"
+				+ "         )\n" + "         as query2 \n" + "      GROUP by\n" + "         query2.nombre_prenda \n"
+				+ "      ORDER BY\n"
+				+ "         FIELD(nombre_prenda, 'Vestido', 'Sweater', 'Gabardina', 'Abrigo', 'Camisa', 'Blusa', 'Chaleco', 'Falda', 'Pantalón', 'Saco')DESC \n"
+				+ "   )\n" + "   as query5 \n" + "   LEFT JOIN\n" + "      (\n" + "         select\n"
+				+ "            l2.nombre_lookup as talla,\n" + "            l3.nombre_lookup as largo,\n"
+				+ "            l2.id_lookup as id_lookup_talla,\n" + "            l3.id_lookup as id_lookup_largo \n"
+				+ "         from\n" + "            alt_produccion_lookup l2,\n"
+				+ "            alt_produccion_lookup l3 \n" + "      )\n" + "      as queryy \n"
+				+ "      on query5.id_talla = queryy.id_lookup_talla \n"
+				+ "      and query5.id_largo = queryy.id_lookup_largo").getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -280,8 +294,8 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 					+ "				   (\r\n" + "				      select  \r\n"
 					+ "				         alt_comercial_concentrado_tallas.*,\r\n"
 					+ "				         alt_servicio_cliente_lookup.nombre_lookup as especificaciones,\r\n"
-					+ "				         l2.nombre_lookup as talla,\r\n"
-					+ "				         l3.nombre_lookup as largo,  \r\n"
+					+ "				          IF(alt_comercial_concentrado_tallas.id_talla=0,\"Espe\",l2.nombre_lookup) as talla,\r\n"
+					+ "				         IF(alt_comercial_concentrado_tallas.id_largo=0,\"cial\",l3.nombre_lookup) as largo,    \r\n"
 					+ "				         query.nombre_prenda   \r\n" + "				      from  \r\n"
 					+ "				         (\r\n" + "				            SELECT  \r\n"
 					+ "				               coor_prenda.id_coordinado_prenda,\r\n"
@@ -305,18 +319,19 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 					+ "				            GROUP BY  \r\n" + "				               look.nombre_lookup  \r\n"
 					+ "				         )\r\n" + "				         as query,\r\n"
 					+ "				         alt_comercial_cliente_empleado,\r\n"
-					+ "				         alt_comercial_concentrado_tallas,  \r\n"
 					+ "				         alt_servicio_cliente_lookup,\r\n"
-					+ "				         alt_produccion_lookup l2,  \r\n"
-					+ "				         alt_produccion_lookup l3   \r\n" + "				      where  \r\n"
+					+ "				         alt_comercial_concentrado_tallas  \r\n"
+					+ "                         left join   \r\n"
+					+ "				         alt_produccion_lookup l2 on  alt_comercial_concentrado_tallas.id_talla = l2.id_lookup \r\n"
+					+ "                        left join                         \r\n"
+					+ "				         alt_produccion_lookup l3 on  alt_comercial_concentrado_tallas.id_largo = l3.id_lookup  \r\n"
+					+ "				      where  \r\n"
 					+ "				         query.id_coordinado_prenda = alt_comercial_concentrado_tallas.id_prenda_cliente   \r\n"
 					+ "				         and alt_comercial_concentrado_tallas.id_empleado_pedido = alt_comercial_cliente_empleado.id_empleado   \r\n"
 					+ "				         and alt_comercial_cliente_empleado.id_pedido_informacion = " + idpedido
-					+ "   \r\n"
-					+ "				         and alt_comercial_concentrado_tallas.id_talla = l2.id_lookup   \r\n"
-					+ "				         and alt_comercial_concentrado_tallas.id_largo = l3.id_lookup   \r\n"
-					+ "				         and alt_comercial_concentrado_tallas.id_pedido = " + idpedido + "   \r\n"
-					+ "				        \r\n" + "				   )  \r\n" + "				   as query2   \r\n"
+					+ "   \r\n" + "				         and alt_comercial_concentrado_tallas.id_pedido = " + idpedido
+					+ "   \r\n" + "				        \r\n" + "				   )  \r\n"
+					+ "				   as query2   \r\n"
 					+ "				   where  query2.id_empleado_pedido=alt_comercial_cliente_empleado.id_empleado\r\n"
 					+ "				GROUP by  \r\n"
 					+ "				   query2.nombre_prenda, query2.id_empleado_pedido) as query3\r\n"
@@ -339,8 +354,8 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 					+ "				   (\r\n" + "				      select  \r\n"
 					+ "				         alt_comercial_concentrado_tallas.*,\r\n"
 					+ "				         alt_servicio_cliente_lookup.nombre_lookup as especificaciones,\r\n"
-					+ "				         l2.nombre_lookup as talla,\r\n"
-					+ "				         l3.nombre_lookup as largo,  \r\n"
+					+ "				         IF(alt_comercial_concentrado_tallas.id_talla=0,\"Espe\",l2.nombre_lookup) as talla,\r\n"
+					+ "				         IF(alt_comercial_concentrado_tallas.id_largo=0,\"cial\",l3.nombre_lookup) as largo,    \r\n"
 					+ "				         query.nombre_prenda   \r\n" + "				      from  \r\n"
 					+ "				         (\r\n" + "				            SELECT  \r\n"
 					+ "				               coor_prenda.id_coordinado_prenda,\r\n"
@@ -364,18 +379,17 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 					+ "				              \r\n" + "				         )\r\n"
 					+ "				         as query,\r\n"
 					+ "				         alt_comercial_cliente_empleado,\r\n"
-					+ "				         alt_comercial_concentrado_tallas,  \r\n"
 					+ "				         alt_servicio_cliente_lookup,\r\n"
-					+ "				         alt_produccion_lookup l2,  \r\n"
-					+ "				         alt_produccion_lookup l3   \r\n" + "				      where  \r\n"
+					+ "				         alt_comercial_concentrado_tallas  \r\n"
+					+ "           left join alt_produccion_lookup l2 on alt_comercial_concentrado_tallas.id_talla = l2.id_lookup     \r\n"
+					+ "				   left join alt_produccion_lookup l3 on alt_comercial_concentrado_tallas.id_largo = l3.id_lookup  \r\n"
+					+ "				      where  \r\n"
 					+ "				         query.id_coordinado_prenda = alt_comercial_concentrado_tallas.id_prenda_cliente   \r\n"
 					+ "				         and alt_comercial_concentrado_tallas.id_empleado_pedido = alt_comercial_cliente_empleado.id_empleado   \r\n"
 					+ "				         and alt_comercial_cliente_empleado.id_pedido_informacion = " + idpedido
-					+ "   \r\n"
-					+ "				         and alt_comercial_concentrado_tallas.id_talla = l2.id_lookup   \r\n"
-					+ "				         and alt_comercial_concentrado_tallas.id_largo = l3.id_lookup   \r\n"
-					+ "				         and alt_comercial_concentrado_tallas.id_pedido = " + idpedido + "   \r\n"
-					+ "				        \r\n" + "				   )  \r\n" + "				   as query2   \r\n"
+					+ "   \r\n" + "				         and alt_comercial_concentrado_tallas.id_pedido = " + idpedido
+					+ "   \r\n" + "				        \r\n" + "				   )  \r\n"
+					+ "				   as query2   \r\n"
 					+ "				   where  query2.id_empleado_pedido=alt_comercial_cliente_empleado.id_empleado\r\n"
 					+ "				GROUP by  \r\n"
 					+ "				   query2.nombre_prenda, query2.id_empleado_pedido) as query3\r\n"
@@ -555,16 +569,14 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 				+ "				            GROUP BY  \r\n" + "				               look.nombre_lookup  \r\n"
 				+ "				         )\r\n" + "				         as query,\r\n"
 				+ "				         alt_comercial_cliente_empleado,\r\n"
-				+ "				         alt_comercial_concentrado_tallas,  \r\n"
 				+ "				         alt_servicio_cliente_lookup,\r\n"
-				+ "				         alt_produccion_lookup l2,  \r\n"
-				+ "				         alt_produccion_lookup l3   \r\n" + "				      where  \r\n"
+				+ "				         alt_comercial_concentrado_tallas  \r\n"
+				+ " left join   alt_produccion_lookup l2  on alt_comercial_concentrado_tallas.id_talla = l2.id_lookup \r\n"
+				+ " left join    alt_produccion_lookup l3   on alt_comercial_concentrado_tallas.id_largo = l3.id_lookup  \r\n"
+				+ "				      where  \r\n"
 				+ "				         query.id_coordinado_prenda = alt_comercial_concentrado_tallas.id_prenda_cliente   \r\n"
 				+ "				         and alt_comercial_concentrado_tallas.id_empleado_pedido = alt_comercial_cliente_empleado.id_empleado   \r\n"
 				+ "				         and alt_comercial_cliente_empleado.id_pedido_informacion = " + idpedido
-				+ "   \r\n"
-				+ "				         and alt_comercial_concentrado_tallas.id_talla = l2.id_lookup   \r\n"
-				+ "				         and alt_comercial_concentrado_tallas.id_largo = l3.id_lookup   \r\n"
 				+ "				         and alt_comercial_concentrado_tallas.id_pedido = " + idpedido + "   \r\n"
 				+ "				        \r\n" + "				   )  \r\n" + "				   as query2   \r\n"
 				+ "				   where  query2.id_empleado_pedido=alt_comercial_cliente_empleado.id_empleado\r\n"
@@ -616,16 +628,14 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 				+ "				            GROUP BY  \r\n" + "				               look.nombre_lookup  \r\n"
 				+ "				         )\r\n" + "				         as query,\r\n"
 				+ "				         alt_comercial_cliente_empleado,\r\n"
-				+ "				         alt_comercial_concentrado_tallas,  \r\n"
 				+ "				         alt_servicio_cliente_lookup,\r\n"
-				+ "				         alt_produccion_lookup l2,  \r\n"
-				+ "				         alt_produccion_lookup l3   \r\n" + "				      where  \r\n"
+				+ "				         alt_comercial_concentrado_tallas  \r\n"
+				+ " left join  alt_produccion_lookup l2 on  alt_comercial_concentrado_tallas.id_talla = l2.id_lookup \r\n"
+				+ " left join  alt_produccion_lookup l3 on  alt_comercial_concentrado_tallas.id_largo = l3.id_lookup \r\n"
+				+ "				      \r\n" + "				      where  \r\n"
 				+ "				         query.id_coordinado_prenda = alt_comercial_concentrado_tallas.id_prenda_cliente   \r\n"
 				+ "				         and alt_comercial_concentrado_tallas.id_empleado_pedido = alt_comercial_cliente_empleado.id_empleado   \r\n"
 				+ "				         and alt_comercial_cliente_empleado.id_pedido_informacion = " + idspf
-				+ "   \r\n"
-				+ "				         and alt_comercial_concentrado_tallas.id_talla = l2.id_lookup   \r\n"
-				+ "				         and alt_comercial_concentrado_tallas.id_largo = l3.id_lookup   \r\n"
 				+ "				         and alt_comercial_concentrado_tallas.id_pedido = " + idpedido + "   \r\n"
 				+ "				        \r\n" + "				   )  \r\n" + "				   as query2   \r\n"
 				+ "				   where  query2.id_empleado_pedido=alt_comercial_cliente_empleado.id_empleado\r\n"
@@ -653,18 +663,20 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 				+ "          coor_prenda.id_coordinado_prenda,\r\n"
 				+ "          SUBSTRING_INDEX(look.nombre_lookup, ' ', 1) as 'nombre_prenda',\r\n"
 				+ "          prenda.descripcion_prenda,\r\n" + "          tela.nombre_tela,\r\n"
-				+ "          IF(coor_prenda.estatus = true, '1', '0'), prenda.id_familia_prenda\r\n" + "        From\r\n"
-				+ "          alt_comercial_coordinado,\r\n" + "          alt_disenio_lookup as look,\r\n"
-				+ "          alt_disenio_prenda as prenda,\r\n" + "          alt_disenio_tela as tela,\r\n"
+				+ "          IF(coor_prenda.estatus = true, '1', '0'), prenda.id_familia_prenda\r\n"
+				+ "        From\r\n" + "          alt_comercial_coordinado,\r\n"
+				+ "          alt_disenio_lookup as look,\r\n" + "          alt_disenio_prenda as prenda,\r\n"
+				+ "          alt_disenio_tela as tela,\r\n"
 				+ "          alt_comercial_coordinado_prenda as coor_prenda\r\n" + "        where\r\n"
 				+ "          1 = 1\r\n" + "          AND coor_prenda.id_tela = tela.id_tela\r\n"
 				+ "          AND coor_prenda.id_prenda = prenda.id_prenda\r\n"
 				+ "                    AND prenda.id_familia_prenda = look.id_lookup\r\n"
 				+ "          AND coor_prenda.estatus = 1\r\n"
 				+ "          and coor_prenda.id_coordinado = alt_comercial_coordinado.id_coordinado\r\n"
-				+ "          and alt_comercial_coordinado.id_pedido = " + idpedido + "\r\n" + "    ) as query4\r\n"
-				+ "  ) as query2\r\n" + "\r\n" + "where\r\n"
-				+ "   query1.id_coordinado_prenda = query2.id_coordinado_prenda) as query5\r\n" + "  	left join\r\n"
+				+ "          and alt_comercial_coordinado.id_pedido = " + idpedido + "\r\n"
+				+ "  GROUP BY  SUBSTRING_INDEX(look.nombre_lookup, ' ', 1)  ) as query4\r\n" + "  ) as query2\r\n"
+				+ "\r\n" + "where\r\n" + "   query1.id_coordinado_prenda = query2.id_coordinado_prenda) as query5\r\n"
+				+ "  	left join\r\n"
 				+ "		alt_comercial_concentrado_tallas on query5.id_coordinado_prenda=alt_comercial_concentrado_tallas.id_prenda_cliente\r\n"
 				+ "		and query5.id_empleado=alt_comercial_concentrado_tallas.id_empleado_pedido\r\n"
 				+ "		where alt_comercial_concentrado_tallas.id_empleado_pedido is null\r\n"
@@ -700,6 +712,17 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 		em.createNativeQuery("Update  alt_comercial_concentrado_tallas set id_talla=" + talla + " , id_largo=" + largo
 				+ " where id_pedido=" + idpedido + " and id_empleado_pedido=" + idempleado + " and id_prenda_cliente="
 				+ idprenda + " ").executeUpdate();
+
+	}
+
+	@Override
+	@Transactional
+	public void updateall(Long idempleado, Long idpedido, Long idprenda) {
+		// TODO Auto-generated method stub
+		em.createNativeQuery(
+				"Update  alt_comercial_concentrado_tallas set id_talla=0 , id_largo=0" + " where id_pedido=" + idpedido
+						+ " and id_empleado_pedido=" + idempleado + " and id_prenda_cliente=" + idprenda + " ")
+				.executeUpdate();
 
 	}
 

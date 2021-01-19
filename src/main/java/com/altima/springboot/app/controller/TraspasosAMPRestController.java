@@ -10,6 +10,7 @@ import com.altima.springboot.app.models.entity.AmpMultialmacen;
 import com.altima.springboot.app.models.entity.AmpRolloTela;
 import com.altima.springboot.app.models.entity.AmpTraspaso;
 import com.altima.springboot.app.models.entity.AmpTraspasoDetalle;
+import com.altima.springboot.app.models.service.IAmpAlmacenLogicoService;
 import com.altima.springboot.app.models.service.IAmpAlmacenUbicacionArticuloService;
 import com.altima.springboot.app.models.service.IAmpMultialmacenService;
 import com.altima.springboot.app.models.service.IAmpRolloTelaService;
@@ -40,6 +41,8 @@ public class TraspasosAMPRestController {
 	IAmpAlmacenUbicacionArticuloService almacenUbicacionArticuloService;
 	@Autowired
 	IAmpRolloTelaService rolloTelaService;
+	@Autowired
+	IAmpAlmacenLogicoService almacenLogicoService;
 
 	@Transactional
 	@PostMapping("/postTraspasos")
@@ -58,6 +61,7 @@ public class TraspasosAMPRestController {
 			traspaso.setObservaciones(cabeceroJson.getString("observaciones"));
 			traspaso.setFechaDocumento(cabeceroJson.getString("fechaMovimiento"));
 			traspaso.setEstatus("1");
+			traspaso.setTipo("0");
 			traspaso.setCreadoPor(auth.getName());
 			traspaso.setActualizadoPor(auth.getName());
 			traspasoService.save(traspaso);
@@ -82,20 +86,37 @@ public class TraspasosAMPRestController {
 				multialmacenSalida.setExistencia(multialmacenSalida.getExistencia() - traspasoDetalle.getCantidad());
 				multialmacenEntrada.setExistencia(multialmacenEntrada.getExistencia() + traspasoDetalle.getCantidad());
 				multialmacenService.save(multialmacenSalida);
+				multialmacenService.save(multialmacenEntrada);
 				if (movimientosJson.getString("tipo").equals("tela")&&!movimientosJson.get("idRollo").equals(null)) {
 					System.out.println("entra al trans");
 					AmpRolloTela rollo=rolloTelaService.findOne(movimientosJson.getLong("idRollo"));
-					rollo.setIdAlmacenFisico(cabeceroJson.getLong("idAlmacenFisico"));
-					rolloTelaService.save(rollo);
-					AmpAlmacenUbicacionArticulo ubicacionArticulo = almacenUbicacionArticuloService.findByIdArticulo(movimientosJson.getLong("idRollo"), "tela");
-					ubicacionArticulo.setIdUbicacion(movimientosJson.getLong("ubicacion"));
-					ubicacionArticulo.setTipo("tela");
-					ubicacionArticulo.setEstatus("1");
-					ubicacionArticulo.setIdArticulo(movimientosJson.getLong("idRollo"));
-					ubicacionArticulo.setCreadoPor(auth.getName());
-					ubicacionArticulo.setActualizadoPor(auth.getName());
-					ubicacionArticulo.setUltimaFechaModificacion(currentDate());
-					almacenUbicacionArticuloService.save(ubicacionArticulo);
+					if(almacenLogicoService.findByTipo("2", "Apartados").getIdAlmacenLogico().equals(cabeceroJson.getLong("almacenDestinoTraspaso"))){
+						rollo.setEstatus("0");
+					}
+					else if(almacenLogicoService.findByTipo("2", "Preapartado").getIdAlmacenLogico().equals(cabeceroJson.getLong("almacenDestinoTraspaso"))){
+						rollo.setEstatus("2");
+					}
+					else{
+						rollo.setEstatus("1");
+						rollo.setIdPedido(null);
+						rollo.setIdAlmacenLogico(cabeceroJson.getLong("almacenDestinoTraspaso"));
+					}
+					if (movimientosJson.get("ubicacion").equals(null)) {
+						rolloTelaService.save(rollo);
+					} else {
+						rollo.setIdAlmacenFisico(cabeceroJson.getLong("idAlmacenFisico"));
+						
+						rolloTelaService.save(rollo);
+						AmpAlmacenUbicacionArticulo ubicacionArticulo = almacenUbicacionArticuloService.findByIdArticulo(movimientosJson.getLong("idRollo"), "tela");
+						ubicacionArticulo.setIdUbicacion(movimientosJson.getLong("ubicacion"));
+						ubicacionArticulo.setTipo("tela");
+						ubicacionArticulo.setEstatus("1");
+						ubicacionArticulo.setIdArticulo(movimientosJson.getLong("idRollo"));
+						ubicacionArticulo.setCreadoPor(auth.getName());
+						ubicacionArticulo.setActualizadoPor(auth.getName());
+						ubicacionArticulo.setUltimaFechaModificacion(currentDate());
+						almacenUbicacionArticuloService.save(ubicacionArticulo);
+					}
 				}
 
 			}

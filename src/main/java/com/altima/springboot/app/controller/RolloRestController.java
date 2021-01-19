@@ -27,8 +27,23 @@ public class RolloRestController {
         return rolloService.findByIdAlmacenFisico(idAlmacenFisico,idTela);
     }
 
+    @GetMapping("getRolloByidAlmacenLogico")
+    public List<AmpRolloTela> getRolloByidAlmacenLogico(@RequestParam Long idAlmacenLogico,@RequestParam Long idTela,@RequestParam String estatus) {
+        return rolloService.findByIdAlmacenLogico(idAlmacenLogico,idTela,estatus);
+    }
+
     @GetMapping("getUbicacionByRollo")
     public List<UbicacionListDTO> getUbicacionByRollo(@RequestParam Long idRollo) {
         return ubicacionService.findAllByRollo(idRollo);
+    }
+
+    @GetMapping("getRolloByidTela")
+    public List<AmpRolloTela> getRolloByidTela(@RequestParam Long idTela,@RequestParam String estatus) {
+        return rolloService.findByIdTela(idTela,estatus);
+    }
+
+    @GetMapping("getRolloByidPedidoAndidTela")
+    public List<AmpRolloTela> getRolloByidPedidoAndidTela(@RequestParam Long idPedido,@RequestParam String estatus,@RequestParam Long idTela) {
+        return rolloService.findByIdPedidoAndIdTela(idPedido, estatus, idTela);
     }
 }

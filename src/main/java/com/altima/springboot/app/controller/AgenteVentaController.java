@@ -20,12 +20,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.altima.springboot.app.models.entity.ComercialCalendario;
 import com.altima.springboot.app.models.entity.ComercialCliente;
 import com.altima.springboot.app.models.entity.Usuario;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
+import com.altima.springboot.app.models.service.IComercialAgentesVentaService;
 import com.altima.springboot.app.models.service.IComercialCalendarioService;
 import com.altima.springboot.app.models.service.IComercialClienteService;
 import com.altima.springboot.app.models.service.IComercialMovimientoService;
@@ -43,11 +47,12 @@ public class AgenteVentaController {
 	private ICargaPedidoService cargaPedidoService;
 
 	@Autowired
-	IUsuarioService usuarioService;
+	private IUsuarioService usuarioService;
 	
 	@Autowired
-	IComercialMovimientoService movimientoService;
-
+	private IComercialMovimientoService movimientoService;
+	
+	
 	@GetMapping("/obtener-clientes")
 	@ResponseBody
 	public List<Integer> clientes() {
@@ -82,11 +87,32 @@ public class AgenteVentaController {
 	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_LISTAR"})
 	@GetMapping("/seguimientos")
 	public String listSeguimientos(Model model) {
-		model.addAttribute("Listclientes", clienteservice.findAll(null));
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(auth.getName().equalsIgnoreCase("ADMIN")) {
+		model.addAttribute("Listclientes", clienteservice.findClientesWithAgenteVentas(null));
 		model.addAttribute("Listcalendario", calendarioservice.findAll());
 		return "seguimientos";
+		}
+		else {
+			try {
+				Object[] empleado = usuarioService.findEmpleadoByUserName(auth.getName());
+				System.out.println("Es un agente de ventas");
+				model.addAttribute("Listclientes", clienteservice.findClientesWithAgenteVentas(Long.parseLong(empleado[4].toString())));
+				model.addAttribute("Listcalendario", calendarioservice.findAll());
+				return "seguimientos";
+				
+			}
+			catch(Exception e) {
+				System.out.println("No es un agente de ventas \n"+e);
+				model.addAttribute("Listclientes", clienteservice.findClientesWithAgenteVentas(null));
+				model.addAttribute("Listcalendario", calendarioservice.findAll());
+				return "seguimientos";
+			}
+		}
 	}
-
+	
 	@PostMapping("/guardar-seguimientos")
 	@ResponseBody
 	public String guardarseguimiento(String fecha, String observacion, Long idcliente, Integer duracion)

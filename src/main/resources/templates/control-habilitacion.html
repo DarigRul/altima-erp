@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Control habilitaci&oacute;n | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Control habilitaci&oacute;n</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
+                                <li class="breadcrumb-item active">AMP</li>
+                                <li class="breadcrumb-item active">Control habilitaci&oacute;n</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado de controles</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneralMultiSearch table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th class="select-filter">Pedido</th>
+                                                <th class="select-filter">Cliente</th>
+                                                <th class="select-filter">Fecha Entrega</th>
+                                                <th class="select-filter">Agente de ventas</th>
+                                                <th class="select-filter">Total de OP</th>
+                                                <th class="select-filter">Total prendas</th>
+                                                <th class="select-filter">Estatus</th>
+                                                <th>Detalles</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>PED10023</td>
+                                                <td>Deloitte</td>
+                                                <td>17/12/2020</td>
+                                                <td>Uriel</td>
+                                                <td>15</td>
+                                                <td>1500</td>
+                                                <td>Parcial</td>
+                                                <td class="text-center">
+                                                    <a th:href="${'control-habilitacion-material'}" class="btn btn-info btn-circle btn-sm text-white popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneralMultiSearch.js"></script>
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#navComercial').addClass('active-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#menuAMP').addClass('menu-open');
+        $('#navAMP').addClass('active');
+        $('#navAMPHab').addClass('active');
+    </script>
+</body>
+
+</html>

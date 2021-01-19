@@ -12,6 +12,8 @@ public class ListUbicacionRolloDto {
     private String lote;
     private String almacenFisico;
     private float cantidad;
+    private String nombreTela;
+    private String estatus;
 
     public String getIdText() {
         return idText;
@@ -51,6 +53,22 @@ public class ListUbicacionRolloDto {
 
     public void setAlmacenFisico(String almacenFisico) {
         this.almacenFisico = almacenFisico;
+    }
+
+    public String getNombreTela() {
+        return nombreTela;
+    }
+
+    public void setNombreTela(String nombreTela) {
+        this.nombreTela = nombreTela;
+    }
+
+    public String getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(String estatus) {
+        this.estatus = estatus;
     }
 
     

@@ -2,6 +2,7 @@ package com.altima.springboot.app.models.service;
 
 import java.util.List;
 
+import com.altima.springboot.app.models.entity.AmpAlmacenLogico;
 import com.altima.springboot.app.models.entity.AmpExplosionMateriales;
 import com.altima.springboot.app.models.entity.AmpTraspaso;
 import com.altima.springboot.app.models.entity.AmpTraspasoDetalle;
@@ -18,7 +19,7 @@ public interface IAmpExplosionMaterialesService {
 
 	List<Object[]> findTotalMaterials(Long idpedido);
 
-	List<Object[]> findAvailableMaterials(Long IdArticulo);
+	List<Object[]> findAvailableMaterials(Long IdArticulo, Long Idpedido);
 
 	List<Object[]> findMaterialsHeader(Long IdArticulo, Long IdPedido);
 
@@ -29,5 +30,11 @@ public interface IAmpExplosionMaterialesService {
 	void SaveTraspasoDetalle(AmpTraspasoDetalle traspasodetalle);
 
 	List<Object[]> findAllExplosion();
+
+	boolean VerificarAlmacenApartados(String material);
+
+	AmpAlmacenLogico EntradaSalida();
+
+	AmpTraspaso findById(Long id);
 
 }

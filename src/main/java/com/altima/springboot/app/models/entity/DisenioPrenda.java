@@ -84,8 +84,11 @@ public class DisenioPrenda implements Serializable {
 	@Column(name = "estatus_recepcion_muestra")
 	private String estatusRecepcionMuestra;
 
-	@Column(name = "fecha_recepcion_muestra")
-	private String fechaRecepcionMuestra;
+	@Column(name = "fecha_recepcion_produccion")
+	private String fechaRecepcionProduccion;
+
+	@Column(name = "fecha_devolucion_produccion")
+	private String fechaDevolucionProduccion;
 
 	@Column(name = "devolucion")
 	private String devolucion;
@@ -102,8 +105,8 @@ public class DisenioPrenda implements Serializable {
 	@Column(name = "id_genero")
 	private String idGenero;
 
-	
-	
+	@Column(name = "mostrar")
+	private Boolean mostrar;
 	
 	public Long getIdPrenda() {
 		return idPrenda;
@@ -249,14 +252,6 @@ public class DisenioPrenda implements Serializable {
 		this.estatusRecepcionMuestra = estatusRecepcionMuestra;
 	}
 
-	public String getFechaRecepcionMuestra() {
-		return fechaRecepcionMuestra;
-	}
-
-	public void setFechaRecepcionMuestra(String fechaRecepcionMuestra) {
-		this.fechaRecepcionMuestra = fechaRecepcionMuestra;
-	}
-
 	public String getDevolucion() {
 		return devolucion;
 	}
@@ -299,6 +294,30 @@ public class DisenioPrenda implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Boolean getMostrar() {
+		return mostrar;
+	}
+
+	public void setMostrar(Boolean mostrar) {
+		this.mostrar = mostrar;
+	}
+
+	public String getFechaRecepcionProduccion() {
+		return fechaRecepcionProduccion;
+	}
+
+	public void setFechaRecepcionProduccion(String fechaRecepcionProduccion) {
+		this.fechaRecepcionProduccion = fechaRecepcionProduccion;
+	}
+
+	public String getFechaDevolucionProduccion() {
+		return fechaDevolucionProduccion;
+	}
+
+	public void setFechaDevolucionProduccion(String fechaDevolucionProduccion) {
+		this.fechaDevolucionProduccion = fechaDevolucionProduccion;
 	}
 
 	

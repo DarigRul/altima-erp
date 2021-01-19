@@ -82,10 +82,10 @@ public class CatalogoServiceImpl implements ICatalogoService {
 	
 	@Override
 	@Transactional
-	public boolean findDuplicate(String Lookup,String Tipo,String atributo){
+	public boolean findDuplicate(String Lookup,String Tipo,String atributo, String CodigoPrenda){
 		boolean duplicate;
 		@SuppressWarnings("unchecked")
-		List<DisenioLookup> result = em.createQuery("from DisenioLookup where nombreLookup='"+Lookup+"' and tipoLookup='"+Tipo+"' and atributo1='"+atributo+"'").getResultList();
+		List<DisenioLookup> result = em.createQuery("from DisenioLookup where nombreLookup='"+Lookup+"' and tipoLookup='"+Tipo+"' and atributo1='"+atributo+"' and descripcionLookup='"+CodigoPrenda+"'").getResultList();
 		if(result.isEmpty()) {
 			duplicate=false;
 		}
@@ -127,8 +127,9 @@ public class CatalogoServiceImpl implements ICatalogoService {
 				"	DATE_FORMAT(lookup.fecha_creacion, '%Y-%m-%d %H:%i:%S'),\n" + 
 				"	lookup.creado_por,\n" + 
 				"	lookup.actualizado_por,\n" + 
-				"	DATE_FORMAT(lookup.ultima_fecha_modificacion, '%Y-%m-%d %H:%i:%S')\n" + 
-				"	\n" + 
+				"	DATE_FORMAT(lookup.ultima_fecha_modificacion, '%Y-%m-%d %H:%i:%S'),\n" + 
+				"	lookup.descripcion_lookup\n" +
+				//"	lookup.descripcion_lookup as 'descripcionLookup'\n" + 
 				"FROM\n" + 
 				"	alt_disenio_lookup AS lookup,\n" + 
 				"	alt_amp_lookup AS lookAMP \n" + 

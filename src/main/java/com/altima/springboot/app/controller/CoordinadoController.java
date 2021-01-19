@@ -441,5 +441,12 @@ public class CoordinadoController {
 		return 1;
 
 	}
+	
+	@RequestMapping(value = "/detalles-material-preapartado", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object[]> detalles_material_preapartado(Long id) {
+		System.out.println("Detalles materiales preapartado CoordinadoController");
+		return CoordinadoService.detallesMatarialesPreapartado(id);
+	}
 
 }

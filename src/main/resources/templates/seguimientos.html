@@ -28,8 +28,10 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Comercial</li>
                                 <li class="breadcrumb-item active">Agente de Ventas</li>
+                                <li class="breadcrumb-item active">Seguimientos</li>
                             </ol>
                         </div>
                     </div>
@@ -44,25 +46,26 @@
                         <div class="col-12">
                             <!-- Default box -->
                             <div class="card">
-                                <div class="card-header bg-dark">
+                                <div class="card-header bg-altima">
                                     <h3 class="card-title">Listado de seguimientos</h3>
                                 </div>
                                 <div class="card-body">
                                     <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
-                                    <table class="table tablexd table-striped table-bordered tablaSeguimientos" style="width:100%">
+                                    <table class="table tablexd table-striped table-bordered tablaGeneral" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>
+                                                <th>Agente</th>
                                                 <th>Seguimiento</th>
                                                 <th>Llamadas</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr th:each="clientes, cliente:${Listclientes}">
-                                                <td th:text="${#strings.concat(clientes.Nombre , ' ' , clientes.ApellidoPaterno , ' ' , clientes.ApellidoMaterno , ' ' , clientes.RazonSocial )}">Static content
-                                                </td>
+                                                <td th:text="${clientes[1]}">Static content</td>
+                                                <td th:text="${clientes[2]}"></td>
                                                 <td class="text-center">
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_VER'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#accionesClienteAgente" class="btn btn-info btn-circle btn-sm popoverxd text-white"
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_VER'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="'mostrarListaSeguimiento('+${clientes[0]}+')'" class="btn btn-info btn-circle btn-sm popoverxd text-white"
                                                         data-container="body" data-placement="top" data-content="Ver seguimiento"><i
 														class="fas fa-info"></i></a>
                                                     <div th:insert="modal-seguimiento"></div>
@@ -94,23 +97,15 @@
 
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/Llamadas.js"></script>
-    <script src="dist/js/tablaSeguimientos.js"></script>
+    <script src="dist/js/tablaGeneral.js"></script>
+    <script src="dist/js/agentesSeguimiento.js"></script>
     <script>
-        function changeClassById() {
-            document.getElementById("menuComercial").className = "nav-item has-treeview menu-open";
-            document.getElementById("navComercial").className = "nav-link active-altima";
-            document.getElementById("menuVenta").className = "nav-item has-treeview menu-open";
-            document.getElementById("navVenta").className = "nav-link active";
-            document.getElementById("navVenta3").className = "nav-link active";
-        }
-        window.onload = changeClassById();
-    </script>
-    <script>
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            console.log('Esto es un dispositivo móvil');
-        } else {
-            console.log('Esto es una computadora');
-        }
+        $('#iComercial').removeClass('text-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active-altima');
+        $('#menuVenta').addClass('menu-open');
+        $('#navVenta').addClass('active');
+        $('#navVenta3').addClass('active');
     </script>
 </body>
 

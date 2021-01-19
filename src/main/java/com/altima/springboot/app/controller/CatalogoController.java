@@ -6,7 +6,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -39,6 +43,7 @@ import com.altima.springboot.app.models.entity.DisenioPrecioComposicion;
 import com.altima.springboot.app.models.service.ICatalogoService;
 import com.altima.springboot.app.models.service.IComprasProveedorService;
 import com.altima.springboot.app.models.service.IDisenioComposicionCuidadoService;
+import com.altima.springboot.app.models.service.IDisenioLookupService;
 import com.altima.springboot.app.models.service.IDisenioPrecioComposicionService;
 import com.altima.springboot.app.models.service.IUploadService;
 
@@ -55,12 +60,15 @@ public class CatalogoController {
 
 	@Autowired
 	private IUploadService uploadFileService;
-	
+
 	@Autowired
 	private IComprasProveedorService proveedorService;
-	
+
 	@Autowired
 	private IDisenioPrecioComposicionService disenioComposicion;
+
+	@Autowired
+	private IDisenioLookupService disenioLookupService;
 
 	@GetMapping(value = "/uploads/cuidados/{filename:.+}")
 	public ResponseEntity<Resource> verFoto(@PathVariable String filename) {
@@ -78,65 +86,67 @@ public class CatalogoController {
 				.body(recurso);
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR" })
 	@RequestMapping(value = "listarProveedoresColores", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ComprasProveedores> listarProveedoresColores() {
-		
-		return  proveedorService.findAll();
+
+		return proveedorService.findAll();
 
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR" })
 	@RequestMapping(value = "/listarPrecioComposiciones", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object[]> listarPrecioComposiciones() {
-		
-		return  disenioComposicion.findAll();
+
+		return disenioComposicion.findAll();
 
 	}
-	
+
 	@RequestMapping(value = "/verifduplicado", method = RequestMethod.GET)
 	@ResponseBody
-	public boolean verificaduplicado(String Lookup, String Tipo,@RequestParam(required=false) String atributo) {
+	public boolean verificaduplicado(String Lookup, String Tipo, @RequestParam(required = false) String atributo,
+			String CodigoPrenda) {
 		boolean resp;
 		try {
-			resp=catalogo.findDuplicate(Lookup, Tipo, atributo);
+			resp = catalogo.findDuplicate(Lookup, Tipo, atributo, CodigoPrenda);
 		} catch (Exception e) {
-			resp=catalogo.findDuplicate(Lookup, Tipo);
+			resp = catalogo.findDuplicate(Lookup, Tipo);
 		}
-		return  resp;
+		return resp;
 	}
-	
+
 	@RequestMapping(value = "/verifduplicadoPrecioComposicion", method = RequestMethod.GET)
 	@ResponseBody
-	public boolean verifduplicadoPrecioComposicion(@RequestParam(name="idPrenda") Long idPrenda, @RequestParam(name="idFamComposicion") Long idFamPrenda) {
+	public boolean verifduplicadoPrecioComposicion(@RequestParam(name = "idPrenda") Long idPrenda,
+			@RequestParam(name = "idFamComposicion") Long idFamPrenda) {
 		boolean resp;
 		try {
-			resp=catalogo.findDuplicatePrecioComposicion(idPrenda, idFamPrenda);
+			resp = catalogo.findDuplicatePrecioComposicion(idPrenda, idFamPrenda);
 		} catch (Exception e) {
 			System.out.println(e);
 			resp = false;
 		}
-		return  resp;
+		return resp;
 
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR" })
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	@ResponseBody
 	public List<DisenioLookup> listarlookup(String Tipo) {
-		
+
 		return catalogo.findAllLookup(Tipo);
-		
+
 	}
-	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR"})
+
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR" })
 	@RequestMapping(value = "/listar-material-clasificacion", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Object []> listarlookup2() {
+	public List<Object[]> listarlookup2() {
 		return catalogo.findAllMaterialClasificacion();
-	
+
 	}
 
 	@RequestMapping(value = { "/catalogos" }, method = RequestMethod.GET)
@@ -145,7 +155,7 @@ public class CatalogoController {
 		return "catalogos";
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_ELIMINAR"})
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_ELIMINAR" })
 	@PostMapping("/bajacatalogo")
 	public String bajacatalogo(Long idcatalogo) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -161,7 +171,7 @@ public class CatalogoController {
 
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR"})
+	@Secured({ "ROLE_ADMINISTRADOR" })
 	@PostMapping("/reactivarcatalogo")
 	@ResponseBody
 	public String reactivarcatalogo(Long idcatalogo) {
@@ -178,7 +188,7 @@ public class CatalogoController {
 
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_ELIMINAR"})
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_ELIMINAR" })
 	@PostMapping("/eliminarcomposicioncuidado")
 	@ResponseBody
 	public DisenioLookup eliminarcomposicioncuidado(Long id) {
@@ -189,12 +199,13 @@ public class CatalogoController {
 
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_EDITAR", "ROLE_DISENIO_CATALOGOS_AGREGAR"})
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_EDITAR", "ROLE_DISENIO_CATALOGOS_AGREGAR" })
 	@PostMapping("/guardarcatalogo")
 	public String guardacatalogo(String Descripcion, String Color, String PiezaTrazo, String FamiliaPrenda,
 			String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado, String UnidadMedida,
-			String proveedorColor, String Material, HttpServletRequest request, String Marcador, String CodigoColor, 
-			String Posicion, @RequestParam(required = false) MultipartFile iconocuidado, Long Idcuidado, String Simbolo,
+			String proveedorColor, String Material, String Codigo, String CodigoPrenda, HttpServletRequest request,
+			String Marcador, String CodigoColor, String Posicion,
+			@RequestParam(required = false) MultipartFile iconocuidado, Long Idcuidado, String Simbolo,
 			String Composicion, String TipoMaterial, String CategoriaMaterial) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -271,7 +282,7 @@ public class CatalogoController {
 			}
 
 			if (ultimoid == null) {
-				familiaprenda.setIdText("FAMPR"+"0001");
+				familiaprenda.setIdText("FAMPR" + "0001");
 			} else {
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
@@ -281,6 +292,7 @@ public class CatalogoController {
 
 			familiaprenda.setNombreLookup(StringUtils.capitalize(FamiliaPrenda));
 			familiaprenda.setTipoLookup("Familia Prenda");
+			familiaprenda.setDescripcionLookup(CodigoPrenda);
 			familiaprenda.setCreadoPor(auth.getName());
 			familiaprenda.setAtributo1(Posicion);
 			familiaprenda.setFechaCreacion(dateFormat.format(date));
@@ -412,6 +424,8 @@ public class CatalogoController {
 
 			material.setNombreLookup(StringUtils.capitalize(Material));
 			material.setTipoLookup("Material");
+			// material.setNombreLookup(StringUtils.capitalize(Codigo));
+			material.setDescripcionLookup(Codigo);
 			material.setCreadoPor(auth.getName());
 			material.setFechaCreacion(dateFormat.format(date));
 			material.setEstatus(1);
@@ -483,112 +497,106 @@ public class CatalogoController {
 		return "redirect:catalogos";
 
 	}
-	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_AGREGAR"})
-	@RequestMapping(value= "/agregarPrecioComposicion", method = RequestMethod.POST)
-	public String guardarPrecioComposicion (@RequestParam("idPrenda")Long idPrenda, @RequestParam("idFamComposicion")Long idFamComposicion, @RequestParam("precio")String precio) {
+
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_AGREGAR" })
+	@RequestMapping(value = "/agregarPrecioComposicion", method = RequestMethod.POST)
+	public String guardarPrecioComposicion(@RequestParam("idPrenda") Long idPrenda,
+			@RequestParam("idFamComposicion") Long idFamComposicion, @RequestParam("precio") String precio) {
 		DisenioPrecioComposicion precioComposicion = new DisenioPrecioComposicion();
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			Date date = new Date();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
 		try {
-			
-			
+
 			precioComposicion.setIdPrenda(idPrenda);
 			precioComposicion.setIdFamiliaComposicion(idFamComposicion);
 			precioComposicion.setPrecio(precio);
 			precioComposicion.setCreadoPor(auth.getName());
-			//precioComposicion.setActualizadoPor(auth.getName());
+			// precioComposicion.setActualizadoPor(auth.getName());
 			precioComposicion.setFechaCreacion(dateFormat.format(date));
-			//precioComposicion.setUltimaFechaModificacion(dateFormat.format(date));
+			// precioComposicion.setUltimaFechaModificacion(dateFormat.format(date));
 			precioComposicion.setEstatus("1");
-			
+
 			disenioComposicion.save(precioComposicion);
-			
+
 			return "catalogos";
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e);
 			return "redirect:catalogos";
 		}
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_EDITAR"})
-	@RequestMapping(value= "/editarPrecioComposicion", method = RequestMethod.POST)
-	public String editarPrecioComposicion (@RequestParam("idPrenda")Long idPrenda, 
-										   @RequestParam("idFamComposicion")Long idFamComposicion, 
-										   @RequestParam("precio")String precio,
-										   @RequestParam("idPrecioComposicion")Long idPrecioComposicion) {
-		
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_EDITAR" })
+	@RequestMapping(value = "/editarPrecioComposicion", method = RequestMethod.POST)
+	public String editarPrecioComposicion(@RequestParam("idPrenda") Long idPrenda,
+			@RequestParam("idFamComposicion") Long idFamComposicion, @RequestParam("precio") String precio,
+			@RequestParam("idPrecioComposicion") Long idPrecioComposicion) {
+
 		try {
 			DisenioPrecioComposicion precioComposicion = disenioComposicion.findOne(idPrecioComposicion);
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			
+
 			precioComposicion.setIdPrenda(idPrenda);
 			precioComposicion.setIdFamiliaComposicion(idFamComposicion);
 			precioComposicion.setPrecio(precio);
 			precioComposicion.setActualizadoPor(auth.getName());
 			precioComposicion.setUltimaFechaModificacion(currentDate());
-			
+
 			disenioComposicion.save(precioComposicion);
-			
+
 			return "catalogos";
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e);
 			return "redirect:catalogos";
 		}
 	}
-	
-	@Secured({"ROLE_ADMINISTRADOR"})
-	@RequestMapping(value= "/reactivarPrecioComposicion", method = RequestMethod.POST)
-	public String reactivarPrecioComposicion (@RequestParam("idPrecioComposicion")Long idPrecioComposicion) {
-		
+
+	@Secured({ "ROLE_ADMINISTRADOR" })
+	@RequestMapping(value = "/reactivarPrecioComposicion", method = RequestMethod.POST)
+	public String reactivarPrecioComposicion(@RequestParam("idPrecioComposicion") Long idPrecioComposicion) {
+
 		try {
 			DisenioPrecioComposicion precioComposicion = disenioComposicion.findOne(idPrecioComposicion);
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
-			
+
 			precioComposicion.setActualizadoPor(auth.getName());
 			precioComposicion.setUltimaFechaModificacion(dateFormat.format(date));
 			precioComposicion.setEstatus("1");
-			
+
 			disenioComposicion.save(precioComposicion);
-			
+
 			return "catalogos";
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e);
 			return "redirect:catalogos";
 		}
 	}
-	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_ELIMINAR"})
-	@RequestMapping(value= "/bajarPrecioComposicion", method = RequestMethod.POST)
-	public String bajarPrecioComposicion (@RequestParam("idPrecioComposicion")Long idPrecioComposicion) {
-		
+
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR", "ROLE_DISENIO_CATALOGOS_ELIMINAR" })
+	@RequestMapping(value = "/bajarPrecioComposicion", method = RequestMethod.POST)
+	public String bajarPrecioComposicion(@RequestParam("idPrecioComposicion") Long idPrecioComposicion) {
+
 		try {
 			DisenioPrecioComposicion precioComposicion = disenioComposicion.findOne(idPrecioComposicion);
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
-			
+
 			precioComposicion.setActualizadoPor(auth.getName());
 			precioComposicion.setUltimaFechaModificacion(dateFormat.format(date));
 			precioComposicion.setEstatus("0");
-			
+
 			disenioComposicion.save(precioComposicion);
-			
+
 			return "catalogos";
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			System.out.println(e);
 			return "redirect:catalogos";
 		}
 	}
-	
-	
+
 	@RequestMapping(value = "/composicioncuidadorest", method = RequestMethod.POST)
 	@ResponseBody
 	public String[] composicioncuidado(Long idcuidado, String FamiliaComposicion, Long idcomposicion) {
@@ -655,12 +663,13 @@ public class CatalogoController {
 
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_EDITAR"})
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_EDITAR" })
 	@PostMapping("/editarcatalogo")
 	public String editacatalogo(Model model, final Long idLookup, String Color, String PiezaTrazo, String FamiliaPrenda,
 			String Descripcion, String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado,
-			String UnidadMedida, String Material, String proveedor, String Marcador, String CodigoColor, String Posicion, String Simbolo,
-			String Composicion, String TipoMaterial, String CategoriaMaterial, @RequestParam(required = false) MultipartFile iconocuidado) {
+			String UnidadMedida, String Material, String Codigo, String CodigoPrenda, String proveedor, String Marcador,
+			String CodigoColor, String Posicion, String Simbolo, String Composicion, String TipoMaterial,
+			String CategoriaMaterial, @RequestParam(required = false) MultipartFile iconocuidado) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DisenioLookup color = null;
 		DisenioLookup piezatrazo = null;
@@ -693,6 +702,7 @@ public class CatalogoController {
 		if (FamiliaPrenda != null && idLookup > 0) {
 			familiaprenda = catalogo.findOne(idLookup);
 			familiaprenda.setNombreLookup(StringUtils.capitalize(FamiliaPrenda));
+			familiaprenda.setDescripcionLookup(CodigoPrenda);
 			familiaprenda.setUltimaFechaModificacion(currentDate());
 			familiaprenda.setAtributo1(Posicion);
 			familiaprenda.setActualizadoPor(auth.getName());
@@ -721,14 +731,15 @@ public class CatalogoController {
 			instruccioncuidado.setUltimaFechaModificacion(currentDate());
 			instruccioncuidado.setActualizadoPor(auth.getName());
 			String uniqueFilename = null;
-			if(iconocuidado.getOriginalFilename().length()>1) {
+			if (iconocuidado.getOriginalFilename().length() > 1) {
 				try {
-				uniqueFilename = uploadFileService.copyfile(iconocuidado, 1);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+					uniqueFilename = uploadFileService.copyfile(iconocuidado, 1);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-			instruccioncuidado.setAtributo1(uniqueFilename);}
+				instruccioncuidado.setAtributo1(uniqueFilename);
+			}
 			catalogo.save(instruccioncuidado);
 			return "redirect:catalogos";
 		}
@@ -744,10 +755,11 @@ public class CatalogoController {
 		if (Material != null && idLookup > 0) {
 			material = catalogo.findOne(idLookup);
 			material.setNombreLookup(StringUtils.capitalize(Material));
+			material.setDescripcionLookup(Codigo);
 			material.setUltimaFechaModificacion(currentDate());
 			material.setActualizadoPor(auth.getName());
 			material.setAtributo1(TipoMaterial);
-			System.out.println("Esta es la categoria:"+ CategoriaMaterial);
+			System.out.println("Esta es la categoria:" + CategoriaMaterial);
 			material.setAtributo2(CategoriaMaterial);
 			catalogo.save(material);
 			return "redirect:catalogos";
@@ -780,4 +792,22 @@ public class CatalogoController {
 		return sDate;
 	}
 
+	@GetMapping("/getDisenioLookupByTipo")
+	public ResponseEntity<?> getDisenioLookupByTipo(@RequestParam String tipo) {
+
+		Map<String, Object> response = new HashMap<>();
+		List<DisenioLookup> lookups = null;
+		try {
+			lookups = disenioLookupService.findByTipoLookup(tipo);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (lookups.size() == 0) {
+			response.put("mensaje", "El tipo:"+ tipo +" no existe");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<DisenioLookup>>(lookups, HttpStatus.OK);
+	}
 }

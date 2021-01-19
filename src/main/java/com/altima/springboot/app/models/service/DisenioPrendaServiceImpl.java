@@ -63,7 +63,7 @@ public class DisenioPrendaServiceImpl implements IDisenioPrendaService {
 
 		// Consecutivo Nombre
 		List<String> nombre = em
-				.createNativeQuery("SELECT nombre_lookup FROM `alt_disenio_lookup` WHERE id_lookup =" + familiaPrenda)
+				.createNativeQuery("SELECT descripcion_lookup FROM `alt_disenio_lookup` WHERE id_lookup =" + familiaPrenda)
 				.getResultList();
 		String[] soloUnaPalabra = nombre.get(0).split(" ");
 		response[1] = soloUnaPalabra[0];
@@ -168,7 +168,7 @@ public class DisenioPrendaServiceImpl implements IDisenioPrendaService {
 	@Transactional(readOnly = true)
 	public List<PrendaListDTO> findAllMin() {
 		// TODO Auto-generated method stub
-		return em.createNativeQuery("SELECT adp.id_prenda,adp.id_text,adp.id_text_prospecto,adp.descripcion_prenda,adlfampre.nombre_lookup tipo_prenda,adp.prenda_local,adp.estatus_recepcion_muestra,adp.estatus FROM `alt_disenio_prenda` adp INNER JOIN alt_disenio_lookup adlfampre ON adlfampre.id_lookup=adp.id_familia_prenda",PrendaListDTO.class).getResultList();
+		return em.createNativeQuery("SELECT adp.id_prenda,adp.id_text,adp.id_text_prospecto,adp.descripcion_prenda,adlfampre.nombre_lookup tipo_prenda,adp.prenda_local,adp.estatus_recepcion_muestra,adp.estatus,adp.mostrar,IFNULL(adp.fecha_recepcion_produccion,'Sin Fecha') AS fecha_recepcion_produccion,IFNULL(adp.fecha_devolucion_produccion,'Sin Fecha') AS fecha_devolucion_produccion FROM `alt_disenio_prenda` adp INNER JOIN alt_disenio_lookup adlfampre ON adlfampre.id_lookup=adp.id_familia_prenda",PrendaListDTO.class).getResultList();
 	}
 	
 	

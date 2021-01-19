@@ -89,7 +89,6 @@ public class AmpLoookupServiceImpl implements IAmpLoookupService {
 	@Override
 	@Transactional
 	public boolean findDuplicate(String Lookup, String Tipo, String atributo) {
-
 		boolean duplicate;
 		@SuppressWarnings("unchecked")
 		List<AmpLookup> result = em.createQuery("from AmpLookup where nombreLookup='" + Lookup + "' and tipoLookup='"

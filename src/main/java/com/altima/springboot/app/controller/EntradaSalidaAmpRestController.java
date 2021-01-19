@@ -96,6 +96,7 @@ public class EntradaSalidaAmpRestController {
 					rollo.setIdText("idText");
 					rollo.setCantidadOriginal(movimientosJson.getFloat("cantidad"));
 					rollo.setIdAlmacenFisico(cabeceroJson.getLong("idAlmacenFisico"));
+					rollo.setIdAlmacenLogico(cabeceroJson.getLong("idAlmacenLogico"));
 					System.out.println(cabeceroJson.getInt("idAlmacenFisico"));
 					rollo.setIdTela(Long.parseLong(movimientosJson.getString("id")));
 					rolloTelaService.save(rollo);
@@ -143,6 +144,8 @@ public class EntradaSalidaAmpRestController {
 			salida.setCreadoPor(auth.getName());
 			salida.setActualizadoPor(auth.getName());
 			salida.setIdText("idText");
+			salida.setReferencia(cabeceroJson.getString("idPedido"));
+			System.out.println("si pasa de aqui");
 			salidaService.save(salida);
 			salida.setIdText("SAL" + (10000 + salida.getIdSalida()));
 			salidaService.save(salida);
@@ -166,7 +169,7 @@ public class EntradaSalidaAmpRestController {
 					rollo.setUltimaFechaModificacion(sDate);
 					rollo.setActualizadoPor(auth.getName());
 					if (rollo.getCantidad() == 0) {
-						rollo.setEstatus("0");
+						rollo.setEstatus("3");
 					}
 					rolloTelaService.save(rollo);
 
