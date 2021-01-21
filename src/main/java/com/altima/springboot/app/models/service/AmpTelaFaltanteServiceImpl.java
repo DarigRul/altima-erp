@@ -55,7 +55,21 @@ public class AmpTelaFaltanteServiceImpl implements IAmpTelaFaltanteService {
     @Transactional(readOnly = true)
     public List<TelaFaltanteListDto> findAllTelasFaltantes() {
         // TODO Auto-generated method stub
-        return em.createNativeQuery("CALL `alt_pr_tela_faltante`();",TelaFaltanteListDto.class).getResultList();
+        return em.createNativeQuery("select * from `alt_view_tela_faltante`",TelaFaltanteListDto.class).getResultList();
     }
+
+    @Override
+	@Transactional(readOnly = true)
+	@SuppressWarnings("unchecked")
+	public List<TelaFaltanteListDto> findAllTelasFaltantes(String ids) {
+		// TODO Auto-generated method stub
+		String[] idsArray=ids.split(",");
+		String where="";
+		for (String id : idsArray) {
+			where=where+" or id_tela_faltante="+id;
+		}
+
+		return em.createNativeQuery("SELECT `id_tela_faltante`,`id_text_pedido`,`id_text_tela`,`cliente`,`fecha_entrega`,`agente`,sum(`cantidad`) cantidad,`fecha_orden_compra`,`folio_orden_compra`,`fecha_pomesa`,`estatus_compra`,`estatus_comercial`,`nombre_tela`,`id_tela`,`id_proveedor`,`nombre_proveedor`,`precio` FROM `alt_view_tela_faltante` where 1=2"+where+" GROUP by `id_tela`",TelaFaltanteListDto.class).getResultList();	
+	}
     
 }
