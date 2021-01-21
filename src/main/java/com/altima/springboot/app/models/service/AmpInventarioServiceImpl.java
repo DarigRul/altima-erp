@@ -329,6 +329,6 @@ public class AmpInventarioServiceImpl implements IAmpInventarioService {
 			where=where+" or id_requisicion_almacen_material="+id;
 		}
 
-		return em.createNativeQuery("SELECT * FROM `alt_view_list_requisisciones` where 1=2"+where,RequisicionListDto.class).getResultList();	
+		return em.createNativeQuery("SELECT `id_requisicion_almacen_material`,`id_text_requisicion`,`fecha_creacion`,`nombre_usuario`,`id_text_material`,`nombre_material`,`nombre_proveedor`,`modelo`,`color`,SUM(`cantidad`) cantidad,`precio`,`id_material`,`tipo`,`id_color`,`id_proveedor` FROM `alt_view_list_requisisciones` where 1=2"+where+" GROUP by `id_material`,`tipo`,`id_color`",RequisicionListDto.class).getResultList();	
 	}
 }

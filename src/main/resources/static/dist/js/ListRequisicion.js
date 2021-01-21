@@ -75,7 +75,7 @@ function generarOrden() {
     }
     else {
         params.append('idMateriales', materialesFaltantes.toString());
-        params.append("idProveedor",materialesS[0].idProveedor)
+        params.append("idProveedor", materialesS[0].idProveedor)
         console.log(params);
         window.location.href = "/listado-de-requisiciones-goc?" + params;
     }
@@ -326,6 +326,7 @@ function porcentaje(id, wrote) {
         ordenDetalle[indexMaterial].montoCD = 0;
         $(`#monto-${id}`).val(0);
         $(`#subtotal-${id}`).text((ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad).toFixed(2));
+        totales();
         return false
     }
     var monto = (ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad / 100) * parseFloat(wrote)
@@ -343,6 +344,7 @@ function monto(id, wrote) {
         ordenDetalle[indexMaterial].montoCD = 0;
         $(`#porcentaje-${id}`).val(0);
         $(`#subtotal-${id}`).text((ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad).toFixed(2));
+        totales();
         return false
     }
     var porcentaje = (parseFloat(+wrote) / (ordenDetalle[indexMaterial].precioU * ordenDetalle[indexMaterial].cantidad)) * 100
@@ -432,3 +434,73 @@ function totales() {
 function allEqual(arr) {
     return new Set(arr).size == 1;
 }
+
+function cambiarProveedor(idMaterial, tipo, id) {
+    $('#selectProveedor option').remove();
+    $('#selectProveedor').selectpicker('refresh');
+    $("#selectProveedor").append(`<option value="">Seleccione uno...</option>`)
+    $.ajax({
+        type: "GET",
+        url: "/getProveedorByIdMaterialAndTipo",
+        data: {
+            id: idMaterial,
+            tipo: tipo
+        },
+        success: function (responsetxt) {
+            const response = JSON.parse(responsetxt);
+            console.log(response);
+            response.forEach(proveedor => {
+                $("#selectProveedor").append(`<option value="${proveedor.idProveedor}" data-clavep="${proveedor.claveProveedor}" data-id="${id}" data-nombre="${proveedor.nombreProveedor}">${proveedor.nombreProveedor}</option>`)
+            });
+            $('#selectProveedor').selectpicker('refresh');
+        },
+        error: function (response) {
+            console.log(response)
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No existen proveedores para este material',
+            }).then((result) => {
+                $('#cambiarProveedor').modal('toggle');
+                // $(location).attr('href', '/listado-de-requisiciones');
+            })
+        }
+    });
+}
+
+$("#guardarProveedor").click(function (e) {
+    $("#guardarProveedor").attr("disabled", true);
+    e.preventDefault();
+    const id = $("#selectProveedor").find(':selected').data('id');
+    const clavep = $("#selectProveedor").find(':selected').data('clavep');
+    const nombre = $("#selectProveedor").find(':selected').data('nombre');
+    const idProveedor = $("#selectProveedor").val();
+
+    if (idProveedor.trim() === '' || idProveedor == undefined) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Seleccione un proveedor!',
+        }).then(result => {
+            $("#guardarProveedor").attr('disabled', false);
+        })
+    } else {
+        var indexMaterial = materialesList.map(material => material.idRequisicionAlmacenMaterial).indexOf(id);
+        materialesList[indexMaterial].idProveedor=+idProveedor;
+        materialesList[indexMaterial].nombreProveedor=nombre;
+        materialesList[indexMaterial].modelo=clavep;
+        $(`#nombreProveedor-${id}`).text(materialesList[indexMaterial].nombreProveedor);
+        $(`#modelo-${id}`).text(materialesList[indexMaterial].modelo);
+        Swal.fire({
+            icon: 'success',
+            title: 'El proveedor se cambio exitosamente!',
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => {
+            $('#cambiarProveedor').modal('toggle');
+        })
+        $("#guardarProveedor").attr('disabled', false);
+    }
+    console.table(materialesList)
+});
+

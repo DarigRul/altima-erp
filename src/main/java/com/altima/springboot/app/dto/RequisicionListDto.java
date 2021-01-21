@@ -15,9 +15,9 @@ public class RequisicionListDto implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Id
+    private Long idRequisicionAlmacenMaterial;
     private Long idMaterial;
     private Long idProveedor;
-    private String idRequisicionAlmacenMaterial;
     private String idTextRequisicion;
     private String idTextMaterial;
     private String fechaCreacion;
@@ -29,18 +29,7 @@ public class RequisicionListDto implements Serializable{
     private float cantidad;
     private float precio;
     private Long idColor;
-    @Id
     private String tipo;
-
-
-
-    public String getIdRequisicionAlmacenMaterial() {
-        return idRequisicionAlmacenMaterial;
-    }
-
-    public void setIdRequisicionAlmacenMaterial(String idRequisicionAlmacenMaterial) {
-        this.idRequisicionAlmacenMaterial = idRequisicionAlmacenMaterial;
-    }
 
     public String getIdTextRequisicion() {
         return idTextRequisicion;
@@ -152,5 +141,13 @@ public class RequisicionListDto implements Serializable{
 
     public void setIdProveedor(Long idProveedor) {
         this.idProveedor = idProveedor;
+    }
+
+    public Long getIdRequisicionAlmacenMaterial() {
+        return idRequisicionAlmacenMaterial;
+    }
+
+    public void setIdRequisicionAlmacenMaterial(Long idRequisicionAlmacenMaterial) {
+        this.idRequisicionAlmacenMaterial = idRequisicionAlmacenMaterial;
     }
 }
