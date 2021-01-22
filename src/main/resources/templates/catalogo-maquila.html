@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Catal&oacute;gos Maquila | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Cat&aacute;logos maquila</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Cat&oacute;logos</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Small boxes (Stat box) -->
+                    <div class="row">
+                        <div th:insert="catalogo-maquila-famila-operaciones" class="col-lg-6 col-6"></div>
+                        <div th:insert="catalogo-maquila-operaciones-maquila" class="col-lg-6 col-6"></div>
+                        <div th:insert="catalogo-maquila-maquina" class="col-lg-4 col-4"></div>
+                        <div th:insert="catalogo-maquila-componentes" class="col-lg-4 col-4"></div>
+                        <div th:insert="catalogo-maquila-activo-fijo" class="col-lg-4 col-4"></div>
+                        <div th:insert="catalogo-maquila-color" class="col-lg-6 col-6"></div>
+                        <div th:insert="catalogo-maquila-mov-fijo" class="col-lg-6 col-6"></div>
+                        <div th:insert="catalogo-maquila-mov-insumo" class="col-lg-12 col-12"></div>
+
+
+                        <!-- Content Wrapper. Contains page content -->
+                        <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- Main row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+        <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
+        <input type="hidden" id="rolListar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR'')')}? 1:0">
+        <input type="hidden" id="rolAgregar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')')}? 1:0">
+        <input type="hidden" id="rolEditar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR'')')}? 1:0">
+        <input type="hidden" id="rolEliminar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_ELIMINAR'')')}? 1:0">
+        <input type="hidden" id="rolMapeo" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_MAPEO'')')}? 1:0">
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <!-- Funcionalidad-->
+    <script src="dist/js/tablaCatalogosAMP.js"></script>
+    <script src="dist/js/catalogoMaquila.js"></script>
+    <script th:src="@{/plugins/inputmask/min/jquery.inputmask.bundle.min.js}"></script>
+    <script>
+        $('#iMaquilaP').removeClass('text-altima');
+        $('#navMaquilaP').addClass('active-altima');
+        $('#menuProduccion').addClass('menu-open');//
+        $('#menuMaquilaP').addClass('menu-open');
+        $('#menuMaquilaP').addClass('active');
+        $('#navMaquilaPCat').addClass('active');
+
+        var rolAdmin = $('#rolAdmin').val();
+        var rolListar = $('#rolListar').val();
+        var rolAgregar = $('#rolAgregar').val();
+        var rolEditar = $('#rolEditar').val();
+        var rolEliminar = $('#rolEliminar').val();
+        var rolMapeo = $('#rolMapeo').val();
+        console.log(rolAdmin);
+    </script>
+</body>
+
+</html>

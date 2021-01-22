@@ -1,0 +1,78 @@
+<div class="small-box bg-success">
+    <div class="inner">
+        <h3>Activo fijo</h3>
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#activoFijo" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+    </div>
+    <div class="icon">
+        <i class="ion ion-ios-pricetags-outline"></i>
+    </div>
+    <a class="small-box-footer">
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarActivoFijo()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+    </a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="activoFijo" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de activos fijos <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarActivoFijo()" class="btn btn-light btn-circle btn-sm text-success popoverxd"
+                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered tablaAMP" id="tableActivoFijo" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Clave</th>
+                            <th>Nombre</th>
+                            <th class="text-center">Acciones</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal agregar -->
+<div class="modal fade" id="modalAgregarActivoFijo" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 40%;" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title" id="tituloActivoFijo">Nuevo activo fijo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="formActivoFijo" id="formActivoFijo" class="row" autocomplete="off">
+
+                    <div class="form-group col-sm-12">
+                        <label for="nombre">Nombre</label> 
+                        <input type="text"  class="form-control" maxlength="45" autocomplete="off"  id="nombre" placeholder="Nombre">
+                        <input type="hidden"  id="idLookup">
+                    </div>
+
+                    <div class="alert alert-light form-group col-sm-12" role="alert" style="display: none" id="alertActivoFijo" >
+
+                        <h5 class="alert-heading center"><i class="fas fa-exclamation" style="color:brown"></i> Complete el formulario</h5>
+  
+                    </div>
+                   
+
+                    <div class="card-footer center">
+                        <button onclick="guardarActivoFijo()" type="button" class="btn btn-primary btn-lg">Agregar</button>
+                        <button type="button"  data-dismiss="modal" class="btn btn-secondary btn-lg">Cancelar</button>
+                        
+                    </div>
+    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
