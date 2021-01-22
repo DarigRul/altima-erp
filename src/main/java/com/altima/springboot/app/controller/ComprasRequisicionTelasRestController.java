@@ -138,6 +138,7 @@ public class ComprasRequisicionTelasRestController {
             for (String id : idsArray) {
                 AmpTelaFaltante telaFaltante=telaFaltanteService.findOne(Long.parseLong(id));
                 telaFaltante.setEstatus(1);
+                telaFaltante.setIdOrdenCompras(orden.getIdOrdenCompras());
                 telaFaltanteService.save(telaFaltante);
             }
             fmt.close();

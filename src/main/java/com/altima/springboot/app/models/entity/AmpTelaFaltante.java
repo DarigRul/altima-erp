@@ -32,6 +32,9 @@ public class AmpTelaFaltante implements Serializable {
     @Column(name = "id_tela")
     private Long idTela;
 
+    @Column(name = "id_orden_compras")
+    private Long idOrdenCompras;
+
     @Column(name = "cantidad")
     private float cantidad;
 
@@ -150,6 +153,14 @@ public class AmpTelaFaltante implements Serializable {
 
     public void setEstatusComercial(int estatusComercial) {
         this.estatusComercial = estatusComercial;
+    }
+
+    public Long getIdOrdenCompras() {
+        return idOrdenCompras;
+    }
+
+    public void setIdOrdenCompras(Long idOrdenCompras) {
+        this.idOrdenCompras = idOrdenCompras;
     }
 
 }

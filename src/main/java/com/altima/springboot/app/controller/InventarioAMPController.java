@@ -173,6 +173,7 @@ public class InventarioAMPController {
 		
 		if (tipo.equals("m")) {
 			DisenioMaterial material = disenioMaterialService.findOne(id);
+			model.addAttribute("agregar", true);
 			if(ProveedorSerivice.Vefiricar_Proveedor_Principal(id, tipo, material.getProveedor()) == false) {
 				model.addAttribute("title", "Por favor, ingrese el proveedor principal");
 				model.addAttribute("icon", "warning");
@@ -182,14 +183,16 @@ public class InventarioAMPController {
 			
 		}else if (tipo.equals("t")){
 			DisenioTela tela =  disenioTelaService.findOne(id);
+			model.addAttribute("agregar", false);
 			if(ProveedorSerivice.Vefiricar_Proveedor_Principal(id, tipo, Long.toString(tela.getIdProveedor())) == false) {
 				model.addAttribute("title", "Por favor, ingrese el proveedor principal");
 				model.addAttribute("icon", "warning");
 				model.addAttribute("id_proovedor_pricipal",Long.toString(tela.getIdProveedor()));
-				
+				model.addAttribute("agregar", true);
 				model.addAttribute("id_proovedor_pricipal_clave",tela.getClaveProveedor());
 			}
 		}else if(tipo.equals("f")) {
+			model.addAttribute("agregar", true);
 			DisenioForro forro =  forroService.findOne(id);
 			if(ProveedorSerivice.Vefiricar_Proveedor_Principal(id, tipo, forro.getIdProveedor() ) == false) {
 				model.addAttribute("title", "Por favor, ingrese el proveedor principal");
