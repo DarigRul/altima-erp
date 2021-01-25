@@ -68,7 +68,7 @@ function listarExplosionPorProceso(){
 					(data[i][15]==1)?"Explosionado":"Pendiente",//estatus del registro en general (0 pendiente, 1 explosionado)
                     explosionPrendas +
                        
-                    '<a class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Consumo real" >' +
+                    '<a class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Consumo real" onclick="consumoReal('+data[i][0]+')">' +
                         '<i class="fas fa-exclamation"></i> </a>' +
                         
                     finalizarProceso,
@@ -238,6 +238,34 @@ function cerrarTablaExplosionPrendas(){
 	$('#tablaExplosionPrendas').modal("hide");
 }
 
+function consumoReal(idProceso){
+	var tablaConsumoReal = $('#tablaConsumoReal').DataTable();
+	tablaConsumoReal.rows().remove().draw(true);
+	
+	$('#modalConsumoReal').modal("show");
+	
+	tablaConsumoReal.row.add([
+		"CRF3241",
+		"Oxford",
+		"Principal",
+		"Consumo real",
+		'<a class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar consumo" onclick="editarConsumoReal()">' +
+		'<i class="fas fa-thumbs-up"></i></a>'
+		])
+}
+
+function editarConsumoReal(){
+	
+}
+
+function cerrarTablaConsumoReal(){
+	$('#modalConsumoReal').modal("hide");
+}
+
+
+function modalRealizo(){
+	$('#modalRealizo').modal("toggle");
+}
 
 //--------------------------------------------------------------------------\\\
 function selectAllCheck(){
