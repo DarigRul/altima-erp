@@ -74,7 +74,14 @@
     </div>
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/tablaGeneralScroll.js"></script>
-     <script src="dist/js/ControlAvances.js"></script>
+    <script src="/dist/js/tablaRequisicionTelas.js"></script>
+    <script src="dist/js/ControlAvances.js"></script>
+    <script>
+        $('#iProduccion').removeClass('text-altima');
+        $('#menuProduccion').addClass('menu-open');
+        $('#navProduccion').addClass('active-altima');
+        $('#navConAvan').addClass('active');
+    </script>
 </body>
 
 </html>
