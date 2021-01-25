@@ -33,6 +33,8 @@ public class MaterialFaltanteListDto implements Serializable {
 	private String estatus;
 	private String estatusComercial;
 	private Long idMaterial;
+	private String precioUnitario;
+	
 	public Long getIdMaterialFaltante() {
 		return idMaterialFaltante;
 	}
@@ -146,6 +148,12 @@ public class MaterialFaltanteListDto implements Serializable {
 	}
 	public void setIdMaterial(Long idMaterial) {
 		this.idMaterial = idMaterial;
+	}
+	public String getPrecioUnitario() {
+		return precioUnitario;
+	}
+	public void setPrecioUnitario(String precioUnitario) {
+		this.precioUnitario = precioUnitario;
 	}
 
 

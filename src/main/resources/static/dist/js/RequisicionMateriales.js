@@ -230,7 +230,7 @@ $('#btnGenerarOrden').click(function (e) {
                         nombreProveedor: materialesFiltrados.nombreProveedor,
                         cantidad: materialesFiltrados.cantidad,
                         cantidadExtra: 0,
-                        precioU: 0,
+                        precioU: materialesFiltrados.precioUnitario,
                         montoCD: 0
 
                     }
@@ -365,7 +365,7 @@ $("#enviarOrden").click(function (e) {
     } else {
         $.ajax({
             type: "POST",
-            url: "/postOrdenCompraTela",
+            url: "/postOrdenCompraMaterial",
             data: {
                 _csrf: $('[name=_csrf]').val(),
                 ordenCompraDetalle: JSON.stringify(ordenCompraDetalle),

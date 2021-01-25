@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.altima.springboot.app.dto.MaterialFaltanteListDto;
 import com.altima.springboot.app.models.entity.AmpMaterialFaltante;
+import com.altima.springboot.app.models.entity.ComprasOrden;
+import com.altima.springboot.app.models.entity.ComprasOrdenDetalle;
 
 public interface IPedidosRequisicionMaterialesService {
 
@@ -18,5 +20,9 @@ public interface IPedidosRequisicionMaterialesService {
 	List<MaterialFaltanteListDto> findAllMaterialesFaltantes();
 
 	List<MaterialFaltanteListDto> findAllMaterialesFaltantes(String ids);
+
+	void save(ComprasOrden orden);
+
+	void save(ComprasOrdenDetalle ordenDetalle);
 
 }

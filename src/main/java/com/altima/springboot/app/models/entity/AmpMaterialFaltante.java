@@ -55,6 +55,9 @@ public class AmpMaterialFaltante implements Serializable {
 
     @Column(name = "ultimaFechaModificacion")
     private String ultimaFechaModificacion;
+    
+    @Column(name = "id_orden_compras")
+    private Long idOrdenCompras;
 
     
 
@@ -154,5 +157,15 @@ public class AmpMaterialFaltante implements Serializable {
     public void setEstatusComercial(int estatusComercial) {
         this.estatusComercial = estatusComercial;
     }
+
+	public Long getIdOrdenCompras() {
+		return idOrdenCompras;
+	}
+
+	public void setIdOrdenCompras(Long idOrdenCompras) {
+		this.idOrdenCompras = idOrdenCompras;
+	}
+
+	
 
 }

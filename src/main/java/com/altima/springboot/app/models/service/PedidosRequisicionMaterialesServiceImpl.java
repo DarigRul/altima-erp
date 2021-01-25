@@ -8,7 +8,11 @@ import javax.persistence.PersistenceContext;
 import com.altima.springboot.app.dto.MaterialFaltanteListDto;
 import com.altima.springboot.app.dto.TelaFaltanteListDto;
 import com.altima.springboot.app.models.entity.AmpMaterialFaltante;
+import com.altima.springboot.app.models.entity.ComprasOrden;
+import com.altima.springboot.app.models.entity.ComprasOrdenDetalle;
 import com.altima.springboot.app.repository.AmpMaterialFaltanteRepository;
+import com.altima.springboot.app.repository.ComprasOrdenDetalleRepository;
+import com.altima.springboot.app.repository.ComprasOrdenRepository;
 import com.altima.springboot.app.repository.AmpMaterialFaltanteRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,12 @@ public class PedidosRequisicionMaterialesServiceImpl implements IPedidosRequisic
 
     @Autowired
     AmpMaterialFaltanteRepository repository;
+    
+    @Autowired
+    ComprasOrdenRepository repositoryordencompras;
+    
+    @Autowired
+    ComprasOrdenDetalleRepository repositoryordendetalle;
 
     @PersistenceContext
     EntityManager em;
@@ -35,9 +45,9 @@ public class PedidosRequisicionMaterialesServiceImpl implements IPedidosRequisic
     
 	@Override
     @Transactional
-    public void save(AmpMaterialFaltante tela) {
+    public void save(AmpMaterialFaltante material) {
         // TODO Auto-generated method stub
-        repository.save(tela);
+        repository.save(material);
     }
 
     
@@ -77,7 +87,21 @@ public class PedidosRequisicionMaterialesServiceImpl implements IPedidosRequisic
 			where=where+" or id_material_faltante="+id;
 		}
 
-		return em.createNativeQuery("SELECT `id_material_faltante`,`id_text_pedido`,`clave_material`,`cliente`,`fecha_entrega`,sum(`cantidad`) cantidad,`fecha_oc`,`folio_oc`,`fecha_promesa`,`estatus`,`estatus_comercial`,`nombre_material`,`id_material`,`id_proveedor`,`nombre_proveedor`,'color','fecha_requisicion','id_text_proveedor','tamanio' FROM `alt_view_material_faltante` where 1=2"+where+" GROUP by `id_material`",MaterialFaltanteListDto.class).getResultList();	
+		return em.createNativeQuery("SELECT `id_material_faltante`,`id_text_pedido`,`clave_material`,`cliente`,`fecha_entrega`,sum(`cantidad`) cantidad,`fecha_oc`,`folio_oc`,`fecha_promesa`,`estatus`,`estatus_comercial`,`nombre_material`,`id_material`,`id_proveedor`,`nombre_proveedor`,'color','fecha_requisicion','id_text_proveedor','tamanio','precio_unitario' FROM `alt_view_material_faltante` where 1=2"+where+" GROUP by `id_material`",MaterialFaltanteListDto.class).getResultList();	
+	}
+
+
+	@Override
+	public void save(ComprasOrden orden) {
+		// TODO Auto-generated method stub
+		repositoryordencompras.save(orden);
+	}
+
+
+	@Override
+	public void save(ComprasOrdenDetalle ordenDetalle) {
+		// TODO Auto-generated method stub
+		repositoryordendetalle.save(ordenDetalle);
 	}
     
 }
