@@ -144,6 +144,13 @@
                                                         data-content="Regresar Produccion"
                                                         class="btn btn-error btn-danger btn-circle btn-sm popoverxd"><i
                                                             class="fas fa-undo"></i></a>
+                                                    <a  sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_EDITAR')"
+                                                        th:href="@{'/asignar_operaciones_prenda/'} + ${prenda.IdPrenda}"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Operaciones"
+                                                        class="btn btn-error btn-secondary btn-circle btn-sm popoverxd">
+                                                        <i class="far fa-edit"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         </tbody>

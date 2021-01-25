@@ -27,7 +27,7 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item altima">Altima</li>
-                                <li class="breadcrumb-item active">Taller de maquila</li>
+                                <li class="breadcrumb-item active">Diseño</li>
                                 <li class="breadcrumb-item active">Asignaci&oacute;n de operaciones</li>
                             </ol>
                         </div>
@@ -48,90 +48,51 @@
 								<div class="card-body">
 									<form class="row">
 								
-									  <div class="form-group col-md-3">
-									    <label for="prendaAsignacion">Prenda</label>
-									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="prendaAsignacion">
-									      <option>Camisa</option>
+									  <div class="form-group col-md-6">
+										<label for="prendaAsignacion">Familia</label>
+										<input type="hidden" th:value="${idPrenda}" id="idPrenda">
+									    <select class="form-control selectpicker" onchange="listarOperaciones(this.value)" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="prendaAsignacion">
+											
+											<option th:each="selectFamilia: ${selectFamilia}" th:value="${selectFamilia.idLookup}" th:text="${selectFamilia.nombreLookup}"></option>
 									    </select>
 									  </div>
-									  <div class="form-group col-md-3">
-									    <label for="modeloAsignacion">Modelo</label>
-									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="modeloAsignacion">
-									      <option>MODCAM001</option>
-									    </select>
-									  </div>
+									
 									  <div class="form-group col-md-6">
 									    <label for="operacionAsignacion">Operaci&oacute;n</label>
 									    <select class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" id="operacionAsignacion">
-									      <option>Coser etiqueta a tabulejo</option>
+									      
 									    </select>
 									  </div>
 									  <div class="form-group col-md-12">
-									  	<a class="btn icon-btn btn-altima text-white float-right" type="submit"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</a>
+									  	<button type="button" onclick="agregarOperacion()" class="btn icon-btn btn-altima text-white float-right" ><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar</button>
 									  </div>
 									 </form>
 									<table class="table tablaAgregarAsignacion table-striped table-bordered" style="width:100%">
 										<thead>
 											<tr>
 												<th>No. operaci&oacute;n</th>
+												<th>Familia</th>
 												<th>Descripci&oacute;n de operaciones</th>
 												<th>SAM</th>
-												<th>Producci&oacute;n hora</th>
-												<th>Producci&oacute;n turno</th>
-												<th>Acciones</th>
+												<th>Piezas</th>
+												<th>Turno</th>
+												<th>Eliminar</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td>1</td>
-												<td>Coser etiqueta a tabulejo</td>
-												<td>0.68</td>
-												<td>88</td>
-												<td>794</td>
+											<tr  th:each="view: ${view}">
+												<td th:text=${#numbers.formatInteger(view[1],0)} >1</td>
+												<td th:text="${view[2]}">Coser etiqueta a tabulejo</td>
+												<td th:text="${view[3]}">0.68</td>
+												<td th:text="${view[4]}">88</td>
+												<td th:text="${view[5]}">794</td>
+												<td th:text="${view[6]}">794</td>
 												<td class="text-center">
-													<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</a>
+													<button th:onclick="|eliminar('${view[0]}')|"  class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
 												</td>
 											</tr>
-											<tr>
-												<td>2</td>
-												<td>Coser prinza a espalda de forro	</td>
-												<td>0.72</td>
-												<td>83</td>
-												<td>750</td>
-												<td class="text-center">
-													<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</a>
-												</td>
-											</tr>
-											<tr>
-												<td>3</td>
-												<td>Coser centro de espalda de forro</td>
-												<td>0.68</td>
-												<td>88</td>
-												<td>794</td>
-												<td class="text-center">
-													<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</a>
-												</td>
-											</tr>
-											<tr>
-												<td>4</td>
-												<td>Coser tabulejo a espalda de forro</td>
-												<td>1.27</td>
-												<td>47</td>
-												<td>425</td>
-												<td class="text-center">
-													<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</a>
-												</td>
-											</tr>
-											<tr>
-												<td>5</td>
-												<td>Coser cinta de lino a vista de casimir</td>
-												<td>1.43</td>
-												<td>42</td>
-												<td>378</td>
-												<td class="text-center">
-													<a class="btn icon-btn btn-danger text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</a>
-												</td>
-											</tr>
+											
+										
 										</tbody>
 									</table>
 								</div>
@@ -148,13 +109,16 @@
         <!-- /.content-wrapper -->
         <div th:insert="navegacion-footer"></div>
     </div>
-    <div th:replace="navegacion-scripts"></div>
-    <script src="dist/js/tablaAgregarAsignacionOperaciones.js"></script>
+	<div th:replace="navegacion-scripts"></div>
+	<script th:src="@{/dist/js/tablaAgregarAsignacionOperaciones.js}"></script>
+	<script th:src="@{/dist/js/asignar-operacion.js}"></script>
+
+	
 	<script>
-		$('#iMaquila').removeClass('text-altima');
-		$('#navMaquila').addClass('active-altima');
-		$('#menuMaquila').addClass('menu-open');
-		$('#navMaqAsig').addClass('active');
+		$('#iDiseno').removeClass('text-altima');
+        $('#navDiseno').addClass('active-altima');
+        $('#menuDiseno').addClass('menu-open');
+        $('#navDiseno3').addClass('active');
 	</script>
 </body>
 
