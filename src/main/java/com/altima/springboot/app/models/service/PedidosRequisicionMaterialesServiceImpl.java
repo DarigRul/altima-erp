@@ -87,7 +87,7 @@ public class PedidosRequisicionMaterialesServiceImpl implements IPedidosRequisic
 			where=where+" or id_material_faltante="+id;
 		}
 
-		return em.createNativeQuery("SELECT `id_material_faltante`,`id_text_pedido`,`clave_material`,`cliente`,`fecha_entrega`,sum(`cantidad`) cantidad,`fecha_oc`,`folio_oc`,`fecha_promesa`,`estatus`,`estatus_comercial`,`nombre_material`,`id_material`,`id_proveedor`,`nombre_proveedor`,'color','fecha_requisicion','id_text_proveedor','tamanio','precio_unitario' FROM `alt_view_material_faltante` where 1=2"+where+" GROUP by `id_material`",MaterialFaltanteListDto.class).getResultList();	
+		return em.createNativeQuery("SELECT `id_material_faltante`,`id_text_pedido`,`clave_material`,`cliente`,`fecha_entrega`,sum(`cantidad`) cantidad,`fecha_oc`,`folio_oc`,`fecha_promesa`,`estatus`,`estatus_comercial`,`nombre_material`,`id_material`,`id_proveedor`,`nombre_proveedor`,color,fecha_requisicion,id_text_proveedor,tamanio,precio_unitario FROM `alt_view_material_faltante` where 1=2"+where+" GROUP by `id_material`",MaterialFaltanteListDto.class).getResultList();	
 	}
 
 

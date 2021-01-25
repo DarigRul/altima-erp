@@ -74,7 +74,7 @@ $('#guardarFechaPromesa').click(function (e) {
     else {
         $.ajax({
             type: "POST",
-            url: "/postFechaPromesa",
+            url: "/postFechaPromesaMateriales",
             data: {
                 Materiales: Materiales.toString(),
                 _csrf: $("[name='_csrf']").val(),
@@ -120,7 +120,7 @@ function aceptarComercial(idMaterialFaltante) {
         if (result.value) {
             $.ajax({
                 type: "PATCH",
-                url: "/patchTelaFaltanteEstatus",
+                url: "/patchMaterialFaltanteEstatus",
                 data: {
                     _csrf: $("[name='_csrf']").val(),
                     idMaterialFaltante: idMaterialFaltante,
@@ -165,7 +165,7 @@ function rechazarComercial(idMaterialFaltante) {
         if (result.value) {
             $.ajax({
                 type: "PATCH",
-                url: "/patchTelaFaltanteEstatus",
+                url: "/patchMaterialFaltanteEstatus",
                 data: {
                     _csrf: $("[name='_csrf']").val(),
                     idMaterialFaltante: idMaterialFaltante,
