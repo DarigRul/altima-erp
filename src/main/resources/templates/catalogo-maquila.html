@@ -60,12 +60,11 @@
         </div>
         <!-- /.content-wrapper -->
         <div th:insert="navegacion-footer"></div>
-        <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
-        <input type="hidden" id="rolListar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR'')')}? 1:0">
-        <input type="hidden" id="rolAgregar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')')}? 1:0">
-        <input type="hidden" id="rolEditar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_EDITAR'')')}? 1:0">
-        <input type="hidden" id="rolEliminar" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_ELIMINAR'')')}? 1:0">
-        <input type="hidden" id="rolMapeo" th:value="${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_MAPEO'')')}? 1:0">
+        
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolListar" value="1">
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolAgregar" value="1">
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEditar" value="1" >
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEliminar" value="1" >
     </div>
     <div th:replace="navegacion-scripts"></div>
     <!-- Funcionalidad-->
@@ -73,12 +72,10 @@
     <script src="dist/js/catalogoMaquila.js"></script>
     <script th:src="@{/plugins/inputmask/min/jquery.inputmask.bundle.min.js}"></script>
     <script>
-        $('#iMaquilaP').removeClass('text-altima');
-        $('#navMaquilaP').addClass('active-altima');
-        $('#menuProduccion').addClass('menu-open');//
-        $('#menuMaquilaP').addClass('menu-open');
-        $('#menuMaquilaP').addClass('active');
-        $('#navMaquilaPCat').addClass('active');
+        $('#iMaquila').removeClass('text-altima');
+		$('#navMaquila').addClass('active-altima');
+		$('#menuMaquila').addClass('menu-open');
+		$('#navMaqCat').addClass('active');
 
         var rolAdmin = $('#rolAdmin').val();
         var rolListar = $('#rolListar').val();

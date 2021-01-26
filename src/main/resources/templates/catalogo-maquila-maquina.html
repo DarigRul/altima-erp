@@ -1,13 +1,13 @@
 <div class="small-box bg-primary">
     <div class="inner">
         <h3>Activos</h3>
-        <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#maquinas" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#maquinas" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
     </div>
     <div class="icon">
         <i class="ion ion-ios-pricetags-outline"></i>
     </div>
     <a class="small-box-footer">
-        <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarMaquina()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarMaquina()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
     </a>
 </div>
 <!-- Modal Marcas Tabla -->
@@ -15,7 +15,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
         <div class="modal-content" id="contenedorTabla">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title" id="exampleModalLongTitle">Listado de activos <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarMaquina()" class="btn btn-light btn-circle btn-sm text-primary popoverxd"
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de activos <button th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarMaquina()" class="btn btn-light btn-circle btn-sm text-primary popoverxd"
                         data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">

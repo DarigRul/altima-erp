@@ -707,7 +707,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview" id="menuMaquila">
+                <li class="nav-item has-treeview" id="menuMaquila" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
+                (${#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')')})">
                     <a class="nav-link" id="navMaquila">
                         <i class="nav-icon-custom flaticon-classic-sewing-machine-with-spool-of-thread text-altima" id="iMaquila"></i>
                         <p>
@@ -716,8 +717,9 @@
                     </a>
                     <ul class="nav nav-treeview">
                         
-                        <li class="nav-item">
-                            <a th:href="${'/catalogos-maquila'}" class="nav-link" id="navMaqCat">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
+                        (${#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')')})">
+                            <a th:href="${'/catalogo-maquila'}" class="nav-link" id="navMaqCat">
                                 <i class="nav-icon fas fa-book-open"></i>
                                 <p>Cat&aacute;logos</p>
                             </a>

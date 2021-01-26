@@ -49,6 +49,7 @@ public class CatalogoMaquilaController{
 	@Autowired
 	IMaquilaLookupService lookupService;
 
+	
     @RequestMapping(value = { "/catalogo-maquila" }, method = RequestMethod.GET)
 	public String catalogo() {
 		return "catalogo-maquila";
