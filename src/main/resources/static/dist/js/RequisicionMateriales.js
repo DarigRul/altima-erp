@@ -226,13 +226,14 @@ $('#btnGenerarOrden').click(function (e) {
                         idMaterial: materialesFiltrados.idMaterial,
                         nombreMaterial: materialesFiltrados.nombreMaterial,
                         claveMaterial: materialesFiltrados.claveMaterial,
+                        color: materialesFiltrados.color,
                         idProveedor: materialesFiltrados.idProveedor,
                         nombreProveedor: materialesFiltrados.nombreProveedor,
                         cantidad: materialesFiltrados.cantidad,
                         cantidadExtra: 0,
                         precioU: materialesFiltrados.precioUnitario,
                         montoCD: 0,
-                        color: materialesFiltrados.color
+                        //
 
                     }
                     $('#proveedor').text(temp.nombreProveedor);
