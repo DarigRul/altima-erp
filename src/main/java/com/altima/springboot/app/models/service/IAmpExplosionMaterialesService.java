@@ -37,4 +37,6 @@ public interface IAmpExplosionMaterialesService {
 
 	AmpTraspaso findById(Long id);
 
+	boolean savemissingmaterials(String pedido);
+
 }

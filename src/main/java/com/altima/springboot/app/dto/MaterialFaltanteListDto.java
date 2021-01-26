@@ -26,14 +26,14 @@ public class MaterialFaltanteListDto implements Serializable {
 	private String idTextProveedor;
 	private String color;
 	private String tamanio;
-	private String cantidad;
+	private Float cantidad;
 	private String fechaPromesa;
 	private String fechaOc;
 	private String folioOc;
 	private String estatus;
 	private String estatusComercial;
 	private Long idMaterial;
-	private String precioUnitario;
+	private Float precioUnitario;
 	
 	public Long getIdMaterialFaltante() {
 		return idMaterialFaltante;
@@ -107,10 +107,10 @@ public class MaterialFaltanteListDto implements Serializable {
 	public void setTamanio(String tamanio) {
 		this.tamanio = tamanio;
 	}
-	public String getCantidad() {
+	public Float getCantidad() {
 		return cantidad;
 	}
-	public void setCantidad(String cantidad) {
+	public void setCantidad(Float cantidad) {
 		this.cantidad = cantidad;
 	}
 	public String getFechaPromesa() {
@@ -149,10 +149,10 @@ public class MaterialFaltanteListDto implements Serializable {
 	public void setIdMaterial(Long idMaterial) {
 		this.idMaterial = idMaterial;
 	}
-	public String getPrecioUnitario() {
+	public Float getPrecioUnitario() {
 		return precioUnitario;
 	}
-	public void setPrecioUnitario(String precioUnitario) {
+	public void setPrecioUnitario(Float precioUnitario) {
 		this.precioUnitario = precioUnitario;
 	}
 

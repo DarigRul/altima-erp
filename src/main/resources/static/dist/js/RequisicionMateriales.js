@@ -231,7 +231,8 @@ $('#btnGenerarOrden').click(function (e) {
                         cantidad: materialesFiltrados.cantidad,
                         cantidadExtra: 0,
                         precioU: materialesFiltrados.precioUnitario,
-                        montoCD: 0
+                        montoCD: 0,
+                        color: materialesFiltrados.color
 
                     }
                     $('#proveedor').text(temp.nombreProveedor);
@@ -247,6 +248,7 @@ $('#btnGenerarOrden').click(function (e) {
                             `<p id="materialExtra-${detalle.idMaterialFaltante}">${detalle.cantidad}</p>`,
                             detalle.claveMaterial,
                             detalle.nombreMaterial,
+                            detalle.color,
                             `<input type="number" value="${detalle.precioU}" class="form-control" onInput='precioU(${detalle.idMaterialFaltante},this.value)'>`,
                             `<input type="number" value="0" step="any" onInput='porcentaje(${detalle.idMaterialFaltante},this.value)' class="form-control dc" id="porcentaje-${detalle.idMaterialFaltante}">`,
                             `<input type="number" value="0" step="any" onInput='monto(${detalle.idMaterialFaltante},this.value)' class="form-control dc" id="monto-${detalle.idMaterialFaltante}">`,
