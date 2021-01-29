@@ -126,8 +126,8 @@ function guardarMaquilero(){
                 'nombreMaquilero':$('#nombreMaquilero').val(),
                 'idMaquilero':$('#idMaquilero').val(),
                 'calleMaquilero':$('#calleMaquilero').val(),
-                'numeroExtMaquilero':$('#numeroExtMaquilero').val(),
-                'numeroIntMaquilero':$('#numeroIntMaquilero').val(),
+                'numeroExtMaquilero': ($('#numeroExtMaquilero').val()=="" ? 'S/N' : $('#numeroExtMaquilero').val()),
+                'numeroIntMaquilero': ($('#numeroIntMaquilero').val()=="" ? 'S/N' : $('#numeroIntMaquilero').val()),
                 'estadoMaquilero':$('#estadoMaquilero').val(),
                 'municipioMaquilero':$('#municipioMaquilero').val(),
                 'coloniaMaquilero':$('#coloniaMaquilero').val(),
@@ -173,14 +173,21 @@ function editarMaquileros(id){
             $('#nombreMaquilero').val(data.nombre);
             $('#idMaquilero').val(data.idMaquilador);
             $('#calleMaquilero').val(data.calle);
-            if (data.numeroExt =="" || data.numeroEx== null ){
+            if (data.numeroExt == "S/N" ){
                 $('#SN').prop('checked', true);
                 $("#numeroExtMaquilero").prop('disabled', true);
                 $("#numeroIntMaquilero").prop('disabled', true);
+                $('#numeroExtMaquilero').val(null);
+                $('#numeroIntMaquilero').val(null);
                 
             }
-            $('#numeroExtMaquilero').val(data.numeroExt);
-            $('#numeroIntMaquilero').val(data.numeroInt);
+            else{
+                $('#SN').prop('checked', false);
+                $("#numeroExtMaquilero").prop('disabled', false);
+                $("#numeroIntMaquilero").prop('disabled', false);
+                $('#numeroExtMaquilero').val(data.numeroExt);
+                $('#numeroIntMaquilero').val(data.numeroInt);
+            }
             $('#estadoMaquilero').val(data.estado);
             $('#estadoMaquilero').selectpicker('refresh');
             $('#municipioMaquilero').val(data.municipio);
@@ -313,6 +320,7 @@ function listarMaquila() {
     					(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarMaquileros('+v[0]+')"  data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
     					(rolEliminar == 1 ?'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="bajaMaquileros('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>':"")
             
+            
                		 ]).node().id ="row";
             	}else{
             		tabla.row.add([	
@@ -325,8 +333,8 @@ function listarMaquila() {
                         v[6],//ubicacion;
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v[8] +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v[9]+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
     					(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarMaquileros('+v[0]+')"  data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
-    					(rolEliminar == 1 ?'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="altaMaquileros('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>':"")
-            
+                        (rolEliminar == 1 ?'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="altaMaquileros('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>':"")
+                        
                		 ]).node().id ="row";
             	}
             	
@@ -356,15 +364,7 @@ function mostrarUbicacion(id){
         
         } ,
         success: (data) => {
-            var numEx;
-            var numIn;
-            if ( data.numeroExt =="" || data.numeroEx== null){
-                numEx="Sin numero";
-                numIn="Sin numero";
-            }else{
-                numEx=data.numeroExt;
-                numIn=data.numeroInt;
-            }
+ 
             Swal.fire({
                 title: '<strong>Ubicación</strong>',
                 html:
@@ -374,8 +374,8 @@ function mostrarUbicacion(id){
                 '<p> Colonia:<strong>'+data.colonia+'</strong></p>'+
                 '<p>Codigo postal:<strong>'+data.codigoPostal+'</strong></p>'+
                 '<p> Calle:<strong>'+data.calle+'</strong></p>'+
-                '<p> Num. Exterior:<strong>'+numEx+'</strong></p>'+
-                '<p> Num. Interno:<strong>'+numIn+'</strong></p>',
+                '<p> Num. Exterior:<strong>'+data.numeroExt+'</strong></p>'+
+                '<p> Num. Interno:<strong>'+data.numeroInt+'</strong></p>',
                 showCloseButton: true,
                 focusConfirm: false,
                 confirmButtonText:

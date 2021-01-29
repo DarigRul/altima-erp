@@ -1024,6 +1024,7 @@ function guardarRuta(){
 					},
 				
 					success: function(data) {
+						listarRuta();
 						$("#addRuta").modal("hide");
 						Swal.fire({
 							position: 'center',
@@ -1108,6 +1109,7 @@ function editar_ruta_proceso(){
 					},
 				
 					success: function(data) {
+						listarRuta();
 						$("#addRuta").modal("hide");
 						Swal.fire({
 							position: 'center',
