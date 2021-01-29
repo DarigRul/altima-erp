@@ -66,16 +66,16 @@ function agregarLargo(){
 	Swal.fire({
 		  title: 'Nuevo Largo',
 		  html:
-			  '<div class="row">'+
+			  '<form class="row" autocomplete="off">'+
 				  '<div class="form-group col-sm-6">'+
-				  	'<label for="descripcionProceso">Nomenclatura</label>'+
-				  	'<input type="text" class="form-control" id="nomenclatura" name="nomenclatura" placeholder="XXL">'+
+				  	'<label for="nomenclatura">Nomenclatura</label>'+
+				  	'<input type="text" class="form-control" id="nomenclatura" name="nomenclatura"  placeholder="XXL">'+
 				  '</div>'+
 				  '<div class="form-group col-sm-6">'+
-				  	'<label for="origenProceso">Descripci&oacute;n</label>'+
-				  	'<input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Extra largo">'+
+				  	'<label for="descripcion">Descripci&oacute;n</label>'+
+				  	'<input type="text" class="form-control" id="descripcionLargo" name="descripcionLargo"   placeholder="Extra largo">'+
 				  '</div>'+
-			  '</div>',
+			  '</form>',
 		  inputAttributes: {
 		    autocapitalize: 'off'
 		  },
@@ -84,7 +84,7 @@ function agregarLargo(){
 		  cancelButtonText: 'Cancelar',
 		  showLoaderOnConfirm: true,
 		  preConfirm: (nomenclatura) => {
-			  if(document.getElementById("nomenclatura").value.length<1 || document.getElementById("descripcion").value.length<1){
+			  if(document.getElementById("nomenclatura").value=="" || document.getElementById("descripcionLargo").value==""){
 					Swal.showValidationMessage(
 							`Complete todos los campos`
 					)
@@ -92,9 +92,9 @@ function agregarLargo(){
 		  },
 		  allowOutsideClick: () => !Swal.isLoading()
 		}).then((result) => {
-		  if (result.value && document.getElementById("nomenclatura").value && document.getElementById("descripcion").value ) {
+		  if (result.value && document.getElementById("nomenclatura").value && document.getElementById("descripcionLargo").value ) {
 			  var nomenclatura = document.getElementById("nomenclatura").value;
-			  var descripcion = document.getElementById("descripcion").value;
+			  var descripcion = document.getElementById("descripcionLargo").value;
 			  $.ajax({
 					type: "GET",
 					url: "/verificar-duplicado-produccion",
@@ -106,7 +106,6 @@ function agregarLargo(){
 					}
 
 				}).done(function (data) {
-					console.log ("dataaa----->"+data)
 					if(data==false){
 
 						$.ajax({
@@ -172,49 +171,52 @@ function listarLargo() {
 					"</table>" + "</div>");
 			var a;
 			var b = [];
-			if(rolAdmin==1){
+			
 				for (i in data) {
 					var creacion =data[i].actualizadoPor==null?"":data[i].actualizadoPor;
+					var actulizacion =data[i].ultimaFechaModificacion==null?"":data[i].ultimaFechaModificacion;
 
-					a = [
-						"<tr>" +
-						"<td>" + data[i].idText + "</td>",
-						"<td>" + data[i].nombreLookup + "</td>",
-						"<td>" + data[i].descripcionLookup + "</td>",
-						"<td style='text-align: center'>" +
-						"<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>"+data[i].creadoPor+" <br /><strong>Fecha de creación:</strong> "+data[i].fechaCreacion+"<br><strong>Modificado por:</strong>"+creacion+"<br><strong>Fecha de modicación:</strong>"+data[i].ultimaFechaModificacion+"'><i class='fas fa-info'></i></button> " +
-						" <button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
-						(data[i].estatus == 1 ? "<button onclick='bajarColor(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " " ) +
-						(data[i].estatus == 0 ? "<button onclick='reactivar(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " " ) +
-						"</td>" +
-
-						"<tr>"
-						];
-					b.push(a);
-				}
-			}
-			else{
-				for (i in data) {
-					var creacion =data[i].actualizadoPor==null?"":data[i].actualizadoPor;
-					if(data[i].estatus==1){
+					if ( data[i].estatus == 1){
 						a = [
 							"<tr>" +
 							"<td>" + data[i].idText + "</td>",
 							"<td>" + data[i].nombreLookup + "</td>",
 							"<td>" + data[i].descripcionLookup + "</td>",
 							"<td style='text-align: center'>" +
-							"<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>"+data[i].creadoPor+" <br /><strong>Fecha de creación:</strong> "+data[i].fechaCreacion+"<br><strong>Modificado por:</strong>"+creacion+"<br><strong>Fecha de modicación:</strong>"+data[i].ultimaFechaModificacion+"'><i class='fas fa-info'></i></button> " +
-							(rolEditar == 1 ? "<button id='" + data[i].idLookup + "' value='" + data[i].nombreLookup + "' color='" + data[i].atributo1 + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" : " ") +
-							(rolEliminar == 1 ? "<button onclick='bajarColor(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+								"<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>"+data[i].creadoPor+" <br /><strong>Fecha de creación:</strong> "+data[i].fechaCreacion+"<br><strong>Modificado por:</strong>"+creacion+"<br><strong>Fecha de modicación:</strong>"+actulizacion+"'><i class='fas fa-info'></i></button> " +
+								(rolEditar == 1 ? "<button onclick='editarLargo(this)' id='" + data[i].idLookup + "' nombre='" + data[i].nombreLookup + "' descripcion='" + data[i].descripcionLookup + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " : " ") +
+								(rolEliminar == 1 ? "<button onclick='bajarLargo(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>": " ") +
 							"</td>" +
-
+	
 							"<tr>"
 							];
 						b.push(a);
 
 					}
+					else{
+						a = [
+							"<tr>" +
+							"<td>" + data[i].idText + "</td>",
+							"<td>" + data[i].nombreLookup + "</td>",
+							"<td>" + data[i].descripcionLookup + "</td>",
+							"<td style='text-align: center'>" +
+								"<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>"+data[i].creadoPor+" <br /><strong>Fecha de creación:</strong> "+data[i].fechaCreacion+"<br><strong>Modificado por:</strong>"+creacion+"<br><strong>Fecha de modicación:</strong>"+actulizacion+"'><i class='fas fa-info'></i></button> " +
+								(rolEditar == 1 ? "<button onclick='editarLargo(this)' id='" + data[i].idLookup + "' nombre='" + data[i].nombreLookup + "' descripcion='" + data[i].descripcionLookup + "' class='btn btn-warning btn-circle btn-sm popoverxd edit_data_color' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " : " ") +
+								(rolEliminar == 1 ? "<button onclick='subirLargo(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>": " ") +
+								
+								
+								 
+							"</td>" +
+	
+							"<tr>"
+							];
+						b.push(a);
+
+					}
+					
 				}
-			}
+			
+			
 			var tablaColores = $('#idtable2').DataTable({
 				"data": b,
 				"ordering": true,
@@ -267,6 +269,162 @@ function listarLargo() {
 	})
 }
 
+function bajarLargo(id){
+	Swal.fire({
+		title: '¿Deseas dar de baja el largo?',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Confirmar'
+	  }).then((result) => {
+		if (result.value && id != null) {
+
+			  $.ajax({
+				  type: "POST",
+				  url: "/baja-catalogo-produccion",
+				  data: {
+					  "_csrf": $('#token').val(),
+					  'id': id
+				  }
+
+			  }).done(function(data) {
+
+				  listarLargo();
+			  });
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Dado de baja correctamente',
+				  showConfirmButton: false,
+				  timer: 1250
+			  })
+		}
+	  });
+
+}
+function subirLargo(id){
+	Swal.fire({
+		title: '¿Deseas reactivar el largo?',
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Confirmar'
+	  }).then((result) => {
+		if (result.value && id != null) {
+			$.ajax({
+				  type: "POST",
+				  url: "/reactivar-catalogo-produccion",
+				  data: {
+					  "_csrf": $('#token').val(),
+					  'idcatalogo': id
+				  }
+
+			  }).done(function(data) {
+
+				  listarLargo();
+			  });
+			  Swal.fire({
+				  position: 'center',
+				  icon: 'success',
+				  title: 'Reactivado correctamente',
+				  showConfirmButton: false,
+				  timer: 1250
+			  })
+		}
+	  });
+}
+function editarLargo (e){
+	
+	Swal.fire({
+		title: 'Editar largo',
+		html:
+			  '<form class="row" autocomplete="off">'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="nomenclatura">Nomenclatura</label>'+
+					  '<input type="text" class="form-control" value="'+e.getAttribute("nombre")+'" id="nomenclatura" name="nomenclatura"  placeholder="XXL">'+
+					  
+					  '<input type="hidden" class="form-control" value="'+e.getAttribute("id")+'" id="idLookup" name="idLookup" >'+
+				  '</div>'+
+				  '<div class="form-group col-sm-6">'+
+				  	'<label for="descripcion">Descripci&oacute;n</label>'+
+				  	'<input type="text" class="form-control" value="'+e.getAttribute("descripcion")+'"  id="descripcionLargo" name="descripcionLargo"   placeholder="Extra largo">'+
+				  '</div>'+
+			  '</form>',
+		inputAttributes: {
+		  autocapitalize: 'off'
+		},
+		showCancelButton: true,
+		confirmButtonText: 'Agregar',
+		cancelButtonText: 'Cancelar',
+		showLoaderOnConfirm: true,
+		preConfirm: (nomenclatura) => {
+			if(document.getElementById("nomenclatura").value=="" || document.getElementById("descripcionLargo").value==""){
+				  Swal.showValidationMessage(
+						  `Complete todos los campos`
+				  )
+			  }
+		},
+		allowOutsideClick: () => !Swal.isLoading()
+	  }).then((result) => {
+		if (result.value && document.getElementById("nomenclatura").value && document.getElementById("descripcionLargo").value ) {
+				var nomenclatura = document.getElementById("nomenclatura").value;
+				var descripcion = document.getElementById("descripcionLargo").value;
+				var idLookup = document.getElementById("idLookup").value;
+				$.ajax({
+					  type: "GET",
+					  url: "/verificar-duplicado-produccion",
+					  data: {
+						  'Lookup': nomenclatura,
+						  'descripcion': descripcion,
+						  'Tipo': "Proceso"
+
+
+					  }
+
+				  }).done(function (data) {
+					  if(data==false){
+
+						  $.ajax({
+							  type: "POST",
+							  url: "/editar-catalogo-produccion",
+							  data: {
+								  "_csrf": $('#token').val(),
+								  'largoNomenclatura': nomenclatura,
+								  'largoDescripcion': descripcion,
+								  'idLookup' : idLookup
+
+							  }
+
+						  }).done(function (data) {
+							  listarLargo();
+						  });
+						  Swal.fire({
+							  position: 'center',
+							  icon: 'success',
+							  title: 'Actualizado correctamente',
+							  showConfirmButton: false,
+							  timer: 1250
+						  })
+						  // / window.setTimeout(function(){location.reload()}, 2000);
+					  }// /fin segundoif
+					  else{
+						  Swal.fire({
+							  position: 'center',
+							  icon: 'error',
+							  title: 'registro duplicado no se ha insertado',
+							  showConfirmButton: false,
+							  timer: 1250
+						  })
+
+					  }
+				  });
+
+			  
+			}
+	  });
+}
 
 function listarProceso() {
 
@@ -302,8 +460,8 @@ function listarProceso() {
                 		v.descripcionLookup ,
                 		
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v.creadoPor +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v.fechaCreacion+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
-    					'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
-    					'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteProceso('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>'
+    					(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
+    					(rolEliminar == 1 ?'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteProceso('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>':"")
             
                		 ]).node().id ="row";
             	}else{
@@ -313,8 +471,8 @@ function listarProceso() {
                 		v.descripcionLookup ,
                 		
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v.creadoPor +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v.fechaCreacion+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
-                		'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
-    					'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveProceso('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>'
+                		(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
+    					(rolEliminar == 1 ?'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveProceso('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>':"")
             
                		 ]).node().id ="row";
             	}
@@ -630,8 +788,8 @@ function listarRuta() {
 						'<button onclick="verProcesosRuta('+v.idLookup+')" class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>'+
 						'</td>',
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v.creadoPor +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v.fechaCreacion+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
-    					'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarRuta(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
-    					'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteRuta('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>'
+    					(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarRuta(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : " ") +
+    					(rolEliminar == 1 ?'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteRuta('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : " ") 
             
                		 ]).node().id ="row";
             	}else{
@@ -643,8 +801,8 @@ function listarRuta() {
 						'</td>',
                 		
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v.creadoPor +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v.fechaCreacion+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
-                		'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarRuta(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
-    					'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveRuta('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>'
+                		(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarRuta(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>': " ") +
+    					(rolEliminar == 1 ?'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveRuta('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>': " ") 
             
                		 ]).node().id ="row";
             	}
@@ -734,7 +892,7 @@ function SelectListarProcesos(){
 			$('#proceso').empty();
 			
 			for (i in data) {
-                $('#proceso').append("<option value=" + data[i].idLookup + " text=" + data[i].nombreLookup + " >" + data[i].nombreLookup + "</option>");
+                $('#proceso').append("<option value=" + data[i].idLookup + " text=" + data[i].nombreLookup + " tipo=" + data[i].descripcionLookup + " >" + data[i].nombreLookup + "</option>");
 			}
 			$('#proceso').selectpicker('refresh');
 			
@@ -787,7 +945,8 @@ function agregarProceso (){
 		
 			t.row.add( [
 			'<td style="display:none;" >'+$("#proceso option:selected").attr("value")+'</td>',
-			'<td>'+$("#nombreRuta").val()+'</td>',
+			'<td>'+$("#proceso option:selected").attr("tipo")+'</td>',
+		
 			'<td>'+$("#proceso option:selected").attr("text")+'</td>',
 			'<td><button type="button" onclick="eliminar(this)" class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>'
 		
@@ -1319,8 +1478,8 @@ function listarUbicaciones(){
                 		v[2] ,
                 		v[3] ,
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v[5] +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v[6]+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
-    					'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarUbicacion(this)" idLookup ="'+v[0]+'"  nombre="'+v[2]+'" empleado="'+v[9]+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
-    					'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteUbicacion('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>'
+    					(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarUbicacion(this)" idLookup ="'+v[0]+'"  nombre="'+v[2]+'" empleado="'+v[9]+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
+    					(rolEliminar == 1 ?'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteUbicacion('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>':"")
             
                		 ]).node().id ="row";
             	}else{
@@ -1329,8 +1488,8 @@ function listarUbicaciones(){
                 		v[2] ,
                 		v[3] ,
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v[5] +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v[6]+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
-                		'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="'+v[1]+'"  nombre="'+v[1]+'" descripcion="'+v[1]+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
-    					'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveUbicacion('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>'
+                		(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="'+v[1]+'"  nombre="'+v[1]+'" descripcion="'+v[1]+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
+    					(rolEliminar == 1 ?'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveUbicacion('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>':"")
             
                		 ]).node().id ="row";
             	}

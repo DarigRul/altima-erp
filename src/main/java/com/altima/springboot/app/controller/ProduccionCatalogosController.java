@@ -353,7 +353,7 @@ public class ProduccionCatalogosController {
 	}
 	
 	@PostMapping("/editar-catalogo-produccion")
-	public String editacatalogo(final Long idLookup, String descripcionProceso, String origenProceso, String maquilero,String telefono, String nombreUbicacion, String responsablesUbicacion) {
+	public String editacatalogo(final Long idLookup, String descripcionProceso, String origenProceso, String maquilero,String telefono, String nombreUbicacion, String responsablesUbicacion, String largoNomenclatura,String largoDescripcion) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		
@@ -376,6 +376,16 @@ public class ProduccionCatalogosController {
 			ubi.setUltimaFechaModificacion(currentDate());
 			ubi.setActualizadoPor(auth.getName());
 			LookupService.save(ubi);
+			return "redirect:catalogos";
+		}
+		if (largoNomenclatura != null && idLookup > 0) {
+			ProduccionLookup larg = null;
+			larg = LookupService.findOne(idLookup);
+			larg.setNombreLookup(StringUtils.capitalize(largoNomenclatura));
+			larg.setDescripcionLookup(largoDescripcion);
+			larg.setUltimaFechaModificacion(currentDate());
+			larg.setActualizadoPor(auth.getName());
+			LookupService.save(larg);
 			return "redirect:catalogos";
 		}
 		

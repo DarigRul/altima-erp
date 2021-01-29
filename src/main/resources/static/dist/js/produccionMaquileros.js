@@ -310,8 +310,8 @@ function listarMaquila() {
                     
                 		
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v[8] +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v[9]+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
-    					'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarMaquileros('+v[0]+')"  data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
-    					'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="bajaMaquileros('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>'
+    					(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarMaquileros('+v[0]+')"  data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
+    					(rolEliminar == 1 ?'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="bajaMaquileros('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>':"")
             
                		 ]).node().id ="row";
             	}else{
@@ -324,8 +324,8 @@ function listarMaquila() {
                         '<button class="btn btn-primary btn-circle btn-sm popoverxd" onclick="mostrarUbicacion('+v[0]+')"  data-container="body" data-toggle="popover" data-placement="top" data-content="Ubicación"> <i class="fas fa-map-marker-alt"></i></button>',//direccion, 
                         v[6],//ubicacion;
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v[8] +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v[9]+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
-    					'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarMaquileros('+v[0]+')"  data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'+
-    					'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="altaMaquileros('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>'
+    					(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarMaquileros('+v[0]+')"  data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
+    					(rolEliminar == 1 ?'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="altaMaquileros('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>':"")
             
                		 ]).node().id ="row";
             	}
