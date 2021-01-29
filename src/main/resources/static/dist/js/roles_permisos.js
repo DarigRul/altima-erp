@@ -49,6 +49,8 @@ function cargarSeccion() {
 			var usuario = [];
 			var recursoshumanos = [];
 			var requisiciones = [];
+			var compras = [];
+
 			for(i in data){
 				if (data[i][0]=="Mensajería"){
 					mensajeria.push(data[i][1]);
@@ -77,6 +79,9 @@ function cargarSeccion() {
 				if (data[i][0]=="Requisiciones"){
 					requisiciones.push(data[i][1]);
 				}
+				if (data[i][0]=="Compras"){
+					compras.push(data[i][1]);
+				}
 			}
 	
 		    var listaPueblos = {
@@ -88,7 +93,8 @@ function cargarSeccion() {
 //		      Servicioalcliente: servicioalcliente,
 		      Usuarios: usuario,
 		      Recursoshumanos : recursoshumanos,
-		      Requisiciones : requisiciones
+			  Requisiciones : requisiciones,
+			  Compras:compras,
 		    }
 		
 		    var departamento = document.getElementById('departamento')

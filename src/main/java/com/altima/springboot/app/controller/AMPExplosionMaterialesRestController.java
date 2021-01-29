@@ -107,6 +107,7 @@ public class AMPExplosionMaterialesRestController {
 		
 				}
 			}
+			AmpExplosionMaterialesService.savemissingmaterials(pedido);
 			response = true;
 		} catch (Exception e) {
 			// TODO: handle exception

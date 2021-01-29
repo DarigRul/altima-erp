@@ -26,9 +26,20 @@ public class AMPExplosionMaterialesController {
     }
 
     @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIALES"})
-    @GetMapping("/materiales-explosionar/{idpedido}")
+    @GetMapping("/materiales-explosionar/{idpedido}/habilitacion")
     public String MaterialesExplostionarList(@PathVariable("idpedido") Long idpedido,Model model ){
-    	model.addAttribute("materiales", AmpExplosionMaterialesService.findTotalMaterials(idpedido));
+    	String Tipo="Habilitacion";
+    	model.addAttribute("materiales", AmpExplosionMaterialesService.findTotalMaterials(idpedido,Tipo));
+       model.addAttribute("idpedido", idpedido);
+    	
+    	return"materiales-explosionar";
+    }
+    
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIALES"})
+    @GetMapping("/materiales-explosionar/{idpedido}/materia-prima")
+    public String MaterialesMateriaPrimaExplostionarList(@PathVariable("idpedido") Long idpedido,Model model ){
+    	String Tipo="Materia prima";
+    	model.addAttribute("materiales", AmpExplosionMaterialesService.findTotalMaterials(idpedido,Tipo));
        model.addAttribute("idpedido", idpedido);
     	
     	return"materiales-explosionar";

@@ -55,6 +55,7 @@ public class OrdenComprasRestController {
             for (int i = 0; i < ordenArray.length(); i++) {
                 JSONObject ordenJson = ordenArray.getJSONObject(i);
                 ComprasOrdenDetalle ordenDetalle =new ComprasOrdenDetalle();
+                System.out.println(ordenJson);
                 ordenDetalle.setCreadoPor(auth.getName());
                 ordenDetalle.setActualizadoPor(auth.getName());
                 ordenDetalle.setTipoMaterial(ordenJson.getString("tipo"));

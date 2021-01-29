@@ -22,6 +22,6 @@ public interface IAmpInventarioService {
 
 	List<RequisicionListDto> findAllRequisicion();
 
-	List<RequisicionListDto> findAllRequisicion(String ids);
+	List<RequisicionListDto> findAllRequisicion(String ids,Long idProveedor);
 
 }

@@ -46,7 +46,7 @@
                                 <div class="card-header bg-altima">
                                     <h3 class="card-title">Listado de requisiciones</h3>
                                 </div>
-                                <div th:insert="requisicion-de-materiales-modal"></div>
+                                <div th:insert="listado_de_requisiciones_modal"></div>
                                 <div class="card-body">
                                     <table class="table tablaGeneralScrollMultiSearch table-striped table-bordered"
                                         style="width: 100%;">
@@ -66,6 +66,7 @@
                                                 <th class="select-filter">Cantidad</th>
                                                 <!-- <th class="select-filter">Fecha O.C.</th>
                                                 <th class="select-filter">Folio O.C.</th> -->
+                                                <th class="select-filter">Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -79,14 +80,20 @@
                                                 <td th:text="${material.nombreUsuario}"></td>
                                                 <td th:text="${material.idTextMaterial}">CIE001</td>
                                                 <td th:text="${material.nombreMaterial}"></td>
-                                                <td th:text="${material.nombreProveedor}">YKK</td>
-                                                <td th:text="${material.modelo}">N/A</td>
+                                                <td><p th:text="${material.nombreProveedor}" th:id="'nombreProveedor-'+${material.idRequisicionAlmacenMaterial}"></p></td>
+                                                <td><p th:text="${material.modelo}" th:id="'modelo-'+${material.idRequisicionAlmacenMaterial}"></p></td>
                                                 <td th:text="${material.color}">021 Blanco YKK</td>
                                                 <!-- <td></td>
                                                 <td></td> -->
                                                 <td th:text="${material.cantidad}">100</td>
                                                 <!-- <td ></td>
                                                 <td ></td> -->
+                                                <td> <button
+                                                        class="btn btn-primary btn-sm btn-circle popoverxd"
+                                                        th:attr="onclick=|cambiarProveedor('${material.idMaterial}','${material.tipo}','${material.idRequisicionAlmacenMaterial}')|"
+                                                        data-placement="top" data-content="Cambiar proveedor"
+                                                        data-target="#cambiarProveedor" data-toggle="modal"
+                                                        id="cambiarProveedor"><i class="fas fa-store"></i></button></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -119,10 +126,10 @@
         $('#navCompras').addClass('active-altima');
         $('#navComHab').addClass('active');
     </script>
-        <script th:inline="javascript">
-            var materialesList = /*[[${materiales}]]*/
+    <script th:inline="javascript">
+        var materialesList = /*[[${materiales}]]*/
             console.log(materialesList)
-        </script>
+    </script>
 </body>
 
 </html>

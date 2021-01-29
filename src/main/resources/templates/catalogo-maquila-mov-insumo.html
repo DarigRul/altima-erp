@@ -1,0 +1,90 @@
+<div class="small-box bg-primary">
+    <div class="inner">
+        <h3>Movimientos Insumo</h3>
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#movIns" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+    </div>
+    <div class="icon">
+        <i class="ion ion-ios-pricetags-outline"></i>
+    </div>
+    <a class="small-box-footer">
+        <button th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarMovIns()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+    </a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="movIns" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado mov. Insumo <button th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarMovIns()" class="btn btn-light btn-circle btn-sm text-primary popoverxd"
+                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered tablaAMP" id="tableMIN" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Clave</th>
+                            <th>Nombre</th>
+                            <th>Mov.</th>
+                            <th class="text-center">Acciones</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal agregar -->
+<div class="modal fade" id="modalAgregarMovIns" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 40%;" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="tituloMovIns">Nuevo activo fijo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+    
+                <form name="formMovIns" id="formMovIns" class="row" autocomplete="off">
+
+                    <div class="form-group col-sm-6">
+                        <label for="familia">Nombre</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="nombre" placeholder="Nombre">
+                        <input type="hidden"  id="idLookup">
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="proveedorColor">Tipo de Mov.</label> 
+                        <select  name="tipoMovIns" id="tipoMovIns" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                            <option value="Entrada">Entrada</option>
+                            <option value="Salida">Salida</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="alert alert-light form-group col-sm-12" role="alert" style="display: none" id="alertMovIns" >
+
+                        <h5 class="alert-heading center"><i class="fas fa-exclamation" style="color:brown"></i> Complete todos los campos</h5>
+  
+                    </div>
+                   
+
+                    <div class="card-footer center">
+                        <button onclick="guardarMovIns()" type="button" class="btn btn-primary btn-lg">Agregar</button>
+                        <button type="button"  data-dismiss="modal" class="btn btn-secondary btn-lg">Cancelar</button>
+                        
+                    </div>
+    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

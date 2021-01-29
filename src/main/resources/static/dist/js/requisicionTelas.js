@@ -211,55 +211,66 @@ $('#btnGenerarOrden').click(function (e) {
                 $('#generarOrden').modal('hide');
             })
     }
-
     else {
-        telasFaltantes.forEach(idTelaFaltante => {
-            var telasFiltradas = telasFaltantesList.filter(telaFaltante => telaFaltante.idTelaFaltante == idTelaFaltante)
-            var temp = {
-                idTelaFaltante: telasFiltradas[0].idTelaFaltante,
-                idTela: telasFiltradas[0].idTela,
-                idTextTela: telasFiltradas[0].idTextTela,
-                nombreTela: telasFiltradas[0].nombreTela,
-                idProveedor: telasFiltradas[0].idProveedor,
-                nombreProveedor: telasFiltradas[0].nombreProveedor,
-                cantidad: telasFiltradas[0].cantidad,
-                cantidadExtra: 0,
-                precioU: telasFiltradas[0].precio,
-                montoCD: 0
+        $.ajax({
+            type: "GET",
+            url: "/getTelasFaltantesByIds",
+            data: {
+                ids: telasFaltantes.toString()
+            },
+            success: function (response) {
+                console.log(response);
+                response.forEach(telasFiltradas => {
+                    var temp = {
+                        idTelaFaltante: telasFiltradas.idTelaFaltante,
+                        idTela: telasFiltradas.idTela,
+                        idTextTela: telasFiltradas.idTextTela,
+                        nombreTela: telasFiltradas.nombreTela,
+                        idProveedor: telasFiltradas.idProveedor,
+                        nombreProveedor: telasFiltradas.nombreProveedor,
+                        cantidad: telasFiltradas.cantidad,
+                        cantidadExtra: 0,
+                        precioU: telasFiltradas.precio,
+                        montoCD: 0
 
+                    }
+                    $('#proveedor').text(temp.nombreProveedor);
+                    ordenCompraDetalle.push(temp);
+
+                });
+                console.log(ordenCompraDetalle)
+                ordenCompraDetalle.forEach(detalle => {
+                    var fila = tableModal.row.add(
+                        [
+                            detalle.cantidad,
+                            `<input type="number" step="any" class="form-control" onInput='metrajeExtra(${detalle.idTelaFaltante},this.value)'>`,
+                            `<p id="metrajeExtra-${detalle.idTelaFaltante}">${detalle.cantidad}</p>`,
+                            detalle.idTextTela,
+                            detalle.nombreTela,
+                            `<input type="number" value="${detalle.precioU}" class="form-control" onInput='precioU(${detalle.idTelaFaltante},this.value)'>`,
+
+                            `<input type="number" value="0" step="any" onInput='porcentaje(${detalle.idTelaFaltante},this.value)' class="form-control dc" id="porcentaje-${detalle.idTelaFaltante}">`,
+                            `<input type="number" value="0" step="any" onInput='monto(${detalle.idTelaFaltante},this.value)' class="form-control dc" id="monto-${detalle.idTelaFaltante}">`,
+                            `<p id="subtotal-${detalle.idTelaFaltante}">${detalle.cantidad * detalle.precioU}</p>`
+                        ]
+                    ).draw();
+                });
+                var proveedorArray = ordenCompraDetalle.map(orden => orden.idProveedor);
+
+                if (!allEqual(proveedorArray)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Solo puede haber un proveedor!',
+                    }).then((result) => {
+                        $('#generarOrden').modal('hide');
+                    })
+                }
+                $(`.dc`).val(0);
+                totales();
             }
-            $('#proveedor').text(temp.nombreProveedor);
-            ordenCompraDetalle.push(temp);
-        });
-        ordenCompraDetalle.forEach(detalle => {
-            var fila = tableModal.row.add(
-                [
-                    detalle.cantidad,
-                    `<input type="number" step="any" class="form-control" onInput='metrajeExtra(${detalle.idTelaFaltante},this.value)'>`,
-                    `<p id="metrajeExtra-${detalle.idTelaFaltante}">${detalle.cantidad}</p>`,
-                    detalle.idTextTela,
-                    detalle.nombreTela,
-                    `<input type="number" value="${detalle.precioU}" class="form-control" onInput='precioU(${detalle.idTelaFaltante},this.value)'>`,
-
-                    `<input type="number" value="0" step="any" onInput='porcentaje(${detalle.idTelaFaltante},this.value)' class="form-control dc" id="porcentaje-${detalle.idTelaFaltante}">`,
-                    `<input type="number" value="0" step="any" onInput='monto(${detalle.idTelaFaltante},this.value)' class="form-control dc" id="monto-${detalle.idTelaFaltante}">`,
-                    `<p id="subtotal-${detalle.idTelaFaltante}">${detalle.cantidad * detalle.precioU}</p>`
-                ]
-            ).draw();
         });
     }
-    var proveedorArray = ordenCompraDetalle.map(orden => orden.idProveedor);
-    if (!allEqual(proveedorArray)) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Solo puede haber un proveedor!',
-        }).then((result) => {
-            $('#generarOrden').modal('hide');
-        })
-    }
-    $(`.dc`).val(0);
-    totales();
 });
 
 function metrajeExtra(idTelaFaltante, wrote) {
@@ -360,7 +371,8 @@ $("#enviarOrden").click(function (e) {
                 _csrf: $('[name=_csrf]').val(),
                 ordenCompraDetalle: JSON.stringify(ordenCompraDetalle),
                 idProveedor: ordenCompraDetalle[0].idProveedor,
-                iva: iva
+                iva: iva,
+                ids:telasFaltantes.toString()
             },
             success: function (response) {
                 Swal.fire({

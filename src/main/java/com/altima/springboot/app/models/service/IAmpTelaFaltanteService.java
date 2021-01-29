@@ -16,4 +16,6 @@ public interface IAmpTelaFaltanteService {
     AmpTelaFaltante findOne(Long id);
 
     List<TelaFaltanteListDto> findAllTelasFaltantes(); 
+
+    List<TelaFaltanteListDto> findAllTelasFaltantes(String ids);
 }

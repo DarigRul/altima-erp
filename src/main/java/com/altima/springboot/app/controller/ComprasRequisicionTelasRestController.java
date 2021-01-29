@@ -3,7 +3,11 @@ package com.altima.springboot.app.controller;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Formatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import com.altima.springboot.app.dto.TelaFaltanteListDto;
 import com.altima.springboot.app.models.entity.AmpTelaFaltante;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.entity.ComprasOrden;
@@ -16,12 +20,15 @@ import com.altima.springboot.app.repository.IComprasOrdenService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -100,7 +107,7 @@ public class ComprasRequisicionTelasRestController {
 
     @Transactional
     @PostMapping("/postOrdenCompraTela")
-    public ResponseEntity<?> postOrdenCompra(@RequestParam String ordenCompraDetalle,@RequestParam Long idProveedor,@RequestParam float iva) {
+    public ResponseEntity<?> postOrdenCompra(@RequestParam String ordenCompraDetalle,@RequestParam Long idProveedor,@RequestParam float iva,@RequestParam String ids) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JSONArray ordenArray = new JSONArray(ordenCompraDetalle);
         Formatter fmt = new Formatter();
@@ -126,8 +133,12 @@ public class ComprasRequisicionTelasRestController {
                 ordenDetalle.setCantidad(ordenJson.getFloat("cantidad")+ordenJson.getFloat("cantidadExtra"));
                 ordenDetalle.setPrecioUnitario(ordenJson.getFloat("precioU")+ordenJson.getFloat("montoCD"));
                 ordenDetalleService.save(ordenDetalle);
-                AmpTelaFaltante telaFaltante=telaFaltanteService.findOne(ordenJson.getLong("idTelaFaltante"));
+            }
+            String[] idsArray=ids.split(",");
+            for (String id : idsArray) {
+                AmpTelaFaltante telaFaltante=telaFaltanteService.findOne(Long.parseLong(id));
                 telaFaltante.setEstatus(1);
+                telaFaltante.setIdOrdenCompras(orden.getIdOrdenCompras());
                 telaFaltanteService.save(telaFaltante);
             }
             fmt.close();
@@ -138,4 +149,23 @@ public class ComprasRequisicionTelasRestController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/getTelasFaltantesByIds")
+	public ResponseEntity<?> getCliente(@RequestParam String ids) {
+        System.out.println(ids);
+		Map<String, Object> response = new HashMap<>();
+		List<TelaFaltanteListDto> telas =null;
+		try {
+			telas =telaFaltanteService.findAllTelasFaltantes(ids);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la BD");
+			response.put("error", e.getMessage()+": "+e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if(telas.size()==0){
+			response.put("mensaje", "No existen telas faltantes");
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<TelaFaltanteListDto>>(telas,HttpStatus.OK);
+	}
 }

@@ -1,0 +1,72 @@
+
+<!-- Modal agregar -->
+<div class="modal fade" id="modalAgregar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 50%;" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="tituloMovIns">Activo fijo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+    
+                <form name="formMovIns" id="formMovIns" class="row" autocomplete="off">
+                    <input type="hidden"  id="idInventario">
+
+                    <div class="form-group col-sm-6">
+                        <label for="tipo">Tipo</label> 
+                        <select  name="tipo" id="tipo" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                            
+                        </select>
+
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="activoFijo">Activo fijo</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="activoFijo" name="activoFijo" placeholder="Nombre">
+                        
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="modelo">Modelo</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="modelo" name="modelo" placeholder="Nombre">
+                        
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="marca">Marca</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="marca" name="marca" placeholder="Nombre">
+                        
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="serie">#Serie</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="serie" name="serie" placeholder="Nombre">
+                        
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="motor">#Motor</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="motor" name="motor" placeholder="Nombre">
+                        
+                    </div>
+
+                    
+
+
+                    <div class="alert alert-light form-group col-sm-12" role="alert" style="display: none" id="alertIAFA" >
+
+                        <h5 class="alert-heading center"><i class="fas fa-exclamation" style="color:brown"></i> Complete todos los campos</h5>
+  
+                    </div>
+                   
+
+                    <div class="card-footer center">
+                        <button onclick="guardar()" type="button" class="btn btn-primary btn-lg">Agregar</button>
+                        <button type="button"  data-dismiss="modal" class="btn btn-secondary btn-lg">Cancelar</button>
+                        
+                    </div>
+    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -44,9 +44,14 @@
                             <!-- Default box -->
                             <div class="card">
                                 <div class="card-header bg-altima">
-                                    <h3 class="card-title">Listado de requisiciones&nbsp;
+                                    <h3 class="card-title">Listado de requisiciones&nbsp;<button
+                                            data-target="#cambiarFechaPromesa" data-toggle="modal"
+                                            class="btn btn-sm icon-btn btn-danger text-white">
+                                            <span class="btn-glyphicon fas fa-calendar img-circle text-danger"></span>F.
+                                            Prom. Rec.</button>&nbsp;
                                         <button class="btn btn-sm icon-btn btn-success text-white"
-                                            data-target="#generarOrden" data-toggle="modal">
+                                            data-target="#generarOrden" data-toggle="modal" id="btnGenerarOrden"
+                                            data-backdrop="static" data-keyboard="false">
                                             <span
                                                 class="btn-glyphicon fas fa-clipboard img-circle text-success"></span>Generar
                                             orden de compra</button>
@@ -54,156 +59,71 @@
                                 </div>
                                 <div th:insert="requisicion-de-materiales-modal"></div>
                                 <div class="card-body">
-                                    <table class="table requisicionTabla table-striped table-bordered"
+
+                                    <div class="form-group">
+
+                                    </div>
+                                    <table class="table requisicionTabla table-striped table-bordered display nowrap"
                                         style="width: 100%;">
                                         <thead>
                                             <tr>
-                                                <th><input type="checkbox" /></th>
+                                                <th><input type="checkbox" id="selectAll"></th>
+                                               <th class="select-filter">Pedido</th>
+                                                <th class="select-filter">Cliente</th>
+                                                <th class="select-filter">Fecha de entrega pedido</th>
+                                                <th class="select-filter">Fecha requisicion</th>
                                                 <th class="select-filter">Clave</th>
-                                                <th class="select-filter">Descripci&oacute;n</th>
+                                                <th class="select-filter">Descripcion.</th>
                                                 <th class="select-filter">Proveedor</th>
                                                 <th class="select-filter">Clave proveedor</th>
                                                 <th class="select-filter">Color</th>
-                                                <th class="select-filter">Tama&ntilde;o</th>
-                                                <th class="select-filter">UOM</th>
-                                                <th class="select-filter">Total(global)</th>
-                                                <th class="select-filter">Folio O.C</th>
-                                                <th class="select-filter">Fecha O.C</th>
-                                                <th>Acciones</th>
+                                                <th class="select-filter">Tamaño</th>
+                                                  <th class="select-filter">Consumo</th>
+                                                  <th class="select-filter">Fecha promesa recepcion</th>
+                                                  <th class="select-filter">Fecha O.C.</th>
+                                                  <th class="select-filter">Folio O.C.</th>
+                                                  <th class="select-filter">Estatus compra</th>
+                                                  <th class="select-filter">Estatus</th>
+                                                <th class="text-center">Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center"><input type="checkbox" /></td>
-                                                <td>ETI10001</td>
-                                                <td>Etiqueta de foleo</td>
-                                                <td>TELAS LAFAYETTE DE MEXICO, S. A. DE C. V.</td>
-                                                <td>LAF102</td>
-                                                <td>Blanco</td>
-                                                <td>5x3</td>
-                                                <td>Cm</td>
-                                                <td>120</td>
-                                                <td>FOL10001</td>
-                                                <td>28/02/2020</td>
-                                                <td class="text-center">
-                                                    <a th:href="${'/requisicion-de-materiales-pedidos'}"
-                                                        class="btn btn-info btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Detalle de pedidos"><i
-                                                            class="fas fa-info"></i></a>
+                                            <tr th:each=" material: ${Materiales}">
+                                                <td><input th:if="${material.estatus}!='Agotada' and ${material.estatus}!='Pedida' and  ${material.estatusComercial}!='Rechazado'"
+                                                        type="checkbox" th:class="messageCheckbox"
+                                                        th:value="${material.idMaterialFaltante}" />
+                                                    <input type="checkbox" th:disabled="${material.estatus}=='Agotada' or ${material.estatus}=='Pedida' or ${material.estatusComercial}=='Rechazado'?true:false"
+                                                    th:if="(${material.estatus}=='Agotada' or ${material.estatus}=='Pedida') or ${material.estatusComercial}=='Rechazado'" />
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><input type="checkbox" /></td>
-                                                <td>BOT10001</td>
-                                                <td>Botón Dorado</td>
-                                                <td>GRUPO PESSAH TEXTIL S. A. DE C. V.</td>
-                                                <td>PES143</td>
-                                                <td>Oro viejo</td>
-                                                <td>1.5</td>
-                                                <td>Cm</td>
-                                                <td>512</td>
-                                                <td>FOL10002</td>
-                                                <td>01/03/2020</td>
-                                                <td class="text-center">
-                                                    <a th:href="${'/requisicion-de-materiales-pedidos'}"
-                                                        class="btn btn-info btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Detalle de pedidos"><i
-                                                            class="fas fa-info"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><input type="checkbox" /></td>
-                                                <td>BOT10001</td>
-                                                <td>Botón fantasia</td>
-                                                <td>SANTIAGO TEXTIL S. A. DE C. V.</td>
-                                                <td>SAN382</td>
-                                                <td>Oro viejo</td>
-                                                <td>0.8</td>
-                                                <td>Cm</td>
-                                                <td>52</td>
-                                                <td>FOL10004</td>
-                                                <td>01/03/2020</td>
-                                                <td class="text-center">
-                                                    <a th:href="${'/requisicion-de-materiales-pedidos'}"
-                                                        class="btn btn-info btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Detalle de pedidos"><i
-                                                            class="fas fa-info"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><input type="checkbox" /></td>
-                                                <td>BOT10003</td>
-                                                <td>Botón cuadrado</td>
-                                                <td>GRUPO LAFI S. A. DE C. V.</td>
-                                                <td>LAF458</td>
-                                                <td>Azul</td>
-                                                <td>0.8</td>
-                                                <td>Cm</td>
-                                                <td>123</td>
-                                                <td>FOL10005</td>
-                                                <td>05/03/2020</td>
-                                                <td class="text-center">
-                                                    <a th:href="${'/requisicion-de-materiales-pedidos'}"
-                                                        class="btn btn-info btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Detalle de pedidos"><i
-                                                            class="fas fa-info"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><input type="checkbox" /></td>
-                                                <td>CAI10001</td>
-                                                <td>Caidas de fieltro</td>
-                                                <td>GRUPO LAFI S. A. DE C. V.</td>
-                                                <td>LAF423</td>
-                                                <td>Blanco</td>
-                                                <td>1.5</td>
-                                                <td>Metros</td>
-                                                <td>154</td>
-                                                <td>FOL10006</td>
-                                                <td>13/03/2020</td>
-                                                <td class="text-center">
-                                                    <a th:href="${'/requisicion-de-materiales-pedidos'}"
-                                                        class="btn btn-info btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Detalle de pedidos"><i
-                                                            class="fas fa-info"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><input type="checkbox" /></td>
-                                                <td>BOL10001</td>
-                                                <td>Bolsa para botones de repuesto</td>
-                                                <td>DISTRIBUIDORA DE HABILITACION TEXTIL</td>
-                                                <td>HAB893</td>
-                                                <td>Transparente</td>
-                                                <td>35x50</td>
-                                                <td>Pieza</td>
-                                                <td>54</td>
-                                                <td>FOL10007</td>
-                                                <td>28/03/2020</td>
-                                                <td class="text-center">
-                                                    <a th:href="${'/requisicion-de-materiales-pedidos'}"
-                                                        class="btn btn-info btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Detalle de pedidos"><i
-                                                            class="fas fa-info"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><input type="checkbox" /></td>
-                                                <td>ENT10001</td>
-                                                <td>Entretela (traje)</td>
-                                                <td>PRODUCTORA DE NO TEJIDOS QUIMIBOND, S. A. DE C. V.</td>
-                                                <td>QUI856</td>
-                                                <td>Cafe</td>
-                                                <td>1.50</td>
-                                                <td>Metros</td>
-                                                <td>98</td>
-                                                <td>FOL10008</td>
-                                                <td>05/04/2020</td>
-                                                <td class="text-center">
-                                                    <a th:href="${'/requisicion-de-materiales-pedidos'}"
-                                                        class="btn btn-info btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Detalle de pedidos"><i
-                                                            class="fas fa-info"></i></a>
+                                                <td th:text="${material.idTextPedido}">5153</td>
+                                                <td th:text="${material.Cliente}">LS664</td>
+                                                <td th:text="${material.fechaEntrega}">Caja Gonzalo Vega S.C de A.P</td>
+                                                <td th:text="${material.fechaRequisicion}">22/10/2020</td>
+                                                <td th:text="${material.claveMaterial}">Agente 1</td>
+                                                <td th:text="${material.nombreMaterial}">100</td>
+                                                <td th:text="${material.nombreProveedor}">20/08/2020</td>
+                                                <td th:text="${material.idTextProveedor}">OC0001</td>
+                                                <td th:text="${material.color}">30/08/2020</td>
+                                                <td th:text="${material.tamanio}">Pedida</td>
+                                                <td th:text="${material.cantidad}">Autorizada</td>
+                                                <td th:text="${material.fechaPromesa}">Autorizada</td>
+                                                <td th:text="${material.fechaOc}">Autorizada</td> 
+                                               <td th:text="${material.folioOc}">Autorizada</td>
+                                                 <td th:text="${material.estatus}">Autorizada</td>
+                                                  <td th:text="${material.estatusComercial}">Autorizada</td>
+                                                <td>
+                                                    <button
+                                                        th:disabled="${material.estatusComercial}!='Pendiente' or ${material.estatus}!='Extemporanea'?true:false"
+                                                        class="btn btn-success btn-sm btn-circle popoverxd"
+                                                        th:attr="onclick=|aceptarComercial('${material.idMaterialFaltante}')|"
+                                                        data-placement="top" data-content="Aceptar"
+                                                        id="aceptarComercial"><i class="fas fa-check"></i></button>
+                                                    <button
+                                                    th:disabled="${material.estatusComercial}!='Pendiente' or ${material.estatus}!='Extemporanea'?true:false"
+                                                        class="btn btn-danger btn-sm btn-circle popoverxd"
+                                                        th:attr="onclick=|rechazarComercial('${material.idMaterialFaltante}')|"
+                                                        data-placement="top" data-content="Rechazar"><i
+                                                            class="fas fa-times" id="rechazarComercial"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -222,29 +142,32 @@
         <div th:insert="navegacion-footer"></div>
     </div>
     <div th:replace="navegacion-scripts"></div>
-    <script src="/dist/js/tablaRequisicion.js"></script>
+    <script src="/dist/js/tablaRequisicionMaterial.js"></script>
+    <script th:inline="javascript">
+        var MaterialFaltanteList = /*[[${Materiales}]]*/
+        console.log(MaterialFaltanteList)
+        $.ajax({
+        type: "GET",
+        url: "/getComercialLookupByTipo",
+        data: {
+            tipoLookup: 'iva'
+        },
+        success: function (response) {
+            response.forEach(data => {
+                $(`#selectIva`).append(`<option value='${data.atributo1}'>${data.atributo1}%</option>`)
+            });
+            $(`#selectIva`).selectpicker('refresh');
+        }
+    });
+    </script>
+    <script src="/dist/js/RequisicionMateriales.js"></script>
     <script>
         $('#iCompras').removeClass('text-altima');
         $('#menuCompras').addClass('menu-open');
         $('#navCompras').addClass('active-altima');
-        $('#navComMat').addClass('active');
+        $('#navComReq').addClass('active');
     </script>
-    <script>
-        $('.tablaGeneralScroll thead tr').clone(true).appendTo('.tablaGeneralScroll thead');
-        $('.tablaGeneralScroll thead tr:eq(1) th.select-filter').each(function (i) {
-            var title = $(this).text();
-            $(this).html('<input class="form-control" type="text" placeholder="Buscar" />');
 
-            $('input', this).on('keyup change', function () {
-                if (table.column(i).search() !== this.value) {
-                    table
-                        .column(i)
-                        .search(this.value)
-                        .draw();
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

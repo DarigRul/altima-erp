@@ -55,6 +55,7 @@ public class ProduccionExplosionProcesosController {
 					explosionProcesos.setFechaExplosion(dtf.format(now));
 					explosionProcesos.setPrograma(programa);
 					explosionProcesos.setEstatusProceso(0);
+					explosionProcesos.setEstatus("0");
 					
 					explosionService.save(explosionProcesos);
 				

@@ -31,7 +31,7 @@ public class ComprasListaRequisicionesController {
         System.out.println(p.getNombreProveedor());
         m.addAttribute("idProveedor", idProveedor);
         m.addAttribute("proveedor", p);
-        m.addAttribute("materiales", ampInventarioService.findAllRequisicion(idMateriales));
+        m.addAttribute("materiales", ampInventarioService.findAllRequisicion(idMateriales,idProveedor));
 		return "listado-de-requisiciones-goc";
 	}
 }

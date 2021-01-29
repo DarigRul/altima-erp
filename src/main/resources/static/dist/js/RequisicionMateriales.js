@@ -1,549 +1,439 @@
-function Clasificacion (tipo){
-	$('#clasificacion').empty();
-	$('#materialRequisicion').empty()
-	$.ajax({
-		type: "GET",
-		url:"/clasificacion-almacen",
-		data: { 
-			'tipo': tipo
-		},
-		success: function(data) {
-			if ( tipo == 'Materia Prima'){
-				$('#clasificacion').append('<option value="tela">Tela</option>');
-				$('#clasificacion').append('<option value="forro">Forro</option>');
-			}
-			$.each(data, function(key, val) {
-				console.log(val[0]);
-				$('#clasificacion').append('<option value="' + val[0] + '">' + val[1] + '</option>');	
-			})
-			
-			$('#clasificacion').selectpicker('refresh');
-	   	}
-	})
-}
-function materiales (tipo){
-	$('#materialRequisicion').empty();
-	$.ajax({
-		type: "GET",
-		url:"/materiales-por-clasificacion",
-		data: { 
-			'tipo': tipo
-		},
-		success: function(data) {
-			$.each(data, function(key, val) {
-				$('#materialRequisicion').append('<option '+ 
-				'value="' + val[0] + '" '+
-				'idText="' + val[1] + '" '+ 
-				'nombre="' + val[2] + '" '+
-				'unidad="' + val[3] + '" '+
-				'tamanio="' + val[4] + '" '+
-				'color="' + val[5] + '" '+
-				'tipo="' + val[6] + '"  >' + val[1] + '  '+val[2]+' </option>');	
-			})
-			$('#materialRequisicion').selectpicker('refresh');
-	   	}
-	})
-}
-
-function agregar (){
-	$('#almacen').prop('disabled', true);
-	$('#almacen').selectpicker('refresh');
-	var t = $('#tablaGeneral').DataTable();
-	var repetido = false;
-	if ( document.getElementById("materialRequisicion").selectedIndex != null
-			&& document.getElementById("cantidadRequisicion").value>0){
-		$('#tablaGeneral tr').each(function () {
-			
-			if ($(this).find('td').eq(0).html() == $("#materialRequisicion option:selected").attr("value") &&
-					$(this).find('td').eq(1).html() == $("#materialRequisicion option:selected").attr("tipo")){
-				Swal.fire({
-					position: 'center',
-					icon: 'error',
-					title: 'Ya ha seleccionado ese material',
-					showConfirmButton: false,
-					timer: 1250
-				});
-				repetido = true;
-			}
-			
-
-		});
-		
-	if ( repetido != true){
-		t.row.add( [
-			'<td  >'+$("#materialRequisicion option:selected").attr("value")+'</td>',
-			'<td >'+$("#materialRequisicion option:selected").attr("tipo")+'</td>',
-			'<td>'+document.getElementById("cantidadRequisicion").value+'</td>',
-			'<td>'+$("#materialRequisicion option:selected").attr("idText")+'</td>',
-			'<td>'+$("#materialRequisicion option:selected").attr("nombre")+'</td>',
-			'<td>'+$("#materialRequisicion option:selected").attr("unidad")+'</td>',
-			'<td>'+$("#materialRequisicion option:selected").attr("tamanio")+'</td>',
-			'<td>'+$("#materialRequisicion option:selected").attr("color")+'</td>',
-			'	<td><button type="button" onclick="eliminar(this)" class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>  '
-		
-
-        ] ).draw( false );
-		
-		document.getElementById("materialRequisicion").value = null;
-		$('#materialRequisicion').change();
-		document.getElementById("cantidadRequisicion").value = null;
-	}
-		
-	
-		}
-	else{
-		Swal.fire({
-			position: 'center',
-			icon: 'error',
-			title: 'Complete todos los campos',
-			showConfirmButton: false,
-			timer: 1250
-		});
-	}
-}
-
-function eliminar(t) {
-	Swal.fire({
-		  title: '&iquest;Est&aacute; seguro que desea eliminar este registro?',
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  cancelButtonText: 'Cancelar',
-		  confirmButtonText: 'Si, Eliminar',
-		  reverseButtons: true
-		}).then((result) => {
-		  if (result.value) {
-			  Swal.fire({
-	        		 position: 'center',
-	     				icon: 'success',
-	     				title: 'Eliminado correctamente',
-	     				showConfirmButton: false,
-						timer: 1250
-	                 
-	             });
-				var tabla = $('#tablaGeneral').DataTable();
-				var td = t.parentNode;
-				var tr = td.parentNode;
-				var table = tr.parentNode;
-				tabla.row(tr).remove().draw(false);
-				
-		  }
-		})
-}
-function eliminar2(id, t) {
-	Swal.fire({
-		  title: '&iquest;Est&aacute; seguro que desea eliminar este registro?',
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  cancelButtonText: 'Cancelar',
-		  confirmButtonText: 'Si, Eliminar',
-		  reverseButtons: true
-		}).then((result) => {
-		  if (result.value) {
-			  
-			  $.ajax({
-				  data: {'idRequision':id},
-			        url:   '/elimiar-requisicion-materiales',
-			        type:  'GET',
-			    
-			        success: function(data) {
-			        	 Swal.fire({
-			        		 position: 'center',
-			     				icon: 'success',
-			     				title: 'Eliminado correctamente',
-			     				showConfirmButton: false,
-								timer: 1250
-			                 
-			             });
-			       },
-			       complete: function() {   
-			    	   var tabla = $('#tablaGeneral').DataTable();
-						var td = t.parentNode;
-						var tr = td.parentNode;
-						var table = tr.parentNode;
-						tabla.row(tr).remove().draw(false);
-					
-				    },
-			    })
-		  }
-		})
-}
-
-function enviar() {
-	var  datos = [];
-	$('#tablaGeneral tr').each(function () {
-		 if ($(this).find('td').eq(1).html() !=null){
-			 datos.push({
-				 'id_material':$(this).find('td').eq(0).html(), 
-				 'tipo':$(this).find('td').eq(1).html(),
-				 'cantidad':$(this).find('td').eq(2).html()	 
-			 });
-		 }		
-	});
-	if ( $('#idEmpleadoSolicitante').val()== null || $('#idEmpleadoSolicitante').val()==0 || $('#idEmpleadoSolicitante').val()==""){
-		Swal.fire({
-			position: 'center',
-			icon: 'error',
-			title: 'Ingrese un solicitante, por favor',
-			showConfirmButton: false,
-			timer: 1250
-		});
-	}
-	else if ( $.isEmptyObject(datos) ){
-		Swal.fire({
-			position: 'center',
-			icon: 'error',
-			title: 'Ingrese datos a la tabla, por favor',
-			showConfirmButton: false,
-			timer: 1250
-		});
-	}
-	else{
-		$.ajax({
-	        type: "POST",
-	        url:"/guardar-requisicion-materiales",
-	        data: { 
-	        	datos :JSON.stringify(datos),
-	        	'idRequisicion': $('#idRequisicion').val(),
-	            "_csrf": $('#token').val(),
-				'idEmpleadoSolicitante':$('#idEmpleadoSolicitante').val(),
-				'tipoS': $('#almacen').val()
-	            
-	        },
-	        beforeSend: function () {
-	        	 Swal.fire({
-	        		 position: 'center',
-	     				icon: 'success',
-	     				title: 'Agregado correctamente',
-	                 allowOutsideClick: false,
-	                 timerProgressBar: true,
-	                 showConfirmButton: false,
-	                 onBeforeOpen: () => {
-	                    
-	                 },
-	             });
-	        	
-	        },
-	    
-	        success: function(data) {
-	       },
-	       complete: function() {   
-	    	   var url = "/solicitud-de-almacen";  
-	    		 $(location).attr('href',url);
-			
-		    },
-	    })
-	}
-	
-}
-
-function editar (id){
-	
-	var url = "/solicitud-de-almacen-editar/"+id+"";  
-	 $(location).attr('href',url);
-}
-function enviarEstatus(id) {
-	Swal.fire({
-        title: '¿Deseas enviar esta solicitud?',
-        icon: 'warning',
-        showCancelButton: true,
-        cancelButtonColor: '#dc3545',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Enviar',
-        confirmButtonColor: '#0288d1',
-    }).then((result) => {
-        if (result.value && id != null) {
-        	
-        	$.ajax({
-    	        type: "POST",
-    	        url:"/enviar-solicitud-almacen",
-    	        data: {
-    	        	'id':id,
-    	             "_csrf": $('#token').val()
-    	        },
-    	        beforeSend: function () {
-    	        	
- 
-    	        },
-    	    
-    	        success: function(data) {
-    	        	
-    	        	
-    	        	 Swal.fire({
-    	        		 position: 'center',
-    	     				icon: 'success',
-    	     				title: 'Enviado correctamente',
-    	     				showConfirmButton: false,
-    						timer: 1250
-    	                 
-    	             });
-    	       },
-    	       complete: function() {
-    	    	   location.reload();
-    		    },
-    	    })
-           
-        } // ////////////termina result value
-    })
-}
-
-function rechazar (id){
-	
-	Swal.fire({
-        title: '¿Deseas rechazar esta solicitud?',
-        icon: 'warning',
-        showCancelButton: true,
-        cancelButtonColor: '#dc3545',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Rechazar',
-        confirmButtonColor: '#0288d1',
-    }).then((result) => {
-        if (result.value && id != null) {
-        	
-        	$.ajax({
-    	        type: "POST",
-    	        url:"/rechazar-solicitud-almacen",
-    	        data: {
-    	        	'id':id,
-    	             "_csrf": $('#token').val()
-    	        },
-    	        beforeSend: function () {
-    	        	
- 
-    	        },
-    	    
-    	        success: function(data) {
-    	        	
-    	        	
-    	        	 Swal.fire({
-    	        		 position: 'center',
-    	     				icon: 'success',
-    	     				title: 'Rechazada correctamente',
-    	     				showConfirmButton: false,
-    						timer: 1250
-    	                 
-    	             });
-    	       },
-    	       complete: function() {
-    	    	 location.reload();
-    		    },
-    	    })
-           
-        } // ////////////termina result value
-    })
-}
-function aceptar (id){
-	
-	Swal.fire({
-        title: '¿Deseas aceptar esta solicitud?',
-        icon: 'warning',
-        showCancelButton: true,
-        cancelButtonColor: '#dc3545',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Aceptar',
-        confirmButtonColor: '#0288d1',
-    }).then((result) => {
-        if (result.value && id != null) {
-        	
-        	$.ajax({
-    	        type: "POST",
-    	        url:"/aceptar-solicitud-almacen",
-    	        data: {
-    	        	'id':id,
-    	             "_csrf": $('#token').val()
-    	        },
-    	        beforeSend: function () {
-    	        	
- 
-    	        },
-    	    
-    	        success: function(data) {
-    	        	
-    	        	
-    	        	 Swal.fire({
-    	        		 position: 'center',
-    	     				icon: 'success',
-    	     				title: 'Aceptada correctamente',
-    	     				showConfirmButton: false,
-    						timer: 1250
-    	                 
-    	             });
-    	       },
-    	       complete: function() {
-    	    	  location.reload();
-    		    },
-    	    })
-           
-        } // ////////////termina result value
-    })
-}
-function detalles(id, estatus)  {
-    $.ajax({
-        method: "GET",
-        url: "/detalles-riquisicion-almacen",
-        data: {
-            id: id,
-            _csrf: $("#token").val(),
-        },
-        success: (data) => {
-            $("#quitarDetalles").remove();
-            $("#contenedorTablaContador").append(
-                "<div class='modal-body' id='quitarDetalles'>" +
-                    "<table class='table table-striped table-bordered' id='idtableDetalles' style='width:100%' >" +
-                    "<thead>" +
-                    "<tr>" +
-                    "<th>Cantidad</th>" +
-                    "<th>Clave</th>" +
-                    "<th>Nombre</th>" +
-					"<th>Color</th>" +
-					"<th>Estatus</th>" +
-                    "</tr>" +
-                    "</thead>" +
-                    "</table>" +
-                    "</div>"
-            );
-            var a;
-            var b = [];
-            for (i in data) {
-					a = ["<tr>" + 
-                	"<td>" + data[i][2] + "</td>",
-                	"<td>" + data[i][3] + "</td>",
-                	"<td>" + data[i][4] + "</td>",
-					"<td>" + data[i][5] + "</td>",
-					"<td>" + data[i][6] + "</td>",
-                	"<tr>"];
-                b.push(a);
+var Materiales = [];
+var ordenCompraDetalle = [];
+$('#selectAll').click(function (e) {
+    if ($(this).hasClass('checkedAll')) {
+        $('.messageCheckbox').prop('checked', false);
+        $(this).removeClass('checkedAll');
+        $(".messageCheckbox").removeClass('checkedThis');
+        var inputElements = document.getElementsByClassName('messageCheckbox');
+        for (var i = 0; i < inputElements.length; ++i) {
+            if (!inputElements[i].checked) {
+                var removeIndex = Materiales.indexOf(+inputElements[i].value)
+                Materiales.splice(removeIndex, 1);
             }
-            var tabla = $("#idtableDetalles").DataTable({
-                data: b,
-                ordering: true,
-                pageLength: 5,
-                lengthMenu: [
-                    [5, 10, 25, 50, 10],
-                    [5, 10, 25, 50, 10],
-                ],
-                "language": {
-					"sProcessing": "Procesando...",
-					"sLengthMenu": "Mostrar _MENU_ registros",
-					"sZeroRecords": "No se encontraron resultados",
-					"sEmptyTable": "Ningún dato disponible en esta tabla =(",
-					"sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-					"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-					"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-					"sInfoPostFix": "",
-					"sSearch": "Buscar:",
-					"sUrl": "",
-					"sInfoThousands": ",",
-					"sLoadingRecords": "Cargando...",
-					"oPaginate": {
-						"sFirst": "Primero",
-						"sLast": "Último",
-						"sNext": "Siguiente",
-						"sPrevious": "Anterior"
-					},
-					"oAria": {
-						"sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-						"sSortDescending": ": Activar para ordenar la columna de manera descendente"
-					},
-					"buttons": {
-						"copy": "Copiar",
-						"colvis": "Visibilidad"
-					}
-				},
-            });
-            $("#detalles").modal("show");
-        },
-        error: (e) => {
-            // location.reload();nnn
-        },
-    });
-}
+        }
+    } else {
+        $('.messageCheckbox').prop('checked', true);
+        $(this).addClass('checkedAll');
+        $(".messageCheckbox").addClass('checkedThis');
+        var inputElements = document.getElementsByClassName('messageCheckbox');
+        for (var i = 0; i < inputElements.length; ++i) {
+            if (inputElements[i].checked) {
+                Materiales.push(+inputElements[i].value);
+            }
+            Materiales = [...new Set(Materiales)];
+        }
+    }
+    console.log(Materiales);
+});
+$(".messageCheckbox").change(function (e) {
+    e.preventDefault();
+    if ($(this).hasClass('checkedThis')) {
+        $(this).removeClass('checkedThis');
+        var removeIndex = Materiales.indexOf(+$(this).val())
+        Materiales.splice(removeIndex, 1);
+    } else {
+        $(this).addClass('checkedThis');
+        Materiales.push(+$(this).val());
+    }
+    console.log(+$(this).val());
+    console.log(Materiales);
+});
 
-function compreas (id){
-	
-	var url = "/requisicion-de-compras/"+id+"";  
-	 $(location).attr('href',url);
-}
+$('#checkMaterialAgotado').change(function (e) {
+    e.preventDefault();
+    var checkMaterialAgotado = $(this).is(":checked") ? true : false;
+    if (checkMaterialAgotado) {
+        $('#fechaPromesa').val("");
+        $('#fechaPromesa').attr("disabled", true);
+    }
+    else {
+        $('#fechaPromesa').attr("disabled", false);
+    }
+});
 
+$('#guardarFechaPromesa').click(function (e) {
+    e.preventDefault();
+    var checkMaterialAgotado = $('#checkMaterialAgotado').is(":checked") ? true : false;
+    var fechaPromesa = $('#fechaPromesa').val();
+    console.log(`${fechaPromesa}  ${checkMaterialAgotado}`);
+    if ((fechaPromesa == "" || fechaPromesa == null) && checkMaterialAgotado === false) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Todos los campos deben de estar llenos!',
+        })
+    }
+    else if (Materiales[0] == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Agrega al menos un material faltante!',
+        })
+    }
+    else {
+        $.ajax({
+            type: "POST",
+            url: "/postFechaPromesaMateriales",
+            data: {
+                Materiales: Materiales.toString(),
+                _csrf: $("[name='_csrf']").val(),
+                checkMaterialAgotado: checkMaterialAgotado,
+                fechaPromesa: fechaPromesa
+            },
+            success: function (response) {
+                Swal.fire({
 
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Fecha Promesa generada correctamente!',
+                    showConfirmButton: false,
+                    timer: 2500
+                }).then((result) => {
+                    location.reload();
+                });
+            },
+            error: function (response) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al modificar los campos!',
+                }).then((response) => {
+                    location.reload();
+                });
+            }
+        });
+    }
+});
 
-$( "#idEmpleadoSolicitante" ).change(function() {
-	$('#id-depa').html($("#idEmpleadoSolicitante option:selected").attr("depa")); 
-  });
-
-function surtido(id){
-	Swal.fire({
-        title: '¿Deseas surtir este material?',
+function aceptarComercial(idMaterialFaltante) {
+    Swal.fire({
+        title: 'Estás seguro que quieres aceptar el material extemporaneo',
+        text: "No podras revertir esta acción!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Confirmar',
+        confirmButtonText: 'Aceptar',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                type: "GET",
-                url: "/surtido-solicitud-material",
+                type: "PATCH",
+                url: "/patchMaterialFaltanteEstatus",
                 data: {
-                    'id': id
+                    _csrf: $("[name='_csrf']").val(),
+                    idMaterialFaltante: idMaterialFaltante,
+                    estatusComercial: true
+                },
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'El material se acepto exitosamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        location.reload();
+                    })
+                },
+                error: function (response) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error: ' + response,
+                        timer: 1500
+                    }).then((result) => {
+                        location.reload();
+                    })
                 }
-
-            }).done(function(data) {
-
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Correcto',
-                    showConfirmButton: false,
-                    timer: 2500
-                });
-                detalles(data, 2);
-
             });
-
         }
-    });
+    })
 }
 
-function parcial(id){
-	Swal.fire({
-        title: '¿Deseas poner en parcial este material?',
+function rechazarComercial(idMaterialFaltante) {
+    Swal.fire({
+        title: 'Estás seguro que quieres rechazar el material extemporaneo',
+        text: "No podras revertir esta acción!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Confirmar',
+        confirmButtonText: 'Aceptar',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.value) {
             $.ajax({
-                type: "GET",
-                url: "/parcial-solicitud-material",
+                type: "PATCH",
+                url: "/patchMaterialFaltanteEstatus",
                 data: {
-                    'id': id
+                    _csrf: $("[name='_csrf']").val(),
+                    idMaterialFaltante: idMaterialFaltante,
+                    estatusComercial: false
+                },
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'El material se rechazo exitosamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        location.reload();
+                    })
+                },
+                error: function (response) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error: ' + response,
+                        timer: 1500
+                    }).then((result) => {
+                        location.reload();
+                    })
                 }
-
-            }).done(function(data) {
-
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Correcto',
-                    showConfirmButton: false,
-                    timer: 2500
-                });
-                detalles(data, 2);
-
             });
-
         }
-    });
+    })
 }
 
+$('#btnGenerarOrden').click(function (e) {
+    tableModal
+        .clear()
+        .draw();
+    ordenCompraDetalle = [];
+    if (Materiales[0] == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Agrega al menos un material faltante!',
+        })
+            .then((result) => {
+                $('#generarOrden').modal('hide');
+            })
+    }
+    else {
+        $.ajax({
+            type: "GET",
+            url: "/getMaterialesFaltantesByIds",
+            data: {
+                ids: Materiales.toString()
+            },
+            success: function (response) {
+                console.log(response);
+                response.forEach(materialesFiltrados => {
+                    var temp = {
+                    		idMaterialFaltante: materialesFiltrados.idMaterialFaltante,
+                        idMaterial: materialesFiltrados.idMaterial,
+                        nombreMaterial: materialesFiltrados.nombreMaterial,
+                        claveMaterial: materialesFiltrados.claveMaterial,
+                        color: materialesFiltrados.color,
+                        idProveedor: materialesFiltrados.idProveedor,
+                        nombreProveedor: materialesFiltrados.nombreProveedor,
+                        cantidad: materialesFiltrados.cantidad,
+                        cantidadExtra: 0,
+                        precioU: materialesFiltrados.precioUnitario,
+                        montoCD: 0,
+                        //
 
+                    }
+                    $('#proveedor').text(temp.nombreProveedor);
+                    ordenCompraDetalle.push(temp);
 
+                });
+                console.log(ordenCompraDetalle)
+                ordenCompraDetalle.forEach(detalle => {
+                    var fila = tableModal.row.add(
+                        [
+                            detalle.cantidad,
+                            `<input type="number" step="any" class="form-control" onInput='materialExtra(${detalle.idMaterialFaltante},this.value)'>`,
+                            `<p id="materialExtra-${detalle.idMaterialFaltante}">${detalle.cantidad}</p>`,
+                            detalle.claveMaterial,
+                            detalle.nombreMaterial,
+                            detalle.color,
+                            `<input type="number" value="${detalle.precioU}" class="form-control" onInput='precioU(${detalle.idMaterialFaltante},this.value)'>`,
+                            `<input type="number" value="0" step="any" onInput='porcentaje(${detalle.idMaterialFaltante},this.value)' class="form-control dc" id="porcentaje-${detalle.idMaterialFaltante}">`,
+                            `<input type="number" value="0" step="any" onInput='monto(${detalle.idMaterialFaltante},this.value)' class="form-control dc" id="monto-${detalle.idMaterialFaltante}">`,
+                            `<p id="subtotal-${detalle.idMaterialFaltante}">${detalle.cantidad * detalle.precioU}</p>`
+                        ]
+                    ).draw();
+                });
+                var proveedorArray = ordenCompraDetalle.map(orden => orden.idProveedor);
 
+                if (!allEqual(proveedorArray)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Solo puede haber un proveedor!',
+                    }).then((result) => {
+                        $('#generarOrden').modal('hide');
+                    })
+                }
+                $(`.dc`).val(0);
+                totales();
+            }
+        });
+    }
+});
+
+function materialExtra(idMaterialFaltante, wrote) {
+    console.log(ordenCompraDetalle);
+    var indexMaterial = ordenCompraDetalle.map(item => item.idMaterialFaltante).indexOf(idMaterialFaltante);
+    ordenCompraDetalle[indexMaterial].cantidadExtra = +wrote;
+    const sub = (ordenCompraDetalle[indexMaterial].cantidad + ordenCompraDetalle[indexMaterial].cantidadExtra) * ordenCompraDetalle[indexMaterial].precioU
+    var totalMetraje = ordenCompraDetalle[indexMaterial].cantidad + (wrote == "" ? 0 : ordenCompraDetalle[indexMaterial].cantidadExtra)
+    $(`#materialExtra-${idMaterialFaltante}`).text(parseFloat(totalMetraje).toFixed(2));
+    ordenCompraDetalle[indexMaterial].montoCD = 0;
+    $(`#monto-${idMaterialFaltante}`).val(0);
+    $(`#porcentaje-${idMaterialFaltante}`).val(0);
+    $(`#subtotal-${idMaterialFaltante}`).text(parseFloat(sub).toFixed(2));
+    totales();
+}
+
+function precioU(idMaterialFaltante, wrote) {
+    var indexMaterial = ordenCompraDetalle.map(item => item.idMaterialFaltante).indexOf(idMaterialFaltante);
+    ordenCompraDetalle[indexMaterial].precioU = +wrote;
+    ordenCompraDetalle[indexMaterial].montoCD = 0;
+    const sub = (ordenCompraDetalle[indexMaterial].cantidad + ordenCompraDetalle[indexMaterial].cantidadExtra) * ordenCompraDetalle[indexMaterial].precioU
+    $(`#monto-${idMaterialFaltante}`).val(0);
+    $(`#porcentaje-${idMaterialFaltante}`).val(0);
+    $(`#monto-${idMaterialFaltante}`).attr("disabled", false);
+    $(`#porcentaje-${idMaterialFaltante}`).attr("disabled", false);
+    $(`#subtotal-${idMaterialFaltante}`).text(parseFloat(sub).toFixed(2));
+    console.table(ordenCompraDetalle[indexMaterial]);
+    totales();
+}
+
+function porcentaje(idMaterialFaltante, wrote) {
+    var indexMaterial = ordenCompraDetalle.map(item => item.idMaterialFaltante).indexOf(idMaterialFaltante);
+    if (wrote == "") {
+        ordenCompraDetalle[indexMaterial].montoCD = 0;
+        const sub = (ordenCompraDetalle[indexMaterial].cantidad + ordenCompraDetalle[indexMaterial].cantidadExtra) * ordenCompraDetalle[indexMaterial].precioU
+
+        $(`#monto-${idMaterialFaltante}`).val(0);
+        $(`#subtotal-${idMaterialFaltante}`).text(sub.toFixed(2));
+        totales();
+
+        return false
+    }
+    var monto = ((ordenCompraDetalle[indexMaterial].precioU * (ordenCompraDetalle[indexMaterial].cantidad + ordenCompraDetalle[indexMaterial].cantidadExtra)) / 100) * parseFloat(wrote)
+    $(`#monto-${idMaterialFaltante}`).val(monto);
+    ordenCompraDetalle[indexMaterial].montoCD = monto;
+    $(`#subtotal-${idMaterialFaltante}`).text(((ordenCompraDetalle[indexMaterial].precioU * (ordenCompraDetalle[indexMaterial].cantidad + ordenCompraDetalle[indexMaterial].cantidadExtra)) + monto).toFixed(2));
+    console.table(ordenCompraDetalle[indexMaterial]);
+    totales();
+}
+
+function monto(idMaterialFaltante, wrote) {
+    var indexMaterial = ordenCompraDetalle.map(item => item.idMaterialFaltante).indexOf(idMaterialFaltante);
+    if (wrote == "") {
+        ordenCompraDetalle[indexMaterial].montoCD = 0;
+        const sub = (ordenCompraDetalle[indexMaterial].cantidad + ordenCompraDetalle[indexMaterial].cantidadExtra) * ordenCompraDetalle[indexMaterial].precioU
+
+        $(`#porcentaje-${idMaterialFaltante}`).val(0);
+        $(`#subtotal-${idMaterialFaltante}`).text(sub.toFixed(2));
+        totales();
+
+        return false
+    }
+    var porcentaje = (parseFloat(+wrote) / (ordenCompraDetalle[indexMaterial].precioU * (ordenCompraDetalle[indexMaterial].cantidad + ordenCompraDetalle[indexMaterial].cantidadExtra))) * 100
+    $(`#porcentaje-${idMaterialFaltante}`).val(porcentaje);
+    ordenCompraDetalle[indexMaterial].montoCD = parseFloat(wrote);
+    $(`#subtotal-${idMaterialFaltante}`).text(((ordenCompraDetalle[indexMaterial].precioU * (ordenCompraDetalle[indexMaterial].cantidad + ordenCompraDetalle[indexMaterial].cantidadExtra)) + ordenCompraDetalle[indexMaterial].montoCD).toFixed(2));
+    console.table(ordenCompraDetalle[indexMaterial]);
+    totales();
+
+}
+$("#enviarOrden").click(function (e) {
+    e.preventDefault();
+
+    var ordenesPrecio = ordenCompraDetalle.map(orden => orden.precioU);
+    var lengthOrdenesPrecio = ordenesPrecio.filter(precio => precio > 0).length;
+    var iva = $(`#selectIva`).val();
+    if (lengthOrdenesPrecio == 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Todas los materiales deben tener un precio!',
+        })
+
+    }
+    else if (iva.trim() === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'El campo Iva es requerido!',
+        }).then(result => {
+            $("#enviarOrden").attr('disabled', false);
+        })
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "/postOrdenCompraMaterial",
+            data: {
+                _csrf: $('[name=_csrf]').val(),
+                ordenCompraDetalle: JSON.stringify(ordenCompraDetalle),
+                idProveedor: ordenCompraDetalle[0].idProveedor,
+                iva: iva,
+                ids:Materiales.toString()
+            },
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'La orden se creo exitosamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    location.reload();
+                })
+            },
+            error: function (response) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error: ' + response,
+                    timer: 1500
+                }).then((result) => {
+                    location.reload();
+                })
+            }
+        });
+    }
+
+});
+
+function allEqual(arr) {
+    return new Set(arr).size == 1;
+}
+
+$('#cerrarModalOrden').click(function (e) {
+    e.preventDefault();
+    Swal.fire({
+        title: 'Estás seguro que quieres cerrar la ventana',
+        text: "Se eliminaran todos los datos!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            $('#generarOrden').modal('hide');
+        }
+    })
+});
+
+function totales() {
+    const iva = +$(`#selectIva`).val() / 100;
+    const totalIva = ordenCompraDetalle.reduce((acc, detalle) => acc + ((detalle.precioU * (detalle.cantidad + detalle.cantidadExtra)) + detalle.montoCD) * iva, 0);
+    $(`#iva`).text('$' + totalIva.toFixed(2));
+    const descuento = ordenCompraDetalle.reduce((acc, detalle) => acc + detalle.montoCD, 0);
+    $(`#descuento`).text('$' + descuento.toFixed(2));
+    const subtotal = ordenCompraDetalle.reduce((acc, detalle) => acc + detalle.precioU * (detalle.cantidad + detalle.cantidadExtra), 0);
+    $(`#subtotal`).text('$' + subtotal.toFixed(2));
+    $(`#total`).text('$' + (subtotal + totalIva + descuento).toFixed(2));
+}
+$(`#selectIva`).change(function (e) {
+    e.preventDefault();
+    totales();
+});

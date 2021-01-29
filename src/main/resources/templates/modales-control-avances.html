@@ -29,3 +29,129 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+<div class="modal fade" id="tablaExplosionPrendas" tabindex="-1" role="dialog" aria-labelledby="Formulario"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title">Prendas explosionadas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                           <label for="">Realiz&oacute;</label>
+						   <button class="btn btn-sm icon-btn btn-altima text-white mr-auto" onclick="modalRealizo()"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Realiz&oacute;</button>
+						   <button class="btn btn-sm icon-btn btn-danger text-white mr-auto" onclick="cerrarTablaExplosionPrendas()"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Regresar</button>
+                        </div>
+                    </div>
+                    <table class="table requisicionTabla table-striped table-bordered" style="width: 100%;" id="tablaPrendasExplosionadas">
+                        <thead>
+                            <tr>
+                            	<th class="text-center">
+                                	<input type="checkbox" onclick="selectAllCheck()" id="selectAll">
+                                </th>
+                                <th>Folio</th>
+                                <th>Talla</th>
+                                <th>Realiz&oacute;</th>
+                                <th>Fecha inicio</th>
+                                <th>Fecha fin</th>
+                                <th>Ubicaci&oacute;n</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="modalConsumoReal" tabindex="-1" role="dialog" aria-labelledby="Formulario"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 60%;" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title">Consumo real</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <div class="modal-body">
+                	<div class="row">
+                        <div class="form-group col-md-12">
+                           <label for="">Realiz&oacute;</label>
+						   <button class="btn btn-sm icon-btn btn-danger text-white mr-auto" onclick="cerrarTablaConsumoReal()"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Regresar</button>
+                        </div>
+                    </div>
+                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;" id="tablaConsumoReal">
+                        <thead>
+                            <tr>
+                                <th>Clave</th>
+                                <th>Descripci&oacute;n</th>
+                                <th>Tipo</th>
+                                <th>Consumo real</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        	
+                        </tbody>
+                    </table>
+               </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="modalRealizo" tabindex="-1" role="dialog" aria-labelledby="Formulario"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 30%;" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title">Realiz&oacute;</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <div class="modal-body">
+                	<div class="row">
+                        <div class="form-group col-md-12">
+						   <button class="btn btn-sm icon-btn btn-danger text-white mr-auto" onclick="cerrarTablaConsumoReal()"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Regresar</button>
+                        </div>
+                        <div class="form-group col-md-12">
+                           <label for="">Realiz&oacute;</label>
+                           <select class="form-control selectpicker" data-live-search="true" title="Seleccione un proceso..." id="listaTrabajadores">
+                           </select>
+                        	
+                        	<label for="">Fecha inicio</label>
+                        	<input type="date" class="form-control" id="fechaInicioModal">
+                        	
+                        	<label for="">Fecha fin</label>
+                        	<input type="date" class="form-control" id="fechaFinModal">
+                        </div>
+                    </div>
+               </div>
+               <div class="modal-footer modal-rounded-footer">
+                    <a class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                    <button class="btn btn-sm icon-btn btn-altima text-white float-right" ><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+               </div>
+        </div>
+    </div>
+</div>
