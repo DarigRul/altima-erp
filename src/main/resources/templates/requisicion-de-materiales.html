@@ -59,7 +59,7 @@
                                 </div>
                                 <div th:insert="requisicion-de-materiales-modal"></div>
                                 <div class="card-body">
-
+ 								 <div th:insert="cambiar_proveedor_modal"></div>
                                     <div class="form-group">
 
                                     </div>
@@ -101,7 +101,7 @@
                                                 <td th:text="${material.fechaRequisicion}">22/10/2020</td>
                                                 <td th:text="${material.claveMaterial}">Agente 1</td>
                                                 <td th:text="${material.nombreMaterial}">100</td>
-                                                <td th:text="${material.nombreProveedor}">20/08/2020</td>
+                                                <td><p th:text="${material.nombreProveedor}" th:id="'nombreProveedor-'+${material.idMaterialFaltante}"></p></td>
                                                 <td th:text="${material.idTextProveedor}">OC0001</td>
                                                 <td th:text="${material.color}">30/08/2020</td>
                                                 <td th:text="${material.tamanio}">Pedida</td>
@@ -124,6 +124,15 @@
                                                         th:attr="onclick=|rechazarComercial('${material.idMaterialFaltante}')|"
                                                         data-placement="top" data-content="Rechazar"><i
                                                             class="fas fa-times" id="rechazarComercial"></i></button>
+                                               
+                                               <button
+                                                        class="btn btn-primary btn-sm btn-circle popoverxd"
+                                                        th:attr="onclick=|cambiarProveedor('${material.idMaterial}','m','${material.idMaterialFaltante}')|"
+                                                        data-placement="top" data-content="Cambiar proveedor"
+                                                        data-target="#cambiarProveedor" data-toggle="modal"
+                                                        id="cambiarProveedor"><i class="fas fa-store"></i></button>
+                                               
+                                               
                                                 </td>
                                             </tr>
                                         </tbody>

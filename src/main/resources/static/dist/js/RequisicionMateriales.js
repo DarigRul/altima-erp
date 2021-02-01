@@ -437,3 +437,71 @@ $(`#selectIva`).change(function (e) {
     e.preventDefault();
     totales();
 });
+
+
+function cambiarProveedor(idMaterial, tipo, id) {
+    $('#selectProveedor option').remove();
+    $('#selectProveedor').selectpicker('refresh');
+    $("#selectProveedor").append(`<option value="">Seleccione uno...</option>`)
+    $.ajax({
+        type: "GET",
+        url: "/getProveedorByIdMaterialAndTipo",
+        data: {
+            id: idMaterial,
+            tipo: tipo
+        },
+        success: function (responsetxt) {
+            const response = JSON.parse(responsetxt);
+            console.log(response);
+            response.forEach(proveedor => {
+                $("#selectProveedor").append(`<option value="${proveedor.idProveedor}" data-clavep="${proveedor.claveProveedor}" data-id="${id}" data-nombre="${proveedor.nombreProveedor}">${proveedor.nombreProveedor}</option>`)
+            });
+            $('#selectProveedor').selectpicker('refresh');
+        },
+        error: function (response) {
+            console.log(response)
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No existen proveedores para este material',
+            }).then((result) => {
+                $('#cambiarProveedor').modal('toggle');
+                // $(location).attr('href', '/listado-de-requisiciones');
+            })
+        }
+    });
+}
+
+$("#guardarProveedor").click(function (e) {
+    $("#guardarProveedor").attr("disabled", true);
+    e.preventDefault();
+    const id = $("#selectProveedor").find(':selected').data('id');
+    const clavep = $("#selectProveedor").find(':selected').data('clavep');
+    const nombre = $("#selectProveedor").find(':selected').data('nombre');
+    const idProveedor = $("#selectProveedor").val();
+
+    if (idProveedor.trim() === '' || idProveedor == undefined) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Seleccione un proveedor!',
+        }).then(result => {
+            $("#guardarProveedor").attr('disabled', false);
+        })
+    } else {
+        var indexMaterial = MaterialFaltanteList.map(material => material.idMaterialFaltante).indexOf(id);
+        MaterialFaltanteList[indexMaterial].idProveedor=+idProveedor;
+        MaterialFaltanteList[indexMaterial].nombreProveedor=nombre;
+        $(`#nombreProveedor-${id}`).text(MaterialFaltanteList[indexMaterial].nombreProveedor);
+        Swal.fire({
+            icon: 'success',
+            title: 'El proveedor se cambio exitosamente!',
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => {
+            $('#cambiarProveedor').modal('toggle');
+        })
+        $("#guardarProveedor").attr('disabled', false);
+    }
+    console.table(MaterialFaltanteList)
+});
