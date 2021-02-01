@@ -126,6 +126,7 @@
                                                             class="fas fa-times" id="rechazarComercial"></i></button>
                                                
                                                <button
+                                                th:if="${material.estatus}=='Extemporanea' and ${material.estatusComercial}=='Aceptado'"
                                                         class="btn btn-primary btn-sm btn-circle popoverxd"
                                                         th:attr="onclick=|cambiarProveedor('${material.idMaterial}','m','${material.idMaterialFaltante}')|"
                                                         data-placement="top" data-content="Cambiar proveedor"
