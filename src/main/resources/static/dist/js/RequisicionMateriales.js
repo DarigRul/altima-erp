@@ -503,5 +503,4 @@ $("#guardarProveedor").click(function (e) {
         })
         $("#guardarProveedor").attr('disabled', false);
     }
-    console.table(MaterialFaltanteList)
 });
