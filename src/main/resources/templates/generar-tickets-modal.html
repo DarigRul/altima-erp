@@ -1,0 +1,73 @@
+<div class="modal fade" id="generarTickets" tabindex="-1" role="dialog" aria-labelledby="materiaPrimaAlmacen"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 90%;" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title">Generador de tickets</h5>
+            </div>
+            <form action="">
+                <div class="modal-body">
+                     <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputEmail4">Operaciones</label>
+      <input type="text" class="form-control" id="inputEmail4" value="25" >
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputPassword4">Modelo</label>
+      <input type="text" class="form-control" id="inputPassword4" value="SAC001">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputPassword4">Tela</label>
+      <input type="text" class="form-control" id="inputPassword4" value="LS999" >
+    </div>
+  </div>
+    <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputEmail4">Confecc</label>
+      <input type="text" class="form-control" id="inputEmail4" value="150">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputPassword4">Prenda por bulto</label>
+      <input type="text" class="form-control" id="inputPassword4" value="30">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputPassword4">Restan</label>
+      <input type="text" class="form-control" id="inputPassword4" value="0">
+    </div>
+  </div>
+  <div class="form-row">
+   <div class="form-group col-md-4">
+   <button class="btn icon-btn btn-altima text-white" type="button" id="enviarOrden"><span
+                            class="btn-glyphicon fas fa-check img-circle text-altima"></span>Agregar</button>
+</div>
+</div>
+                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                        <thead>
+                            <tr >
+                                <th>Embultado</th>
+                                <th>Cantidad</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+<tr>
+                           <td>1</td>  
+                            <td>12</td>    
+                            </tr>
+                           
+                        </tbody>
+                        
+                          
+                    </table>
+                </div>
+                <div class="modal-footer">
+                
+                    <button class="btn icon-btn btn-danger text-white mr-auto" type="button"  data-dismiss="modal" id="cerrarModalOrden"><span
+                            class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar</button>
+                    <button class="btn icon-btn btn-altima text-white" type="button" id="enviarOrden"><span
+                            class="btn-glyphicon fas fa-check img-circle text-altima"></span>Generar tickets</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
