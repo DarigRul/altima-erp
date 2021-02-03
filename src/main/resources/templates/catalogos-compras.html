@@ -48,7 +48,14 @@
             </section>
             <!-- /.content -->
         </div>
+        <div th:insert="navegacion-footer"></div>
+        <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
+        <input type="hidden" id="rolListar" th:value="${#authorization.expression('hasRole(''COMPRAS-CATALOGOS-LISTAR'')')}? 1:0">
+        <input type="hidden" id="rolAgregar" th:value="${#authorization.expression('hasRole(''COMPRAS-CATALOGOS-AGREGAR'')')}? 1:0">
+        <input type="hidden" id="rolEditar" th:value="${#authorization.expression('hasRole(''COMPRAS-CATALOGOS-EDITAR'')')}? 1:0">
+        <input type="hidden" id="rolEliminar" th:value="${#authorization.expression('hasRole(''COMPRAS-CATALOGOS-ELIMINAR'')')}? 1:0">
     </div>
+
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/ComprasCRUD.js"></script>
@@ -57,6 +64,13 @@
         $('#menuCompras').addClass('menu-open');
         $('#navCompras').addClass('active-altima');
         $('#navComCat').addClass('active');
+
+
+        var rolAdmin = $('#rolAdmin').val();
+        var rolListar = $('#rolListar').val();
+        var rolAgregar = $('#rolAgregar').val();
+        var rolEditar = $('#rolEditar').val();
+        var rolEliminar = $('#rolEliminar').val();
     </script>
 </body>
 

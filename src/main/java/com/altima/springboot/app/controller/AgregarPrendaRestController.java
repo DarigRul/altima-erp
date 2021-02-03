@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -22,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,6 +75,8 @@ public class AgregarPrendaRestController {
 	@Autowired
 	private DisenioPrendaServiceImpl prendaService;
 	@Autowired
+	private IDisenioLookupService disenioPrendaService;
+	@Autowired
 	private DisenioMaterialPrendaServiceImpl materialPrendaService;
 	@Autowired
 	private DisenioPrendaPatronajeServiceImpl prendaPatronajeService;
@@ -117,9 +121,22 @@ public class AgregarPrendaRestController {
 
 	@RequestMapping(value = "/confirmar_prenda", method = RequestMethod.GET)
 	public Object confirmarPrenda(@RequestParam Long id) {
+		Formatter fmt = new Formatter();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
 		DisenioPrenda diamantePerla = prendaService.findOne(id);
+		DisenioLookup lookup = disenioPrendaService.findOne(diamantePerla.getIdFamiliaPrenda());
+
+		int res2 = prendaService.count2(diamantePerla.getIdFamiliaPrenda());
+		System.out.println(res2);
+		System.out.println(lookup.getDescripcionLookup());
+		diamantePerla.setIdText(lookup.getDescripcionLookup().toUpperCase() + fmt.format("%05d", (res2 + 1)));
+		diamantePerla.setUltimaFechaModificacion(dtf.format(now));
+		diamantePerla.setActualizadoPor(auth.getName());
 		diamantePerla.setEstatusRecepcionMuestra("Definitivo");
 		prendaService.save(diamantePerla);
+		fmt.close();
 		return diamantePerla;
 	}
 
@@ -137,15 +154,19 @@ public class AgregarPrendaRestController {
 	}
 
 	@RequestMapping(value = "/guardar_prenda", method = RequestMethod.POST)
-	public String guardarPrenda(@RequestParam(name = "disenioprenda") String disenioprenda) {
+	public String guardarPrenda(@ModelAttribute DisenioPrenda prendas,
+		@RequestParam(name = "disenioprenda") String disenioprenda) {
 		// Coso del auth
+		Formatter fmt = new Formatter();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		JSONObject prenda = new JSONObject(disenioprenda.toString());
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		
+		
 		DisenioPrenda dp = new DisenioPrenda();
 		dp.setIdFamiliaPrenda(Long.valueOf((String) prenda.get("idFamiliaPrenda")));
+		DisenioLookup lookup = disenioPrendaService.findOne(dp.getIdFamiliaPrenda());
 		dp.setCreadoPor(auth.getName());
 		dp.setActualizadoPor(auth.getName());
 		dp.setFechaCreacion(dtf.format(now));
@@ -167,12 +188,16 @@ public class AgregarPrendaRestController {
 		prendaService.save(dp);
 
 		// Ides
-		Long envio = Long.valueOf(prenda.get("tipoPrenda").toString());
-		String[] res = prendaService.getExistencias(envio);
-		String aux1 = String.format("%05d", Integer.valueOf(res[0]));
-		dp.setIdText(res[1].toUpperCase().substring(0, 3) + aux1);
-		dp.setIdTextProspecto("PROSP" + res[1].toUpperCase().substring(0, 3) + aux1);
+		//Long envio = Long.valueOf(prenda.get("tipoPrenda").toString());
+		int res = prendaService.count(dp.getIdFamiliaPrenda());
+		System.out.println(res);
+		System.out.println(lookup.getDescripcionLookup());
+		//String[] res = prendaService.getExistencias(envio);
+		//String aux1 = String.format("%05d", Integer.valueOf(res[0]));
+		//dp.setIdText(res[1].toUpperCase().substring(0, 3) + aux1);
+		dp.setIdTextProspecto("PROSP" + lookup.getDescripcionLookup().toUpperCase() + fmt.format("%05d", (res + 1)));
 		dp.setEstatusRecepcionMuestra("Prospecto");
+		//dp.setEstatus("Definitivo");
 		prendaService.save(dp);
 
 		return dp.getIdPrenda().toString();
@@ -1159,5 +1184,6 @@ public List<Object[]> deleteMaterialesExtra(@RequestParam(name="idMaterialExtra"
 	materialExtraService.delete(idMaterialExtra);
 	return materialExtraService.findAllByMaterial(idMaterialPrenda);
 }
+
 }
 

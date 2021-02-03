@@ -1,13 +1,13 @@
 <div class="small-box bg-info">
     <div class="inner">
         <h3>Clasificaci&oacute;n</h3>
-        <button data-toggle="modal" data-target="#detalleClasificacion" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+        <button th:if="${(#authorization.expression('hasRole(''COMPRAS-CATALOGOS-LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#detalleClasificacion" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
     </div>
     <div class="icon">
         <i class="ion ion-ios-pricetags-outline"></i>
     </div>
     <a class="small-box-footer">
-        <button onclick="agregarClasificacion()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+        <button th:if="${(#authorization.expression('hasRole(''COMPRAS-CATALOGOS-AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarClasificacion()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
     </a>
 </div>
 <!-- Modal Marcas Tabla -->
@@ -15,7 +15,8 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
         <div class="modal-content" id="contenedorTabla2">
             <div class="modal-header bg-info">
-                <h5 class="modal-title" id="exampleModalLongTitle">Listado de clasificaciones <button onclick="agregarClasificacion()" class="btn btn-light btn-circle btn-sm text-info popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de clasificaciones <button th:if="${(#authorization.expression('hasRole(''COMPRAS-CATALOGOS-AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarClasificacion()" class="btn btn-light btn-circle btn-sm text-info popoverxd"
+                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -36,13 +37,16 @@
                             <td>Materia prima</td>
                             <td class="tdcenter">
                                 <button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>Luis Miguel<br /><strong>Fecha de creación: </strong>30/01/2020<br><strong>Modificado por: </strong>Luisito Rey<br><strong>Fecha de modicación: </strong>01/02/2020"><i class="fas fa-info"></i></button>
-                                <a onclick="editarClasificacion()" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
+                                <a th:if="${(#authorization.expression('hasRole(''COMPRAS-CATALOGOS-EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="editarClasificacion()" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body"
+                                    data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
 
 
-                                <a onclick="eliminarClasificacion()" class="btn btn-danger text-white btn-circle btn-sm btn-delete popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja">
+                                <a th:if="${(#authorization.expression('hasRole(''COMPRAS-CATALOGOS-ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="eliminarClasificacion()" class="btn btn-danger text-white btn-circle btn-sm btn-delete popoverxd"
+                                    data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja">
                                     <i class="fas fa-caret-down"></i> </a>
 
-                                <a onclick="reactivarClasificacion()" class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta">
+                                <a th:if="${(#authorization.expression('hasRole(''COMPRAS-CATALOGOS-ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="reactivarClasificacion()" class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd"
+                                    data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta">
                                     <i class="fas fa-sort-up"></i> </a>
                             </td>
 

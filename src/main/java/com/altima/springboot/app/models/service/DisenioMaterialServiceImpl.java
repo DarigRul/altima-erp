@@ -17,6 +17,7 @@ import com.altima.springboot.app.repository.DisenioMaterialRepository;
 
 @Service
 public class DisenioMaterialServiceImpl implements IDisenioMaterialService {
+	
 	@Autowired
 	private DisenioMaterialRepository repository;
 	

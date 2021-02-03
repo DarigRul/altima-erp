@@ -4,6 +4,7 @@ import com.altima.springboot.app.models.entity.AmpTelaFaltante;
 import com.altima.springboot.app.models.service.IAmpTelaFaltanteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ public class ComprasRequisicionTelasController {
     @Autowired
     IAmpTelaFaltanteService telaFaltanteService;
 
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMPRAS_REQUISICION-TELAS-LISTAR"})
     @GetMapping("/requisicion-de-telas")
     public String RequisicionTelasList(Model m){
         m.addAttribute("telasFaltantes", telaFaltanteService.findAllTelasFaltantes());

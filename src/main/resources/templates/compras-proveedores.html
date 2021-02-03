@@ -23,7 +23,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Proveedores&nbsp;<a th:href="@{/compras-agregar-proveedores}"><button class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></a></h1>
+                            <h1>Proveedores&nbsp;<a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS-PROVEEDOR_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/compras-agregar-proveedores}"><button class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button></a></h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -67,16 +67,20 @@
                                                 <td th:text="${proveedor.tipo}"></td>
                                                 <td th:text="${proveedor.estatus=='1'}?'Activo':'Inactivo'"></td>
                                                 <td class="tdcenter">
-                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar" th:href="@{/editar_datos_generales/}+${proveedor.idProveedor}"><i class="fas fa-pen"></i></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_PROVEEDOR_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Editar" th:href="@{/editar_datos_generales/}+${proveedor.idProveedor}"><i class="fas fa-pen"></i></a>
 
 
-                                                    <a class="btn btn-danger text-white btn-circle btn-sm btn-delete popoverxd" th:if="${proveedor.estatus == '1'}" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja" th:onclick="'bajaProveedor('+${proveedor.idProveedor}+')'">
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_PROVEEDOR_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {proveedor.estatus == '1'})}" class="btn btn-danger text-white btn-circle btn-sm btn-delete popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja" th:onclick="'bajaProveedor('+${proveedor.idProveedor}+')'">
                                                         <i class="fas fa-caret-down"></i> </a>
 
-                                                    <a class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd"  th:if="${proveedor.estatus == '0'}" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta" th:onclick="'altaProveedor('+${proveedor.idProveedor}+')'">
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_PROVEEDOR_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {proveedor.estatus == '0'})}" class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta" th:onclick="'altaProveedor('+${proveedor.idProveedor}+')'">
                                                         <i class="fas fa-sort-up"></i> </a>
-                                                        
-                                                    <a class="btn btn-primary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Contactos" th:onclick="'listaContactosProveedor('+${proveedor.idProveedor}+')'">
+
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_PROVEEDOR_CONTACTOS'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-primary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover"
+                                                        data-placement="top" data-content="Contactos" th:onclick="'listaContactosProveedor('+${proveedor.idProveedor}+')'">
                                                         <i class="fas fa-address-book"></i> </a>
                                                 </td>
 
@@ -123,22 +127,22 @@
                 </button>
             </div>
             <div class="modal-body row">
-            	<table class="table tablaGeneral table-striped table-bordered" id="tablaContactosProveedor" style="width: 100%;">
-                        <thead>
-                            <tr>
-	                            <th>Nombre de contacto</th>
-	                            <th>Cargo</th>
-	                            <th>Correo</th>
-	                            <th>Tel&eacute;fono</th>
-	                            <th>Lada</th>
-	                            <th>Extensi&oacute;n</th>
-	                            <th>Whatsapp</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                	</tbody>
+                <table class="table tablaGeneral table-striped table-bordered" id="tablaContactosProveedor" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Nombre de contacto</th>
+                            <th>Cargo</th>
+                            <th>Correo</th>
+                            <th>Tel&eacute;fono</th>
+                            <th>Lada</th>
+                            <th>Extensi&oacute;n</th>
+                            <th>Whatsapp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
                 </table>
-        	</div>
+            </div>
         </div>
     </div>
 </div>
