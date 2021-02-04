@@ -76,7 +76,7 @@ public class DisenioPrenda implements Serializable {
 	private String consumoForro;
 
 	@Column(name = "id_ruta")
-	private String idRuta;
+	private Long idRuta;
 
 	@Column(name = "tipo_largo")
 	private String tipoLargo;
@@ -228,14 +228,6 @@ public class DisenioPrenda implements Serializable {
 		this.consumoForro = consumoForro;
 	}
 
-	public String getIdRuta() {
-		return idRuta;
-	}
-
-	public void setIdRuta(String idRuta) {
-		this.idRuta = idRuta;
-	}
-
 	public String getTipoLargo() {
 		return tipoLargo;
 	}
@@ -318,6 +310,14 @@ public class DisenioPrenda implements Serializable {
 
 	public void setFechaDevolucionProduccion(String fechaDevolucionProduccion) {
 		this.fechaDevolucionProduccion = fechaDevolucionProduccion;
+	}
+
+	public Long getIdRuta() {
+		return idRuta;
+	}
+
+	public void setIdRuta(Long idRuta) {
+		this.idRuta = idRuta;
 	}
 
 	

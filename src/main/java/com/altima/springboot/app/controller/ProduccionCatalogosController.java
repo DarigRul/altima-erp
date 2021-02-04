@@ -83,7 +83,7 @@ public class ProduccionCatalogosController {
 	@PostMapping("/guardar-catalogo-produccion")
 	public String guardacatalogo(String nomenclatura , String descripcion,
 			String num_talla, String id_genero,String genero,String descripcionProceso ,String origenProceso,
-			String maquilero, String telefono , String ruta , String datos, String nombreUbicacion, String responsablesUbicacion) {
+			String maquilero, String telefono , String ruta , String datos, String nombreUbicacion) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -299,7 +299,6 @@ public class ProduccionCatalogosController {
 			ubi.setCreadoPor(auth.getName());
 			ubi.setFechaCreacion(dateFormat.format(date));
 			ubi.setEstatus("1");
-			ubi.setDescripcionLookup(responsablesUbicacion);
 			LookupService.save(ubi);
 			
 			

@@ -1353,19 +1353,10 @@ function addUbicacion (){
 		title: 'Nueva ubicaci&oacute;n',
 		html:
 			'<div class="row">'+
-				'<div class="form-group col-md-6">'+
+				'<div class="form-group col-md-12">'+
 					'<label for="nombreUbicacion">Nombre</label>'+
 					'<input type="text" class="form-control" id="nombreUbicacion" name="nombreUbicacion" placeholder="Ubicación">'+
 				'</div>'+
-				'<div class="form-group col-md-6">'+
-					'<label for="selectResponsableUbicacion">Responsable</label>'+
-					'<select id="selectResponsableUbicacion"  name="selectResponsableUbicacion"  class="form-control" >'+
-
-					
-					'</select>'+
-				'</div>'+
-			
-	
 			'</div>',
 			showCancelButton: true,
 			  cancelButtonColor: '#dc3545',
@@ -1373,7 +1364,7 @@ function addUbicacion (){
 			  confirmButtonText: 'Agregar',
 			  confirmButtonColor: '#0288d1',
 		preConfirm: (nombreUbicacion) => {
-			if(document.getElementById("nombreUbicacion").value.length<1 || document.getElementById("selectResponsableUbicacion").value.length=="" ){
+			if(document.getElementById("nombreUbicacion").value.length<1){
 				
 				Swal.showValidationMessage(
 					 `Complete todos los campos`
@@ -1382,15 +1373,13 @@ function addUbicacion (){
 		},
 	  }).then((result) => {
 		  
-		  if (result.value && document.getElementById("nombreUbicacion").value && document.getElementById("selectResponsableUbicacion").value ) {
+		  if (result.value && document.getElementById("nombreUbicacion").value ) {
 				var nombreUbicacion = document.getElementById("nombreUbicacion").value;
-				var responsable = document.getElementById("selectResponsableUbicacion").value;
 				$.ajax({
 					  type: "GET",
 					  url: "/verificar-duplicado-produccion",
 					  data: {
 						  'Lookup': nombreUbicacion,
-						  'descripcion': responsable,
 						  'Tipo': "Ubicación"
 
 
@@ -1405,7 +1394,6 @@ function addUbicacion (){
 							  data: {
 								  "_csrf": $('#token').val(),
 								  'nombreUbicacion': nombreUbicacion,
-								  'responsablesUbicacion': responsable
 
 							  }
 
@@ -1478,7 +1466,6 @@ function listarUbicaciones(){
             		tabla.row.add([	
                 		v[1] ,
                 		v[2] ,
-                		v[3] ,
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v[5] +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v[6]+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
     					(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarUbicacion(this)" idLookup ="'+v[0]+'"  nombre="'+v[2]+'" empleado="'+v[9]+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
     					(rolEliminar == 1 ?'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteUbicacion('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>':"")
@@ -1488,7 +1475,6 @@ function listarUbicaciones(){
 					tabla.row.add([	
                 		v[1] ,
                 		v[2] ,
-                		v[3] ,
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v[5] +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v[6]+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
                 		(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="'+v[1]+'"  nombre="'+v[1]+'" descripcion="'+v[1]+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
     					(rolEliminar == 1 ?'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveUbicacion('+v[0]+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>':"")

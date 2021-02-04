@@ -1,7 +1,8 @@
 <aside class="main-sidebar sidebar-light-primary elevation-4">
     <!-- Brand Logo -->
     <a th:href="${'/'}" class="brand-link bg-altima">
-        <img src="/dist/img/AltimaLogo.png" alt="Altima Logo" class="brand-image img-circle elevation-3" style="opacity: 0.8;" />
+        <img src="/dist/img/AltimaLogo.png" alt="Altima Logo" class="brand-image img-circle elevation-3"
+            style="opacity: 0.8;" />
         <span class="brand-text font-weight-light">Altima</span>
     </a>
     <!-- Sidebar -->
@@ -34,7 +35,8 @@
                         <p>Calendario</p>
                     </a>
                 </li>
-                <li class="nav-item" sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA','ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_GERENCIA','ROLE_ADMINISTRADOR')">
+                <li class="nav-item"
+                    sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA','ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_GERENCIA','ROLE_ADMINISTRADOR')">
                     <a th:href="${'/cambio-fecha-pedido'}" class="nav-link" id="navCal">
                         <i class="nav-icon fas fa-calendar text-altima" id="iCal"></i>
                         <p>Cambio de fecha de pedido</p>
@@ -116,7 +118,8 @@
                     (${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_ELIMINAR'')')})">
                             <a th:href="${'/control-de-produccion'}" class="nav-link" id="navDiseno5">
-                                <i class="nav-icon-custom flaticon-jacket-elegant-feminine-black-clothes-for-business"></i>
+                                <i
+                                    class="nav-icon-custom flaticon-jacket-elegant-feminine-black-clothes-for-business"></i>
                                 <p>Producci&oacute;n de muestras</p>
                             </a>
                         </li>
@@ -151,7 +154,8 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_EDITAR'')')}) or 
@@ -161,7 +165,8 @@
                                         <p>Inventario</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMINISTRADOR'', 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMINISTRADOR'', 
                                 ''ROLE_MUESTRARIO_MOVIMIENTOS_LISTAR'', ''ROLE_MUESTRARIO_MOVIMIENTOS_AGREGAR'', 
                                 ''ROLE_MUESTRARIO_MOVIMIENTOS_EDITAR'', ''ROLE_MUESTRARIO_MOVIMIENTOS_ELIMINAR'', 
                                 ''ROLE_MUESTRARIO_MOVIMIENTOS_ENTREGAR'', ''ROLE_MUESTRARIO_MOVIMIENTOS_DEVOLVER'')')}">
@@ -180,7 +185,8 @@
                                         <p>Hist&oacute;rico de muestras</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUD_MODELOS_LISTAR'')')})">
                                     <a th:href="${'/solicitud-de-modelos'}" class="nav-link" id="navMueSol">
                                         <i class="nav-icon fas fa-clipboard"></i>
@@ -246,7 +252,8 @@
                                         <p>Carga de Pedidos</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_LISTAR'')')}) or
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_REPORTE'')')}) or
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_CONFIRMAR'')')}) or
@@ -262,7 +269,8 @@
                                         <p>Pre-apartado de Telas</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUD_MODELOS_LISTAR'')')})">
                                     <a th:href="${'/solicitud-de-modelos'}" class="nav-link" id="navMueSol">
                                         <i class="nav-icon fas fa-clipboard"></i>
@@ -281,7 +289,8 @@
                                         <p>Movimientos</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_EDITAR'')')}) or 
@@ -291,14 +300,16 @@
                                         <p>Personalizados</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOPRENDAS_LISTAR'')')})">
                                     <a th:href="${'/catalogos-prendas-agentes'}" class="nav-link" id="navVenta6">
                                         <i class="nav-icon-custom flaticon-lace-dress-with-white-belt"></i>
                                         <p>Cat&aacute;logo de prendas</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_CATALOGOMATERIALES_LISTAR'')')})">
                                     <a th:href="${'/catalogos-materiales-agentes'}" class="nav-link" id="navVenta7">
                                         <i class="nav-icon-custom flaticon-thread-spool-1"></i>
@@ -316,7 +327,8 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_IGENERAL'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_COORDINADOS'')')}) or 
@@ -366,7 +378,8 @@
                                         <p>Inventario</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_LISTAR'')')}) or 
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_AGREGAR'')')}) or
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_TRASPASO'')')})">
@@ -391,21 +404,24 @@
                                         <p>Ubicaciones</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_PENDIENTESURTIR_LISTAR'')')})">
                                     <a th:href="${'/pendiente-por-surtir'}" class="nav-link" id="navAMPSur">
                                         <i class="nav-icon fas fa-box-open"></i>
                                         <p>Pendiente por surtir</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_PENDIENTERECIBIR_LISTAR'')')})">
                                     <a th:href="${'/pendiente-por-recibir'}" class="nav-link" id="navAMPRec">
                                         <i class="nav-icon fas fa-box"></i>
                                         <p>Pendiente por recibir</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_LISTAR'')')}) or 
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIAPRIMA'')')}) or
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_EXPLOSIONMATERIALES_MATERIALES'')')}) or 
@@ -520,7 +536,8 @@
                             </a>
                         </li>
 
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        <li class="nav-item"
+                            th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                         (${#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUD_CAMBIO_PRENDA_GERENCIA'')')})">
                             <a th:href="${'/pedidos-cambio-prenda'}" class="nav-link" id="naviCambioPrenda">
                                 <i class="nav-icon fas fa-file-export" id="iCambioPrenda"></i>
@@ -548,7 +565,8 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_AGENDA_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_AGENDA_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_AGENDA_EDITAR'')')}) or 
@@ -558,7 +576,8 @@
                                         <p>Agenda</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COTIZACIONES_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COTIZACIONES_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COTIZACIONES_EDITAR'')')}) or 
@@ -568,7 +587,8 @@
                                         <p>Cotizaciones</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_CLIENTES_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_CLIENTES_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_CLIENTES_EDITAR'')')}) or 
@@ -578,7 +598,8 @@
                                         <p>Clientes</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_ASIGNACIONES_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_ASIGNACIONES_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_ASIGNACIONES_EDITAR'')')}) or 
@@ -588,7 +609,8 @@
                                         <p>Asignaciones</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COMISIONES_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COMISIONES_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_GERENCIACOMERCIAL_COMISIONES_EDITAR'')')}) or 
@@ -600,7 +622,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview" id="menuAuxiliar" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMINISTRADOR'', ''ROLE_COMERCIAL_AUXILIARVENTAS'')')}">
+                        <li class="nav-item has-treeview" id="menuAuxiliar"
+                            th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMINISTRADOR'', ''ROLE_COMERCIAL_AUXILIARVENTAS'')')}">
                             <a class="nav-link" id="navAuxiliar">
                                 <i class="nav-icon fas fa-user-alt"></i>
                                 <p>
@@ -608,14 +631,16 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AUXILIARVENTAS_CALENDARIO_LISTAR'')')})">
                                     <a th:href="${'/calendario-auxiliar'}" class="nav-link" id="navAuxCal">
                                         <i class="nav-icon fas fa-calendar"></i>
                                         <p>Calendario</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AUXILIARVENTAS_TICKETS_LISTAR'')')}) or 
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AUXILIARVENTAS_TICKETS_AGREGAR'')')}) or
                                 (${#authorization.expression('hasRole(''ROLE_COMERCIAL_AUXILIARVENTAS_TICKETS_EDITAR'')')}) or
@@ -647,7 +672,8 @@
                                         <p>Prospectos</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_SEGUIMIENTOS_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_SEGUIMIENTOS_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_SEGUIMIENTOS_EDITAR'')')}) or 
@@ -657,7 +683,8 @@
                                         <p>Seguimientos</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_LINEAEXPRESS_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_LINEAEXPRESS_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_LINEAEXPRESS_EDITAR'')')}) or 
@@ -667,7 +694,8 @@
                                         <p>Linea Express</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_REGISTROLLAMADAS_LISTAR'')')}) or 
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_REGISTROLLAMADAS_AGREGAR'')')}) or
                           (${#authorization.expression('hasRole(''ROLE_COMERCIAL_MARKETING_REGISTROLLAMADAS_EDITAR'')')}) or 
@@ -710,7 +738,8 @@
                 <li class="nav-item has-treeview" id="menuMaquila" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
                 (${#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')')})">
                     <a class="nav-link" id="navMaquila">
-                        <i class="nav-icon-custom flaticon-classic-sewing-machine-with-spool-of-thread text-altima" id="iMaquila"></i>
+                        <i class="nav-icon-custom flaticon-classic-sewing-machine-with-spool-of-thread text-altima"
+                            id="iMaquila"></i>
                         <p>
                             Taller de maquila <i class="fas fa-angle-left right"></i>
                         </p>
@@ -844,6 +873,13 @@
                             <a th:href="${'/catalogos-produccion'}" class="nav-link" id="navProduccion0">
                                 <i class="nav-icon fas fa-book-open"></i>
                                 <p>Catal&oacute;gos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION'')')})">
+                            <a th:href="${'/produccion-prendas'}" class="nav-link" id="navDiseno3">
+                                <i class="nav-icon-custom flaticon-female-black-dress"></i>
+                                <p>Prendas</p>
                             </a>
                         </li>
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
@@ -1144,7 +1180,8 @@
                                         <p>Incremento de plazas</p>
                                     </a>
                                 </li>
-                                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                                <li class="nav-item"
+                                    th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                                 (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_LISTAR'')')}) or 
                                 (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_AGREGAR'')')}) or
                                 (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_SOLICITUDES_EMPLEADOS_EDITAR'')')}) or 

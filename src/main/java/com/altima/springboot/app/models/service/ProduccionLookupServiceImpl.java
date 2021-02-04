@@ -174,15 +174,14 @@ public class ProduccionLookupServiceImpl implements IProduccionLookupService {
 				"look.id_lookup,\r\n"+
 				"look.id_text,\r\n"+	
 				"look.nombre_lookup,\r\n"+
-				"CONCAT( empleado.nombre_persona, ' ', empleado.apellido_paterno, ' ', empleado.apellido_materno ),\r\n"+
+				"'encargado' encargado,\r\n"+
 				"look.estatus,\r\n"+
 				"look.creado_por,\r\n"+
 				"DATE_FORMAT(	look.fecha_creacion,'%Y-%m-%d %T'),\r\n"+
 				"look.actualizado_por,\r\n"+
-				"DATE_FORMAT(	look.ultima_fecha_modificacion,'%Y-%m-%d %T'), empleado.id_empleado\r\n"+
+				"DATE_FORMAT(	look.ultima_fecha_modificacion,'%Y-%m-%d %T'),'0' id_empleado\r\n"+
 			"FROM\r\n"+
 				"alt_produccion_lookup AS look\r\n"+
-				"INNER JOIN alt_hr_empleado empleado ON look.descripcion_lookup = empleado.id_empleado \r\n"+
 			"WHERE\r\n"+
 				"1 = 1 \r\n"+
 				"AND look.tipo_lookup = 'Ubicación'").getResultList();

@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -16,7 +17,10 @@ import javax.validation.Valid;
 
 import org.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -113,7 +117,7 @@ public class AgregarPrendaRestController {
 		Object dl = disenioMaterialService.findLookUp(id);
 		return dl;
 	}
-	
+
 	@RequestMapping(value = "/validacion_descripcion_prenda", method = RequestMethod.GET)
 	public boolean validarDescripcionPrenda(@RequestParam(name = "valor") String desc) {
 		return prendaService.validarDescripcionPrenda(desc);
@@ -155,15 +159,14 @@ public class AgregarPrendaRestController {
 
 	@RequestMapping(value = "/guardar_prenda", method = RequestMethod.POST)
 	public String guardarPrenda(@ModelAttribute DisenioPrenda prendas,
-		@RequestParam(name = "disenioprenda") String disenioprenda) {
+			@RequestParam(name = "disenioprenda") String disenioprenda) {
 		// Coso del auth
 		Formatter fmt = new Formatter();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		JSONObject prenda = new JSONObject(disenioprenda.toString());
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
-		
-		
+
 		DisenioPrenda dp = new DisenioPrenda();
 		dp.setIdFamiliaPrenda(Long.valueOf((String) prenda.get("idFamiliaPrenda")));
 		DisenioLookup lookup = disenioPrendaService.findOne(dp.getIdFamiliaPrenda());
@@ -188,16 +191,16 @@ public class AgregarPrendaRestController {
 		prendaService.save(dp);
 
 		// Ides
-		//Long envio = Long.valueOf(prenda.get("tipoPrenda").toString());
+		// Long envio = Long.valueOf(prenda.get("tipoPrenda").toString());
 		int res = prendaService.count(dp.getIdFamiliaPrenda());
 		System.out.println(res);
 		System.out.println(lookup.getDescripcionLookup());
-		//String[] res = prendaService.getExistencias(envio);
-		//String aux1 = String.format("%05d", Integer.valueOf(res[0]));
-		//dp.setIdText(res[1].toUpperCase().substring(0, 3) + aux1);
+		// String[] res = prendaService.getExistencias(envio);
+		// String aux1 = String.format("%05d", Integer.valueOf(res[0]));
+		// dp.setIdText(res[1].toUpperCase().substring(0, 3) + aux1);
 		dp.setIdTextProspecto("PROSP" + lookup.getDescripcionLookup().toUpperCase() + fmt.format("%05d", (res + 1)));
 		dp.setEstatusRecepcionMuestra("Prospecto");
-		//dp.setEstatus("Definitivo");
+		// dp.setEstatus("Definitivo");
 		prendaService.save(dp);
 
 		return dp.getIdPrenda().toString();
@@ -223,12 +226,12 @@ public class AgregarPrendaRestController {
 		dp.setConsumoTela(prenda.get("consumoTela").toString());
 		dp.setConsumoForro(prenda.get("consumoForro").toString());
 		dp.setTipoLargo(prenda.get("tipoLargo").toString());
-		//dp.setEstatusRecepcionMuestra("Definitivo");
+		// dp.setEstatusRecepcionMuestra("Definitivo");
 		dp.setDevolucion(prenda.get("devolucion").toString());
 		dp.setCategoria(prenda.get("categoria").toString());
 		dp.setIdGenero(prenda.get("generoPrenda").toString());
 		prendaService.save(dp);
-		
+
 		return dp.getIdPrenda().toString();
 	}
 
@@ -238,7 +241,7 @@ public class AgregarPrendaRestController {
 		JSONObject prenda = new JSONObject(disenioprenda.toString());
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
-		
+
 		DisenioPrenda dp = new DisenioPrenda();
 		dp.setIdFamiliaPrenda(Long.valueOf((String) prenda.get("idFamiliaPrenda")));
 		dp.setCreadoPor(auth.getName());
@@ -278,8 +281,7 @@ public class AgregarPrendaRestController {
 			@RequestParam(name = "objeto_marcadores") String objeto_marcadores,
 			@RequestParam(name = "objeto_patronajes") String objeto_patronaje,
 			@RequestParam(name = "clientes") String clientes, @RequestParam(name = "accion") String accion,
-			@RequestParam(name = "idPrenda") Long idPrenda)
-			throws NoSuchFieldException, SecurityException {
+			@RequestParam(name = "idPrenda") Long idPrenda) throws NoSuchFieldException, SecurityException {
 
 		// Coso del auth
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -311,7 +313,7 @@ public class AgregarPrendaRestController {
 
 		// Se guardan Muchos a Muchos de Materiales
 		JSONArray materiales = new JSONArray(objeto_materiales);
-		
+
 		Long IdMateriales[] = new Long[materiales.length()];
 		int contadorMateriales = 0;
 		for (int i = 0; i < materiales.length(); i++) {
@@ -335,7 +337,7 @@ public class AgregarPrendaRestController {
 
 		// Se guardan Muchos a Muchos de Patronaje
 		JSONArray patronajes = new JSONArray(objeto_patronaje);
-		
+
 		Long IdPatronajes[] = new Long[patronajes.length()];
 		int contadorPatronajes = 0;
 		for (int i = 0; i < patronajes.length(); i++) {
@@ -462,7 +464,6 @@ public class AgregarPrendaRestController {
 		return listaMaestra;
 	}
 
-
 	// Este es cuando se agrega
 	@RequestMapping(value = "/imagenes_prendas", method = RequestMethod.POST)
 	public void guardarImagenes(HttpServletResponse response, DisenioPrenda dp, BindingResult result, Model model,
@@ -488,7 +489,8 @@ public class AgregarPrendaRestController {
 			dpi.setUltimaFechaModificacion(dtf.format(now));
 			dpi.setNombrePrenda(nombre1);
 			String uniqueFilename = uService.copy2(foto1);
-			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+					"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 			dpi.setRutaPrenda(uniqueFilename);
 			prendaImagenService.save(dpi);
 		}
@@ -503,7 +505,8 @@ public class AgregarPrendaRestController {
 			dpi.setUltimaFechaModificacion(dtf.format(now));
 			dpi.setNombrePrenda(nombre2);
 			String uniqueFilename = uService.copy2(foto2);
-			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+					"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 			dpi.setRutaPrenda(uniqueFilename);
 			prendaImagenService.save(dpi);
 		}
@@ -518,7 +521,8 @@ public class AgregarPrendaRestController {
 			dpi.setUltimaFechaModificacion(dtf.format(now));
 			dpi.setNombrePrenda(nombre3);
 			String uniqueFilename = uService.copy2(foto3);
-			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+					"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 			dpi.setRutaPrenda(uniqueFilename);
 			prendaImagenService.save(dpi);
 		}
@@ -533,7 +537,8 @@ public class AgregarPrendaRestController {
 			dpi.setUltimaFechaModificacion(dtf.format(now));
 			dpi.setNombrePrenda(nombre4);
 			String uniqueFilename = uService.copy2(foto4);
-			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+					"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 			dpi.setRutaPrenda(uniqueFilename);
 			prendaImagenService.save(dpi);
 		}
@@ -548,7 +553,8 @@ public class AgregarPrendaRestController {
 			dpi.setUltimaFechaModificacion(dtf.format(now));
 			dpi.setNombrePrenda(nombre5);
 			String uniqueFilename = uService.copy2(foto5);
-			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+					"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 			dpi.setRutaPrenda(uniqueFilename);
 			prendaImagenService.save(dpi);
 		}
@@ -563,7 +569,8 @@ public class AgregarPrendaRestController {
 			dpi.setUltimaFechaModificacion(dtf.format(now));
 			dpi.setNombrePrenda(nombre6);
 			String uniqueFilename = uService.copy2(foto6);
-			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+					"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 			dpi.setRutaPrenda(uniqueFilename);
 			prendaImagenService.save(dpi);
 		}
@@ -615,8 +622,11 @@ public class AgregarPrendaRestController {
 				if (status1.equalsIgnoreCase("Alter")) {
 					// Se va a cambiar la imagen
 					String uniqueFilename = uService.copy2(foto1);
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					uService.deletePrenda(dpi.getRutaPrenda());
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
@@ -624,7 +634,9 @@ public class AgregarPrendaRestController {
 				if (status1.equalsIgnoreCase("delete")) {
 					// Se va a borrar el registro
 					uService.deletePrenda(dpi.getRutaPrenda());
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
 					prendaImagenService.delete(Long.parseLong(id1));
 				}
 			} else {
@@ -637,7 +649,8 @@ public class AgregarPrendaRestController {
 					dpi.setUltimaFechaModificacion(dtf.format(now));
 					dpi.setNombrePrenda(nombre1);
 					String uniqueFilename = uService.copy2(foto1);
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
 				}
@@ -654,8 +667,11 @@ public class AgregarPrendaRestController {
 				if (status2.equalsIgnoreCase("Alter")) {
 					// Se va a cambiar la imagen
 					String uniqueFilename = uService.copy2(foto2);
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					uService.deletePrenda(dpi.getRutaPrenda());
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
@@ -663,7 +679,9 @@ public class AgregarPrendaRestController {
 				if (status2.equalsIgnoreCase("delete")) {
 					// Se va a borrar el registro
 					uService.deletePrenda(dpi.getRutaPrenda());
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
 					prendaImagenService.delete(Long.parseLong(id2));
 				}
 			} else {
@@ -676,7 +694,8 @@ public class AgregarPrendaRestController {
 					dpi.setUltimaFechaModificacion(dtf.format(now));
 					dpi.setNombrePrenda(nombre2);
 					String uniqueFilename = uService.copy2(foto2);
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
 				}
@@ -693,8 +712,11 @@ public class AgregarPrendaRestController {
 				if (status3.equalsIgnoreCase("Alter")) {
 					// Se va a cambiar la imagen
 					String uniqueFilename = uService.copy2(foto3);
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					uService.deletePrenda(dpi.getRutaPrenda());
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
@@ -702,7 +724,9 @@ public class AgregarPrendaRestController {
 				if (status3.equalsIgnoreCase("delete")) {
 					// Se va a borrar el registro
 					uService.deletePrenda(dpi.getRutaPrenda());
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
 					prendaImagenService.delete(Long.parseLong(id3));
 				}
 			} else {
@@ -715,7 +739,8 @@ public class AgregarPrendaRestController {
 					dpi.setUltimaFechaModificacion(dtf.format(now));
 					dpi.setNombrePrenda(nombre3);
 					String uniqueFilename = uService.copy2(foto3);
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
 				}
@@ -732,8 +757,11 @@ public class AgregarPrendaRestController {
 				if (status4.equalsIgnoreCase("Alter")) {
 					// Se va a cambiar la imagen
 					String uniqueFilename = uService.copy2(foto4);
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					uService.deletePrenda(dpi.getRutaPrenda());
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
@@ -741,7 +769,9 @@ public class AgregarPrendaRestController {
 				if (status4.equalsIgnoreCase("delete")) {
 					// Se va a borrar el registro
 					uService.deletePrenda(dpi.getRutaPrenda());
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
 					prendaImagenService.delete(Long.parseLong(id4));
 				}
 			} else {
@@ -754,7 +784,8 @@ public class AgregarPrendaRestController {
 					dpi.setUltimaFechaModificacion(dtf.format(now));
 					dpi.setNombrePrenda(nombre4);
 					String uniqueFilename = uService.copy2(foto4);
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
 				}
@@ -771,8 +802,11 @@ public class AgregarPrendaRestController {
 				if (status5.equalsIgnoreCase("Alter")) {
 					// Se va a cambiar la imagen
 					String uniqueFilename = uService.copy2(foto5);
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					uService.deletePrenda(dpi.getRutaPrenda());
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
@@ -780,7 +814,9 @@ public class AgregarPrendaRestController {
 				if (status5.equalsIgnoreCase("delete")) {
 					// Se va a borrar el registro
 					uService.deletePrenda(dpi.getRutaPrenda());
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
 					prendaImagenService.delete(Long.parseLong(id5));
 				}
 			} else {
@@ -793,7 +829,8 @@ public class AgregarPrendaRestController {
 					dpi.setUltimaFechaModificacion(dtf.format(now));
 					dpi.setNombrePrenda(nombre5);
 					String uniqueFilename = uService.copy2(foto5);
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
 				}
@@ -810,8 +847,11 @@ public class AgregarPrendaRestController {
 				if (status6.equalsIgnoreCase("Alter")) {
 					// Se va a cambiar la imagen
 					String uniqueFilename = uService.copy2(foto6);
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					uService.deletePrenda(dpi.getRutaPrenda());
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
@@ -819,7 +859,9 @@ public class AgregarPrendaRestController {
 				if (status6.equalsIgnoreCase("delete")) {
 					// Se va a borrar el registro
 					uService.deletePrenda(dpi.getRutaPrenda());
-					cloudinary.uploader().destroy("prendas/"+dpi.getRutaPrenda().substring(0,dpi.getRutaPrenda().length()-4), ObjectUtils.emptyMap());
+					cloudinary.uploader().destroy(
+							"prendas/" + dpi.getRutaPrenda().substring(0, dpi.getRutaPrenda().length() - 4),
+							ObjectUtils.emptyMap());
 					prendaImagenService.delete(Long.parseLong(id6));
 				}
 			} else {
@@ -832,7 +874,8 @@ public class AgregarPrendaRestController {
 					dpi.setUltimaFechaModificacion(dtf.format(now));
 					dpi.setNombrePrenda(nombre6);
 					String uniqueFilename = uService.copy2(foto6);
-					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id", "prendas/"+uniqueFilename.substring(0,uniqueFilename.length()-4)));
+					cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+							"prendas/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
 					dpi.setRutaPrenda(uniqueFilename);
 					prendaImagenService.save(dpi);
 				}
@@ -1129,11 +1172,9 @@ public class AgregarPrendaRestController {
 		return dpi;
 
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/ima_prenda_replace", method = RequestMethod.GET)
-	public Object buscarimg(@RequestParam("idPrenda") Long idPrenda , @RequestParam("idTela") Long idTela) {
+	public Object buscarimg(@RequestParam("idPrenda") Long idPrenda, @RequestParam("idTela") Long idTela) {
 
 		Object dpi = serviceInvetarioImg.findImagen(idPrenda, idTela);
 
@@ -1175,15 +1216,35 @@ public class AgregarPrendaRestController {
 			// TODO Auto-generated catch block
 			System.out.println("aqui si entra we");
 			throw new Exception();
-			
+
 		}
-	return materialExtraService.findAllByMaterial(idMaterialPrenda);
-}
-@DeleteMapping("/deleteMaterialesExtra")
-public List<Object[]> deleteMaterialesExtra(@RequestParam(name="idMaterialExtra") Long idMaterialExtra,@RequestParam(name="idMaterialPrenda") Long idMaterialPrenda) {
-	materialExtraService.delete(idMaterialExtra);
-	return materialExtraService.findAllByMaterial(idMaterialPrenda);
-}
+		return materialExtraService.findAllByMaterial(idMaterialPrenda);
+	}
+
+	@DeleteMapping("/deleteMaterialesExtra")
+	public List<Object[]> deleteMaterialesExtra(@RequestParam(name = "idMaterialExtra") Long idMaterialExtra,
+			@RequestParam(name = "idMaterialPrenda") Long idMaterialPrenda) {
+		materialExtraService.delete(idMaterialExtra);
+		return materialExtraService.findAllByMaterial(idMaterialPrenda);
+	}
+
+	@GetMapping("getPrendaIdRuta/{id}")
+	public ResponseEntity<?> getPrenda(@PathVariable(name = "id") Long id) {
+
+		Map<String, Object> response = new HashMap<>();
+		DisenioPrenda prenda = null;
+		try {
+			prenda = prendaService.findOne(id);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (prenda == null) {
+			response.put("mensaje", "La empresa con el id " + id + " no existe");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Long>(prenda.getIdRuta(), HttpStatus.OK);
+	}
 
 }
-

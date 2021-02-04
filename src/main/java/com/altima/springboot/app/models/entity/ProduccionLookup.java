@@ -1,66 +1,74 @@
 package com.altima.springboot.app.models.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "alt_produccion_lookup")
-public class ProduccionLookup implements Serializable{
+public class ProduccionLookup implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="id_lookup")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
+	@Column(name = "id_lookup")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
 	private Long idLookup;
-	
-	@Column(name="id_text")
+
+	@Column(name = "id_text")
 	private String idText;
 
-	@Column(name="nombre_lookup")
+	@Column(name = "nombre_lookup")
 	private String nombreLookup;
-	
-	@Column(name="descripcion_lookup")
+
+	@Column(name = "descripcion_lookup")
 	private String descripcionLookup;
-	
-	@Column(name="tipo_lookup")
+
+	@Column(name = "tipo_lookup")
 	private String tipoLookup;
-	
-	@Column(name="creado_por")
+
+	@Column(name = "creado_por")
 	private String creadoPor;
-	
-	@Column(name="actualizado_por")
+
+	@Column(name = "actualizado_por")
 	private String actualizadoPor;
-	
-	@Column(name="fecha_creacion")
+
+	@Column(name = "fecha_creacion")
 	private String fechaCreacion;
-	
-	@Column(name="ultima_fecha_modificacion")
+
+	@Column(name = "ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
-	
-	@Column(name="estatus")
+
+	@Column(name = "estatus")
 	private String Estatus;
-	
-	@Column(name="atributo_1")
+
+	@Column(name = "atributo_1")
 	private String atributo1;
-	
-	@Column(name="atributo_2")
+
+	@Column(name = "atributo_2")
 	private String atributo2;
 
-	@Column(name="atributo_3")
+	@Column(name = "atributo_3")
 	private String atributo3;
+
 
 	public Long getIdLookup() {
 		return idLookup;
@@ -169,7 +177,5 @@ public class ProduccionLookup implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
 
 }

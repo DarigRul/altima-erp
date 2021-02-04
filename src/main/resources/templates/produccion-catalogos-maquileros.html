@@ -28,9 +28,9 @@
                         <tr>
                         	<th>Folio</th>
                             <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Descripci&oacute;n</th>
-                            <th>Producci&oacute;n Max.</th>
+                            <!-- <th>Tipo</th> -->
+                            <!-- <th>Descripci&oacute;n</th> -->
+                            <!-- <th>Producci&oacute;n Max.</th> -->
                             <th>Direcci&oacute;n</th>
                             <th>Ubicaci&oacute;n</th>
                             <th>Acciones</th>
@@ -44,8 +44,6 @@
         </div>
     </div>
 </div>
-
-
 <!-- Modal Marcas Tabla -->
 <div class="modal fade" id="addMaquilero" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;" role="document" id="modalMarcasMobile">
@@ -144,29 +142,15 @@
 
                     </div>
 
-                    <div class="form-group col-sm-2">
-                        <label for="produccionMax">Producci&oacute;n Max.</label>
-                        <input class="form-control" id="produccionMax" name="produccionMax" placeholder="100" type="text">
-                    </div>
-
-                    <div class="form-group col-sm-4">
-                        <label for="tipo">Tipo</label>
-                        <select class="form-control selectpicker " title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true" name="tipo" id="tipo">
-                            <option value="Confección">Confecci&oacute;n</option>
-                            <option value="Personalización">Personalizaci&oacute;n</option>
-                        </select>
-                    </div>
-
                     <div class="form-group col-sm-4">
                         <label for="descripcion">Tel&eacute;fono</label>
                         <input class="form-control" id="telefono" name="telefono" placeholder="Descripción" type="text">
 
                     </div>
 
-                    <div class="form-group col-sm-8">
-                        <label for="descripcion">Descripci&oacute;n</label>
-                        <input class="form-control" id="descripcion" name="descripcion" placeholder="Descripción" type="text">
-
+                    <div class="form-group col-sm-12">
+                        <label for="descripcion">Observaciones</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
                     </div>
                    
 

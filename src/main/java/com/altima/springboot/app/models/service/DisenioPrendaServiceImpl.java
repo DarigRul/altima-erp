@@ -168,7 +168,15 @@ public class DisenioPrendaServiceImpl implements IDisenioPrendaService {
 	@Transactional(readOnly = true)
 	public List<PrendaListDTO> findAllMin() {
 		// TODO Auto-generated method stub
-		return em.createNativeQuery("SELECT adp.id_prenda,adp.id_text,adp.id_text_prospecto,adp.descripcion_prenda,adlfampre.nombre_lookup tipo_prenda,adp.prenda_local,adp.estatus_recepcion_muestra,adp.estatus,adp.mostrar,IFNULL(adp.fecha_recepcion_produccion,'Sin Fecha') AS fecha_recepcion_produccion,IFNULL(adp.fecha_devolucion_produccion,'Sin Fecha') AS fecha_devolucion_produccion FROM `alt_disenio_prenda` adp INNER JOIN alt_disenio_lookup adlfampre ON adlfampre.id_lookup=adp.id_familia_prenda",PrendaListDTO.class).getResultList();
+		return em.createNativeQuery("SELECT '' id_ruta,'' nombre_ruta,adp.id_prenda,adp.id_text,adp.id_text_prospecto,adp.descripcion_prenda,adlfampre.nombre_lookup tipo_prenda,adp.prenda_local,adp.estatus_recepcion_muestra,adp.estatus,adp.mostrar,IFNULL(adp.fecha_recepcion_produccion,'Sin Fecha') AS fecha_recepcion_produccion,IFNULL(adp.fecha_devolucion_produccion,'Sin Fecha') AS fecha_devolucion_produccion FROM `alt_disenio_prenda` adp INNER JOIN alt_disenio_lookup adlfampre ON adlfampre.id_lookup=adp.id_familia_prenda",PrendaListDTO.class).getResultList();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<PrendaListDTO> findAllMinR() {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT adp.id_prenda,adp.id_text,adp.id_text_prospecto,adp.descripcion_prenda,adlfampre.nombre_lookup tipo_prenda,adp.prenda_local,adp.estatus_recepcion_muestra,adp.estatus,adp.mostrar,IFNULL(adp.fecha_recepcion_produccion,'Sin Fecha') AS fecha_recepcion_produccion,IFNULL(adp.fecha_devolucion_produccion,'Sin Fecha') AS fecha_devolucion_produccion,aplruta.nombre_lookup nombre_ruta,aplruta.id_lookup id_ruta FROM `alt_disenio_prenda` adp INNER JOIN alt_disenio_lookup adlfampre ON adlfampre.id_lookup=adp.id_familia_prenda LEFT JOIN alt_produccion_lookup aplruta ON aplruta.id_lookup=adp.id_ruta",PrendaListDTO.class).getResultList();
 	}
 
 	@Override
