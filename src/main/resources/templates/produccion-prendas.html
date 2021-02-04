@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-    <title id="pageTitle">Prendas | Altima</title>
+    <title id="pageTitle">Produccion-prendas | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
@@ -79,6 +79,10 @@
                                                     th:text="${prenda.mostrar}==true?${prenda.fechaRecepcionProduccion}:${prenda.fechaDevolucionProduccion}">
                                                 </td>
                                                 <td class="tdcenter">
+                                                    <a th:href="@{'/view-prenda/' + ${prenda.idPrenda}}"
+                                                        class="btn btn-info btn-circle btn-sm popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Ver detalles"><i class="fas fa-info"></i></a>
                                                     <a th:if="${prenda.mostrar}==false"
                                                         sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION')"
                                                         th:href="@{'/recibir_prenda_produccion/'} + ${prenda.IdPrenda}"
@@ -93,7 +97,8 @@
                                                         data-content="Regresar Diseño"
                                                         class="btn btn-error btn-danger btn-circle btn-sm popoverxd"><i
                                                             class="fas fa-undo"></i></a>
-                                                    <button data-toggle="modal" data-target="#modalRutas" th:attr="onclick=|listRutas('${prenda.idPrenda}','${prenda.idRuta}')|" 
+                                                    <button data-toggle="modal" data-target="#modalRutas"
+                                                        th:attr="onclick=|listRutas('${prenda.idPrenda}','${prenda.idRuta}')|"
                                                         data-placement="top" data-content="Asignar ruta"
                                                         class="btn btn-error btn-info btn-circle btn-sm popoverxd"><i
                                                             class="fas fa-route"></i></button>

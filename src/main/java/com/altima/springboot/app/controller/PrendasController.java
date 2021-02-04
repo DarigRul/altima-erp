@@ -184,4 +184,29 @@ public class PrendasController {
         return sDate;
     }
 	
+	@RequestMapping(value = "/view-prenda/{id}")
+	public String verPrenda(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
+		DisenioPrenda disenio = new DisenioPrenda();
+		DisenioPrenda prenda = disenioPrendaService.findOne(id);
+		model.addAttribute("prendas", disenioPrendaService.findAll());
+		model.addAttribute("tipos", disenioMaterialService.findAllFamiliaPrenda());
+		model.addAttribute("marcadores", disenioLookupService.findByTipoLookup("Marcador"));
+		model.addAttribute("prendasmarcadores", disenioPrendaMarcadorService.findByIdPrenda(id));
+		model.addAttribute("familias", disenioMaterialService.findAllFamiliaPrenda());
+		model.addAttribute("materiales", disenioMaterialService.findAllForCreate());
+		model.addAttribute("materialesPrenda", disenioMaterialService.findAllFromPrenda(id));
+		model.addAttribute("patronajes", disenioMaterialService.findLookUps());
+		model.addAttribute("patronajesPrenda", disenioMaterialService.findAllPatronajeFromPrenda(id));
+		model.addAttribute("imagenesPrenda", disenioImagenPrendaService.findByPrenda(id));
+		model.addAttribute("clientes", clienteService.findAll(null));
+		model.addAttribute("clientesPrenda", prendaClienteService.findAllByPrenda(id));
+		model.addAttribute("generos", disenioLookupService.findByTipoLookup("Familia Genero"));
+		model.addAttribute("prenda", prenda);
+		m.put("accion", "editar");
+		m.put("view", true);
+		m.put("disenio", disenio);
+		m.put("nombreOriginal", prenda.getDescripcionPrenda());
+		
+		return "agregar-confirmar-prenda";
+	}
 }

@@ -86,10 +86,10 @@ public class DisenioPrendaServiceImpl implements IDisenioPrendaService {
 
 		List<Object[]> re = em.createNativeQuery(
 				"SELECT adp.id_prenda, adp.id_familia_prenda, adp.id_text, adp.id_text_prospecto, adp.numero_prenda, \r\n"
-						+ "				adp.detalle_prenda, adp.nota_especial, adp.precio_local_actual, adp.precio_local_anterior, \r\n"
-						+ "				adp.precio_foraneo_actual, adp.precio_foraneo_anterior, adp.detalle_confeccion, adp.consumo_tela, \r\n"
-						+ "				adp.consumo_forro, adp.precio, adp.id_ruta, adp.tipo_largo, adp.especificacion, adp.devolucion, \r\n"
-						+ "				adp.precio_m_prod, adp.precio_m_muestra, adp.categoria, adp.total_prendas, adp.mostrar, adp.descripcion_prenda, \r\n"
+						+ "				adp.detalle_prenda, adp.nota_especial, '' precio_local_actual, '' precio_local_anterior, \r\n"
+						+ "				'' precio_foraneo_actual, '' precio_foraneo_anterior, adp.detalle_confeccion, adp.consumo_tela, \r\n"
+						+ "				adp.consumo_forro, '' precio, adp.id_ruta, adp.tipo_largo, adp.especificacion, adp.devolucion, \r\n"
+						+ "				'' precio_m_prod, '' precio_m_muestra, adp.categoria, adp.total_prendas, adp.mostrar, adp.descripcion_prenda, \r\n"
 						+ "				adp.estatus, adp.prenda_local, adp.id_genero, adl.nombre_lookup AS 'genero' \r\n"
 						+ "			FROM alt_disenio_prenda adp INNER JOIN alt_disenio_lookup adl ON adp.id_genero = adl.id_lookup \r\n"
 						+ "			WHERE 1=1 AND adp.estatus ='1' AND id_prenda=" + id)
