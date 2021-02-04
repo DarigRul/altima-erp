@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Control de pedidos | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Control de pedidos
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Compras</li>
+                                <li class="breadcrumb-item active">Control de pedidos</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado control de pedidos<button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_REQUISICION_MATERIALES_CAMBIAR_FECHA'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-target="#cambiarFechaPromesa"
+                                            data-toggle="modal" class="btn btn-sm icon-btn btn-danger text-white">
+                                            <span class="btn-glyphicon fas fa-calendar img-circle text-danger"></span>
+                                            Ctrl. Pedidos</button>&nbsp;
+                                       
+                                    </h3>
+                                </div>
+                                <div th:insert="control-pedidos-modal"></div>
+                                <div class="card-body">
+                                    <div th:insert="generar-tickets-modal"></div>
+                                    <div class="form-group">
+
+                                    </div>
+                                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Pedido</th>
+                                                <th >Cliente</th>
+                                                <th >OP</th>
+                                                <th >Coord</th>
+                                                <th >Prenda</th>
+                                                <th >Modelo</th>
+                                                <th >Cve Tela.</th>
+                                                <th >Confecc</th>
+                                                <th >Fecha Recepción</th>
+                                                <th >Fecha Prog. Entrega</th>
+                                                <th >Fecha entrega</th>
+                                                <th >Acciones</th>
+                                               
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td >Altima</td>
+                                                <td >1</td>
+                                                <td >1</td>
+                                                <td >SACO</td>
+                                                <td >SAC001</td>
+                                                <td >LS999</td>
+                                                <td>154</td>
+                                                <td >29/01/2021</td>
+                                                <td >05/02/2021</td>
+                                                <td >Pedida</td>
+                         
+                                                <td>
+                                                    
+
+                                                    <button  class="btn btn-primary btn-sm btn-circle popoverxd" th:attr="onclick=|cambiarProveedor()|" data-placement="top"
+                                                        data-content="Generar tickets" data-target="#generarTickets" data-toggle="modal" id="generarTickets"><i class="fas fa-store"></i></button>
+
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+   
+    <script>
+        $('#iCompras').removeClass('text-altima');
+        $('#menuCompras').addClass('menu-open');
+        $('#navCompras').addClass('active-altima');
+        $('#navComReq').addClass('active');
+    </script>
+
+</body>
+
+</html>
