@@ -2,10 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-	<title id="pageTitle">Catal&oacute;gos Producci&oacute;n | Altima</title>
+    <title id="pageTitle">Catal&oacute;gos Producci&oacute;n | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -40,13 +41,13 @@
                 <div class="container-fluid">
                     <!-- Small boxes (Stat box) -->
                     <div class="row">
-                      	<div th:insert="produccion-catalogos-largo" class="col-lg-4 col-6"></div>  
-                      	<div th:insert="produccion-catalogos-rutas" class="col-lg-4 col-6"></div> 
-                      	<div th:insert="produccion-catalogos-procesos" class="col-lg-4 col-6"></div>   
-                      	<div th:insert="produccion-catalogos-maquileros" class="col-lg-6 col-6"></div>   
+                        <div th:insert="produccion-catalogos-largo" class="col-lg-4 col-6"></div>
+                        <div th:insert="produccion-catalogos-rutas" class="col-lg-4 col-6"></div>
+                        <div th:insert="produccion-catalogos-procesos" class="col-lg-4 col-6"></div>
+                        <div th:insert="produccion-catalogos-maquileros" class="col-lg-6 col-6"></div>
                         <div th:insert="produccion-catalogos-entrega" class="col-lg-6 col-6"></div>
                         <div th:insert="produccion-catalogos-ubicacion" class="col-lg-4 col-6"> </div>
-                      	 <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+                        <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
                     </div>
                     <!-- /.row -->
                 </div>
@@ -56,11 +57,20 @@
         </div>
         <!-- /.content-wrapper -->
         <div th:insert="navegacion-footer"></div>
-        <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
-        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolListar" value="1">
-        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolAgregar" value="1">
-        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEditar" value="1" >
-        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEliminar" value="1" >
+        <input type="hidden" id="rolAdmin"
+            th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
+        <input
+            th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+            type="hidden" id="rolListar" value="1">
+        <input
+            th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+            type="hidden" id="rolAgregar" value="1">
+        <input
+            th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+            type="hidden" id="rolEditar" value="1">
+        <input
+            th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+            type="hidden" id="rolEliminar" value="1">
     </div>
     <div th:replace="navegacion-scripts"></div>
     <!-- Funcionalidad-->
@@ -70,10 +80,10 @@
     <!-- QUITAR SCRIPT DE TABLA GENERAL CUANDO EMPIEZEN A PROGRAMAR -->
     <script src="/dist/js/tablaGeneral.js"></script>
     <script th:src="@{/plugins/inputmask/min/jquery.inputmask.bundle.min.js}"></script>
-	<script>
-		$('#iProduccion').removeClass('text-primary');
-		$('#menuProduccion').addClass('menu-open');
-		$('#navProduccion').addClass('menu-open');
+    <script>
+        $('#iProduccion').removeClass('text-primary');
+        $('#menuProduccion').addClass('menu-open');
+        $('#navProduccion').addClass('menu-open');
         $('#navProduccion0').addClass('active');
         var rolAdmin = $('#rolAdmin').val();
         var rolListar = $('#rolListar').val();
@@ -81,16 +91,16 @@
         var rolEditar = $('#rolEditar').val();
         var rolEliminar = $('#rolEliminar').val();
         var rolMapeo = $('#rolMapeo').val();
-	</script>
-	<script>
-	$(document).on('click', '#modalRutas', function() {
-        $('#detalleRuta').modal('show');
-    });
+    </script>
+    <script>
+        $(document).on('click', '#modalRutas', function () {
+            $('#detalleRuta').modal('show');
+        });
 
-    $(document).on('click', '#modalDetalles', function() {
-        $('#infoProcesos').modal('show');
-    });
-	</script>
+        $(document).on('click', '#modalDetalles', function () {
+            $('#infoProcesos').modal('show');
+        });
+    </script>
 </body>
 
 </html>

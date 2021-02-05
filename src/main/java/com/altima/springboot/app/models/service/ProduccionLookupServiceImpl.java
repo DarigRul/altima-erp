@@ -189,5 +189,13 @@ public class ProduccionLookupServiceImpl implements IProduccionLookupService {
 		return re;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional(readOnly = true)
+	public List<ProduccionLookup> findAllByMaquilero(Long idMaquilero) {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT aplproceso.*FROM alt_produccion_lookup aplproceso INNER JOIN alt_produccion_maquilador_proceso apmp ON apmp.id_proceso=aplproceso.id_lookup WHERE apmp.id_maquilador=:idMaquilero and aplproceso.estatus=1",ProduccionLookup.class).setParameter("idMaquilero", idMaquilero).getResultList();
+	}
+
 
 }

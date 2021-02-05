@@ -5,7 +5,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,8 +35,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.ProduccionLookup;
+import com.altima.springboot.app.models.entity.ProduccionMaquiladorProceso;
 import com.altima.springboot.app.models.entity.ProduccionProcesoRuta;
 import com.altima.springboot.app.models.service.IProduccionLookupService;
+import com.altima.springboot.app.models.service.IProduccionMaquiladorProcesoService;
 import com.altima.springboot.app.models.service.IProduccionProcesoRutaService;
 
 @CrossOrigin(origins = { "*" })
@@ -42,6 +50,9 @@ public class ProduccionCatalogosController {
 
 	@Autowired
 	IProduccionProcesoRutaService RutaService;
+
+	@Autowired
+	IProduccionMaquiladorProcesoService maquiladorProcesoService; 
 	
 	@GetMapping("/catalogos-produccion")
 	public String listCatalogos() {
@@ -461,8 +472,44 @@ public class ProduccionCatalogosController {
 	@RequestMapping(value = "/listar_ubicaciones", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object[]> listarUbicaciones() {
-		System.out.println("dddddddd");
 		return LookupService.listarUbicaciones();
 	}
 
+	@RequestMapping(value = "/listar_procesos_maquilador/{idMaquilero}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProduccionLookup> listar_procesos_maquilador(@PathVariable Long idMaquilero) {
+		return LookupService.findAllByMaquilero(idMaquilero);
+	}
+
+	@RequestMapping(value = "/delete_procesos_maquilador/{idMaquilador}/{idProceso}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public ResponseEntity<?> deleteEmpresa(@PathVariable(name="idMaquilador") Long idMaquilador,@PathVariable(name="idProceso") Long idProceso) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			maquiladorProcesoService.delete(idProceso, idMaquilador);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al eliminar registro en la BD");
+			response.put("error", e.getMessage()+": "+e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("mensaje", "El proceso fue eliminado con exito");
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);	
+	}
+
+	@PostMapping("/post_procesos_maquilador")
+	@ResponseBody
+	public ResponseEntity<?> postEmpresa(@RequestParam Long idMaquilador,@RequestParam Long idProceso) {
+		Map<String, Object> response = new HashMap<>();
+		ProduccionMaquiladorProceso mp=new ProduccionMaquiladorProceso();
+		mp.setIdMaquilador(idMaquilador);
+		mp.setIdProceso(idProceso);
+		try {
+			maquiladorProcesoService.save(mp);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al insertar en la BD");
+			response.put("error", e.getMessage()+": "+e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<ProduccionMaquiladorProceso>(mp,HttpStatus.CREATED);
+	}
 }
