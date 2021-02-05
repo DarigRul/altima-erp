@@ -169,8 +169,9 @@ public class ProduccionExplosionProcesosServiceImpl implements IProduccionExplos
 		else{
 			return null;
 		}
+		return null;
 		
-		return em.createQuery("FROM ProduccionExplosionPrendas WHERE idExplosionProceso ="+idExplosionProceso).getResultList();
+		//return em.createQuery("FROM ProduccionExplosionPrendas WHERE idExplosionProceso ="+idExplosionProceso).getResultList();
 	}
 
 	@Transactional
