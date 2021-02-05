@@ -314,7 +314,8 @@ function listarMaquila() {
                         (rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarMaquileros(' + v[0] + ')"  data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : "") +
                         (rolEliminar == 1 ? '<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="bajaMaquileros(' + v[0] + ')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : "") +
                         '<button class="btn btn-primary btn-circle btn-sm popoverxd" onclick="mostrarUbicacion(' + v[0] + ')"  data-container="body" data-toggle="popover" data-placement="top" data-content="Ubicación"> <i class="fas fa-map-marker-alt"></i></button>' +//direccion,
-                        '<button onClick="maquilerosProcesos(' + v[0] + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="modal" data-target="#procesosMaquileros" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>'
+                        '<button onClick="maquilerosProcesos(' + v[0] + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="modal" data-target="#procesosMaquileros" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>' +
+                        '<button onClick="maquilerosPrendas(' + v[0] + ')" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="modal" data-target="#prendasMaquileros" data-placement="top" data-content="Ver procesos"><i class="fas fa-tshirt"></i></button>'
                     ]);
                 } else {
                     tabla.row.add([
@@ -328,7 +329,8 @@ function listarMaquila() {
                         (rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarMaquileros(' + v[0] + ')"  data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : "") +
                         (rolEliminar == 1 ? '<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="altaMaquileros(' + v[0] + ')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>' : "") +
                         '<button class="btn btn-primary btn-circle btn-sm popoverxd" onclick="mostrarUbicacion(' + v[0] + ')"  data-container="body" data-toggle="popover" data-placement="top" data-content="Ubicación"> <i class="fas fa-map-marker-alt"></i></button>' +//direccion, 
-                        '<button onClick="maquilerosProcesos(' + v[0] + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="modal" data-target="#procesosMaquileros" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>'
+                        '<button onClick="maquilerosProcesos(' + v[0] + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="modal" data-target="#procesosMaquileros" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>' +
+                        '<button onClick="maquilerosPrendas(' + v[0] + ')" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="modal" data-target="#prendasMaquileros" data-placement="top" data-content="Ver procesos"><i class="fas fa-tshirt"></i></button>'
                     ]);
                 }
                 tabla.draw(false);
@@ -425,7 +427,7 @@ function listSelectMP() {
             $('#selectProcesoMaquilero').empty();
 
             for (i in data) {
-                if(data[i].descripcionLookup==='Externo'){
+                if (data[i].descripcionLookup === 'Externo') {
                     $('#selectProcesoMaquilero').append("<option value=" + data[i].idLookup + " text=" + data[i].nombreLookup + " tipo=" + data[i].descripcionLookup + " >" + data[i].nombreLookup + "</option>");
                 }
             }
@@ -477,8 +479,8 @@ function agregarProcesoMP() {
             url: "/post_procesos_maquilador",
             data: {
                 '_csrf': $(`[name='_csrf']`).val(),
-                'idProceso':idProceso,
-                'idMaquilador':idMG
+                'idProceso': idProceso,
+                'idMaquilador': idMG
             },
             success: function (response) {
                 listSelectMP();
@@ -492,7 +494,7 @@ function agregarProcesoMP() {
                 })
 
             },
-            error:function (response) {
+            error: function (response) {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
@@ -522,6 +524,130 @@ function eliminarMP(t, idMaquilador, idProceso) {
             })
             listSelectMP();
             listMP(idMaquilador);
+
+        },
+        error: function (response) {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: response.mensaje,
+                showConfirmButton: true
+            }).then((result) => {
+                location.reload();
+            });
+        }
+    });
+}
+// `parte para los maquileros y prendas`
+var idMP;
+function maquilerosPrendas(id) {
+    idMP = id
+    $('#selectPrendaMaquilero option').remove();
+    $('#selectPrendaMaquilero').selectpicker('refresh');
+    $.ajax({
+        method: "GET",
+        url: "/getDisenioLookupByTipo",
+        data: {
+            "tipo": "Familia Prenda"
+        },
+        success: (data) => {
+            $('#selectPrendaMaquilero').empty();
+
+            for (i in data) {
+                $('#selectPrendaMaquilero').append("<option value=" + data[i].idLookup + " text=" + data[i].nombreLookup + " tipo=" + data[i].descripcionLookup + " >" + data[i].nombreLookup + "</option>");
+            }
+            $('#selectPrendaMaquilero').selectpicker('refresh');
+
+            $("#agregarPrenda").prop("disabled", false);
+
+
+
+        },
+        error: (e) => {
+
+        }
+    })
+
+    var tablaMP = $('#tableMaquileroPrenda').DataTable();
+    tablaMP.clear().draw(false);
+    $.ajax({
+        type: "GET",
+        url: `/listar_prendas_maquilador/${id}`,
+        success: function (data) {
+            data.forEach(prenda => {
+                tablaMP.row.add([
+                    prenda.nombreLookup,
+                    prenda.cantidad,
+                    `<td><button type="button" onclick="eliminarMF(this,${id},${prenda.idLookup})" class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>`
+
+                ]).draw(false)
+
+            });
+        }
+    });
+}
+
+function agregarProcesoMF() {
+    const idPrenda = $(`#selectPrendaMaquilero`).val();
+    const cantidad = $(`#cantidadPrendas`).val();
+    if (idPrenda.trim() === "" || idPrenda == null || cantidad.trim() === "" || cantidad == null) {
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Complete el formulario!',
+            showConfirmButton: true
+        });
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "/post_prendas_maquilador",
+            data: {
+                '_csrf': $(`[name='_csrf']`).val(),
+                'idPrenda': idPrenda,
+                'idMaquilador': idMP,
+                'cantidad':cantidad
+            },
+            success: function (response) {
+                maquilerosPrendas(idMP);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Prenda agregada correctamente',
+                    showConfirmButton: false,
+                    timer: 1250
+                })
+
+            },
+            error: function (response) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: `Ya ha seleccionado esta prenda`,
+                    showConfirmButton: true
+                }).then((result) => {
+                });
+            }
+        });
+    }
+}
+
+function eliminarMF(t, idMaquilador, idPrenda) {
+    $.ajax({
+        type: "DELETE",
+        url: `delete_prendas_maquilador/${idMaquilador}/${idPrenda}`,
+        data: {
+            '_csrf': $(`[name='_csrf']`).val()
+        },
+        success: function (response) {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: response.mensaje,
+                showConfirmButton: false,
+                timer: 1250
+            })
+            maquilerosPrendas(idMaquilador);
+
 
         },
         error: function (response) {

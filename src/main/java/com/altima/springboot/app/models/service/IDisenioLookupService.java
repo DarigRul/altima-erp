@@ -17,6 +17,8 @@ public interface IDisenioLookupService {
 	DisenioLookup findOne(Long id);
 
 	public Object findClothesPosition(String prenda);
+
+	List<Object[]> findAllByMaquilero(Long idMaquilero);
 	
 
 }

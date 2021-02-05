@@ -35,16 +35,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.ProduccionLookup;
+import com.altima.springboot.app.models.entity.ProduccionMaquiladorPrendas;
 import com.altima.springboot.app.models.entity.ProduccionMaquiladorProceso;
 import com.altima.springboot.app.models.entity.ProduccionProcesoRuta;
+import com.altima.springboot.app.models.service.IDisenioLookupService;
 import com.altima.springboot.app.models.service.IProduccionLookupService;
+import com.altima.springboot.app.models.service.IProduccionMaquiladorPrendasService;
 import com.altima.springboot.app.models.service.IProduccionMaquiladorProcesoService;
 import com.altima.springboot.app.models.service.IProduccionProcesoRutaService;
 
 @CrossOrigin(origins = { "*" })
 @Controller
 public class ProduccionCatalogosController {
-	
+
 	@Autowired
 	IProduccionLookupService LookupService;
 
@@ -52,13 +55,19 @@ public class ProduccionCatalogosController {
 	IProduccionProcesoRutaService RutaService;
 
 	@Autowired
-	IProduccionMaquiladorProcesoService maquiladorProcesoService; 
-	
+	IProduccionMaquiladorProcesoService maquiladorProcesoService;
+
+	@Autowired
+	IProduccionMaquiladorPrendasService maquiladorPrendasService;
+
+	@Autowired
+	IDisenioLookupService dLookupService;
+
 	@GetMapping("/catalogos-produccion")
 	public String listCatalogos() {
 		return "catalogos-produccion";
 	}
-	
+
 	@PostMapping("/baja-catalogo-produccion")
 	public String bajacatalogo(Long id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -73,7 +82,7 @@ public class ProduccionCatalogosController {
 		return "redirect:catalogos";
 
 	}
-	
+
 	@PostMapping("/reactivar-catalogo-produccion")
 	@ResponseBody
 	public String reactivarcatalogo(Long idcatalogo) {
@@ -89,12 +98,11 @@ public class ProduccionCatalogosController {
 		return lookup.getTipoLookup();
 
 	}
-	
-	
+
 	@PostMapping("/guardar-catalogo-produccion")
-	public String guardacatalogo(String nomenclatura , String descripcion,
-			String num_talla, String id_genero,String genero,String descripcionProceso ,String origenProceso,
-			String maquilero, String telefono , String ruta , String datos, String nombreUbicacion) {
+	public String guardacatalogo(String nomenclatura, String descripcion, String num_talla, String id_genero,
+			String genero, String descripcionProceso, String origenProceso, String maquilero, String telefono,
+			String ruta, String datos, String nombreUbicacion) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -117,7 +125,7 @@ public class ProduccionCatalogosController {
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				largo.setIdText("LARG" + fmt.format("%04d",(cont + 1)));
+				largo.setIdText("LARG" + fmt.format("%04d", (cont + 1)));
 			}
 
 			largo.setNombreLookup(StringUtils.capitalize(nomenclatura));
@@ -129,10 +137,10 @@ public class ProduccionCatalogosController {
 			LookupService.save(largo);
 			return "catalogos";
 		}
-		
-		if (num_talla!= null ) {
-			
-			System.out.println("hoola--->"+num_talla);
+
+		if (num_talla != null) {
+
+			System.out.println("hoola--->" + num_talla);
 			ProduccionLookup talla = new ProduccionLookup();
 			ProduccionLookup ultimoid = null;
 			try {
@@ -150,7 +158,7 @@ public class ProduccionCatalogosController {
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				talla.setIdText("TALLA" + fmt.format("%04d",(cont + 1)));
+				talla.setIdText("TALLA" + fmt.format("%04d", (cont + 1)));
 			}
 
 			talla.setNombreLookup(StringUtils.capitalize(num_talla));
@@ -158,17 +166,16 @@ public class ProduccionCatalogosController {
 			talla.setCreadoPor(auth.getName());
 			talla.setFechaCreacion(dateFormat.format(date));
 			talla.setEstatus("1");
-			//talla.setDescripcionLookup(ubicacion);
+			// talla.setDescripcionLookup(ubicacion);
 			talla.setAtributo1(id_genero);
 			talla.setAtributo2(genero);
 			LookupService.save(talla);
-			
-			
+
 			return "catalogos";
 		}
-		
-		if ( descripcionProceso != null) {
-			System.out.println("hoola--->"+descripcionProceso);
+
+		if (descripcionProceso != null) {
+			System.out.println("hoola--->" + descripcionProceso);
 			ProduccionLookup proceso = new ProduccionLookup();
 			ProduccionLookup ultimoid = null;
 			try {
@@ -196,13 +203,12 @@ public class ProduccionCatalogosController {
 			proceso.setEstatus("1");
 			proceso.setDescripcionLookup(origenProceso);
 			LookupService.save(proceso);
-			
-			
+
 			return "catalogos";
 		}
-		
-		if ( maquilero != null) {
-			System.out.println("hoola--->"+maquilero);
+
+		if (maquilero != null) {
+			System.out.println("hoola--->" + maquilero);
 			ProduccionLookup maqui = new ProduccionLookup();
 			ProduccionLookup ultimoid = null;
 			try {
@@ -220,7 +226,7 @@ public class ProduccionCatalogosController {
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				maqui.setIdText("MAQUI" + fmt.format("%04d",(cont + 1)));
+				maqui.setIdText("MAQUI" + fmt.format("%04d", (cont + 1)));
 			}
 
 			maqui.setNombreLookup(StringUtils.capitalize(maquilero));
@@ -230,12 +236,11 @@ public class ProduccionCatalogosController {
 			maqui.setEstatus("1");
 			maqui.setDescripcionLookup(telefono);
 			LookupService.save(maqui);
-			
-			
+
 			return "catalogos";
 		}
 
-		if (ruta != null){
+		if (ruta != null) {
 			ProduccionLookup ru = new ProduccionLookup();
 			ProduccionLookup ultimoid = null;
 			try {
@@ -253,7 +258,7 @@ public class ProduccionCatalogosController {
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				ru.setIdText("RUTA" + fmt.format("%04d",(cont + 1)));
+				ru.setIdText("RUTA" + fmt.format("%04d", (cont + 1)));
 			}
 
 			ru.setNombreLookup(StringUtils.capitalize(ruta));
@@ -265,7 +270,7 @@ public class ProduccionCatalogosController {
 			LookupService.save(ru);
 			JSONArray json = new JSONArray(datos);
 			for (int i = 0; i < json.length(); i++) {
-				ProduccionProcesoRuta obj = new  ProduccionProcesoRuta();
+				ProduccionProcesoRuta obj = new ProduccionProcesoRuta();
 				JSONObject object = (JSONObject) json.get(i);
 				obj.setIdLookupRuta(ru.getIdLookup());
 				obj.setIdLookupProceso(Long.valueOf(object.get("id_proceso").toString()));
@@ -274,17 +279,17 @@ public class ProduccionCatalogosController {
 				obj.setFechaCreacion(dateFormat.format(date));
 				obj.setUltimaFechaModificacion(dateFormat.format(date));
 				obj.setEstatus("1");
-			
+
 				RutaService.save(obj);
-				
+
 			}
-			
+
 			return "catalogos";
 
 		}
-		//nombreUbicacion
-		if ( nombreUbicacion != null) {
-			System.out.println("hoola--->"+nombreUbicacion);
+		// nombreUbicacion
+		if (nombreUbicacion != null) {
+			System.out.println("hoola--->" + nombreUbicacion);
 			ProduccionLookup ubi = new ProduccionLookup();
 			ProduccionLookup ultimoid = null;
 			try {
@@ -302,7 +307,7 @@ public class ProduccionCatalogosController {
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				ubi.setIdText("UBI" + fmt.format("%04d",(cont + 1)));
+				ubi.setIdText("UBI" + fmt.format("%04d", (cont + 1)));
 			}
 
 			ubi.setNombreLookup(StringUtils.capitalize(nombreUbicacion));
@@ -311,40 +316,37 @@ public class ProduccionCatalogosController {
 			ubi.setFechaCreacion(dateFormat.format(date));
 			ubi.setEstatus("1");
 			LookupService.save(ubi);
-			
-			
+
 			return "catalogos";
 		}
-		
+
 		fmt.close();
 		return "redirect:catalogos";
 
 	}
-	
+
 	@RequestMapping(value = "/verificar-duplicado-produccion", method = RequestMethod.GET)
 	@ResponseBody
-	public boolean verificaduplicado(String Lookup, String Tipo,
-			@RequestParam(required=false) String Atributo1, 
-			@RequestParam(required=false) String Atributo2,  
-			@RequestParam(required=false) String descripcion) {
-		
+	public boolean verificaduplicado(String Lookup, String Tipo, @RequestParam(required = false) String Atributo1,
+			@RequestParam(required = false) String Atributo2, @RequestParam(required = false) String descripcion) {
+
 		boolean resp;
-		
-			resp=LookupService.findDuplicate(Lookup, Tipo);
-			
-			if ( Tipo.equals("Talla")) {
-				resp=LookupService.findDuplicate(Lookup, Tipo, Atributo1, Atributo2 );
-			}
-			if (Tipo.equals("Proceso")) {
-				resp=LookupService.findDuplicate(Lookup, Tipo, descripcion);
-			}
-			if (Tipo.equals("Maquilero")) {
-				resp=LookupService.findDuplicate(Lookup, Tipo, descripcion);
-			}
-			if (Tipo.equals("Ubicación")) {
-				resp=LookupService.findDuplicate(Lookup, Tipo, descripcion);
-			}
-		return  resp;
+
+		resp = LookupService.findDuplicate(Lookup, Tipo);
+
+		if (Tipo.equals("Talla")) {
+			resp = LookupService.findDuplicate(Lookup, Tipo, Atributo1, Atributo2);
+		}
+		if (Tipo.equals("Proceso")) {
+			resp = LookupService.findDuplicate(Lookup, Tipo, descripcion);
+		}
+		if (Tipo.equals("Maquilero")) {
+			resp = LookupService.findDuplicate(Lookup, Tipo, descripcion);
+		}
+		if (Tipo.equals("Ubicación")) {
+			resp = LookupService.findDuplicate(Lookup, Tipo, descripcion);
+		}
+		return resp;
 
 	}
 
@@ -359,14 +361,15 @@ public class ProduccionCatalogosController {
 	@ResponseBody
 	public List<ProduccionLookup> listarlookupProceso(String Tipo) {
 
-		return LookupService.findAllLookup(Tipo,"1");
+		return LookupService.findAllLookup(Tipo, "1");
 	}
-	
+
 	@PostMapping("/editar-catalogo-produccion")
-	public String editacatalogo(final Long idLookup, String descripcionProceso, String origenProceso, String maquilero,String telefono, String nombreUbicacion, String responsablesUbicacion, String largoNomenclatura,String largoDescripcion) {
+	public String editacatalogo(final Long idLookup, String descripcionProceso, String origenProceso, String maquilero,
+			String telefono, String nombreUbicacion, String responsablesUbicacion, String largoNomenclatura,
+			String largoDescripcion) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		
+
 		if (descripcionProceso != null && idLookup > 0) {
 			ProduccionLookup proceso = null;
 			proceso = LookupService.findOne(idLookup);
@@ -377,7 +380,7 @@ public class ProduccionCatalogosController {
 			LookupService.save(proceso);
 			return "redirect:catalogos";
 		}
-		
+
 		if (nombreUbicacion != null && idLookup > 0) {
 			ProduccionLookup ubi = null;
 			ubi = LookupService.findOne(idLookup);
@@ -398,9 +401,10 @@ public class ProduccionCatalogosController {
 			LookupService.save(larg);
 			return "redirect:catalogos";
 		}
-		
+
 		return "redirect:catalogos";
 	}
+
 	private String currentDate() {
 		Date date = new Date();
 		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
@@ -423,10 +427,9 @@ public class ProduccionCatalogosController {
 		return true;
 	}
 
-
 	@RequestMapping(value = "/edita-ruta-produccion", method = RequestMethod.POST)
 	@ResponseBody
-	public String editarRuta(final Long idLookup,String nombre , String datos) {
+	public String editarRuta(final Long idLookup, String nombre, String datos) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		ProduccionLookup ruta = LookupService.findOne(idLookup);
 		ruta.setNombreLookup(StringUtils.capitalize(nombre));
@@ -435,32 +438,33 @@ public class ProduccionCatalogosController {
 		LookupService.save(ruta);
 
 		JSONArray json = new JSONArray(datos);
-			for (int i = 0; i < json.length(); i++) {
-			
-				JSONObject object = (JSONObject) json.get(i);
-				RutaService.buscarProcesoRuta(Long.valueOf(object.get("id_proceso").toString()), ruta.getIdLookup() );
+		for (int i = 0; i < json.length(); i++) {
 
-				if ( RutaService.buscarProcesoRuta(Long.valueOf(object.get("id_proceso").toString()), ruta.getIdLookup() )== false){
-					
-					ProduccionProcesoRuta obj = new ProduccionProcesoRuta();
-					obj.setIdLookupRuta(idLookup);
-					obj.setIdLookupProceso(Long.valueOf(object.get("id_proceso").toString()));
-					obj.setCreadoPor(auth.getName());
-					obj.setActualizadoPor(auth.getName());
-					obj.setFechaCreacion(currentDate());
-					obj.setUltimaFechaModificacion(currentDate());
-					obj.setEstatus("1");
-			
-					RutaService.save(obj);
-				}	
+			JSONObject object = (JSONObject) json.get(i);
+			RutaService.buscarProcesoRuta(Long.valueOf(object.get("id_proceso").toString()), ruta.getIdLookup());
+
+			if (RutaService.buscarProcesoRuta(Long.valueOf(object.get("id_proceso").toString()),
+					ruta.getIdLookup()) == false) {
+
+				ProduccionProcesoRuta obj = new ProduccionProcesoRuta();
+				obj.setIdLookupRuta(idLookup);
+				obj.setIdLookupProceso(Long.valueOf(object.get("id_proceso").toString()));
+				obj.setCreadoPor(auth.getName());
+				obj.setActualizadoPor(auth.getName());
+				obj.setFechaCreacion(currentDate());
+				obj.setUltimaFechaModificacion(currentDate());
+				obj.setEstatus("1");
+
+				RutaService.save(obj);
 			}
+		}
 		return "redirect:catalogos";
 	}
 
 	@RequestMapping(value = "/validar-ruta-editar", method = RequestMethod.GET)
 	@ResponseBody
-	public boolean validarRutaenEditar(Long idLookup,String nombre) {
-		return  RutaService.validarNombrerutaEditar(idLookup, nombre);
+	public boolean validarRutaenEditar(Long idLookup, String nombre) {
+		return RutaService.validarNombrerutaEditar(idLookup, nombre);
 	}
 
 	@RequestMapping(value = "/listar_encargados_ubicaciones", method = RequestMethod.GET)
@@ -483,33 +487,85 @@ public class ProduccionCatalogosController {
 
 	@RequestMapping(value = "/delete_procesos_maquilador/{idMaquilador}/{idProceso}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<?> deleteEmpresa(@PathVariable(name="idMaquilador") Long idMaquilador,@PathVariable(name="idProceso") Long idProceso) {
+	public ResponseEntity<?> deleteEmpresa(@PathVariable(name = "idMaquilador") Long idMaquilador,
+			@PathVariable(name = "idProceso") Long idProceso) {
 		Map<String, Object> response = new HashMap<>();
 		try {
 			maquiladorProcesoService.delete(idProceso, idMaquilador);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al eliminar registro en la BD");
-			response.put("error", e.getMessage()+": "+e.getMostSpecificCause().getMessage());
-			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("mensaje", "El proceso fue eliminado con exito");
-		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.OK);	
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
 	@PostMapping("/post_procesos_maquilador")
 	@ResponseBody
-	public ResponseEntity<?> postEmpresa(@RequestParam Long idMaquilador,@RequestParam Long idProceso) {
+	public ResponseEntity<?> postEmpresa(@RequestParam Long idMaquilador, @RequestParam Long idProceso) {
 		Map<String, Object> response = new HashMap<>();
-		ProduccionMaquiladorProceso mp=new ProduccionMaquiladorProceso();
+		ProduccionMaquiladorProceso mp = new ProduccionMaquiladorProceso();
 		mp.setIdMaquilador(idMaquilador);
 		mp.setIdProceso(idProceso);
 		try {
 			maquiladorProcesoService.save(mp);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al insertar en la BD");
-			response.put("error", e.getMessage()+": "+e.getMostSpecificCause().getMessage());
-			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<ProduccionMaquiladorProceso>(mp,HttpStatus.CREATED);
+		return new ResponseEntity<ProduccionMaquiladorProceso>(mp, HttpStatus.CREATED);
+	}
+
+	@RequestMapping(value = "/listar_prendas_maquilador/{idMaquilero}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Object> listar_prendas_maquilador(@PathVariable Long idMaquilero) {
+		JSONArray prendasMaquiladorArray = new JSONArray();
+		List<Object[]> prendasMaquiladorO = dLookupService.findAllByMaquilero(idMaquilero);
+		for (Object[] objects : prendasMaquiladorO) {
+			JSONObject prendasMaquilador =new JSONObject();
+			prendasMaquilador.put("idLookup", objects[0]);
+			prendasMaquilador.put("nombreLookup",objects[1]);
+			prendasMaquilador.put("cantidad", objects[2]);
+			prendasMaquiladorArray.put(prendasMaquilador);
+		}
+
+		return prendasMaquiladorArray.toList();
+	}
+
+	@RequestMapping(value = "/delete_prendas_maquilador/{idMaquilador}/{idPrendas}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public ResponseEntity<?> deletePrendaMaquilador(@PathVariable(name = "idMaquilador") Long idMaquilador,
+			@PathVariable(name = "idPrendas") Long idPrendas) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			maquiladorPrendasService.delete(idMaquilador, idPrendas);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al eliminar registro en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("mensaje", "La prenda fue eliminado con exito");
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
+	@PostMapping("/post_prendas_maquilador")
+	@ResponseBody
+	public ResponseEntity<?> postPrendaMaquilador(@RequestParam Long idMaquilador, @RequestParam Long idPrenda,
+			@RequestParam int cantidad) {
+		Map<String, Object> response = new HashMap<>();
+		ProduccionMaquiladorPrendas mp = new ProduccionMaquiladorPrendas();
+		mp.setIdMaquilador(idMaquilador);
+		mp.setIdFamiliaPrenda(idPrenda);
+		mp.setProduccionMaxima(cantidad);
+		try {
+			maquiladorPrendasService.save(mp);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al insertar en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<ProduccionMaquiladorPrendas>(mp, HttpStatus.CREATED);
 	}
 }
