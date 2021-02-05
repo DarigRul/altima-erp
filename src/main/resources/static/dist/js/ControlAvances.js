@@ -102,12 +102,12 @@ function finalizarProceso(idExplosion){
 	
 
 	Swal.fire({
-        title: '¿Deseas finalizar el proceso?',
+        title: '¿Deseas finalizar la exposión?',
         icon: 'question',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Explosionar',
+        confirmButtonText: 'Finalizar',
         confirmButtonColor: '#28A745',
     }).then((result) => {
     	if (result.value){
@@ -134,15 +134,17 @@ function explosionarPrendas(idExplosion){
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Reactivar',
+        confirmButtonText: 'Explosionar',
         confirmButtonColor: '#28A745',
     }).then((result) => {
     	if (result.value){
     		
     		$.ajax({
     			method:"GET",
-    			url:"/explosionarPrendas",
-    			data:{idExplosion},
+				url:"/explosionarPrendas",
+				data:{	'idExplosion':idExplosion, 
+				'tipo':TipoProcesoGlobal},
+    			
     			beforeSend: function () {
     		       	 Swal.fire({
 			                title: 'Cargando ',
@@ -159,15 +161,16 @@ function explosionarPrendas(idExplosion){
     				
     				for (i in data){
     					tablaPrendasExplosionadas.row.add([
-    						"<input type='checkbox'>",
-    						data[i].idText,
-    						data[i].talla,
-    						(data[i].realizo==null)?"Sin registro":data[i].realizo,
-    						(data[i].fechaInicio==null)?"Sin registro":data[i].fechaInicio,
-    						(data[i].fechaFin==null)?"Sin registro":data[i].fechaFin,
-    						(data[i].Ubicacion==null)?"Sin registro":data[i].ubicacion,
-    						"2"
-    						]).draw(true);
+							'<input type="checkbox" onchange="seleccionarxUNO('+data[i][0]+')" class="messageCheckbox" value="'+data[i][0]+'" id="check-'+data[i][0]+'" >',
+							data[i][1],
+							data[i][2],
+							(data[i][3]==null)?"Sin registro":data[i][3],
+							(data[i][4]==null)?"Sin registro":data[i][4],
+							(data[i][5]==null)?"Sin registro":data[i][5],
+							(data[i][6]==null)?"Sin registro":data[i][6],
+							'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarExplosionPrenda(this)" id ="'+data[i][0]+'"  realizo="'+data[i][7]+'" fi="'+data[i][4]+'" ff="'+data[i][5]+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'
+						]).node().id ="row";
+						table.draw( false );
     				}
     				Swal.fire({
     				      position: 'center',

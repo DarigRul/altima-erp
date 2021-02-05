@@ -49,7 +49,7 @@ public class ProduccionControlAvancesRestController {
 		
 		List<Object[]> listaPrendasExplosionar = explosionService.prendasExplosionarByProceso(idExplosion);
 		ProduccionExplosionProcesos explosion = explosionService.findOne(idExplosion);
-		if(explosion.getEstatus().equals("0")) {
+		if(explosion.getEstatus().equals("0") ) {
 			
 			explosion.setEstatus("1");
 			explosionService.save(explosion);
@@ -67,7 +67,6 @@ public class ProduccionControlAvancesRestController {
 			return explosionService.listarPrendasByExplosionProceso(idExplosion,tipo);
 		}
 		else {
-			System.out.println("ya está explosionado");
 			return explosionService.listarPrendasByExplosionProceso(idExplosion,tipo);
 		}
 	}
@@ -78,7 +77,6 @@ public class ProduccionControlAvancesRestController {
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Long data = null;
 		for (int i = 0; i < ids.length; i++) {
-			System.out.print(ids[i]);
 			ProduccionExplosionPrendas obj = explosionService.findOnePrendas(Long.parseLong(ids[i]));
 			obj.setRealizo(realizo);
 			obj.setFechaInicio(fechainicio);
