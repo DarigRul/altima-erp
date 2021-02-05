@@ -20,10 +20,16 @@ public interface IProduccionExplosionProcesosService {
 	
 	//Métodos para el modal de explosion de prendas en la pantalla de control de avances
 	
-	List<ProduccionExplosionPrendas> listarPrendasByExplosionProceso(Long idExplosionProceso);
+	List<Object[]> listarPrendasByExplosionProceso(Long idExplosionProceso, String tipo);
 
 	void saveExplosionPrendas(ProduccionExplosionPrendas explosionPrendas);
 
+	ProduccionExplosionPrendas findOnePrendas (Long id);
+
 	List<Object[]> prendasExplosionarByProceso(Long idExplosionProceso);
+
+	List<Object []> listarEmpleadosbyProduccion();
+
+	List<Object []> listarMaquilerosbyProceso(Long idProceso);
 	
 }

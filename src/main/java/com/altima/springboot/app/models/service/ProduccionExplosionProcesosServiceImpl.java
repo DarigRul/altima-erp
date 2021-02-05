@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.altima.springboot.app.models.entity.ProduccionExplosionPrendas;
 import com.altima.springboot.app.models.entity.ProduccionExplosionProcesos;
+import com.altima.springboot.app.repository.ProduccionExplosionPrendasRepository;
 import com.altima.springboot.app.repository.ProduccionExplosionProcesosRepository;
 
 @Service
@@ -18,6 +19,9 @@ public class ProduccionExplosionProcesosServiceImpl implements IProduccionExplos
 
 	@Autowired
 	private ProduccionExplosionProcesosRepository repository;
+
+	@Autowired
+	private ProduccionExplosionPrendasRepository repositoryPrendas;
 	
 	@Autowired
 	private EntityManager em;
@@ -121,9 +125,102 @@ public class ProduccionExplosionProcesosServiceImpl implements IProduccionExplos
 	
 	@Transactional
 	@Override
-	public List<ProduccionExplosionPrendas> listarPrendasByExplosionProceso(Long idExplosionProceso){
+	public List<Object[]> listarPrendasByExplosionProceso(Long idExplosionProceso, String tipo){
+		List<Object[]> re = null;
+		if (tipo.equals("Interno")){
+			re = em.createNativeQuery(""+
+				"SELECT\r\n" + 
+					"PEP.id_explosion_prenda,\r\n" + 
+					"PEP.id_text,\r\n" + 
+					"PEP.talla,\r\n" + 
+					"CONCAT(empleado.nombre_persona,' ',empleado.apellido_paterno, ' ', empleado.apellido_materno),\r\n" + 
+					"DATE_FORMAT(PEP.fecha_inicio,'%Y-%m-%d %T'),\r\n" + 
+					"DATE_FORMAT(PEP.fecha_fin,'%Y-%m-%d %T'),\r\n" + 
+					"'Interna', empleado.id_empleado\r\n" + 
+				"FROM\r\n" + 
+					"alt_produccion_explosion_prendas AS PEP\r\n" + 
+					"LEFT JOIN alt_hr_empleado empleado on empleado.id_empleado = PEP.realizo\r\n" + 
+				"WHERE\r\n" + 
+					"1 = 1 \r\n" + 
+					"AND PEP.id_explosion_proceso ="+idExplosionProceso).getResultList();
+
+		return re;
+
+		}else if ( tipo.equals("Externo")){
+
+			re = em.createNativeQuery(""+
+				"SELECT\r\n" + 
+					"PEP.id_explosion_prenda,\r\n" + 
+					"PEP.id_text,\r\n" + 
+					"PEP.talla,\r\n" + 
+					"maquilador.nombre,\r\n" + 
+					"DATE_FORMAT(PEP.fecha_inicio,'%Y-%m-%d %T'),\r\n" + 
+					"DATE_FORMAT(PEP.fecha_fin,'%Y-%m-%d %T'),\r\n" + 
+					"lookup.nombre_lookup, maquilador.id_maquilador\r\n" + 
+				"FROM\r\n" + 
+					"alt_produccion_explosion_prendas AS PEP\r\n" + 
+					"LEFT JOIN alt_produccion_maquilador maquilador on maquilador.id_maquilador = PEP.realizo\r\n" + 
+					"LEFT JOIN alt_produccion_lookup lookup on lookup.id_lookup=PEP.ubicacion\r\n" + 
+				"WHERE\r\n" + 
+					"1 = 1\r\n" + 
+					"AND PEP.id_explosion_proceso = "+idExplosionProceso).getResultList();
+
+		}
+		else{
+			return null;
+		}
 		
 		return em.createQuery("FROM ProduccionExplosionPrendas WHERE idExplosionProceso ="+idExplosionProceso).getResultList();
+	}
+
+	@Transactional
+	@Override
+	public List<Object[]> listarEmpleadosbyProduccion() {
+		List<Object[]> re = null;
+		re = em.createNativeQuery(""+
+			"SELECT\r\n"+
+				"empleado.id_empleado,\r\n"+
+				"CONCAT( empleado.nombre_persona, ' ', empleado.apellido_paterno,' ',empleado.apellido_materno ),\r\n"+
+				"'0'\r\n"+
+			"FROM\r\n"+
+				"alt_hr_empleado empleado\r\n"+
+				"INNER JOIN alt_hr_puesto puesto ON empleado.id_puesto = puesto.id_puesto\r\n"+
+				"INNER JOIN alt_hr_departamento depa ON puesto.id_departamento = depa.id_departamento\r\n"+
+				"INNER JOIN alt_hr_lookup look ON look.id_lookup = depa.id_area\r\n"+
+			"WHERE\r\n"+
+				"1 = 1 \r\n"+
+				"AND look.nombre_lookup = 'PRODUCCION' \r\n"+
+				"AND empleado.estatus=1 	ORDER BY empleado.nombre_persona").getResultList();
+
+		return re;
+	}
+
+	@Transactional
+	@Override
+	public List<Object[]> listarMaquilerosbyProceso(Long idProceso) {
+		List<Object[]> re = null;
+		re = em.createNativeQuery(""+
+			"SELECT\r\n"+
+				"maquilador.id_maquilador,\r\n"+
+				"maquilador.nombre,\r\n"+
+				"maquilador.id_ubicacion\r\n"+
+			"FROM\r\n"+
+				"alt_produccion_maquilador AS maquilador\r\n"+
+				"INNER JOIN alt_produccion_maquilador_proceso MP ON maquilador.id_maquilador = MP.id_maquilador\r\n"+
+			"WHERE\r\n"+
+				"1 = 1\r\n"+
+				"AND MP.id_proceso = "+idProceso+"\r\n"+
+				"AND maquilador.estatus=1 	ORDER BY maquilador.nombre").getResultList();
+
+		return re;
+	}
+
+	@Override
+	@Transactional
+	public ProduccionExplosionPrendas findOnePrendas(Long id) {
+		 
+		return repositoryPrendas.findById(id).orElse(null);
+		
 	}
 	
 }

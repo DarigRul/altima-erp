@@ -16,7 +16,7 @@
                             </div>
                             <div class="form-group col-md-12">
                         		<select class="form-control selectpicker" data-live-search="true" title="Seleccione un proceso..." id="procesosActivos">
-                        			<option th:each="proceso:${listProcesos}" th:text="${proceso.nombreLookup}" th:value="${proceso.idLookup}">
+                        			<option th:each="proceso:${listProcesos}" th:text="${proceso.nombreLookup}" th:value="${proceso.idLookup}" th:descripcion="${proceso.descripcionLookup}">
                         		</select>
                         	</div>
                         </div>
@@ -36,7 +36,7 @@
 
 <div class="modal fade" id="tablaExplosionPrendas" tabindex="-1" role="dialog" aria-labelledby="Formulario"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;" role="document">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 75%;" role="document">
         <div class="modal-content modal-rounded-body">
             <div class="modal-header bg-altima modal-rounded-header">
                 <h5 class="modal-title">Prendas explosionadas</h5>
@@ -56,7 +56,7 @@
                         <thead>
                             <tr>
                             	<th class="text-center">
-                                	<input type="checkbox" onclick="selectAllCheck()" id="selectAll">
+                                	<input type="checkbox" id="selectAll">
                                 </th>
                                 <th>Folio</th>
                                 <th>Talla</th>
@@ -108,8 +108,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                        	
+                            
                         </tbody>
+                        
                     </table>
                </div>
         </div>
@@ -137,20 +138,20 @@
                         </div>
                         <div class="form-group col-md-12">
                            <label for="">Realiz&oacute;</label>
-                           <select class="form-control selectpicker" data-live-search="true" title="Seleccione un proceso..." id="listaTrabajadores">
+                           <select class="form-control selectpicker" data-live-search="true" title="Seleccione un proceso..." id="selectQuienRealizo">
                            </select>
                         	
                         	<label for="">Fecha inicio</label>
-                        	<input type="date" class="form-control" id="fechaInicioModal">
+                        	<input type="datetime-local" class="form-control" id="fechaInicioModal">
                         	
                         	<label for="">Fecha fin</label>
-                        	<input type="date" class="form-control" id="fechaFinModal">
+                        	<input type="datetime-local" class="form-control" id="fechaFinModal">
                         </div>
                     </div>
                </div>
                <div class="modal-footer modal-rounded-footer">
                     <a class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-                    <button class="btn btn-sm icon-btn btn-altima text-white float-right" ><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+                    <button onclick="guardarRealizo()" class="btn btn-sm icon-btn btn-altima text-white float-right" ><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
                </div>
         </div>
     </div>

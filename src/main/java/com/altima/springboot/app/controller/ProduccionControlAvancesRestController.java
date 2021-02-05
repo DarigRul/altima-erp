@@ -1,8 +1,13 @@
 package com.altima.springboot.app.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,9 +28,23 @@ public class ProduccionControlAvancesRestController {
 		
 		return explosionService.listExplosionByProceso(idProceso);
 	}
+
+	@RequestMapping(value="/listar_select_realizo", method = RequestMethod.GET)
+	public List<Object []> listarEmpleados (@RequestParam(value="idProceso")Long idProceso, @RequestParam(value="tipoProceso")String tipoProceso){
+		if ( tipoProceso.equals("Interno")){
+			return explosionService.listarEmpleadosbyProduccion();
+		}
+		else if (tipoProceso.equals("Externo")){
+			return explosionService.listarMaquilerosbyProceso(idProceso);
+		}
+		else{
+			return null;
+		}
+		
+	}
 	
 	@RequestMapping(value="/explosionarPrendas", method = RequestMethod.GET)
-	public List<ProduccionExplosionPrendas> explosionarPrendas(@RequestParam(value="idExplosion")Long idExplosion){
+	public List<Object[]> explosionarPrendas(@RequestParam(value="idExplosion")Long idExplosion, @RequestParam(value="tipo")String tipo){
 		
 		
 		List<Object[]> listaPrendasExplosionar = explosionService.prendasExplosionarByProceso(idExplosion);
@@ -45,11 +64,29 @@ public class ProduccionControlAvancesRestController {
 				explosionService.saveExplosionPrendas(explosionPrenda);
 			}
 		
-			return explosionService.listarPrendasByExplosionProceso(idExplosion);
+			return explosionService.listarPrendasByExplosionProceso(idExplosion,tipo);
 		}
 		else {
 			System.out.println("ya está explosionado");
-			return explosionService.listarPrendasByExplosionProceso(idExplosion);
+			return explosionService.listarPrendasByExplosionProceso(idExplosion,tipo);
 		}
+	}
+	@RequestMapping(value="/guardar_realizo_produccion_prendas", method=RequestMethod.GET)
+	public Long folio (@RequestParam(name = "ids") String[] ids, String fechainicio, String fechafin,String realizo, String ubicacion){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Long data = null;
+		for (int i = 0; i < ids.length; i++) {
+			System.out.print(ids[i]);
+			ProduccionExplosionPrendas obj = explosionService.findOnePrendas(Long.parseLong(ids[i]));
+			obj.setRealizo(realizo);
+			obj.setFechaInicio(fechainicio);
+			obj.setFechaFin(fechafin);
+			obj.setUbicacion(ubicacion);
+			explosionService.saveExplosionPrendas(obj);
+			data=obj.getIdExplosionProceso();
+		}
+		return data;
 	}
 }

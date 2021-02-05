@@ -1,16 +1,21 @@
 /**
- * author Víctor Hugo García Ilhuicatzi
+ * author Víctor Hugo García Ilhuicatzi 
+ * colaborador Erik Zempoaltecatl Zarate
  */
 $(document).ready(function() {
 	 $('#SeleccionPrograma').modal("show");
 	
 });
 
+var TipoProcesoGlobal;
+var idProcesoGlobal;
+var idExplosionPrenda=[];
 function listarExplosionPorProceso(){
 	var idProceso = $('#procesosActivos').val();
 	var tablaPrincipal = $('#tablaExplosionesPorProceso').DataTable();
 	tablaPrincipal.rows().remove().draw();
-	
+	TipoProcesoGlobal= $("#procesosActivos option:selected").attr("descripcion");
+	idProcesoGlobal = idProceso;
 	$.ajax({
 		method:"GET",
 		url:"/listarExplosion",
@@ -90,6 +95,7 @@ function listarExplosionPorProceso(){
 			
 		}
 	});
+
 }
 
 function finalizarProceso(idExplosion){
@@ -185,13 +191,18 @@ function explosionarPrendas(idExplosion){
 }
 
 function abrirTablaExplosionPrendas(idExplosion){
+	console.log(TipoProcesoGlobal)
 	var tablaPrendasExplosionadas = $('#tablaPrendasExplosionadas').DataTable();
-	tablaPrendasExplosionadas.rows().remove().draw(true);
+	var rows = tablaPrendasExplosionadas
+    .rows()
+    .remove()
+	.draw(); 
 	
 	$.ajax({
 		method:"GET",
 		url:"/explosionarPrendas",
-		data:{idExplosion},
+		data:{	'idExplosion':idExplosion, 
+				'tipo':TipoProcesoGlobal},
 		beforeSend: function () {
 	       	 Swal.fire({
 	                title: 'Cargando ',
@@ -204,18 +215,18 @@ function abrirTablaExplosionPrendas(idExplosion){
 	         });
 		},
 		success: (data) => {
-			
 			for (i in data){
 				tablaPrendasExplosionadas.row.add([
-					"<input type='checkbox'>",
-					data[i].idText,
-					data[i].talla,
-					(data[i].realizo==null)?"Sin registro":data[i].realizo,
-					(data[i].fechaInicio==null)?"Sin registro":data[i].fechaInicio,
-					(data[i].fechaFin==null)?"Sin registro":data[i].fechaFin,
-					(data[i].Ubicacion==null)?"Sin registro":data[i].ubicacion,
-					"2"
-					]).draw(true);
+					'<input type="checkbox" onchange="seleccionarxUNO('+data[i][0]+')" class="messageCheckbox" value="'+data[i][0]+'" id="check-'+data[i][0]+'" >',
+					data[i][1],
+					data[i][2],
+					(data[i][3]==null)?"Sin registro":data[i][3],
+					(data[i][4]==null)?"Sin registro":data[i][4],
+					(data[i][5]==null)?"Sin registro":data[i][5],
+					(data[i][6]==null)?"Sin registro":data[i][6],
+					'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarExplosionPrenda(this)" id ="'+data[i][0]+'"  realizo="'+data[i][7]+'" fi="'+data[i][4]+'" ff="'+data[i][5]+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'
+				]).node().id ="row";
+				table.draw( false );
 			}
 			Swal.fire({
 			      position: 'center',
@@ -262,24 +273,167 @@ function cerrarTablaConsumoReal(){
 	$('#modalConsumoReal').modal("hide");
 }
 
+function llenarSelectRealizo (id){
+	
+	$.ajax({
+		type: "GET",
+		url: "/listar_select_realizo",
+		data: {'idProceso':idProcesoGlobal, 'tipoProceso':TipoProcesoGlobal},
+		success: (data) => {
+			$('#selectQuienRealizo').empty();
+			$.each(data, function(key, val) {
+				$('#selectQuienRealizo').append('<option value="' + val[0] + '" ubicacion="'+val[2] +'" >' + val[1] + '</option>');
+			})
+			$('#selectQuienRealizo').selectpicker('refresh')
+		},
+		error: (e) => {
+		}, complete: function() {   
+            $('#selectQuienRealizo').val(id);
+            $('#selectQuienRealizo').selectpicker('refresh');
+         
+        },
+		error: (e) => {
 
+		}
+	});
+}
 function modalRealizo(){
-	$('#modalRealizo').modal("toggle");
+	if (  $.isEmptyObject(idExplosionPrenda)){
+		Swal.fire({
+			position: 'center',
+			icon: 'warning',
+			title: 'Seleccione al menos un registro',
+			showConfirmButton: true
+		});
+	}else{
+
+		llenarSelectRealizo(null);
+		$('#fechaInicioModal').val(null);
+		$('#fechaFinModal').val(null);
+	
+		$('#modalRealizo').modal("toggle");
+	}
+		
 }
 
 //--------------------------------------------------------------------------\\\
-function selectAllCheck(){
-	var data = $('#tablaPrendasExplosionadas').DataTable();
-	var allPages = data.cells( ).nodes( );
-    $('#selectAll').on("change", function () {
-    	var checked = this.checked;
-        if (checked) {
-            $(allPages).find('input[type="checkbox"]').prop('checked', true);
-        } else {
-            $(allPages).find('input[type="checkbox"]').prop('checked', false);
+$('#selectAll').click(function (e) {
+    if ($(this).hasClass('checkedAll')) {
+        $('.messageCheckbox').prop('checked', false);
+        $(this).removeClass('checkedAll');
+        $(".messageCheckbox").removeClass('checkedThis');
+        var inputElements = document.getElementsByClassName('messageCheckbox');
+        for (var i = 0; i<inputElements.length; ++i) {
+            if (!inputElements[i].checked) {
+                var removeIndex = idExplosionPrenda.indexOf(+inputElements[i].value)
+                idExplosionPrenda.splice(removeIndex, 1);
+            }
         }
-        $(this).toggleClass('allChecked');
-    })
-	data.draw(false);
+    } else {
+        $('.messageCheckbox').prop('checked', true);
+        $(this).addClass('checkedAll');
+        $(".messageCheckbox").addClass('checkedThis');
+        var inputElements = document.getElementsByClassName('messageCheckbox');
+        for (var i = 0; i<inputElements.length; ++i) {
+            if (inputElements[i].checked) {
+                idExplosionPrenda.push(+inputElements[i].value);
+            }
+            idExplosionPrenda = [...new Set(idExplosionPrenda)];
+        }
+    }
+});
+
+function seleccionarxUNO(id){
+	if ($('#check-'+id).hasClass('checkedThis')) {
+        $('#check-'+id).removeClass('checkedThis');
+        var removeIndex = idExplosionPrenda.indexOf(+$('#check-'+id).val())
+        idExplosionPrenda.splice(removeIndex, 1);
+    } else {
+        $('#check-'+id).addClass('checkedThis');
+        idExplosionPrenda.push(+$('#check-'+id).val());
+    }
 }
+
 //--------------------------------------------------------------------------///
+function guardarRealizo(){
+	if ( $('#fechaInicioModal').val()== null || $('#fechaFinModal').val()== null || $('#selectQuienRealizo').val()== null  ){
+		Swal.fire({
+			position: 'center',
+			icon: 'warning',
+			title: 'Complete el formulario!',
+			showConfirmButton: true
+		});
+	}else{
+		//ubicacion
+		//@RequestParam(name = "ids") String[] ids, String fechainicio, String fechafin,String realizo
+
+		
+		$.ajax({
+	        type: "GET",
+	        url:"/guardar_realizo_produccion_prendas",
+	        data: { 
+	        	ids :idExplosionPrenda.toString(),
+	        	'fechainicio': $('#fechaInicioModal').val(),
+				"fechafin": $('#fechaFinModal').val(),
+				"realizo": $('#selectQuienRealizo').val(),
+				"ubicacion":$("#selectQuienRealizo option:selected").attr("ubicacion")
+	            
+	        },
+	        beforeSend: function () {
+	        	 Swal.fire({
+	        		 position: 'center',
+	     				icon: 'success',
+	     				title: 'Agregado correctamente',
+	                 allowOutsideClick: false,
+	                 timerProgressBar: true,
+	                 showConfirmButton: false,
+	                 onBeforeOpen: () => {
+	                    
+	                 },
+	             });
+	        	
+	        },
+	    
+	        success: function(data) {
+				$('#modalRealizo').modal("hide");
+				$('#tablaExplosionPrendas').modal("hide");
+				idExplosionPrenda= [];
+				abrirTablaExplosionPrendas(data);
+				
+	       }
+	    })
+
+	}
+
+	//guardar_realizo_produccion_prendas
+}
+
+function editarExplosionPrenda(e){
+	
+	idExplosionPrenda= [];
+	idExplosionPrenda.push(+e.getAttribute("id"));
+	
+	llenarSelectRealizo(e.getAttribute("realizo"))
+
+	$('#fechaInicioModal').val(e.getAttribute("fi").replace(" ","T"));
+	$('#fechaFinModal').val(e.getAttribute("ff").replace(" ","T"));
+
+	$('#modalRealizo').modal("toggle");
+
+}
+
+$('#modalRealizo').on('hidden.bs.modal', function () {
+	
+    $('.messageCheckbox').prop('checked', false);
+        $('#selectAll').removeClass('checkedAll');
+        $(".messageCheckbox").removeClass('checkedThis');
+        var inputElements = document.getElementsByClassName('messageCheckbox');
+        for (var i = 0; i<inputElements.length; ++i) {
+            if (!inputElements[i].checked) {
+                var removeIndex = idExplosionPrenda.indexOf(+inputElements[i].value)
+                idExplosionPrenda.splice(removeIndex, 1);
+            }
+    }
+    
+   
+});

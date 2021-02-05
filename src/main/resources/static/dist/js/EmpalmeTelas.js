@@ -26,7 +26,7 @@ $('#selectAll').click(function (e) {
     }
     //console.log(idCoorPrenda);
 });
-$(".messageCheckbox").change(function (e) { 
+$(".messageCheckbox").change(function (e) {
     e.preventDefault();
     if ($(this).hasClass('checkedThis')) {
         $(this).removeClass('checkedThis');
