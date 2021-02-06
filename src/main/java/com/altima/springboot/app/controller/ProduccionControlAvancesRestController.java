@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.altima.springboot.app.models.entity.ProduccionConsumoReal;
 import com.altima.springboot.app.models.entity.ProduccionExplosionPrendas;
 import com.altima.springboot.app.models.entity.ProduccionExplosionProcesos;
 import com.altima.springboot.app.models.service.IProduccionExplosionProcesosService;
@@ -86,5 +87,56 @@ public class ProduccionControlAvancesRestController {
 			data=obj.getIdExplosionProceso();
 		}
 		return data;
+	}
+
+
+	
+	@RequestMapping(value="/listar_consumo_real", method = RequestMethod.GET)
+	public List<Object[]> listarConsumoReal(@RequestParam(value="idExplosion")Long idExplosion){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		
+		List<Object[]> listaQuery = explosionService.queryParaInsertarTelas(idExplosion);
+		
+		for (Object[] i : listaQuery) {
+			if (explosionService.validarExistenciaConsumo(i[0].toString(), i[1].toString(), i[2].toString(), i[3].toString()).equals("0")){
+				ProduccionConsumoReal consumo = new ProduccionConsumoReal();
+				consumo.setIdTela(Integer.parseInt(i[0].toString()));
+				consumo.setPrograma(i[1].toString());
+				consumo.setIdCoordinadoPrenda(Integer.parseInt(i[2].toString()));
+				consumo.setConsumoReal("0");
+				consumo.setTipoTela(i[3].toString());
+				consumo.setCreadoPor(auth.getName());
+				consumo.setFechaCreacion(hourdateFormat.format(date));
+
+				explosionService.saveConsumo(consumo);
+
+			}
+		}
+		
+			return explosionService.view(idExplosion);
+	}
+
+	
+	@RequestMapping(value="/guardar_consumo_real", method=RequestMethod.GET)
+	public boolean consumoReal (@RequestParam(name = "id") Long id, String consumo){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+		ProduccionConsumoReal obj = explosionService.findOneConsumoReal(id);
+
+		obj.setConsumoReal(consumo);
+		obj.setActualizadoPor(auth.getName());
+		obj.setUltimaFechaModificacion(hourdateFormat.format(date));
+		explosionService.saveConsumo(obj);
+		return true;
+	}
+
+	@RequestMapping(value="/validar_no_nulos_explosion_prendas", method=RequestMethod.GET)
+	public String validarNoNulos (@RequestParam(name = "id") Long id){
+		
+		return explosionService.validarNoNulos(id);
 	}
 }
