@@ -74,7 +74,11 @@
                                                     <p th:text="${prenda.tipoPrenda}"></p>
                                                 </td>
                                                 <td th:text="${prenda.idRuta==null?'Sin ruta':prenda.nombreRuta}"></td>
-                                                <td th:text="${prenda.mostrar}==true?'Recibida':'Diseño'"></td>
+                                                <td th:if="${prenda.fechaRecepcionProduccion}=='Sin Fecha'"
+                                                    th:text="${prenda.mostrar}==true?'Recibida':'Diseño'"></td>
+                                                <td th:if="${prenda.fechaRecepcionProduccion}!='Sin Fecha'"
+                                                    th:text="${prenda.mostrar}==true?'Recibida':'Devolución diseño'">
+                                                </td>
                                                 <td
                                                     th:text="${prenda.mostrar}==true?${prenda.fechaRecepcionProduccion}:${prenda.fechaDevolucionProduccion}">
                                                 </td>
@@ -83,25 +87,34 @@
                                                         class="btn btn-info btn-circle btn-sm popoverxd"
                                                         data-container="body" data-toggle="popover" data-placement="top"
                                                         data-content="Ver detalles"><i class="fas fa-info"></i></a>
-                                                    <a th:if="${prenda.mostrar}==false"
-                                                        sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION')"
-                                                        th:href="@{'/recibir_prenda_produccion/'} + ${prenda.IdPrenda}"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
-                                                        data-content="Aceptar Produccion"
-                                                        class="btn btn-success btn-circle btn-sm popoverxd"><i
-                                                            class="fas fa-clipboard-check"></i></a>
-                                                    <a th:if="${prenda.mostrar}==true"
+                                                    <button th:if="${prenda.mostrar!=true}"
                                                         sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION')"
-                                                        th:href="@{'/regresar_prenda_produccion/'} + ${prenda.IdPrenda}"
+                                                        th:attr="onclick=|recibirProduccion('${prenda.idPrenda}','${prenda.mostrar}','${prenda.idRuta}')|"
                                                         data-container="body" data-toggle="popover" data-placement="top"
-                                                        data-content="Regresar Diseño"
-                                                        class="btn btn-error btn-danger btn-circle btn-sm popoverxd"><i
-                                                            class="fas fa-undo"></i></a>
+                                                        data-content="Recibir prenda"
+                                                        class="btn-success btn btn-error btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-check"></i></button>
+                                                    <button th:if="${prenda.mostrar==true}"
+                                                        sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION')"
+                                                        th:attr="onclick=|recibirProduccion('${prenda.idPrenda}','${prenda.mostrar}')|"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Regresar prenda"
+                                                        class=" btn-danger btn btn-error btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-undo"></i></button>
                                                     <button data-toggle="modal" data-target="#modalRutas"
                                                         th:attr="onclick=|listRutas('${prenda.idPrenda}','${prenda.idRuta}')|"
                                                         data-placement="top" data-content="Asignar ruta"
                                                         class="btn btn-error btn-info btn-circle btn-sm popoverxd"><i
                                                             class="fas fa-route"></i></button>
+                                                    <button data-toggle="modal" data-target="#modalPrendaHistorico"
+                                                        th:attr="onclick=|listHistorico('${prenda.idPrenda}')|"
+                                                        data-placement="top" data-content="Historico"
+                                                        class="btn btn-secondary btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-history"></i></button>
+                                                    <button th:attr="onclick=|revisarPrenda('${prenda.idPrenda}')|"
+                                                        class="btn btn-dark btn-circle btn-sm popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Revisar prenda"><i class="fas fa-clipboard-check"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -268,20 +281,21 @@
         }
     </script>
     <script th:inline="javascript">
-        const rutas =/*[[${rutas}]]*/;
+        const rutas =/*[[${rutas}]]*/ 'default';
         console.log(rutas);
-    </script>
-    <script th:if="${icon != null}" th:inline="javascript">
 
+
+    </script>
+    <!-- <script th:if="${ifRutas==true}" th:inline="javascript">
+        console.log("hola")
         Swal.fire({
 
             position: 'center',
-            icon: /*[[${icon}]]*/ 'default',
-            title: /*[[${title}]]*/ 'default',
-            showConfirmButton: false,
-            timer: 2500
+            icon: 'warning',
+            title: 'Asignar todas la rutas de las prendas',
+            showConfirmButton: true,
         });
-    </script>
+    </script> -->
 </body>
 
 </html>

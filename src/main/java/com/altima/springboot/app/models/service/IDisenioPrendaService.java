@@ -37,6 +37,9 @@ public interface IDisenioPrendaService {
 			SessionFactoryServiceRegistry serviceRegistry);
 
 	List<PrendaListDTO> findAllMin();
+
 	List<PrendaListDTO> findAllMinR();
+
+	int countRutas();
 
 }

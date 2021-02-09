@@ -192,6 +192,14 @@ public class DisenioPrendaServiceImpl implements IDisenioPrendaService {
 		int aux = Integer.parseInt(auxs);	
 		return aux + 1;
 	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public int countRutas() {
+		// TODO Auto-generated method stub
+		return Integer.parseInt(em.createQuery("Select count(dp.idPrenda) From DisenioPrenda dp where dp.mostrar=1 and idRuta is null").getSingleResult().toString());
+	}
 	
 	
 }
