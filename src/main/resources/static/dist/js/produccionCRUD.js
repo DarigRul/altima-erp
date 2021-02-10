@@ -458,7 +458,7 @@ function listarProceso() {
                 		v.idText ,
                 		v.nombreLookup ,
                 		v.descripcionLookup ,
-                		
+                		(rolEditar == 1 ?'<button class="btn btn-secondary btn-circle btn-sm popoverxd" onclick="permisosProcesos('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Permiso"> <i class="fas fa-user-plus"></i> </button>':""),
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v.creadoPor +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v.fechaCreacion+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
     					(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
     					(rolEliminar == 1 ?'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteProceso('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>':"")
@@ -469,7 +469,7 @@ function listarProceso() {
                 		v.idText ,
                 		v.nombreLookup ,
                 		v.descripcionLookup ,
-                		
+                		(rolEditar == 1 ?'<button class="btn btn-secondary btn-circle btn-sm popoverxd" onclick="permisosProcesos('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Permiso"> <i class="fas fa-user-plus"></i> </button>':""),
                 		'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>'+v.creadoPor +' <br /><strong>Fecha de creaci&oacute;n: </strong> '+v.fechaCreacion+' <br><strong>Modificado por: </strong>'+actualizo+'<br><strong>Fecha de modicaci&oacute;n: </strong>'+fecha+'"><i class="fas fa-info"></i></button>'+
                 		(rolEditar == 1 ?'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="'+v.idLookup+'"  nombre="'+v.nombreLookup+'" descripcion="'+v.descripcionLookup+'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>':"")+
     					(rolEliminar == 1 ?'<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveProceso('+v.idLookup+')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>':"")
@@ -1678,3 +1678,152 @@ function editarUbicacion (e){
 	})
 }
 
+function llenarSelectUsuariosProceso(id){
+	$.ajax({
+        method: "GET",
+        url: "/listar_usuarios_disponibles_by_proceso",
+        data: {'idProceso': $('#idLookupProceso').val()},
+        success: (data) => {
+            $("#selectUser").empty();
+            $(data).each(function (i, v) {
+                
+                    $('#selectUser').append('<option  value="' + v[0] + '">' + v[1] + '</option>');
+                
+
+            })
+            $('#selectUser').selectpicker('refresh');
+
+        }, complete: function () {
+			$("#boton-add-proceso-permiso").prop('disabled', false);
+			
+            $('#selectUser').val(id);
+            $('#selectUser').selectpicker('refresh');
+
+        },
+        error: (e) => {
+
+        }
+    })
+}
+
+
+function llenarTablatUsuariosProceso(id){
+	var tabla = $('#tablaProcesosPermisos').DataTable();
+	tabla.rows().remove().draw();
+	$.ajax({
+        method: "GET",
+        url: "/listar_usuarios_asignados_by_proceso",
+        data: {'idProceso': id},
+        success: (data) => {
+        	    
+            $(data).each(function(i, v){ 
+            	
+            		tabla.row.add([	
+                		v[1],
+						'<td><button type="button" onclick="eliminarPermiso('+v[0]+')" class="btn btn-sm icon-btn btn-danger text-white btn_remove"><span class="btn-glyphicon spancircle fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button></td>'
+            
+               		 ]).node().id ="row";
+            	
+            	
+           	tabla.draw( false );
+            	//fila = '<tr> <td>'+v[1]+'</td>  <td >'+ v[2] +'</td> <td >'+ v[3] +'</td> <td >'+ v[4] +'</td>  </tr>' ;
+            	
+            	
+            	
+            })
+            
+
+        },
+        error: (e) => {
+
+        }
+    })
+}
+function permisosProcesos(id){
+	$("#idLookupProceso").val(id);
+	llenarSelectUsuariosProceso(null);
+	llenarTablatUsuariosProceso(id);
+	$("#modalPermisosProcesos").modal("show");
+	
+}
+function agregarProcesoPermiso (){
+
+	if ($("#selectUser").val() == null || $("#selectUser").val() =="" || $("#idLookupProceso").val() ==""){
+		Swal.fire({
+			position: 'center',
+			icon: 'warning',
+			title: 'Complete el formulario!',
+			showConfirmButton: true
+		});
+	}else{
+
+		$("#boton-add-proceso-permiso").prop('disabled', true);
+		$.ajax({
+			method: "GET",
+			url: "/guardar_usuario_proceso",
+			data: {'idProceso':$("#idLookupProceso").val(),  'idUsuario':$("#selectUser").val() },
+			success: (data) => {
+				if (data == true){
+					Swal.fire({
+						position: 'center',
+						icon: 'success',
+						title: 'Insertado correctamente!',
+						showConfirmButton: true
+					});
+					llenarTablatUsuariosProceso($("#idLookupProceso").val());
+					llenarSelectUsuariosProceso($("#idLookupProceso").val());
+				}
+			},
+			error: (e) => {
+	
+			}
+		})
+
+
+	}
+}
+
+function eliminarPermiso(id){
+
+	
+	Swal.fire({
+        title: '¿Deseas eliminar este usuario?',
+        icon: 'question',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Eliminar',
+        confirmButtonColor: '#28A745',
+    }).then((result) => {
+    	if (result.value){
+			$.ajax({
+				method:"GET",
+				url:"/eliminar_usuario_proceso",
+				data:{'idPermiso':id},
+				beforeSend: function () {
+				},
+				success: (data) => {
+					Swal.fire({
+						position: 'center',
+						icon: 'success',
+						title: 'Eliminado correctamente!',
+						showConfirmButton: true
+					});
+					if (data == true){
+						llenarTablatUsuariosProceso($("#idLookupProceso").val());
+						llenarSelectUsuariosProceso($("#idLookupProceso").val());
+					}
+
+				},
+				error: (data) => {
+					
+				}
+			});
+    		
+			
+    	}
+    })
+
+	
+
+}
