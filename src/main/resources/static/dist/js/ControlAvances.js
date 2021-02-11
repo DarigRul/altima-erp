@@ -487,7 +487,7 @@ function seleccionarxUNO(id){
 
 //--------------------------------------------------------------------------///
 function guardarRealizo(){
-	if ( $('#fechaInicioModal').val()== null || $('#fechaFinModal').val()== null || $('#selectQuienRealizo').val()== null  ){
+	if ( $('#fechaInicioModal').val()== '' || $('#fechaFinModal').val()== '' || $('#selectQuienRealizo').val()== '' || $('#fechaInicioModal').val()== null || $('#fechaFinModal').val()== null || $('#selectQuienRealizo').val()== null  ){
 		Swal.fire({
 			position: 'center',
 			icon: 'warning',
