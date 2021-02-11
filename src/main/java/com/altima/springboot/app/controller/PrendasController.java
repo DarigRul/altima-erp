@@ -86,6 +86,7 @@ public class PrendasController {
 		model.addAttribute("generos", disenioLookupService.findByTipoLookup("Familia Genero"));
 		model.addAttribute("marcadores", disenioLookupService.findByTipoLookup("Marcador"));
 		model.addAttribute("imagenesPrenda", disenioImagenPrendaService.findByPrenda(0L));
+		model.addAttribute("view", false);
 		m.put("prenda", prenda);
 		m.put("accion", "agregar");
 		m.put("nombreOriginal", "Nuevo");
@@ -128,6 +129,8 @@ public class PrendasController {
 		model.addAttribute("prenda", prenda);
 		m.put("accion", "editar");
 		m.put("disenio", disenio);
+		model.addAttribute("view", false);
+
 		m.put("nombreOriginal", prenda.getDescripcionPrenda());
 		
 		return "agregar-confirmar-prenda";
@@ -155,6 +158,7 @@ public class PrendasController {
 		model.addAttribute("prenda", prenda);
 		m.put("accion", "copiar");
 		m.put("disenio", disenio);
+		model.addAttribute("view", false);
 		
 		return "agregar-confirmar-prenda";
 	}

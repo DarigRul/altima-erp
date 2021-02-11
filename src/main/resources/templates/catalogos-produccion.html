@@ -41,12 +41,11 @@
                 <div class="container-fluid">
                     <!-- Small boxes (Stat box) -->
                     <div class="row">
-                        <div th:insert="produccion-catalogos-largo" class="col-lg-4 col-6"></div>
-                        <div th:insert="produccion-catalogos-rutas" class="col-lg-4 col-6"></div>
-                        <div th:insert="produccion-catalogos-procesos" class="col-lg-4 col-6"></div>
+                        <div th:insert="produccion-catalogos-procesos" class="col-lg-6 col-6"></div>
+                        <div th:insert="produccion-catalogos-rutas" class="col-lg-6 col-6"></div>
                         <div th:insert="produccion-catalogos-maquileros" class="col-lg-6 col-6"></div>
-                        <div th:insert="produccion-catalogos-entrega" class="col-lg-6 col-6"></div>
-                        <div th:insert="produccion-catalogos-ubicacion" class="col-lg-4 col-6"> </div>
+                        <!-- <div th:insert="produccion-catalogos-entrega" class="col-lg-6 col-6"></div> -->
+                        <div th:insert="produccion-catalogos-ubicacion" class="col-lg-6 col-6"> </div>
                         <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
                     </div>
                     <!-- /.row -->

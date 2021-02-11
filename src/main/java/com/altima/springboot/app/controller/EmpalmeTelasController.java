@@ -22,6 +22,17 @@ public class EmpalmeTelasController {
         System.out.println("x");
         model.addAttribute("view", EmpalmeService.view());
         model.addAttribute("SelectRuta", ProduccionLookup.findAllByType("Ruta"));
+        model.addAttribute("load", "empalme");
+		return "empalme-telas";
+	}
+
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_PROGRAMAR_TELAS"})
+    @GetMapping("/programar-telas")
+	public String programarTela (Model model) {
+        System.out.println("x");
+        model.addAttribute("view", EmpalmeService.view());
+        model.addAttribute("SelectRuta", ProduccionLookup.findAllByType("Ruta"));
+        model.addAttribute("load", "programar");
 		return "empalme-telas";
 	}
     
