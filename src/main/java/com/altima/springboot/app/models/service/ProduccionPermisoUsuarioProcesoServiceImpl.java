@@ -87,7 +87,8 @@ public class ProduccionPermisoUsuarioProcesoServiceImpl implements IProduccionPe
             "SELECT\r\n"+
                 "look.id_lookup,\r\n"+
                 "CONCAT(look.nombre_lookup,' ',look.descripcion_lookup),\r\n"+
-                "look.descripcion_lookup\r\n"+
+                "look.descripcion_lookup,\r\n"+
+                "look.nombre_lookup\r\n"+
             "FROM\r\n"+
                 "alt_produccion_lookup AS look\r\n"+
                 "INNER JOIN alt_produccion_permiso_usuario_proceso AS permiso ON look.id_lookup = permiso.id_proceso\r\n"+
@@ -108,7 +109,8 @@ public class ProduccionPermisoUsuarioProcesoServiceImpl implements IProduccionPe
         "SELECT\r\n"+
             "look.id_lookup,\r\n"+
             "CONCAT(look.nombre_lookup,' ',look.descripcion_lookup),\r\n"+
-            "look.descripcion_lookup\r\n"+
+            "look.descripcion_lookup,\r\n"+
+            "look.nombre_lookup\r\n"+
         "FROM\r\n"+
             "alt_produccion_lookup AS look\r\n"+
         "WHERE\r\n"+
