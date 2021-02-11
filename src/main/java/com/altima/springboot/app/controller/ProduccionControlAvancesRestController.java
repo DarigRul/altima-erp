@@ -46,12 +46,18 @@ public class ProduccionControlAvancesRestController {
 	
 	@RequestMapping(value="/explosionarPrendas", method = RequestMethod.GET)
 	public List<Object[]> explosionarPrendas(@RequestParam(value="idExplosion")Long idExplosion, @RequestParam(value="tipo")String tipo){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		
+
 		
 		List<Object[]> listaPrendasExplosionar = explosionService.prendasExplosionarByProceso(idExplosion);
 		ProduccionExplosionProcesos explosion = explosionService.findOne(idExplosion);
 		if(explosion.getEstatus().equals("0") ) {
-			
+
+			explosion.setFechaInicio(hourdateFormat.format(date));
+			explosion.setQuienRealizo(auth.getName());
 			explosion.setEstatus("1");
 			explosionService.save(explosion);
 			

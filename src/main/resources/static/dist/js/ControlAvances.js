@@ -36,7 +36,7 @@ function listarExplosionPorProceso(){
 			var explosionPrendas = "";
 			for (i in data){
 				
-				if(data[i][11]!=2){
+				if(data[i][11]!=2 && data[i][15]==1 ){
 					finalizarProceso = '<a class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Finalizar proceso" onclick="finalizarProceso('+data[i][0]+')">' +
 					'<i class="fas fa-thumbs-up"></i></a>';
 				}
