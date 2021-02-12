@@ -47,6 +47,15 @@ public class CoordinadoController {
 		return "coordinados";
 	}
 
+	@GetMapping("/coordinados/expediente/{id}")
+	public String listCoordinadosExpediente(@PathVariable(value = "id") Long id, Model model) {
+		model.addAttribute("coordinados", CoordinadoService.findAllEmpresa(id));
+
+		model.addAttribute("id_pedido", id);
+		model.addAttribute("expediente", "true");
+		return "coordinados";
+	}
+
 	@RequestMapping(value = "/mostrar-modelo", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object[]> modelo(Long id) {
@@ -107,10 +116,21 @@ public class CoordinadoController {
 		prenda.setIdCoordinado(id);
 		model.put("prenda", prenda);
 		model.put("listPrendas", CoordinadoService.findAllPrenda());
-
 		model.put("listCoorPrenda", CoordinadoService.findAllCoorPrenda(id));
 		return "agregar-coordinado";
 	}
+
+	@GetMapping("/agregar-coordinado/expediente/{id}")
+	public String addCoordinadosExpediente(@PathVariable(value = "id") Long id, Map<String, Object> model) {
+		ComercialCoordinadoPrenda prenda = new ComercialCoordinadoPrenda();
+		prenda.setIdCoordinado(id);
+		model.put("prenda", prenda);
+		model.put("listPrendas", CoordinadoService.findAllPrenda());
+		model.put("expediente", "true");
+		model.put("listCoorPrenda", CoordinadoService.findAllCoorPrenda(id));
+		return "agregar-coordinado";
+	}
+	
 
 	@GetMapping("/guardar-coordinado/{id}")
 	public String editar(@PathVariable(value = "id") Long id, ComercialCoordinado coor,

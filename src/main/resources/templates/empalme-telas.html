@@ -56,22 +56,22 @@
                                             type="button"><span
                                                 class="btn-glyphicon fas fa-plus img-circle text-success"></span>Secuencia
                                         </button>
-                                        <div th:if="${load}=='programar'">
-                                            <button
+                                        
+                                            <button th:if="${load}=='programar'"
                                                 sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_RUTA','ROLE_ADMINISTRADOR')"
                                                 onclick="nuevaRuta()"
                                                 class="btn btn-sm icon-btn btn-danger text-white mr-auto"
                                                 type="button"><span
                                                     class="btn-glyphicon fas fa-plus img-circle text-danger"></span>Ruta
                                             </button>
-                                            <button
+                                            <button th:if="${load}=='programar'"
                                                 sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_PROGRAMA','ROLE_ADMINISTRADOR')"
                                                 onclick="nuevoPrograma()"
                                                 class="btn btn-sm icon-btn btn-secondary text-white mr-auto"
                                                 type="button"><span
                                                     class="btn-glyphicon fas fa-plus img-circle text-secondary"></span>Programa
                                             </button>
-                                        </div>
+                                        
                                     </h3>
                                 </div>
                                 <div class="card-body">

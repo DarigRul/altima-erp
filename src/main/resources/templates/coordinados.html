@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-<title id="pageTitle">Carga de pedidos | Altima</title>
+    <title id="pageTitle">Carga de pedidos | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
@@ -23,8 +23,14 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Coordinados&nbsp;<a th:href="@{/guardar-coordinado/}+${id_pedido}"  id="nuevo" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar coordinado</a>
-                            &nbsp;<a th:href="@{/carga-de-pedidos}" class="btn btn-sm icon-btn btn-danger text-white"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a></h1>
+                            <h1>Coordinados&nbsp;<a th:href="@{/guardar-coordinado/}+${id_pedido}" id="nuevo" th:if="${expediente==null}"
+                                    class="btn btn-sm icon-btn btn-altima text-white"><span
+                                        class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar
+                                    coordinado</a>
+                                &nbsp;<a th:href="${expediente!=null?'/expediente':'/carga-de-pedidos'}"
+                                    class="btn btn-sm icon-btn btn-danger text-white"><span
+                                        class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                            </h1>
                         </div>
                         <div th:insert="modal-coordinado"></div>
                         <div class="col-sm-6">
@@ -63,14 +69,24 @@
                                             <tr th:each="coordinados: ${coordinados}">
                                                 <td th:text="${coordinados[1]}"></td>
                                                 <td th:text="${coordinados[2]}"></td>
-                                                 <td class="text-center">
-                                                 	<a th:href="@{/agregar-coordinado/}+ ${coordinados[0]}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>&nbsp;
-                                                	<a th:href="@{/agregar-coordinado/}+ ${coordinados[0]}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
-                                                	
-                                                	
-                                                	<a  id="delete" th:href="@{/eliminar-coordinado/}+ ${coordinados[0]}" class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
-                                                         data-container="body" data-toggle="popover" data-placement="top"
-                                                          data-content="Eliminar">  <i class="fas fa-caret-down"></i> </a>
+                                                <td class="text-center">
+                                                    <a th:href="@{/agregar-coordinado/expediente/}+ ${coordinados[0]}"
+                                                        class="btn btn-info btn-circle btn-sm popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Ver detalles"><i
+                                                            class="fas fa-info"></i></a>&nbsp;
+                                                    
+                                                    <a th:href="@{/agregar-coordinado/}+ ${coordinados[0]}" th:if="${expediente==null}"
+                                                        class="expediente btn btn-warning btn-circle btn-sm popoverxd "
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Editar"><i class="fas fa-pen"></i></a>
+
+
+                                                    <a id="delete" th:href="@{/eliminar-coordinado/}+ ${coordinados[0]}" th:if="${expediente==null}"
+                                                        class="expediente btn btn-danger btn-circle btn-sm btn-delete popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Eliminar"> <i class="fas fa-caret-down"></i> </a>
+                                                   
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -95,42 +111,43 @@
     <script src="dist/js/tablaPrenda.js"></script>
     <!-- SweetAlert -->
     <script src="dist/js/sweetalert.js"></script>
-   	<script>
-		$('#iComercial').removeClass('text-altima');
-		$('#menuComercial').addClass('menu-open');
-		$('#navComercial').addClass('active-altima');
-		$('#menuVenta').addClass('menu-open');
-		$('#navVenta').addClass('active');
-		$('#navVenta4').addClass('active');
-		$('#menuCarga').addClass('menu-open');
-		$('#navsubVenta2').addClass('active');
-	</script>
-	
-	<script>
-		$('#nuevo').on('click', function (e) {
-		    e.preventDefault();
-		    var href =$(this).attr('href');
-		    $('#nuevoCoordinado #btnYes').attr('href',href);
-		    $('#nuevoCoordinado').modal();
-		});
-		
-		$('#delete').on('click', function (e) {
-		    e.preventDefault();
-		    var href =$(this).attr('href');
-		    $('#deleteCoordinado #deleteYes').attr('href',href);
-		    $('#deleteCoordinado').modal();
-		});
-		</script>
-		
-		<script th:if="${icon != null}" th:inline="javascript">
-		Swal.fire({
-	    	  position: 'center',
-	          icon: /*[[${icon}]]*/,
-	          title: /*[[${title}]]*/,
-	          showConfirmButton: false,
-	          timer: 1250
-	    });
-	</script>
+    <script>
+        $('#iComercial').removeClass('text-altima');
+        $('#menuComercial').addClass('menu-open');
+        $('#navComercial').addClass('active-altima');
+        $('#menuVenta').addClass('menu-open');
+        $('#navVenta').addClass('active');
+        $('#navVenta4').addClass('active');
+        $('#menuCarga').addClass('menu-open');
+        $('#navsubVenta2').addClass('active');
+    </script>
+
+    <script>
+        $('#nuevo').on('click', function (e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
+            $('#nuevoCoordinado #btnYes').attr('href', href);
+            $('#nuevoCoordinado').modal();
+        });
+
+        $('#delete').on('click', function (e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
+            $('#deleteCoordinado #deleteYes').attr('href', href);
+            $('#deleteCoordinado').modal();
+        });
+    </script>
+
+    <script th:if="${icon != null}" th:inline="javascript">
+        Swal.fire({
+            position: 'center',
+            icon: /*[[${icon}]]*/,
+            title: /*[[${title}]]*/,
+            showConfirmButton: false,
+            timer: 1250
+        });
+    </script>
+
 </body>
 
 </html>

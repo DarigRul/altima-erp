@@ -225,4 +225,21 @@ public class ExpedienteController {
 		cargaPedidoService.save(pedido);
 		return "redirect:/expediente";
 	}
+
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_ELIMINAR"})
+	@GetMapping("/patch-expediente-abrir/{id}")
+	public String patchExpedienteAbrir(@PathVariable Long id) {
+		Date date = new Date();
+
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+
+        String sDate = hourdateFormat.format(date);
+		ComercialPedidoInformacion pedido= cargaPedidoService.findOne(id);
+		pedido.setEstatus("2");
+		pedido.setFechaCierre(sDate);
+		cargaPedidoService.save(pedido);
+		return "redirect:/expediente";
+	}
 }

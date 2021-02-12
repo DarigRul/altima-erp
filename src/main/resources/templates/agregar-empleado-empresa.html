@@ -28,9 +28,9 @@
 					<div class="row mb-2">
 						<div class="col-sm-6">
 							<h1>
-								Empleados de clientes&nbsp;<a th:href="@{/carga-de-pedidos}" class="btn btn-sm icon-btn btn-danger text-white"><span
+								Empleados de clientes&nbsp;<a th:href="${expediente!=null?'/expediente':'/carga-de-pedidos'}" class="btn btn-sm icon-btn btn-danger text-white"><span
 										class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Regresar</a>&nbsp;
-								<a data-toggle="modal" data-target="#addEmpleados" class="btn btn-sm icon-btn btn-altima text-white"><span
+								<a data-toggle="modal" th:if="${expediente==null}" data-target="#addEmpleados" class="btn btn-sm icon-btn btn-altima text-white"><span
 									class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar empleados</a>
 							</h1>
 						</div>
@@ -54,11 +54,14 @@
 							<!-- Default box -->
 							<div class="card">
 								<div class="card-header bg-altima">
-									<h3 class="card-title">
+									<h3 class="card-title" th:if="${expediente==null}">
 										&nbsp;
-										<button class="btn btn-sm icon-btn btn-danger text-white mr-auto" data-toggle="modal" data-target="#eliminarEmpleados" type="button"><span class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
+										<button  class="btn btn-sm icon-btn btn-danger text-white mr-auto" data-toggle="modal" data-target="#eliminarEmpleados" type="button"><span class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Eliminar</button>
 										&nbsp;
 										<button onclick="seleccionados()" class="btn btn-sm icon-btn btn-warning mr-auto" data-toggle="modal" data-target="#editarEmpleados" type="button"><span class="btn-glyphicon fas fa-pen img-circle text-dark"></span>Cambiar</button>
+									</h3>
+									<h3 class="card-title" th:if="${expediente!=null}">
+										Empleados
 									</h3>
 								</div>
 								<div th:insert="modal-empleados"></div>
@@ -71,7 +74,7 @@
 												style="width: 100%;">
 												<thead>
 													<tr>
-														<th class="text-center"><input type="checkbox" id="checkBoxAll"
+														<th th:if="${expediente==null}" class="text-center"><input type="checkbox" id="checkBoxAll"
 																th:value="0"
 																th:disabled="${isPreviewView}" />&nbsp;Seleccionar todo
 														</th>
@@ -79,14 +82,14 @@
 														<th>Nombre del empleado</th>
 														<th>Sucursal</th>
 														<th>Raz&oacute;n social</th>
-														<th>Editar</th>
-														<th>Eliminar</th>
+														<th th:if="${expediente==null}">Editar</th>
+														<th th:if="${expediente==null}">Eliminar</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr th:each="data, iterstat: ${empleadosEmpresa}">
 
-														<td class="text-center"><input type="checkbox"
+														<td th:if="${expediente==null}" class="text-center"><input type="checkbox"
 																th:disabled="${isPreviewView}" class="chkCheckBoxId"
 																th:value="${data.idEmpleado}"
 																name="getdeletenombre_empleado" /></td>
@@ -114,16 +117,16 @@
 																	th:selected="${data.idClienteFactura == getlistfactura.idClienteFacturaF}">
 																</option>
 															</select></td>
-														<td style="width: 5%" class="text-center">
-															<button th:id="'miboton' + ${data.idEmpleado}"
+														<td th:if="${expediente==null}" style="width: 5%" class="text-center">
+															<button  th:id="'miboton' + ${data.idEmpleado}"
 																class="btn btn-primary" th:disabled="${isPreviewView}"
 																th:value="${data.nombre_empleado}"
 																th:onclick="'javascript:editarempleado(\'' +  ${data.idEmpleado} + '\');'"
 																data-toggle="modal" type="submit" form="form1"
 																data-target="#editarnombreempleado">Editar</button>
 														</td>
-														<td style="width: 5%" class="text-center">
-															<button class="btn btn-danger" th:value="${data.idEmpleado}"
+														<td th:if="${expediente==null}" style="width: 5%" class="text-center">
+															<button  class="btn btn-danger" th:value="${data.idEmpleado}"
 																name="getdeletenombre_empleado"
 																th:disabled="${isPreviewView}"
 																onClick="elimiarEmpleado()">Eliminar</button>

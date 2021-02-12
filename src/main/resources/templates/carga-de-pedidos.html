@@ -23,9 +23,10 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>
-                                Carga de pedidos&nbsp;<a data-toggle="modal" data-target="#nuevaCarga" class="btn btn-sm icon-btn btn-altima text-white"><span
-                              class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nueva
-                           carga de pedidos</a>
+                                Carga de pedidos&nbsp;<a data-toggle="modal" data-target="#nuevaCarga"
+                                    class="btn btn-sm icon-btn btn-altima text-white"><span
+                                        class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nueva
+                                    carga de pedidos</a>
                             </h1>
                         </div>
                         <div th:insert="modal-carga-pedido"></div>
@@ -74,162 +75,295 @@
                                                 <td th:if="${pedidos[6]!=0}"> Monto Existente</td>
 
                                                 <td class="text-center">
-                                                    <div th:if="${pedidos[8]} != null and  ${pedidos[7]} == '1' and  ${pedidos[9]} == 1 or ${pedidos[9]} == 4" class="btn-group" role="group" aria-label="Basic example">
-                                                        <a data-toggle="modal" th:attr="data-target='#observacion'+${pedidos[0]}" class="btn btn-danger popoverxd text-white" data-container="body" data-placement="top" data-content="Ver observaciones"><i
-                                                class="fas fa-eye fa-sm"></i></a>
-                                                        <div class="modal fade" th:id="'observacion'+${pedidos[0]}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div th:if="${pedidos[8]} != null and  ${pedidos[7]} == '1' and  ${pedidos[9]} == 1 or ${pedidos[9]} == 4"
+                                                        class="btn-group" role="group" aria-label="Basic example">
+                                                        <a data-toggle="modal"
+                                                            th:attr="data-target='#observacion'+${pedidos[0]}"
+                                                            class="btn btn-danger popoverxd text-white"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Ver observaciones"><i
+                                                                class="fas fa-eye fa-sm"></i></a>
+                                                        <div class="modal fade" th:id="'observacion'+${pedidos[0]}"
+                                                            tabindex="-1" role="dialog"
+                                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered modal-lg"
+                                                                role="document">
                                                                 <div class="modal-content modal-rounded-body">
-                                                                    <div class="modal-header bg-altima modal-rounded-header">
-                                                                        <h5 class="modal-title" id="exampleModalLabel">Observaciones</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                         <span aria-hidden="true">&times;</span>
-                                                      </button>
+                                                                    <div
+                                                                        class="modal-header bg-altima modal-rounded-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                                            Observaciones</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
                                                                     </div>
                                                                     <div class="modal-body col-md">
-                                                                        <form class="row" th:method="post" th:action="@{/observaciones}">
+                                                                        <form class="row" th:method="post"
+                                                                            th:action="@{/observaciones}">
                                                                             <div class="form-group col-md-12">
-                                                                                <input type="hidden" th:name="idpedido" th:value="${pedidos[0]}"> <label for="cargaEmpresa">Observaciones</label>
-                                                                                <textarea th:name="observacion" th:text="${pedidos[5]}" class="form-control" id="message-text"></textarea>
+                                                                                <input type="hidden" th:name="idpedido"
+                                                                                    th:value="${pedidos[0]}"> <label
+                                                                                    for="cargaEmpresa">Observaciones</label>
+                                                                                <textarea th:name="observacion"
+                                                                                    th:text="${pedidos[5]}"
+                                                                                    class="form-control"
+                                                                                    id="message-text"></textarea>
                                                                             </div>
                                                                             <div class="form-group col-sm-12">
-                                                                                <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span
-                                                                  class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
-                                                                                <button type="submit" class="btn icon-btn btn-altima text-white float-right">
-                                                               <span
-                                                                  class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar
-                                                            </button>
+                                                                                <a data-dismiss="modal"
+                                                                                    class="btn icon-btn btn-danger text-white mr-auto"><span
+                                                                                        class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                                                                                <button type="submit"
+                                                                                    class="btn icon-btn btn-altima text-white float-right">
+                                                                                    <span
+                                                                                        class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar
+                                                                                </button>
                                                                             </div>
                                                                         </form>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <a th:href="@{/informacion-general/}+ ${pedidos[0]}" class="btn btn-info popoverxd" data-container="body" data-placement="top" data-content="Informaci&oacute;n general"><i
-                                                class="fas fa-file-alt"></i></a> <a th:href="@{/coordinados/}+${pedidos[0]}" class="btn btn-primary popoverxd text-white" data-container="body" data-placement="top"
+                                                        <a th:href="@{/informacion-general/}+ ${pedidos[0]}"
+                                                            class="btn btn-info popoverxd" data-container="body"
+                                                            data-placement="top"
+                                                            data-content="Informaci&oacute;n general"><i
+                                                                class="fas fa-file-alt"></i></a> <a
+                                                            th:href="@{/coordinados/}+${pedidos[0]}"
+                                                            class="btn btn-primary popoverxd text-white"
+                                                            data-container="body" data-placement="top"
                                                             data-content="Coordinados"><i
-                                                class="fas fa-question"></i></a>
-                                                        <a th:href="@{/detalle-de-precios/}+${pedidos[0]}" class="btn btn-success popoverxd" data-container="body" data-placement="top" data-content="Detalle de precios"><i
-                                                class="fas fa-file-invoice-dollar"></i></a> <a th:href="@{'/agregar-empleado-empresa/'+${pedidos[0]}+'/'+${pedidos[4]}}" class="btn btn-danger popoverxd"
-                                                            data-container="body" data-placement="top" data-content="Empleados"><i class="fas fa-user"></i></a> <a th:href="@{/concentrado-de-prendas/} + ${pedidos[0]}" class="btn btn-success popoverxd" data-container="body"
-                                                            data-placement="top" data-content="Concentrado de prendas"><i
-                                                class="fas fa-tshirt fa-sm" style="margin-left: -2px"></i></a>
+                                                                class="fas fa-question"></i></a>
+                                                        <a th:href="@{/detalle-de-precios/}+${pedidos[0]}"
+                                                            class="btn btn-success popoverxd" data-container="body"
+                                                            data-placement="top" data-content="Detalle de precios"><i
+                                                                class="fas fa-file-invoice-dollar"></i></a> <a
+                                                            th:href="@{'/agregar-empleado-empresa/'+${pedidos[0]}+'/'+${pedidos[4]}}"
+                                                            class="btn btn-danger popoverxd" data-container="body"
+                                                            data-placement="top" data-content="Empleados"><i
+                                                                class="fas fa-user"></i></a> <a
+                                                            th:href="@{/concentrado-de-prendas/} + ${pedidos[0]}"
+                                                            class="btn btn-success popoverxd" data-container="body"
+                                                            data-placement="top"
+                                                            data-content="Concentrado de prendas"><i
+                                                                class="fas fa-tshirt fa-sm"
+                                                                style="margin-left: -2px"></i></a>
 
 
 
-                                                        <a th:if="${pedidos[10] == null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+0" class="btn btn-warning popoverxd" data-container="body" data-placement="top" data-content="Concentrado por tallas"><i
-                                                class="fas fa-ruler-combined"></i></a>
+                                                        <a th:if="${pedidos[10] == null}"
+                                                            th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+0"
+                                                            class="btn btn-warning popoverxd" data-container="body"
+                                                            data-placement="top"
+                                                            data-content="Concentrado por tallas"><i
+                                                                class="fas fa-ruler-combined"></i></a>
 
-                                                        <a th:if="${pedidos[10] != null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+${pedidos[10]}" class="btn btn-warning popoverxd" data-container="body" data-placement="top" data-content="Concentrado por tallas"><i
-                                                class="fas fa-ruler-combined"></i></a>
+                                                        <a th:if="${pedidos[10] != null}"
+                                                            th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+${pedidos[10]}"
+                                                            class="btn btn-warning popoverxd" data-container="body"
+                                                            data-placement="top"
+                                                            data-content="Concentrado por tallas"><i
+                                                                class="fas fa-ruler-combined"></i></a>
 
 
 
-                                                        <a th:href="@{/totales-por-razon-social/}+${pedidos[0]}" class="btn btn-danger popoverxd" data-container="body" data-placement="top" data-content="Totales por raz&oacute;n social"><i
-                                                class="fas fa-user"></i></a>
+                                                        <a th:href="@{/totales-por-razon-social/}+${pedidos[0]}"
+                                                            class="btn btn-danger popoverxd" data-container="body"
+                                                            data-placement="top"
+                                                            data-content="Totales por raz&oacute;n social"><i
+                                                                class="fas fa-user"></i></a>
 
 
-                                                        <a th:onclick="|cerrar('${pedidos[0]}')|" class="btn btn-danger text-white popoverxd" data-container="body" data-placement="top" data-content="Cerrar expediente"><i
-                                                class="fas fa-file-download"></i></a>
-														<a th:onclick="'anadirExtras('+${pedidos[0]}+')'" class="btn btn-secondary text-white popoverxd" data-container="body" data-placement="top" data-content="Extras"><i
-                                                class="fas fa-ellipsis-v"></i></a>
-                                                        <a th:if="${pedidos[11]==0}" class="btn btn-warning popoverxd" data-container="body" th:href="@{/patchPedidoValidacionFalda/true/}+ ${pedidos[0]}" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_AGENTES_CARGA_VALIDACION_FALDA')" data-placement="top"
+                                                        <a th:onclick="|cerrar('${pedidos[0]}')|"
+                                                            class="btn btn-danger text-white popoverxd"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Cerrar expediente"><i
+                                                                class="fas fa-file-download"></i></a>
+                                                        <a th:onclick="'anadirExtras('+${pedidos[0]}+')'"
+                                                            class="btn btn-secondary text-white popoverxd"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Extras"><i class="fas fa-ellipsis-v"></i></a>
+                                                        <a th:if="${pedidos[11]==0}" class="btn btn-warning popoverxd"
+                                                            data-container="body"
+                                                            th:href="@{/patchPedidoValidacionFalda/true/}+ ${pedidos[0]}"
+                                                            sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_AGENTES_CARGA_VALIDACION_FALDA')"
+                                                            data-placement="top"
                                                             data-content="Desbloquear Validacion"><i
-                                                class="fas fa-cogs"></i></a>
-                                                        <a th:if="${pedidos[11]==1}" class="btn btn-danger popoverxd" data-container="body" th:href="@{/patchPedidoValidacionFalda/false/}+ ${pedidos[0]}" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_AGENTES_CARGA_VALIDACION_FALDA')" data-placement="top"
+                                                                class="fas fa-cogs"></i></a>
+                                                        <a th:if="${pedidos[11]==1}" class="btn btn-danger popoverxd"
+                                                            data-container="body"
+                                                            th:href="@{/patchPedidoValidacionFalda/false/}+ ${pedidos[0]}"
+                                                            sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_AGENTES_CARGA_VALIDACION_FALDA')"
+                                                            data-placement="top"
                                                             data-content="Desbloquear Validacion"><i
-                                                class="fas fa-cogs"></i></a>
+                                                                class="fas fa-cogs"></i></a>
                                                     </div>
 
 
 
-                                                    <div th:if="${pedidos[8]} == null and  ${pedidos[7]} =='1' and  ${pedidos[9]} == 1" class="btn-group" role="group" aria-label="Basic example">
-                                                        <a data-toggle="modal" th:attr="data-target='#observacion'+${pedidos[0]}" class="btn btn-danger popoverxd text-white" data-container="body" data-placement="top" data-content="Ver observaciones"><i
-                                                class="fas fa-eye fa-sm"></i></a>
-                                                        <div class="modal fade" th:id="'observacion'+${pedidos[0]}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div th:if="${pedidos[8]} == null and  ${pedidos[7]} =='1' and  ${pedidos[9]} == 1"
+                                                        class="btn-group" role="group" aria-label="Basic example">
+                                                        <a data-toggle="modal"
+                                                            th:attr="data-target='#observacion'+${pedidos[0]}"
+                                                            class="btn btn-danger popoverxd text-white"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Ver observaciones"><i
+                                                                class="fas fa-eye fa-sm"></i></a>
+                                                        <div class="modal fade" th:id="'observacion'+${pedidos[0]}"
+                                                            tabindex="-1" role="dialog"
+                                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered modal-lg"
+                                                                role="document">
                                                                 <div class="modal-content modal-rounded-body">
-                                                                    <div class="modal-header bg-altima modal-rounded-header">
-                                                                        <h5 class="modal-title" id="exampleModalLabel">Observaciones</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                         <span aria-hidden="true">&times;</span>
-                                                      </button>
+                                                                    <div
+                                                                        class="modal-header bg-altima modal-rounded-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                                            Observaciones</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
                                                                     </div>
                                                                     <div class="modal-body col-md">
-                                                                        <form class="row" th:method="post" th:action="@{/observaciones}">
+                                                                        <form class="row" th:method="post"
+                                                                            th:action="@{/observaciones}">
                                                                             <div class="form-group col-md-12">
-                                                                                <input type="hidden" th:name="idpedido" th:value="${pedidos[0]}"> <label for="cargaEmpresa">Observaciones</label>
-                                                                                <textarea th:name="observacion" th:text="${pedidos[5]}" class="form-control" id="message-text"></textarea>
+                                                                                <input type="hidden" th:name="idpedido"
+                                                                                    th:value="${pedidos[0]}"> <label
+                                                                                    for="cargaEmpresa">Observaciones</label>
+                                                                                <textarea th:name="observacion"
+                                                                                    th:text="${pedidos[5]}"
+                                                                                    class="form-control"
+                                                                                    id="message-text"></textarea>
                                                                             </div>
                                                                             <div class="form-group col-sm-12">
-                                                                                <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto"><span
-                                                                  class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
-                                                                                <button type="submit" class="btn icon-btn btn-altima text-white float-right">
-                                                               <span
-                                                                  class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar
-                                                            </button>
+                                                                                <a data-dismiss="modal"
+                                                                                    class="btn icon-btn btn-danger text-white mr-auto"><span
+                                                                                        class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a>
+                                                                                <button type="submit"
+                                                                                    class="btn icon-btn btn-altima text-white float-right">
+                                                                                    <span
+                                                                                        class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar
+                                                                                </button>
                                                                             </div>
                                                                         </form>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <a th:href="@{/informacion-general/}+ ${pedidos[0]}" class="btn btn-info popoverxd" data-container="body" data-placement="top" data-content="Informaci&oacute;n general"><i
-                                                class="fas fa-file-alt"></i></a>
-                                                        <a href="#" class="btn btn-primary popoverxd" data-container="body" data-placement="top" data-content="Coordinados"><i class="fas fa-question"></i></a> <a href="#" class="btn btn-success popoverxd"
-                                                            data-container="body" data-placement="top" data-content="Detalle de precios"><i
-                                                class="fas fa-file-invoice-dollar"></i></a> <a href="#" class="btn btn-danger popoverxd" data-container="body" data-placement="top" data-content="Empleados"><i class="fas fa-user"></i></a> <a href="#" class="btn btn-success popoverxd"
-                                                            data-container="body" data-placement="top" data-content="Concentrado de prendas"><i
-                                                class="fas fa-tshirt fa-sm" style="margin-left: -2px"></i></a>
-                                                        <a href="#" class="btn btn-warning popoverxd" data-container="body" data-placement="top" data-content="Concentrado por tallas"><i
-                                                class="fas fa-ruler-combined"></i></a>
+                                                        <a th:href="@{/informacion-general/}+ ${pedidos[0]}"
+                                                            class="btn btn-info popoverxd" data-container="body"
+                                                            data-placement="top"
+                                                            data-content="Informaci&oacute;n general"><i
+                                                                class="fas fa-file-alt"></i></a>
+                                                        <a href="#" class="btn btn-primary popoverxd"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Coordinados"><i
+                                                                class="fas fa-question"></i></a> <a href="#"
+                                                            class="btn btn-success popoverxd" data-container="body"
+                                                            data-placement="top" data-content="Detalle de precios"><i
+                                                                class="fas fa-file-invoice-dollar"></i></a> <a href="#"
+                                                            class="btn btn-danger popoverxd" data-container="body"
+                                                            data-placement="top" data-content="Empleados"><i
+                                                                class="fas fa-user"></i></a> <a href="#"
+                                                            class="btn btn-success popoverxd" data-container="body"
+                                                            data-placement="top"
+                                                            data-content="Concentrado de prendas"><i
+                                                                class="fas fa-tshirt fa-sm"
+                                                                style="margin-left: -2px"></i></a>
+                                                        <a href="#" class="btn btn-warning popoverxd"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Concentrado por tallas"><i
+                                                                class="fas fa-ruler-combined"></i></a>
 
-                                                        <a href="#" class="btn btn-danger popoverxd" data-container="body" data-placement="top" data-content="Totales por raz&oacute;n social"><i
-                                                class="fas fa-user"></i></a>
+                                                        <a href="#" class="btn btn-danger popoverxd"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Totales por raz&oacute;n social"><i
+                                                                class="fas fa-user"></i></a>
 
-                                                        <a th:onclick="|cerrar('${pedidos[0]}')|" class="btn btn-danger text-white popoverxd" data-container="body" data-placement="top" data-content="Cerrar expediente"><i
-                                                class="fas fa-file-download"></i></a>
+                                                        <a th:onclick="|cerrar('${pedidos[0]}')|"
+                                                            class="btn btn-danger text-white popoverxd"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Cerrar expediente"><i
+                                                                class="fas fa-file-download"></i></a>
 
-                                                        <a th:if="${pedidos[11]==0}" class="btn btn-warning popoverxd" data-container="body" th:href="@{/patchPedidoValidacionFalda/true/}+ ${pedidos[0]}" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_AGENTES_CARGA_VALIDACION_FALDA')" data-placement="top"
+                                                        <a th:if="${pedidos[11]==0}" class="btn btn-warning popoverxd"
+                                                            data-container="body"
+                                                            th:href="@{/patchPedidoValidacionFalda/true/}+ ${pedidos[0]}"
+                                                            sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_AGENTES_CARGA_VALIDACION_FALDA')"
+                                                            data-placement="top"
                                                             data-content="Desbloquear Validacion"><i
-                                                   class="fas fa-cogs"></i></a>
-                                                        <a th:if="${pedidos[11]==1}" class="btn btn-danger popoverxd" data-container="body" th:href="@{/patchPedidoValidacionFalda/false/}+ ${pedidos[0]}" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_AGENTES_CARGA_VALIDACION_FALDA')" data-placement="top"
+                                                                class="fas fa-cogs"></i></a>
+                                                        <a th:if="${pedidos[11]==1}" class="btn btn-danger popoverxd"
+                                                            data-container="body"
+                                                            th:href="@{/patchPedidoValidacionFalda/false/}+ ${pedidos[0]}"
+                                                            sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_COMERCIAL_AGENTES_CARGA_VALIDACION_FALDA')"
+                                                            data-placement="top"
                                                             data-content="Desbloquear Validacion"><i
-                                                   class="fas fa-cogs"></i></a>
+                                                                class="fas fa-cogs"></i></a>
                                                     </div>
 
 
 
-                                                    <div th:if="${pedidos[9]} == 2 and  ${pedidos[7]} == '1'" class="btn-group" role="group" aria-label="Basic example">
-                                                        <a data-toggle="modal" class="btn btn-danger popoverxd text-white" data-container="body" data-placement="top" data-content="Ver observaciones"><i class="fas fa-eye fa-sm"></i></a>
-                                                        <a th:href="@{/empleados-spf/}+${pedidos[0]}" class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Empleados SPF"><i
-                                                class="fas fa-user"></i></a>
+                                                    <div th:if="${pedidos[9]} == 2 and  ${pedidos[7]} == '1'"
+                                                        class="btn-group" role="group" aria-label="Basic example">
+                                                        <a data-toggle="modal"
+                                                            class="btn btn-danger popoverxd text-white"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Ver observaciones"><i
+                                                                class="fas fa-eye fa-sm"></i></a>
+                                                        <a th:href="@{/empleados-spf/}+${pedidos[0]}"
+                                                            class="btn btn-altima popoverxd" data-container="body"
+                                                            data-placement="top" data-content="Empleados SPF"><i
+                                                                class="fas fa-user"></i></a>
 
-                                                        <a th:href="@{/agregar-falda-spf/}+${pedidos[0]}" class="btn btn-success popoverxd" data-container="body" data-placement="top" data-content="Agregar falda"><i
-                                                class="fas fa-plus"></i></a>
+                                                        <a th:href="@{/agregar-falda-spf/}+${pedidos[0]}"
+                                                            class="btn btn-success popoverxd" data-container="body"
+                                                            data-placement="top" data-content="Agregar falda"><i
+                                                                class="fas fa-plus"></i></a>
 
-                                                        <a th:href="@{/empleados-spf-cambio-modelo/}+${pedidos[0]}" class="btn btn-gray popoverxd" data-container="body" data-placement="top" data-content="Cambio-Falda"><i class="fas fa-exchange-alt"></i></a>
+                                                        <a th:href="@{/empleados-spf-cambio-modelo/}+${pedidos[0]}"
+                                                            class="btn btn-gray popoverxd" data-container="body"
+                                                            data-placement="top" data-content="Cambio-Falda"><i
+                                                                class="fas fa-exchange-alt"></i></a>
 
 
-                                                        <a th:if="${pedidos[10] == null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+0" class="btn btn-warning popoverxd" data-container="body" data-placement="top" data-content="Concentrado por tallas"><i
-                                                class="fas fa-ruler-combined"></i></a>
+                                                        <a th:if="${pedidos[10] == null}"
+                                                            th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+0"
+                                                            class="btn btn-warning popoverxd" data-container="body"
+                                                            data-placement="top"
+                                                            data-content="Concentrado por tallas"><i
+                                                                class="fas fa-ruler-combined"></i></a>
 
-                                                        <a th:if="${pedidos[10] != null}" th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+${pedidos[10]}" class="btn btn-warning popoverxd" data-container="body" data-placement="top" data-content="Concentrado por tallas"><i
-                                                class="fas fa-ruler-combined"></i></a>
+                                                        <a th:if="${pedidos[10] != null}"
+                                                            th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+${pedidos[10]}"
+                                                            class="btn btn-warning popoverxd" data-container="body"
+                                                            data-placement="top"
+                                                            data-content="Concentrado por tallas"><i
+                                                                class="fas fa-ruler-combined"></i></a>
 
-                                                        <a th:onclick="|cerrarStock('${pedidos[0]}')|" class="btn btn-danger text-white popoverxd" data-container="body" data-placement="top" data-content="Cerrar expediente"><i
-                                                class="fas fa-file-download"></i></a>
-                                                
+                                                        <a th:onclick="|cerrarStock('${pedidos[0]}')|"
+                                                            class="btn btn-danger text-white popoverxd"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Cerrar expediente"><i
+                                                                class="fas fa-file-download"></i></a>
+
                                                     </div>
 
 
-                                                    <div th:if="${admin} == null and  ${pedidos[7]} =='2'" class="btn-group" role="group" aria-label="Basic example">
+                                                    <div th:if="${admin} == null and  ${pedidos[7]} =='2'"
+                                                        class="btn-group" role="group" aria-label="Basic example">
                                                         <p>Pedido cerrado</p>
                                                     </div>
 
-                                                    <div th:if="${admin} == true and   ${pedidos[7]} =='2'" class="btn-group" role="group" aria-label="Basic example">
-                                                        <a th:onclick="|abrir('${pedidos[0]}')|" class="btn btn-success text-white popoverxd" data-container="body" data-placement="top" data-content="Abrir expediente"><i
-                                                class="fas fa-file-upload"></i></a>
+                                                    <div th:if="${admin} == true and   ${pedidos[7]} =='2'"
+                                                        class="btn-group" role="group" aria-label="Basic example">
+                                                        <a th:onclick="|abrir('${pedidos[0]}')|"
+                                                            class="btn btn-success text-white popoverxd"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Abrir expediente"><i
+                                                                class="fas fa-file-upload"></i></a>
 
                                                     </div>
                                                 </td>

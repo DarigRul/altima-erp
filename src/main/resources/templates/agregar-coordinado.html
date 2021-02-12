@@ -49,7 +49,7 @@
                               <h3 id="h3Title" class="card-title">Agregar prendas</h3>
                            </div>
                            <div class="card-body">
-                              <form>
+                              <form th:if="${expediente}==null">
                                  <div class="row">
                                     <div class="form-group col-md-6">
                                        <label for="coorPrenda">Famila Prenda</label> 
@@ -164,7 +164,7 @@
                                              data-container="body" data-toggle="popover"
                                              data-placement="top" data-content="Ver detalles">
                                              <i class="fas fa-info"></i>
-                                             </a> &nbsp; <a th:if="${listCoorPrenda[4]  == '1'}"
+                                             </a> &nbsp; <a th:if="${listCoorPrenda[4]  == '1'} and ${expediente==null}" 
                                                 th:href="@{/delete-modelo/}+ ${listCoorPrenda[0]}"
                                                 class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
                                                 data-container="body" data-toggle="popover"

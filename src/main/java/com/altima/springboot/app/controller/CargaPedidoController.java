@@ -335,6 +335,19 @@ public class CargaPedidoController {
 		return "informacion-general";
 	}
 
+	@GetMapping("/informacion-general/expediente/{id}")
+	public String listGeneralExpediente(@PathVariable(value = "id") Long id, Map<String, Object> model, Model m) {
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+		AdminConfiguracionPedido config = cargaPedidoService.findOneConfig(pedido.getTipoPedido());
+		m.addAttribute("expediente", "true");
+		if (config.getAnticipoTrueFalse().equals("Si")) {
+			model.put("anticipo", true);
+		}
+		m.addAttribute("clientes", clienteservice.findAll(null));
+		model.put("pedido", pedido);
+		return "informacion-general";
+	}
+
 	@PreAuthorize("@authComponent.hasPermission(#id,{'pedido'})")
 	@GetMapping("/agregar-empleado-empresa/{id}/{idcliente}")
 	public String getEmpleadosInsert(@PathVariable(value = "id") Long id,
@@ -352,6 +365,35 @@ public class CargaPedidoController {
 			model.put("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
 			model.put("isPreviewView", "false");
 			model.put("idPedido", id);
+			return "agregar-empleado-empresa";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("getlistSucursal", icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente));
+			model.put("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
+			return "agregar-empleado-empresa";
+
+		} finally {
+			System.out.println("Finalizar proceso");
+		}
+
+	}
+	@GetMapping("/agregar-empleado-empresa/expediente/{id}/{idcliente}")
+	public String getEmpleadosInsertExpediente(@PathVariable(value = "id") Long id,
+			@PathVariable(value = "idcliente") Long idcliente, Map<String, Object> model) {
+		System.out.println("Init process" + idcliente);
+
+		try {
+
+			// System.out.println("las query
+			// "+icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente).get(0).getNombreSucursal());
+			model.put("empleadosEmpresa", cargaclienteempleadoservice.findAllEmpleadosEmpresa(id));
+
+			model.put("form", new ArrayList<ComercialClienteEmpleado>());
+			model.put("getlistSucursal", icomercialclientesucursalservice.findListaSucrusalesCliente(idcliente));
+			model.put("getlistfactura", icomercialclientefacturaservice.findListaFacturaCliente(idcliente));
+			model.put("isPreviewView", "false");
+			model.put("idPedido", id);
+			model.put("expediente", "true");
 			return "agregar-empleado-empresa";
 		} catch (Exception e) {
 			e.printStackTrace();
