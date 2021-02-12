@@ -146,7 +146,7 @@ function tallas(tipo) {
 	var talla = $("#tallaConsumo");
 	talla.find("option").remove();
 	$.ajax({  
-		data: { id:  $("#id_prenda").val(), tipo:tipo },
+		data: { id:  $("#id_prenda").val(), tipo:tipo, idMaterial:$("#tipo option:selected").attr("id")},
 	    method: "GET",
 	    url: "/listar-tallas-prenda",
 	    success: (data) => {
@@ -182,10 +182,11 @@ function tallas(tipo) {
 	
 	 if (tipo =="tela-combinacion" || tipo =="tela-entretela"){
 		
+		
 		var talla = $("#tallaConsumo2");
 		talla.find("option").remove();
 		$.ajax({  
-			data: { id:  $("#id_prenda").val(), tipo:tipo },
+			data: { id:  $("#id_prenda").val(), tipo:tipo , idMaterial:$("#tipo option:selected").attr("id") },
 		    method: "GET",
 		    url: "/listar-tallas-prenda",
 		    success: (data) => {
@@ -330,7 +331,11 @@ function agregar(tipo) {
 		      });
 		}
 		else{
-			console.log("if no");
+			Swal.fire({
+				icon: 'warning',
+				title: 'Lo sentimos',
+				text: 'Complete el formulario!',
+			  })
 		}
 		
 	}

@@ -199,7 +199,8 @@ public class ConsumoTallaPrenda {
 
 	@RequestMapping(value = "/listar-tallas-prenda", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Object[]> listar(Long id, String tipo) {
+	public List<Object[]> listar(Long id, String tipo, Long idMaterial) {
+		System.out.print(idMaterial);
 		
 		if ( tipo .equals("tela")) {
 		return ConsumoService.tallas(id);
@@ -210,7 +211,7 @@ public class ConsumoTallaPrenda {
 		
 		else if ( tipo .equals("tela-combinacion")) {
 			
-			return ConsumocombinacionService.tallas(id);
+			return ConsumocombinacionService.tallas(id, idMaterial);
 		}
 		else if ( tipo .equals("tela-entretela")) {
 			return EntretelaService.tallas(id);

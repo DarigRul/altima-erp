@@ -123,7 +123,7 @@
 														<td>1.85</td>
 													-->
 													<td class="tdcenter">
-														<button class="btn btn-warning btn-circle btn-sm popoverxd" th:id_talla="${listConsumo_id[listConsumo_iterator.index]}" th:num_talla="${listConsumo[0]}"    th:onclick="'editar_tallas(this,' + ${action} + ');'"   data-toggle="modal" data-target="#modalConsumoPorPrendas" data-container="body" data-placement="top" data-content="Editar">
+														<button class="btn btn-warning btn-circle btn-sm popoverxd" th:id_talla="${listConsumo_id[listConsumo_iterator.index]}" th:num_talla="${listConsumo[0]}"    th:onclick="'editar_tallas(this,' + ${action} + ');'"   >
 															<i class="fas fa-pen"></i>
 														</button>
 													</td>
@@ -161,7 +161,9 @@
 													
 													
 													<td class="tdcenter">
-														<button  th:id_talla="${listConsumoExtras_id[listConsumoExtras_iterator.index]}" th:num_talla="${listConsumoExtras[0]}"    th:onclick="'editar_tallas(this,' + ${action} + ');'"   data-content="Editar">
+														<button  data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Editar" 
+                                                        class="btn btn-warning btn-circle btn-sm popoverxd" th:id_talla="${listConsumoExtras_id[listConsumoExtras_iterator.index]}" th:num_talla="${listConsumoExtras[0]}"    th:onclick="'editar_tallas(this,' + ${action} + ');'" >
 															<i class="fas fa-pen"></i>
 														</button>
 													</td>

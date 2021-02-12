@@ -11,7 +11,7 @@ public interface IProduccionConsumoTallaCombinacionTelaService {
 	void delete(Long id);
 
 	ProduccionConsumoTallaCombinacionTela findOne(Long id);
-	List<Object []> tallas(Long id);
+	List<Object []> tallas(Long id, Long idMaterial);
 	
 	List<Object []>largos ();
 	
