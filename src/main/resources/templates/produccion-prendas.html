@@ -114,7 +114,13 @@
                                                     <button th:attr="onclick=|revisarPrenda('${prenda.idPrenda}')|"
                                                         class="btn btn-dark btn-circle btn-sm popoverxd"
                                                         data-container="body" data-toggle="popover" data-placement="top"
-                                                        data-content="Revisar prenda"><i class="fas fa-clipboard-check"></i></button>
+                                                        data-content="Revisar prenda"><i
+                                                            class="fas fa-clipboard-check"></i></button>
+                                                    <button data-toggle="modal" data-target="#modalMiniTrazo"
+                                                        th:attr="onclick=|miniTrazo('${prenda.idPrenda}')|" data-placement="top"
+                                                        data-content="Mini Trazo"
+                                                        class="btn btn-warning btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-tshirt"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -138,148 +144,7 @@
     <script src="dist/js/tablaGeneral.js"></script>
     <script src="dist/js/produccionPrendas.js"></script>
 
-    <script>
-        $('#iDiseno').removeClass('text-altima');
-        $('#navDiseno').addClass('active-altima');
-        $('#menuDiseno').addClass('menu-open');
-        $('#navDiseno3').addClass('active');
-        /***
-         *
-         * FUNCION DE MODAL
-         *
-         ***/
 
-        function ModalConfirmarPrenda(id) {
-            Swal.fire({
-                title: "¿Deseas confimar la prenda?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#0288d1',
-                cancelButtonColor: '#dc3545',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.value) {
-                    var token = $('#token').val();
-                    $('#BloquearConfirmar').prop('disabled', true);
-                    console.log(token);
-                    $.ajax({
-                        type: "GET",
-                        url: "/confirmar_prenda",
-                        data: {
-                            "_csrf": token,
-                            "id": id
-                        },
-                        success: (data) => {
-                            console.log(data);
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Prenda confirmada correctamente',
-                                showConfirmButton: false,
-                                timer: 2500
-                            });
-                            setTimeout(function () {
-                                location.reload();
-                            }, 2500);
-                        },
-                        failure: function (errMsg) {
-                            alert(errMsg);
-                        }
-                    });
-                }
-            });
-        }
-
-
-
-
-        function ModalAltaPrenda(id) {
-
-            Swal.fire({
-                title: "¿Deseas dar de alta la prenda?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#0288d1',
-                cancelButtonColor: '#dc3545',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.value) {
-                    var token = $('#token').val();
-                    $('#BloquearAlta').prop('disabled', true);
-                    console.log(token);
-                    $.ajax({
-                        type: "GET",
-                        url: "/alta_baja_prenda",
-                        data: {
-                            "_csrf": token,
-                            "id": id
-                        },
-                        success: (data) => {
-                            console.log(data);
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Prenda dada de alta correctamente',
-                                showConfirmButton: false,
-                                timer: 2500
-                            });
-                            setTimeout(function () {
-                                location.reload();
-                            }, 2500);
-                        },
-                        failure: function (errMsg) {
-                            alert(errMsg);
-                        }
-                    });
-                }
-            });
-        }
-
-
-        function ModalBajaPrenda(id) {
-            Swal.fire({
-                title: "¿Deseas dar de baja la prenda?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#0288d1',
-                cancelButtonColor: '#dc3545',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.value) {
-                    var token = $('#token').val();
-                    $('#BloquearBaja').prop('disabled', true);
-                    console.log(token);
-                    $.ajax({
-                        type: "GET",
-                        url: "/alta_baja_prenda",
-                        data: {
-                            "_csrf": token,
-                            "id": id
-                        },
-                        success: (data) => {
-                            console.log(data);
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Prenda dada de baja correctamente',
-                                showConfirmButton: false,
-                                timer: 2500
-                            });
-                            setTimeout(function () {
-                                location.reload();
-                            }, 2500);
-                        },
-                        failure: function (errMsg) {
-                            alert(errMsg);
-                        }
-                    });
-                }
-            });
-        }
-    </script>
     <script th:inline="javascript">
         const rutas =/*[[${rutas}]]*/ 'default';
         console.log(rutas);

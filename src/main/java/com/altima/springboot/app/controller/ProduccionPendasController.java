@@ -22,7 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ProduccionPendasController {
@@ -96,12 +95,7 @@ public class ProduccionPendasController {
 		return "redirect:/produccion-prendas";
     }
 
-	@GetMapping("getPrendaHistorico/{id}")
-	@ResponseBody
-	public List<ProduccionPrendaHistorico> getPrendaHistorico(@PathVariable Long id) {
 
-		return prendaHistoricoService.findByIdPrenda(id);
-    }
 
 	@GetMapping("revisarPrenda/{id}")
 	public String revisarPrenda(@PathVariable Long id) {
