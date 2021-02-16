@@ -5,11 +5,15 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
 import com.altima.springboot.app.models.entity.ComercialTotalRazonSocial;
+import com.altima.springboot.app.models.entity.ProduccionExpedienteHistorico;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialCalendarioService;
@@ -32,6 +37,7 @@ import com.altima.springboot.app.models.service.IComercialConcentradoTallaServic
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IComercialPrendaBordadoService;
 import com.altima.springboot.app.models.service.IComercialTotalRazonSocialService;
+import com.altima.springboot.app.models.service.IProduccionExpedienteHistoricoService;
 
 @CrossOrigin(origins = { "*" })
 @Controller
@@ -55,6 +61,8 @@ public class ExpedienteController {
 	private IComercialConcentradoTallaService ConcentradoTallaService;
 	@Autowired
 	private IComercialTotalRazonSocialService totalService;
+	@Autowired
+	private IProduccionExpedienteHistoricoService expedienteHistoricoService; 
 
 	// Metodo de Listar
 	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_LISTAR"})
@@ -213,7 +221,7 @@ public class ExpedienteController {
 	@GetMapping("/patch-expediente/{id}")
 	public String patchExpediente(@PathVariable Long id) {
 		Date date = new Date();
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		hourdateFormat.setTimeZone(timeZone);
@@ -223,6 +231,11 @@ public class ExpedienteController {
 		pedido.setEstatus("3");
 		pedido.setFechaCierre(sDate);
 		cargaPedidoService.save(pedido);
+		ProduccionExpedienteHistorico historico=new ProduccionExpedienteHistorico();
+		historico.setIdPedido(id);
+		historico.setTipo("cerrado");
+		historico.setCreadoPor(auth.getName());
+		expedienteHistoricoService.save(historico);
 		return "redirect:/expediente";
 	}
 
@@ -230,7 +243,7 @@ public class ExpedienteController {
 	@GetMapping("/patch-expediente-abrir/{id}")
 	public String patchExpedienteAbrir(@PathVariable Long id) {
 		Date date = new Date();
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		hourdateFormat.setTimeZone(timeZone);
@@ -240,6 +253,29 @@ public class ExpedienteController {
 		pedido.setEstatus("2");
 		pedido.setFechaCierre(sDate);
 		cargaPedidoService.save(pedido);
+		ProduccionExpedienteHistorico historico=new ProduccionExpedienteHistorico();
+		historico.setIdPedido(id);
+		historico.setTipo("abierto");
+		historico.setCreadoPor(auth.getName());
+		expedienteHistoricoService.save(historico);
 		return "redirect:/expediente";
 	}
+
+	@GetMapping("getExpedienteHistorico/{id}")
+    public ResponseEntity<?> getMiniTrazoByIdPrenda(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
+        List<ProduccionExpedienteHistorico> historico = null;
+        try {
+            historico = expedienteHistoricoService.findByIdPedido(id);
+        } catch (DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la BD");
+            response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if (historico.size() == 0) {
+            response.put("mensaje", "El expediente no tiene historico");
+            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<ProduccionExpedienteHistorico>>(historico, HttpStatus.OK);
+    }
 }

@@ -129,6 +129,11 @@
                                                             data-container="body" data-placement="top"
                                                             data-content="Abrir expediente"><i
                                                                 class="fas fa-file-download"></i></a>
+                                                        <button th:onclick="|historico('${pedidos[0]}')|"
+                                                            class="btn btn-secondary text-white popoverxd"
+                                                            data-container="body" data-placement="top"
+                                                            data-content="Historico"><i
+                                                                class="fas fa-history"></i></button>
 
 
                                                     </div>
@@ -209,7 +214,7 @@
 
         </div>
         <!-- Modal para Dar de Alta  -->
-
+        <div th:insert="expediente-modal"></div>
         <div th:insert="navegacion-footer"></div>
 
     </div>
@@ -341,6 +346,26 @@
 
                 }
             })
+        }
+
+        function historico(idPedido) {
+            $("#modalHistorico").modal("show");
+            var tableHistorico = $('#tableHistorico').DataTable();
+            tableHistorico.clear().draw(false);
+
+            $.ajax({
+                type: "GET",
+                url: `getExpedienteHistorico/${idPedido}`,
+                success: function (data) {
+                    data.forEach(function (historico) {
+                        tableHistorico.row.add([
+                            historico.tipo,
+                            historico.fecha,
+                            historico.creadoPor
+                        ]).draw(false)
+                    })
+                }
+            });
         }
     </script>
 </body>

@@ -46,14 +46,14 @@ public class ProduccionMiniTrazo implements Serializable{
 	private String actualizadoPor;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @DateTimeFormat(pattern="dd-MM-yyyy'T'HH:mm:ss.SSSZ")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
     @Column(name = "fecha_creacion")
 	private Date fechaCreacion;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    @DateTimeFormat(pattern="dd-MM-yyyy'T'HH:mm:ss.SSSZ")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
     @Column(name = "ultima_fecha_modificacion")

@@ -62,7 +62,7 @@ public class ProduccionPendasController {
 		historico.setComentario(devolucion);
 		historico.setIdPrenda(id);
 		historico.setFecha(currentDate());
-		historico.setTipo("devolver");
+		historico.setTipo("devuelto");
 		historico.setCreadoPor(userName());
 		prendaHistoricoService.save(historico);
 		return "redirect:/produccion-prendas";
@@ -81,7 +81,7 @@ public class ProduccionPendasController {
 		disenioPrendaService.save(prenda);
 		historico.setIdPrenda(id);
 		historico.setFecha(currentDate());
-		historico.setTipo("recibir");
+		historico.setTipo("recibido");
 		historico.setCreadoPor(userName());
 		prendaHistoricoService.save(historico);
 		return "redirect:/produccion-prendas";
@@ -102,7 +102,7 @@ public class ProduccionPendasController {
 		ProduccionPrendaHistorico historico =new ProduccionPrendaHistorico();
 		historico.setIdPrenda(id);
 		historico.setFecha(currentDate());
-		historico.setTipo("revisar");
+		historico.setTipo("revisado");
 		historico.setCreadoPor(userName());
 		prendaHistoricoService.save(historico);
 		return "redirect:/produccion-prendas";
