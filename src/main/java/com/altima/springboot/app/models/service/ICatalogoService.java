@@ -20,7 +20,7 @@ public interface ICatalogoService {
 
 	DisenioLookup findLastLookupByType(String Tipo);
 
-	boolean findDuplicate(String Lookup, String Tipo, String atributo, String CodigoPrenda);
+	boolean findDuplicate(String Lookup, String Tipo, String atributo, String CodigoPrenda,String ruta);
 	
 	List<Object []> findAllMaterialClasificacion();
 

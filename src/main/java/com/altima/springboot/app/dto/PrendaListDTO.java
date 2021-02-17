@@ -19,6 +19,7 @@ public class PrendaListDTO {
     private String fechaDevolucionProduccion;
     private Long idRuta;
     private String nombreRuta;
+    private String rutaDrop;
 
     public Long getIdPrenda() {
         return idPrenda;
@@ -124,4 +125,11 @@ public class PrendaListDTO {
         this.nombreRuta = nombreRuta;
     }
 
+	public String getRutaDrop() {
+		return rutaDrop;
+	}
+
+	public void setRutaDrop(String rutaDrop) {
+		this.rutaDrop = rutaDrop;
+	}
 }

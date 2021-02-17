@@ -24,7 +24,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Prendas&nbsp;</h1>
+                            <h1>Prendas</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -117,10 +117,15 @@
                                                         data-content="Revisar prenda"><i
                                                             class="fas fa-clipboard-check"></i></button>
                                                     <button data-toggle="modal" data-target="#modalMiniTrazo"
-                                                        th:attr="onclick=|miniTrazo('${prenda.idPrenda}')|" data-placement="top"
-                                                        data-content="Mini Trazo"
+                                                        th:attr="onclick=|miniTrazo('${prenda.idPrenda}')|"
+                                                        data-placement="top" data-content="Mini Trazo"
                                                         class="btn btn-warning btn-circle btn-sm popoverxd"><i
                                                             class="fas fa-tshirt"></i></button>
+                                                    <button data-toggle="modal" data-target="#modalDrop"
+                                                        th:attr="onclick=|drop('${prenda.rutaDrop}')|"
+                                                        data-placement="top" data-content="Drop"
+                                                        class="btn btn-light btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-ruler"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>

@@ -357,3 +357,19 @@ function eliminarMiniTrazo(idMiniTrazo, idPrenda) {
     });
 
 }
+
+function drop(rutaDrop) {
+    console.log(rutaDrop)
+    if (rutaDrop == 'null') {
+        console.log("entra")
+        $(`#imagenDropNull`).show();
+        $(`#imagenDrop`).hide();
+    }
+    else {
+        $(`#imagenDropNull`).hide();
+        $(`#imagenDrop`).show();
+        $(`#dropA`).attr("href", `https://res.cloudinary.com/dti-consultores/image/upload/v1613499432/drop/${rutaDrop}`);
+        $(`#dropI`).attr("src", `https://res.cloudinary.com/dti-consultores/image/upload/v1613499432/drop/${rutaDrop}`);
+    }
+    $('#modalDrop').modal('show');
+}

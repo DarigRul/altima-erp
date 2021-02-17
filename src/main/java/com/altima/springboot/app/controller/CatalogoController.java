@@ -46,6 +46,8 @@ import com.altima.springboot.app.models.service.IDisenioComposicionCuidadoServic
 import com.altima.springboot.app.models.service.IDisenioLookupService;
 import com.altima.springboot.app.models.service.IDisenioPrecioComposicionService;
 import com.altima.springboot.app.models.service.IUploadService;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 
 @CrossOrigin(origins = { "*" })
 @Controller
@@ -107,10 +109,11 @@ public class CatalogoController {
 	@RequestMapping(value = "/verifduplicado", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean verificaduplicado(String Lookup, String Tipo, @RequestParam(required = false) String atributo,
-			String CodigoPrenda) {
+			String CodigoPrenda, String ruta) {
 		boolean resp;
+		System.out.println(ruta);
 		try {
-			resp = catalogo.findDuplicate(Lookup, Tipo, atributo, CodigoPrenda);
+			resp = catalogo.findDuplicate(Lookup, Tipo, atributo, CodigoPrenda, ruta);
 		} catch (Exception e) {
 			resp = catalogo.findDuplicate(Lookup, Tipo);
 		}
@@ -206,7 +209,8 @@ public class CatalogoController {
 			String proveedorColor, String Material, String Codigo, String CodigoPrenda, HttpServletRequest request,
 			String Marcador, String CodigoColor, String Posicion,
 			@RequestParam(required = false) MultipartFile iconocuidado, Long Idcuidado, String Simbolo,
-			String Composicion, String TipoMaterial, String CategoriaMaterial) {
+			String Composicion, String TipoMaterial, String CategoriaMaterial,
+			@RequestParam(required = false) MultipartFile imagen) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -271,6 +275,18 @@ public class CatalogoController {
 			return "catalogos";
 		}
 		if (FamiliaPrenda != null) {
+			Cloudinary cloudinary = uploadFileService.CloudinaryApi();
+			String uniqueFilename = null;
+			try {
+
+				uniqueFilename = uploadFileService.copy2(imagen);
+				cloudinary.uploader().upload(uploadFileService.filePrenda(uniqueFilename), ObjectUtils
+						.asMap("public_id", "drop/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			DisenioLookup familiaprenda = new DisenioLookup();
 			DisenioLookup ultimoid = null;
 			try {
@@ -297,6 +313,7 @@ public class CatalogoController {
 			familiaprenda.setAtributo1(Posicion);
 			familiaprenda.setFechaCreacion(dateFormat.format(date));
 			familiaprenda.setEstatus(1);
+			familiaprenda.setAtributo2(uniqueFilename);
 			catalogo.save(familiaprenda);
 			return "catalogos";
 		}
@@ -669,7 +686,8 @@ public class CatalogoController {
 			String Descripcion, String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado,
 			String UnidadMedida, String Material, String Codigo, String CodigoPrenda, String proveedor, String Marcador,
 			String CodigoColor, String Posicion, String Simbolo, String Composicion, String TipoMaterial,
-			String CategoriaMaterial, @RequestParam(required = false) MultipartFile iconocuidado) {
+			String CategoriaMaterial, @RequestParam(required = false) MultipartFile iconocuidado,
+			@RequestParam(required = false) MultipartFile imagen) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DisenioLookup color = null;
 		DisenioLookup piezatrazo = null;
@@ -700,7 +718,28 @@ public class CatalogoController {
 			return "redirect:catalogos";
 		}
 		if (FamiliaPrenda != null && idLookup > 0) {
+			System.out.println("entra");
+			Cloudinary cloudinary = uploadFileService.CloudinaryApi();
+			String uniqueFilename = null;
 			familiaprenda = catalogo.findOne(idLookup);
+			if (!imagen.isEmpty()) {
+				try {
+					if (familiaprenda.getAtributo2()!=null) {
+						cloudinary.uploader().destroy(
+								"drop/" + familiaprenda.getAtributo2().substring(0,
+										familiaprenda.getAtributo2().length() - 4),
+								ObjectUtils.asMap("resourceType", "image"));
+					}
+					uniqueFilename = uploadFileService.copy2(imagen);
+					cloudinary.uploader().upload(uploadFileService.filePrenda(uniqueFilename), ObjectUtils
+							.asMap("public_id", "drop/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
+					familiaprenda.setAtributo2(uniqueFilename);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
 			familiaprenda.setNombreLookup(StringUtils.capitalize(FamiliaPrenda));
 			familiaprenda.setDescripcionLookup(CodigoPrenda);
 			familiaprenda.setUltimaFechaModificacion(currentDate());
@@ -805,7 +844,7 @@ public class CatalogoController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		if (lookups.size() == 0) {
-			response.put("mensaje", "El tipo:"+ tipo +" no existe");
+			response.put("mensaje", "El tipo:" + tipo + " no existe");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<List<DisenioLookup>>(lookups, HttpStatus.OK);

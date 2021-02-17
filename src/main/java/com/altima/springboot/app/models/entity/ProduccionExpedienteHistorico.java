@@ -42,9 +42,8 @@ public class ProduccionExpedienteHistorico implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
     @Column(name = "fecha")
-    private Date fecha;
+    private String fecha;
 
     @Column(name = "creado_por")
     private String creadoPor;
@@ -63,14 +62,6 @@ public class ProduccionExpedienteHistorico implements Serializable {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
     }
 
     public String getCreadoPor() {
@@ -95,5 +86,13 @@ public class ProduccionExpedienteHistorico implements Serializable {
 
     public void setIdPedido(Long idPedido) {
         this.idPedido = idPedido;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 }
