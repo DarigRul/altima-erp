@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class NotificacionController {
     
     @MessageMapping("/mensaje")
-	@SendTo("/chat/mensaje	")
+	@SendTo("/chat/mensaje")
 	public Notificacion recibeMensaje(Notificacion mensaje) {
 		mensaje.setFecha(new Date().getTime());
 		mensaje.setTexto("recibido ok:"+mensaje.getTexto());

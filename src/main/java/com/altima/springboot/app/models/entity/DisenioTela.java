@@ -26,10 +26,6 @@ public class DisenioTela implements Serializable{
 	@Column(name="id_familia_composicion")
 	private Long idFamiliaComposicion;
 	
-	
-	
-	
-	
 	@Column(name="id_text")
 	private String idText;
 	
@@ -104,6 +100,12 @@ public class DisenioTela implements Serializable{
 	
 	@Column(name="prueba_encogimiento")
 	private int pruebaEncogimiento;
+
+	@Column(name="ruta_pdf_encogimiento")
+	private String rutaPdfEncogimiento;
+	
+	@Column(name="descripcion_pdf_encogimiento")
+	private String descripcionPdfEncogimiento;
 	
 
 	public String getAuxiliar1() {
@@ -327,6 +329,22 @@ public class DisenioTela implements Serializable{
 
 	public void setPruebaEncogimiento(int pruebaEncogimiento) {
 		this.pruebaEncogimiento = pruebaEncogimiento;
+	}
+
+	public String getRutaPdfEncogimiento() {
+		return rutaPdfEncogimiento;
+	}
+
+	public void setRutaPdfEncogimiento(String rutaPdfEncogimiento) {
+		this.rutaPdfEncogimiento = rutaPdfEncogimiento;
+	}
+
+	public String getDescripcionPdfEncogimiento() {
+		return descripcionPdfEncogimiento;
+	}
+
+	public void setDescripcionPdfEncogimiento(String descripcionPdfEncogimiento) {
+		this.descripcionPdfEncogimiento = descripcionPdfEncogimiento;
 	}
 
 

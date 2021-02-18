@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-	<title id="pageTitle">Telas | Altima</title>
+    <title id="pageTitle">Telas | Altima</title>
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
     <!-- Site wrapper -->
     <div class="wrapper">
@@ -67,10 +68,23 @@
                                                 <td th:text="${tela.estampado}">Uriel Cuatepitzi</td>
                                                 <td th:text="${tela.pruebaEncogimiento}">2%</td>
                                                 <td class="tdcenter">
-                                                	<a class="btn btn-info btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>&nbsp;
-                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'EditarEncogimiento('+${tela.idTela}+')'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar % encogimiento"><i class="fas fa-pen"></i></a>
+                                                    <a class="btn btn-info btn-circle btn-sm text-white popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Ver detalles"><i
+                                                            class="fas fa-info"></i></a>&nbsp;
+                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd"
+                                                        th:onclick="'EditarEncogimiento('+${tela.idTela}+')'"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Editar % encogimiento"><i
+                                                            class="fas fa-pen"></i></a>
+                                                    <a class="btn text-white btn-secondary btn-circle btn-sm popoverxd"
+                                                        th:attr="onclick=|subirPDF('${tela.idTela}','${tela.rutaPdfEncogimiento}','${tela.descripcionPdfEncogimiento}')|"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Documento"><i class="far fa-file-pdf"></i></a>
+                                                    <!-- <input type=file
+                                                        onchange="Ftp.upload('7b8d9cf6-e21f-4ae2-a646-b329de6d6e37', this.files)" /> -->
                                                 </td>
-                                           </tr>
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
@@ -85,73 +99,170 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
+        <div class="modal fade" id="modalPDF" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content modal-rounded-body">
+                    <div class="modal-header modal-rounded-header bg-altima">
+                        <h5 class="modal-title" id="exampleModalLongTitle" style="margin-right: 5px;">Archivo PDF</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+                            <div class="custom-file">
+                                <label for="exampleInputPassword1">Archivo</label>
+                                <input type="file" class="custom-file-input" id="archivoEncogimiento"
+                                    name="archivoEncogimiento">
+                                <label class="custom-file-label" for="archivoEncogimiento">No se eligió ningún
+                                    archivo</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Descripción</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion"
+                                    placeholder="Descripcion"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-10">
+                                    <a type="button" href="" target="_blank" id="abrirArchivo"
+                                        class="btn btn-secondary">Abrir archivo</a>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <button type="submit" id="enviarEncogimiento"
+                                        class="btn btn-primary">Guardar</button>
+                                </div>
 
+                            </div>
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <input type="hidden" name="idTela" id="idTela" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div th:insert="navegacion-footer"></div>
     </div>
     <!-- ./wrapper -->
-
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/tablaGeneral.js"></script>
-	
-   	<script>
-	   	$('#iProduccion').removeClass('text-altima');
-		$('#navProduccion').addClass('active-altima');
-	    $('#menuProduccion').addClass('menu-open');
-		$('#navProduccionTelas').addClass('active');
-	</script>
-	
-	<script type="text/javascript">
-		function EditarEncogimiento(id){
-			
-			Swal.fire({
-		        title: 'Agregar % de encogimiento/estiramiento',
-		        html: '<div class="row">' +
-		            '<div class="form-group col-sm-12">' +
-		            '<label for="tela">% encogimiento/estiramiento</label>' +
-		            '<input type="number" class="swal2-input" id="encogimientoTela" placeholder="2">' +
-		            '</div>' +
-		            '</div>',
-		        showCancelButton: true,
-		        cancelButtonColor: '#dc3545',
-		        cancelButtonText: 'Cancelar',
-		        confirmButtonText: 'Agregar',
-		        confirmButtonColor: '#0288d1',
-		        preConfirm: (color) => {
-		            if ($('#encogimientoTela').val()=="" || $('#encogimientoTela').val()==null || $('#encogimientoTela').val()==undefined) {
-		                Swal.showValidationMessage(
-		                    `Complete todos los campos`
-		                )
-		            }
-		        }
-		    }).then((result) => {
-		        if (result.value){
-		        	var encogiTela = $('#encogimientoTela').val();
-		        	var idTela = id;
-		        	$.ajax({
-		        		method:"POST",
-		        		url:"/agregarPorcentajeEncogimiento",
-		        		data:{"_csrf": $('#token').val(),
-		        			idTela: idTela,
-		        			encogiTela: encogiTela},
-		        		success: (data) => {
-		        			Swal.fire({
-		                         position: 'center',
-		                         icon: 'success',
-		                         title: 'Insertado correctamente',
-		                         showConfirmButton: false,
-		                         timer: 1250,
-		                         onClose: () => {
-		     		            	location.reload();
-		     				  }  
-		                     })
-		        		}
-		        	})
-		        	console.log("si lo hace bien");
-		        	
-		        }
-		    });
-		}
-	</script>
+    <!-- <script src="http://Ftp.apixml.net/ftp.js"> -->
+    </script>
+    <script>
+        $('#iProduccion').removeClass('text-altima');
+        $('#navProduccion').addClass('active-altima');
+        $('#menuProduccion').addClass('menu-open');
+        $('#navProduccionTelas').addClass('active');
+    </script>
+
+    <script type="text/javascript">
+        function EditarEncogimiento(id) {
+            Swal.fire({
+                title: 'Agregar % de encogimiento/estiramiento',
+                html: '<div class="row">' +
+                    '<div class="form-group col-sm-12">' +
+                    '<label for="tela">% encogimiento/estiramiento</label>' +
+                    '<input type="number" class="swal2-input" id="encogimientoTela" placeholder="2">' +
+                    '</div>' +
+                    '</div>',
+                showCancelButton: true,
+                cancelButtonColor: '#dc3545',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Agregar',
+                confirmButtonColor: '#0288d1',
+                preConfirm: (color) => {
+                    if ($('#encogimientoTela').val() == "" || $('#encogimientoTela').val() == null || $('#encogimientoTela').val() == undefined) {
+                        Swal.showValidationMessage(
+                            `Complete todos los campos`
+                        )
+                    }
+                }
+            }).then((result) => {
+                if (result.value) {
+                    var encogiTela = $('#encogimientoTela').val();
+                    var idTela = id;
+                    $.ajax({
+                        method: "POST",
+                        url: "/agregarPorcentajeEncogimiento",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            idTela: idTela,
+                            encogiTela: encogiTela
+                        },
+                        success: (data) => {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Insertado correctamente',
+                                showConfirmButton: false,
+                                timer: 1250,
+                                onClose: () => {
+                                    location.reload();
+                                }
+                            })
+                        }
+                    })
+                    console.log("si lo hace bien");
+
+                }
+            });
+        }
+
+        function subirPDF(idTela, ruta, descripcion) {
+            $(`#modalPDF`).modal("show");
+            $('#idTela').val(idTela);
+            if (ruta != 'null') {
+                $('.custom-file-label').html(ruta);
+                $('#descripcion').val(descripcion);
+                $(`#abrirArchivo`).attr('href', `https://res.cloudinary.com/dti-consultores/image/upload/v1613677976/pdf/${ruta}`)
+
+            }
+            else {
+                $('.custom-file-label').html("No se eligió ningún archivo");
+                $('#descripcion').val('');
+                $(`#abrirArchivo`).attr('href', ``)
+            }
+        }
+        $('input[type="file"]').change(function (e) {
+            var fileName = e.target.files[0].name;
+            $('.custom-file-label').html(fileName);
+        });
+
+        $("#enviarEncogimiento").click(function (e) {
+            e.preventDefault();
+            var form = $('#fileUploadForm')[0];
+            var data = new FormData(form);
+            $(this).attr("disabled", true);
+            $.ajax({
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "/guardarPdfEncogimiento",
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'El archivo se agregó correctamente',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+
+                    console.log("SUCCESS : ", data);
+                    $('#enviarEncogimiento').attr("disabled", false);
+                    window.open(`https://res.cloudinary.com/dti-consultores/image/upload/v1613677976/pdf/${data.rutaPdfEncogimiento}`, '_blank')
+                    location.reload();
+                },
+                error: function (e) {
+                    $('#enviarEncogimiento').attr("disabled", false);
+                    console.log("ERROR : ", e);
+
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
