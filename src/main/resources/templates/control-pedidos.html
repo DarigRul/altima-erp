@@ -76,23 +76,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td >Altima</td>
-                                                <td >1</td>
-                                                <td >1</td>
-                                                <td >SACO</td>
-                                                <td >SAC001</td>
-                                                <td >LS999</td>
-                                                <td>154</td>
-                                                <td >29/01/2021</td>
-                                                <td >05/02/2021</td>
-                                                <td >Pedida</td>
+                                            <tr th:each="control : ${control_pedido}" >
+                                                <td th:text="${control.pedido}">1</td>
+                                                <td th:text="${control.cliente}">Altima</td>
+                                                <td th:text="${control.ordenProduccion}">1</td>
+                                                <td th:text="${control.coordinado}">1</td>
+                                                <td th:text="${control.prenda}">SACO</td>
+                                                <td th:text="${control.modelo}">SAC001</td>
+                                                <td th:text="${control.clavePrenda}">LS999</td>
+                                                <td th:text="${control.confeccion}">154</td>
+                                                <td th:text="${control.pedido}">29/01/2021</td>
+                                                <td th:text="${control.pedido}">05/02/2021</td>
+                                                <td th:text="${control.pedido}">Pedida</td>
                          
                                                 <td>
                                                     
 
-                                                    <button  class="btn btn-primary btn-sm btn-circle popoverxd" th:attr="onclick=|cambiarProveedor()|" data-placement="top"
+                                                    <button  class="btn btn-primary btn-sm btn-circle popoverxd" th:attr="onclick=|listar('${control.idControlPedido}')|" data-placement="top"
                                                         data-content="Generar tickets" data-target="#generarTickets" data-toggle="modal" id="generarTickets"><i class="fas fa-store"></i></button>
 
 
@@ -114,8 +114,17 @@
         <div th:insert="navegacion-footer"></div>
     </div>
     <div th:replace="navegacion-scripts"></div>
-    <script src="/dist/js/tablaGeneral.js"></script>
-   
+   <!--   <script src="/dist/js/tablaGeneral.js"></script>-->
+     <script src="/dist/js/control-pedidos.js"></script>
+   <script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+	    	  position: 'center',
+	          icon: /*[[${icon}]]*/,
+	          title: /*[[${title}]]*/,
+	          showConfirmButton: false,
+	          timer: 2500
+	    });
+	</script>
     <script>
         $('#iCompras').removeClass('text-altima');
         $('#menuCompras').addClass('menu-open');
