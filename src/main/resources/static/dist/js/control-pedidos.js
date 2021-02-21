@@ -1,7 +1,6 @@
 
 function listar(idcontrolpedido){
-	// /importante poner el id prenda insertado previamente en el ajax ya que toma
-	// el del formulario
+	
 	var quitar= "#quitar2";
 	var contenedor = "#tabla";
 	var modal = "#modalEspecificaciones";
@@ -19,20 +18,22 @@ function listar(idcontrolpedido){
 			console.log(data);
 			console.log(data.actualizadoPor);
 			$("#modelo").val(data.modelo);
-			$("#tela").val(data.clavePrenda);
+			$("#tela").val(data.claveTela);
 			$("#cantidad").val(data.confeccion);
+			$("#restante").val(data.confeccion);
+			$("#idcontrol").val(data.idControlPedido);
 
 		}});
 	
 	
 	$.ajax({
 		method: "GET",
-		url: "/listar-control-pedidos-one",
+		url: "/listar-control-pedidos-bulto",
 		data: {
 			"id": idcontrolpedido
 		},
 		success: (data2) => {
-			
+			console.log(data2);
 			$(quitar).remove();
 			$(contenedor).append("<div class='modal-body' id='quitar2'>" +
 				"<table class='table table-striped table-bordered' id='idtable2' style='width:100%'>" +
@@ -52,12 +53,12 @@ function listar(idcontrolpedido){
 			
 			
 			for (i in data2) {
-//console.log(i);
+console.log(i);
 
 				a = [
 					"<tr>" +
-					"<td>" + data2.actualizadoPor + "</td>",
-					"<td>" + data2.actualizadoPor + "</td>",
+					"<td>" + parseInt(parseInt(i)+1) + "</td>",
+					"<td>" + data2[i].cantidadPrendaBulto + "</td>",
 					"<td style='text-align: center'>" +
 					"<button onclick=eliminarEspecificacion('" + data2.actualizadoPor + "','" + data2.actualizadoPor + "','" + data2.actualizadoPor + "') class='btn btn-danger' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'>Eliminar</button>" +
 					"</td>" +
@@ -119,3 +120,56 @@ function listar(idcontrolpedido){
 		}
 	})
 }
+
+
+$( "#Guardar" ).click(function() {
+	console.log(document.getElementById("idcontrol").value);
+	if($('#cantidadprenda').val()==null || $('#cantidadprenda').val()==null || $('#cantidadprenda').val() ==0 || $('#cantidadprenda').val()===0 ){
+		Swal.fire({
+			  icon: 'error',
+			  title: 'Ingrese un valor',
+			  text: 'El campo prenda por bulto no puede estar vacio o ser 0'
+			})	
+		
+	}
+	
+	else{
+	$.ajax({
+		method: "POST",
+		url: "/guardar-control-pedidos-bulto",
+		data: {
+			"_csrf": $(
+			'#token')
+		.val(),
+		"cantidadprenda": $(
+			'#cantidadprenda')
+		.val() ,
+			"id": document.getElementById("idcontrol").value
+		
+		},
+		success: (data) => { 
+			console.log(data);
+			console.log(data.actualizadoPor);
+			Swal.fire({
+				  icon: 'success',
+				  title: 'Ingresado correctamente',
+				  text: 'Ingresado correctamente'
+				})		
+				listar(document.getElementById("idcontrol").value);
+
+		}});
+	//listar(document.getElementById("idcontrol").value);
+	 // alert( "Handler for .click() called." );
+	}
+	
+	});
+
+
+
+$( "#enviarOrden" ).click(function() {
+	
+	 window.open("/maquilacontrolpedidostickets");
+	 
+	
+
+});

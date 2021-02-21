@@ -26,18 +26,20 @@
       <label for="inputEmail4">Confecc</label>
       <input type="text" readonly class="form-control" id="cantidad" value="150">
     </div>
+    <input type="hidden" id="idcontrol" value="">
     <div class="form-group col-md-4">
       <label for="inputPassword4">Prenda por bulto</label>
-      <input type="text" class="form-control" id="inputPassword4" value="30">
+      <input type="number" class="form-control" id="cantidadprenda" min="1">
     </div>
+     <input type="hidden" th:name="${_csrf.parameterName}" id="token" th:value="${_csrf.token}" />
     <div class="form-group col-md-4">
       <label for="inputPassword4">Restan</label>
-      <input type="text" class="form-control" id="inputPassword4" value="0">
+      <input type="text" readonly  class="form-control" id="restante" value="0">
     </div>
   </div>
   <div class="form-row">
    <div class="form-group col-md-4">
-   <button class="btn icon-btn btn-altima text-white" type="button" id="enviarOrden"><span
+   <button class="btn icon-btn btn-altima text-white" type="button" id="Guardar"><span
                             class="btn-glyphicon fas fa-check img-circle text-altima"></span>Agregar</button>
 </div>
 </div>

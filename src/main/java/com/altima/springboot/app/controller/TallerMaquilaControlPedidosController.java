@@ -1,8 +1,11 @@
 package com.altima.springboot.app.controller;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.servlet.ServletException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -42,7 +45,7 @@ public class TallerMaquilaControlPedidosController {
 		MaquilaControlPedido maquilacontrol=new MaquilaControlPedido();
 		maquilacontrol.setPedido(pedido);
 		maquilacontrol.setActualizadoPor(auth.getName());
-		maquilacontrol.setClavePrenda(clave_tela);
+		maquilacontrol.setClaveTela(clave_tela);
 		maquilacontrol.setCliente(cliente);
 		maquilacontrol.setConfeccion(cantidad);
 		maquilacontrol.setCoordinado(coordinado);
@@ -62,5 +65,9 @@ public class TallerMaquilaControlPedidosController {
 		return "redirect:/control-pedidos";
 	}
 	
-	
+	@GetMapping("/maquilacontrolpedidostickets")
+	public String TicketsMaquilaControlPedidos() throws ServletException, IOException {
+		
+		return "/maquilacontrolpedidostickets";
+	}
 }

@@ -44,8 +44,8 @@ public class MaquilaControlPedido implements Serializable{
 	@Column(name="modelo")
 	private String modelo;
 	
-	@Column(name="clave_prenda")
-	private String clavePrenda;
+	@Column(name="clave_tela")
+	private String claveTela;
 	
 	@Column(name="confeccion")
 	private String confeccion;
@@ -130,12 +130,12 @@ public class MaquilaControlPedido implements Serializable{
 		this.modelo = modelo;
 	}
 
-	public String getClavePrenda() {
-		return clavePrenda;
+	public String getClaveTela() {
+		return claveTela;
 	}
 
-	public void setClavePrenda(String clavePrenda) {
-		this.clavePrenda = clavePrenda;
+	public void setClaveTela(String claveTela) {
+		this.claveTela = claveTela;
 	}
 
 	public String getConfeccion() {
