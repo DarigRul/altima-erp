@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,12 @@ IMaquilaControlPedidoBultoService maquilaControlPedidoBultoService;
 		
 	}
 	
+	@GetMapping("/contar-operaciones")
+	public String ContarOperaciones(String idprenda) {
+		
+		return maquilaControlPedidoBultoService.ContarOperaciones(idprenda);
+	}
+	
 	@PostMapping("/guardar-control-pedidos-bulto")
 	public boolean guardarcontrolpedidosbulto(Float cantidadprenda,Long id) {
 		boolean response=false;
@@ -63,5 +70,12 @@ response=true;
 		return response;
 	}
 	
+	
+	@DeleteMapping("/eliminar-embultado")
+	public void EliminarEmbultado(Long id) {
+		
+		maquilaControlPedidoBultoService.delete(id);
+		
+	}
 	
 }

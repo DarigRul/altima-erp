@@ -1,5 +1,5 @@
 
-function listar(idcontrolpedido){
+function listar(idcontrolpedido,idprenda){
 	
 	var quitar= "#quitar2";
 	var contenedor = "#tabla";
@@ -22,6 +22,20 @@ function listar(idcontrolpedido){
 			$("#cantidad").val(data.confeccion);
 			$("#restante").val(data.confeccion);
 			$("#idcontrol").val(data.idControlPedido);
+			$("#idprenda").val(data.idPrenda);
+
+		}});
+	
+	$.ajax({
+		method: "GET",
+		url: "/contar-operaciones",
+		data: {
+			"idprenda": idprenda
+		
+		},
+		success: (data) => { 
+			console.log(data);
+			$("#operaciones").val(data);
 
 		}});
 	
@@ -54,13 +68,13 @@ function listar(idcontrolpedido){
 			
 			for (i in data2) {
 console.log(i);
-
+console.log(data2);
 				a = [
 					"<tr>" +
 					"<td>" + parseInt(parseInt(i)+1) + "</td>",
 					"<td>" + data2[i].cantidadPrendaBulto + "</td>",
 					"<td style='text-align: center'>" +
-					"<button onclick=eliminarEspecificacion('" + data2.actualizadoPor + "','" + data2.actualizadoPor + "','" + data2.actualizadoPor + "') class='btn btn-danger' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'>Eliminar</button>" +
+					"<button onclick=eliminarembultado('" + data2[i].idControlPedidoEmbultado + "') class='btn btn-danger' type='button'>Eliminar</button>" +
 					"</td>" +
 
 					"<tr>"
@@ -155,7 +169,7 @@ $( "#Guardar" ).click(function() {
 				  title: 'Ingresado correctamente',
 				  text: 'Ingresado correctamente'
 				})		
-				listar(document.getElementById("idcontrol").value);
+				listar(document.getElementById("idcontrol").value,document.getElementById("idprenda").value);
 
 		}});
 	//listar(document.getElementById("idcontrol").value);
@@ -168,8 +182,30 @@ $( "#Guardar" ).click(function() {
 
 $( "#enviarOrden" ).click(function() {
 	
-	 window.open("/maquilacontrolpedidostickets");
+	 window.open("/maquilacontrolpedidostickets?format=pdf");
 	 
 	
 
 });
+
+function eliminarembultado(id){
+	
+	console.log("fads");
+	$.ajax({
+		method: "DELETE",
+		url: "/eliminar-embultado",
+		data: {
+			"_csrf": $(
+			'#token')
+		.val(),
+			"id": id
+		
+		},
+		success: (data) => { 
+			listar(document.getElementById("idcontrol").value,document.getElementById("idprenda").value);
+
+
+		}});
+	//alert("es id "+id+"");
+	
+}

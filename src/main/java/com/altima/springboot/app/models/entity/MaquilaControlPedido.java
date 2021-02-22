@@ -73,6 +73,9 @@ public class MaquilaControlPedido implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	@Column(name="id_prenda")
+	private Long idPrenda;
 
 	public Long getIdControlPedido() {
 		return idControlPedido;
@@ -208,6 +211,14 @@ public class MaquilaControlPedido implements Serializable{
 
 	public void setEstatus(String estatus) {
 		this.estatus = estatus;
+	}
+
+	public Long getIdPrenda() {
+		return idPrenda;
+	}
+
+	public void setIdPrenda(Long idPrenda) {
+		this.idPrenda = idPrenda;
 	}
 	
 	

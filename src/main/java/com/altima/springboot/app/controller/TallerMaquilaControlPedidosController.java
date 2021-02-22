@@ -58,6 +58,7 @@ public class TallerMaquilaControlPedidosController {
 		maquilacontrol.setModelo(arrOfStr[0]);
 		maquilacontrol.setOrdenProduccion(orden);
 		maquilacontrol.setPrenda(arrOfStr[1]);
+		maquilacontrol.setIdPrenda(Long.parseLong(arrOfStr[2]));
 		maquilacontrol.setUltimaFechaModificacion(hourdateFormat.format(date));
 		maquilaControlPedidoService.save(maquilacontrol);
 		 redirectAttrs.addFlashAttribute("title", "Guardado correctamente").addFlashAttribute("icon",

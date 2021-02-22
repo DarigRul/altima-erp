@@ -36,5 +36,28 @@ public class MaquilaControlPedidoBultoServiceImpl implements IMaquilaControlPedi
 		
 		repository.save(maquilacontrolpedidobulto);
 	}
+
+	@Override
+	@Transactional
+	public String ContarOperaciones(String idprenda) {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("Select count(PO.id_asignacion)\r\n"
+				+ "\r\n"
+				+ "FROM\r\n"
+				+ "	alt_maquila_prenda_operacion AS PO\r\n"
+				+ "	INNER JOIN alt_maquila_lookup operacion ON operacion.id_lookup = PO.id_operacion\r\n"
+				+ "	INNER JOIN alt_maquila_lookup familia ON operacion.descripcion_lookup = familia.id_lookup\r\n"
+				+ "	WHERE \r\n"
+				+ "	1=1\r\n"
+				+ "	AND PO.id_prenda="+idprenda+"").getSingleResult().toString();
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		// TODO Auto-generated  stub
+		repository.deleteById(id);
+		
+	}
 	
 }

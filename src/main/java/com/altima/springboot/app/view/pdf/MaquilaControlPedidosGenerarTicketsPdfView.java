@@ -30,7 +30,7 @@ public class MaquilaControlPedidosGenerarTicketsPdfView extends AbstractPdfView 
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, baos);
-        JSONArray rolloArray = (JSONArray) model.get("rolloArray");
+       // JSONArray rolloArray = (JSONArray) model.get("rolloArray");
 
         try {
 
@@ -54,9 +54,9 @@ public class MaquilaControlPedidosGenerarTicketsPdfView extends AbstractPdfView 
             table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
             table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
             table.getDefaultCell().setFixedHeight(70);
-            for (int i = 0; i < rolloArray.length(); i++) {
-                table.addCell(new Phrase(new Chunk(CreateBarCode(rolloArray.getJSONObject(i).optString("idText"), cb), 0, 0)));
-            }
+         //   for (int i = 0; i < rolloArray.length(); i++) {
+               table.addCell(new Phrase(new Chunk(CreateBarCode(("idText"), cb), 0, 0)));
+            //}
             table.addCell(" ");
             table.addCell(" ");
             document.add(tablaNotaria);

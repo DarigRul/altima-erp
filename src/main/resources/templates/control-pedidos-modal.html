@@ -12,7 +12,6 @@
 			</div>
 			<form th:action="@{/guardar-control-pedidos}" th:method="POST">
 				<div class="modal-body">
-                        <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
 
 					<div class="form-group">
 						<label for="exampleFormControlSelect1">Cliente</label> <select name="cliente"
@@ -22,37 +21,37 @@
 
 						</select> <label for="inputPassword">Pedido</label>
 						<div class="col-sm-12">
-							<input type="text" class="form-control" id="inputPassword" name="pedido">
+							<input type="text" class="form-control"  name="pedido">
 						</div>
 
 						<label for="exampleFormControlSelect2">Modelo</label> <select name="modelo"
 							class="form-control" id="exampleFormControlSelect2">
 							<option th:each="prenda : ${prenda_modelo}"
 								th:text="${prenda[0] + ' ' + prenda[1]}"
-								th:value="${prenda[0] + '|' + prenda[1]}">1</option>
+								th:value="${prenda[0] + '|' + prenda[1] + '|' + prenda[2]}">1</option>
 
 						</select> <label for="inputPassword">Cantidad</label>
 						<div class="col-sm-12">
-							<input type="text" class="form-control" id="inputPassword" name="cantidad">
+							<input type="text" class="form-control" name="cantidad">
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label for="inputPassword">OP</label> <input type="text" name="orden"
-									class="form-control" id="inputPassword">
+									class="form-control" >
 							</div>
 							<div class="form-group col-md-6">
 								<label for="inputPassword">Coord</label> <input type="text" name="coordinado"
-									class="form-control" id="inputPassword">
+									class="form-control" >
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-6">
 								<label for="inputPassword">Cve. Tela</label> <input type="text" name="clave_tela"
-									class="form-control" id="inputPassword">
+									class="form-control" >
 							</div>
 							<div class="form-group col-md-6">
 								<label for="inputPassword">Fecha Prog</label> <input name="fecha"
-									type="date" class="form-control" id="inputPassword">
+									type="date" class="form-control" >
 							</div>
 						</div>
 					</div>

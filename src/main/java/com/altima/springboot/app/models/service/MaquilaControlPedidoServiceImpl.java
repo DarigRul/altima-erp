@@ -60,7 +60,7 @@ public class MaquilaControlPedidoServiceImpl implements IMaquilaControlPedidoSer
 	@Transactional
 	public List<Object[]> findAllPrendaModelo(){
 		
-		return em.createNativeQuery("select adp.id_text,adl.nombre_lookup from alt_disenio_prenda adp,alt_disenio_lookup adl where adp.id_familia_prenda=adl.id_lookup and adp.estatus=1 and adl.estatus=1").getResultList();
+		return em.createNativeQuery("select adp.id_text,adl.nombre_lookup,adp.id_prenda from alt_disenio_prenda adp,alt_disenio_lookup adl where adp.id_familia_prenda=adl.id_lookup and adp.estatus=1 and adl.estatus=1").getResultList();
 	}
 	
 	

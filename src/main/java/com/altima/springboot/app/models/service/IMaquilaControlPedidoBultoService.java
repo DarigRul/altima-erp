@@ -10,4 +10,8 @@ public interface IMaquilaControlPedidoBultoService {
 
 	void save(MaquilaControlPedidoBulto maquilacontrolpedidobulto);
 
+	String ContarOperaciones(String idprenda);
+
+	void delete(Long id);
+
 }
