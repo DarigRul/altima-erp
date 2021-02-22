@@ -4,25 +4,25 @@
 		_div.innerHTML = data;
 		return _div.textContent ?
 			_div.textContent
-			.replace(/[áÁàÀâÂäÄãÃåÅæÆ]/g, 'a')
-			.replace(/[çÇ]/g, 'c')
-			.replace(/[éÉèÈêÊëË]/g, 'e')
-			.replace(/[íÍìÌîÎïÏîĩĨĬĭ]/g, 'i')
-			.replace(/[ñÑ]/g, 'n')
-			.replace(/[óÓòÒôÔöÖœŒ]/g, 'o')
-			.replace(/[ß]/g, 's')
-			.replace(/[úÚùÙûÛüÜ]/g, 'u')
-			.replace(/[ýÝŷŶŸÿ]/g, 'n') :
+				.replace(/[áÁàÀâÂäÄãÃåÅæÆ]/g, 'a')
+				.replace(/[çÇ]/g, 'c')
+				.replace(/[éÉèÈêÊëË]/g, 'e')
+				.replace(/[íÍìÌîÎïÏîĩĨĬĭ]/g, 'i')
+				.replace(/[ñÑ]/g, 'n')
+				.replace(/[óÓòÒôÔöÖœŒ]/g, 'o')
+				.replace(/[ß]/g, 's')
+				.replace(/[úÚùÙûÛüÜ]/g, 'u')
+				.replace(/[ýÝŷŶŸÿ]/g, 'n') :
 			_div.innerText
-			.replace(/[áÁàÀâÂäÄãÃåÅæÆ]/g, 'a')
-			.replace(/[çÇ]/g, 'c')
-			.replace(/[éÉèÈêÊëË]/g, 'e')
-			.replace(/[íÍìÌîÎïÏîĩĨĬĭ]/g, 'i')
-			.replace(/[ñÑ]/g, 'n')
-			.replace(/[óÓòÒôÔöÖœŒ]/g, 'o')
-			.replace(/[ß]/g, 's')
-			.replace(/[úÚùÙûÛüÜ]/g, 'u')
-			.replace(/[ýÝŷŶŸÿ]/g, 'n');
+				.replace(/[áÁàÀâÂäÄãÃåÅæÆ]/g, 'a')
+				.replace(/[çÇ]/g, 'c')
+				.replace(/[éÉèÈêÊëË]/g, 'e')
+				.replace(/[íÍìÌîÎïÏîĩĨĬĭ]/g, 'i')
+				.replace(/[ñÑ]/g, 'n')
+				.replace(/[óÓòÒôÔöÖœŒ]/g, 'o')
+				.replace(/[ß]/g, 's')
+				.replace(/[úÚùÙûÛüÜ]/g, 'u')
+				.replace(/[ýÝŷŶŸÿ]/g, 'n');
 	};
 })();
 $(document).ready(function () {
@@ -71,10 +71,10 @@ function muestraPrendas() {
 		for (i = 0; i < data.length; i++) {
 			var id = data[i][1];
 			var name = data[i][2];
-			var id_familia_prenda=data[i][6];
+			var id_familia_prenda = data[i][6];
 			// $("#prenda").append("<option
 			// value='"+name+"'>"+name+"</option>");
-			$("#prenda").append("<option value='" + id +" "+id_familia_prenda+ "'>" + name + "</option>");
+			$("#prenda").append("<option value='" + id + " " + id_familia_prenda + "'>" + name + "</option>");
 
 		}
 		$('#prenda').selectpicker('refresh');
@@ -202,37 +202,37 @@ function eliminarEspecificacion(e, prenda, idprenda) {
 	var prenda = prenda;
 	var idprenda = idprenda;
 	Swal.fire({
-		  title: '&iquest;Est&aacute; seguro que desea eliminar esta especificación?',
-		  text: "Esta acción es irrevesible",
-		  icon: 'warning',
-		  showCancelButton: true,
-		  confirmButtonColor: '#3085d6',
-		  cancelButtonColor: '#d33',
-		  cancelButtonText: 'Cancelar',
-		  confirmButtonText: 'Si, eliminar',
-		  reverseButtons: true
+		title: '&iquest;Est&aacute; seguro que desea eliminar esta especificación?',
+		text: "Esta acción es irrevesible",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		cancelButtonText: 'Cancelar',
+		confirmButtonText: 'Si, eliminar',
+		reverseButtons: true
 
-		}).then((result) => {
-		  if (result.value) {
-			 /////
-			  $.ajax({
-					type: "DELETE",
-					url: "/eliminar-especificacion",
-					data: {
-						"_csrf": $('#token').val(),
-						'ideliminar': e,
-						'id_empleado_pedido': $('#empleado2').val(),
-						'id_prenda_cliente': idprenda,
-						'id_pedido': $('#idpedido').val()
-						
+	}).then((result) => {
+		if (result.value) {
+			/////
+			$.ajax({
+				type: "DELETE",
+				url: "/eliminar-especificacion",
+				data: {
+					"_csrf": $('#token').val(),
+					'ideliminar': e,
+					'id_empleado_pedido': $('#empleado2').val(),
+					'id_prenda_cliente': idprenda,
+					'id_pedido': $('#idpedido').val()
 
-					}
 
-				}).done(function (data) {
-					if (data == true) {
-						listarEspecificaciones(prenda, idprenda);
-						listarPrendas(empleado, pedido);
-						Swal
+				}
+
+			}).done(function (data) {
+				if (data == true) {
+					listarEspecificaciones(prenda, idprenda);
+					listarPrendas(empleado, pedido);
+					Swal
 						.fire({
 							position: 'center',
 							icon: 'success',
@@ -240,23 +240,23 @@ function eliminarEspecificacion(e, prenda, idprenda) {
 							showConfirmButton: false,
 							timer: 2500
 						})
-					} else {
-						Swal
-							.fire({
-								position: 'center',
-								icon: 'error',
-								title: 'Algo ha fallado al intentar eliminar reintente por favor',
-								showConfirmButton: false,
-								timer: 2500
-							})
+				} else {
+					Swal
+						.fire({
+							position: 'center',
+							icon: 'error',
+							title: 'Algo ha fallado al intentar eliminar reintente por favor',
+							showConfirmButton: false,
+							timer: 2500
+						})
 
-					}
+				}
 
-				});
-			  ///////////7
-		  }
-		})
-	
+			});
+			///////////7
+		}
+	})
+
 }
 // /////////////77
 function prendaEmpleado() {
@@ -410,7 +410,7 @@ function guardarespecificaciones() {
 										url: "/guardar-primer-concentrado-tallas",
 										data: {
 											"_csrf": $(
-													'#token')
+												'#token')
 												.val(),
 											'values[]': especificaciones[0],
 											'Pulgadas': $('#pulgada').val(),
@@ -431,7 +431,7 @@ function guardarespecificaciones() {
 										url: "/guardar-primer-concentrado-tallas",
 										data: {
 											"_csrf": $(
-													'#token')
+												'#token')
 												.val(),
 											'values[]': especificaciones,
 											'Pulgadas': $('#pulgada').val(),
@@ -489,22 +489,22 @@ function guardarespecificaciones() {
 									function (datos) {
 										if (datos == false) {
 											$.ajax({
-													type: "POST",
-													url: "/guardar-concentrado-tallas1",
-													data: {
-														"_csrf": $(
-																'#token')
-															.val(),
-														'values[]': especificaciones,
-														'Empleado': empleado,
-														'Largo': largo,
-														'PrendaCliente': prenda,
-														'Talla': talla,
-														'IdPedido': pedido,
-														'Pulgadas': pulgadas
-													}
+												type: "POST",
+												url: "/guardar-concentrado-tallas1",
+												data: {
+													"_csrf": $(
+														'#token')
+														.val(),
+													'values[]': especificaciones,
+													'Empleado': empleado,
+													'Largo': largo,
+													'PrendaCliente': prenda,
+													'Talla': talla,
+													'IdPedido': pedido,
+													'Pulgadas': pulgadas
+												}
 
-												})
+											})
 												.done(
 													function (data) {
 														listarEspecificaciones(document.getElementById("nombre_prenda").value, document.getElementById("id_prenda").value);
@@ -667,25 +667,25 @@ $('#example_filter input[type=search]').keyup(function () {
 		_div.innerHTML = data;
 		return _div.textContent ?
 			_div.textContent
-			.replace(/[áÁàÀâÂäÄãÃåÅæÆ]/g, 'a')
-			.replace(/[çÇ]/g, 'c')
-			.replace(/[éÉèÈêÊëË]/g, 'e')
-			.replace(/[íÍìÌîÎïÏîĩĨĬĭ]/g, 'i')
-			.replace(/[ñÑ]/g, 'n')
-			.replace(/[óÓòÒôÔöÖœŒ]/g, 'o')
-			.replace(/[ß]/g, 's')
-			.replace(/[úÚùÙûÛüÜ]/g, 'u')
-			.replace(/[ýÝŷŶŸÿ]/g, 'n') :
+				.replace(/[áÁàÀâÂäÄãÃåÅæÆ]/g, 'a')
+				.replace(/[çÇ]/g, 'c')
+				.replace(/[éÉèÈêÊëË]/g, 'e')
+				.replace(/[íÍìÌîÎïÏîĩĨĬĭ]/g, 'i')
+				.replace(/[ñÑ]/g, 'n')
+				.replace(/[óÓòÒôÔöÖœŒ]/g, 'o')
+				.replace(/[ß]/g, 's')
+				.replace(/[úÚùÙûÛüÜ]/g, 'u')
+				.replace(/[ýÝŷŶŸÿ]/g, 'n') :
 			_div.innerText
-			.replace(/[áÁàÀâÂäÄãÃåÅæÆ]/g, 'a')
-			.replace(/[çÇ]/g, 'c')
-			.replace(/[éÉèÈêÊëË]/g, 'e')
-			.replace(/[íÍìÌîÎïÏîĩĨĬĭ]/g, 'i')
-			.replace(/[ñÑ]/g, 'n')
-			.replace(/[óÓòÒôÔöÖœŒ]/g, 'o')
-			.replace(/[ß]/g, 's')
-			.replace(/[úÚùÙûÛüÜ]/g, 'u')
-			.replace(/[ýÝŷŶŸÿ]/g, 'n');
+				.replace(/[áÁàÀâÂäÄãÃåÅæÆ]/g, 'a')
+				.replace(/[çÇ]/g, 'c')
+				.replace(/[éÉèÈêÊëË]/g, 'e')
+				.replace(/[íÍìÌîÎïÏîĩĨĬĭ]/g, 'i')
+				.replace(/[ñÑ]/g, 'n')
+				.replace(/[óÓòÒôÔöÖœŒ]/g, 'o')
+				.replace(/[ß]/g, 's')
+				.replace(/[úÚùÙûÛüÜ]/g, 'u')
+				.replace(/[ýÝŷŶŸÿ]/g, 'n');
 	};
 })();
 // //////////////////////////nuevo
@@ -735,16 +735,16 @@ function guardar() {
 		location.reload();
 	}
 }
-function insercionesposteriores(){
-	
-	$( "#prenda" ).change(function() {
-		
+function insercionesposteriores() {
+
+	$("#prenda").change(function () {
+
 		removeOptions(document.getElementById('talla'));
 		$('#talla').selectpicker('refresh');
-   	 var prenda2=prenda.options[prenda.selectedIndex].text;
-   	 console.log(prenda2);
-   	console.log( $("#genero").val());
-   	var selectobjectemp;
+		var prenda2 = prenda.options[prenda.selectedIndex].text;
+		console.log(prenda2);
+		console.log($("#genero").val());
+		var selectobjectemp;
 		selectobjectemp = document.getElementById("empleado");
 		selectobjectemp.disabled = true;
 		$('#empleado').selectpicker('refresh');
@@ -760,42 +760,44 @@ function insercionesposteriores(){
 		$('#genero').selectpicker('refresh');
 		///////////////////////////////777
 		$.ajax({
-       type: "GET",
-       url: "/obtener-posicion-prenda",
-       data:{ "Prenda": prenda2},
-       success: (data) => {
-       	var posicion=data;
-       	console.log(posicion);
-       	$.ajax({
-               type: "GET",
-               url: "/obtener-tallas",
-               data:{ "Posicion": posicion,
-               	"Genero": $("#genero").val()},
-               success: (data) => {
-               	console.log(data);
-               	var select = document.getElementById("talla");
-               	for(index in data) {
-               	    select.options[select.options.length] = new Option(data[index].nombreLookup, data[index].idLookup);
-               	}
-               	$('.selectpicker').selectpicker('refresh');
-               }
-       	});//////////////quitar; sino funciona
-       }
+			type: "GET",
+			url: "/obtener-posicion-prenda",
+			data: { "Prenda": prenda2 },
+			success: (data) => {
+				var posicion = data;
+				console.log(posicion);
+				$.ajax({
+					type: "GET",
+					url: "/obtener-tallas",
+					data: {
+						"Posicion": posicion,
+						"Genero": $("#genero").val()
+					},
+					success: (data) => {
+						console.log(data);
+						var select = document.getElementById("talla");
+						for (index in data) {
+							select.options[select.options.length] = new Option(data[index].nombreLookup, data[index].idLookup);
+						}
+						$('.selectpicker').selectpicker('refresh');
+					}
+				});//////////////quitar; sino funciona
+			}
+		});
+
+
+		////////////////poner los 2 ajax get
+		////despues bloquear genero y al botonazo desbloquear prenda
 	});
-		
-   	
-   	////////////////poner los 2 ajax get
-   	////despues bloquear genero y al botonazo desbloquear prenda
-   	});
-	
+
 }
 
 function removeOptions(selectElement) {
-	   var i, L = selectElement.options.length - 1;
-	   for(i = L; i >= 0; i--) {
-	      selectElement.remove(i);
-	   }
+	var i, L = selectElement.options.length - 1;
+	for (i = L; i >= 0; i--) {
+		selectElement.remove(i);
 	}
+}
 
 
 function GuardarPrendaTalla() {
@@ -810,8 +812,8 @@ function GuardarPrendaTalla() {
 
 	var values = $('#cargaTipopedido10').val();
 
-	if ($('#empleado').val()  && $('#idpedido').val() && $('#prenda').val() && $('#genero').val() && (($('#talla').val() && $('#largo').val()) || (document.getElementById("myCheck").checked==true))) {
-	
+	if ($('#empleado').val() && $('#idpedido').val() && $('#prenda').val() && $('#genero').val() && (($('#talla').val() && $('#largo').val()) || (document.getElementById("myCheck").checked == true))) {
+
 
 		$
 			.ajax({
@@ -819,21 +821,21 @@ function GuardarPrendaTalla() {
 				url: "/guardar-concentrado-tallas",
 				data: {
 					"_csrf": $(
-							'#token')
+						'#token')
 						.val(),
 					'values': values,
 					'Empleado': $(
-							'#empleado')
+						'#empleado')
 						.val(),
 					'Largo': document.getElementById("myCheck").checked ? '0' : $(
-					'#largo')
-					.val() ,
-					'PrendaCliente': $(
-							'#prenda')
+						'#largo')
 						.val(),
-					'Talla':document.getElementById("myCheck").checked ? '0' : $(
-					'#talla')
-					.val(),
+					'PrendaCliente': $(
+						'#prenda')
+						.val(),
+					'Talla': document.getElementById("myCheck").checked ? '0' : $(
+						'#talla')
+						.val(),
 					'IdPedido': $('#idpedido').val()
 
 				}
@@ -893,193 +895,194 @@ function editarprenda() {
 	var empleado = document.getElementById("empleado").value; // sirve
 	var prenda = document.getElementById("idprendaedit").value;
 	var pedido = document.getElementById("idpedido").value;
-	
-	if(($("#largo22").attr('title')=="Especial" || $("#talla22").attr('title')=="Especial" ) && (!$("#largo22").val() || !$("#talla22").val()) ){
-		Swal
-		.fire({
-			position: 'center',
-			icon: 'error',
-			title: 'Solo puede seleccionar talla y largo especial marcando la casilla',
-			showConfirmButton: false,
-			timer: 2500
-		})
-	}
-	else{
-	if (document.getElementById("myCheck2").checked==true) {
-		$.ajax({
-			type: "POST",
-			url: "/editar",
-			data: {
-				"_csrf": $('#token')
-					.val(),
-				'pedido': pedido,
-				'empleado': empleado,
-				'prenda': prenda
 
+	if (($("#largo22").attr('title') == "Especial" || $("#talla22").attr('title') == "Especial") && (!$("#largo22").val() || !$("#talla22").val())) {
+		Swal
+			.fire({
+				position: 'center',
+				icon: 'error',
+				title: 'Solo puede seleccionar talla y largo especial marcando la casilla',
+				showConfirmButton: false,
+				timer: 2500
+			})
+	}
+	else {
+		if (document.getElementById("myCheck2").checked == true) {
+			$.ajax({
+				type: "POST",
+				url: "/editar",
+				data: {
+					"_csrf": $('#token')
+						.val(),
+					'pedido': pedido,
+					'empleado': empleado,
+					'prenda': prenda
+
+
+				}
+
+			})
+				.done(
+					function (data) {
+						if (data == true) {
+							Swal
+								.fire({
+									position: 'center',
+									icon: 'success',
+									title: 'editado exitosamente',
+									showConfirmButton: false,
+									timer: 2500
+								})
+							listarPrendas(empleado, pedido);
+							$('#modalEditarTalla').modal('hide');
+						} else {
+							Swal
+								.fire({
+									position: 'center',
+									icon: 'error',
+									title: 'Algo salio mal reintente por favor',
+									showConfirmButton: false,
+									timer: 2500
+								})
+							$('#modalEditarTalla').modal('hide');
+
+						}
+					})
+			// //////////////7
+		} else {
+
+
+			if (document.getElementById("talla22").value.length > 0 && document.getElementById("largo22").value.length == 0) {
+				$.ajax({
+					type: "POST",
+					url: "/editar",
+					data: {
+						"_csrf": $('#token')
+							.val(),
+						'talla': $('#talla22').val(),
+						'pedido': pedido,
+						'empleado': empleado,
+						'prenda': prenda
+
+
+					}
+
+				})
+					.done(
+						function (data) {
+							if (data == true) {
+								Swal
+									.fire({
+										position: 'center',
+										icon: 'success',
+										title: 'editado exitosamente',
+										showConfirmButton: false,
+										timer: 2500
+									})
+								listarPrendas(empleado, pedido);
+								$('#modalEditarTalla').modal('hide');
+							} else {
+								Swal
+									.fire({
+										position: 'center',
+										icon: 'error',
+										title: 'Algo salio mal reintente por favor',
+										showConfirmButton: false,
+										timer: 2500
+									})
+								$('#modalEditarTalla').modal('hide');
+
+							}
+						})
+				// //////////////7
+			} else if (document.getElementById("talla22").value.length == 0 && document.getElementById("largo22").value.length > 0) {
+				$.ajax({
+					type: "POST",
+					url: "/editar",
+					data: {
+						"_csrf": $('#token')
+							.val(),
+						'largo': $('#largo22').val(),
+						'pedido': pedido,
+						'empleado': empleado,
+						'prenda': prenda
+
+
+					}
+
+				})
+					.done(
+						function (data) {
+							if (data == true) {
+								Swal
+									.fire({
+										position: 'center',
+										icon: 'success',
+										title: 'editado exitosamente',
+										showConfirmButton: false,
+										timer: 2500
+									})
+								listarPrendas(empleado, pedido);
+								$('#modalEditarTalla').modal('hide');
+							} else {
+								Swal
+									.fire({
+										position: 'center',
+										icon: 'error',
+										title: 'Algo salio mal reintente por favor',
+										showConfirmButton: false,
+										timer: 2500
+									})
+								$('#modalEditarTalla').modal('hide');
+							}
+						})
+				// ///////////
+			} else if (document.getElementById("talla22").value.length == 0 && document.getElementById("largo22").value.length == 0) { } else {
+				$.ajax({
+					type: "POST",
+					url: "/editar",
+					data: {
+						"_csrf": $('#token')
+							.val(),
+						'talla': $('#talla22').val(),
+						'largo': $('#largo22').val(),
+						'pedido': pedido,
+						'empleado': empleado,
+						'prenda': prenda
+
+
+					}
+
+				})
+					.done(
+						function (data) {
+							if (data == true) {
+								Swal
+									.fire({
+										position: 'center',
+										icon: 'success',
+										title: 'editado exitosamente',
+										showConfirmButton: false,
+										timer: 2500
+									})
+								listarPrendas(empleado, pedido);
+								$('#modalEditarTalla').modal('hide');
+							} else {
+								Swal
+									.fire({
+										position: 'center',
+										icon: 'error',
+										title: 'Algo salio mal reintente por favor',
+										showConfirmButton: false,
+										timer: 2500
+									})
+								$('#modalEditarTalla').modal('hide');
+							}
+						})
 
 			}
-
-		})
-		.done(
-			function (data) {
-				if (data == true) {
-					Swal
-						.fire({
-							position: 'center',
-							icon: 'success',
-							title: 'editado exitosamente',
-							showConfirmButton: false,
-							timer: 2500
-						})
-					listarPrendas(empleado, pedido);
-					$('#modalEditarTalla').modal('hide');
-				} else {
-					Swal
-						.fire({
-							position: 'center',
-							icon: 'error',
-							title: 'Algo salio mal reintente por favor',
-							showConfirmButton: false,
-							timer: 2500
-						})
-					$('#modalEditarTalla').modal('hide');
-
-				}
-			})
-	// //////////////7
-	} else {
-
-	
-	if (document.getElementById("talla22").value.length > 0 && document.getElementById("largo22").value.length == 0) {
-		$.ajax({
-				type: "POST",
-				url: "/editar",
-				data: {
-					"_csrf": $('#token')
-						.val(),
-					'talla': $('#talla22').val(),
-					'pedido': pedido,
-					'empleado': empleado,
-					'prenda': prenda
-
-
-				}
-
-			})
-			.done(
-				function (data) {
-					if (data == true) {
-						Swal
-							.fire({
-								position: 'center',
-								icon: 'success',
-								title: 'editado exitosamente',
-								showConfirmButton: false,
-								timer: 2500
-							})
-						listarPrendas(empleado, pedido);
-						$('#modalEditarTalla').modal('hide');
-					} else {
-						Swal
-							.fire({
-								position: 'center',
-								icon: 'error',
-								title: 'Algo salio mal reintente por favor',
-								showConfirmButton: false,
-								timer: 2500
-							})
-						$('#modalEditarTalla').modal('hide');
-
-					}
-				})
-		// //////////////7
-	} else if (document.getElementById("talla22").value.length == 0 && document.getElementById("largo22").value.length > 0) {
-		$.ajax({
-				type: "POST",
-				url: "/editar",
-				data: {
-					"_csrf": $('#token')
-						.val(),
-					'largo': $('#largo22').val(),
-					'pedido': pedido,
-					'empleado': empleado,
-					'prenda': prenda
-
-
-				}
-
-			})
-			.done(
-				function (data) {
-					if (data == true) {
-						Swal
-							.fire({
-								position: 'center',
-								icon: 'success',
-								title: 'editado exitosamente',
-								showConfirmButton: false,
-								timer: 2500
-							})
-						listarPrendas(empleado, pedido);
-						$('#modalEditarTalla').modal('hide');
-					} else {
-						Swal
-							.fire({
-								position: 'center',
-								icon: 'error',
-								title: 'Algo salio mal reintente por favor',
-								showConfirmButton: false,
-								timer: 2500
-							})
-						$('#modalEditarTalla').modal('hide');
-					}
-				})
-		// ///////////
-	} else if (document.getElementById("talla22").value.length == 0 && document.getElementById("largo22").value.length == 0) {} else {
-		$.ajax({
-				type: "POST",
-				url: "/editar",
-				data: {
-					"_csrf": $('#token')
-						.val(),
-					'talla': $('#talla22').val(),
-					'largo': $('#largo22').val(),
-					'pedido': pedido,
-					'empleado': empleado,
-					'prenda': prenda
-
-
-				}
-
-			})
-			.done(
-				function (data) {
-					if (data == true) {
-						Swal
-							.fire({
-								position: 'center',
-								icon: 'success',
-								title: 'editado exitosamente',
-								showConfirmButton: false,
-								timer: 2500
-							})
-						listarPrendas(empleado, pedido);
-						$('#modalEditarTalla').modal('hide');
-					} else {
-						Swal
-							.fire({
-								position: 'center',
-								icon: 'error',
-								title: 'Algo salio mal reintente por favor',
-								showConfirmButton: false,
-								timer: 2500
-							})
-						$('#modalEditarTalla').modal('hide');
-					}
-				})
-
+		}
 	}
-	}}
 }
 
 // ////////////777

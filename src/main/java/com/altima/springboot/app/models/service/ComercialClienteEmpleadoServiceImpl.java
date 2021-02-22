@@ -73,12 +73,7 @@ public class ComercialClienteEmpleadoServiceImpl implements ComercialClienteEmpl
 	@Transactional
 	public List<ComercialClienteEmpleado> findAllEmpleadosEmpresaWithoutSPFAgregar(Long id) {
 
-		return em.createNativeQuery("select DISTINCT alt_comercial_cliente_empleado.* from alt_comercial_cliente_empleado,alt_comercial_concentrado_tallas  where alt_comercial_cliente_empleado.id_pedido_informacion="+id+" \n"
-				+ " and alt_comercial_concentrado_tallas.id_pedido="+id+"\n"
-				+ " and alt_comercial_concentrado_tallas.id_empleado_pedido =alt_comercial_cliente_empleado.id_empleado\n"
-				+ " and alt_comercial_cliente_empleado.id_empleado \n"
-				+ " not in(select DISTINCT alt_comercial_concentrado_tallas.id_empleado_pedido from alt_comercial_concentrado_tallas where alt_comercial_concentrado_tallas.id_pedido="+id+")\n"
-				+ " ").getResultList();
+		return em.createNativeQuery("SELECT acce.* FROM alt_comercial_cliente_empleado acce WHERE acce.id_pedido_informacion=:id AND acce.id_empleado NOT IN (SELECT acct.id_empleado_pedido FROM alt_comercial_concentrado_tallas acct WHERE acct.id_pedido=:id)",ComercialClienteEmpleado.class).setParameter("id", id).getResultList();
 	}
 
 	@Override
