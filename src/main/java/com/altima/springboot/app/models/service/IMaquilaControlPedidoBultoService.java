@@ -14,4 +14,6 @@ public interface IMaquilaControlPedidoBultoService {
 
 	void delete(Long id);
 
+	List<Object[]> GenerarTickets(String idcontrol, String idprenda);
+
 }

@@ -13,10 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.altima.springboot.app.models.entity.MaquilaControlPedido;
+import com.altima.springboot.app.models.service.IMaquilaControlPedidoBultoService;
 import com.altima.springboot.app.models.service.IMaquilaControlPedidoService;
 
 @Controller
@@ -24,6 +26,8 @@ public class TallerMaquilaControlPedidosController {
 
 	@Autowired
 	IMaquilaControlPedidoService maquilaControlPedidoService;
+	@Autowired
+	IMaquilaControlPedidoBultoService maquilaControlPedidoBultoService;
 	
 	@GetMapping("/control-pedidos")
 	public String ListControlPedidos(Model model) {
@@ -66,9 +70,9 @@ public class TallerMaquilaControlPedidosController {
 		return "redirect:/control-pedidos";
 	}
 	
-	@GetMapping("/maquilacontrolpedidostickets")
-	public String TicketsMaquilaControlPedidos() throws ServletException, IOException {
-		
+	@GetMapping("/maquilacontrolpedidostickets/{idcontrol}/{idprenda}")
+	public String TicketsMaquilaControlPedidos(@PathVariable("idcontrol") String idcontrol,@PathVariable("idprenda") String idprenda, Model model) throws ServletException, IOException {
+		model.addAttribute("tickets", maquilaControlPedidoBultoService.GenerarTickets(idcontrol,idprenda));
 		return "/maquilacontrolpedidostickets";
 	}
 }

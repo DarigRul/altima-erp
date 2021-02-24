@@ -181,8 +181,9 @@ $( "#Guardar" ).click(function() {
 
 
 $( "#enviarOrden" ).click(function() {
-	
-	 window.open("/maquilacontrolpedidostickets?format=pdf");
+	var control=document.getElementById("idcontrol").value;
+	var prenda=document.getElementById("idprenda").value;
+	 window.open("/maquilacontrolpedidostickets/"+control+"/"+prenda+"/?format=pdf");
 	 
 	
 
