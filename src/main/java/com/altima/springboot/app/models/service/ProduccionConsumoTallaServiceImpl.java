@@ -279,7 +279,7 @@ public class ProduccionConsumoTallaServiceImpl implements IProduccionConsumoTall
 				"SELECT\n" + 
 				"	m.id_material,\n" + 
 				"	m.nombre_material ,\n" + 
-				"	'Forro'\n" + 
+				"	'forro-combinacion'\n" + 
 				"FROM\n" + 
 				"	alt_disenio_material_prenda AS MP,\n" + 
 				"	alt_disenio_material AS m \n" + 
@@ -287,25 +287,8 @@ public class ProduccionConsumoTallaServiceImpl implements IProduccionConsumoTall
 				"	1 = 1 \n" + 
 				"	AND MP.id_material = m.id_material \n" + 
 				"	AND MP.id_prenda = "+id+" \n" + 
-				"	AND m.nombre_material = 'Forro principal'\n" + 
-				"	\n" + 
-				"	UNION\n" + 
-				"SELECT\n" + 
-				"	material.id_material,\n" + 
-				"	material.nombre_material,\n" + 
-				"	'tela-entretela'\n" + 
-				"FROM\n" + 
-				"	alt_disenio_material_prenda AS material_prenda,\n" + 
-				"	alt_disenio_material AS material,\n" + 
-				"	alt_disenio_lookup adl,\n" + 
-				"	alt_disenio_lookup AS look \n" + 
-				"WHERE\n" + 
-				"	1 = 1 \n" + 
-				"	AND look.id_lookup = material.id_tipo_material\n" + 
-				"	AND (look.nombre_lookup = 'Entretela' )\n" + 
-				"	AND material.id_material = material_prenda.id_material \n" + 
-				"	AND material.id_proceso = adl.id_lookup \n" + 
-				"	AND material_prenda.id_prenda = "+id).getResultList();
+				"	AND m.nombre_material like 'Forro combinación'\n" + 
+				"	\n" ).getResultList();
 		return re;
 	}
 }

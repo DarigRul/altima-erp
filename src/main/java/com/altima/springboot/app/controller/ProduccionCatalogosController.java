@@ -102,7 +102,7 @@ public class ProduccionCatalogosController {
 	@PostMapping("/guardar-catalogo-produccion")
 	public String guardacatalogo(String nomenclatura, String descripcion, String num_talla, String id_genero,
 			String genero, String descripcionProceso, String origenProceso, String maquilero, String telefono,
-			String ruta, String datos, String nombreUbicacion) {
+			String ruta, String datos, String nombreUbicacion,String tipoProceso) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -198,6 +198,7 @@ public class ProduccionCatalogosController {
 
 			proceso.setNombreLookup(StringUtils.capitalize(descripcionProceso));
 			proceso.setTipoLookup("Proceso");
+			proceso.setAtributo1(tipoProceso);
 			proceso.setCreadoPor(auth.getName());
 			proceso.setFechaCreacion(dateFormat.format(date));
 			proceso.setEstatus("1");
@@ -338,7 +339,7 @@ public class ProduccionCatalogosController {
 			resp = LookupService.findDuplicate(Lookup, Tipo, Atributo1, Atributo2);
 		}
 		if (Tipo.equals("Proceso")) {
-			resp = LookupService.findDuplicate(Lookup, Tipo, descripcion);
+			resp = LookupService.findDuplicate(Lookup, Tipo, descripcion,Atributo1);
 		}
 		if (Tipo.equals("Maquilero")) {
 			resp = LookupService.findDuplicate(Lookup, Tipo, descripcion);
@@ -367,7 +368,7 @@ public class ProduccionCatalogosController {
 	@PostMapping("/editar-catalogo-produccion")
 	public String editacatalogo(final Long idLookup, String descripcionProceso, String origenProceso, String maquilero,
 			String telefono, String nombreUbicacion, String responsablesUbicacion, String largoNomenclatura,
-			String largoDescripcion) {
+			String largoDescripcion,String tipoProceso) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		if (descripcionProceso != null && idLookup > 0) {
@@ -377,6 +378,7 @@ public class ProduccionCatalogosController {
 			proceso.setDescripcionLookup(origenProceso);
 			proceso.setUltimaFechaModificacion(currentDate());
 			proceso.setActualizadoPor(auth.getName());
+			proceso.setAtributo1(tipoProceso);
 			LookupService.save(proceso);
 			return "redirect:catalogos";
 		}

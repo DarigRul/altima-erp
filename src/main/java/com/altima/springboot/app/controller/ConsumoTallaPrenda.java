@@ -28,11 +28,9 @@ import com.altima.springboot.app.models.entity.ComercialCoordinadoMaterial;
 import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.ProduccionConsumoTalla;
 import com.altima.springboot.app.models.entity.ProduccionConsumoTallaCombinacionTela;
-import com.altima.springboot.app.models.entity.ProduccionConsumoTallaEntretela;
 import com.altima.springboot.app.models.entity.ProduccionConsumoTallaForro;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IProduccionConsumoTallaCombinacionTelaService;
-import com.altima.springboot.app.models.service.IProduccionConsumoTallaEntretelaService;
 import com.altima.springboot.app.models.service.IProduccionConsumoTallaForroService;
 import com.altima.springboot.app.models.service.IProduccionConsumoTallaService;
 
@@ -43,12 +41,10 @@ public class ConsumoTallaPrenda {
 	@Autowired
 	private IProduccionConsumoTallaService ConsumoService;
 	@Autowired
-	private IProduccionConsumoTallaForroService ConsumoForroService;
-	@Autowired
 	private IProduccionConsumoTallaCombinacionTelaService ConsumocombinacionService;
 	
 	@Autowired
-	private IProduccionConsumoTallaEntretelaService EntretelaService;
+	private IProduccionConsumoTallaForroService forroService;
 
 	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_CONSUMO"})
 	@GetMapping("/consumo-talla-prenda/{id}")
@@ -138,20 +134,7 @@ public class ConsumoTallaPrenda {
 			model.addAttribute("action",1);  
 			return "consumo-talla-prenda";
 		}
-		if ( tipo.equals("Forro")) {
-			List<String> list = new ArrayList<>();
 
-			for (String d : ConsumoService.largo()) {
-				list.add(d);
-			}
-			model.addAttribute("head", list);
-			model.addAttribute("headTam", list.size());
-			model.addAttribute("listConsumo", ConsumoForroService.Consumo_Talla(id, ConsumoForroService.genpivot(list)));
-			model.addAttribute("listConsumo_id", ConsumoForroService.Consumo_Talla_id(id));
-			model.addAttribute("action",2);  
-			return "consumo-talla-prenda";
-			
-		}
 		if ( tipo.equals("tela-combinacion")) {
 			model.addAttribute("action",3);
 			
@@ -177,7 +160,7 @@ public class ConsumoTallaPrenda {
 			model.addAttribute("listConsumoExtras", ConsumocombinacionService.Consumo_Talla(id, ConsumocombinacionService.genpivot(list), idExtra));
 			return "consumo-talla-prenda";
 		}
-		if ( tipo.equals("tela-entretela")) {
+		if ( tipo.equals("forro-combinacion")) {
 			model.addAttribute("action",4);
 			
 			model.addAttribute("listLargo", ConsumoService.largo());
@@ -190,8 +173,8 @@ public class ConsumoTallaPrenda {
 				list2.add("Largo");
 			}
 			model.addAttribute("numTallas", list2);
-			model.addAttribute("listConsumoExtras_id", EntretelaService.Consumo_Talla_id(id,idExtra));
-			model.addAttribute("listConsumoExtras", EntretelaService.Consumo_Talla(id, ConsumocombinacionService.genpivot(list), idExtra));
+			model.addAttribute("listConsumoExtras_id", forroService.Consumo_Talla_id(id,idExtra));
+			model.addAttribute("listConsumoExtras", forroService.Consumo_Talla(id, ConsumocombinacionService.genpivot(list), idExtra));
 			return "consumo-talla-prenda";
 		}
 		return null;
@@ -205,16 +188,14 @@ public class ConsumoTallaPrenda {
 		if ( tipo .equals("tela")) {
 		return ConsumoService.tallas(id);
 		}
-		else if ( tipo .equals("forro")) {
-			return ConsumoForroService.tallas(id);
-		}
+
 		
 		else if ( tipo .equals("tela-combinacion")) {
 			
 			return ConsumocombinacionService.tallas(id, idMaterial);
 		}
-		else if ( tipo .equals("tela-entretela")) {
-			return EntretelaService.tallas(id);
+		else if ( tipo .equals("forro-combinacion")) {
+			return forroService.tallas(id);
 		}
 		else {
 			return null;
@@ -231,7 +212,7 @@ public class ConsumoTallaPrenda {
 			
 			return ConsumocombinacionService.largos();
 		}
-		 else if  ( tipo .equals("tela-entretela")) {
+		 else if  ( tipo .equals("forro-combinacion")) {
 				
 				return ConsumocombinacionService.largos();
 			}
@@ -246,9 +227,6 @@ public class ConsumoTallaPrenda {
 	public List<Object[]> editar_tallas(Long idTalla, Long idPrenda , String tipo) {
 		if ( tipo .equals("Tela")) {
 			 return ConsumoService.ConsumoTalla_Tallas(idTalla, idPrenda);
-			}
-			else if ( tipo .equals("Forro")) {
-			 return ConsumoForroService.ConsumoTalla_Tallas(idTalla, idPrenda);
 			}
 			else {
 				return null;
@@ -287,10 +265,10 @@ public class ConsumoTallaPrenda {
 			
 		}
 		
-		if (tipo.equals("tela-entretela")) {
+		if (tipo.equals("forro-combinacion")) {
 			ProduccionConsumoTallaCombinacionTela aux = ConsumocombinacionService.buscar_consumo(idTalla, idPrenda, idLargo, idMaterial);
 			if ( aux == null) {
-				ProduccionConsumoTallaEntretela entre = new ProduccionConsumoTallaEntretela();
+				ProduccionConsumoTallaForro entre = new ProduccionConsumoTallaForro();
 				entre.setIdPrenda(idPrenda);
 				entre.setConsumoLargo(largo);
 				entre.setConsumoAncho(ancho);
@@ -300,7 +278,7 @@ public class ConsumoTallaPrenda {
 				entre.setIdTalla(idTalla);
 				entre.setIdMaterial(idMaterial);
 				entre.setIdTipoLargo(idLargo);
-				EntretelaService.save(entre);
+				forroService.save(entre);
 			}
 			else {
 				aux.setConsumoLargo(largo);
@@ -361,44 +339,6 @@ public class ConsumoTallaPrenda {
 			}
 		}
 		
-		if (tipo.equals("Forro")) {
-			
-			JSONArray json = new JSONArray(datos);
-			for (int i = 0; i < json.length(); i++) {
-				ProduccionConsumoTallaForro consumo = new ProduccionConsumoTallaForro();
-				JSONObject object = (JSONObject) json.get(i);
-				String id = object.get("id_material").toString();
-				String color = object.get("color").toString();
-				ProduccionConsumoTallaForro aux = ConsumoForroService.buscar_consumo(idTalla, idPrenda, Long.parseLong(id));
-				if (aux == null) {
-					System.out.println(id);
-					System.out.println(color);
-					consumo.setIdPrenda(idPrenda);
-					consumo.setIdTipoTalla(Long.parseLong(id));
-					consumo.setConsumo(color);
-					consumo.setCreadoPor(auth.getName());
-					consumo.setActualizadoPor(null);
-					consumo.setFechaCreacion(hourdateFormat.format(date));
-					consumo.setUltimaFechaModificacion(null);
-					consumo.setIdTalla(idTalla);
-					consumo.setEstatus("1");
-					ConsumoForroService.save(consumo);
-				} else {
-
-					if (aux.getConsumo().equals(color)) {
-
-					} else {
-						System.out.println("el id de largo es --->" + id);
-						aux.setConsumo(color);
-						aux.setUltimaFechaModificacion(hourdateFormat.format(date));
-						aux.setActualizadoPor(auth.getName());
-						ConsumoForroService.save(aux);
-
-					}
-				}
-
-			}
-		}
 		 return "redirect:/consumo-talla-prenda/"+idPrenda;
 		
 	}
@@ -408,8 +348,8 @@ public class ConsumoTallaPrenda {
 	@ResponseBody
 	public List<String> buscar_tallas(Long idTalla , Long idPrenda , Long idLargo, Long idMaterial, String tipo) {
 		
-		if (tipo.equals("tela-entretela")) {
-			ProduccionConsumoTallaEntretela aux = EntretelaService.buscar_consumo(idTalla, idPrenda, idLargo,
+		if (tipo.equals("forro-combinacion")) {
+			ProduccionConsumoTallaForro aux = forroService.buscar_consumo(idTalla, idPrenda, idLargo,
 					idMaterial);
 			List<String> list = new ArrayList<>();
 			if (aux == null) {
@@ -446,9 +386,5 @@ public class ConsumoTallaPrenda {
 
 	// C O M I E N Z A L A P A R T E D E F O R R O
 
-	@RequestMapping(value = "/validar-forro-prenda", method = RequestMethod.GET)
-	@ResponseBody
-	public boolean validar_forro(Long idPrenda) {
-		return ConsumoForroService.buscar_forro_prenda(idPrenda);
-	}
+
 }

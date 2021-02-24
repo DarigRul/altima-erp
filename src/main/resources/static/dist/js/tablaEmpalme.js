@@ -7,10 +7,11 @@ $(document).ready(function () {
     });
     table = $('.tableEmpalme')
         .DataTable({
-            "ordering": false,
             "orderCellsTop": true,
+            "ordering": true,
             "fixedHeader": true,
             "pageLength": 5,
+            "autoWidth": true,
             "stateSave": true,
             "scrollX": true,
             "drawCallback": function () {
@@ -69,7 +70,7 @@ $(document).ready(function () {
 
     // Apply the search
     table.columns().eq(0).each(function (colIdx) {
-        $('input', table.column(colIdx).header()).on('keyup change', function () {
+        $('input', table.column(colIdx).header()).on('input', function () {
             table
                 .column(colIdx)
                 .search(this.value)
