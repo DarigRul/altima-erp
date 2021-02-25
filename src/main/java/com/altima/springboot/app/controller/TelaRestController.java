@@ -66,7 +66,7 @@ public class TelaRestController {
 			@RequestParam(name = "idTela") Long id) throws Exception {
 		DisenioTela disenioTela = disenioTelaService.findOne(id);
 		System.out.println(encogiTela);
-		disenioTela.setPruebaEncogimiento(encogiTela);
+		disenioTela.setPruebaEncogimientoLargo(encogiTela);
 
 		disenioTelaService.save(disenioTela);
 

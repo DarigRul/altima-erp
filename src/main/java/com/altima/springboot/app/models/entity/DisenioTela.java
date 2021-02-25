@@ -98,8 +98,15 @@ public class DisenioTela implements Serializable{
 	@Column(name="auxiliar_3")
 	private String auxiliar3;
 	
-	@Column(name="prueba_encogimiento")
-	private int pruebaEncogimiento;
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
+	@GenericGenerator(name="native",strategy="native")
+	@Column(name="prueba_encogimiento_largo")
+	private int pruebaEncogimientoLargo;
+
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
+	@GenericGenerator(name="native",strategy="native")
+	@Column(name="prueba_encogimiento_ancho")
+	private int pruebaEncogimientoAncho;
 
 	@Column(name="ruta_pdf_encogimiento")
 	private String rutaPdfEncogimiento;
@@ -323,14 +330,6 @@ public class DisenioTela implements Serializable{
 		this.claveProveedor = claveProveedor;
 	}
 
-	public int getPruebaEncogimiento() {
-		return pruebaEncogimiento;
-	}
-
-	public void setPruebaEncogimiento(int pruebaEncogimiento) {
-		this.pruebaEncogimiento = pruebaEncogimiento;
-	}
-
 	public String getRutaPdfEncogimiento() {
 		return rutaPdfEncogimiento;
 	}
@@ -345,6 +344,22 @@ public class DisenioTela implements Serializable{
 
 	public void setDescripcionPdfEncogimiento(String descripcionPdfEncogimiento) {
 		this.descripcionPdfEncogimiento = descripcionPdfEncogimiento;
+	}
+
+	public int getPruebaEncogimientoLargo() {
+		return pruebaEncogimientoLargo;
+	}
+
+	public void setPruebaEncogimientoLargo(int pruebaEncogimientoLargo) {
+		this.pruebaEncogimientoLargo = pruebaEncogimientoLargo;
+	}
+
+	public int getPruebaEncogimientoAncho() {
+		return pruebaEncogimientoAncho;
+	}
+
+	public void setPruebaEncogimientoAncho(int pruebaEncogimientoAncho) {
+		this.pruebaEncogimientoAncho = pruebaEncogimientoAncho;
 	}
 
 
