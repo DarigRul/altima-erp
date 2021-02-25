@@ -1,53 +1,5 @@
 function EditarEncogimiento(id) {
-    Swal.fire({
-        title: 'Agregar % de encogimiento/estiramiento',
-        html: '<div class="row">' +
-            '<div class="form-group col-sm-12">' +
-            '<label for="tela">% encogimiento/estiramiento</label>' +
-            '<input type="number" class="swal2-input" id="encogimientoTela" placeholder="2">' +
-            '</div>' +
-            '</div>',
-        showCancelButton: true,
-        cancelButtonColor: '#dc3545',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Agregar',
-        confirmButtonColor: '#0288d1',
-        preConfirm: (color) => {
-            if ($('#encogimientoTela').val() == "" || $('#encogimientoTela').val() == null || $('#encogimientoTela').val() == undefined) {
-                Swal.showValidationMessage(
-                    `Complete todos los campos`
-                )
-            }
-        }
-    }).then((result) => {
-        if (result.value) {
-            var encogiTela = $('#encogimientoTela').val();
-            var idTela = id;
-            $.ajax({
-                method: "POST",
-                url: "/agregarPorcentajeEncogimiento",
-                data: {
-                    "_csrf": $('#token').val(),
-                    idTela: idTela,
-                    encogiTela: encogiTela
-                },
-                success: (data) => {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: 'Insertado correctamente',
-                        showConfirmButton: false,
-                        timer: 1250,
-                        onClose: () => {
-                            location.reload();
-                        }
-                    })
-                }
-            })
-            console.log("si lo hace bien");
-
-        }
-    });
+    $("#modalCalidadTela").modal("show");
 }
 
 function subirPDF(idTela, ruta, descripcion) {

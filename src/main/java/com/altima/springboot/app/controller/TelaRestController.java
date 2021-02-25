@@ -72,39 +72,39 @@ public class TelaRestController {
 
 	}
 
-	@PostMapping("/guardarPdfEncogimiento")
-	@ResponseStatus(HttpStatus.CREATED)
-	@Transactional
-	public ResponseEntity<?> guardarImagenes(@RequestParam Long idTela, @RequestParam String descripcion,
-			@RequestParam MultipartFile archivoEncogimiento) throws Exception {
+	// @PostMapping("/guardarPdfEncogimiento")
+	// @ResponseStatus(HttpStatus.CREATED)
+	// @Transactional
+	// public ResponseEntity<?> guardarImagenes(@RequestParam Long idTela, @RequestParam String descripcion,
+	// 		@RequestParam MultipartFile archivoEncogimiento) throws Exception {
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Cloudinary cloudinary = uService.CloudinaryApi();
-		String uniqueFilename;
-		Map<String, Object> response = new HashMap<>();
-		DisenioTela tela = disenioTelaService.findOne(idTela);
-		System.out.println(idTela+descripcion);
-		try {
-			if (tela.getRutaPdfEncogimiento()!=null) {
-				cloudinary.uploader().destroy("pdf/" + tela.getRutaPdfEncogimiento().substring(0, tela.getRutaPdfEncogimiento().length() - 4)
-				, ObjectUtils.asMap("resourceType", "pdf"));
-			}
-			uniqueFilename = uService.copy2(archivoEncogimiento);
-			tela.setDescripcionPdfEncogimiento(descripcion);
-			tela.setRutaPdfEncogimiento(uniqueFilename);
-			cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
-					"pdf/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
-			disenioTelaService.save(tela);
+	// 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	// 	Cloudinary cloudinary = uService.CloudinaryApi();
+	// 	String uniqueFilename;
+	// 	Map<String, Object> response = new HashMap<>();
+	// 	DisenioTela tela = disenioTelaService.findOne(idTela);
+	// 	System.out.println(idTela+descripcion);
+	// 	try {
+	// 		if (tela.getRutaPdfEncogimiento()!=null) {
+	// 			cloudinary.uploader().destroy("pdf/" + tela.getRutaPdfEncogimiento().substring(0, tela.getRutaPdfEncogimiento().length() - 4)
+	// 			, ObjectUtils.asMap("resourceType", "pdf"));
+	// 		}
+	// 		uniqueFilename = uService.copy2(archivoEncogimiento);
+	// 		tela.setDescripcionPdfEncogimiento(descripcion);
+	// 		tela.setRutaPdfEncogimiento(uniqueFilename);
+	// 		cloudinary.uploader().upload(uService.filePrenda(uniqueFilename), ObjectUtils.asMap("public_id",
+	// 				"pdf/" + uniqueFilename.substring(0, uniqueFilename.length() - 4)));
+	// 		disenioTelaService.save(tela);
 
-		}
+	// 	}
 
-		catch (IOException e) {
-			response.put("mensaje", "Error al insertar en la BD");
-			response.put("error", e.getMessage() + ": " + e.getMessage());
-			e.printStackTrace();
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		return new ResponseEntity<DisenioTela>(tela, HttpStatus.CREATED);
-	}
+	// 	catch (IOException e) {
+	// 		response.put("mensaje", "Error al insertar en la BD");
+	// 		response.put("error", e.getMessage() + ": " + e.getMessage());
+	// 		e.printStackTrace();
+	// 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+	// 	}
+	// 	return new ResponseEntity<DisenioTela>(tela, HttpStatus.CREATED);
+	// }
 
 }

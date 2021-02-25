@@ -983,7 +983,7 @@ function listarColor() {
 		data:{} ,
 		success: (data) => {
 
-        	var tabla = $('#tableCorlor').DataTable();
+        	var tabla = $('#tableColor').DataTable();
         	
         	 
         	tabla.clear();

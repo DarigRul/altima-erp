@@ -1,0 +1,106 @@
+<div class="modal fade" id="modalPDF" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header modal-rounded-header bg-altima">
+                <h5 class="modal-title" id="exampleModalLongTitle" style="margin-right: 5px;">Archivo PDF</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+                    <div class="custom-file">
+                        <label for="exampleInputPassword1">Archivo</label>
+                        <input type="file" class="custom-file-input" id="archivoEncogimiento"
+                            name="archivoEncogimiento">
+                        <label class="custom-file-label" for="archivoEncogimiento">No se eligió ningún
+                            archivo</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Descripción</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion"
+                            placeholder="Descripcion"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-10">
+                            <a type="button" href="" target="_blank" id="abrirArchivo" class="btn btn-secondary">Abrir
+                                archivo</a>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <button type="submit" id="enviarEncogimiento" class="btn btn-primary">Guardar</button>
+                        </div>
+
+                    </div>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="hidden" name="idTela" id="idTela" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /.content-wrapper -->
+<div class="modal fade" id="modalCalidadTela" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header modal-rounded-header bg-altima">
+                <h5 class="modal-title" id="exampleModalLongTitle" style="margin-right: 5px;">Porcentajes de
+                    encogimiento/estiramiento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <table class="table">
+                        <thead class="thead-inverse">
+                            <tr>
+                                <th></th>
+                                <th>% Encog. Largo</th>
+                                <th>% Encog. Ancho</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td scope="row"><label>Fusión bloque:</label></td>
+                                <td>
+                                    <input type="number" step="any" class="form-control" id="bloqueLargo"
+                                        placeholder="10">
+                                </td>
+                                <td>
+                                    <input type="number" step="any" class="form-control" id="bloqueAncho"
+                                        placeholder="10">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><label>Fusión refuerzo/plancha:</label></td>
+                                <td> <input type="number" step="any" class="form-control" id="planchaLargo"
+                                        placeholder="10">
+                                </td>
+                                <td><input type="number" step="any" class="form-control" id="planchaAncho"
+                                        placeholder="10">
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <td><label>Porcentaje Promedio:</label></td>
+                            <td> <input type="number" readonly value="0" class="form-control" id="promedioLargo"
+                                    placeholder="10">
+                            </td>
+                            <td>
+                                <input type="number" readonly value="0" class="form-control" id="promedioAncho"
+                                    placeholder="10">
+                            </td>
+                        </tfoot>
+                    </table>
+                    <div class="card-footer">
+                        <a class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+                        <button class="btn btn-sm icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

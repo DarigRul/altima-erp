@@ -157,7 +157,7 @@ public class MaquilaLookupServiceImpl implements IMaquilaLookupService {
 					"look1.estatus\r\n"+
 				"FROM\r\n"+
 					"alt_maquila_lookup AS look1\r\n"+
-					"INNER JOIN alt_maquila_lookup look2 ON look1.descripcion_lookup = look2.id_lookup").getResultList();
+					"INNER JOIN alt_maquila_lookup look2 ON look1.descripcion_lookup = look2.id_lookup and look1.tipo_lookup='AFI'").getResultList();
 
 		return re;
 

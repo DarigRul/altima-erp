@@ -108,13 +108,6 @@ public class DisenioTela implements Serializable{
 	@Column(name="prueba_encogimiento_ancho")
 	private int pruebaEncogimientoAncho;
 
-	@Column(name="ruta_pdf_encogimiento")
-	private String rutaPdfEncogimiento;
-	
-	@Column(name="descripcion_pdf_encogimiento")
-	private String descripcionPdfEncogimiento;
-	
-
 	public String getAuxiliar1() {
 		return auxiliar1;
 	}
@@ -328,22 +321,6 @@ public class DisenioTela implements Serializable{
 
 	public void setClaveProveedor(String claveProveedor) {
 		this.claveProveedor = claveProveedor;
-	}
-
-	public String getRutaPdfEncogimiento() {
-		return rutaPdfEncogimiento;
-	}
-
-	public void setRutaPdfEncogimiento(String rutaPdfEncogimiento) {
-		this.rutaPdfEncogimiento = rutaPdfEncogimiento;
-	}
-
-	public String getDescripcionPdfEncogimiento() {
-		return descripcionPdfEncogimiento;
-	}
-
-	public void setDescripcionPdfEncogimiento(String descripcionPdfEncogimiento) {
-		this.descripcionPdfEncogimiento = descripcionPdfEncogimiento;
 	}
 
 	public int getPruebaEncogimientoLargo() {

@@ -1,13 +1,18 @@
 <div class="small-box bg-success">
     <div class="inner">
         <h3>Color</h3>
-        <button th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" data-target="#color" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+        <button
+            th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+            data-toggle="modal" data-target="#color" class="btn btn-link text-white" style="padding-left: 1px;"><i
+                class="fas fa-info-circle"></i> Detalle</button>
     </div>
     <div class="icon">
         <i class="ion ion-ios-pricetags-outline"></i>
     </div>
     <a class="small-box-footer">
-        <button th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarColor()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+        <button
+            th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+            onclick="agregarColor()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
     </a>
 </div>
 <!-- Modal Marcas Tabla -->
@@ -15,15 +20,18 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
         <div class="modal-content" id="contenedorTabla">
             <div class="modal-header bg-success">
-                <h5 class="modal-title" id="exampleModalLongTitle">Listado de colores <button th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="agregarColor()" class="btn btn-light btn-circle btn-sm text-success popoverxd"
-                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de colores <button
+                        th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                        onclick="agregarColor()" class="btn btn-light btn-circle btn-sm text-success popoverxd"
+                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i
+                            class="fas fa-plus fa-sm"></i></button>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table table-striped table-bordered" id="tableCorlor" style="width:100%;">
+                <table class="table table-striped table-bordered tablaAMP" id="tableColor" style="width:100%;">
                     <thead>
                         <tr>
                             <th>Clave</th>
@@ -44,7 +52,8 @@
 </div>
 <!-- Modal agregar -->
 <div class="modal fade" id="modalAgregarColor" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 40%;" role="document" id="modalMarcasMobile">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 40%;" role="document"
+        id="modalMarcasMobile">
         <div class="modal-content" id="contenedorTabla">
             <div class="modal-header bg-success">
                 <h5 class="modal-title" id="tituloColor">Nuevo activo fijo</h5>
@@ -56,40 +65,44 @@
                 <form name="formColor" id="formColor" class="row" autocomplete="off">
 
                     <div class="form-group col-sm-6">
-                        <label for="familia">Nombre</label> 
-                        <input type="text"  class="form-control" maxlength="45"  id="nombre" placeholder="Nombre">
-                        <input type="hidden"  id="idLookup">
+                        <label for="familia">Nombre</label>
+                        <input type="text" class="form-control" maxlength="45" id="nombre" placeholder="Nombre">
+                        <input type="hidden" id="idLookup">
                     </div>
 
                     <div class="form-group col-sm-6">
-                        <label for="codigoColor">Codigo</label> 
-                        <input type="color"  class="form-control" maxlength="45"  id="codigoColor">
+                        <label for="codigoColor">Codigo</label>
+                        <input type="color" class="form-control" maxlength="45" id="codigoColor">
                     </div>
 
                     <div class="form-group col-sm-6">
-                        <label for="proveedorColor">Proveedor</label> 
-                        <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno..." name="proveedorColor" id="proveedorColor"></select>
+                        <label for="proveedorColor">Proveedor</label>
+                        <select class="form-control selectpicker" data-live-search="true"
+                            data-live-search-normalize="true" title="Selecciona uno..." name="proveedorColor"
+                            id="proveedorColor"></select>
                     </div>
 
                     <div class="form-group col-sm-6">
-                        <label for="calibre">Calibre</label> 
-                        <input type="text"  class="form-control" maxlength="45"  id="calibre" placeholder="Calibre">
-                      
+                        <label for="calibre">Calibre</label>
+                        <input type="text" class="form-control" maxlength="45" id="calibre" placeholder="Calibre">
+
                     </div>
 
-                    <div class="alert alert-light form-group col-sm-12" role="alert" style="display: none" id="alertColor" >
+                    <div class="alert alert-light form-group col-sm-12" role="alert" style="display: none"
+                        id="alertColor">
 
-                        <h5 class="alert-heading center"><i class="fas fa-exclamation" style="color:brown"></i> Complete todos los campos</h5>
-  
+                        <h5 class="alert-heading center"><i class="fas fa-exclamation" style="color:brown"></i> Complete
+                            todos los campos</h5>
+
                     </div>
-                   
+
 
                     <div class="card-footer center">
                         <button onclick="guardarColor()" type="button" class="btn btn-primary btn-lg">Agregar</button>
-                        <button type="button"  data-dismiss="modal" class="btn btn-secondary btn-lg">Cancelar</button>
-                        
+                        <button type="button" data-dismiss="modal" class="btn btn-secondary btn-lg">Cancelar</button>
+
                     </div>
-    
+
                 </form>
             </div>
         </div>
