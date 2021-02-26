@@ -7,5 +7,11 @@ public interface IEmpalmeTelasService {
     List<Object []> view ();
     
     List<Object []> detallesTelas (Long idCoorPrenda);
+
+    List<Object[]> listarProcesosDisponiblesAdmin();
+
+    List<Object[]> listarProcesosDisponiblesUser(Long idUser);
+    
+    List<Object []> listarByProceso(Long idProceso);
     
 }

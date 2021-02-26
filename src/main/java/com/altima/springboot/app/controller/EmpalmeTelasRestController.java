@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.altima.springboot.app.models.entity.ComercialCoordinadoPrenda;
+import com.altima.springboot.app.models.entity.ProduccionExplosionPrendas;
+import com.altima.springboot.app.models.entity.ProduccionExplosionProcesos;
 import com.altima.springboot.app.models.service.IComercialCoordinadoService;
 import com.altima.springboot.app.models.service.IEmpalmeTelasService;
+import com.altima.springboot.app.models.service.IProduccionExplosionProcesosService;
+
 import org.springframework.security.access.annotation.Secured;
 @RestController
 public class EmpalmeTelasRestController {
@@ -23,6 +27,10 @@ public class EmpalmeTelasRestController {
 	
 	@Autowired
     private IComercialCoordinadoService coorService;
+
+	@Autowired
+	private IProduccionExplosionProcesosService explosionService;
+
 	
 	
 	@Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_RUTA"})
@@ -77,6 +85,39 @@ public class EmpalmeTelasRestController {
 	@RequestMapping(value="/empalme_telas_detalles", method=RequestMethod.GET)
 	public List<Object []> detalles (@RequestParam(name = "id") Long id){
 		return EmpalmeService.detallesTelas(id) ;
+	}
+
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_EMPALME_TELAS"})
+	@RequestMapping(value="/empalme_telas_by_proceso", method=RequestMethod.GET)
+	public List<Object []> listarByProceso (@RequestParam(name = "idProceso") Long idProceso){
+		return EmpalmeService.listarByProceso(idProceso);
+	}
+
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_EMPALME_TELAS"})
+	@RequestMapping(value="/guardar_empalme_by_proceso", method=RequestMethod.POST)
+	public boolean save (@RequestParam(name = "ids") String[] ids, String secuencia){
+		for (int i = 0; i < ids.length; i++) {
+			ProduccionExplosionProcesos obj = explosionService.findOne(Long.parseLong(ids[i]));
+			obj.setSecuenciaProceso(secuencia);
+			explosionService.save(obj);	
+		}
+		return true;
+	}
+
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_EMPALME_TELAS"})
+	@RequestMapping(value="/guardar_empalme_by_proceso_fecha_tiempo", method=RequestMethod.POST)
+	public boolean save (Long id, String tiempo,String fecha){
+		
+			ProduccionExplosionProcesos obj = explosionService.findOne(id);
+			if ( tiempo != null){
+				obj.setTiempoProceso(tiempo);
+			}
+			if (fecha != null){
+				obj.setFechaProceso(fecha);
+			}
+			explosionService.save(obj);	
+		
+		return true;
 	}
 
 }

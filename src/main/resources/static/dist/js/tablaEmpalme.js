@@ -1,5 +1,6 @@
-var table;
+
 $(document).ready(function () {
+    var table;
     $('.tableEmpalme thead tr').clone(true).appendTo('.tableEmpalme thead');
     $('.tableEmpalme thead tr:eq(0) th').each(function () {
         var title = $('.tableEmpalme thead th').eq($(this).index()).text();

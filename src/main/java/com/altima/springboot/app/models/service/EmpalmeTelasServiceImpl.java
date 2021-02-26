@@ -129,5 +129,114 @@ public class EmpalmeTelasServiceImpl implements IEmpalmeTelasService {
 
 		return re;
     }
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+    public List<Object[]> listarProcesosDisponiblesUser(Long idUser) {
+        return em.createNativeQuery(""+
+            "SELECT\r\n"+
+                "look.id_lookup,\r\n"+
+                "CONCAT(look.nombre_lookup,' ',look.descripcion_lookup),\r\n"+
+                "look.descripcion_lookup,\r\n"+
+                "look.nombre_lookup,\r\n"+
+				"look.atributo_1 \r\n"+
+            "FROM\r\n"+
+                "alt_produccion_lookup AS look\r\n"+
+                "INNER JOIN alt_produccion_permiso_usuario_proceso AS permiso ON look.id_lookup = permiso.id_proceso\r\n"+
+            "WHERE\r\n"+
+                "1 = 1\r\n"+
+                "AND look.tipo_lookup = 'Proceso'\r\n"+
+                "AND permiso.id_usuario = "+idUser+"\r\n"+
+                "AND look.estatus=1\r\n"+
+                "GROUP BY look.id_lookup\r\n"+
+                "ORDER BY look.nombre_lookup").getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+    public List<Object[]> listarProcesosDisponiblesAdmin() {
+        return em.createNativeQuery(""+
+        "SELECT\r\n"+
+            "look.id_lookup,\r\n"+
+            "CONCAT(look.nombre_lookup,' ',look.descripcion_lookup),\r\n"+
+            "look.descripcion_lookup,\r\n"+
+            "look.nombre_lookup,\r\n"+
+			"look.atributo_1 \r\n"+
+        "FROM\r\n"+
+            "alt_produccion_lookup AS look\r\n"+
+        "WHERE\r\n"+
+            "1 = 1\r\n"+
+            "AND look.tipo_lookup = 'Proceso'\r\n"+
+            "AND look.estatus=1\r\n"+
+            "ORDER BY look.nombre_lookup").getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> listarByProceso(Long idProceso) {
+    	List<Object[]> re = null;
+
+		re = em.createNativeQuery(""
+				+ "SELECT explosionP.id_explosion_procesos, \r\n" + 
+				"			 pedInfo.id_text AS pedido, \r\n" + 
+				"			 pedInfo.fecha_entrega,\r\n" + 
+				"			 coor.numero_coordinado,\r\n" + 
+				"			 disLook.nombre_lookup AS prenda, \r\n" + 
+				"			 prenda.descripcion_prenda, \r\n" + 
+				"			 (SELECT IF( SUM( bordado.precio_bordado )= 0, 'A', 'N/A' )\r\n" + 
+				"				FROM alt_comercial_prenda_bordado AS bordado WHERE bordado.id_coordinado_prenda = coorPrenda.id_coordinado_prenda ) as PERSONALIZACION, \r\n" + 
+				"				LOOK_RUTA.nombre_lookup AS RUTA,\r\n" + 
+				"				(SELECT ( SUM( conse.cantidad ) + SUM( conse.cantidad_especial )) \r\n" + 
+				"					FROM\r\n" + 
+				"						alt_comercial_concetrado_prenda AS conse \r\n" + 
+				"					WHERE\r\n" + 
+				"						conse.id_coordinado_prenda = coorPrenda.id_coordinado_prenda ) AS Confeccion,\r\n" + 
+				"			 \r\n" + 
+				"			 tela.id_text, \r\n" + 
+				"			 tela.ancho,\r\n" + 
+				"			 LOOK_TELA.nombre_lookup as famlia,\r\n" + 
+				"			 tela.prueba_encogimiento_largo,\r\n" + 
+				"			 tela.estampado,\r\n" + 
+				"			 CASE pedInfo.estatus_explosion_materia_prima\r\n" + 
+				"					WHEN 0 THEN \r\n" + 
+				"						'Faltante' \r\n" + 
+				"					WHEN 1 THEN \r\n" + 
+				"							CASE (SELECT estatus  FROM alt_amp_tela_faltante  WHERE id_tela = tela.id_tela and id_pedido = pedInfo.id_pedido_informacion)\r\n" + 
+				"				         WHEN 0 THEN 'Faltante' \r\n" + 
+				"								 WHEN 1 THEN 'Faltante' \r\n" + 
+				"								 WHEN 2 THEN 'Faltante' \r\n" + 
+				"								 WHEN 3 THEN 'Faltante' \r\n" + 
+				"								 WHEN 4 THEN 'Completo'\r\n" + 
+				"					      ELSE 'Completo' \r\n" + 
+				"							END \r\n" + 
+				"					ELSE\r\n" + 
+				"						'Sin estatus'\r\n" + 
+				"				END  as estatus,\r\n" + 
+				"				explosionP.tiempo_proceso,\r\n" + 
+				"				explosionP.fecha_proceso,\r\n" + 
+				"				explosionP.secuencia_proceso, coorPrenda.id_coordinado_prenda\r\n" + 
+				"							\r\n" + 
+				"FROM alt_produccion_explosion_procesos AS explosionP\r\n" + 
+				"\r\n" + 
+				"INNER JOIN alt_comercial_pedido_informacion pedInfo ON explosionP.id_pedido = pedInfo.id_pedido_informacion\r\n" + 
+				"INNER JOIN alt_comercial_cliente cliente ON pedInfo.id_empresa = cliente.id_cliente\r\n" + 
+				"INNER JOIN alt_disenio_prenda prenda ON explosionP.clave_prenda = prenda.id_prenda\r\n" + 
+				"INNER JOIN alt_disenio_lookup disLook ON prenda.id_familia_prenda = disLook.id_lookup\r\n" + 
+				"INNER JOIN alt_comercial_coordinado_prenda coorPrenda ON explosionP.coordinado = coorPrenda.id_coordinado_prenda\r\n" + 
+				"INNER JOIN alt_comercial_coordinado coor ON coorPrenda.id_coordinado = coor.id_coordinado\r\n" + 
+				"INNER JOIN alt_disenio_tela tela ON coorPrenda.id_tela = tela.id_tela\r\n" + 
+				"INNER JOIN alt_comercial_concetrado_prenda\r\n" + 
+				"INNER JOIN alt_produccion_lookup lookup ON explosionP.clave_proceso = lookup.id_lookup\r\n" + 
+				"LEFT JOIN alt_produccion_lookup LOOK_RUTA ON coorPrenda.id_ruta = LOOK_RUTA.id_lookup\r\n" + 
+				"INNER JOIN alt_disenio_lookup LOOK_TELA ON LOOK_TELA.id_lookup = tela.id_familia_composicion\r\n" + 
+				"\r\n" + 
+				"WHERE explosionP.clave_proceso = "+idProceso+"\r\n" + 
+				"\r\n" + 
+				"GROUP BY explosionP.id_explosion_procesos").getResultList();
+
+		return re;
+	}
     
 }

@@ -75,6 +75,14 @@ public class ProduccionExplosionProcesos implements Serializable {
 	@Column(name="estatus")
 	private String estatus;
 
+	@Column(name="fecha_proceso")
+	private String fechaProceso;
+	@Column(name="tiempo_proceso")
+	private String tiempoProceso;
+	@Column(name="secuencia_proceso")
+	private String secuenciaProceso;
+	
+
 	public String getPrograma() {
 		return programa;
 	}
@@ -215,4 +223,29 @@ public class ProduccionExplosionProcesos implements Serializable {
 		return serialVersionUID;
 	}
 
+	public String getFechaProceso() {
+		return fechaProceso;
+	}
+
+	public void setFechaProceso(String fechaProceso) {
+		this.fechaProceso = fechaProceso;
+	}
+
+	public String getTiempoProceso() {
+		return tiempoProceso;
+	}
+
+	public void setTiempoProceso(String tiempoProceso) {
+		this.tiempoProceso = tiempoProceso;
+	}
+
+	public String getSecuenciaProceso() {
+		return secuenciaProceso;
+	}
+
+	public void setSecuenciaProceso(String secuenciaProceso) {
+		this.secuenciaProceso = secuenciaProceso;
+	}
+
+	
 }

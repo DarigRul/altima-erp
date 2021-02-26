@@ -23,6 +23,7 @@
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
+                        <div th:insert="modales-empalme-tela"></div>
                         <div class="col-sm-6">
                             <h1>
                                 Empalme de telas
@@ -49,9 +50,16 @@
                             <div class="card">
                                 <div class="card-header bg-altima">
                                     <h3 class="card-title">Listado de empalme
-                                        <button th:if="${load}=='empalme'"
+                                        <!--<button th:if="${load}=='empalme'"
                                             sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_FOLIO','ROLE_ADMINISTRADOR')"
                                             onclick="nuevoFolio()"
+                                            class="btn btn-sm icon-btn btn-success text-white mr-auto"
+                                            type="button"><span
+                                                class="btn-glyphicon fas fa-plus img-circle text-success"></span>Secuencia
+                                        </button>-->
+                                        <button th:if="${load}=='empalme'" id="botton_secuencia" hidden
+                                            sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_FOLIO','ROLE_ADMINISTRADOR')"
+                                            onclick="nuevaSecuencia()"
                                             class="btn btn-sm icon-btn btn-success text-white mr-auto"
                                             type="button"><span
                                                 class="btn-glyphicon fas fa-plus img-circle text-success"></span>Secuencia
@@ -76,37 +84,60 @@
                                 </div>
                                 <div class="card-body">
                                     <table class="tableEmpalme display compact"
-                                        style="width: 100%;">
+                                        style="width: 100%;" id="tableEmpalme">
                                         <thead>
                                             <tr>
                                                 <th> <input type="checkbox" id="selectAll"> </th>
                                                 <th>Pedido</th>
-                                                <th>Fecha_de_entrega</th>
+                                                <th>Fecha de entrega</th>
+                                                <th th:if="${load}=='programar'">Programa</th>
                                                 <th>Coord.</th>
                                                 <th>Prenda</th>
                                                 <th>Modelo</th>
                                                 <th th:if="${load}=='programar'">Personalizaci&oacute;n</th>
                                                 <th th:if="${load}=='programar'">Ruta</th>
-                                                <th th:if="${load}=='programar'">Programa</th>
-
-                                               
+                                                <th>Confecci&oacute;n</th>
+                                                <th>Clave tela</th>
+                                                <th>Ancho</th>
+                                                <th>Composici&oacute;n</th>
+                                                <th>Encog./Estir.</th>
+                                                <th>Estampado</th>
+                                                <th>Estatus tela pral.</th>
+                                                <th th:if="${load}=='empalme'">Secuencia</th>
+                                                <th>Detalles</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="view, iview: ${view}">
+                                            
+                                            <tr th:if="${load}=='programar'" th:each="view, iview: ${view}">
 
-                                                <td >
+                                                <td style="text-align: center; vertical-align: middle;">
                                                     <input type="checkbox" class="messageCheckbox"
                                                         th:value="${view[0]}" />
                                                 </td>
                                                 <td th:text="${view[1]}">PED1020</td>
                                                 <td th:text="${view[2]}">28/12/2020</td>
+                                                <td th:if="${load}=='programar'" th:text="${view[3]}">DD7</td>
                                                 <td th:text="${view[4]}">1</td>
                                                 <td th:text="${view[6]}">Saco</td>
                                                 <td th:text="${view[5]}">SAC6280</td>
                                                 <td th:if="${load}=='programar'" th:text="${view[7]}">N/A</td>
                                                 <td th:if="${load}=='programar'" th:text="${view[8]}">1</td>
-                                                <td th:if="${load}=='programar'" th:text="${view[3]}">DD7</td>                                               
+                                                <td th:text="${view[9]}">95</td>
+                                                <td th:text="${view[10]}">LS576</td>
+                                                <td th:text="${view[11]}">1.42</td>
+                                                <td th:text="${view[12]}">Lino</td>
+                                                <td th:text="${view[13]}">-5</td>
+                                                <td th:text="${view[14]}">Lisa</td>
+                                                <td th:text="${view[15]}">Faltante</td>
+                                                <td th:if="${load}=='empalme'" th:text="${view[16]}">1</td>
+                                                <td class="text-center">
+                                                    <button
+                                                        sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS','ROLE_ADMINISTRADOR')"
+                                                        class="btn btn-info btn-circle btn-sm"
+                                                        th:onclick="|detalles('${view[0]}')|" data-toggle="modal"
+                                                        data-target="#detalleTelas"><i class="fas fa-info"></i></button>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -136,5 +167,11 @@
     </script>
 
 </body>
+
+<script th:if="${load == 'empalme'}" th:inline="javascript">
+    //var tablaPrincipal = $('#tablaPrincipal').DataTable();
+    //tablaPrincipal.rows().remove().draw();
+    $('#SeleccionPrograma').modal("show");
+</script>
 
 </html>
