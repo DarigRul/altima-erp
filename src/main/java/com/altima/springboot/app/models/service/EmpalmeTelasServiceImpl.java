@@ -33,7 +33,7 @@ public class EmpalmeTelasServiceImpl implements IEmpalmeTelasService {
 				"	PEDIDO.fecha_entrega,\r\n" + 
 				"	COO_PRENDA.programa,\r\n" + 
 				"	COOR.numero_coordinado,\r\n" + 
-				"	PRENDA.descripcion_prenda,\r\n" + 
+				"	PRENDA.id_text as id_text_prenda,\r\n" + 
 				"	LOOK_PRENDA.nombre_lookup,\r\n" + 
 				"	(SELECT\r\n" + 
 				"	IF( SUM( bordado.precio_bordado )= 0, \"A\", \"N/A\" ) \r\n" + 
@@ -50,7 +50,7 @@ public class EmpalmeTelasServiceImpl implements IEmpalmeTelasService {
 				"	TELA.id_text as idTexTELA,\r\n" + 
 				"	TELA.ancho,\r\n" + 
 				"	LOOK_TELA.nombre_lookup as famlia,\r\n" + 
-				"	TELA.prueba_encogimiento,\r\n" + 
+				"	TELA.prueba_encogimiento_largo,\r\n" + 
 				"	TELA.estampado,\r\n" + 
 				"	CASE PEDIDO.estatus_explosion_materia_prima\r\n" + 
 				"	WHEN 0 THEN\r\n" + 
@@ -81,7 +81,7 @@ public class EmpalmeTelasServiceImpl implements IEmpalmeTelasService {
 				"WHERE\r\n" + 
 				"	1 = 1 \r\n" + 
 				"	AND PEDIDO.estatus=3\r\n" + 
-				"	GROUP BY reporte.id_coordinado_prenda").getResultList();
+				"	GROUP BY reporte.id_coordinado_prenda order by PEDIDO.fecha_entrega,PEDIDO.id_text desc").getResultList();
 
 		return re;
     }

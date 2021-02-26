@@ -81,22 +81,15 @@
                                             <tr>
                                                 <th> <input type="checkbox" id="selectAll"> </th>
                                                 <th>Pedido</th>
-                                                <th>Fecha de entrega</th>
-                                                <th th:if="${load}=='programar'">Programa</th>
+                                                <th>Fecha_de_entrega</th>
                                                 <th>Coord.</th>
                                                 <th>Prenda</th>
                                                 <th>Modelo</th>
                                                 <th th:if="${load}=='programar'">Personalizaci&oacute;n</th>
                                                 <th th:if="${load}=='programar'">Ruta</th>
-                                                <th>Confecci&oacute;n</th>
-                                                <th>Clave tela</th>
-                                                <th>Ancho</th>
-                                                <th>Composici&oacute;n</th>
-                                                <th>Encog./Estir.</th>
-                                                <th>Estampado</th>
-                                                <th>Estatus tela pral.</th>
-                                                <th th:if="${load}=='empalme'">Secuencia</th>
-                                                <th>Detalles</th>
+                                                <th th:if="${load}=='programar'">Programa</th>
+
+                                               
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -108,27 +101,12 @@
                                                 </td>
                                                 <td th:text="${view[1]}">PED1020</td>
                                                 <td th:text="${view[2]}">28/12/2020</td>
-                                                <td th:if="${load}=='programar'" th:text="${view[3]}">DD7</td>
                                                 <td th:text="${view[4]}">1</td>
                                                 <td th:text="${view[6]}">Saco</td>
                                                 <td th:text="${view[5]}">SAC6280</td>
                                                 <td th:if="${load}=='programar'" th:text="${view[7]}">N/A</td>
                                                 <td th:if="${load}=='programar'" th:text="${view[8]}">1</td>
-                                                <td th:text="${view[9]}">95</td>
-                                                <td th:text="${view[10]}">LS576</td>
-                                                <td th:text="${view[11]}">1.42</td>
-                                                <td th:text="${view[12]}">Lino</td>
-                                                <td th:text="${view[13]}">-5</td>
-                                                <td th:text="${view[14]}">Lisa</td>
-                                                <td th:text="${view[15]}">Faltante</td>
-                                                <td th:if="${load}=='empalme'" th:text="${view[16]}">1</td>
-                                                <td class="text-center">
-                                                    <button
-                                                        sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS','ROLE_ADMINISTRADOR')"
-                                                        class="btn btn-info btn-circle btn-sm"
-                                                        th:onclick="|detalles('${view[0]}')|" data-toggle="modal"
-                                                        data-target="#detalleTelas"><i class="fas fa-info"></i></button>
-                                                </td>
+                                                <td th:if="${load}=='programar'" th:text="${view[3]}">DD7</td>                                               
                                             </tr>
                                         </tbody>
                                     </table>
