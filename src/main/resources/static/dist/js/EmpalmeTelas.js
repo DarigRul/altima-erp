@@ -84,6 +84,21 @@ function nuevaRuta() {
 
 }
 
+function nuevaSecuencia() {
+	if ($.isEmptyObject(idExplosionPrenda)) {
+		Swal.fire({
+			position: 'center',
+			icon: 'warning',
+			title: 'Seleccione al menos un registro',
+			showConfirmButton: true
+		});
+	} else {
+		//data-toggle="modal" data-target="#"
+		$('#nuevaSecuencia').modal('show');
+	}
+
+}
+
 function guardarRuta() {
 	if ($('#idRuta').val() == null || $('#idRuta').val() == 0) {
 		Swal.fire({
@@ -216,6 +231,54 @@ function guardarPrograma() {
 			},
 			complete: function () {
 				var url = "/programar-telas";
+				$(location).attr('href', url);
+
+			},
+		})
+	}
+}
+
+
+function guardarSecuencia(){
+	//
+	if ($('#SecuenciaText').val() == null || $('#SecuenciaText').val() == "") {
+		Swal.fire({
+			position: 'center',
+			icon: 'warning',
+			title: 'Ingrese la secuencia',
+			showConfirmButton: true
+		});
+	}
+	else {
+
+		$.ajax({
+			type: "POST",
+			url: "/guardar_empalme_by_proceso",
+			data: {
+				ids: idExplosionPrenda.toString(),
+				'secuencia': $('#SecuenciaText').val(),
+				"_csrf": $('#token').val()
+
+			},
+			beforeSend: function () {
+				Swal.fire({
+					position: 'center',
+					icon: 'success',
+					title: 'Agregado correctamente',
+					allowOutsideClick: false,
+					timerProgressBar: true,
+					showConfirmButton: false,
+					onBeforeOpen: () => {
+
+					},
+				});
+
+			},
+
+			success: function (data) {
+			},
+			complete: function () {
+				var url = "/empalme-telas";
 				$(location).attr('href', url);
 
 			},
