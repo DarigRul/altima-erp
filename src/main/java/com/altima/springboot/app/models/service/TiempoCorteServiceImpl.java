@@ -146,13 +146,28 @@ public class TiempoCorteServiceImpl implements ITiempoCorteService {
 		re = em.createNativeQuery(""+
 			"SELECT\r\n"+
 				"ca.fecha,\r\n"+
-				"IFNULL(ca.hombre,'00.00'),\r\n"+
-				"IFNULL(ca.adeudo,'00.00'),\r\n"+
-				"IFNULL(( SELECT SEC_TO_TIME(SUM(cp.tiempo)*60) FROM alt_produccion_fecha_coordinado_prenda AS fp, alt_comercial_coordinado_prenda AS cp WHERE 1 = 1 AND fp.id_fecha = ca.id_calendario_fecha and cp.id_coordinado_prenda = fp.id_coordinado_prenda ),'00.00') as programada\r\n"+
+				"IFNULL( ca.hombre, '00.00' ),\r\n"+
+				"IFNULL( ca.adeudo, '00.00' ),\r\n"+
+				"IFNULL((\r\n"+
+					"SELECT\r\n"+
+						"SEC_TO_TIME(\r\n"+
+							"( SELECT IFNULL( sum( exp.tiempo_proceso ), 0 ) FROM alt_produccion_explosion_procesos AS exp WHERE exp.fecha_proceso BETWEEN '"+fecha1+"' AND '"+fecha2+"' )+ SUM( cp.tiempo )* 60\r\n"+ 
+						")\r\n"+
+					"FROM\r\n"+
+						"alt_produccion_fecha_coordinado_prenda AS fp,\r\n"+
+						"alt_comercial_coordinado_prenda AS cp\r\n"+
+					"WHERE\r\n"+
+						"1 = 1\r\n"+
+						"AND fp.id_fecha = ca.id_calendario_fecha\r\n"+
+						"AND cp.id_coordinado_prenda = fp.id_coordinado_prenda\r\n"+
+						"),\r\n"+
+					"'00.00'\r\n"+
+				") AS programada\r\n"+
 			"FROM\r\n"+
-				"alt_produccion_calendario AS ca \r\n"+
+				"alt_produccion_calendario AS ca\r\n"+
 			"WHERE\r\n"+
-				"ca.fecha BETWEEN '"+fecha1+"' AND '"+fecha2+"'").getResultList();
+				"ca.fecha BETWEEN '"+fecha1+"'\r\n"+
+				"AND '"+fecha2+"'").getResultList();
 
 		return re;
 	}

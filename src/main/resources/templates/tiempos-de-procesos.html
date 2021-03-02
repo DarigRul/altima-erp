@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Empalme de telas | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div th:insert="tiempos-de-procesos-modales"></div>
+                        <div class="col-sm-6">
+                            <h1>
+                                Tiempo de procesos
+                            </h1>
+                        </div>
+                        <div th:insert="empalme-telas-folio"></div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Producci&oacute;n</li>
+                                <li class="breadcrumb-item active">Empalme de telas</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Tiempos
+                                        <botton onclick="verCalendario()" class="btn btn-sm icon-btn btn-secondary text-white"><span class="btn-glyphicon fas fa-calendar img-circle text-secondary"></span>Fechas</botton>
+                                    </h3>
+                                </div>
+                                <div class="card-body" id="contenedor-tableEmpalme">
+                                    <table class="tablaGeneral table-striped table-bordered"
+                                        style="width: 100%;" id="tableEmpalme">
+                                        <thead>
+                                            <tr>
+                                                <th>Sec.</th>
+                                                <th>Modelo</th>
+                                                <th>Prenda</th>
+                                                <th>Estampado</th>
+                                                <th>Confec.</th>
+                                                <th>OP</th>
+                                                <th>Cant. Tallas</th>
+                                                <th>Tiempo</th>
+                                                <th>Fecha</th>
+                                                <th>Detalles</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <!-- ./wrapper -->
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneral.js"></script>
+    <script src="dist/js/tiemposProcesos.js"></script>
+    <script>
+        $('#iProduccion').removeClass('text-altima');
+        $('#menuProduccion').addClass('menu-open');
+        $('#navProduccion').addClass('active-altima');
+        $('#navProTieProcesos').addClass('active');
+    </script>
+
+</body>
+
+<script  th:inline="javascript">
+    $('#SeleccionPrograma').modal("show");
+</script>
+
+</html>
