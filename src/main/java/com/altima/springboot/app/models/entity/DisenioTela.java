@@ -10,103 +10,104 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
 //algo
 @Entity
 @Table(name = "alt_disenio_tela")
-public class DisenioTela implements Serializable{
+public class DisenioTela implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="id_tela")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
+	@Column(name = "id_tela")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
 	private Long idTela;
-	
-	@Column(name="id_familia_composicion")
+
+	@Column(name = "id_familia_composicion")
 	private Long idFamiliaComposicion;
-	
-	@Column(name="id_text")
+
+	@Column(name = "id_text")
 	private String idText;
-	
+
 	@Column(name = "id_text_prospecto")
 	private String idTextProspecto;
-	
-	@Column(name="creado_por")
-	private String creadoPor;
-	
-	@Column(name="actualizado_por")
-	private String actualizadoPor;
-	
-	@Column(name="fecha_creacion")
-	private String fechaCreacion;
-	
-	@Column(name="ultima_fecha_modificacion")
-	private String ultimaFechaModificacion;
-	
-	@Column(name="descripcion_tela")
-	private String descripcionTela;
-	
-	@Column(name="nombre_tela")
-	private String nombreTela;
-	
-	@Column(name="ancho")
-	private String ancho;
-	
-	@Column(name="id_unidad_medida")
-	private String idUnidadMedida;
-	
-	@Column(name="existencia")
-	private String existencia;
-	
-	@Column(name="indicacion")
-	private String indicacion;
-	
-	@Column(name="costo_por_metro")
-	private String costoPorMetro;
-	
-	@Column(name="color")
-	private String Color;
-	
-	@Column(name="codigo_color")
-	private String codigoColor;
-	
-	@Column(name="estampado")
-	private String estampado;
-	
-	@Column(name="id_proveedor")
-	private Long idProveedor;
-	
-	@Column(name="clave_proveedor")
-	private String claveProveedor ;
-	
-	@Column(name="foto")
-	private String foto;
-	
-	@Column(name="estatus")
-	private String estatus;
-	
-	@Column(name="estatus_tela")
-	private String estatusTela;
-	
-	@Column(name="auxiliar_1")
-	private String auxiliar1;
-	
-	@Column(name="auxiliar_2")
-	private String auxiliar2;
-	
-	@Column(name="auxiliar_3")
-	private String auxiliar3;
-	
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
-	@Column(name="prueba_encogimiento_largo")
-	private int pruebaEncogimientoLargo;
 
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
-	@Column(name="prueba_encogimiento_ancho")
-	private int pruebaEncogimientoAncho;
+	@Column(name = "creado_por")
+	private String creadoPor;
+
+	@Column(name = "actualizado_por")
+	private String actualizadoPor;
+
+	@Column(name = "fecha_creacion")
+	private String fechaCreacion;
+
+	@Column(name = "ultima_fecha_modificacion")
+	private String ultimaFechaModificacion;
+
+	@Column(name = "descripcion_tela")
+	private String descripcionTela;
+
+	@Column(name = "nombre_tela")
+	private String nombreTela;
+
+	@Column(name = "ancho")
+	private String ancho;
+
+	@Column(name = "id_unidad_medida")
+	private String idUnidadMedida;
+
+	@Column(name = "existencia")
+	private String existencia;
+
+	@Column(name = "indicacion")
+	private String indicacion;
+
+	@Column(name = "costo_por_metro")
+	private String costoPorMetro;
+
+	@Column(name = "color")
+	private String Color;
+
+	@Column(name = "codigo_color")
+	private String codigoColor;
+
+	@Column(name = "estampado")
+	private String estampado;
+
+	@Column(name = "id_proveedor")
+	private Long idProveedor;
+
+	@Column(name = "clave_proveedor")
+	private String claveProveedor;
+
+	@Column(name = "foto")
+	private String foto;
+
+	@Column(name = "estatus")
+	private String estatus;
+
+	@Column(name = "estatus_tela")
+	private String estatusTela;
+
+	@Column(name = "auxiliar_1")
+	private String auxiliar1;
+
+	@Column(name = "auxiliar_2")
+	private String auxiliar2;
+
+	@Column(name = "auxiliar_3")
+	private String auxiliar3;
+
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
+	@Column(name = "prueba_encogimiento_largo")
+	private float pruebaEncogimientoLargo;
+
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
+	@Column(name = "prueba_encogimiento_ancho")
+	private float pruebaEncogimientoAncho;
 
 	public String getAuxiliar1() {
 		return auxiliar1;
@@ -212,7 +213,6 @@ public class DisenioTela implements Serializable{
 		this.nombreTela = nombreTela;
 	}
 
-
 	public String getAncho() {
 		return ancho;
 	}
@@ -229,7 +229,6 @@ public class DisenioTela implements Serializable{
 		this.idUnidadMedida = idUnidadMedida;
 	}
 
-
 	public String getExistencia() {
 		return existencia;
 	}
@@ -245,7 +244,6 @@ public class DisenioTela implements Serializable{
 	public void setIndicacion(String indicacion) {
 		this.indicacion = indicacion;
 	}
-
 
 	public String getCostoPorMetro() {
 		return costoPorMetro;
@@ -323,22 +321,20 @@ public class DisenioTela implements Serializable{
 		this.claveProveedor = claveProveedor;
 	}
 
-	public int getPruebaEncogimientoLargo() {
+	public float getPruebaEncogimientoLargo() {
 		return pruebaEncogimientoLargo;
 	}
 
-	public void setPruebaEncogimientoLargo(int pruebaEncogimientoLargo) {
+	public void setPruebaEncogimientoLargo(float pruebaEncogimientoLargo) {
 		this.pruebaEncogimientoLargo = pruebaEncogimientoLargo;
 	}
 
-	public int getPruebaEncogimientoAncho() {
+	public float getPruebaEncogimientoAncho() {
 		return pruebaEncogimientoAncho;
 	}
 
-	public void setPruebaEncogimientoAncho(int pruebaEncogimientoAncho) {
+	public void setPruebaEncogimientoAncho(float pruebaEncogimientoAncho) {
 		this.pruebaEncogimientoAncho = pruebaEncogimientoAncho;
 	}
 
-
-	
 }

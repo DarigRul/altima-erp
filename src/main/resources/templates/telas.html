@@ -56,7 +56,8 @@
                                                 <th>Nombre de tela</th>
                                                 <th>Color</th>
                                                 <th>Estampado</th>
-                                                <th style="width:5%">% de encogimiento/ estiramiento</th>
+                                                <th style="width:5%">% de encogimiento/ estiramiento Largo</th>
+                                                <th style="width:5%">% de encogimiento/ estiramiento Ancho</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -66,7 +67,14 @@
                                                 <td th:text="${tela.nombreTela}">Altima</td>
                                                 <td th:text="${tela.color}">17/10/2020</td>
                                                 <td th:text="${tela.estampado}">Uriel Cuatepitzi</td>
-                                                <td th:text="${tela.pruebaEncogimientoLargo}">2%</td>
+                                                <td>
+                                                    <p th:id="${tela.idTela}+'-pruebaEncogimientoLargo'"
+                                                        th:text="${tela.pruebaEncogimientoLargo}"></p>
+                                                </td>
+                                                <td>
+                                                    <p th:id="${tela.idTela}+'-pruebaEncogimientoAncho'"
+                                                        th:text="${tela.pruebaEncogimientoAncho}"></p>
+                                                </td>
                                                 <td class="tdcenter">
                                                     <a class="btn btn-info btn-circle btn-sm text-white popoverxd"
                                                         data-container="body" data-toggle="popover" data-placement="top"
@@ -77,10 +85,11 @@
                                                         data-container="body" data-toggle="popover" data-placement="top"
                                                         data-content="Editar % encogimiento"><i
                                                             class="fas fa-pen"></i></a>
-                                                    <a class="btn text-white btn-secondary btn-circle btn-sm popoverxd"
-                                                        th:attr="onclick=|subirPDF('${tela.idTela}','${tela.rutaPdfEncogimiento}','${tela.descripcionPdfEncogimiento}')|"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
-                                                        data-content="Documento"><i class="far fa-file-pdf"></i></a>
+                                                    <a data-toggle="modal" data-target="#modalDocumento"
+                                                        th:attr="onclick=|documento('${tela.idTela}')|"
+                                                        data-placement="top" data-content="Documento"
+                                                        class="btn btn-secondary text-white btn-circle btn-sm popoverxd"><i
+                                                            class="far fa-file-pdf"></i></a>
                                                     <!-- <input type=file
                                                         onchange="Ftp.upload('7b8d9cf6-e21f-4ae2-a646-b329de6d6e37', this.files)" /> -->
                                                 </td>

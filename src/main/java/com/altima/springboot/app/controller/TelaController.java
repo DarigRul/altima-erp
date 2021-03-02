@@ -431,7 +431,7 @@ public class TelaController {
 		public String ListTelasProduccion(Model model) {
 			
 			model.addAttribute("ListTelas", disenioTelaService.findAll());
-			
+			model.addAttribute("entretelas", disenioMaterialService.findByEntretela());
 			return "telas";
 		}
 }

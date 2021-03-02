@@ -63,4 +63,15 @@ public class DisenioPruebaEncogimientoLavadoServiceImpl implements IDisenioPrueb
 				" FROM alt_disenio_prueba_encogimiento_lavado \r\n" + 
 				"	WHERE id_calidad = "+id+" AND tipo_prueba = '"+tipo+"')>0, 1 , 0)").getSingleResult().toString());
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Long findEntretelaByIdTela(Long id) {
+		// TODO Auto-generated method stub
+		return Long.parseLong( em.createNativeQuery(
+				"SELECT IFNULL(max(adpel.entretela_prueba_vapor),0) FROM alt_disenio_prueba_encogimiento_lavado adpel INNER JOIN alt_disenio_calidad adc ON adc.id_calidad=adpel.id_calidad WHERE adc.estatus=2 AND adc.id_material=:id AND adc.tipo_material=1")
+				.setParameter("id", id).getSingleResult().toString());
+	}
+
+
 }

@@ -17,4 +17,6 @@ public interface IDisenioPruebaEncogimientoLavadoService {
 	public DisenioPruebaEncogimientoLavado findByTipoPrueba(String tipo, Long id);
 	
 	public int ifExistLavado(Long id, String tipo);
+
+	Long findEntretelaByIdTela(Long id);
 }

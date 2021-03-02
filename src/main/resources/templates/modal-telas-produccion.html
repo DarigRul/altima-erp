@@ -1,40 +1,46 @@
-<div class="modal fade" id="modalPDF" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<!-- Modal -->
+<div class="modal fade" id="modalDocumento" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content modal-rounded-body">
             <div class="modal-header modal-rounded-header bg-altima">
-                <h5 class="modal-title" id="exampleModalLongTitle" style="margin-right: 5px;">Archivo PDF</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle" style="margin-right: 5px;">Agregar documento</h5>
+                <button th:attr="onclick=|agregarDocumento()|" id="agregarDocumento"
+                    class="btn btn-primary btn-circle btn-sm popoverxd"><i class="fas fa-plus"></i></button>
+                <button th:attr="onclick=|verDocumento()|" id="verDocumento" style="display: none;"
+                    class="btn btn-primary btn-circle btn-sm popoverxd"><i class="fas fa-images"></i></button>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-                    <div class="custom-file">
-                        <label for="exampleInputPassword1">Archivo</label>
-                        <input type="file" class="custom-file-input" id="archivoEncogimiento"
-                            name="archivoEncogimiento">
-                        <label class="custom-file-label" for="archivoEncogimiento">No se eligió ningún
-                            archivo</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Descripción</label>
-                        <textarea class="form-control" id="descripcion" name="descripcion"
-                            placeholder="Descripcion"></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-10">
-                            <a type="button" href="" target="_blank" id="abrirArchivo" class="btn btn-secondary">Abrir
-                                archivo</a>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <button type="submit" id="enviarEncogimiento" class="btn btn-primary">Guardar</button>
-                        </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <div class="container galeria">
+                            <div class="row galeriarow">
 
+                            </div>
+                        </div>
+                        <div class="container agregarD" style="display: none;">
+                            <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+                                <div class="form-group">
+                                    <label for="exampleFormControlFile1">Imagen</label>
+                                    <input type="file" class="form-control-file" id="imagenDocumento"
+                                        name="imagenDocumento">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Descripción</label>
+                                    <textarea class="form-control" id="descripcion"
+                                        placeholder="Descripcion"></textarea>
+                                </div>
+                                <button type="submit" id="enviarDocumento" class="btn btn-primary">Guardar</button>
+                                <input type="hidden" id="idTela" />
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                            </form>
+                        </div>
                     </div>
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <input type="hidden" name="idTela" id="idTela" />
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -53,7 +59,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form>
                     <table class="table">
                         <thead class="thead-inverse">
                             <tr>
@@ -66,39 +72,60 @@
                             <tr>
                                 <td scope="row"><label>Fusión bloque:</label></td>
                                 <td>
-                                    <input type="number" step="any" class="form-control" id="bloqueLargo"
-                                        placeholder="10">
+                                    <input type="number" step="any" class="form-control" id="bloqueLargo" value="0"
+                                        oninput="calcularPromedioLargo()" placeholder="10">
                                 </td>
                                 <td>
-                                    <input type="number" step="any" class="form-control" id="bloqueAncho"
-                                        placeholder="10">
+                                    <input type="number" step="any" class="form-control" id="bloqueAncho" value="0"
+                                        oninput="calcularPromedioAncho()" placeholder="10">
                                 </td>
                             </tr>
                             <tr>
                                 <td scope="row"><label>Fusión refuerzo/plancha:</label></td>
-                                <td> <input type="number" step="any" class="form-control" id="planchaLargo"
+                                <td> <input type="number" step="any" class="form-control" id="planchaLargo" value="0"
+                                        oninput="calcularPromedioLargo()" placeholder="10">
+                                </td>
+                                <td><input type="number" step="any" class="form-control" id="planchaAncho" value="0"
+                                        oninput="calcularPromedioAncho()" placeholder="10">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Porcentaje Promedio:</label></td>
+                                <td> <input type="number" readonly value="0" class="form-control" id="promedioLargo"
                                         placeholder="10">
                                 </td>
-                                <td><input type="number" step="any" class="form-control" id="planchaAncho"
+                                <td>
+                                    <input type="number" readonly value="0" class="form-control" id="promedioAncho"
                                         placeholder="10">
                                 </td>
                             </tr>
+                            <tr>
+                                <td><label>Entretela:</label></td>
+                                <td colspan="2">
+                                    <select id="selectEntretela" type="text" class="form-control selectpicker"
+                                        data-live-search="true" data-live-search-normalize="true">
+                                        <option value="0">
+                                            Seleccione uno...
+                                        </option>
+                                        <option th:each=" entretela: ${entretelas}"
+                                            th:text="${entretela.nombreMaterial}" th:value="${entretela.idMaterial}">
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
                         </tbody>
-                        <tfoot>
-                            <td><label>Porcentaje Promedio:</label></td>
-                            <td> <input type="number" readonly value="0" class="form-control" id="promedioLargo"
-                                    placeholder="10">
-                            </td>
-                            <td>
-                                <input type="number" readonly value="0" class="form-control" id="promedioAncho"
-                                    placeholder="10">
-                            </td>
-                        </tfoot>
                     </table>
                     <div class="card-footer">
-                        <a class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-                        <button class="btn btn-sm icon-btn btn-altima text-white float-right"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+                        <p class="text-left" ><label>Nota:</label> La entretela por default es <strong id="entretelaDefault"></strong></p>
+
+                        <button type="button" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span
+                                class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+                        <button type="button" id="guardarEncogimiento"
+                            class="btn btn-sm icon-btn btn-altima text-white float-right"><span
+                                class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
                     </div>
+                    <input type="hidden" id="idTelaE">
+                    <input type="hidden" id="idTelaCalidad">
                 </form>
             </div>
         </div>
