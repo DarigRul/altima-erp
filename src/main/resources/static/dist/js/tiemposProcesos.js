@@ -1,5 +1,9 @@
 function listarPorProceso(){
     var tablaPrincipal = $('#tableEmpalme').DataTable();
+    var rows = tablaPrincipal
+    .rows()
+    .remove()
+	.draw(); 
 
 	$.ajax({
 		method:"GET",
@@ -31,7 +35,7 @@ function listarPorProceso(){
 					
                         '<button onclick="verDetalles(this)" secuencia="'+data[i][0]+'" idProceso="'+$("#procesosActivos").val() +'"   class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>'+
                             
-                        (data[i][9] == data[i][7] && data[i][7]!= null ? '<button onclick="calendarizar(this)" secuencia="'+data[i][0]+'" fecha="'+data[i][8]+'"  idProceso="'+$("#procesosActivos").val() +'" class="btn bg-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Caledarizar"><i class="fas fa-calendar-day"></i></button>':''),
+                        (data[i][9] == data[i][7] ? '<button onclick="calendarizar(this)" secuencia="'+data[i][0]+'" fecha="'+data[i][8]+'"  idProceso="'+$("#procesosActivos").val() +'" class="btn bg-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Caledarizar"><i class="fas fa-calendar-day"></i></button>':''),
                         
 					
 						
@@ -124,7 +128,6 @@ function verDetalles(e){
         }
     })
 }
-
 function addTiempo (e){
 
     var id = e.getAttribute("id");
@@ -138,8 +141,6 @@ function addTiempo (e){
 
     
 }
-
-
 function guardarTiempo(){
 
     if (  $("#tiempoMinutos").val() == null || $("#tiempoMinutos").val() <=0  || $("#tiempoMinutos").val() == "" ){
@@ -179,34 +180,18 @@ function guardarTiempo(){
     }
 
 }
-
 $('#tiempoDetalle').on('hidden.bs.modal', function () {
-	var sum=0;
-    $('#tablaDetalles tr').each(function () {
-        if ( $(this).find('td').eq(5).text() != undefined && $(this).find('td').eq(5).text() != null && $(this).find('td').eq(5).text() != "" ){
-
-            sum += parseInt($(this).find('td').eq(5).text());
-
-            
-        }
-        
-        
-    });
-
-    $("#tiempoSecuencia"+secuenciaGlobal).text(sum);
-    
-
+    listarPorProceso();
 });
-
 
 function calendarizar (e){
     $('#idFecha').val(e.getAttribute("fecha"));
     $('#secuenciaFecha').val(e.getAttribute("secuencia"));
     $('#idPRocesoFecha').val(e.getAttribute("idProceso"));
+    secuenciaGlobal=e.getAttribute("secuencia");
     $('#calendarizar').modal('show');
 
 }
-
 function guardarCalendarioFolio(){
     console.log($('#idFecha').val())
 
@@ -227,6 +212,7 @@ function guardarCalendarioFolio(){
                 $('#calendarizar').modal('toggle');
                 
                 if ( data == true){
+                    console.log($('#idFecha').val());
                     $("#fechaSecuencia"+secuenciaGlobal).text($('#idFecha').val());
                     
                     Swal.fire({
@@ -244,7 +230,6 @@ function guardarCalendarioFolio(){
 
     }
 }
-
 $( "#idFecha" ).change(function() {
 
     //validar_fecha_produccion_calendario
@@ -276,7 +261,7 @@ $( "#idFecha" ).change(function() {
             else if ( data ==1){
                 Swal.fire({
                     icon: 'warning',
-                    title: 'El folio supera el tiempo de la fecha.',
+                    title: 'La secuencia supera el tiempo de la fecha.',
                     text: '¿Le gustaria continuar?',
                     showCancelButton: true,
                     confirmButtonText: 'Continuar',
@@ -305,8 +290,7 @@ $( "#idFecha" ).change(function() {
         }
     })
     
-  });
-
+});
   function verCalendario(){
     //calendarioFechaInicio  calendarioFechaFin
     var now = new Date();
@@ -358,13 +342,10 @@ $( "#idFecha" ).change(function() {
     $('#verCalendarioModal').modal('show'); // abrir
     
 }
-
 function sumarDias(fecha, dias){
     fecha.setDate(fecha.getDate() + dias);
     return fecha;
   }
-
-  
 function restarHoras(start, end){
     s = start.split('.'); 
     e = end.split('.'); 
@@ -394,11 +375,41 @@ function restarHoras(start, end){
     return diff
 
 }
-
 function formato (hora){
     hora =hora.replace(/[:]/gi,'.');
 
     var s = hora.split('.'); 
     hora = s[0] + "." + s[1];
     return hora;
+}
+function buscarfecha (){
+    var table = $('#tablaDetallesCalendario').DataTable();
+	var rows = table
+    .rows()
+    .remove()
+	.draw(); 
+    $.ajax({
+        type: "GET",
+        url:"/listar_fechas_calendario",
+        data: { 
+            'fecha1': $("#calendarioFechaInicio").val(),
+            'fecha2':$("#calendarioFechaFin").val()
+        },
+       
+        success: function(data) {
+        
+        	for (i in data) {
+               
+        		table.row.add([	
+                    data[i][0],
+                    restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),
+                    formato("" + data[i][3] + ""),
+                    (restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),  formato("" + data[i][3] + ""))
+        		]).node().id ="row";
+        		table.draw( false );
+			}
+        	console.log(data)
+        }
+    })
+
 }

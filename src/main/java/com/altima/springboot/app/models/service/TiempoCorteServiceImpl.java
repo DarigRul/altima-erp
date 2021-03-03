@@ -143,31 +143,37 @@ public class TiempoCorteServiceImpl implements ITiempoCorteService {
 	@Transactional
 	public List<Object[]> detallesCalendario(String fecha1, String fecha2) {
 		List<Object[]> re = null;
-		re = em.createNativeQuery(""+
-			"SELECT\r\n"+
-				"ca.fecha,\r\n"+
-				"IFNULL( ca.hombre, '00.00' ),\r\n"+
-				"IFNULL( ca.adeudo, '00.00' ),\r\n"+
-				"IFNULL((\r\n"+
-					"SELECT\r\n"+
-						"SEC_TO_TIME(\r\n"+
-							"( SELECT IFNULL( sum( exp.tiempo_proceso ), 0 ) FROM alt_produccion_explosion_procesos AS exp WHERE exp.fecha_proceso BETWEEN '"+fecha1+"' AND '"+fecha2+"' )+ SUM( cp.tiempo )* 60\r\n"+ 
-						")\r\n"+
-					"FROM\r\n"+
-						"alt_produccion_fecha_coordinado_prenda AS fp,\r\n"+
-						"alt_comercial_coordinado_prenda AS cp\r\n"+
-					"WHERE\r\n"+
-						"1 = 1\r\n"+
-						"AND fp.id_fecha = ca.id_calendario_fecha\r\n"+
-						"AND cp.id_coordinado_prenda = fp.id_coordinado_prenda\r\n"+
-						"),\r\n"+
-					"'00.00'\r\n"+
-				") AS programada\r\n"+
-			"FROM\r\n"+
-				"alt_produccion_calendario AS ca\r\n"+
-			"WHERE\r\n"+
-				"ca.fecha BETWEEN '"+fecha1+"'\r\n"+
-				"AND '"+fecha2+"'").getResultList();
+		re = em.createNativeQuery(""
+				+ "SELECT\r\n" + 
+				"	ca.fecha,\r\n" + 
+				"	IFNULL( ca.hombre, '00.00' ),\r\n" + 
+				"	IFNULL( ca.adeudo, '00.00' ),\r\n" + 
+				"	IFNULL((\r\n" + 
+				"		SELECT\r\n" + 
+				"			SEC_TO_TIME(((\r\n" + 
+				"					SELECT COALESCE\r\n" + 
+				"						( SUM( exp.tiempo_proceso ), 0 ) \r\n" + 
+				"					FROM\r\n" + 
+				"						alt_produccion_explosion_procesos AS exp \r\n" + 
+				"					WHERE\r\n" + 
+				"						exp.fecha_proceso = ca.fecha \r\n" + 
+				"						)+ COALESCE ( SUM( cp.tiempo ), 0 ))* 60 \r\n" + 
+				"			) \r\n" + 
+				"		FROM\r\n" + 
+				"			alt_produccion_fecha_coordinado_prenda AS fp,\r\n" + 
+				"			alt_comercial_coordinado_prenda AS cp \r\n" + 
+				"		WHERE\r\n" + 
+				"			1 = 1 \r\n" + 
+				"			AND fp.id_fecha = ca.id_calendario_fecha \r\n" + 
+				"			AND cp.id_coordinado_prenda = fp.id_coordinado_prenda \r\n" + 
+				"			),\r\n" + 
+				"		'00.00' \r\n" + 
+				"	) AS programada \r\n" + 
+				"FROM\r\n" + 
+				"	alt_produccion_calendario AS ca \r\n" + 
+				"WHERE\r\n" + 
+				"	ca.fecha BETWEEN '"+fecha1+"' \r\n" + 
+				"	AND '"+fecha2+"'").getResultList();
 
 		return re;
 	}

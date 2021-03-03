@@ -59,7 +59,7 @@ public class TiempoProcesoRestController {
         if ( TiempoCorteService.validarExistenciaHorasHombre(fecha) ==0){
             return 0;//significa que la fecha no cuenta con horas hombre
         }
-        else if ( TiempoService.validarHorasHabiles(fecha, secuencia,idProceso ) ==0){
+        else if ( TiempoService.validarHorasHabiles(fecha, secuencia,idProceso ) ==1){
             return 1; //Significa que la horas del folio supern la hora dispoible
         }
         else{
@@ -79,7 +79,9 @@ public class TiempoProcesoRestController {
 
         for(int i=0;i<detalles.size();i++) {
             ProduccionExplosionProcesos objExplosin = explosionService.findOne(Long.valueOf(Integer.parseInt(detalles.get(i)[0].toString())));
+
             objExplosin.setFechaProceso(Fecha);
+            explosionService.save(objExplosin);	
            /* System.out.println(detalles.get(i)[0].toString());
             System.out.println(idFecha);
             ProduccionFechaExplosionProceso   obj= TiempoService.findOneFechaCoorPrenda(Integer.parseInt(detalles.get(i)[0].toString()));

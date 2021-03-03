@@ -43,6 +43,7 @@ public class TiempoProcesoServiceImpl implements ITiempoProcesoService {
 				"		1 = 1 \r\n" + 
 				"		AND conse.id_coordinado_prenda = explosionP2.coordinado \r\n" + 
 				"		AND explosionP2.secuencia_proceso = explosionP.secuencia_proceso \r\n" + 
+				"		AND explosionP2.clave_proceso = explosionP.clave_proceso \r\n" + 
 				"	) AS Confeccion,\r\n" + 
 				"	(\r\n" + 
 				"	SELECT\r\n" + 
@@ -53,6 +54,7 @@ public class TiempoProcesoServiceImpl implements ITiempoProcesoService {
 				"	WHERE\r\n" + 
 				"		1 = 1 \r\n" + 
 				"		AND explosionP2.secuencia_proceso = explosionP.secuencia_proceso \r\n" + 
+				"		AND explosionP2.clave_proceso = explosionP.clave_proceso \r\n" + 
 				"		AND cp.id_coordinado_prenda = explosionP2.coordinado \r\n" + 
 				"	) AS OP,\r\n" + 
 				"	(\r\n" + 
@@ -63,21 +65,32 @@ public class TiempoProcesoServiceImpl implements ITiempoProcesoService {
 				"		alt_comercial_coordinado_prenda AS cp,\r\n" + 
 				"		alt_produccion_explosion_procesos AS explosionP2 \r\n" + 
 				"	WHERE\r\n" + 
-				"		explosionP2.secuencia_proceso = explosionP.secuencia_proceso \r\n" + 
+				"		1 = 1 \r\n" + 
+				"		AND explosionP2.secuencia_proceso = explosionP.secuencia_proceso \r\n" + 
+				"		AND explosionP2.clave_proceso = explosionP.clave_proceso \r\n" + 
 				"		AND cp.id_coordinado_prenda = explosionP2.coordinado \r\n" + 
 				"		AND tallas.id_prenda_cliente = cp.id_coordinado_prenda \r\n" + 
 				"	) AS tallas,\r\n" + 
-				"	( SELECT SUM( explosionP2.tiempo_proceso ) FROM alt_produccion_explosion_procesos AS explosionP2 WHERE explosionP2.secuencia_proceso = explosionP.secuencia_proceso ) AS tiempo,\r\n" + 
-				"	explosionP.fecha_proceso,\r\n" + 
 				"	(\r\n" + 
 				"	SELECT\r\n" + 
 				"		SUM( explosionP2.tiempo_proceso ) \r\n" + 
 				"	FROM\r\n" + 
 				"		alt_produccion_explosion_procesos AS explosionP2 \r\n" + 
 				"	WHERE\r\n" + 
-				"		explosionP2.secuencia_proceso = explosionP.secuencia_proceso \r\n" + 
-				"		AND explosionP2.tiempo_proceso IS NOT NULL \r\n" + 
-				"		AND explosionP2.tiempo_proceso != 0 \r\n" + 
+				"		1 = 1 \r\n" + 
+				"		AND explosionP2.secuencia_proceso = explosionP.secuencia_proceso \r\n" + 
+				"		AND explosionP2.clave_proceso = explosionP.clave_proceso \r\n" + 
+				"	) AS tiempo,\r\n" + 
+				"	explosionP.fecha_proceso,\r\n" + 
+				"	(\r\n" + 
+				"	SELECT\r\n" + 
+				"		SUM( IFNULL( explosionP2.tiempo_proceso,- 1 ) ) \r\n" + 
+				"	FROM\r\n" + 
+				"		alt_produccion_explosion_procesos AS explosionP2 \r\n" + 
+				"	WHERE\r\n" + 
+				"		1 = 1 \r\n" + 
+				"		AND explosionP2.secuencia_proceso = explosionP.secuencia_proceso \r\n" + 
+				"		AND explosionP2.clave_proceso = explosionP.clave_proceso \r\n" + 
 				"	) AS validacion \r\n" + 
 				"FROM\r\n" + 
 				"	alt_produccion_explosion_procesos AS explosionP\r\n" + 
@@ -94,11 +107,12 @@ public class TiempoProcesoServiceImpl implements ITiempoProcesoService {
 				"	INNER JOIN alt_disenio_lookup LOOK_TELA ON LOOK_TELA.id_lookup = tela.id_familia_composicion\r\n" + 
 				"	INNER JOIN alt_produccion_explosion_procesos explosicion ON explosicion.coordinado = coorPrenda.id_coordinado_prenda \r\n" + 
 				"WHERE\r\n" + 
-				"	explosionP.clave_proceso = "+idProceso+" \r\n" + 
+				"	1 = 1 \r\n" + 
+				"	AND explosionP.clave_proceso = "+idProceso+" \r\n" + 
 				"	AND ( explosionP.secuencia_proceso IS NOT NULL OR explosionP.secuencia_proceso != '' ) \r\n" + 
 				"GROUP BY\r\n" + 
-				"	explosionP.secuencia_proceso")
-				.getResultList();
+				"	explosionP.secuencia_proceso,\r\n" + 
+				"	explosionP.clave_proceso").getResultList();
 
 		return re;
     }
@@ -169,10 +183,10 @@ public class TiempoProcesoServiceImpl implements ITiempoProcesoService {
 	@Transactional(readOnly = true)
     @Override
 	public Integer validarHorasHabiles(String fecha, String secuencia, Integer idProceso) {
+		
 		String re = em.createNativeQuery("" +
 				"SELECT\r\n" + 
-				"IF\r\n" + 
-					"( ( calen.hombre - calen.adeudo ) < ROUND( ( SUM( explosion.tiempo_proceso )* 0.0166667 ), 2 ), 1, 0 ) \r\n" + 
+					"if( ( ROUND( ( calen.hombre - calen.adeudo * 0.0166667 ), 2 ) ) < ROUND( ( SUM( explosion.tiempo_proceso )* 0.0166667 ), 2 ), 1, 0 )  \r\n" + 
 				"FROM\r\n" + 
 					"alt_produccion_explosion_procesos AS explosion,\r\n" + 
 					"alt_produccion_calendario AS calen \r\n" + 
