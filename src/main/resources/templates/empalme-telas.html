@@ -57,6 +57,9 @@
                                             type="button"><span
                                                 class="btn-glyphicon fas fa-plus img-circle text-success"></span>Secuencia
                                         </button>-->
+                                        
+                                        <botton th:if="${load}=='empalme'"   onclick="verCalendario()" class="btn btn-sm icon-btn btn-secondary text-white"><span class="btn-glyphicon fas fa-calendar img-circle text-secondary"></span>Fechas</botton>
+                                        
                                         <button th:if="${load}=='empalme'" id="botton_secuencia" hidden
                                             sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_FOLIO','ROLE_ADMINISTRADOR')"
                                             onclick="nuevaSecuencia()"

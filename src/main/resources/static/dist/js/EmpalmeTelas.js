@@ -706,3 +706,128 @@ function estiloTabla(){
         });
     });
 }
+
+function sumarDias(fecha, dias){
+    fecha.setDate(fecha.getDate() + dias);
+    return fecha;
+  }
+  function verCalendario(){
+    //calendarioFechaInicio  calendarioFechaFin
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    $("#calendarioFechaInicio").val(today);
+
+    now = sumarDias(now,+7);
+    day = ("0" + now.getDate()).slice(-2);
+    month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today2 = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    $("#calendarioFechaFin").val(today2);
+
+    var table = $('#tablaDetallesCalendario').DataTable();
+	var rows = table
+    .rows()
+    .remove()
+	.draw(); 
+    $.ajax({
+        type: "GET",
+        url:"/listar_fechas_calendario",
+        data: { 
+            'fecha1': $("#calendarioFechaInicio").val(),
+            'fecha2':$("#calendarioFechaFin").val()
+        },
+       
+        success: function(data) {
+        
+        	for (i in data) {
+
+                
+               
+        		table.row.add([	
+                    data[i][0],
+                    restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),
+                    formato("" + data[i][3] + ""),
+                    restarHoras(restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),  formato("" + data[i][3] + ""))
+        		]).node().id ="row";
+        		table.draw( false );
+			}
+        	console.log(data)
+        }
+    })
+
+
+
+  
+    $('#verCalendarioModal').modal('show'); // abrir
+    
+}
+
+  function buscarfecha (){
+    var table = $('#tablaDetallesCalendario').DataTable();
+	var rows = table
+    .rows()
+    .remove()
+	.draw(); 
+    $.ajax({
+        type: "GET",
+        url:"/listar_fechas_calendario",
+        data: { 
+            'fecha1': $("#calendarioFechaInicio").val(),
+            'fecha2':$("#calendarioFechaFin").val()
+        },
+       
+        success: function(data) {
+        
+        	for (i in data) {
+               
+        		table.row.add([	
+                    data[i][0],
+                    restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),
+                    formato("" + data[i][3] + ""),
+                    restarHoras(restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),  formato("" + data[i][3] + ""))
+        		]).node().id ="row";
+        		table.draw( false );
+			}
+        	console.log(data)
+        }
+    })
+
+  }
+
+function formato (hora){
+    hora =hora.replace(/[:]/gi,'.');
+
+    var s = hora.split('.'); 
+    hora = s[0] + "." + s[1];
+    return hora;
+}
+function restarHoras(start, end){
+    s = start.split('.'); 
+    e = end.split('.'); 
+    min = s[1]-e[1]; 
+    hour_carry = 0; 
+    if(min < 0){ 
+        min += 60; 
+        hour_carry += 1; 
+    } 
+    hour = s[0]-e[0]-hour_carry; 
+
+    if ( hour < 10  && hour >0){
+        hour = '0'+hour;
+        
+    }else if (hour <0 && hour >-10 ){
+        hour=hour*-1;
+        hour='-0'+hour;
+    }
+    else if ( hour ==0){
+        hour = '0'+hour;
+    }
+    if ( min  < 10) {
+        min = '0'+min;
+    }
+    diff = hour + "." + min;
+
+    return diff
+
+}
