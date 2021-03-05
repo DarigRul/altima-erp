@@ -47,7 +47,7 @@ IMaquilaControlPedidoBultoService maquilaControlPedidoBultoService;
 	}
 	
 	@PostMapping("/guardar-control-pedidos-bulto")
-	public boolean guardarcontrolpedidosbulto(Float cantidadprenda,Long id) {
+	public boolean guardarcontrolpedidosbulto(Integer cantidadprenda,Long id) {
 		boolean response=false;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
@@ -77,5 +77,13 @@ response=true;
 		maquilaControlPedidoBultoService.delete(id);
 		
 	}
+	
+	@GetMapping("/sumatoria-cantidad")
+	public Double SumatoriaCantida(Long id) {
+		
+		return maquilaControlPedidoBultoService.SumatoriaCantidad(id);
+		
+	}
+	
 	
 }

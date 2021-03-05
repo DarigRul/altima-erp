@@ -15,9 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.altima.springboot.app.models.entity.MaquilaAsignacionTickets;
 import com.altima.springboot.app.models.entity.MaquilaControlPedido;
+import com.altima.springboot.app.models.service.IMaquilaAsignacionTicketsService;
 import com.altima.springboot.app.models.service.IMaquilaControlPedidoBultoService;
 import com.altima.springboot.app.models.service.IMaquilaControlPedidoService;
 
@@ -28,6 +31,8 @@ public class TallerMaquilaControlPedidosController {
 	IMaquilaControlPedidoService maquilaControlPedidoService;
 	@Autowired
 	IMaquilaControlPedidoBultoService maquilaControlPedidoBultoService;
+	@Autowired
+	IMaquilaAsignacionTicketsService maquilaAsignacionTicketsService;
 	
 	@GetMapping("/control-pedidos")
 	public String ListControlPedidos(Model model) {
@@ -40,7 +45,7 @@ public class TallerMaquilaControlPedidosController {
 	
 	@PostMapping("/guardar-control-pedidos")
 	public String GuardarControlPedidos(Model model,RedirectAttributes redirectAttrs,String cliente,String pedido,
-			String modelo,String cantidad,String orden,String coordinado,String clave_tela,String fecha
+			String modelo,Integer cantidad,String orden,String coordinado,String clave_tela,String fecha
 			) {
         String[] arrOfStr = modelo.split("\\|"); 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -69,10 +74,35 @@ public class TallerMaquilaControlPedidosController {
 					"success");
 		return "redirect:/control-pedidos";
 	}
+	@PostMapping("/guardar-tickets-asignacion")
+	@ResponseBody
+	public Boolean GuardarTickets(String idcontrol, String idprenda) {
+		Boolean response = false;
+		try {
+			maquilaAsignacionTicketsService.saveTickets(idcontrol,idprenda);
+			Integer i=1;
+			for (MaquilaAsignacionTickets iterable_element : maquilaAsignacionTicketsService.findByControlPedido(Long.parseLong(idcontrol))) {
+				
+				
+				iterable_element.setBulto((i++).toString());
+
+				maquilaAsignacionTicketsService.save(iterable_element);
+			}
+			response=true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			response=false;
+		}
+		
+
+		return response;
+	}
+	
 	
 	@GetMapping("/maquilacontrolpedidostickets/{idcontrol}/{idprenda}")
-	public String TicketsMaquilaControlPedidos(@PathVariable("idcontrol") String idcontrol,@PathVariable("idprenda") String idprenda, Model model) throws ServletException, IOException {
-		model.addAttribute("tickets", maquilaControlPedidoBultoService.GenerarTickets(idcontrol,idprenda));
+	public String TicketsMaquilaControlPedidos(@PathVariable("idcontrol") Long idcontrol,@PathVariable("idprenda") Long idprenda, Model model) throws ServletException, IOException {
+		
+		model.addAttribute("tickets", maquilaAsignacionTicketsService.ImprimirTickets(idcontrol,idprenda));
 		return "/maquilacontrolpedidostickets";
 	}
 }

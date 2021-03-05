@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Asignacion de tickets | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Asignacion de tickets
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Taller de maquila</li>
+                                <li class="breadcrumb-item active">Asignacion de tickets</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                                                    <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+                            
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado asignacion de tickets
+                                   <input type="hidden" id="idempoperario">    
+                                    </h3>
+                                </div>
+                                <div th:insert="asignacion-tickets-modal"></div>
+                                <div class="card-body">
+                                   
+                                    
+                                   
+    <div id="cover-caption">
+        <div class="container">
+            <div class="row text-white">
+                <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+                   
+                    <div class="px-2">
+                       
+                            <div class="form-group">
+                                <label>Tickets</label>
+							<select name="selec"
+							class="form-control" id="selectickets">
+						</select> 
+                            </div>
+<button class="btn icon-btn btn-altima text-white" id="GuardarBuscarTickets">
+						<span class="btn-glyphicon fas fa-check img-circle text-altima align-middle"></span>Agregar
+					</button>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                    
+                                   <!-- tabla aqui -->
+                                   <div id="tabla"></div>
+                                   
+                                  <button class="btn icon-btn btn-altima text-white" id="Recargar">
+						<span class="btn-glyphicon fas fa-check img-circle text-altima align-middle"></span>Asignar nuevo operario
+					</button>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+   <!--   <script src="/dist/js/tablaGeneral.js"></script>-->
+     <script src="/dist/js/asignacion-tickets.js"></script>
+   <script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+	    	  position: 'center',
+	          icon: /*[[${icon}]]*/,
+	          title: /*[[${title}]]*/,
+	          showConfirmButton: false,
+	          timer: 2500
+	    });
+	</script>
+    <script>
+        $('#iCompras').removeClass('text-altima');
+        $('#menuCompras').addClass('menu-open');
+        $('#navCompras').addClass('active-altima');
+        $('#navComReq').addClass('active');
+    </script>
+
+</body>
+
+</html>

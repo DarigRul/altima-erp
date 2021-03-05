@@ -7,7 +7,7 @@ import com.altima.springboot.app.models.entity.MaquilaControlPedido;
 
 public interface IMaquilaControlPedidoService {
 
-	List<MaquilaControlPedido> findAllMaquilaControlPedido();
+	List<Object[]> findAllMaquilaControlPedido();
 
 	List<ComercialCliente> findAllCliente();
 

@@ -30,7 +30,7 @@ public class MaquilaControlPedidoBulto implements Serializable{
 	private Long idControlPedido;
 	
 	@Column(name="cantidad_prenda_bulto")
-	private Float cantidadPrendaBulto;
+	private Integer cantidadPrendaBulto;
 	
 	@Column(name="creado_por")
 	private String creadoPor;
@@ -103,11 +103,11 @@ public class MaquilaControlPedidoBulto implements Serializable{
 		this.idControlPedidoEmbultado = idControlPedidoEmbultado;
 	}
 
-	public Float getCantidadPrendaBulto() {
+	public Integer getCantidadPrendaBulto() {
 		return cantidadPrendaBulto;
 	}
 
-	public void setCantidadPrendaBulto(Float cantidadPrendaBulto) {
+	public void setCantidadPrendaBulto(Integer cantidadPrendaBulto) {
 		this.cantidadPrendaBulto = cantidadPrendaBulto;
 	}
 	

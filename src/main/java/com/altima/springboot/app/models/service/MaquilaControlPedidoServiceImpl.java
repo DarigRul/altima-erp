@@ -41,9 +41,13 @@ public class MaquilaControlPedidoServiceImpl implements IMaquilaControlPedidoSer
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<MaquilaControlPedido> findAllMaquilaControlPedido(){
+	public List<Object[]> findAllMaquilaControlPedido(){
 		
-		return em.createQuery("From MaquilaControlPedido where estatus=1").getResultList();
+		return em.createNativeQuery("SELECT amcp.* ,((sum(amat.cantidad_prenda_bulto))/2) as cantidad FROM `alt_maquila_control_pedidos` amcp\r\n"
+				+ "LEFT JOIN\r\n"
+				+ "alt_maquila_asignacion_tickets amat\r\n"
+				+ "on amcp.id_control_pedido=amat.id_control_pedido\r\n"
+				+ "where amcp.estatus=1").getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -16,4 +16,6 @@ public interface IMaquilaControlPedidoBultoService {
 
 	List<Object[]> GenerarTickets(String idcontrol, String idprenda);
 
+	Double SumatoriaCantidad(Long id);
+
 }

@@ -48,7 +48,7 @@ public class MaquilaControlPedido implements Serializable{
 	private String claveTela;
 	
 	@Column(name="confeccion")
-	private String confeccion;
+	private Integer confeccion;
 	
 	@Column(name="fecha_recepcion")
 	private String fechaRecepcion;
@@ -141,11 +141,11 @@ public class MaquilaControlPedido implements Serializable{
 		this.claveTela = claveTela;
 	}
 
-	public String getConfeccion() {
+	public Integer getConfeccion() {
 		return confeccion;
 	}
 
-	public void setConfeccion(String confeccion) {
+	public void setConfeccion(Integer confeccion) {
 		this.confeccion = confeccion;
 	}
 

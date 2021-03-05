@@ -79,25 +79,29 @@
                                         </thead>
                                         <tbody>
                                             <tr th:each="control : ${control_pedido}" >
-                                                <td th:text="${control.pedido}">1</td>
-                                                <td th:text="${control.cliente}">Altima</td>
-                                                <td th:text="${control.ordenProduccion}">1</td>
-                                                <td th:text="${control.coordinado}">1</td>
-                                                <td th:text="${control.prenda}">SACO</td>
-                                                <td th:text="${control.modelo}">SAC001</td>
-                                                <td th:text="${control.claveTela}">LS999</td>
-                                                <td th:text="${control.confeccion}">154</td>
-                                                <td th:text="${control.pedido}">29/01/2021</td>
-                                                <td th:text="${control.pedido}">05/02/2021</td>
-                                                <td th:text="${control.pedido}">Pedida</td>
+                                                <td th:text="${control[1]}">1</td>
+                                                <td th:text="${control[2]}">Altima</td>
+                                                <td th:text="${control[3]}">1</td>
+                                                <td th:text="${control[4]}">1</td>
+                                                <td th:text="${control[5]}">SACO</td>
+                                                <td th:text="${control[6]}">SAC001</td>
+                                                <td th:text="${control[7]}">LS999</td>
+                                                <td th:text="${control[8]}">154</td>
+                                                <td th:text="${control[1]}">29/01/2021</td>
+                                                <td th:text="${control[1]}">05/02/2021</td>
+                                                <td th:text="${control[1]}">Pedida</td>
                          
                                                 <td>
                                                     
-
-                                                    <button  class="btn btn-primary btn-sm btn-circle popoverxd" th:attr="onclick=|listar(${control.idControlPedido},${control.idPrenda})|" data-placement="top"
-                                                        data-content="Generar tickets" data-target="#generarTickets" data-toggle="modal" id="generarTickets"><i class="fas fa-store"></i></button>
-
-
+                                                    <button  th:if="${control[8]} != ${control[18]}" th:attr="onclick=|listar(${control[0]},${control[17]})|"  class="btn btn-primary btn-sm btn-circle popoverxd"  data-placement="top"
+                                                        data-content="Generar tickets" data-target="#generarTickets" data-toggle="modal" th:id="'generarTickets'+${control[0]}"><i class="fas fa-store"></i></button>
+                                                  <div  th:if="${control[8]} == ${control[18]}">
+ <button  disabled th:attr="onclick=|listar(${control[0]},${control[17]})|"  class="btn btn-primary btn-sm btn-circle popoverxd"  data-placement="top"
+                                                        data-content="Generar tickets" data-target="#generarTickets" data-toggle="modal" th:id="'generarTickets'+${control[0]}"><i class="fas fa-store"></i></button>
+                                                    <button   th:attr="onclick=|imprimirtickets(${control[0]},${control[17]})|"  class="btn btn-primary btn-sm btn-circle popoverxd"  data-placement="top"
+                                                        data-content="Imprimir tickets" data-target="#generarTickets" data-toggle="modal" th:id="'generarTickets'+${control[0]}"><i class="fas fa-print"></i></button>
+                                                    
+                                                    </div>  
                                                 </td>
                                             </tr>
                                         </tbody>

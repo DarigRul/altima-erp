@@ -88,5 +88,12 @@ public class MaquilaControlPedidoBultoServiceImpl implements IMaquilaControlPedi
 				+ "	AND PO.id_prenda="+idprenda+"\r\n"
 				+ "	AND amcp.id_control_pedido="+idcontrol+"").getResultList();
 	}
+
+	@Override
+	@Transactional
+	public Double SumatoriaCantidad(Long id) {
+		// TODO Auto-generated method stub
+		return  (Double) em.createNativeQuery("SELECT sum(cantidad_prenda_bulto) FROM `alt_maquila_control_pedidos_bulto` where id_control_pedido="+id+"").getSingleResult();
+	}
 	
 }

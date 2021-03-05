@@ -15,16 +15,28 @@ function listar(idcontrolpedido,idprenda){
 		
 		},
 		success: (data) => { 
-			console.log(data);
-			console.log(data.actualizadoPor);
+			
 			$("#modelo").val(data.modelo);
 			$("#tela").val(data.claveTela);
 			$("#cantidad").val(data.confeccion);
-			$("#restante").val(data.confeccion);
 			$("#idcontrol").val(data.idControlPedido);
 			$("#idprenda").val(data.idPrenda);
-
+			$.ajax({
+				method: "GET",
+				url: "/sumatoria-cantidad",
+				data: {
+					"id": idcontrolpedido
+				
+				},
+				success: (data3) => { 
+					
+					$("#restante").val(data.confeccion-data3);
+				
+				}});
+			
 		}});
+	
+	
 	
 	$.ajax({
 		method: "GET",
@@ -34,7 +46,6 @@ function listar(idcontrolpedido,idprenda){
 		
 		},
 		success: (data) => { 
-			console.log(data);
 			$("#operaciones").val(data);
 
 		}});
@@ -47,7 +58,6 @@ function listar(idcontrolpedido,idprenda){
 			"id": idcontrolpedido
 		},
 		success: (data2) => {
-			console.log(data2);
 			$(quitar).remove();
 			$(contenedor).append("<div class='modal-body' id='quitar2'>" +
 				"<table class='table table-striped table-bordered' id='idtable2' style='width:100%'>" +
@@ -62,13 +72,11 @@ function listar(idcontrolpedido,idprenda){
 			var a;
 			var b = [];
 			
-			//console.log(data2[0]);
 			
 			
 			
 			for (i in data2) {
-console.log(i);
-console.log(data2);
+
 				a = [
 					"<tr>" +
 					"<td>" + parseInt(parseInt(i)+1) + "</td>",
@@ -137,12 +145,11 @@ console.log(data2);
 
 
 $( "#Guardar" ).click(function() {
-	console.log(document.getElementById("idcontrol").value);
-	if($('#cantidadprenda').val()==null || $('#cantidadprenda').val()==null || $('#cantidadprenda').val() ==0 || $('#cantidadprenda').val()===0 ){
+	if($('#cantidadprenda').val()==null || $('#cantidadprenda').val()==null || $('#cantidadprenda').val() ==0 || $('#cantidadprenda').val()===0 || $('#restante').val()<0 || $('#cantidadprenda').val()>$('#restante').val() || isNaN($('#restante').val()) ){
 		Swal.fire({
 			  icon: 'error',
 			  title: 'Ingrese un valor',
-			  text: 'El campo prenda por bulto no puede estar vacio o ser 0'
+			  text: 'El campo prenda por bulto no puede estar vacio, ser 0 o ser mayor al numero restante'
 			})	
 		
 	}
@@ -162,8 +169,7 @@ $( "#Guardar" ).click(function() {
 		
 		},
 		success: (data) => { 
-			console.log(data);
-			console.log(data.actualizadoPor);
+			
 			Swal.fire({
 				  icon: 'success',
 				  title: 'Ingresado correctamente',
@@ -181,17 +187,76 @@ $( "#Guardar" ).click(function() {
 
 
 $( "#enviarOrden" ).click(function() {
-	var control=document.getElementById("idcontrol").value;
-	var prenda=document.getElementById("idprenda").value;
-	 window.open("/maquilacontrolpedidostickets/"+control+"/"+prenda+"/?format=pdf");
+	
+	
+	if($("#restante").val()!=0 || !$("#restante").val() || $("#restante").val()<0 || $("#restante").val()>0  ){
+		
+	    Swal.fire('Faltan bultos por registrar no se pueden generar los tickets', '', 'error');
+
+		
+		
+	}else{
+		
+		Swal.fire({
+			  title: '¿Desea generar los tickets?',
+			  text: 'Una vez generados no podrá modificarlos y estarán disponibles para su impresión',
+
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: `Confirmar`,
+			  cancelButtonText: 'Cancelar'
+			}).then((result) => {
+			  /* Read more about isConfirmed, isDenied below */
+			  if (result.value) {
+			    var control=document.getElementById("idcontrol").value;
+				var prenda=document.getElementById("idprenda").value;
+				$.ajax({
+					method: "POST",
+					url: "/guardar-tickets-asignacion",
+					data: {
+						"_csrf": $(
+						'#token')
+					.val(),
+						"idcontrol": control,
+					    "idprenda":prenda
+					},
+					success: (data3) => { 
+						if(data3==true){
+						    Swal.fire('¡Tickets generados correctamente!', '', 'success')
+						    $('#generarTickets').modal('hide');
+						    location.reload();
+							 window.open("/maquilacontrolpedidostickets/"+control+"/"+prenda+"/?format=pdf");
+
+							
+						}else{
+							
+						    Swal.fire('¡Algo ha salido mal reintente y verifique los datos!', '', 'error')
+
+						}
+
+					}});
+			  } else {
+			    Swal.fire('Puede generar los tickets en otro momento', '', 'info');
+			  }
+			})
+		
+	}
+	
+	
 	 
 	
 
 });
 
+function imprimirtickets(control,prenda){
+	 window.open("/maquilacontrolpedidostickets/"+control+"/"+prenda+"/?format=pdf");
+	
+	
+}
+
 function eliminarembultado(id){
 	
-	console.log("fads");
 	$.ajax({
 		method: "DELETE",
 		url: "/eliminar-embultado",
@@ -207,6 +272,5 @@ function eliminarembultado(id){
 
 
 		}});
-	//alert("es id "+id+"");
 	
 }
