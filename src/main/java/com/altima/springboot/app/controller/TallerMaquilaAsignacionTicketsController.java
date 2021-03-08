@@ -15,7 +15,7 @@ IMaquilaAsignacionTicketsService maquilaAsignacionTicketsService;
 	@GetMapping("/asignacion-tickets")
 	public String ListarAsignacionTickets(Model model) {
 		
-		return "/asignacion-tickets";
+		return "asignacion-tickets";
 	}
 	
 }

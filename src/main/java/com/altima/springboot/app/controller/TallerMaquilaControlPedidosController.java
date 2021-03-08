@@ -40,7 +40,7 @@ public class TallerMaquilaControlPedidosController {
 		model.addAttribute("clientes", maquilaControlPedidoService.findAllCliente());
 		model.addAttribute("prenda_modelo", maquilaControlPedidoService.findAllPrendaModelo());
 
-		return "/control-pedidos";
+		return "control-pedidos";
 	}
 	
 	@PostMapping("/guardar-control-pedidos")

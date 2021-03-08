@@ -47,7 +47,7 @@ public class MaquilaControlPedidoServiceImpl implements IMaquilaControlPedidoSer
 				+ "LEFT JOIN\r\n"
 				+ "alt_maquila_asignacion_tickets amat\r\n"
 				+ "on amcp.id_control_pedido=amat.id_control_pedido\r\n"
-				+ "where amcp.estatus=1").getResultList();
+				+ "where amcp.estatus=1 GROUP BY id_control_pedido").getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
