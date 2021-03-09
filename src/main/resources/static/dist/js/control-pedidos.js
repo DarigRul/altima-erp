@@ -145,11 +145,11 @@ function listar(idcontrolpedido,idprenda){
 
 
 $( "#Guardar" ).click(function() {
-	if($('#cantidadprenda').val()==null || $('#cantidadprenda').val()==null || $('#cantidadprenda').val() ==0 || $('#cantidadprenda').val()===0 || $('#restante').val()<0 || $('#cantidadprenda').val()>$('#restante').val() || isNaN($('#restante').val()) ){
+	if($('#cantidadprenda').val()==null || $('#operaciones').val()=="0" || $('#cantidadprenda').val()==null || $('#cantidadprenda').val() ==0 || $('#cantidadprenda').val()===0 || $('#restante').val()<0 || $('#cantidadprenda').val()>$('#restante').val() || isNaN($('#restante').val()) ){
 		Swal.fire({
 			  icon: 'error',
-			  title: 'Ingrese un valor',
-			  text: 'El campo prenda por bulto no puede estar vacio, ser 0 o ser mayor al numero restante'
+			  title: 'Ingrese un valor valido o verifique el número de operaciones',
+			  text: 'El campo prenda por bulto no puede estar vacio, ser 0, ser mayor al numero restante o las operaciones no pueden ser 0'
 			})	
 		
 	}
