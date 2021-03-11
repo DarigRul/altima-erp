@@ -95,5 +95,12 @@ public class MaquilaControlPedidoBultoServiceImpl implements IMaquilaControlPedi
 		// TODO Auto-generated method stub
 		return  (Double) em.createNativeQuery("SELECT sum(cantidad_prenda_bulto) FROM `alt_maquila_control_pedidos_bulto` where id_control_pedido="+id+"").getSingleResult();
 	}
+
+	@Override
+	@Transactional
+	public List<MaquilaControlPedidoBulto> findByIdControl(Long IdControlPedido) {
+		// TODO Auto-generated method stub
+		return repository.findByIdControlPedidoOrderByIdControlPedidoEmbultadoAsc(IdControlPedido);
+	}
 	
 }

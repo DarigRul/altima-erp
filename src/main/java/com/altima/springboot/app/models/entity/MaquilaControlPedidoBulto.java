@@ -46,6 +46,10 @@ public class MaquilaControlPedidoBulto implements Serializable{
 	
 	@Column(name="estatus")
 	private String estatus;
+	
+	@Column(name="bulto")
+	private String bulto;
+	
 
 	public Long getIdControlPedido() {
 		return idControlPedido;
@@ -109,6 +113,14 @@ public class MaquilaControlPedidoBulto implements Serializable{
 
 	public void setCantidadPrendaBulto(Integer cantidadPrendaBulto) {
 		this.cantidadPrendaBulto = cantidadPrendaBulto;
+	}
+
+	public String getBulto() {
+		return bulto;
+	}
+
+	public void setBulto(String bulto) {
+		this.bulto = bulto;
 	}
 	
 	

@@ -25,4 +25,8 @@ public interface IMaquilaAsignacionTicketsService {
 
 	MaquilaAsignacionTickets findOne(Long idticket);
 
+	List<Object[]> ListarAvancesAsignaciones(Long id);
+
+	List<Object[]> ListarAvancesAsignacionesBultos(Long id, Long idcontrolpedidoembultado);
+
 }

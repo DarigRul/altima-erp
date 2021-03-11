@@ -18,4 +18,6 @@ public interface IMaquilaControlPedidoBultoService {
 
 	Double SumatoriaCantidad(Long id);
 
+	List<MaquilaControlPedidoBulto> findByIdControl(Long IdControlPedido);
+
 }

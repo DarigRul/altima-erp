@@ -78,7 +78,19 @@ public Boolean EliminarAsignacion(Long idticket) {
 	
 }
 
+@GetMapping("/listar-avances-asignaciones")
+public List<Object[]>ListarAvancesAsignaciones(Long id){
+	return maquilaAsignacionTicketsService.ListarAvancesAsignaciones(id);
+	
+	
+}
 
+@GetMapping("/listar-avances-asignaciones-bultos")
+public List<Object[]> ListarAvancesAsignacionesBultos(Long id, Long idcontrolpedidoembultado){
+	
+	return maquilaAsignacionTicketsService.ListarAvancesAsignacionesBultos(id, idcontrolpedidoembultado);
+	
+}
 
 
 

@@ -209,6 +209,16 @@ $( "#enviarOrden" ).click(function() {
 			}).then((result) => {
 			  /* Read more about isConfirmed, isDenied below */
 			  if (result.value) {
+				  Swal.fire({
+		                title: 'Por favor espere..!',
+		                text: 'Los tickets se estan generando..',
+		                allowOutsideClick: false,
+		                allowEscapeKey: false,
+		                allowEnterKey: false,
+		                onOpen: () => {
+		                    Swal.showLoading()
+		                }
+		            })
 			    var control=document.getElementById("idcontrol").value;
 				var prenda=document.getElementById("idprenda").value;
 				$.ajax({

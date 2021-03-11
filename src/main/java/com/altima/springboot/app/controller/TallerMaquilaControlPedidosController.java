@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.altima.springboot.app.models.entity.MaquilaAsignacionTickets;
 import com.altima.springboot.app.models.entity.MaquilaControlPedido;
+import com.altima.springboot.app.models.entity.MaquilaControlPedidoBulto;
 import com.altima.springboot.app.models.service.IMaquilaAsignacionTicketsService;
 import com.altima.springboot.app.models.service.IMaquilaControlPedidoBultoService;
 import com.altima.springboot.app.models.service.IMaquilaControlPedidoService;
@@ -78,16 +79,18 @@ public class TallerMaquilaControlPedidosController {
 	@ResponseBody
 	public Boolean GuardarTickets(String idcontrol, String idprenda) {
 		Boolean response = false;
+		
 		try {
-			maquilaAsignacionTicketsService.saveTickets(idcontrol,idprenda);
+			
 			Integer i=1;
-			for (MaquilaAsignacionTickets iterable_element : maquilaAsignacionTicketsService.findByControlPedido(Long.parseLong(idcontrol))) {
-				
+			for (MaquilaControlPedidoBulto iterable_element : maquilaControlPedidoBultoService.findByIdControl(Long.parseLong(idcontrol))) {
+				System.out.println(iterable_element.getIdControlPedidoEmbultado());
 				
 				iterable_element.setBulto((i++).toString());
 
-				maquilaAsignacionTicketsService.save(iterable_element);
-			}
+				maquilaControlPedidoBultoService.save(iterable_element);
+	}
+			maquilaAsignacionTicketsService.saveTickets(idcontrol,idprenda);
 			response=true;
 		} catch (Exception e) {
 			// TODO: handle exception

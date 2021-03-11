@@ -25,7 +25,7 @@ public class MaquilaAsignacionTicketsServiceImpl implements IMaquilaAsignacionTi
 	@Override
 	@Transactional
 	public List<MaquilaAsignacionTickets> findByControlPedido(Long id){
-		return repository.findByIdControlPedido(id);
+		return repository.findByIdControlPedidoOrderByIdAsignacionTicketAsc(id);
 		
 	}
 	
@@ -51,7 +51,7 @@ public class MaquilaAsignacionTicketsServiceImpl implements IMaquilaAsignacionTi
 				+ "PO.id_prenda,\r\n"
 				+ "amcp.pedido,\r\n"
 				+ "amcp.modelo,\r\n"
-				+ "null\r\n"
+				+ "amcpb.bulto\r\n"
 				+ ",\r\n"
 				+ "amcpb.cantidad_prenda_bulto,\r\n"
 				+ "familia.nombre_lookup as familia,\r\n"
@@ -89,7 +89,7 @@ public class MaquilaAsignacionTicketsServiceImpl implements IMaquilaAsignacionTi
 	@Override
 	@Transactional
 	public List<MaquilaAsignacionTickets> ImprimirTickets(Long idcontrol, Long idprenda) {
-		return repository.findByIdControlPedidoAndIdPrenda(idcontrol,idprenda);
+		return repository.findByIdControlPedidoAndIdPrendaOrderByIdAsignacionTicketAsc(idcontrol,idprenda);
 		
 	}
 
@@ -122,6 +122,53 @@ public class MaquilaAsignacionTicketsServiceImpl implements IMaquilaAsignacionTi
 	public MaquilaAsignacionTickets findOne(Long idticket) {
 		// TODO Auto-generated method stub
 		return repository.findById(idticket).orElse(null);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> ListarAvancesAsignaciones(Long id) {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT\r\n"
+				+ "total.*,\r\n"
+				+ "asignado.asignado,\r\n"
+				+ "Ifnull(\r\n"
+				+ "Concat(Round(( asignado.asignado / total.total_operaciones ) * 100, 2), '%'), Concat(0, '%'))\r\n"
+				+ "FROM  (SELECT amcpb.id_control_pedido,\r\n"
+				+ "              amcpb.id_control_pedido_embultado,\r\n"
+				+ "              Count(amat.operacion)AS total_operaciones,\r\n"
+				+ "              amat.bulto\r\n"
+				+ "       FROM   alt_maquila_control_pedidos_bulto amcpb\r\n"
+				+ "              INNER JOIN alt_maquila_asignacion_tickets amat\r\n"
+				+ "                      ON amcpb.id_control_pedido = amat.id_control_pedido\r\n"
+				+ "                         AND amcpb.id_control_pedido = amat.id_control_pedido\r\n"
+				+ "                         AND amat.bulto = amcpb.bulto\r\n"
+				+ "       GROUP  BY amat.id_control_pedido_embultado)AS total\r\n"
+				+ "      LEFT JOIN(SELECT amcpb.id_control_pedido,\r\n"
+				+ "                       amcpb.id_control_pedido_embultado,\r\n"
+				+ "                       Count(amat.operacion)AS asignado,\r\n"
+				+ "                       amat.bulto\r\n"
+				+ "                FROM   alt_maquila_control_pedidos_bulto amcpb\r\n"
+				+ "                       INNER JOIN alt_maquila_asignacion_tickets amat\r\n"
+				+ "                               ON\r\n"
+				+ "                       amcpb.id_control_pedido = amat.id_control_pedido\r\n"
+				+ "                       AND amcpb.id_control_pedido = amat.id_control_pedido\r\n"
+				+ "                       AND amat.bulto = amcpb.bulto\r\n"
+				+ "                       AND amat.operario IS NOT NULL\r\n"
+				+ "                GROUP  BY amat.id_control_pedido_embultado)AS asignado\r\n"
+				+ "             ON\r\n"
+				+ "      asignado.id_control_pedido_embultado = total.id_control_pedido_embultado\r\n"
+				+ "WHERE  total.id_control_pedido = "+id+"").getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<Object[]> ListarAvancesAsignacionesBultos(Long id, Long idcontrolpedidoembultado) {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT amat.operacion,ifnull(Concat(ahe.nombre_persona,' ',ahe.apellido_paterno,' ',ahe.apellido_materno),'No asignado'),ifnull(amat.fecha_asignacion,'No asignado') FROM `alt_maquila_asignacion_tickets` amat\r\n"
+				+ "left JOIN alt_hr_empleado ahe on amat.operario=ahe.id_empleado\r\n"
+				+ "where amat.id_control_pedido="+id+" and amat.id_control_pedido_embultado="+idcontrolpedidoembultado+"").getResultList();
 	}
 
 	
