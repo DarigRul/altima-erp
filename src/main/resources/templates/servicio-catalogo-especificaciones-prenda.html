@@ -1,29 +1,29 @@
 <div class="small-box bg-danger">
 	<div class="inner">
-		<h3>Tallas</h3>
-		<button data-toggle="modal" data-target="#detalleTalla" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+		<h3>Especificaciones prenda</h3>
+		<button data-toggle="modal" data-target="#detalleEspecificacionesPrenda" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
 	</div>
 	<div class="icon"> <i class="ion ion-ios-pricetags-outline"></i> </div>
 	<a class="small-box-footer">
-		<button onclick="addTalla()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+		<button onclick="addEspecificacionesPrenda()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
 	</a>
 </div>
 <!-- Modal Marcas Tabla -->
-<div class="modal fade" id="detalleTalla" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="detalleEspecificacionesPrenda" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
 		<div class="modal-content" id="contenedorTabla">
 			<div class="modal-header bg-danger">
-				<h5 class="modal-title" id="exampleModalLongTitle">Listado de tallas <button onclick="addTalla()" class="btn btn-light btn-circle btn-sm text-danger popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+				<h5 class="modal-title" id="exampleModalLongTitle">Listado de tallas <button onclick="addEspecificacionesPrenda()" class="btn btn-light btn-circle btn-sm text-danger popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
                 </h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
 			</div>
 			<div class="modal-body">
-				<table class="table tablaServicio table-striped table-bordered" id="tabladetalleTalla" style="width:100%">
+				<table class="table tablaServicio table-striped table-bordered" id="tabladetalleEspecificacionesPrenda" style="width:100%">
 					<thead>
 						<tr>
 							<th>Folio</th>
-							<th>Talla</th>
-							<th>G&eacute;nero</th>
+							<th>Tipo</th>
+						
 							<th>Acciones</th>
 						</tr>
 					</thead>
@@ -31,7 +31,6 @@
 						<tr>
 							<td>Folio</td>
 							<td>32</td>
-							<td>Dama</td>
 							<td class="text-center">
 								<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creación: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicación: </strong>21/02/2020"><i class="fas fa-info"></i></button>
 								<button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="modal" data-target="#nuevaTalla" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
@@ -47,37 +46,31 @@
 </div>
 
 <!-- Modal agregar -->
-<div class="modal fade" id="modalAgregarTallas" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="modalAgregarEspecificacionesPrenda" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 40%;" role="document"
         id="modalMarcasMobile">
         <div class="modal-content" id="contenedorTabla">
             <div class="modal-header bg-danger">
-                <h5 class="modal-title" id="tituloColor">Nuevo activo fijo</h5>
+                <h5 class="modal-title" id="tituloEspecificacionesPrenda">Nuevo especificaci&oacute;n</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form name="formTallas" id="formTallas" class="row" autocomplete="off">
-					<div class="form-group col-sm-6">
-						<label for="numeroTalla">Talla</label>
-						<input type="number" class="form-control" id="talla" name="talla" placeholder="32">
-						<input type="hidden"  id="idLookuptalla" name="idLookuptalla">
+                <form name="formEspecificacionesPrenda" id="formEspecificacionesPrenda" class="row" autocomplete="off">
+					<div class="form-group col-sm-12">
+						<label for="EspecificacionesPrenda">Especificaci&oacute;n</label>
+						<input type="text" class="form-control" id="EspecificacionesPrenda" name="EspecificacionesPrenda" placeholder="Especificaci&oacute;n">
+						<input type="hidden"  id="idLookupEspecificacionesPrenda" name="idLookupEspecificacionesPrenda">
 					</div>
 
-                    <div class="form-group col-sm-6">
-						<label for="generoTalla">G&eacute;nero</label>
-						<select  id="generoTalla" name="generoTalla" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
-					 	</select>
-					</div>
-
-                    <div class="form-group col-sm-12" role="alert" style="display: none" id="alertTallas">
+                    <div class="form-group col-sm-12" role="alert" style="display: none" id="alertEspecificacionesPrenda">
                         <h5 class="alert-heading center"><i class="fas fa-exclamation" style="color:brown"></i> Complete todos los campos</h5>
                     </div>
 
 
                     <div class="card-footer center">
-                        <button onclick="guardarTallas()" type="button" class="btn btn-primary btn-lg">Agregar</button>
+                        <button onclick="guardarEspecificacionesPrenda()" type="button" class="btn btn-primary btn-lg">Agregar</button>
                         <button type="button" data-dismiss="modal" class="btn btn-secondary btn-lg">Cancelar</button>
 
                     </div>

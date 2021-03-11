@@ -1,0 +1,147 @@
+<div class="small-box bg-primary">
+    <div class="inner">
+        <h3>Arreglos</h3>
+        <button data-toggle="modal" data-target="#detalleArreglo" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+    </div>
+    <div class="icon">
+        <i class="ion ion-ios-pricetags-outline"></i>
+    </div>
+    <a class="small-box-footer">
+        <button onclick="addArreglo()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+    </a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="detalleArreglo" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
+        <div class="modal-content modal-rounded-body" id="contenedorTabla">
+            <div class="modal-header bg-primary modal-rounded-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de arreglos <button onclick="addArreglo()" class="btn btn-light btn-circle btn-sm text-primary popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 <table id ="tableArreglos" class="table tablaServicio table-striped table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                        	<th>Clave </th>
+                        	<th>Nombre</th>
+                            <th>Prendas</th>
+                            <th>Acciones</th>
+                           <!--  <th></th>--->
+                        </tr>
+                    </thead>
+                 	<tbody>
+                 		 <!--<tr>
+                 			<td>1</td>
+                 			<td>1</td>
+                 			<td class="text-center">
+                 				<button class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>
+							</td>
+                 			<td class="text-center">
+								<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creación: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicación: </strong>21/02/2020"><i class="fas fa-info"></i></button>
+								<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editRuta()" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+								<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteRuta()" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
+								<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveRuta()" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>
+							</td>
+                 		</tr>--->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="addArreglo" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;" role="document" id="modalMarcasMobile">
+        <div class="modal-content modal-rounded-body" id="contenedorTabla">
+            <div class="modal-header bg-primary modal-rounded-header">
+                <h5  id="arregloTitulo" aling="center"  >Nuevo arreglo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                	<span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <label for="nombreArreglo" >Nombre</label>
+                        <form class="input-group mb-3" autocomplete="off">
+                            <input type="text" id="nombreArreglo" name="nombreArreglo" class="form-control" placeholder="Nombre" autocomplete="off" >
+                            <input type="hidden" id="idLookupArreglo" name="idLookupArreglo" class="form-control" >
+                        </form>
+                    </div>
+                    <div class="form-group col-sm-5">
+                        <label for="prendaArreglo" >Prenda</label>
+                        <div class="input-group mb-3">
+                            <select id="prendaArreglo" name="prendaArreglo" class="form-control selectpicker" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-7">
+                        <label for="complejidadArreglo" >Complejidad</label>
+                        <div class="input-group mb-3">
+                          <select  class="form-control selectpicker" id="complejidadArreglo" name="complejidadArreglo" title="Selecciona uno..." data-live-search="true" data-live-search-normalize="true">
+                          </select>
+                            <div class="input-group-append">
+                              <button class="btn btn-sm icon-btn btn-altima text-white float-right" id="boton-add-prenda" disabled onclick="agregarPrenda()" type="button"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+               
+                <table class="table tablaServicio table-striped table-bordered" style="width:100%;" id="tablaPrendas" >
+                    <thead>
+                        <tr>
+                            <th>Prenda</th>
+                            <th>Complejidad</th>
+                            <th>Eliminar</th>
+                           <!--  <th></th>--->
+                        </tr>
+                    </thead>
+                 	<tbody>
+                 	
+                    </tbody>
+                </table>
+               
+
+                <div class="modal-footer modal-rounded-footer">
+                    <button class="btn btn-danger mr-auto" data-dismiss="modal" aria-label="Close" >Cancelar</button>
+                    <button class="btn btn-primary" id="botonGuardarArreglo"onclick="guardarArreglo()">Guardar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="infoPrendas" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;" role="document" id="modalMarcasMobile">
+        <div class="modal-content modal-rounded-body" id="contenedorTabla">
+            <div class="modal-header bg-primary modal-rounded-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de prendas
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                 <table id="tableListaProcesos" class="table tablaServicio table-striped table-bordered" style="width:100%;">
+                    <thead>
+                        <tr>
+                        	<th>Prenda</th>
+                            <th>Complejidad</th>
+                           <!--  <th></th>--->
+                        </tr>
+                    </thead>
+                 	<tbody>
+                 		
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

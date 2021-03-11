@@ -1,6 +1,4 @@
 package com.altima.springboot.app.controller;
-
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,9 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.ProduccionLookup;
 import com.altima.springboot.app.models.entity.ProduccionMaquiladorPrendas;
 import com.altima.springboot.app.models.entity.ProduccionMaquiladorProceso;
@@ -137,43 +128,6 @@ public class ProduccionCatalogosController {
 			LookupService.save(largo);
 			return "catalogos";
 		}
-
-		if (num_talla != null) {
-
-			System.out.println("hoola--->" + num_talla);
-			ProduccionLookup talla = new ProduccionLookup();
-			ProduccionLookup ultimoid = null;
-			try {
-				ultimoid = LookupService.findLastLookupByType("Talla");
-
-			} catch (Exception e) {
-
-				System.out.println(e);
-			}
-
-			if (ultimoid == null) {
-				talla.setIdText("TALLA" + "0001");
-			} else {
-
-				String str = ultimoid.getIdText();
-				String[] part = str.split("(?<=\\D)(?=\\d)");
-				Integer cont = Integer.parseInt(part[1]);
-				talla.setIdText("TALLA" + fmt.format("%04d", (cont + 1)));
-			}
-
-			talla.setNombreLookup(StringUtils.capitalize(num_talla));
-			talla.setTipoLookup("Talla");
-			talla.setCreadoPor(auth.getName());
-			talla.setFechaCreacion(dateFormat.format(date));
-			talla.setEstatus("1");
-			// talla.setDescripcionLookup(ubicacion);
-			talla.setAtributo1(id_genero);
-			talla.setAtributo2(genero);
-			LookupService.save(talla);
-
-			return "catalogos";
-		}
-
 		if (descripcionProceso != null) {
 			System.out.println("hoola--->" + descripcionProceso);
 			ProduccionLookup proceso = new ProduccionLookup();
@@ -324,6 +278,60 @@ public class ProduccionCatalogosController {
 		fmt.close();
 		return "redirect:catalogos";
 
+	}
+
+	@PostMapping("/guardar-catalogo-produccion-tallas")
+	public String guardacatalogoTallas(Long idProcesoTalla, String num_talla, String id_genero,
+			String genero) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		Formatter fmt = new Formatter();
+		if (idProcesoTalla == null) {
+			ProduccionLookup talla = new ProduccionLookup();
+			ProduccionLookup ultimoid = null;
+			try {
+				ultimoid = LookupService.findLastLookupByType("Talla");
+
+			} catch (Exception e) {
+
+				System.out.println(e);
+			}
+
+			if (ultimoid == null) {
+				talla.setIdText("TALLA" + "0001");
+			} else {
+
+				String str = ultimoid.getIdText();
+				String[] part = str.split("(?<=\\D)(?=\\d)");
+				Integer cont = Integer.parseInt(part[1]);
+				talla.setIdText("TALLA" + fmt.format("%04d", (cont + 1)));
+			}
+
+			talla.setNombreLookup(StringUtils.capitalize(num_talla));
+			talla.setTipoLookup("Talla");
+			talla.setCreadoPor(auth.getName());
+			talla.setFechaCreacion(dateFormat.format(date));
+			talla.setEstatus("1");
+			// talla.setDescripcionLookup(ubicacion);
+			talla.setAtributo1(id_genero);
+			talla.setAtributo2(genero);
+			LookupService.save(talla);
+
+			
+		}
+		else{
+			ProduccionLookup tal = null;
+			tal = LookupService.findOne(idProcesoTalla);
+			tal.setNombreLookup(StringUtils.capitalize(num_talla));
+			tal.setAtributo1(id_genero);
+			tal.setAtributo2(genero);
+			tal.setUltimaFechaModificacion(currentDate());
+			tal.setActualizadoPor(auth.getName());
+			LookupService.save(tal);
+		}
+		
+		return "catalogos";
 	}
 
 	@RequestMapping(value = "/verificar-duplicado-produccion", method = RequestMethod.GET)

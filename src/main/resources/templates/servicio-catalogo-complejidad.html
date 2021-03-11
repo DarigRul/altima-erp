@@ -1,29 +1,29 @@
-<div class="small-box bg-danger">
+<div class="small-box bg-success">
 	<div class="inner">
-		<h3>Tallas</h3>
-		<button data-toggle="modal" data-target="#detalleTalla" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+		<h3>Complejidad</h3>
+		<button data-toggle="modal" data-target="#detalleComplejidad" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
 	</div>
 	<div class="icon"> <i class="ion ion-ios-pricetags-outline"></i> </div>
 	<a class="small-box-footer">
-		<button onclick="addTalla()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+		<button onclick="addComplejidad()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
 	</a>
 </div>
 <!-- Modal Marcas Tabla -->
-<div class="modal fade" id="detalleTalla" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="detalleComplejidad" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
 		<div class="modal-content" id="contenedorTabla">
-			<div class="modal-header bg-danger">
-				<h5 class="modal-title" id="exampleModalLongTitle">Listado de tallas <button onclick="addTalla()" class="btn btn-light btn-circle btn-sm text-danger popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+			<div class="modal-header bg-success">
+				<h5 class="modal-title" id="exampleModalLongTitle">Listado de complejidades <button onclick="addComplejidad()" class="btn btn-light btn-circle btn-sm text-success popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
                 </h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
 			</div>
 			<div class="modal-body">
-				<table class="table tablaServicio table-striped table-bordered" id="tabladetalleTalla" style="width:100%">
+				<table class="table tablaServicio table-striped table-bordered" id="tabladetalleComplejidad" style="width:100%">
 					<thead>
 						<tr>
 							<th>Folio</th>
-							<th>Talla</th>
-							<th>G&eacute;nero</th>
+							<th>Complejidad</th>
+							<th>Abreviaci&oacute;n</th>
 							<th>Acciones</th>
 						</tr>
 					</thead>
@@ -47,37 +47,37 @@
 </div>
 
 <!-- Modal agregar -->
-<div class="modal fade" id="modalAgregarTallas" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="modalComplejidad" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 40%;" role="document"
         id="modalMarcasMobile">
         <div class="modal-content" id="contenedorTabla">
-            <div class="modal-header bg-danger">
-                <h5 class="modal-title" id="tituloColor">Nuevo activo fijo</h5>
+            <div class="modal-header bg-success">
+                <h5 class="modal-title" id="tituloComplejidad">Nueva complejidad</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form name="formTallas" id="formTallas" class="row" autocomplete="off">
+                <form name="formTiposIngreso" id="formTiposIngreso" class="row" autocomplete="off">
 					<div class="form-group col-sm-6">
-						<label for="numeroTalla">Talla</label>
-						<input type="number" class="form-control" id="talla" name="talla" placeholder="32">
-						<input type="hidden"  id="idLookuptalla" name="idLookuptalla">
+						<label for="complejidad">Complejidad</label>
+						<input type="text" class="form-control" id="complejidad" name="complejidad" placeholder="Complejidad">
+						<input type="hidden"  id="idLookupComplejidad" name="idLookupComplejidad">
 					</div>
 
                     <div class="form-group col-sm-6">
-						<label for="generoTalla">G&eacute;nero</label>
-						<select  id="generoTalla" name="generoTalla" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
-					 	</select>
+						<label for="abreviacionComplejidad">Abreviaci&oacute;n</label>
+						<input  type="text" id="abreviacionComplejidad" name="abreviacionComplejidad" class="form-control" placeholder="Abrev.">
+					
 					</div>
 
-                    <div class="form-group col-sm-12" role="alert" style="display: none" id="alertTallas">
+                    <div class="form-group col-sm-12" role="alert" style="display: none" id="alertComplejidad">
                         <h5 class="alert-heading center"><i class="fas fa-exclamation" style="color:brown"></i> Complete todos los campos</h5>
                     </div>
 
 
                     <div class="card-footer center">
-                        <button onclick="guardarTallas()" type="button" class="btn btn-primary btn-lg">Agregar</button>
+                        <button onclick="guardarComplejidad()" type="button" class="btn btn-primary btn-lg">Agregar</button>
                         <button type="button" data-dismiss="modal" class="btn btn-secondary btn-lg">Cancelar</button>
 
                     </div>
