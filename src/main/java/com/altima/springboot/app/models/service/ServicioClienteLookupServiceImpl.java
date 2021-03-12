@@ -109,7 +109,18 @@ public class ServicioClienteLookupServiceImpl implements IServicioClienteLookupS
 	@Transactional
 	public List<Object[]> findAllPrendas() {
 		List<Object[]> re = null;
-		re = em.createNativeQuery("SELECT id_prenda, descripcion_prenda FROM alt_disenio_prenda WHERE estatus = 1  ORDER BY detalle_prenda desc").getResultList();
+		re = em.createNativeQuery(""+
+			"SELECT\r\n" +
+				"look.id_lookup,\r\n" +
+				"look.nombre_lookup\r\n" +
+			"FROM\r\n" +
+				"alt_disenio_lookup AS look\r\n" +
+			"WHERE\r\n" +
+				"1 = 1\r\n" +
+				"AND look.estatus=1\r\n" +
+				"AND look.tipo_lookup = 'Familia Prenda'\r\n" +
+			"ORDER BY\r\n" +
+				"look.nombre_lookup ASC").getResultList();
 
 		return re;
 	}
@@ -133,16 +144,17 @@ public class ServicioClienteLookupServiceImpl implements IServicioClienteLookupS
 		re = em.createNativeQuery(""+
 			"SELECT\r\n" +
 				"ARPE.id_arreglo_prendas,\r\n" +
-				"prenda.descripcion_prenda,\r\n" +
-				"look.nombre_lookup,\r\n" +
+				"lookup_prenda.nombre_lookup as familia,\r\n" +
+				"look.nombre_lookup as lookup,\r\n" +
 				"ARPE.id_prenda,\r\n" +
 				"ARPE.id_complejidad\r\n" +
 			"FROM\r\n" +
 				"alt_servicio_cliente_arreglo_prenda AS ARPE\r\n" +
-				"INNER JOIN alt_disenio_prenda prenda ON ARPE.id_prenda = prenda.id_prenda\r\n" +
+				"INNER JOIN alt_disenio_lookup lookup_prenda ON ARPE.id_prenda = lookup_prenda.id_lookup\r\n" +
 				"INNER JOIN alt_servicio_cliente_lookup look ON ARPE.id_complejidad = look.id_lookup\r\n" +
 			"WHERE\r\n" +
 				"1 = 1\r\n" +
+				"AND lookup_prenda.tipo_lookup = 'Familia Prenda'\r\n" +
 				"AND ARPE.id_arreglo = "+id).getResultList();
 
 		return re;
