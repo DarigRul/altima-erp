@@ -3,7 +3,9 @@ package com.altima.springboot.app.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.altima.springboot.app.models.entity.ProduccionExplosionProcesos;
 import com.altima.springboot.app.models.entity.ProduccionFechaExplosionProceso;
@@ -12,11 +14,19 @@ import com.altima.springboot.app.models.service.ITiempoCorteService;
 import com.altima.springboot.app.models.service.ITiempoProcesoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,8 +43,8 @@ public class TiempoProcesoRestController {
 
 
     @RequestMapping(value="/listar_tiempo_proceso_secuencial", method=RequestMethod.GET)
-	public List<Object []> listar (Long idProceso){
-		return TiempoService.view(idProceso);
+	public List<Object []> listar (Long idProceso, @RequestParam String programa){
+		return TiempoService.view(idProceso,programa);
     }
 
     @RequestMapping(value="/listar_detalles_tiempo_proceso_secuencial", method=RequestMethod.GET)
@@ -110,5 +120,27 @@ public class TiempoProcesoRestController {
 
         return true;
     }
+
+
+	@PutMapping("/tiempos-de-procesos/postFechaGeneral/{id}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> putEmpresa(@RequestParam String tiempoGeneral,@PathVariable(name="id") Long id) {
+		
+		Map<String, Object> response = new HashMap<>();
+		ProduccionExplosionProcesos updateExplosion=explosionService.findOne(id);
+		if(updateExplosion==null){
+			response.put("mensaje", "La Explosión con el id "+ id +" no existe");
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
+		}
+		try {
+			updateExplosion.setTiempoGeneral(tiempoGeneral);
+			explosionService.save(updateExplosion);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al insertar en la BD");
+			response.put("error", e.getMessage()+": "+e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<ProduccionExplosionProcesos>(updateExplosion,HttpStatus.CREATED);
+	}
 
 }

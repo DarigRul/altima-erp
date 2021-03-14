@@ -11,7 +11,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
 @Entity
 @Table(name = "alt_produccion_explosion_procesos")
 public class ProduccionExplosionProcesos implements Serializable {
@@ -20,68 +19,71 @@ public class ProduccionExplosionProcesos implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="id_explosion_procesos")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
+	@Column(name = "id_explosion_procesos")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
 	private Long idExplosionProcesos;
-	
-	@Column(name="id_pedido")
+
+	@Column(name = "id_pedido")
 	private Long idPedido;
-	
-	@Column(name="coordinado")
+
+	@Column(name = "coordinado")
 	private Long idCoordinado;
-	
-	@Column(name="programa")
+
+	@Column(name = "programa")
 	private String programa;
 
-	@Column(name="clave_proceso")
+	@Column(name = "clave_proceso")
 	private Long claveProceso;
-	
-	@Column(name="fecha_inicio")
+
+	@Column(name = "fecha_inicio")
 	private String fechaInicio;
 
-	@Column(name="fecha_fin")
+	@Column(name = "fecha_fin")
 	private String fechaFin;
-	
-	@Column(name="quien_realizo")
+
+	@Column(name = "quien_realizo")
 	private String quienRealizo;
-	
-	@Column(name="comentarios")
+
+	@Column(name = "comentarios")
 	private String comentarios;
-	
-	@Column(name="estatus_proceso")
+
+	@Column(name = "estatus_proceso")
 	private int estatusProceso;
-	
-	@Column(name="tiempo_corte")
+
+	@Column(name = "tiempo_corte")
 	private double tiempoCorte;
-	
-	@Column(name="secuencia")
+
+	@Column(name = "secuencia")
 	private int secuencia;
-	
-	@Column(name="clave_prenda")
+
+	@Column(name = "clave_prenda")
 	private Long clavePrenda;
-	
-	@Column(name="fecha_entrega")
+
+	@Column(name = "fecha_entrega")
 	private String fechaEntrega;
-	
-	@Column(name="fecha_real_recurrente")
+
+	@Column(name = "fecha_real_recurrente")
 	private String fechaRealRecurrente;
-	
-	@Column(name="fecha_explosion")
+
+	@Column(name = "fecha_explosion")
 	private String fechaExplosion;
-	
-	@Column(name="estatus")
+
+	@Column(name = "estatus")
 	private String estatus;
 
-	@Column(name="fecha_proceso")
+	@Column(name = "fecha_proceso")
 	private String fechaProceso;
-	@Column(name="tiempo_proceso")
+	@Column(name = "tiempo_proceso")
 	private String tiempoProceso;
-	@Column(name="secuencia_proceso")
-	private String secuenciaProceso;
+
+	@Column(name = "tiempo_general")
+	private String tiempoGeneral;
 	
+	@Column(name = "secuencia_proceso")
+	private String secuenciaProceso;
 
 	public String getPrograma() {
 		return programa;
@@ -247,5 +249,12 @@ public class ProduccionExplosionProcesos implements Serializable {
 		this.secuenciaProceso = secuenciaProceso;
 	}
 
-	
+	public String getTiempoGeneral() {
+		return tiempoGeneral;
+	}
+
+	public void setTiempoGeneral(String tiempoGeneral) {
+		this.tiempoGeneral = tiempoGeneral;
+	}
+
 }

@@ -145,12 +145,23 @@ function documento(id) {
         url: `/getDocumentoCalidadByIdTela/${id}`,
         success: function (response) {
             response.map(documento => {
+                let date = new Date(documento.ultimaFechaModificacion)
+                let day = date.getDate()
+                let month = date.getMonth() + 1
+                let year = date.getFullYear()
+
+                if (month < 10) {
+                    console.log(`${day}-0${month}-${year}`)
+                } else {
+                    console.log(`${day}-${month}-${year}`)
+                }
                 $(`.galeriarow`).append(`
                 <div class="col-md-4">
                     <div class="card" >
                         <a target="_blank" href="https://res.cloudinary.com/dti-consultores/image/upload/v1613432318/documentosCalidad/${documento.ruta}"><img class="card-img-top" src="https://res.cloudinary.com/dti-consultores/image/upload/v1613432318/documentosCalidad/${documento.ruta}" alt="Card image cap"></a>
                         <div class="card-body">
                             <p class="card-text">${documento.descripcion}</p>
+                            <p class="card-text">${day}-${month}-${year}</p>
                             <button onClick="eliminarMiniTrazo('${documento.idTelaCalidadImagen}','${documento.idTela}')" class="btn btn-danger">Eliminar</button>
                         </div>
                     </div>

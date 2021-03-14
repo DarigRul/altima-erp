@@ -3,6 +3,7 @@ package com.altima.springboot.app.models.service;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.OrderBy;
 import javax.persistence.PersistenceContext;
 
 import com.altima.springboot.app.models.entity.ProduccionTelaCalidadImagen;

@@ -23,7 +23,7 @@ public class TiempoProcesoServiceImpl implements ITiempoProcesoService {
     @SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-    public List<Object[]> view(Long idProceso) {
+    public List<Object[]> view(Long idProceso,String programa) {
         // nueva query holaa
 		List<Object[]> re = null;
 		re = em.createNativeQuery(""
@@ -73,7 +73,7 @@ public class TiempoProcesoServiceImpl implements ITiempoProcesoService {
 				"	) AS tallas,\r\n" + 
 				"	(\r\n" + 
 				"	SELECT\r\n" + 
-				"		SUM( explosionP2.tiempo_proceso ) \r\n" + 
+				"		ifnull(max(explosionP2.tiempo_general),'Sin tiempo') \r\n" + 
 				"	FROM\r\n" + 
 				"		alt_produccion_explosion_procesos AS explosionP2 \r\n" + 
 				"	WHERE\r\n" + 
@@ -84,14 +84,14 @@ public class TiempoProcesoServiceImpl implements ITiempoProcesoService {
 				"	explosionP.fecha_proceso,\r\n" + 
 				"	(\r\n" + 
 				"	SELECT\r\n" + 
-				"		SUM( IFNULL( explosionP2.tiempo_proceso,- 1 ) ) \r\n" + 
+				"		IFNULL(max( explosionP2.tiempo_general),- 1 )  \r\n" + 
 				"	FROM\r\n" + 
 				"		alt_produccion_explosion_procesos AS explosionP2 \r\n" + 
 				"	WHERE\r\n" + 
 				"		1 = 1 \r\n" + 
 				"		AND explosionP2.secuencia_proceso = explosionP.secuencia_proceso \r\n" + 
 				"		AND explosionP2.clave_proceso = explosionP.clave_proceso \r\n" + 
-				"	) AS validacion \r\n" + 
+				"	) AS validacion,min(explosionP.id_explosion_procesos) \r\n" + 
 				"FROM\r\n" + 
 				"	alt_produccion_explosion_procesos AS explosionP\r\n" + 
 				"	INNER JOIN alt_comercial_pedido_informacion pedInfo ON explosionP.id_pedido = pedInfo.id_pedido_informacion\r\n" + 
@@ -107,12 +107,12 @@ public class TiempoProcesoServiceImpl implements ITiempoProcesoService {
 				"	INNER JOIN alt_disenio_lookup LOOK_TELA ON LOOK_TELA.id_lookup = tela.id_familia_composicion\r\n" + 
 				"	INNER JOIN alt_produccion_explosion_procesos explosicion ON explosicion.coordinado = coorPrenda.id_coordinado_prenda \r\n" + 
 				"WHERE\r\n" + 
-				"	1 = 1 \r\n" + 
+				"	1 = 1 AND explosionP.programa=:programa \r\n" + 
 				"	AND explosionP.clave_proceso = "+idProceso+" \r\n" + 
 				"	AND ( explosionP.secuencia_proceso IS NOT NULL OR explosionP.secuencia_proceso != '' ) \r\n" + 
 				"GROUP BY\r\n" + 
 				"	explosionP.secuencia_proceso,\r\n" + 
-				"	explosionP.clave_proceso").getResultList();
+				"	explosionP.clave_proceso, explosionP.programa").setParameter("programa", programa).getResultList();
 
 		return re;
     }

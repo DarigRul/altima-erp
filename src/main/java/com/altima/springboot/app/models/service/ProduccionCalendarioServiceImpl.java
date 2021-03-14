@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Query;
 
+import com.altima.springboot.app.dto.HorasHabliesListDto;
 import com.altima.springboot.app.models.entity.ProduccionCalendario;
 import com.altima.springboot.app.repository.ProduccionCalendarioRepository;
 
@@ -35,7 +36,7 @@ public class ProduccionCalendarioServiceImpl implements IProduccionCalendarioSer
     @Transactional
     public void crearCalendario(String fecha_incial, String fecha_final, String creado_por,String fecha_creacion) {
 
-        Query query = em.createNativeQuery("call proc_pa_sumar_fechas('" + fecha_incial + "','" + fecha_final + "', '"+creado_por+"','"+fecha_creacion+"');");
+        Query query = em.createNativeQuery("call alt_pr_sumar_fechas('" + fecha_incial + "','" + fecha_final + "', '"+creado_por+"','"+fecha_creacion+"');");
         query.executeUpdate();
 
     }
@@ -43,16 +44,9 @@ public class ProduccionCalendarioServiceImpl implements IProduccionCalendarioSer
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
-    public List<Object[]> mostrar_calendario(String fechaInicio, String fehaFin) {
-        List<Object[]> re = em.createNativeQuery("" + 
-            "SELECT\r\n" + 
-                "id_calendario_fecha,\r\n" + 
-                "fecha,\r\n"+ 
-                "IFNULL( hombre, '00.00' ) AS hombre,\r\n" +
-                "IFNULL( adeudo, '00.00' ) AS adeudo,\r\n"+
-                "IFNULL( ROUND(( hombre - adeudo ),2), '' ) AS habiles  \r\n" + 
-                "FROM\r\n" + "alt_produccion_calendario \r\n"
-                + "WHERE\r\n" + "fecha BETWEEN '" + fechaInicio + "' AND '" + fehaFin + "'").getResultList();
+    public List<HorasHabliesListDto> mostrar_calendario(String fechaInicio, String fechaFin,Long idProceso) {
+        List<HorasHabliesListDto> re = em.createNativeQuery("SELECT apc.id_calendario_fecha,apc.fecha,IFNULL(apcp.horas_hombre,00.00) AS horas_hombre,IFNULL(apcp.horas_favor,00.00) AS horas_favor,IFNULL(apcp.horas_contra,00.00) AS horas_contra,0.00 as horas_programadas FROM alt_produccion_calendario apc LEFT JOIN alt_produccion_calendario_proceso apcp ON apcp.id_calendario_fecha=apc.id_calendario_fecha WHERE (apcp.id_proceso=:idProceso OR apcp.id_proceso IS NULL) AND fecha BETWEEN :fechaInicio AND :fechaFin"
+        ,HorasHabliesListDto.class).setParameter("idProceso", idProceso).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
         return re;
     }
 

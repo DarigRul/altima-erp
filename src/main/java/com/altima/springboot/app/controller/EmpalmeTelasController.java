@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 @Controller
 public class EmpalmeTelasController {
 
@@ -20,43 +21,37 @@ public class EmpalmeTelasController {
     @Autowired
     private IProduccionLookupService ProduccionLookup;
     @Autowired
-	private IUsuarioService usuarioService;
+    private IUsuarioService usuarioService;
 
-
-    @Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_EMPALME_TELAS"})
+    @Secured({ "ROLE_ADMINISTRADOR", "ROLE_PRODUCCION_EMPALME_TELAS" })
     @GetMapping("/empalme-telas")
-	public String empalmeTela (Model model) {
+    public String empalmeTela(Model model) {
         System.out.println("x");
-        //model.addAttribute("view", EmpalmeService.view());
-        //model.addAttribute("SelectRuta", ProduccionLookup.findAllByType("Ruta"));
+        // model.addAttribute("view", EmpalmeService.view());
+        // model.addAttribute("SelectRuta", ProduccionLookup.findAllByType("Ruta"));
         model.addAttribute("load", "empalme");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	
-		
-		/* Obtener todos los datos del usuario logeado */
-		Usuario user = usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
-		Long iduser = user.getIdUsuario();
-		String role = "[ROLE_ADMINISTRADOR]";
-		if (auth.getAuthorities().toString().equals(role)) {
-			model.addAttribute("listProcesos", EmpalmeService.listarProcesosDisponiblesAdmin());
-		} else {
-			
-			model.addAttribute("listProcesos", EmpalmeService.listarProcesosDisponiblesUser(iduser));
 
-		}
-		return "empalme-telas";
-	}
+        /* Obtener todos los datos del usuario logeado */
+        Usuario user = usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
+        Long iduser = user.getIdUsuario();
+        String role = "[ROLE_ADMINISTRADOR]";
+        if (auth.getAuthorities().toString().equals(role)) {
+            model.addAttribute("listProcesos", EmpalmeService.listarProcesosDisponiblesAdmin());
+        } else {
 
-    @Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_PROGRAMAR_TELAS"})
+            model.addAttribute("listProcesos", EmpalmeService.listarProcesosDisponiblesUser(iduser));
+
+        }
+        return "empalme-telas";
+    }
+
+    @Secured({ "ROLE_ADMINISTRADOR", "ROLE_PRODUCCION_PROGRAMAR_TELAS" })
     @GetMapping("/programar-telas")
-	public String programarTela (Model model) {
+    public String programarTela(Model model) {
         System.out.println("x");
-        model.addAttribute("view", EmpalmeService.view());
         model.addAttribute("SelectRuta", ProduccionLookup.findAllByType("Ruta"));
         model.addAttribute("load", "programar");
-		return "empalme-telas";
-	}
-    
-    
-    
+        return "programar-telas";
+    }
 }

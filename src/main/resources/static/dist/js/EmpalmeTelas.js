@@ -1,6 +1,6 @@
 
 var idCoorPrenda = [];
-var idExplosionPrenda=[];
+var idExplosionPrenda = [];
 $('#selectAll').click(function (e) {
 	if ($(this).hasClass('checkedAll')) {
 		$('.messageCheckbox').prop('checked', false);
@@ -239,7 +239,7 @@ function guardarPrograma() {
 }
 
 
-function guardarSecuencia(){
+function guardarSecuencia() {
 	//
 	if ($('#SecuenciaText').val() == null || $('#SecuenciaText').val() == "") {
 		Swal.fire({
@@ -322,213 +322,173 @@ function detalles(id) {
 
 
 
-function columnasTablaEmpalme(tipo){
-	
-	if ( tipo == 'Agrupado' ){
+function columnasTablaEmpalme(tipo) {
+
+	if (tipo == 'Agrupado') {
 		$('#botton_secuencia').removeAttr('hidden');
+
+
+	} else {
 		
-		
-		$('#contenedor-tableEmpalme').empty();
-		$('#contenedor-tableEmpalme').append(
-			'<table class="table tableEmpalme table-striped table-bordered display nowrap"'+
-				'style="width: 100%;" id="tableEmpalme">'+
-				'<thead>'+
-					'<tr>'+
-						'<th> <input type="checkbox" id="selectAll" onclick="seleccionarTodos()"> </th>'+
-						'<th>Pedido</th>'+
-						'<th>Fecha de entrega</th>'+
-						'<th>Coord.</th>'+
-						'<th>Prenda</th>'+
-						'<th>Modelo</th>'+
-						'<th>Personalización</th>'+
-						'<th>Ruta</th>'+
-						'<th>Confecci&oacute;n</th>'+
-						'<th>Clave tela</th>'+
-						'<th>Ancho</th>'+
-						'<th>Composici&oacute;n</th>'+
-						'<th>Encog./Estir.</th>'+
-						'<th>Estampado</th>'+
-						'<th>Estatus tela pral.</th>'+
-						'<th>Secuencia</th>'+
-						'<th>Detalles</th>'+
-					'</tr>'+
-				'</thead>'+
-				'<tbody></tbody>'+
-			'</table>'
-		);
-		estiloTabla();
-		
-	}else{
-		$('#contenedor-tableEmpalme').empty();
-		$('#contenedor-tableEmpalme').append(
-			'<table class="table tableEmpalme table-striped table-bordered display nowrap"'+
-				'style="width: 100%;" id="tableEmpalme">'+
-				'<thead>'+
-					'<tr>'+
-						'<th>Pedido</th>'+
-						'<th>Fecha de entrega</th>'+
-						'<th>Coord.</th>'+
-						'<th>Prenda</th>'+
-						'<th>Modelo</th>'+
-						'<th>Personalización</th>'+
-						'<th>Ruta</th>'+
-						'<th>Confecci&oacute;n</th>'+
-						'<th>Clave tela</th>'+
-						'<th>Ancho</th>'+
-						'<th>Composici&oacute;n</th>'+
-						'<th>Encog./Estir.</th>'+
-						'<th>Estampado</th>'+
-						'<th>Estatus tela pral.</th>'+
-						'<th>Tiempo</th>'+
-						'<th>Fecha</th>'+
-						'<th>Detalles</th>'+
-					'</tr>'+
-				'</thead>'+
-				'<tbody></tbody>'+
-			'</table>'
-		);
-		estiloTabla();
+
 	}
 
 }
 
-function listarPorProceso(){
+function listarPorProceso() {
 
 	columnasTablaEmpalme($("#procesosActivos option:selected").attr("tipo"));
 
-	var tablaPrincipal = $('#tableEmpalme').DataTable();
+	var tablaPrincipal = $('#tableEmpalmes').DataTable();
+	let programa=$("#programa").val();
+	let procesosActivos=$("#procesosActivos").val();
+
+	if (programa.trim()==="" || procesosActivos.trim()=="") {
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Todos los campos son requeridos!',
+			showConfirmButton: true
+		});
+	} else {
+		$.ajax({
+			method: "GET",
+			url: "/empalme_telas_by_proceso",
+			data: {
+				'idProceso': procesosActivos,
+				'programa':programa
 	
-	$.ajax({
-		method:"GET",
-		url:"/empalme_telas_by_proceso",
-		data:{ idProceso:$("#procesosActivos").val() },
-		beforeSend: function () {
-       	 Swal.fire({
-                title: 'Cargando ',
-                html: 'Por favor espere',// add html attribute if you want or remove
-                allowOutsideClick: false,
-                timerProgressBar: true,
-                onBeforeOpen: () => {
-                    Swal.showLoading()
-                },
-            });
-		},
-		success: (data) => {
-			if ($("#procesosActivos option:selected").attr("tipo") == 'Agrupado' ){	
-				for (i in data){
-					tablaPrincipal.row.add([
-						'<td style="text-align: center; vertical-align: middle;">'+
-							'<input type="checkbox" onchange="seleccionarxUNO('+data[i][0]+')" class="messageCheckbox" value="'+data[i][0]+'" id="check-'+data[i][0]+'"  />'+
-						'</td>',
-						data[i][1],
-						data[i][2],
-						data[i][3],
-						data[i][4],
-						data[i][5],
-						data[i][6],
-						data[i][7],
-						data[i][8],
-						data[i][9],
-						data[i][10],
-						data[i][11],
-						data[i][12],
-						data[i][13],
-						data[i][14],
-						(data[i][17] == null ? '':data[i][17]),
-						'<button class="btn btn-info btn-circle btn-sm" onclick="detalles('+data[i][18]+')" data-toggle="modal" data-target="#detalleTelas"><i class="fas fa-info"></i></button>',
-						
-					]).draw(true);
+			},
+			beforeSend: function () {
+				Swal.fire({
+					title: 'Cargando ',
+					html: 'Por favor espere',// add html attribute if you want or remove
+					allowOutsideClick: false,
+					timerProgressBar: true,
+					onBeforeOpen: () => {
+						Swal.showLoading()
+					},
+				});
+			},
+			success: (data) => {
+				if ($("#procesosActivos option:selected").attr("tipo") == 'Agrupado') {
+					for (i in data) {
+						tablaPrincipal.row.add([
+							'<td style="text-align: center; vertical-align: middle;">' +
+							'<input type="checkbox" onchange="seleccionarxUNO(' + data[i][0] + ')" class="messageCheckbox" value="' + data[i][0] + '" id="check-' + data[i][0] + '"  />' +
+							'</td>',
+							data[i][1],
+							data[i][2],
+							data[i][3],
+							data[i][4],
+							data[i][5],
+							data[i][6],
+							data[i][7],
+							data[i][8],
+							data[i][9],
+							data[i][10],
+							data[i][11],
+							data[i][12],
+							data[i][13],
+							data[i][14],
+							(data[i][17] == null ? '' : data[i][17]),
+							'<button class="btn btn-info btn-circle btn-sm" onclick="detalles(' + data[i][18] + ')" data-toggle="modal" data-target="#detalleTelas"><i class="fas fa-info"></i></button>',
+	
+						]).draw(true);
+					}
 				}
-			}
-			else{
-				for (i in data){
-					tablaPrincipal.row.add([
-						data[i][1],
-						data[i][2],
-						data[i][3],
-						data[i][4],
-						data[i][5],
-						data[i][6],
-						data[i][7],
-						data[i][8],
-						data[i][9],
-						data[i][10],
-						data[i][11],
-						data[i][12],
-						data[i][13],
-						data[i][14],
-						'<p id="tiempoProcesoP'+data[i][0]+'"> '+(data[i][15] == null ? '':data[i][15])+' </p>',// tiempo
-						'<p id="fechaProcesoP'+data[i][0]+'"> '+(data[i][16] == null ? '':data[i][16])+' </p>',//fecha
-						'<button class="btn btn-info btn-circle btn-sm" onclick="detalles('+data[i][18]+')" data-content="Detalles"><i class="fas fa-info"></i></button>'+
-						'<button class="btn btn-secondary btn-circle btn-sm" onclick="tiempo_proceso(this)" id="'+data[i][0]+'" tiempo="'+data[i][15]+'" data-content="Tiempo" > <i class="fas fa-clock"></i> </button>'+
-						'<button class="btn btn-light btn-circle btn-sm" onclick="fecha_proceso(this)" id="'+data[i][0]+'" fecha="'+data[i][16]+'" data-content="Fecha" > <i class="fas fa-calendar-alt"></i> </button>',
-						
-					]).draw(true);
+				else {
+					for (i in data) {
+						tablaPrincipal.row.add([
+							data[i][1],
+							data[i][2],
+							data[i][3],
+							data[i][4],
+							data[i][5],
+							data[i][6],
+							data[i][7],
+							data[i][8],
+							data[i][9],
+							data[i][10],
+							data[i][11],
+							data[i][12],
+							data[i][13],
+							data[i][14],
+							'<p id="tiempoProcesoP' + data[i][0] + '"> ' + (data[i][15] == null ? '' : data[i][15]) + ' </p>',// tiempo
+							'<p id="fechaProcesoP' + data[i][0] + '"> ' + (data[i][16] == null ? '' : data[i][16]) + ' </p>',//fecha
+							'<button class="btn btn-info btn-circle btn-sm" onclick="detalles(' + data[i][18] + ')" data-content="Detalles"><i class="fas fa-info"></i></button>' +
+							'<button class="btn btn-secondary btn-circle btn-sm" onclick="tiempo_proceso(this)" id="' + data[i][0] + '" tiempo="' + data[i][15] + '" data-content="Tiempo" > <i class="fas fa-clock"></i> </button>' +
+							'<button class="btn btn-light btn-circle btn-sm" onclick="fecha_proceso(this)" id="' + data[i][0] + '" fecha="' + data[i][16] + '" data-content="Fecha" > <i class="fas fa-calendar-alt"></i> </button>',
+	
+						]).draw(true);
+					}
 				}
+	
+				Swal.fire({
+					position: 'center',
+					icon: 'success',
+					title: '¡Listo!',
+					showConfirmButton: false,
+					timer: 500,
+					onClose: () => {
+						$('#SeleccionPrograma').modal("hide");
+					}
+				})
+			},
+			error: (data) => {
+	
 			}
-			
-			Swal.fire({
-			      position: 'center',
-		          icon: 'success',
-		          title: '¡Listo!',
-		          showConfirmButton: false,
-		          timer: 500,
-			      onClose: () => {
-			    	  $('#SeleccionPrograma').modal("hide");
-			      }
-			})
-		},
-		error: (data) => {
-			
-		}
-	});
+		});
+	}
+
+	
 
 }
 
-function seleccionarxUNO(id){
-	if ($('#check-'+id).hasClass('checkedThis')) {
-        $('#check-'+id).removeClass('checkedThis');
-        var removeIndex = idExplosionPrenda.indexOf(+$('#check-'+id).val())
-        idExplosionPrenda.splice(removeIndex, 1);
-    } else {
-        $('#check-'+id).addClass('checkedThis');
-        idExplosionPrenda.push(+$('#check-'+id).val());
-    }
+function seleccionarxUNO(id) {
+	if ($('#check-' + id).hasClass('checkedThis')) {
+		$('#check-' + id).removeClass('checkedThis');
+		var removeIndex = idExplosionPrenda.indexOf(+$('#check-' + id).val())
+		idExplosionPrenda.splice(removeIndex, 1);
+	} else {
+		$('#check-' + id).addClass('checkedThis');
+		idExplosionPrenda.push(+$('#check-' + id).val());
+	}
 }
-function seleccionarTodos(){
+function seleccionarTodos() {
 	if ($('#selectAll').hasClass('checkedAll')) {
-        $('.messageCheckbox').prop('checked', false);
-        $('#selectAll').removeClass('checkedAll');
-        $(".messageCheckbox").removeClass('checkedThis');
-        var inputElements = document.getElementsByClassName('messageCheckbox');
-        for (var i = 0; i<inputElements.length; ++i) {
-            if (!inputElements[i].checked) {
-                var removeIndex = idExplosionPrenda.indexOf(+inputElements[i].value)
-                idExplosionPrenda.splice(removeIndex, 1);
-            }
-        }
-    } else {
-        $('.messageCheckbox').prop('checked', true);
-        $('#selectAll').addClass('checkedAll');
-        $(".messageCheckbox").addClass('checkedThis');
-        var inputElements = document.getElementsByClassName('messageCheckbox');
-        for (var i = 0; i<inputElements.length; ++i) {
-            if (inputElements[i].checked) {
-                idExplosionPrenda.push(+inputElements[i].value);
-            }
-            idExplosionPrenda = [...new Set(idExplosionPrenda)];
-        }
-    }
+		$('.messageCheckbox').prop('checked', false);
+		$('#selectAll').removeClass('checkedAll');
+		$(".messageCheckbox").removeClass('checkedThis');
+		var inputElements = document.getElementsByClassName('messageCheckbox');
+		for (var i = 0; i < inputElements.length; ++i) {
+			if (!inputElements[i].checked) {
+				var removeIndex = idExplosionPrenda.indexOf(+inputElements[i].value)
+				idExplosionPrenda.splice(removeIndex, 1);
+			}
+		}
+	} else {
+		$('.messageCheckbox').prop('checked', true);
+		$('#selectAll').addClass('checkedAll');
+		$(".messageCheckbox").addClass('checkedThis');
+		var inputElements = document.getElementsByClassName('messageCheckbox');
+		for (var i = 0; i < inputElements.length; ++i) {
+			if (inputElements[i].checked) {
+				idExplosionPrenda.push(+inputElements[i].value);
+			}
+			idExplosionPrenda = [...new Set(idExplosionPrenda)];
+		}
+	}
 }
 
-function tiempo_proceso(e){
+function tiempo_proceso(e) {
 	$("#TiempoText").val(e.getAttribute("tiempo"));
 	$("#idTiempo").val(e.getAttribute("id"));
 	$("#tiempoProceso").modal("show");
-	
+
 }
-function guardarTiempoProceso (){
-	
+function guardarTiempoProceso() {
+
 	if ($('#TiempoText').val() == null || $('#TiempoText').val() == "" || $('#idTiempo').val() == null || $('#idTiempo').val() == "") {
 		Swal.fire({
 			position: 'center',
@@ -545,15 +505,15 @@ function guardarTiempoProceso (){
 			url: "/guardar_empalme_by_proceso_fecha_tiempo",
 			data: {
 				id: $('#idTiempo').val(),
-				'tiempo':$('#TiempoText').val() ,
+				'tiempo': $('#TiempoText').val(),
 				"_csrf": $('#token').val()
 
 			},
 
 			success: function (data) {
-				if ( data == true){
+				if (data == true) {
 					//
-					$("#tiempoProcesoP"+$('#idTiempo').val()).text($('#TiempoText').val());
+					$("#tiempoProcesoP" + $('#idTiempo').val()).text($('#TiempoText').val());
 					Swal.fire({
 						position: 'center',
 						icon: 'success',
@@ -562,7 +522,7 @@ function guardarTiempoProceso (){
 						timerProgressBar: true,
 						showConfirmButton: true,
 						onBeforeOpen: () => {
-	
+
 						},
 					});
 
@@ -574,14 +534,14 @@ function guardarTiempoProceso (){
 		})
 	}
 }
-function fecha_proceso(e){
+function fecha_proceso(e) {
 	$("#fechaText").val(e.getAttribute("fecha"));
 	$("#idfecha").val(e.getAttribute("id"));
 	$("#fechaProceso").modal("show");
-	
+
 }
-function guardarFechaProceso(){
-	
+function guardarFechaProceso() {
+
 	if ($('#fechaText').val() == null || $('#fechaText').val() == "" || $('#idfecha').val() == null || $('#idfecha').val() == "") {
 		Swal.fire({
 			position: 'center',
@@ -598,15 +558,15 @@ function guardarFechaProceso(){
 			url: "/guardar_empalme_by_proceso_fecha_tiempo",
 			data: {
 				id: $('#idfecha').val(),
-				'fecha':$('#fechaText').val() ,
+				'fecha': $('#fechaText').val(),
 				"_csrf": $('#token').val()
 
 			},
 
 			success: function (data) {
-				if ( data == true){
+				if (data == true) {
 					//
-					$("#fechaProcesoP"+$('#idfecha').val()).text($('#fechaText').val());
+					$("#fechaProcesoP" + $('#idfecha').val()).text($('#fechaText').val());
 					Swal.fire({
 						position: 'center',
 						icon: 'success',
@@ -615,7 +575,7 @@ function guardarFechaProceso(){
 						timerProgressBar: true,
 						showConfirmButton: true,
 						onBeforeOpen: () => {
-	
+
 						},
 					});
 
@@ -627,207 +587,188 @@ function guardarFechaProceso(){
 		})
 	}
 }
-function estiloTabla(){
-	var table;
-    $('.tableEmpalme thead tr').clone(true).appendTo('.tableEmpalme thead');
-    $('.tableEmpalme thead tr:eq(0) th').each(function () {
-        var title = $('.tableEmpalme thead th').eq($(this).index()).text();
-        $(this).html('<input type="text" class="form-control" placeholder="Buscar" />');
-    });
-    table = $('.tableEmpalme')
-        .DataTable({
-            "ordering": false,
-            "orderCellsTop": true,
-            "fixedHeader": true,
-            "pageLength": 5,
-            "stateSave": true,
-            "scrollX": true,
-            "drawCallback": function () {
-                $('.popoverxd').popover({
-                    container: 'body',
-                    trigger: 'hover'
-                });
-            },
-            "lengthMenu": [
-                [5, 10, 25, 50, 100],
-                [5, 10, 25, 50, 100]
-            ],
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla =(",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                },
-                "buttons": {
-                    "copy": "Copiar",
-                    "colvis": "Visibilidad"
-                }
-            }
-        });
-    // Restore state
-    var state = table.state.loaded();
-    if (state) {
-        table.columns().eq(0).each(function (colIdx) {
-            var colSearch = state.columns[colIdx].search;
-
-            if (colSearch.search) {
-                $('input', table.column(colIdx).header()).val(colSearch.search);
-            }
-        });
-
-        table.draw();
-    }
-
-
-    // Apply the search
-    table.columns().eq(0).each(function (colIdx) {
-        $('input', table.column(colIdx).header()).on('keyup change', function () {
-            table
-                .column(colIdx)
-                .search(this.value)
-                .draw();
-        });
-    });
+function sumarDias(fecha, dias) {
+	fecha.setDate(fecha.getDate() + dias);
+	return fecha;
 }
+function verCalendario() {
+	//calendarioFechaInicio  calendarioFechaFin
+	var now = new Date();
+	var day = ("0" + now.getDate()).slice(-2);
+	var month = ("0" + (now.getMonth() + 1)).slice(-2);
+	var today = now.getFullYear() + "-" + (month) + "-" + (day);
+	$("#calendarioFechaInicio").val(today);
 
-function sumarDias(fecha, dias){
-    fecha.setDate(fecha.getDate() + dias);
-    return fecha;
-  }
-  function verCalendario(){
-    //calendarioFechaInicio  calendarioFechaFin
-    var now = new Date();
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
-    $("#calendarioFechaInicio").val(today);
+	now = sumarDias(now, +7);
+	day = ("0" + now.getDate()).slice(-2);
+	month = ("0" + (now.getMonth() + 1)).slice(-2);
+	var today2 = now.getFullYear() + "-" + (month) + "-" + (day);
+	$("#calendarioFechaFin").val(today2);
 
-    now = sumarDias(now,+7);
-    day = ("0" + now.getDate()).slice(-2);
-    month = ("0" + (now.getMonth() + 1)).slice(-2);
-    var today2 = now.getFullYear()+"-"+(month)+"-"+(day) ;
-    $("#calendarioFechaFin").val(today2);
-
-    var table = $('#tablaDetallesCalendario').DataTable();
+	var table = $('#tablaDetallesCalendario').DataTable();
 	var rows = table
-    .rows()
-    .remove()
-	.draw(); 
-    $.ajax({
-        type: "GET",
-        url:"/listar_fechas_calendario",
-        data: { 
-            'fecha1': $("#calendarioFechaInicio").val(),
-            'fecha2':$("#calendarioFechaFin").val()
-        },
-       
-        success: function(data) {
-        
-        	for (i in data) {
+		.rows()
+		.remove()
+		.draw();
+	$.ajax({
+		type: "GET",
+		url: "/listar_fechas_calendario",
+		data: {
+			'fecha1': $("#calendarioFechaInicio").val(),
+			'fecha2': $("#calendarioFechaFin").val()
+		},
 
-                
-               
-        		table.row.add([	
-                    data[i][0],
-                    restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),
-                    formato("" + data[i][3] + ""),
-                    restarHoras(restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),  formato("" + data[i][3] + ""))
-        		]).node().id ="row";
-        		table.draw( false );
+		success: function (data) {
+
+			for (i in data) {
+
+
+
+				table.row.add([
+					data[i][0],
+					restarHoras("" + data[i][1] + "", "" + data[i][2] + ""),
+					formato("" + data[i][3] + ""),
+					restarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), formato("" + data[i][3] + ""))
+				]).node().id = "row";
+				table.draw(false);
 			}
-        	console.log(data)
-        }
-    })
+			console.log(data)
+		}
+	})
 
 
 
-  
-    $('#verCalendarioModal').modal('show'); // abrir
-    
+
+	$('#verCalendarioModal').modal('show'); // abrir
+
 }
 
-  function buscarfecha (){
-    var table = $('#tablaDetallesCalendario').DataTable();
+function buscarfecha() {
+	var table = $('#tablaDetallesCalendario').DataTable();
 	var rows = table
-    .rows()
-    .remove()
-	.draw(); 
-    $.ajax({
-        type: "GET",
-        url:"/listar_fechas_calendario",
-        data: { 
-            'fecha1': $("#calendarioFechaInicio").val(),
-            'fecha2':$("#calendarioFechaFin").val()
-        },
-       
-        success: function(data) {
-        
-        	for (i in data) {
-               
-        		table.row.add([	
-                    data[i][0],
-                    restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),
-                    formato("" + data[i][3] + ""),
-                    restarHoras(restarHoras("" + data[i][1] + "",  ""+data[i][2] + ""),  formato("" + data[i][3] + ""))
-        		]).node().id ="row";
-        		table.draw( false );
+		.rows()
+		.remove()
+		.draw();
+	$.ajax({
+		type: "GET",
+		url: "/listar_fechas_calendario",
+		data: {
+			'fecha1': $("#calendarioFechaInicio").val(),
+			'fecha2': $("#calendarioFechaFin").val()
+		},
+
+		success: function (data) {
+
+			for (i in data) {
+
+				table.row.add([
+					data[i][0],
+					restarHoras("" + data[i][1] + "", "" + data[i][2] + ""),
+					formato("" + data[i][3] + ""),
+					restarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), formato("" + data[i][3] + ""))
+				]).node().id = "row";
+				table.draw(false);
 			}
-        	console.log(data)
-        }
-    })
+			console.log(data)
+		}
+	})
 
-  }
-
-function formato (hora){
-    hora =hora.replace(/[:]/gi,'.');
-
-    var s = hora.split('.'); 
-    hora = s[0] + "." + s[1];
-    return hora;
 }
-function restarHoras(start, end){
-    s = start.split('.'); 
-    e = end.split('.'); 
-    min = s[1]-e[1]; 
-    hour_carry = 0; 
-    if(min < 0){ 
-        min += 60; 
-        hour_carry += 1; 
-    } 
-    hour = s[0]-e[0]-hour_carry; 
 
-    if ( hour < 10  && hour >0){
-        hour = '0'+hour;
-        
-    }else if (hour <0 && hour >-10 ){
-        hour=hour*-1;
-        hour='-0'+hour;
-    }
-    else if ( hour ==0){
-        hour = '0'+hour;
-    }
-    if ( min  < 10) {
-        min = '0'+min;
-    }
-    diff = hour + "." + min;
+function formato(hora) {
+	hora = hora.replace(/[:]/gi, '.');
 
-    return diff
+	var s = hora.split('.');
+	hora = s[0] + "." + s[1];
+	return hora;
+}
+function restarHoras(start, end) {
+	s = start.split('.');
+	e = end.split('.');
+	min = s[1] - e[1];
+	hour_carry = 0;
+	if (min < 0) {
+		min += 60;
+		hour_carry += 1;
+	}
+	hour = s[0] - e[0] - hour_carry;
+
+	if (hour < 10 && hour > 0) {
+		hour = '0' + hour;
+
+	} else if (hour < 0 && hour > -10) {
+		hour = hour * -1;
+		hour = '-0' + hour;
+	}
+	else if (hour == 0) {
+		hour = '0' + hour;
+	}
+	if (min < 10) {
+		min = '0' + min;
+	}
+	diff = hour + "." + min;
+
+	return diff
+
+}
+
+function listarPorPedido() {
+	let table = $('#tablaProgramarTelas').DataTable();
+	let pedido=$("#pedido").val();
+	if (pedido.trim()==="") {
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Todos los campos son requeridos!',
+			showConfirmButton: true
+		});
+	} else {
+		$.ajax({
+			method: "GET",
+			url: `/getOrdenesProduccionByPedido/${pedido}`,
+			beforeSend: function () {
+				Swal.fire({
+					title: 'Cargando ',
+					html: 'Por favor espere',// add html attribute if you want or remove
+					allowOutsideClick: false,
+					timerProgressBar: true,
+					onBeforeOpen: () => {
+						Swal.showLoading()
+					},
+				});
+			},
+			success: (data) => {
+
+				data.map(orden=>{
+					table.row.add([
+						`<input type="checkbox" class="messageCheckbox"
+						value="${orden.idCoordinadoPrenda}" />`,
+						orden.idTextPedido,
+						orden.fechaEntrega,
+						orden.numeroCoordinado,
+						orden.familiaPrenda,
+						orden.idTextPrenda,
+						orden.bordado,
+						orden.ruta,
+						orden.programa
+					]).draw(false);
+				})
+
+				Swal.fire({
+					position: 'center',
+					icon: 'success',
+					title: '¡Listo!',
+					showConfirmButton: false,
+					timer: 500,
+					onClose: () => {
+						$('#modalPedido').modal("hide");
+					}
+				})
+			},
+			error: (data) => {
+	
+			}
+		});
+	}
 
 }

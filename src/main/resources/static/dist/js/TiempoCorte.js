@@ -122,52 +122,7 @@ $('#tiempoDetalle').on('hidden.bs.modal', function () {
    
 });
 
-function calendario(){
-    $.ajax({
-        type: "GET",
-        url:"/get_validar_calendario",
-        data: {},
-       
-        success: function(data) {
-            if (data == true){
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: 'Ya existe el calendario de este año.'
-                })
-            }
-            else{
 
-                $.ajax({
-                    type: "GET",
-                    url:"/get_crear_calendario",
-                    data: {},
-                   
-                    success: function(data) {
-                        if (data == true){
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Guardado!',
-                                text: 'Se ha guardado el registro.'
-                            })
-                        }
-                        else{
-            
-                        }
-                      //console.log(data)
-                        //console.log(data)
-                    }
-                })
-
-            }
-          console.log(data)
-            //console.log(data)
-        }
-    })
-
-    
-  //
-}
 
 function calendarizar (e){
 
