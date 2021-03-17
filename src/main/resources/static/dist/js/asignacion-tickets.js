@@ -63,7 +63,8 @@ function listar(operario){
 			      sel.append('<option value="' +  data[i][0]+ '">' +  data[i][1] + '</option>');
 			    }
 				
-				
+			      $('#selectickets').selectpicker('refresh');
+	
 
 			}});
 	var quitar= "#quitar2";
@@ -240,23 +241,44 @@ $( "#Recargar" ).click(function() {
 });
 
 function eliminarembultado(id){
-	
-	
-	$.ajax({
-		method: "PUT",
-		url: "/eliminar-asignacion",
-		data: {
-			"_csrf": $(
-			'#token')
-		.val(),
-			"idticket": id
-		
-		},
-		success: (data) => { 
-			listar(document.getElementById("selectoperario").value);
+
+	Swal.fire({
+		  title: '¿Desasignar el ticket al operario?',
+		  text: 'Puede asignarlo nuevamente en otro momento',
+
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: `Confirmar`,
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  /* Read more about isConfirmed, isDenied below */
+		  if (result.value) {
+			  $.ajax({
+					method: "PUT",
+					url: "/eliminar-asignacion",
+					data: {
+						"_csrf": $(
+						'#token')
+					.val(),
+						"idticket": id
+					
+					},
+					success: (data) => { 
+						listar(document.getElementById("selectoperario").value);
 
 
-		}});
+					}});
+		  
+			
+		  } else {
+		    Swal.fire('No se ha desasignado el ticket al operario', '', 'info');
+		  }
+		})
+	
+	//////	
+	
+	
 	//alert("es id "+id+"");
 	
 }
