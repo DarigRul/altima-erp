@@ -85,13 +85,17 @@
 					<div class="form-group col-sm-12"> <a data-dismiss="modal"
 							class="btn icon-btn btn-danger text-white mr-auto"><span
 								class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-						<button type="button" onclick='guardarHoras()'
+						<button type="button" onclick='guardarHoras()' id="btnGuardarHoras"
 							class="btn icon-btn btn-altima text-white float-right"><span
 								class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+						<button type="button" onclick='editarHoras()' id="btnEditarHoras"
+							class="btn icon-btn btn-altima text-white float-right"><span
+								class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Editar</button>
 					</div>
 					<input type="hidden" th:name="${_csrf.parameterName}" id="token" th:value="${_csrf.token}" />
 
-					<input class="" type="hidden" id="idCalendario">
+					<input class="" type="hidden" id="idCalendarioFecha">
+					<input class="" type="hidden" id="idCalendarioProceso">
 				</form>
 			</div>
 		</div>

@@ -131,12 +131,8 @@ public class CatalogoServiceImpl implements ICatalogoService {
 				"	lookup.descripcion_lookup\n" +
 				//"	lookup.descripcion_lookup as 'descripcionLookup'\n" + 
 				"FROM\n" + 
-				"	alt_disenio_lookup AS lookup,\n" + 
-				"	alt_amp_lookup AS lookAMP \n" + 
-				"WHERE\n" + 
-				"	1 = 1 \n" + 
-				"	AND lookup.atributo_2 = lookAMP.id_lookup \n" + 
-				"	AND lookAMP.tipo_lookup = 'Clasificacion'").getResultList();
+				"	alt_disenio_lookup AS lookup\n" + 
+				"	left join alt_amp_lookup AS lookAMP on lookup.atributo_2 = lookAMP.id_lookup AND lookAMP.tipo_lookup = 'Clasificacion' where lookup.tipo_lookup='Material'\n" ).getResultList();
 	}
 
 }
