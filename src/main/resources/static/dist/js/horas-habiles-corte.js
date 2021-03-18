@@ -14,6 +14,7 @@ function ver() {
 }
 
 function buscarFechas() {
+    let idProceso = $("#procesosActivos").val();
     if ($('#fechaInicio').val() == "" || $('#fechaFin').val() == "") {
         Swal.fire({
             icon: 'error',
@@ -32,18 +33,20 @@ function buscarFechas() {
             url: "/get_buscar_fechas_calendario",
             data: {
                 'fechaInicio': $('#fechaInicio').val(),
-                'fechaFin': $('#fechaFin').val()
+                'fechaFin': $('#fechaFin').val(),
+                'idProceso': idProceso
             },
             success: (data) => {
-                for (i in data) {
+                data.map(data => {
                     if ($("#rolEditar").length > 0) {
                         t.row.add([
-                            '<p>' + data[i][1] + '</p>',
-                            '<p id="hour_men-' + data[i][0] + '">' + data[i][2] + '</p>',
-                            '<p id="hour_adeudo-' + data[i][0] + '">' + data[i][3] + '</p>',
-                            '<p id="hour_habi-' + data[i][0] + '">' + restarHoras("" + data[i][2] + "", "" + data[i][3] + "") + '</p>',
+                            '<p>' + data.fecha + '</p>',
+                            '<p id="hour_men-' + data.idCalendarioFecha + '">' + data.horasHombre.toFixed(2) + '</p>',
+                            '<p id="hour_favor-' + data.idCalendarioFecha + '">' + data.horasFavor.toFixed(2) + '</p>',
+                            '<p id="hour_adeudo-' + data.idCalendarioFecha + '">' + data.horasContra.toFixed(2) + '</p>',
+                            '<p id="hour_habi-' + data.idCalendarioFecha + '">0</p>',
 
-                            '<td>  <button  onclick="editar(' + data[i][0] + ')"  class="btn btn-warning btn-circle btn-sm"  data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-pen"></i></button> </td>  '
+                            '<td>  <button id="editar-' + data.idCalendarioFecha + '" onclick="editar(' + data.idCalendarioProceso + ',' + data.idCalendarioFecha + ')"  class="btn btn-warning btn-circle btn-sm"  data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-pen"></i></button> </td>  '
 
 
                         ]).draw(false);
@@ -52,17 +55,17 @@ function buscarFechas() {
 
                         t.row.add([
                             '<p>' + data[i][1] + '</p>',
-                            '<p id="hour_men-' + data[i][0] + '">' + data[i][2] + '</p>',
-                            '<p id="hour_adeudo-' + data[i][0] + '">' + data[i][3] + '</p>',
-                            '<p id="hour_habi-' + data[i][0] + '">' + data[i][4] + '</p>',
+                            '<p id="hour_men-' + data.idCalendarioFecha + '">' + data.horasHombre.toFixed(2) + '</p>',
+                            '<p id="hour_favor-' + data.idCalendarioFecha + '">' + data.horasFavor.toFixed(2) + '</p>',
+                            '<p id="hour_adeudo-' + data.idCalendarioFecha + '">' + data.horasContra.toFixed(2) + '</p>',
+                            '<p id="hour_habi-' + data.idCalendarioFecha + '">0</p>',
 
                             '<td> Sin acciones </td>  '
 
 
                         ]).draw(false);
                     }
-
-                }
+                })
                 $('#verFechas').modal('toggle');
 
             },
@@ -73,22 +76,33 @@ function buscarFechas() {
     }
 }
 
-function editar(id) {
+function editar(idCalendarioProceso, idCalendarioFecha) {
+    $('#idCalendarioProceso').val(idCalendarioProceso);
+    $('#idCalendarioFecha').val(idCalendarioFecha);
+    $('#horasHombre').val('');
+    $('#horasFavor').val('');
+    $('#horasContra').val('');
+    $('#horasObservaciones').val('');
+    if (idCalendarioProceso === 0) {
+        $('#btnGuardarHoras').show();
+        $('#btnEditarHoras').hide();
+    } else {
+        $('#btnGuardarHoras').hide();
+        $('#btnEditarHoras').show();
+    }
     $.ajax({
         type: "GET",
-        url: "/get_calendario_id",
-        data: {
-            'id': id
-        },
+        url: `/calendarioProduccion/${idCalendarioProceso}`,
         success: (data) => {
-            $('#idCalendario').val(data.idCalendarioFecha);
-            $('#horasHombre').val(data.hombre);
-            $('#horasAdeudo').val(data.adeudo);
-            $('#horasObservaciones').val(data.observacion);
+            let { horasHombre, horasFavor, horasContra, comentarios } = data;
+            $('#horasHombre').val(horasHombre.toFixed(2));
+            $('#horasFavor').val(horasFavor.toFixed(2));
+            $('#horasContra').val(horasContra.toFixed(2));
+            $('#horasObservaciones').val(comentarios);
             $("#detallesFecha").modal("show");
-
         },
         error: (e) => {
+            $("#detallesFecha").modal("show");
             console.log(e);
         }
     });
@@ -97,7 +111,7 @@ function guardarHoras() {
     //horasHombre
     //horasAdeudo
     //horasObservaciones
-    let idProceso=$("#procesosActivos").val();
+    let idProceso = $("#procesosActivos").val();
     if ($('#horasHombre').val().includes('M') ||
         $('#horasHombre').val().includes('H') ||
         $('#horasFavor').val().includes('M') ||
@@ -118,24 +132,24 @@ function guardarHoras() {
 
         $.ajax({
             type: "Post",
-            url: "/postCalendarioProduccion",
+            url: "/calendarioProduccion",
             data: {
-                '_csrf':$('[name="_csrf"]').val(),
-                'idCalendario': $('#idCalendario').val(),
+                '_csrf': $('[name="_csrf"]').val(),
+                'idCalendarioFecha': $('#idCalendarioFecha').val(),
                 'hombre': $('#horasHombre').val(),
                 'contra': $('#horasContra').val(),
-                'favor':$('#horasFavor').val(),
-                'obs': $('#horasObservaciones').val(),
-                'idProceso':idProceso
+                'favor': $('#horasFavor').val(),
+                'comentarios': $('#horasObservaciones').val(),
+                'idProceso': idProceso
             },
             success: (data) => {
                 console.log(data)
 
-                $('#hour_men-' + $('#idCalendario').val()).text($('#horasHombre').val());
-                $('#hour_adeudo-' + $('#idCalendario').val()).text($('#horasAdeudo').val());
-
-                $('#hour_habi-' + $('#idCalendario').val()).text(restarHoras("" + $('#horasHombre').val() + "", "" + $('#horasAdeudo').val() + ""),);
-
+                $('#hour_men-' + $('#idCalendarioFecha').val()).text($('#horasHombre').val());
+                $('#hour_adeudo-' + $('#idCalendarioFecha').val()).text($('#horasContra').val());
+                $('#hour_favor-' + $('#idCalendarioFecha').val()).text($('#horasFavor').val());
+                $('#hour_habi-' + $('#idCalendarioFecha').val()).text('0');
+                $(`#editar-${data.idCalendarioFecha}`).attr('onclick', `editar(${data.idCalendarioProceso},${data.idCalendarioFecha})`);
                 $('#detallesFecha').modal('toggle');
                 Swal.fire({
                     icon: 'success',
@@ -147,6 +161,74 @@ function guardarHoras() {
             },
             error: (e) => {
                 console.log(e);
+            }
+        });
+
+
+    }
+}
+
+function editarHoras() {
+    $(`#btnEditarHoras`).attr("disabled", true);
+    let csrf = $('[name="_csrf"]').val()
+    let idCalendarioProceso = $('#idCalendarioProceso').val()
+    let horasHombre = $('#horasHombre').val()
+    let horasContra = $('#horasContra').val()
+    let horasFavor = $('#horasFavor').val()
+    let comentarios = $('#horasObservaciones').val()
+    let idProceso = $("#procesosActivos").val();
+    if ($('#horasHombre').val().includes('M') ||
+        $('#horasHombre').val().includes('H') ||
+        $('#horasFavor').val().includes('M') ||
+        $('#horasFavor').val().includes('H') ||
+        $('#horasContra').val().includes('M') ||
+        $('#horasContra').val().includes('H') ||
+        $('#horasHombre').val() == "" ||
+        $('#horasContra').val() == "" ||
+        idProceso.trim() === "" ||
+        $('#horasFavor').val() == "") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Por favor complete el formulario!'
+        })
+        $(`#btnEditarHoras`).attr("disabled", false);
+
+    }
+    else {
+        let calendarioProceso = {
+            'horasHombre': horasHombre,
+            'horasContra': horasContra,
+            'horasFavor': horasFavor,
+            'comentarios': comentarios
+        }
+
+        $.ajax({
+            type: "Put",
+            url: `/calendarioProduccion/${idCalendarioProceso}?_csrf=${csrf}`,
+            data:
+                JSON.stringify(calendarioProceso)
+            ,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Editado correctamente',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(function () {
+                    console.log(data)
+                    $('#hour_men-' + $('#idCalendarioFecha').val()).text($('#horasHombre').val());
+                    $('#hour_adeudo-' + $('#idCalendarioFecha').val()).text($('#horasContra').val());
+                    $('#hour_favor-' + $('#idCalendarioFecha').val()).text($('#horasFavor').val());
+                    $('#hour_habi-' + $('#idCalendarioFecha').val()).text('0');
+                    $(`#btnEditarHoras`).attr("disabled", false);
+                    $('#detallesFecha').modal('hide');
+                })
+            },
+            error: function (response) {
+                $(`#btnEditarHoras`).attr("disabled", false);
             }
         });
 
@@ -283,8 +365,8 @@ function listarTiempoProceso() {
         $("#listarTiempoProceso").attr("disabled", false);
     } else {
         var d = new Date();
-        let fechaInicio=d.addDays(-7).toISOString().split('T')[0]
-        let fechaFin=d.addDays(7).toISOString().split('T')[0]
+        let fechaInicio = d.addDays(-7).toISOString().split('T')[0]
+        let fechaFin = d.addDays(7).toISOString().split('T')[0]
         var t = $('#table-horas').DataTable();
         var rows = t
             .rows()
@@ -296,19 +378,19 @@ function listarTiempoProceso() {
             data: {
                 'fechaInicio': fechaInicio,
                 'fechaFin': fechaFin,
-                'idProceso':idProceso
+                'idProceso': idProceso
             },
             success: (data) => {
-                data.map(data=>{
+                data.map(data => {
                     if ($("#rolEditar").length > 0) {
                         t.row.add([
                             '<p>' + data.fecha + '</p>',
-                            '<p id="hour_men-' + data.idCalendarioFecha + '">' + data.horasHombre + '</p>',
-                            '<p id="hour_favor-' + data.idCalendarioFecha + '">' + data.horasFavor + '</p>',
-                            '<p id="hour_adeudo-' + data.idCalendarioFecha + '">' + data.horasContra + '</p>',
+                            '<p id="hour_men-' + data.idCalendarioFecha + '">' + data.horasHombre.toFixed(2) + '</p>',
+                            '<p id="hour_favor-' + data.idCalendarioFecha + '">' + data.horasFavor.toFixed(2) + '</p>',
+                            '<p id="hour_adeudo-' + data.idCalendarioFecha + '">' + data.horasContra.toFixed(2) + '</p>',
                             '<p id="hour_habi-' + data.idCalendarioFecha + '">0</p>',
 
-                            '<td>  <button  onclick="editar(' + data.idCalendarioFecha + ')"  class="btn btn-warning btn-circle btn-sm"  data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-pen"></i></button> </td>  '
+                            '<td>  <button id="editar-' + data.idCalendarioFecha + '" onclick="editar(' + data.idCalendarioProceso + ',' + data.idCalendarioFecha + ')"  class="btn btn-warning btn-circle btn-sm"  data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-pen"></i></button> </td>  '
 
 
                         ]).draw(false);
@@ -317,9 +399,9 @@ function listarTiempoProceso() {
 
                         t.row.add([
                             '<p>' + data[i][1] + '</p>',
-                            '<p id="hour_men-' + data.idCalendarioFecha + '">' + data.horasHombre + '</p>',
-                            '<p id="hour_favor-' + data.idCalendarioFecha + '">' + data.horasFavor + '</p>',
-                            '<p id="hour_adeudo-' + data.idCalendarioFecha + '">' + data.horasContra + '</p>',
+                            '<p id="hour_men-' + data.idCalendarioFecha + '">' + data.horasHombre.toFixed(2) + '</p>',
+                            '<p id="hour_favor-' + data.idCalendarioFecha + '">' + data.horasFavor.toFixed(2) + '</p>',
+                            '<p id="hour_adeudo-' + data.idCalendarioFecha + '">' + data.horasContra.toFixed(2) + '</p>',
                             '<p id="hour_habi-' + data.idCalendarioFecha + '">0</p>',
 
                             '<td> Sin acciones </td>  '
@@ -337,7 +419,7 @@ function listarTiempoProceso() {
     }
 }
 
-Date.prototype.addDays = function(days) {
+Date.prototype.addDays = function (days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;

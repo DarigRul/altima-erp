@@ -41,6 +41,9 @@ public class ProduccionCalendarioProceso implements Serializable{
     @Column(name="horas_contra")
     private float horasContra;
 
+    @Column(name="comentarios")
+    private String comentarios;
+
     @Column(name="creado_por")
 	private String creadoPor;
 	
@@ -131,5 +134,13 @@ public class ProduccionCalendarioProceso implements Serializable{
 
     public void setUltimaFechaModificacion(String ultimaFechaModificacion) {
         this.ultimaFechaModificacion = ultimaFechaModificacion;
+    }
+
+    public String getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(String comentarios) {
+        this.comentarios = comentarios;
     }
 }
