@@ -74,5 +74,7 @@ public interface IDisenioMaterialService {
 
 	public List<Object[]> findMaterialByTipo(Long idTipoMaterial,Long idMaterial); 
 	public Integer disponibles(Long id);
+
+	List<DisenioMaterial> findByEntretela();
 }
 

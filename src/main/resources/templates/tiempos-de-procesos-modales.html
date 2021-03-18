@@ -1,0 +1,234 @@
+<div class="modal fade" id="SeleccionPrograma" tabindex="-1" role="dialog" aria-labelledby="Formulario"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 40%;" role="document">
+    <div class="modal-content modal-rounded-body">
+      <div class="modal-header bg-altima modal-rounded-header">
+        <h5 class="modal-title">Selecci&oacute;n de proceso</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="">Seleccione un proceso</label>
+            <select class="form-control selectpicker" data-live-search="true" title="Seleccione un proceso..."
+              id="procesosActivos">
+              <option th:each="proceso:${listProcesos}" th:if="${proceso[4]} =='Agrupado'" th:text="${proceso[1]}"
+                th:value="${proceso[0]}" th:descripcion="${proceso[2]}" th:proceso="${proceso[3]}"
+                th:tipo="${proceso[4]}">
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="">Programa</label>
+            <input type="text" class="form-control" id="programa">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer modal-rounded-footer">
+        <a class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span
+            class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+        <button class="btn btn-sm icon-btn btn-altima text-white float-right" onclick="listarPorProceso()"><span
+            class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="tiempoDetalle" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content modal-rounded-body">
+      <div class="modal-header bg-altima modal-rounded-header">
+        <h5 class="modal-title">Detalle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table id="tablaDetalles" class="tablaGeneral table-striped table-bordered" style="width: 100%;">
+          <thead>
+            <tr>
+              <th>Pedido</th>
+              <th>Fecha de entrega</th>
+              <th>Coordinado</th>
+              <th># Prendas</th>
+              <th>Clave tela</th>
+              <th>Tiempo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="asignacionTiempo" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-rounded-body">
+      <div class="modal-header bg-altima modal-rounded-header">
+        <h5 class="modal-title">Asignar tiempo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="tiempoMinutos">Tiempo planeado(minutos)</label>
+              <input type="number" class="form-control" id="tiempoMinutos" placeholder="2900" min="1" pattern="^[0-9]+">
+              <input type="hidden" id="idExplosiconProcesos">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="button"><span
+            class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+        <a class="btn icon-btn btn-altima text-white" onclick="guardarTiempo()" type="submit"><span
+            class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="calendarizar" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-rounded-body">
+      <div class="modal-header bg-altima modal-rounded-header">
+        <h5 class="modal-title">Asignar fecha</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="tiempoMinutos">Fecha</label>
+              <input type="date" class="form-control selectpicker" id="idFecha" name="idFecha">
+
+              <input type="hidden" id="secuenciaFecha">
+              <input type="hidden" id="idPRocesoFecha">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="button"><span
+            class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+        <a class="btn icon-btn btn-altima text-white" onclick="guardarCalendarioFolio()" type="submit"><span
+            class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="verCalendarioModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content modal-rounded-body">
+      <div class="modal-header bg-altima modal-rounded-header">
+        <h5 class="modal-title">Calendrio</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="tiempoMinutos">Fecha de inicio</label>
+            <input type="date" class="form-control" id="calendarioFechaInicio">
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="">Fecha de fin</label>
+            <div class="input-group mb-3">
+              <input type="date" class="form-control" id="calendarioFechaFin">
+              <div class="input-group-append" style="margin-left:10px;display:block;">
+                <button onclick="buscarfecha()" class="btn btn-sm icon-btn btn-altima text-white float-right"><span
+                    class="btn-glyphicon fas fa-save img-circle text-altima"></span>Buscar</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <table id="tablaDetallesCalendario" class=" tablaGeneral table-striped table-bordered" style="width: 100%;">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>H&aacute;biles</th>
+              <th>Programadas</th>
+              <th>Diferencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PED10023</td>
+              <td>12/12/2020</td>
+              <td>1</td>
+              <td>68</td>
+
+            </tr>
+            <tr>
+              <td>PED10023</td>
+              <td>12/12/2020</td>
+              <td>3</td>
+              <td>50</td>
+
+            </tr>
+            <tr>
+              <td>PED10023</td>
+              <td>12/12/2020</td>
+              <td>5</td>
+              <td>45</td>
+
+            </tr>
+            <tr>
+              <td>PED10589</td>
+              <td>18/12/2020</td>
+              <td>2</td>
+              <td>98</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalTiempoGeneral" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content modal-rounded-body">
+      <div class="modal-header bg-altima modal-rounded-header">
+        <h5 class="modal-title">Asignar tiempo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label for="tiempoMinutos">Tiempo planeado(minutos)</label>
+              <input type="number" class="form-control" id="tiempoGeneral" placeholder="2900" min="1" pattern="^[0-9]+">
+              <input type="hidden" id="idExplosionProcesos">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="button"><span
+            class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+        <a class="btn icon-btn btn-altima text-white" onclick="guardarTiempoGeneral()" type="submit"><span
+            class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</a>
+      </div>
+    </div>
+  </div>
+</div>

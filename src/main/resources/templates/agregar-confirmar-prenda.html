@@ -24,8 +24,8 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 th:if="${accion == 'agregar'}" class="card-title">Agregar prenda&nbsp;<a th:href="${'/prendas'}" class="btn btn-sm btn-danger icon-btn btn-danger text-white"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a></h1>
-							<h1 th:if="${accion == 'editar'}" class="card-title">Editar prenda: <text th:text="${prenda.estatusRecepcionMuestra == 'Prospecto'} ? ${prenda.idTextProspecto} : ${prenda.idText}"></text> &nbsp;<a th:href="${'/prendas'}" class="btn btn-sm btn-danger icon-btn btn-danger text-white"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a></h1>
+							<h1 th:if="${accion == 'agregar'}" class="card-title">Agregar prenda&nbsp;<a th:href="${view?'/produccion-prendas':'/prendas'}" class="btn btn-sm btn-danger icon-btn btn-danger text-white"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a></h1>
+							<h1 th:if="${accion == 'editar'}" class="card-title">Editar prenda: <text th:text="${prenda.estatusRecepcionMuestra == 'Prospecto'} ? ${prenda.idTextProspecto} : ${prenda.idText}"></text> &nbsp;<a th:href="${view?'/produccion-prendas':'/prendas'}" class="btn btn-sm btn-danger icon-btn btn-danger text-white"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Regresar</a></h1>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
@@ -312,7 +312,7 @@
 															
 
 															<div class="form-group col-sm-12">
-																<a th:href="@{'/prendas'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+																<a th:href="${view?'/produccion-prendas':'/prendas'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
 																<button type="button" onclick="ValidarPrimerPestana()" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-forward img-circle text-altima"></span>Siguiente</button>
 																<button type="button" class="btn icon-btn btn-altima text-white next-step float-right" id="SiguientePrimeraPestana" style="display: none"><span class="btn-glyphicon spancircle fas fa-forward img-circle text-altima"></span>Siguiente</button>
 															</div>
@@ -384,7 +384,7 @@ Utilizar cubre polvo en colores claros.
                                                             </div>
 														</div>
 														<div class="form-group" >
-																<a th:href="@{'/prendas'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+																<a th:href="${view?'/produccion-prendas':'/prendas'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
 																<button type="button" class="btn icon-btn btn-altima text-white float-right" onclick="ValidarSegundaPestana()"><span class="btn-glyphicon spancircle fas fa-forward img-circle text-altima"></span>Siguiente</button>
 																<button type="button" class="btn icon-btn btn-altima text-white next-step float-right" style="display: none" id="SiguienteSegundaPestana"><span class="btn-glyphicon spancircle fas fa-forward img-circle text-altima"></span>Siguiente</button>
 														</div>
@@ -460,7 +460,7 @@ Utilizar cubre polvo en colores claros.
 															</li>
 														</ul> -->
 														<div class="form-group" >
-																<a th:href="@{/prendas''}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+																<a th:href="${view?'/produccion-prendas':'/prendas'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
 																<button type="button" onclick="ValidarTerceraPestana()" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-forward img-circle text-altima"></span>Siguiente</button>
 																<button type="button" class="btn icon-btn btn-altima text-white next-step" style="display: none" id="SiguienteTerceraPestana"><span class="btn-glyphicon spancircle fas fa-forward img-circle text-altima"></span>Siguiente</button>
 															
@@ -541,8 +541,8 @@ Utilizar cubre polvo en colores claros.
                                                         </div>
 														
 														<div class="form-group d-flex justify-content-between" id="ElDeGuardar">
-															<a th:href="@{'/prendas'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-															<button type="button" th:if="${accion == 'editar' || accion == 'agregar'}" onclick="ValidarCuartaPestana()" class="btn icon-btn btn-altima text-white float-right"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
+															<a th:href="${view?'/produccion-prendas':'/prendas'}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+															<button type="button" th:if="${accion == 'editar' || accion == 'agregar'}" onclick="ValidarCuartaPestana()" class="btn icon-btn btn-altima text-white float-right guardar"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
 															<button type="button" th:if="${accion == 'copiar'}" onclick="ValidarCuartaPestana()" class="btn icon-btn btn-info text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-save img-circle text-info"></span>Copiar</button>
 															<button type="button" style="display: none" id="SiguienteCuartaPestana" onclick="Guardar()" class="btn icon-btn btn-altima text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-save img-circle text-altima"></span>Guardar</button>
 														</div>
@@ -1077,7 +1077,21 @@ alert($('#contenido').val());
 		var imagenes = /*[[${imagenesPrenda}]]*/ 'default';
 		var generos = /*[[${generos}]]*/ 'default';
 		var clientes = /*[[${clientes}]]*/ 'default';
+		var view = /*[[${view}]]*/ 'default';
 		/*]]>*/
+
+		if (view) {
+			$(".btn-success").attr("disabled", true);
+			$(".form-control").attr("disabled", true);
+			$(".btn-circle").attr("disabled", true);
+			$(".btn_remove").attr("disabled", true);
+			$(".guardar").attr("disabled", true);
+			$("#BotonAgregarPatronaje").attr("disabled", true);
+			$("#AgregarElementoMaterial").attr("disabled", true);
+			$("#adicionar").attr("disabled", true);
+			$("[name='remove']").attr("disabled", true);
+
+		}
 		
 		//Contador que dice cuantas imagenes existen
 		var contadorImagenes = 0;

@@ -23,7 +23,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Concentrado de prendas <button id="AgregarPrendaEmpleadoPlus" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button> <a th:href="@{/carga-de-pedidos}"><button data-toggle="popover"class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1>
+                            <h1>Concentrado de prendas <button th:if="${expediente==null}" id="AgregarPrendaEmpleadoPlus" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Agregar"><i class="fas fa-plus"></i></button> <a th:href="${expediente!=null?'/expediente':'/carga-de-pedidos'}"><button data-toggle="popover"class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="right" data-content="Regresar"><i class="fas fa-arrow-left"></i></button></a></h1>
                         </div>
                         <div th:insert="modal-concentrado-de-prendas"></div>
                         <div class="col-sm-6">
@@ -313,6 +313,9 @@
     		        });
     		    new $.fn.dataTable.FixedHeader(table1);
     </script>
+	<script th:inline="javascript">
+		var expediente = /*[[${expediente}]]*/ 'default';
+	</script>
    <script src="/dist/js/ConcentradoPrendas.js"></script>
    	<script>
 		$('#iComercial').removeClass('text-primary');

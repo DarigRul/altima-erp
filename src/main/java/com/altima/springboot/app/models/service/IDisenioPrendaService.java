@@ -21,6 +21,8 @@ public interface IDisenioPrendaService {
 
 	DisenioPrenda findOne(Long id);
 
+	public int count(Long id);
+
 	String[] getExistencias(Long familiaPrenda);
 
 	List<Object[]> BuscarPrendaById(Long id);
@@ -35,5 +37,9 @@ public interface IDisenioPrendaService {
 			SessionFactoryServiceRegistry serviceRegistry);
 
 	List<PrendaListDTO> findAllMin();
+
+	List<PrendaListDTO> findAllMinR();
+
+	int countRutas();
 
 }

@@ -22,7 +22,8 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Orden de compra&nbsp;<a th:href="${'/orden-de-compra-nueva'}" class="btn btn-sm icon-btn btn-altima text-white">
+                            <h1>Orden de compra&nbsp;
+                                <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_ORDEN_COMPRA_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="${'/orden-de-compra-nueva'}" class="btn btn-sm icon-btn btn-altima text-white">
                                     <span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Nueva orden de compra</a>
                             </h1>
                         </div>
@@ -67,7 +68,8 @@
                                                 <td th:text="${orden.estatus}"></td>
                                                 <td class="text-center">
                                                     <!-- <a class="btn btn-warning btn-circle btn-sm popoverxd" data-placement="top" data-content="Imprimir" th:href="@{/orden-de-compra/}+${orden.idOrdenCompras}"><i class="fas fa-pen"></i></a> -->
-                                                    <a th:href="@{/orden-compra-reporte/}+${orden.idOrdenCompras}+@{?format=pdf}" class="btn btn-danger btn-circle btn-sm popoverxd" data-placement="top" data-content="Imprimir" target="_blank"><i class="fas fa-download" ></i></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_ORDEN_COMPRA_IMPRIMIR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/orden-compra-reporte/}+${orden.idOrdenCompras}+@{?format=pdf}" class="btn btn-danger btn-circle btn-sm popoverxd"
+                                                        data-placement="top" data-content="Imprimir" target="_blank"><i class="fas fa-download" ></i></a>
                                                 </td>
                                             </tr>
                                         </tbody>

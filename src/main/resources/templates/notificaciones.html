@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button type="button" id="connect" class="btn btn-sm btn-outline-secondary" onclick="connect()">Connect</button>
+    <button type="button" id="connect" class="btn btn-sm btn-outline-secondary"
+        onclick="disconnect()">disconnect</button>
+    <button type="button" id="connect" class="btn btn-sm btn-outline-secondary" onclick="clientSend()">Enviar</button>
+
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"
+    integrity="sha512-tL4PIUsPy+Rks1go4kQG8M8/ItpRMvKnbBjQm4d2DQnFwgcBYRRN00QdyQnWSCwNMsoY/MfJY8nHp2CzlNdtZA=="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.js"
+    integrity="sha512-lyIq9fRcCeSCXhp41XC/250UBmypAHV8KW+AhLcSEIksWHBfhzub6XXwDe67wTpOG8zrO2NAU/TYmEaCW+aQSg=="
+    crossorigin="anonymous"></script>
+<script type="text/javascript">
+    var stompClient = null;
+
+    const temp={
+        "texto":"nmz",
+        "fecha":"20210214"
+    }
+
+    function connect() {
+        var socket = new SockJS('/chat-websocket');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function () {
+            stompClient.subscribe('/chat/mensaje', function (output) {
+                console.log(output);
+            });
+
+        }, function (err) {
+            alert('error' + err);
+        });
+    }
+
+    function disconnect() {
+        if (stompClient != null) {
+            // sendConnection(' disconnected from server'); 
+
+            stompClient.disconnect(function () {
+                console.log('disconnected...');
+                // setConnected(false);
+            });
+        }
+    }
+    function clientSend(json) {
+        stompClient.send("/app/mensaje", {}, JSON.stringify(temp));
+    }
+</script>
+
+</html>

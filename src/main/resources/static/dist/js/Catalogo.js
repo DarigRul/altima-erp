@@ -406,7 +406,7 @@ function listarPrendas() {
                         "<td>" + data[i].atributo1 + "</td>",
                         "<td style='text-align: center;'>" +
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                        "<button onclick='editarPrenda(this);' idlookup='" + data[i].idLookup + "' nombre='" + data[i].nombreLookup + "' posicion='" + data[i].atributo1 + "' descripcion='" + data[i].descripcion + "' CodigoPrenda='" + data[i].descripcionLookup + "' class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        "<button onclick='editarPrenda(this);' idlookup='" + data[i].idLookup + "' nombre='" + data[i].nombreLookup + "' posicion='" + data[i].atributo1 +"' ruta='" + data[i].atributo2 + "' descripcion='" + data[i].descripcion + "' CodigoPrenda='" + data[i].descripcionLookup + "' class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
                         (data[i].estatus == 1 ? "<button onclick='bajarPrenda(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
                         (data[i].estatus == 0 ? "<button onclick='reactivar(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
                         "</td>" +
@@ -427,7 +427,7 @@ function listarPrendas() {
                             "<td>" + data[i].atributo1 + "</td>",
                             "<td style='text-align: center;'>" +
                             "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
-                            (rolEditar == 1 ? "<button onclick='editarPrenda(this);' idlookup='" + data[i].idLookup + "' nombre='" + data[i].nombreLookup + "' posicion='" + data[i].atributo1 + "' descripcion='" + data[i].descripcion + "' CodigoPrenda='" + data[i].descripcionLookup + "' class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" : " ") +
+                            (rolEditar == 1 ? "<button onclick='editarPrenda(this);' idlookup='" + data[i].idLookup + "' nombre='" + data[i].nombreLookup + "' posicion='" + data[i].atributo1 + "' ruta='" + data[i].atributo2 +"' descripcion='" + data[i].descripcion + "' CodigoPrenda='" + data[i].descripcionLookup + "' class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" : " ") +
                             (rolEliminar == 1 ? "<button onclick='bajarPrenda(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
                             "</td>" +
 
@@ -2278,19 +2278,24 @@ $('#detallePrenda').on('shown.bs.modal', function() {
 function agregarPrenda() {
     Swal.fire({
         title: 'Agregar familia prenda',
-        html: '<div class="row">' +
+        html: '<form method="POST" enctype="multipart/form-data" id="formPrenda" >' +
+            '<div class="row">' +
             '<div class="form-group col-sm-12">' +
             '<label for="pedidonom">Nombre de la familia prendas</label>' +
-            '<input type="text" class="swal2-input" name="familia" id="familia" placeholder="Pantalón">' +
+            '<input type="text" class="swal2-input" id="familia" name="familia" placeholder="Pantalón">' +
             '<label for="pedidonom">Codigo</label>' +
-            '<input type="text" class="swal2-input" name="CodigoPrenda" id="CodigoPrenda" placeholder="PANT">' +
+            '<input type="text" class="swal2-input" id="CodigoPrenda" placeholder="PANT">' +
             '<label for="posicion">Ubicaci&oacute;n de la prenda</label>' +
             "<select class='form-control' id='posicion'>" +
             "<option value='superior'>Superior</option>" +
             "<option value='inferior'>Inferior</option>" +
             "</select>" +
+            `<label for="imagen">Imagen Drop</label>
+            <input type="file" class="form-control-file" id="imagen" name="imagen">
+            <input type="hidden" value="${$('#token').val()}" name="_csrf">`+
             '</div>' +
-            '</div>',
+            '</div>'+
+            '</form>',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
         cancelButtonText: 'Cancelar',
@@ -2298,7 +2303,8 @@ function agregarPrenda() {
         confirmButtonColor: '#0288d1',
         preConfirm: (familia, CodigoPrenda) => {
             if (document.getElementById("familia").value.length < 1 ||
-                document.getElementById("CodigoPrenda").value.length < 1
+                document.getElementById("CodigoPrenda").value.length < 1 ||
+                $(`#imagen`).val().trim()===''
             ) {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
@@ -2311,8 +2317,16 @@ function agregarPrenda() {
             var FamiliaPrenda = document.getElementById("familia").value;
             var CodigoPrenda = document.getElementById("CodigoPrenda").value;
             var Posicion = document.getElementById("posicion").value;
-            // ///////////////
+            var formPrenda = $('#formPrenda')[0];
 
+            var dataForm = new FormData(formPrenda);
+            console.log(FamiliaPrenda)
+            dataForm.append("FamiliaPrenda",FamiliaPrenda);
+            dataForm.append("CodigoPrenda", CodigoPrenda);
+            dataForm.append("Posicion", Posicion);
+
+            console.log(dataForm);
+            // ///////////////
             $.ajax({
                 type: "GET",
                 url: "/verifduplicado",
@@ -2326,23 +2340,29 @@ function agregarPrenda() {
             }).done(function(data) {
                 if (data == false) {
                     // /////////////////
+
+                    
                     $.ajax({
                         type: "POST",
+                        enctype: 'multipart/form-data',
                         url: "/guardarcatalogo",
-                        data: {
-                            "_csrf": $('#token').val(),
-                            'FamiliaPrenda': FamiliaPrenda,
-                            'Posicion': Posicion,
-                            'CodigoPrenda': CodigoPrenda
-
-
-
-                            // ,'Descripcion':Descripcion
+                        data: dataForm,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout: 600000,
+                        success: function (data) {
+                            console.log("entra")
+                            listarPrendas();
+                        },
+                        error: function (e) {
+                
+                            console.log("ERROR : ", e);
+                
                         }
-
-                    }).done(function(data) {
-                        listarPrendas();
                     });
+
+                    
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
@@ -2375,12 +2395,13 @@ function editarPrenda(e) {
     var pos = e.getAttribute("posicion") == "inferior" ? "selected" : "";
     Swal.fire({
         title: 'Editar prenda',
-        html: '<div class="row">' +
+        html:'<form method="POST" enctype="multipart/form-data" id="formPrendaEdit" >'+ 
+            '<div class="row">' +
             '<div class="form-group col-sm-12">' +
             '<label for="pedidonom">Nombre de la familia prendas</label>' +
-            '<input type="text" value="' + e.getAttribute("nombre") + '" class="swal2-input" name="nombre" id="nombre" placeholder="Pantalón">' +
+            '<input type="text" value="' + e.getAttribute("nombre") + '" class="swal2-input" id="nombre" placeholder="Pantalón">' +
             '<label for="pedidonom">Codigo</label>' +
-            '<input type="text" value="' + e.getAttribute("CodigoPrenda") + '" class="swal2-input" name="CodigoPrenda" id="CodigoPrenda" placeholder="PANT">' +
+            '<input type="text" value="' + e.getAttribute("CodigoPrenda") + '" class="swal2-input"  id="CodigoPrenda" placeholder="PANT">' +
             "<select class='form-control' id='posicion' value='" + e.getAttribute("posicion") + "'>" +
             "<option value='superior' >Superior</option>" +
             "<option value='inferior' " + pos + ">Inferior</option>" +
@@ -2388,8 +2409,11 @@ function editarPrenda(e) {
             '</div>' +
             '<div class="form-group col-sm-12">' +
             '<input type="hidden" value=" ' + e.getAttribute("idlookup") + ' " class="swal2-input" id="idlookup" placeholder="Pantalón">' +
+            `<label for="imagen">Imagen Drop</label>
+            <input type="file" class="form-control-file" id="imagen" name="imagen" >
+            <input type="hidden" value="${$('#token').val()}" name="_csrf">`+
             '</div>' +
-            '</div>',
+            '</div></form>',
         showCancelButton: true,
         cancelButtonColor: '#dc3545',
         cancelButtonText: 'Cancelar',
@@ -2408,7 +2432,14 @@ function editarPrenda(e) {
             var CodigoPrenda = document.getElementById("CodigoPrenda").value;
             var idLookup = document.getElementById("idlookup").value;
             var Posicion = document.getElementById("posicion").value;
-            console.log(CodigoPrenda);
+            var formPrenda = $('#formPrendaEdit')[0];
+            var dataForm = new FormData(formPrenda);
+            var nombreImagen =$("#imagen").val();
+            console.log(nombreImagen)
+            dataForm.append("FamiliaPrenda",FamiliaPrenda);
+            dataForm.append("CodigoPrenda", CodigoPrenda);
+            dataForm.append("Posicion", Posicion);
+            dataForm.append("idLookup", idLookup);
             $.ajax({
                 type: "GET",
                 url: "/verifduplicado",
@@ -2416,7 +2447,8 @@ function editarPrenda(e) {
                     'Lookup': FamiliaPrenda,
                     'Tipo': "Familia Prenda",
                     'CodigoPrenda': CodigoPrenda,
-                    'atributo': Posicion
+                    'atributo': Posicion,
+                    'ruta':nombreImagen.trim()===''?e.getAttribute("ruta"):nombreImagen
 
                 }
 
@@ -2424,16 +2456,13 @@ function editarPrenda(e) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
+                        enctype: 'multipart/form-data',
                         url: "/editarcatalogo",
-                        data: {
-                            "_csrf": $('#token').val(),
-                            'FamiliaPrenda': FamiliaPrenda,
-                            'CodigoPrenda': CodigoPrenda,
-                            'Posicion': Posicion,
-                            'idLookup': idLookup
-                                //'Descripcion': Descripcion
-
-                        }
+                        data: dataForm,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        timeout: 600000,
 
                     }).done(function(data) {
                         listarPrendas();

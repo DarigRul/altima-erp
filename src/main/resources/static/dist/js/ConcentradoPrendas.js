@@ -148,7 +148,6 @@ $(document).ready(function () {
 				//Se esconde el spinner
 				$('#CargandoCoordinados').hide();
 				$("#ListaCoordinadosGeneral").prop('disabled', false);
-
 				//Se selecciona el formato general
 				$("#cargaTipopedido").val("1");
 				$('#cargaTipopedido').selectpicker('refresh');
@@ -721,7 +720,7 @@ function CrearNuevaTabla(data, ListaEmpleados) {
 		ArrayIndividual[contador2 + 1] = CantidadesASumar.reduce(function (a, b) { return a + b; }, 0);
 		Totales += CantidadesASumar.reduce(function (a, b) { return a + b; }, 0);
 		ArrayIndividual[contador2 + 2] = "<td class='text-center'>" +
-			"<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick=\"EditarRegistro(\'" + ArrayFinal[contador]["id"] + "'\, \'" + ArrayFinal[contador]["nombre"] + "\');\" data-container='body' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" +
+			"<button "+ (expediente=='true'?"disabled":"") +" class='btn btn-warning btn-circle btn-sm popoverxd' onclick=\"EditarRegistro(\'" + ArrayFinal[contador]["id"] + "'\, \'" + ArrayFinal[contador]["nombre"] + "\');\" data-container='body' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" +
 			"</td>";
 		table1.rows.add([ArrayIndividual]).draw();
 	}
@@ -922,7 +921,7 @@ function CrearNuevaTablaEspecial(data, ListaEmpleados) {
 		ArrayIndividual[contador2 + 1] = CantidadesASumar.reduce(function (a, b) { return a + b; }, 0);
 		Totales += CantidadesASumar.reduce(function (a, b) { return a + b; }, 0);
 		ArrayIndividual[contador2 + 2] = "<td class='text-center'>" +
-			"<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick=\"EditarRegistro(\'" + ArrayFinal[contador]["id"] + "'\, \'" + ArrayFinal[contador]["nombre"] + "\');\" data-container='body' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" +
+			"<button "+ (expediente=='true'?"disabled":"") +" class='btn btn-warning btn-circle btn-sm popoverxd' onclick=\"EditarRegistro(\'" + ArrayFinal[contador]["id"] + "'\, \'" + ArrayFinal[contador]["nombre"] + "\');\" data-container='body' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" +
 			"</td>";
 		table1.rows.add([ArrayIndividual]).draw();
 	}

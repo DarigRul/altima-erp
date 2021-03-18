@@ -2,6 +2,7 @@ package com.altima.springboot.app.models.service;
 
 import java.util.List;
 
+import com.altima.springboot.app.dto.HorasHabliesListDto;
 import com.altima.springboot.app.models.entity.ProduccionCalendario;
 public interface IProduccionCalendarioService {
 
@@ -9,7 +10,7 @@ public interface IProduccionCalendarioService {
 
     void crearCalendario(String fecha_incial, String fecha_final, String creado_por, String fecha_creacion);
 
-    List<Object[]> mostrar_calendario(String fechaInicio , String fehaFin);
+    List<HorasHabliesListDto> mostrar_calendario(String fechaInicio , String fechaFin,Long idProceso);
 
     ProduccionCalendario findOne (Long id);
 

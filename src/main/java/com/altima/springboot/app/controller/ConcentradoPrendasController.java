@@ -29,4 +29,15 @@ public class ConcentradoPrendasController
 		
 		return "concentrado-de-prendas";
 	}
+
+	@GetMapping("/concentrado-de-prendas/expediente/{id}")
+	public String listGeneralExpediente(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
+		
+		model.addAttribute("empleados", concentradoPrendasService.findAllEmpleadosByPedido(id));
+		model.addAttribute("coordinados", concentradoPrendasService.findCoordinadosfromPedido(id));
+		model.addAttribute("idPedido", id);
+		model.addAttribute("expediente", "true");
+		
+		return "concentrado-de-prendas";
+	}
 }

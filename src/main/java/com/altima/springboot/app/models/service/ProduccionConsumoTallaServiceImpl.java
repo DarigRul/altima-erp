@@ -129,22 +129,21 @@ public class ProduccionConsumoTallaServiceImpl implements IProduccionConsumoTall
 	@Transactional(readOnly = true)
 	public List<Object[]> Consumo_Talla(Long id , String Cabezal){
 		List<Object[]> queryresult;
-		 
-		System.out.println("SELECT\r\n" + 
-					"	look2.nombre_lookup,\r\n" + 
-					Cabezal +
-					"	\r\n" + 
-					"FROM\r\n" + 
-					"	alt_produccion_consumo_talla AS consumo,\r\n" + 
-					"	alt_produccion_lookup AS look,\r\n" + 
-					"	alt_produccion_lookup AS look2 \r\n" + 
-					"WHERE\r\n" + 
-					"	1 = 1 \r\n" + 
-					"	AND look2.id_lookup = consumo.id_talla \r\n" + 
-					"	AND consumo.id_tipo_largo = look.id_lookup \r\n" + 
-					"	AND consumo.id_prenda = "+id+" \r\n" + 
-					"GROUP BY\r\n" + 
-					"	look2.nombre_lookup");
+		 System.out.println("SELECT\r\n" + 
+		 "	look2.nombre_lookup,\r\n" + 
+		 Cabezal +
+		 "	\r\n" + 
+		 "FROM\r\n" + 
+		 "	alt_produccion_consumo_talla AS consumo,\r\n" + 
+		 "	alt_produccion_lookup AS look,\r\n" + 
+		 "	alt_produccion_lookup AS look2 \r\n" + 
+		 "WHERE\r\n" + 
+		 "	1 = 1 \r\n" + 
+		 "	AND look2.id_lookup = consumo.id_talla \r\n" + 
+		 "	AND consumo.id_tipo_largo = look.id_lookup \r\n" + 
+		 "	AND consumo.id_prenda = "+id+" \r\n" + 
+		 "GROUP BY\r\n" + 
+		 "	look2.nombre_lookup");
 			queryresult = em.createNativeQuery("SELECT\r\n" + 
 					"	look2.nombre_lookup,\r\n" + 
 					Cabezal +
@@ -280,7 +279,7 @@ public class ProduccionConsumoTallaServiceImpl implements IProduccionConsumoTall
 				"SELECT\n" + 
 				"	m.id_material,\n" + 
 				"	m.nombre_material ,\n" + 
-				"	'Forro'\n" + 
+				"	'forro-combinacion'\n" + 
 				"FROM\n" + 
 				"	alt_disenio_material_prenda AS MP,\n" + 
 				"	alt_disenio_material AS m \n" + 
@@ -288,25 +287,8 @@ public class ProduccionConsumoTallaServiceImpl implements IProduccionConsumoTall
 				"	1 = 1 \n" + 
 				"	AND MP.id_material = m.id_material \n" + 
 				"	AND MP.id_prenda = "+id+" \n" + 
-				"	AND m.nombre_material = 'Forro principal'\n" + 
-				"	\n" + 
-				"	UNION\n" + 
-				"SELECT\n" + 
-				"	material.id_material,\n" + 
-				"	material.nombre_material,\n" + 
-				"	'tela-entretela'\n" + 
-				"FROM\n" + 
-				"	alt_disenio_material_prenda AS material_prenda,\n" + 
-				"	alt_disenio_material AS material,\n" + 
-				"	alt_disenio_lookup adl,\n" + 
-				"	alt_disenio_lookup AS look \n" + 
-				"WHERE\n" + 
-				"	1 = 1 \n" + 
-				"	AND look.id_lookup = material.id_tipo_material\n" + 
-				"	AND (look.nombre_lookup = 'Entretela' )\n" + 
-				"	AND material.id_material = material_prenda.id_material \n" + 
-				"	AND material.id_proceso = adl.id_lookup \n" + 
-				"	AND material_prenda.id_prenda = "+id).getResultList();
+				"	AND m.nombre_material like 'Forro combinación'\n" + 
+				"	\n" ).getResultList();
 		return re;
 	}
 }

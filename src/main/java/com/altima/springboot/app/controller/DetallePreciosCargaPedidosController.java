@@ -64,6 +64,18 @@ public class DetallePreciosCargaPedidosController {
 		return "detalle-de-precios";
 	}
 
+	@GetMapping("/detalle-de-precios/expediente/{id}")
+	public String listPreciosExpediente(@PathVariable(value = "id") Long id, Model model) {
+
+		
+		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(id);
+		model.addAttribute("numPedido", pedido.getIdText());
+		model.addAttribute("listCoor", bordadoService.findAllCoordinado(id));
+
+		model.addAttribute("selectBordado", bordadoService.BordadosView(id));
+		return "detalle-de-precios";
+	}
+
 	@RequestMapping(value = "/mostrar-bordados", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object []> modelo(Long id) {

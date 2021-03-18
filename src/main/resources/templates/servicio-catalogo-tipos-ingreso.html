@@ -1,0 +1,89 @@
+<div class="small-box bg-primary">
+	<div class="inner">
+		<h3>Tipos ingreso</h3>
+		<button data-toggle="modal" data-target="#detalleTiposIngreso" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+	</div>
+	<div class="icon"> <i class="ion ion-ios-pricetags-outline"></i> </div>
+	<a class="small-box-footer">
+		<button onclick="addTiposIngreso()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+	</a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="detalleTiposIngreso" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
+		<div class="modal-content" id="contenedorTabla">
+			<div class="modal-header bg-primary">
+				<h5 class="modal-title" id="exampleModalLongTitle">Listado de ingresos <button onclick="addTiposIngreso()" class="btn btn-light btn-circle btn-sm text-primary popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                </h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+			</div>
+			<div class="modal-body">
+				<table class="table tablaServicio table-striped table-bordered" id="tabladetalleTiposIngreso" style="width:100%">
+					<thead>
+						<tr>
+							<th>Folio</th>
+							<th>Tipo de ingreso</th>
+							<th>D&iacute;as</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Folio</td>
+							<td>32</td>
+							<td>Dama</td>
+							<td class="text-center">
+								<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creación: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicación: </strong>21/02/2020"><i class="fas fa-info"></i></button>
+								<button class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="modal" data-target="#nuevaTalla" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+								<button class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
+								<button class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal agregar -->
+<div class="modal fade" id="modalTiposIngreso" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 40%;" role="document"
+        id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="tituloTiposIngreso">Nuevo tipo de inngreso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="formTiposIngreso" id="formTiposIngreso" class="row" autocomplete="off">
+					<div class="form-group col-sm-6">
+						<label for="tipoIngreso">Tipo de ingreso</label>
+						<input type="text" class="form-control" id="tipoIngreso" name="tipoIngreso" placeholder="Tipo">
+						<input type="hidden"  id="idLookupTipoIngreso" name="idLookupTipoIngreso">
+					</div>
+
+                    <div class="form-group col-sm-6">
+						<label for="diasTipoIngreso">D&iacute;as</label>
+						<input  type="number" id="diasTipoIngreso" name="diasTipoIngreso" class="form-control" placeholder="1">
+					
+					</div>
+
+                    <div class="form-group col-sm-12" role="alert" style="display: none" id="alertTiposIngreso">
+                        <h5 class="alert-heading center"><i class="fas fa-exclamation" style="color:brown"></i> Complete todos los campos</h5>
+                    </div>
+
+
+                    <div class="card-footer center">
+                        <button onclick="guardarTiposIngreso()" type="button" class="btn btn-primary btn-lg">Agregar</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-secondary btn-lg">Cancelar</button>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -73,9 +73,9 @@ public class ProduccionMaquilerosRestController {
             obj.setTelefono(telefono);
             obj.setCreadoPor(auth.getName());
             obj.setFechaCreacion(dateFormat.format(date));
+            obj.setEstatus("1");
             maquileroService.save(obj);
             obj.setIdText("MAQUI"+ fmt.format("%04d",(obj.getIdMaquilador())));
-            obj.setEstado("1");
             maquileroService.save(obj);
 
             return true;

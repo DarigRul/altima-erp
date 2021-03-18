@@ -48,8 +48,7 @@
                                 </div>
                                 <div th:insert="listado_de_requisiciones_modal"></div>
                                 <div class="card-body">
-                                    <table class="table tablaGeneralScrollMultiSearch table-striped table-bordered"
-                                        style="width: 100%;">
+                                    <table class="table tablaGeneralScrollMultiSearch table-striped table-bordered" style="width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th><input type="checkbox" id="selectAll" /></th>
@@ -71,36 +70,34 @@
                                         </thead>
                                         <tbody>
                                             <tr th:each=" material: ${materiales}">
-                                                <td class="text-center"><input type="checkbox"
-                                                        th:class="messageCheckbox"
-                                                        th:value="${material.idRequisicionAlmacenMaterial}" />
+                                                <td class="text-center"><input type="checkbox" th:class="messageCheckbox" th:value="${material.idRequisicionAlmacenMaterial}" />
                                                 </td>
                                                 <td th:text="${material.idTextRequisicion}">REQ123</td>
                                                 <td th:text="${material.fechaCreacion}"></td>
                                                 <td th:text="${material.nombreUsuario}"></td>
                                                 <td th:text="${material.idTextMaterial}">CIE001</td>
                                                 <td th:text="${material.nombreMaterial}"></td>
-                                                <td><p th:text="${material.nombreProveedor}" th:id="'nombreProveedor-'+${material.idRequisicionAlmacenMaterial}"></p></td>
-                                                <td><p th:text="${material.modelo}" th:id="'modelo-'+${material.idRequisicionAlmacenMaterial}"></p></td>
+                                                <td>
+                                                    <p th:text="${material.nombreProveedor}" th:id="'nombreProveedor-'+${material.idRequisicionAlmacenMaterial}"></p>
+                                                </td>
+                                                <td>
+                                                    <p th:text="${material.modelo}" th:id="'modelo-'+${material.idRequisicionAlmacenMaterial}"></p>
+                                                </td>
                                                 <td th:text="${material.color}">021 Blanco YKK</td>
                                                 <!-- <td></td>
                                                 <td></td> -->
                                                 <td th:text="${material.cantidad}">100</td>
                                                 <!-- <td ></td>
                                                 <td ></td> -->
-                                                <td> <button
-                                                        class="btn btn-primary btn-sm btn-circle popoverxd"
-                                                        th:attr="onclick=|cambiarProveedor('${material.idMaterial}','${material.tipo}','${material.idRequisicionAlmacenMaterial}')|"
-                                                        data-placement="top" data-content="Cambiar proveedor"
-                                                        data-target="#cambiarProveedor" data-toggle="modal"
-                                                        id="cambiarProveedor"><i class="fas fa-store"></i></button></td>
+                                                <td> <button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_LISTADO_REQUISICIONES_CAMBIAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-primary btn-sm btn-circle popoverxd"
+                                                        th:attr="onclick=|cambiarProveedor('${material.idMaterial}','${material.tipo}','${material.idRequisicionAlmacenMaterial}')|" data-placement="top" data-content="Cambiar proveedor" data-target="#cambiarProveedor"
+                                                        data-toggle="modal" id="cambiarProveedor"><i class="fas fa-store"></i></button></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="card-footer">
-                                    <button onclick="generarOrden()"
-                                        class="btn btn-sm icon-btn btn-danger text-white float-right">
+                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_LISTADO_REQUISICIONES_GENERAR_ORDEN'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="generarOrden()" class="btn btn-sm icon-btn btn-danger text-white float-right">
                                         <span
                                             class="btn-glyphicon fas fa-clipboard img-circle text-danger"></span>Generar
                                         orden de compra</button>

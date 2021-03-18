@@ -72,6 +72,13 @@ public class DisenioLookupServiceImpl implements IDisenioLookupService {
 	// 	return repository.findById(id).orElse(null);
 	// }
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional(readOnly = true)
+	public List<Object[]> findAllByMaquilero(Long idMaquilero) {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT adlfprenda.id_lookup, adlfprenda.nombre_lookup, apmf.produccion_maxima FROM alt_disenio_lookup adlfprenda INNER JOIN alt_produccion_maquilador_fprenda apmf ON apmf.id_familia_prenda=adlfprenda.id_lookup WHERE apmf.id_maquilador=:idMaquilero AND adlfprenda.estatus=1").setParameter("idMaquilero", idMaquilero).getResultList();
+	}
 	
 	
 }

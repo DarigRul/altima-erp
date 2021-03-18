@@ -1,88 +1,92 @@
 package com.altima.springboot.app.models.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "alt_produccion_maquilador")
-public class ProduccionMaquilador implements Serializable{
+public class ProduccionMaquilador implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@Column(name="id_maquilador")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
-	private Long idMaquilador;
-	
-	@Column(name="id_text")
-	private String idText;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
-	@Column(name="telefono")
+    @Id
+    @Column(name = "id_maquilador")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
+    private Long idMaquilador;
+
+    @Column(name = "id_text")
+    private String idText;
+
+    @Column(name = "telefono")
     private String telefono;
 
-    @Column(name="nombre")
-	private String nombre;
-	
-	@Column(name="estado")
-	private String estado;
-	
-	@Column(name="municipio")
+    @Column(name = "nombre")
+    private String nombre;
+
+    @Column(name = "estado")
+    private String estado;
+
+    @Column(name = "municipio")
     private String municipio;
-   
-    @Column(name="colonia")
+
+    @Column(name = "colonia")
     private String colonia;
 
-    @Column(name="calle")
+    @Column(name = "calle")
     private String calle;
-    
-    @Column(name="numero_ext")
+
+    @Column(name = "numero_ext")
     private String numeroExt;
-    
-    @Column(name="numero_int")
+
+    @Column(name = "numero_int")
     private String numeroInt;
-    
-    @Column(name="codigo_postal")
+
+    @Column(name = "codigo_postal")
     private String codigoPostal;
-    
-    @Column(name="id_ubicacion")
+
+    @Column(name = "id_ubicacion")
     private String idUbicacion;
-    
-    @Column(name="produccion_maxima")
+
+    @Column(name = "produccion_maxima")
     private String produccionMaxima;
-    
-    @Column(name="tipo")
+
+    @Column(name = "tipo")
     private String tipo;
 
-    @Column(name="descripcion")
+    @Column(name = "descripcion")
     private String descripcion;
-    
-    @Column(name="estatus")
-	private String estatus;
-    
-	
-	@Column(name="creado_por")
-	private String creadoPor;
-	
-	@Column(name="actualizado_por")
-	private String actualizadoPor;
-	
-	@Column(name="fecha_creacion")
-	private String fechaCreacion;
-	
-	@Column(name="ultima_fecha_modificacion")
-	private String ultimaFechaModificacion;
+
+    @Column(name = "estatus")
+    private String estatus;
+
+    @Column(name = "creado_por")
+    private String creadoPor;
+
+    @Column(name = "actualizado_por")
+    private String actualizadoPor;
+
+    @Column(name = "fecha_creacion")
+    private String fechaCreacion;
+
+    @Column(name = "ultima_fecha_modificacion")
+    private String ultimaFechaModificacion;
 
     public static long getSerialversionuid() {
         return serialVersionUID;
@@ -247,10 +251,5 @@ public class ProduccionMaquilador implements Serializable{
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-	
-
-	
-	
-	
 
 }

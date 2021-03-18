@@ -60,7 +60,7 @@ public class ProduccionConsumoTallaCombinacionTelaServiceImpl implements IProduc
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
-	public List<Object[]> tallas(Long id) {
+	public List<Object[]> tallas(Long id, Long idMaterial) {
 		List<Object[]> re = em.createNativeQuery(""
 				+ "SELECT\r\n" + 
 				"	talla.id_lookup,\r\n" + 
@@ -73,7 +73,7 @@ public class ProduccionConsumoTallaCombinacionTelaServiceImpl implements IProduc
 				"	AND talla.tipo_lookup = 'Talla' \r\n" + 
 				"	AND prenda.id_genero = talla.atributo_1 \r\n" + 
 				"	AND prenda.id_prenda = "+id+" \r\n" +
-				"	AND NOT EXISTS ( SELECT * FROM alt_produccion_consumo_talla_combinacion_tela AS con WHERE con.id_talla = talla.id_lookup AND con.id_prenda = "+id+" )").getResultList();
+				"	AND NOT EXISTS ( SELECT * FROM alt_produccion_consumo_talla_combinacion_tela AS con WHERE con.id_talla = talla.id_lookup AND con.id_prenda = "+id+" and con.id_material = "+idMaterial+")").getResultList();
 		return re;
 	}
 	

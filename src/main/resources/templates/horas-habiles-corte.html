@@ -16,9 +16,16 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <h1>
-                                Horas h&aacute;biles corte&nbsp;
-                                <button th:if="${(#authorization.expression('hasRole(''ROLE_PRODUCCION_HORAS_HABILES_CORTE_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="|ver(${solicitanteEmpleado}, ${auxiliarEmpleado})|"
-                                    class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-search img-circle text-altima"></span>Ver fechas</button>
+                                Horas h&aacute;biles
+                                <button
+                                    th:if="${(#authorization.expression('hasRole(''ROLE_PRODUCCION_HORAS_HABILES_CORTE_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                    th:onclick="|ver(${solicitanteEmpleado}, ${auxiliarEmpleado})|"
+                                    class="btn btn-sm icon-btn btn-altima text-white"><span
+                                        class="btn-glyphicon spancircle fas fa-search img-circle text-altima"></span>Ver
+                                    fechas</button>
+                                <botton onclick="abrirCalendario()" class="btn btn-sm icon-btn btn-altima text-white">
+                                    <span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar
+                                    calendario anual</botton>
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -39,28 +46,22 @@
                                     <h3 class="card-title">Listado</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table id ="table-horas" class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                    <table id="table-horas" class="table tablaGeneral table-striped table-bordered"
+                                        style="width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th rowspan='2' style="width:5%">Fecha</th>
-                                                <th th:colspan="3"  class="text-center" style="width:70%">Horas</th>
+                                                <th th:colspan="3" class="text-center" style="width:70%">Horas</th>
                                                 <th rowspan='2' style="width:5%">Acciones</th>
-
                                             </tr>
-
                                             <tr>
                                                 <th>Hombre</th>
-                                                <th>Adeudo</th>
+                                                <th>A favor</th>
+                                                <th>En contra</th>
                                                 <th>H&aacute;biles</th>
-
-
-                                                
                                             </tr>
-                                             
-                                         
                                         </thead>
                                         <tbody>
-                                          
                                         </tbody>
                                     </table>
                                 </div>
@@ -70,15 +71,19 @@
                 </div>
             </section>
         </div>
-        <input th:if="${(#authorization.expression('hasRole(''ROLE_PRODUCCION_HORAS_HABILES_CORTE_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEditar"  value="1">
+        <input
+            th:if="${(#authorization.expression('hasRole(''ROLE_PRODUCCION_HORAS_HABILES_CORTE_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+            type="hidden" id="rolEditar" value="1">
         <div th:insert="horas-habiles-corte-modal"></div>
         <div th:insert="navegacion-footer"></div>
     </div>
     <div th:replace="navegacion-scripts"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css"
+        rel="stylesheet" />
     <script src="dist/js/tablaGeneral.js"></script>
     <script src="dist/js/horas-habiles-corte.js"></script>
     <script th:src="@{/plugins/inputmask/min/jquery.inputmask.bundle.min.js}"></script>
-
     <script>
         $('#iProduccion').removeClass('text-altima');
         $('#menuProduccion').addClass('menu-open');

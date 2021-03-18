@@ -5,6 +5,7 @@ import com.altima.springboot.app.models.service.IAmpInventarioService;
 import com.altima.springboot.app.models.service.IComprasProveedorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ public class ComprasListaRequisicionesController {
     @Autowired
     IComprasProveedorService proveedorService;
 
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_COMPRAS-LISTADO-REQUISICIONES-LISTAR"})
     @GetMapping("/listado-de-requisiciones")
 	public String ReqMatHab(Model m) {
         m.addAttribute("materiales", ampInventarioService.findAllRequisicion());

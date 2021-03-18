@@ -86,10 +86,10 @@ public class DisenioPrendaServiceImpl implements IDisenioPrendaService {
 
 		List<Object[]> re = em.createNativeQuery(
 				"SELECT adp.id_prenda, adp.id_familia_prenda, adp.id_text, adp.id_text_prospecto, adp.numero_prenda, \r\n"
-						+ "				adp.detalle_prenda, adp.nota_especial, adp.precio_local_actual, adp.precio_local_anterior, \r\n"
-						+ "				adp.precio_foraneo_actual, adp.precio_foraneo_anterior, adp.detalle_confeccion, adp.consumo_tela, \r\n"
-						+ "				adp.consumo_forro, adp.precio, adp.id_ruta, adp.tipo_largo, adp.especificacion, adp.devolucion, \r\n"
-						+ "				adp.precio_m_prod, adp.precio_m_muestra, adp.categoria, adp.total_prendas, adp.mostrar, adp.descripcion_prenda, \r\n"
+						+ "				adp.detalle_prenda, adp.nota_especial, '' precio_local_actual, '' precio_local_anterior, \r\n"
+						+ "				'' precio_foraneo_actual, '' precio_foraneo_anterior, adp.detalle_confeccion, adp.consumo_tela, \r\n"
+						+ "				adp.consumo_forro, '' precio, adp.id_ruta, adp.tipo_largo, adp.especificacion, adp.devolucion, \r\n"
+						+ "				'' precio_m_prod, '' precio_m_muestra, adp.categoria, adp.total_prendas, adp.mostrar, adp.descripcion_prenda, \r\n"
 						+ "				adp.estatus, adp.prenda_local, adp.id_genero, adl.nombre_lookup AS 'genero' \r\n"
 						+ "			FROM alt_disenio_prenda adp INNER JOIN alt_disenio_lookup adl ON adp.id_genero = adl.id_lookup \r\n"
 						+ "			WHERE 1=1 AND adp.estatus ='1' AND id_prenda=" + id)
@@ -168,7 +168,37 @@ public class DisenioPrendaServiceImpl implements IDisenioPrendaService {
 	@Transactional(readOnly = true)
 	public List<PrendaListDTO> findAllMin() {
 		// TODO Auto-generated method stub
-		return em.createNativeQuery("SELECT adp.id_prenda,adp.id_text,adp.id_text_prospecto,adp.descripcion_prenda,adlfampre.nombre_lookup tipo_prenda,adp.prenda_local,adp.estatus_recepcion_muestra,adp.estatus,adp.mostrar,IFNULL(adp.fecha_recepcion_produccion,'Sin Fecha') AS fecha_recepcion_produccion,IFNULL(adp.fecha_devolucion_produccion,'Sin Fecha') AS fecha_devolucion_produccion FROM `alt_disenio_prenda` adp INNER JOIN alt_disenio_lookup adlfampre ON adlfampre.id_lookup=adp.id_familia_prenda",PrendaListDTO.class).getResultList();
+		return em.createNativeQuery("SELECT '' id_ruta,'' nombre_ruta,adp.id_prenda,adp.id_text,adp.id_text_prospecto,adp.descripcion_prenda,adlfampre.nombre_lookup tipo_prenda,adp.prenda_local,adp.estatus_recepcion_muestra,adp.estatus,adp.mostrar,IFNULL(adp.fecha_recepcion_produccion,'Sin Fecha') AS fecha_recepcion_produccion,IFNULL(adp.fecha_devolucion_produccion,'Sin Fecha') AS fecha_devolucion_produccion,adlfampre.atributo_2 ruta_drop FROM `alt_disenio_prenda` adp INNER JOIN alt_disenio_lookup adlfampre ON adlfampre.id_lookup=adp.id_familia_prenda",PrendaListDTO.class).getResultList();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<PrendaListDTO> findAllMinR() {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT adp.id_prenda,adp.id_text,adp.id_text_prospecto,adp.descripcion_prenda,adlfampre.nombre_lookup tipo_prenda,adp.prenda_local,adp.estatus_recepcion_muestra,adp.estatus,adp.mostrar,IFNULL(adp.fecha_recepcion_produccion,'Sin Fecha') AS fecha_recepcion_produccion,IFNULL(adp.fecha_devolucion_produccion,'Sin Fecha') AS fecha_devolucion_produccion,aplruta.nombre_lookup nombre_ruta,aplruta.id_lookup id_ruta,adlfampre.atributo_2 ruta_drop FROM `alt_disenio_prenda` adp INNER JOIN alt_disenio_lookup adlfampre ON adlfampre.id_lookup=adp.id_familia_prenda LEFT JOIN alt_produccion_lookup aplruta ON aplruta.id_lookup=adp.id_ruta where adp.estatus_recepcion_muestra='Definitivo' ",PrendaListDTO.class).getResultList();
+	}
+
+	@Override
+	public int count(Long id) {
+		// TODO Auto-generated method stub
+		String auxs = em.createNativeQuery("SELECT COUNT(*) FROM alt_disenio_prenda WHERE id_familia_prenda =" + id).getSingleResult().toString();
+		int aux = Integer.parseInt(auxs);
+		return aux ;
+	}
+
+	public int count2(Long id) {
+		String auxs = em.createNativeQuery ("SELECT COUNT(*) FROM alt_disenio_prenda WHERE id_familia_prenda =" + id +" and estatus=1 ").getSingleResult().toString();
+		int aux = Integer.parseInt(auxs);	
+		return aux + 1;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public int countRutas() {
+		// TODO Auto-generated method stub
+		return Integer.parseInt(em.createQuery("Select count(dp.idPrenda) From DisenioPrenda dp where dp.mostrar=1 and idRuta is null").getSingleResult().toString());
 	}
 	
 	

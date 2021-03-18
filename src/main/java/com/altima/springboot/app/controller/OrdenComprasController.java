@@ -7,6 +7,7 @@ import com.altima.springboot.app.models.service.IComprasProveedorService;
 import com.altima.springboot.app.repository.IComprasOrdenService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,8 @@ public class OrdenComprasController {
 	IComprasProveedorService comprasProveedorService; 
 	@Autowired
 	IComprasOrdenDetalleService comprasOrdenDetalleService;
-    
+	
+	@Secured({"ROLE_ADMINISTRADOR","ROLE_COMPRAS_ORDEN_COMPRA_LISTAR"})
     @GetMapping("/orden-de-compra")
 	public String ordenCompra(Model m) {
 		m.addAttribute("ordenes", comprasOrdenService.findAllList());

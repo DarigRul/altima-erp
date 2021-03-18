@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-	<title id="pageTitle">Telas | Altima</title>
+    <title id="pageTitle">Telas | Altima</title>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse dark-mode">
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -24,7 +25,7 @@
                         <div class="col-sm-6">
                             <h1>Telas</h1>
                         </div>
-                        <div th:insert="modal-apartado-telas"></div>
+                        <div th:insert="modal-telas-produccion"></div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a th:href="@{'/'}">Dashboard</a></li>
@@ -55,7 +56,8 @@
                                                 <th>Nombre de tela</th>
                                                 <th>Color</th>
                                                 <th>Estampado</th>
-                                                <th style="width:5%">% de encogimiento/ estiramiento</th>
+                                                <th style="width:5%">% de encogimiento/ estiramiento Largo</th>
+                                                <th style="width:5%">% de encogimiento/ estiramiento Ancho</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -65,12 +67,33 @@
                                                 <td th:text="${tela.nombreTela}">Altima</td>
                                                 <td th:text="${tela.color}">17/10/2020</td>
                                                 <td th:text="${tela.estampado}">Uriel Cuatepitzi</td>
-                                                <td th:text="${tela.pruebaEncogimiento}">2%</td>
-                                                <td class="tdcenter">
-                                                	<a class="btn btn-info btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>&nbsp;
-                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'EditarEncogimiento('+${tela.idTela}+')'" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar % encogimiento"><i class="fas fa-pen"></i></a>
+                                                <td>
+                                                    <p th:id="${tela.idTela}+'-pruebaEncogimientoLargo'"
+                                                        th:text="${tela.pruebaEncogimientoLargo}"></p>
                                                 </td>
-                                           </tr>
+                                                <td>
+                                                    <p th:id="${tela.idTela}+'-pruebaEncogimientoAncho'"
+                                                        th:text="${tela.pruebaEncogimientoAncho}"></p>
+                                                </td>
+                                                <td class="tdcenter">
+                                                    <a class="btn btn-info btn-circle btn-sm text-white popoverxd"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Ver detalles"><i
+                                                            class="fas fa-info"></i></a>&nbsp;
+                                                    <a class="btn btn-warning btn-circle btn-sm popoverxd"
+                                                        th:onclick="'EditarEncogimiento('+${tela.idTela}+')'"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Editar % encogimiento"><i
+                                                            class="fas fa-pen"></i></a>
+                                                    <a data-toggle="modal" data-target="#modalDocumento"
+                                                        th:attr="onclick=|documento('${tela.idTela}')|"
+                                                        data-placement="top" data-content="Documento"
+                                                        class="btn btn-secondary text-white btn-circle btn-sm popoverxd"><i
+                                                            class="far fa-file-pdf"></i></a>
+                                                    <!-- <input type=file
+                                                        onchange="Ftp.upload('7b8d9cf6-e21f-4ae2-a646-b329de6d6e37', this.files)" /> -->
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
@@ -84,74 +107,21 @@
             </section>
             <!-- /.content -->
         </div>
-        <!-- /.content-wrapper -->
 
         <div th:insert="navegacion-footer"></div>
     </div>
     <!-- ./wrapper -->
-
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/tablaGeneral.js"></script>
-	
-   	<script>
-	   	$('#iProduccion').removeClass('text-altima');
-		$('#navProduccion').addClass('active-altima');
-	    $('#menuProduccion').addClass('menu-open');
-		$('#navProduccionTelas').addClass('active');
-	</script>
-	
-	<script type="text/javascript">
-		function EditarEncogimiento(id){
-			
-			Swal.fire({
-		        title: 'Agregar % de encogimiento/estiramiento',
-		        html: '<div class="row">' +
-		            '<div class="form-group col-sm-12">' +
-		            '<label for="tela">% encogimiento/estiramiento</label>' +
-		            '<input type="number" class="swal2-input" id="encogimientoTela" placeholder="2">' +
-		            '</div>' +
-		            '</div>',
-		        showCancelButton: true,
-		        cancelButtonColor: '#dc3545',
-		        cancelButtonText: 'Cancelar',
-		        confirmButtonText: 'Agregar',
-		        confirmButtonColor: '#0288d1',
-		        preConfirm: (color) => {
-		            if ($('#encogimientoTela').val()=="" || $('#encogimientoTela').val()==null || $('#encogimientoTela').val()==undefined) {
-		                Swal.showValidationMessage(
-		                    `Complete todos los campos`
-		                )
-		            }
-		        }
-		    }).then((result) => {
-		        if (result.value){
-		        	var encogiTela = $('#encogimientoTela').val();
-		        	var idTela = id;
-		        	$.ajax({
-		        		method:"POST",
-		        		url:"/agregarPorcentajeEncogimiento",
-		        		data:{"_csrf": $('#token').val(),
-		        			idTela: idTela,
-		        			encogiTela: encogiTela},
-		        		success: (data) => {
-		        			Swal.fire({
-		                         position: 'center',
-		                         icon: 'success',
-		                         title: 'Insertado correctamente',
-		                         showConfirmButton: false,
-		                         timer: 1250,
-		                         onClose: () => {
-		     		            	location.reload();
-		     				  }  
-		                     })
-		        		}
-		        	})
-		        	console.log("si lo hace bien");
-		        	
-		        }
-		    });
-		}
-	</script>
+    <!-- <script src="http://Ftp.apixml.net/ftp.js"> -->
+    </script>
+    <script>
+        $('#iProduccion').removeClass('text-altima');
+        $('#navProduccion').addClass('active-altima');
+        $('#menuProduccion').addClass('menu-open');
+        $('#navProduccionTelas').addClass('active');
+    </script>
+    <script src="dist/js/produccionTelas.js"></script>
 </body>
 
 </html>

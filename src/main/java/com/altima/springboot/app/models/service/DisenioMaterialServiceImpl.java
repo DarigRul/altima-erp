@@ -17,6 +17,7 @@ import com.altima.springboot.app.repository.DisenioMaterialRepository;
 
 @Service
 public class DisenioMaterialServiceImpl implements IDisenioMaterialService {
+	
 	@Autowired
 	private DisenioMaterialRepository repository;
 	
@@ -316,5 +317,13 @@ public class DisenioMaterialServiceImpl implements IDisenioMaterialService {
 			return (int) d;
 		}
 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional(readOnly = true)
+	public List<DisenioMaterial> findByEntretela() {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT adm.*FROM alt_disenio_material adm INNER JOIN alt_disenio_lookup adl ON adl.id_lookup=adm.id_tipo_material WHERE adl.nombre_lookup LIKE 'Entretela'",DisenioMaterial.class).getResultList();
 	}
 }

@@ -35,4 +35,6 @@ public interface IProduccionLookupService {
 
 	List<Object []> listarUbicaciones();
 
+	List<ProduccionLookup> findAllByMaquilero(Long idMaquilero);
+
 }

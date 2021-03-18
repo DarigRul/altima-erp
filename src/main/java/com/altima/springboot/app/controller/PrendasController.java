@@ -86,6 +86,7 @@ public class PrendasController {
 		model.addAttribute("generos", disenioLookupService.findByTipoLookup("Familia Genero"));
 		model.addAttribute("marcadores", disenioLookupService.findByTipoLookup("Marcador"));
 		model.addAttribute("imagenesPrenda", disenioImagenPrendaService.findByPrenda(0L));
+		model.addAttribute("view", false);
 		m.put("prenda", prenda);
 		m.put("accion", "agregar");
 		m.put("nombreOriginal", "Nuevo");
@@ -128,6 +129,8 @@ public class PrendasController {
 		model.addAttribute("prenda", prenda);
 		m.put("accion", "editar");
 		m.put("disenio", disenio);
+		model.addAttribute("view", false);
+
 		m.put("nombreOriginal", prenda.getDescripcionPrenda());
 		
 		return "agregar-confirmar-prenda";
@@ -155,6 +158,7 @@ public class PrendasController {
 		model.addAttribute("prenda", prenda);
 		m.put("accion", "copiar");
 		m.put("disenio", disenio);
+		model.addAttribute("view", false);
 		
 		return "agregar-confirmar-prenda";
 	}
@@ -174,25 +178,7 @@ public class PrendasController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"")
 				.body(recurso);
 	}
-	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION"})
-	@GetMapping("regresar_prenda_produccion/{id}")
-	public String regresarPrenda(@PathVariable Long id,Model model) {
-		DisenioPrenda prenda = disenioPrendaService.findOne(id);
-		prenda.setMostrar(false);
-		prenda.setFechaDevolucionProduccion(currentDate());
-		disenioPrendaService.save(prenda);
-		return "redirect:/prendas";
-	}
 
-	@Secured({"ROLE_ADMINISTRADOR","ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION"})
-	@GetMapping("recibir_prenda_produccion/{id}")
-	public String recibirPrenda(@PathVariable Long id,Model model) {
-		DisenioPrenda prenda = disenioPrendaService.findOne(id);
-		prenda.setMostrar(true);
-		prenda.setFechaRecepcionProduccion(currentDate());
-		disenioPrendaService.save(prenda);
-		return "redirect:/prendas";
-	}
 	private String currentDate() {
         Date date = new Date();
         TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
@@ -202,4 +188,29 @@ public class PrendasController {
         return sDate;
     }
 	
+	@RequestMapping(value = "/view-prenda/{id}")
+	public String verPrenda(@PathVariable(value = "id") Long id, Model model, Map<String, Object> m) {
+		DisenioPrenda disenio = new DisenioPrenda();
+		DisenioPrenda prenda = disenioPrendaService.findOne(id);
+		model.addAttribute("prendas", disenioPrendaService.findAll());
+		model.addAttribute("tipos", disenioMaterialService.findAllFamiliaPrenda());
+		model.addAttribute("marcadores", disenioLookupService.findByTipoLookup("Marcador"));
+		model.addAttribute("prendasmarcadores", disenioPrendaMarcadorService.findByIdPrenda(id));
+		model.addAttribute("familias", disenioMaterialService.findAllFamiliaPrenda());
+		model.addAttribute("materiales", disenioMaterialService.findAllForCreate());
+		model.addAttribute("materialesPrenda", disenioMaterialService.findAllFromPrenda(id));
+		model.addAttribute("patronajes", disenioMaterialService.findLookUps());
+		model.addAttribute("patronajesPrenda", disenioMaterialService.findAllPatronajeFromPrenda(id));
+		model.addAttribute("imagenesPrenda", disenioImagenPrendaService.findByPrenda(id));
+		model.addAttribute("clientes", clienteService.findAll(null));
+		model.addAttribute("clientesPrenda", prendaClienteService.findAllByPrenda(id));
+		model.addAttribute("generos", disenioLookupService.findByTipoLookup("Familia Genero"));
+		model.addAttribute("prenda", prenda);
+		m.put("accion", "editar");
+		m.put("view", true);
+		m.put("disenio", disenio);
+		m.put("nombreOriginal", prenda.getDescripcionPrenda());
+		
+		return "agregar-confirmar-prenda";
+	}
 }

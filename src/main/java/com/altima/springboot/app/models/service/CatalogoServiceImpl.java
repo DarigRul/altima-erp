@@ -82,10 +82,10 @@ public class CatalogoServiceImpl implements ICatalogoService {
 	
 	@Override
 	@Transactional
-	public boolean findDuplicate(String Lookup,String Tipo,String atributo, String CodigoPrenda){
+	public boolean findDuplicate(String Lookup,String Tipo,String atributo, String CodigoPrenda,String ruta){
 		boolean duplicate;
 		@SuppressWarnings("unchecked")
-		List<DisenioLookup> result = em.createQuery("from DisenioLookup where nombreLookup='"+Lookup+"' and tipoLookup='"+Tipo+"' and atributo1='"+atributo+"' and descripcionLookup='"+CodigoPrenda+"'").getResultList();
+		List<DisenioLookup> result = em.createQuery("from DisenioLookup where nombreLookup='"+Lookup+"' and tipoLookup='"+Tipo+"' and atributo1='"+atributo+"' and descripcionLookup='"+CodigoPrenda+"' and atributo2=:ruta ").setParameter("ruta", ruta).getResultList();
 		if(result.isEmpty()) {
 			duplicate=false;
 		}

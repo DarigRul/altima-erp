@@ -467,7 +467,7 @@ public class GerencialComercialSolicitudController {
 		model.addAttribute("listtabla", listtabla);
 		// model.addAttribute("listSelectPrenda", listSelectPrenda);
 
-		return "/editar-pedido-coleccion";
+		return "editar-pedido-coleccion";
 	}
 
 	///////////////////////// COLECCION

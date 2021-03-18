@@ -81,7 +81,7 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 							+ "	cliente.id_cliente,\n" + "	informacion.observacion,\n"
 							+ "	montos_razon ( informacion.id_pedido_informacion ),\n" 
 							+ "	informacion.estatus,\n" + "	informacion.fecha_toma_tallas,\n"
-							+ "	config.tipo_pedido, \n" + " informacion.id_pedido ,informacion.validacion\n" + "FROM\n"
+							+ "	config.tipo_pedido, \n" + " informacion.id_pedido ,informacion.validacion ,(SELECT IFNULL(MAX(apeh.fecha) ,'Sin fecha')from alt_produccion_expediente_historico apeh WHERE apeh.id_pedido=informacion.id_pedido_informacion) fecha_c\n" + "FROM\n"
 							+ "	alt_comercial_pedido_informacion informacion\n"
 							+ "	INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente\n"
 							+ "	INNER JOIN alt_admin_configuracion_pedido config ON informacion.tipo_pedido = config.id_configuracion_pedido\n"
@@ -90,6 +90,20 @@ public class CargaPedidoServiceImpl implements ICargaPedidoService {
 							"GROUP BY\n" + "	informacion.id_pedido_informacion \n" + "ORDER BY\n"
 							+ "	informacion.fecha_creacion DESC")
 					.getResultList();
+					System.out.println("" + "SELECT\n" + "	informacion.id_pedido_informacion,\n" + "	informacion.id_text,\n" +
+
+					"	cliente.nombre,\n" + "	IFNULL( DATE( informacion.fecha_entrega ), 'Por definir' ),\n"
+					+ "	cliente.id_cliente,\n" + "	informacion.observacion,\n"
+					+ "	montos_razon ( informacion.id_pedido_informacion ),\n" 
+					+ "	informacion.estatus,\n" + "	informacion.fecha_toma_tallas,\n"
+					+ "	config.tipo_pedido, \n" + " informacion.id_pedido ,informacion.validacion, (SELECT IFNULL(MAX(apeh.fecha) ,'Sin fecha')from alt_produccion_expediente_historico apeh WHERE apeh.id_pedido=informacion.id_pedido_informacion) fecha_c \n" + "FROM\n"
+					+ "	alt_comercial_pedido_informacion informacion\n"
+					+ "	INNER JOIN alt_comercial_cliente cliente ON informacion.id_empresa = cliente.id_cliente\n"
+					+ "	INNER JOIN alt_admin_configuracion_pedido config ON informacion.tipo_pedido = config.id_configuracion_pedido\n"
+					+
+
+					"GROUP BY\n" + "	informacion.id_pedido_informacion \n" + "ORDER BY\n"
+					+ "	informacion.fecha_creacion DESC");
 		}
 		return re;
 	}

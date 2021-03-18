@@ -44,14 +44,12 @@
                             <!-- Default box -->
                             <div class="card">
                                 <div class="card-header bg-altima">
-                                    <h3 class="card-title">Listado de requisiciones&nbsp;<button
-                                            data-target="#cambiarFechaPromesa" data-toggle="modal"
-                                            class="btn btn-sm icon-btn btn-danger text-white">
+                                    <h3 class="card-title">Listado de requisiciones&nbsp;<button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_REQUISICION_TELAS_CAMBIAR_FECHA'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-target="#cambiarFechaPromesa"
+                                            data-toggle="modal" class="btn btn-sm icon-btn btn-danger text-white">
                                             <span class="btn-glyphicon fas fa-calendar img-circle text-danger"></span>F.
                                             Prom. Rec.</button>&nbsp;
-                                        <button class="btn btn-sm icon-btn btn-success text-white"
-                                            data-target="#generarOrden" data-toggle="modal" id="btnGenerarOrden"
-                                            data-backdrop="static" data-keyboard="false">
+                                        <button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_REQUISICION_TELAS_GENERAR_ORDEN'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-sm icon-btn btn-success text-white" data-target="#generarOrden"
+                                            data-toggle="modal" id="btnGenerarOrden" data-backdrop="static" data-keyboard="false">
                                             <span
                                                 class="btn-glyphicon fas fa-clipboard img-circle text-success"></span>Generar
                                             orden de compra</button>
@@ -63,8 +61,7 @@
                                     <div class="form-group">
 
                                     </div>
-                                    <table class="table requisicionTabla table-striped table-bordered display nowrap"
-                                        style="width: 100%;">
+                                    <table class="table requisicionTabla table-striped table-bordered display nowrap" style="width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th><input type="checkbox" id="selectAll"></th>
@@ -84,11 +81,10 @@
                                         </thead>
                                         <tbody>
                                             <tr th:each=" tela: ${telasFaltantes}">
-                                                <td><input th:if="${tela.estatusCompra}!='Agotada' and ${tela.estatusCompra}!='Pedida' and  ${tela.estatusComercial}!='Rechazada'"
-                                                        type="checkbox" th:class="messageCheckbox"
-                                                        th:value="${tela.idTelaFaltante}" />
-                                                    <input type="checkbox" th:disabled="${tela.estatusCompra}=='Agotada' or ${tela.estatusCompra}=='Pedida' or ${tela.estatusComercial}=='Rechazada'?true:false"
-                                                    th:if="(${tela.estatusCompra}=='Agotada' or ${tela.estatusCompra}=='Pedida') or ${tela.estatusComercial}=='Rechazada'" />
+                                                <td><input th:if="${tela.estatusCompra}!='Agotada' and ${tela.estatusCompra}!='Pedida' and  ${tela.estatusComercial}!='Rechazada'" type="checkbox" th:class="messageCheckbox" th:value="${tela.idTelaFaltante}"
+                                                    />
+                                                    <input type="checkbox" th:disabled="${tela.estatusCompra}=='Agotada' or ${tela.estatusCompra}=='Pedida' or ${tela.estatusComercial}=='Rechazada'?true:false" th:if="(${tela.estatusCompra}=='Agotada' or ${tela.estatusCompra}=='Pedida') or ${tela.estatusComercial}=='Rechazada'"
+                                                    />
                                                 </td>
                                                 <td th:text="${tela.idTextPedido}">5153</td>
                                                 <td th:text="${tela.idTextTela}">LS664</td>
@@ -102,17 +98,10 @@
                                                 <td th:text="${tela.estatusCompra}">Pedida</td>
                                                 <td th:text="${tela.estatusComercial}">Autorizada</td>
                                                 <td>
-                                                    <button
-                                                        th:disabled="${tela.estatusComercial}!='Pendiente' or ${tela.estatusCompra}!='Extemporanea'?true:false"
-                                                        class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        th:attr="onclick=|aceptarComercial('${tela.idTelaFaltante}')|"
-                                                        data-placement="top" data-content="Aceptar"
-                                                        id="aceptarComercial"><i class="fas fa-check"></i></button>
-                                                    <button
-                                                    th:disabled="${tela.estatusComercial}!='Pendiente' or ${tela.estatusCompra}!='Extemporanea'?true:false"
-                                                        class="btn btn-danger btn-sm btn-circle popoverxd"
-                                                        th:attr="onclick=|rechazarComercial('${tela.idTelaFaltante}')|"
-                                                        data-placement="top" data-content="Rechazar"><i
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_REQUISICION_TELAS_ACEPTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:disabled="${tela.estatusComercial}!='Pendiente' or ${tela.estatusCompra}!='Extemporanea'?true:false"
+                                                        class="btn btn-success btn-sm btn-circle popoverxd" th:attr="onclick=|aceptarComercial('${tela.idTelaFaltante}')|" data-placement="top" data-content="Aceptar" id="aceptarComercial"><i class="fas fa-check"></i></button>
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_REQUISICION_TELAS_RECHAZAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:disabled="${tela.estatusComercial}!='Pendiente' or ${tela.estatusCompra}!='Extemporanea'?true:false"
+                                                        class="btn btn-danger btn-sm btn-circle popoverxd" th:attr="onclick=|rechazarComercial('${tela.idTelaFaltante}')|" data-placement="top" data-content="Rechazar"><i
                                                             class="fas fa-times" id="rechazarComercial"></i></button>
                                                 </td>
                                             </tr>
@@ -135,20 +124,20 @@
     <script src="/dist/js/tablaRequisicionTelas.js"></script>
     <script th:inline="javascript">
         var telasFaltantesList = /*[[${telasFaltantes}]]*/
-        console.log(telasFaltantesList)
+            console.log(telasFaltantesList)
         $.ajax({
-        type: "GET",
-        url: "/getComercialLookupByTipo",
-        data: {
-            tipoLookup: 'iva'
-        },
-        success: function (response) {
-            response.forEach(data => {
-                $(`#selectIva`).append(`<option value='${data.atributo1}'>${data.atributo1}%</option>`)
-            });
-            $(`#selectIva`).selectpicker('refresh');
-        }
-    });
+            type: "GET",
+            url: "/getComercialLookupByTipo",
+            data: {
+                tipoLookup: 'iva'
+            },
+            success: function(response) {
+                response.forEach(data => {
+                    $(`#selectIva`).append(`<option value='${data.atributo1}'>${data.atributo1}%</option>`)
+                });
+                $(`#selectIva`).selectpicker('refresh');
+            }
+        });
     </script>
     <script src="/dist/js/requisicionTelas.js"></script>
     <script>

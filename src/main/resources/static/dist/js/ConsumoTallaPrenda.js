@@ -18,9 +18,9 @@ function materiales(s){
       	
       }
       
-      if(value=="Forro"){
+      if(value=="forro-combinacion"){
       	console.log("tea");
-      	 var url = "/consumo-talla-prenda/"+$('#id_prenda').val()+"/Forro/"+id; 
+      	 var url = "/consumo-talla-prenda/"+$('#id_prenda').val()+"/forro-combinacion/"+id; 
       	 $(location).attr('href',url);
       	
       }
@@ -33,13 +33,6 @@ function materiales(s){
       	
       }
      
-     if(value=="tela-entretela"){
-    	 
-    	 var url = "/consumo-talla-prenda/"+$('#id_prenda').val()+"/tela-entretela/"+id; 
-      	 $(location).attr('href',url);
-    	
-      	
-      }
 	   
 
 	  }
@@ -59,7 +52,7 @@ function editar_tallas(e , tipo) {
 	if (tipo==2){tipo="Forro";}
 	if (tipo==3){tipo="tela-combinacion";}
 	
-	if (tipo==4){tipo="tela-entretela";}
+	if (tipo==4){tipo="forro-combinacion";}
 	
 	if (tipo =="Tela" || tipo=="Forro"){
 	
@@ -95,7 +88,7 @@ function editar_tallas(e , tipo) {
 	})
 	$('#modalConsumoPorPrendas').modal('show'); // abrir
 	}
-	if (tipo =="tela-combinacion" || tipo=="tela-entretela"){
+	if (tipo =="tela-combinacion" || tipo=="forro-combinacion"){
 		var num_talla= e.getAttribute("num_talla");
 		var talla = e.getAttribute("id_talla");
 		var select_talla = $("#tallaConsumo2");
@@ -138,7 +131,7 @@ function tallas(tipo) {
 	if (tipo==1){tipo="tela";}
 	if (tipo==2){tipo="forro";}
 	if (tipo==3){tipo="tela-combinacion";}
-	if (tipo==4){tipo="tela-entretela";}
+	if (tipo==4){tipo="forro-combinacion";}
 	
 	if (tipo =="tela" || tipo=="forro"){
 		
@@ -146,7 +139,7 @@ function tallas(tipo) {
 	var talla = $("#tallaConsumo");
 	talla.find("option").remove();
 	$.ajax({  
-		data: { id:  $("#id_prenda").val(), tipo:tipo },
+		data: { id:  $("#id_prenda").val(), tipo:tipo, idMaterial:$("#tipo option:selected").attr("id")},
 	    method: "GET",
 	    url: "/listar-tallas-prenda",
 	    success: (data) => {
@@ -180,12 +173,13 @@ function tallas(tipo) {
 	$('#modalConsumoPorPrendas').modal('show'); // abrir
 	}
 	
-	 if (tipo =="tela-combinacion" || tipo =="tela-entretela"){
+	 if (tipo =="tela-combinacion" || tipo =="forro-combinacion"){
+		
 		
 		var talla = $("#tallaConsumo2");
 		talla.find("option").remove();
 		$.ajax({  
-			data: { id:  $("#id_prenda").val(), tipo:tipo },
+			data: { id:  $("#id_prenda").val(), tipo:tipo , idMaterial:$("#tipo option:selected").attr("id") },
 		    method: "GET",
 		    url: "/listar-tallas-prenda",
 		    success: (data) => {
@@ -224,7 +218,7 @@ function agregar(tipo) {
 	if (tipo==1){tipo="Tela";}
 	if (tipo==2){tipo="Forro";}
 	if (tipo==3){tipo="tela-combinacion";}
-	if (tipo==4){tipo="tela-entretela";}
+	if (tipo==4){tipo="forro-combinacion";}
 	
 	if (tipo =="Tela" || tipo=="Forro"){
 	 var datos= [];
@@ -288,7 +282,7 @@ function agregar(tipo) {
 			
 	  }
 	}
-	if (tipo =="tela-combinacion" || tipo =="tela-entretela"){
+	if (tipo =="tela-combinacion" || tipo =="forro-combinacion"){
 		if ( $("#largo").val() != "" &&
 			$("#ancho").val() != ""  &&
 			$("#largo").val() > 0 &&
@@ -330,7 +324,11 @@ function agregar(tipo) {
 		      });
 		}
 		else{
-			console.log("if no");
+			Swal.fire({
+				icon: 'warning',
+				title: 'Lo sentimos',
+				text: 'Complete el formulario!',
+			  })
 		}
 		
 	}
@@ -342,7 +340,7 @@ $("#largoConsumo2").change(function(){
 	var tipo =  $("#aux-tipo").val();
 	
 	if ( tipo == 3 ){tipo ="tela-combinacion"}
-	if ( tipo == 4 ){tipo ="tela-entretela"}
+	if ( tipo == 4 ){tipo ="forro-combinacion"}
 	if ( $("#tallaConsumo2").val() == null ||  $("#tallaConsumo2").val() == '' ){
 		Swal.fire({
 			  icon: 'error',

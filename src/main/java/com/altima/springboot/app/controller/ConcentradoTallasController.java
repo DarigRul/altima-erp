@@ -91,6 +91,49 @@ public class ConcentradoTallasController {
 		return "concentrado-de-tallas";
 	}
 
+	@GetMapping("/concentrado-de-tallas/expediente/{idpedido}/{idspf}")
+	public String listConcentradoTallasExpediente(Model model, @PathVariable("idpedido") Long idpedido,
+			@PathVariable(required = false) Long idspf) {
+		List<String> list = new ArrayList<>();
+		if (idspf == 0) {
+			for (Object[] d : ConcentradoTallaService.findPrendaCliente(idpedido)) {
+				list.add((String) d[1]);
+			}
+		} else {
+			for (Object[] d : ConcentradoTallaService.findPrendaCliente(idspf)) {
+				list.add((String) d[1]);
+			}
+
+		}
+		ConcentradoTallaService.genpivot(list);
+		List<String> list2 = new ArrayList<>();
+		list2.add("Empleado");
+		list2.addAll(list);
+		model.addAttribute("head", list2);
+		if (idspf == 0) {
+			model.addAttribute("prendastallas",
+					ConcentradoTallaService.findPrendaTalla2(ConcentradoTallaService.genpivot(list), idpedido));
+			model.addAttribute("empleados10", ConcentradoTallaService.findPrendaTalla3(idpedido));
+
+		} else {
+			///////// con spf
+			model.addAttribute("prendastallas",
+					ConcentradoTallaService.findPrendaTalla2(ConcentradoTallaService.genpivot(list), idpedido, idspf));
+			model.addAttribute("empleados10", ConcentradoTallaService.findPrendaTalla3(idpedido, idspf));
+
+		}
+		model.addAttribute("idpedido", idpedido);
+		if (idspf == 0) {
+			Integer spf = 0;
+			model.addAttribute("idspf", spf);
+		} else {
+			
+			model.addAttribute("idspf", idspf);
+		}
+		model.addAttribute("expediente", "true");
+		return "concentrado-de-tallas";
+	}
+
 	@GetMapping("/agregar-concentrado-de-tallas/{idpedido}")
 	public String addConcentradoTallas(Model model, @PathVariable("idpedido") Long idpedido) {
 		ComClienteEmpleadoService.findAllEmpleadosEmpresa(idpedido);

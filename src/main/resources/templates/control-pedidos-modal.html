@@ -1,0 +1,74 @@
+<!-- Modal -->
+<div class="modal fade" id="cambiarFechaPromesa" tabindex="-1"
+	role="dialog" aria-labelledby="materiaPrimaAlmacen" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-rounded-body">
+			<div class="modal-header bg-altima modal-rounded-header">
+				<h5 class="modal-title">Recepci&oacute;n de pedidos</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form th:action="@{/guardar-control-pedidos}" th:method="POST">
+				<div class="modal-body">
+
+					<div class="form-group">
+						<label for="exampleFormControlSelect1">Cliente</label> <select name="cliente"
+							class="form-control" id="exampleFormControlSelect1">
+							<option th:each="cliente : ${clientes}"
+								th:text="${cliente.Nombre}" th:value="${cliente.Nombre}" >1</option>
+
+						</select> <label for="inputPassword">Pedido</label>
+						<div class="col-sm-12">
+							<input required type="text" class="form-control"  name="pedido">
+						</div>
+
+						<label for="exampleFormControlSelect2">Modelo</label> <select name="modelo"
+							class="form-control" id="exampleFormControlSelect2">
+							<option th:each="prenda : ${prenda_modelo}"
+								th:text="${prenda[0] + ' ' + prenda[1]}"
+								th:value="${prenda[0] + '|' + prenda[1] + '|' + prenda[2]}">1</option>
+
+						</select> <label for="inputPassword">Cantidad</label>
+						<div class="col-sm-12">
+							<input required type="text" class="form-control" name="cantidad">
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="inputPassword">OP</label> <input type="text" name="orden"
+									class="form-control" >
+							</div>
+							<div class="form-group col-md-6">
+								<label for="inputPassword">Coord</label> <input required type="text" name="coordinado"
+									class="form-control" >
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<label for="inputPassword">Cve. Tela</label> <input required type="text" name="clave_tela"
+									class="form-control" >
+							</div>
+							<div class="form-group col-md-6">
+								<label for="inputPassword">Fecha Prog</label> <input required name="fecha"
+									type="date" class="form-control" >
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal"
+						class="btn icon-btn btn-danger text-white mr-auto" type="button">
+						<span
+							class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar
+					</button>
+					<button class="btn icon-btn btn-altima text-white" type="submit"
+						id="guardarFechaPromesa">
+						<span class="btn-glyphicon fas fa-check img-circle text-altima"></span>Agregar
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Modal -->

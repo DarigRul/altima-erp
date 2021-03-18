@@ -21,23 +21,26 @@ public class ProduccionConsumoTallaForro implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@Column(name="id_consumo_talla")
+	@Column(name="id_consumo")
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
 	@GenericGenerator(name="native",strategy="native")
-	private Long idConsumoTalla;
-	
-	@Column(name="id_talla")
-	private Long idTalla;
+	private Long idConsumo;
 	
 	@Column(name="id_prenda")
 	private Long idPrenda;
+
+	@Column(name="id_talla")
+	private Long idTalla;
+	 
+	@Column(name="id_material")
+	private Long idMaterial;
 	
-	@Column(name="id_tipo_largo")
-	private Long idTipoTalla;
+	@Column(name="consumo_largo")
+	private String consumoLargo;
 	
-	@Column(name="consumo")
-	private String consumo;
-	
+	@Column(name="consumo_ancho")
+	private String consumoAncho;
+
 	@Column(name="creado_por")
 	private String creadoPor;
 	
@@ -51,14 +54,28 @@ public class ProduccionConsumoTallaForro implements Serializable {
 	private String ultimaFechaModificacion;
 	
 	@Column(name="estatus")
-	private String Estatus;
+	private String estatus;
+	
+	@Column(name="id_tipo_largo")
+	private Long idTipoLargo;
+	
+	
+	
 
-	public Long getIdConsumoTalla() {
-		return idConsumoTalla;
+	public Long getIdMaterial() {
+		return idMaterial;
 	}
 
-	public void setIdConsumoTalla(Long idConsumoTalla) {
-		this.idConsumoTalla = idConsumoTalla;
+	public void setIdMaterial(Long idMaterial) {
+		this.idMaterial = idMaterial;
+	}
+
+	public Long getIdConsumo() {
+		return idConsumo;
+	}
+
+	public void setIdConsumo(Long idConsumo) {
+		this.idConsumo = idConsumo;
 	}
 
 	public Long getIdPrenda() {
@@ -69,20 +86,28 @@ public class ProduccionConsumoTallaForro implements Serializable {
 		this.idPrenda = idPrenda;
 	}
 
-	public Long getIdTipoTalla() {
-		return idTipoTalla;
+	public Long getIdTalla() {
+		return idTalla;
 	}
 
-	public void setIdTipoTalla(Long idTipoTalla) {
-		this.idTipoTalla = idTipoTalla;
+	public void setIdTalla(Long idTalla) {
+		this.idTalla = idTalla;
 	}
 
-	public String getConsumo() {
-		return consumo;
+	public String getConsumoLargo() {
+		return consumoLargo;
 	}
 
-	public void setConsumo(String consumo) {
-		this.consumo = consumo;
+	public void setConsumoLargo(String consumoLargo) {
+		this.consumoLargo = consumoLargo;
+	}
+
+	public String getConsumoAncho() {
+		return consumoAncho;
+	}
+
+	public void setConsumoAncho(String consumoAncho) {
+		this.consumoAncho = consumoAncho;
 	}
 
 	public String getCreadoPor() {
@@ -118,27 +143,22 @@ public class ProduccionConsumoTallaForro implements Serializable {
 	}
 
 	public String getEstatus() {
-		return Estatus;
+		return estatus;
 	}
 
 	public void setEstatus(String estatus) {
-		Estatus = estatus;
+		this.estatus = estatus;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	public Long getIdTalla() {
-		return idTalla;
+	public Long getIdTipoLargo() {
+		return idTipoLargo;
 	}
 
-	public void setIdTalla(Long idTalla) {
-		this.idTalla = idTalla;
+	public void setIdTipoLargo(Long idTipoLargo) {
+		this.idTipoLargo = idTipoLargo;
 	}
 	
-	
-	
-	
-
 }

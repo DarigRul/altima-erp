@@ -3,8 +3,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.altima.springboot.app.models.service.IProduccionCalendarioService;
 import org.springframework.security.core.Authentication;
@@ -17,26 +19,23 @@ public class ProduccionCalendarioRestController {
     private IProduccionCalendarioService CalendarioService;
     
     @RequestMapping(value = "/get_validar_calendario", method = RequestMethod.GET)
-	public boolean getPedidosDeCliente() {
-       
-        Date date = new Date();
-        DateFormat hourdateFormat = new SimpleDateFormat("yyyy");
-      
-        if (CalendarioService.validarAnio(hourdateFormat.format(date)) ==0){
+	public boolean getPedidosDeCliente(@RequestParam String year) {
+             
+        if (CalendarioService.validarAnio(year) ==0){
             return false;
         }else{
             return true;
         }
     }
     
-    @RequestMapping(value = "/get_crear_calendario", method = RequestMethod.GET)
-	public boolean crear() {
+    @PostMapping(value = "/post_crear_calendario")
+	public boolean crear(@RequestParam String year) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Date date = new Date();
         DateFormat hourdateFormat = new SimpleDateFormat("yyyy");
         DateFormat hourdateFormat2 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-        CalendarioService.crearCalendario(hourdateFormat.format(date)+"-"+"01-01", hourdateFormat.format(date)+"-"+"12-31",auth.getName(),hourdateFormat2.format(date));
+        CalendarioService.crearCalendario(year+"-"+"01-01", year+"-"+"12-31",auth.getName(),hourdateFormat2.format(date));
         return true;
 	}
 
