@@ -30,4 +30,6 @@ public interface IMaquilaLookupService {
 	List<Object []> listarFamiliabyMaquinaria();
 
 	List<Object []> Operaciones();
+	
+	boolean findDuplicateMaquila(String lookup, String tipo);
 }

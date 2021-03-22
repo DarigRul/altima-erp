@@ -13,8 +13,11 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.MaquilaLookup;
 import com.altima.springboot.app.models.service.IMaquilaLookupService;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,27 +43,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
-
 @CrossOrigin(origins = { "*" })
 @Controller
-public class CatalogoMaquilaController{
+public class CatalogoMaquilaController {
 
 	@Autowired
 	IMaquilaLookupService lookupService;
 
-	
-    @RequestMapping(value = { "/catalogo-maquila" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/catalogo-maquila" }, method = RequestMethod.GET)
 	public String catalogo() {
 		return "catalogo-maquila";
 	}
+
 	@RequestMapping(value = "/verificar_duplicado_maquila_lookup", method = RequestMethod.GET)
 	@ResponseBody
-	public boolean verificaduplicado(String Lookup, String Tipo,String descripcion,String atributo1, String atributo2, String atributo3 ) {
+	public boolean verificaduplicado(String Lookup, String Tipo, String descripcion, String atributo1, String atributo2,
+			String atributo3) {
 
-		return lookupService.findDuplicate(Lookup, Tipo,  descripcion, atributo1,  atributo2,  atributo3 );
+		return lookupService.findDuplicate(Lookup, Tipo, descripcion, atributo1, atributo2, atributo3);
 	}
-	//listar-catalogo-produccion
+
+	// listar-catalogo-produccion
 	@RequestMapping(value = "listar_maquila_object", method = RequestMethod.GET)
 	@ResponseBody
 	public List<MaquilaLookup> listarProveedoresColores(String Tipo) {
@@ -68,14 +71,15 @@ public class CatalogoMaquilaController{
 		return lookupService.findAllLookup(Tipo);
 	}
 
-	//listar-catalogo-produccion
+	// listar-catalogo-produccion
 	@RequestMapping(value = "listar_AFI_maquila", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object[]> AFI() {
 
 		return lookupService.listarActivos();
 	}
-	//listar-catalogo-produccion
+
+	// listar-catalogo-produccion
 	@RequestMapping(value = "listar_color_maquila", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object[]> color() {
@@ -88,27 +92,29 @@ public class CatalogoMaquilaController{
 
 		return lookupService.findOne(id);
 	}
-	//listar-catalogo-produccion por estatus
+
+	// listar-catalogo-produccion por estatus
 	@RequestMapping(value = "listar_maquila_object_estatus", method = RequestMethod.GET)
 	@ResponseBody
 	public List<MaquilaLookup> listar_maquila_object_estatus(String Tipo, String estatus) {
 		return lookupService.findAll(Tipo, estatus);
 	}
 
-	//listar-catalogo-produccion por estatus
+	// listar-catalogo-produccion por estatus
 	@RequestMapping(value = "listar_maquila_operaciones", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Object[]> listar_maquila_operaciones() {
 		return lookupService.Operaciones();
 	}
-	
+
 	@PostMapping("/guardar-lookup-maquila")
-	public String guardacatalogo(Long idLook, String nombre, String tipo , String descripcion, String atributo1, String atributo2,String atributo3) {
+	public String guardacatalogo(Long idLook, String nombre, String tipo, String descripcion, String atributo1,
+			String atributo2, String atributo3) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
 		Formatter fmt = new Formatter();
-		if (idLook == null){
+		if (idLook == null) {
 			MaquilaLookup f = new MaquilaLookup();
 			MaquilaLookup ultimoid = null;
 			try {
@@ -120,12 +126,12 @@ public class CatalogoMaquilaController{
 			}
 
 			if (ultimoid == null) {
-				f.setIdText(tipo.substring(0,3) .toUpperCase()+ "0001");
+				f.setIdText(tipo.substring(0, 3).toUpperCase() + "0001");
 			} else {
 				String str = ultimoid.getIdText();
 				String[] part = str.split("(?<=\\D)(?=\\d)");
 				Integer cont = Integer.parseInt(part[1]);
-				f.setIdText(""+tipo.substring(0,3).toUpperCase() + fmt.format("%04d", (cont + 1)));
+				f.setIdText("" + tipo.substring(0, 3).toUpperCase() + fmt.format("%04d", (cont + 1)));
 			}
 			f.setDescripcionLookup(descripcion);
 			f.setNombreLookup(StringUtils.capitalize(nombre));
@@ -137,7 +143,7 @@ public class CatalogoMaquilaController{
 			f.setAtributo2(atributo2);
 			f.setAtributo3(atributo3);
 			lookupService.save(f);
-		}else{
+		} else {
 			MaquilaLookup editar = lookupService.findOne(idLook);
 			editar.setNombreLookup(nombre);
 			editar.setDescripcionLookup(descripcion);
@@ -153,7 +159,7 @@ public class CatalogoMaquilaController{
 	}
 
 	//
-	//cambio_estatus_maquila
+	// cambio_estatus_maquila
 
 	@RequestMapping(value = "cambio_estatus_maquila", method = RequestMethod.POST)
 	@ResponseBody
@@ -175,5 +181,190 @@ public class CatalogoMaquilaController{
 	public List<Object[]> listarFamiliabyMaquinaria() {
 
 		return lookupService.listarFamiliabyMaquinaria();
+	}
+
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_LISTAR" })
+	@RequestMapping(value = "/lista-maquila", method = RequestMethod.GET)
+	@ResponseBody
+	public List<MaquilaLookup> listarlookup(String Tipo) {
+
+		return lookupService.findAllLookup(Tipo);
+
+	}
+
+	@RequestMapping(value = "/verifduplicadomaquila", method = RequestMethod.GET)
+	@ResponseBody
+	public boolean verificaduplicado(String Lookup, String Tipo, @RequestParam(required = false) String atributo,
+			String CodigoPrenda, String ruta) {
+		boolean resp;
+		System.out.println(ruta);
+		try {
+			resp = lookupService.findDuplicateMaquila(Lookup, Tipo);
+		} catch (Exception e) {
+			resp = false;
+		}
+		return resp;
+	}
+
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_EDITAR", "ROLE_DISENIO_CATALOGOS_AGREGAR" })
+	@PostMapping("/guardarcatalogomaquila")
+	public String guardacatalogo(String Descripcion, String Color, String PiezaTrazo, String FamiliaPrenda,
+			String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado, String UnidadMedida,
+			String proveedorColor, String Material, String Codigo, String CodigoPrenda, HttpServletRequest request,
+			String Marcador, String CodigoColor, String Posicion,
+			@RequestParam(required = false) MultipartFile iconocuidado, Long Idcuidado, String Simbolo,
+			String Composicion, String TipoMaterial, String CategoriaMaterial,
+			@RequestParam(required = false) MultipartFile imagen) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		Formatter fmt = new Formatter();
+
+		if (UnidadMedida != null) {
+			MaquilaLookup unidadmedida = new MaquilaLookup();
+			MaquilaLookup ultimoid = null;
+			try {
+				ultimoid = lookupService.findLastLookupByType("Unidad Medida");
+
+			} catch (Exception e) {
+
+				System.out.println(e);
+
+			}
+
+			if (ultimoid == null) {
+				unidadmedida.setIdText("UMED" + "0001");
+			} else {
+				System.out.println("Entra");
+				String str = ultimoid.getIdText();
+				String[] part = str.split("(?<=\\D)(?=\\d)");
+				Integer cont = Integer.parseInt(part[1]);
+				unidadmedida.setIdText("UMED" + fmt.format("%04d", (cont + 1)));
+			}
+
+			unidadmedida.setNombreLookup(StringUtils.capitalize(UnidadMedida));
+			unidadmedida.setTipoLookup("Unidad Medida");
+			unidadmedida.setDescripcionLookup(Simbolo);
+			unidadmedida.setCreadoPor(auth.getName());
+			unidadmedida.setFechaCreacion(dateFormat.format(date));
+			unidadmedida.setEstatus(1);
+			lookupService.save(unidadmedida);
+			return "catalogos";
+		}
+		if (Material != null) {
+			MaquilaLookup material = new MaquilaLookup();
+			MaquilaLookup ultimoid = null;
+			try {
+				ultimoid = lookupService.findLastLookupByType("Material");
+
+			} catch (Exception e) {
+
+				System.out.println(e);
+
+			}
+
+			if (ultimoid == null) {
+				material.setIdText("MAT" + "0001");
+			} else {
+				System.out.println("Entra");
+				String str = ultimoid.getIdText();
+				String[] part = str.split("(?<=\\D)(?=\\d)");
+				Integer cont = Integer.parseInt(part[1]);
+				material.setIdText("MAT" + fmt.format("%04d", (cont + 1)));
+			}
+
+			material.setNombreLookup(StringUtils.capitalize(Material));
+			material.setTipoLookup("Material");
+			// material.setNombreLookup(StringUtils.capitalize(Codigo));
+			material.setDescripcionLookup(Codigo);
+			material.setCreadoPor(auth.getName());
+			material.setFechaCreacion(dateFormat.format(date));
+			material.setEstatus(1);
+			// material.setAtributo1(TipoMaterial);
+			// material.setAtributo2(CategoriaMaterial);
+			lookupService.save(material);
+			return "catalogos";
+		}
+
+		fmt.close();
+		return "redirect:catalogos";
+
+	}
+
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_ELIMINAR" })
+	@PostMapping("/bajacatalogomaquila")
+	public String bajacatalogo(Long idcatalogo) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		MaquilaLookup catalogo2 = null;
+		catalogo2 = lookupService.findOne(idcatalogo);
+		catalogo2.setEstatus(0);
+		catalogo2.setUltimaFechaModificacion(dateFormat.format(date));
+		catalogo2.setActualizadoPor(auth.getName());
+		lookupService.save(catalogo2);
+		return "redirect:catalogos";
+
+	}
+
+	@Secured({ "ROLE_ADMINISTRADOR" })
+	@PostMapping("/reactivarcatalogomaquila")
+	@ResponseBody
+	public String reactivarcatalogo(Long idcatalogo) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		MaquilaLookup catalogo2 = null;
+		catalogo2 = lookupService.findOne(idcatalogo);
+		catalogo2.setEstatus(1);
+		catalogo2.setUltimaFechaModificacion(dateFormat.format(date));
+		catalogo2.setActualizadoPor(auth.getName());
+		lookupService.save(catalogo2);
+		return catalogo2.getTipoLookup();
+
+	}
+
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_DISENIO_CATALOGOS_EDITAR" })
+	@PostMapping("/editarcatalogomaquila")
+	public String editacatalogo(Model model, final Long idLookup, String Color, String PiezaTrazo, String FamiliaPrenda,
+			String Descripcion, String FamiliaGenero, String FamiliaComposicion, String InstruccionCuidado,
+			String UnidadMedida, String Material, String Codigo, String CodigoPrenda, String proveedor, String Marcador,
+			String CodigoColor, String Posicion, String Simbolo, String Composicion, String TipoMaterial,
+			String CategoriaMaterial, @RequestParam(required = false) MultipartFile iconocuidado,
+			@RequestParam(required = false) MultipartFile imagen) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		MaquilaLookup unidadmedida = null;
+		MaquilaLookup material = null;
+
+		if (UnidadMedida != null && idLookup > 0) {
+			unidadmedida = lookupService.findOne(idLookup);
+			unidadmedida.setNombreLookup(StringUtils.capitalize(UnidadMedida));
+			unidadmedida.setDescripcionLookup(Simbolo);
+			unidadmedida.setUltimaFechaModificacion(currentDate());
+			unidadmedida.setActualizadoPor(auth.getName());
+			lookupService.save(unidadmedida);
+			return "redirect:catalogos";
+		}
+		if (Material != null && idLookup > 0) {
+			material = lookupService.findOne(idLookup);
+			material.setNombreLookup(StringUtils.capitalize(Material));
+			material.setDescripcionLookup(Codigo);
+			material.setUltimaFechaModificacion(currentDate());
+			material.setActualizadoPor(auth.getName());
+			lookupService.save(material);
+			return "redirect:catalogos";
+		}
+
+		return "redirect:catalogos";
+	}
+
+	private String currentDate() {
+		Date date = new Date();
+		TimeZone timeZone = TimeZone.getTimeZone("America/Mexico_City");
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		hourdateFormat.setTimeZone(timeZone);
+		String sDate = hourdateFormat.format(date);
+		return sDate;
 	}
 }
