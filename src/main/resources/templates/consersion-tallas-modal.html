@@ -1,0 +1,71 @@
+<div class="modal fade" id="modalConversion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content modal-rounded-body">
+         <div class="modal-header bg-altima modal-rounded-header">
+            <h5 class="modal-title" id="exampleModalLabel">Conversaci&oacute;n de tallas</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body col-md">
+            <form>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="noPedido">No. Pedido</label>
+                        <input type="hidden" class="form-control" id="idConversionTallas" name="idConversionTallas" >
+                        <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="noPedido" name="noPedido" title="Seleccione uno.." onchange="datosPedidos(this.value)">
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="cliente">Cliente</label>
+                        <input type="text" class="form-control" id="cliente" name="cliente" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="personas">Total Personas</label>
+                        <input type="text" class="form-control" id="personas" name="personas" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="prendas">Total Prendas</label>
+                        <input type="text" class="form-control" id="prendas" name="prendas" readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="fRecepcion">F. Recepci&oacute;n</label>
+                        <input type="date" class="form-control" id="fRecepcion" name="fRecepcion"  th:disabled="${ADMIN == '0'}" >
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="fEntrega">F. Entrega</label>
+                        <input type="date" class="form-control" id="fEntrega" name="fEntrega">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="conversacion">Total Conversion</label>
+                        <input type="number" class="form-control" id="conversion" name="conversion" min="1">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="porcentaje">Porcentaje</label>
+                        <input type="text" class="form-control" id="porcentaje" name="porcentaje" readonly>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="observaciones">Observaciones</label>
+                        <textarea type="text" class="form-control" id="observaciones" name="observaciones"></textarea>
+                    </div>
+            
+                </div>
+            </form>
+         </div>
+         <div class="modal-footer modal-rounded-footer">
+            <button data-dismiss="modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
+                  class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+                  <button type="button" onclick="guardar()" class="btn btn-sm icon-btn btn-altima text-white float-right"><span
+                     class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+         </div>
+      </div>
+   </div>
+</div>

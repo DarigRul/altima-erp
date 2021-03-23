@@ -1131,13 +1131,37 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_ELIMINAR'')')})">
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_AGREGAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_EDITAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_ELIMINAR'')')})">
                             <a th:href="${'/catalogos-servicio'}" class="nav-link" id="navCatSer">
                                 <i class="nav-icon fas fa-book-open"></i>
                                 <p>Cat&aacute;logos</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_AGREGAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_EDITAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_ELIMINAR'')')})">
+                            <a th:href="${'/reporte-actividades'}" class="nav-link" id="navCatSerReporteAct">
+                                <i class="fas fa-sticky-note"></i>
+                                <p>Reporte de actividades</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_AGREGAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_EDITAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_ELIMINAR'')')})">
+                            <a th:href="${'/conversion-tallas'}" class="nav-link" id="navCatSerConversion">
+                                <i class="fas fa-exchange-alt"></i>
+                                <p>Conversi&oacute;n de tallas</p>
                             </a>
                         </li>
                     </ul>

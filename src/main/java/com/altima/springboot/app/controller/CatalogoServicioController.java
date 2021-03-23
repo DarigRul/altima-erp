@@ -64,7 +64,34 @@ public class CatalogoServicioController {
 	}
 
 
-	
+	@RequestMapping(value="/obtener_lookup_by_id", method=RequestMethod.GET)
+	@ResponseBody
+	public ServicioClienteLookup regresarLookup(Long id){
+		return servicioClienteService.findOne(id);
+	}
+
+
+
+	@RequestMapping(value="/guardar_reporte_actividades", method=RequestMethod.GET)
+	@ResponseBody
+	public boolean save(Long idProceso, String observacion){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+
+		ServicioClienteLookup obj = servicioClienteService.findOne(idProceso);
+		if ( obj.getDescripcionLookup() != observacion){
+			obj.setDescripcionLookup(observacion);
+			obj.setActualizadoPor(auth.getName());
+			obj.setUltimaFechaModificacion(dateFormat.format(date));
+			servicioClienteService.save(obj);
+			return true;
+		}
+		else{
+			return false;
+		}
+		
+	}
 	@PostMapping("/guardar_lookup_servicio_cliente")
 	public String guardacatalogo(Long idLook, String nombre, String tipo , String descripcion, String atributo1, String atributo2,String atributo3, String clave) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

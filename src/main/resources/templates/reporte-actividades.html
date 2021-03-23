@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Reporte de actividades | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <div class="wrapper">
+        <div th:insert="navegacion-nav"></div>
+        <div th:insert="navegacion-logout"></div>
+        <div th:insert="navegacion-aside"></div>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Reporte de actividades
+                                <button onclick="agregarProceso()" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo</button>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Servicio al cliente</li>
+                                <li class="breadcrumb-item active">Reporte de actividades</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Usuario</th>
+                                                <th>Fecha</th>
+                                                <th>Proceso</th>
+                                                <th>Observaci&oacute;n</th>
+                                                <th>Acciones</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="proceso:${procesostable}">
+                                                <td th:text="${proceso.idText}"></td>
+                                                <td th:text="${proceso.actualizadoPor}"></td>
+                                                <td th:text="${proceso.ultimaFechaModificacion}"></td>
+                                                <td th:text="${proceso.nombreLookup}"></td>
+                                                <td th:text="${proceso.descripcionLookup}"></td>
+                                                <td class="tdcenter">
+                                                    <botton class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="top" data-html="true"
+                                                        th:attr="data-content='<strong>Creado por: </strong>'+ ${proceso.creadoPor}  + '<br>'+
+													   '<strong>Fecha de creación: </strong>'+ ${proceso.fechaCreacion}  + '<br>'+
+													   '<strong>Modificado por: </strong>'+ ${proceso.actualizadoPor}  + '<br>'+
+													'<strong>Fecha de modicación: </strong>'+ ${proceso.ultimaFechaModificacion} + '<br>'"><i
+														class="fas fa-info fa-sm"></i> </botton>
+                                                    <button th:onclick="|editar('${proceso.idLookup}')|" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div th:insert="reporte-actividades-modal"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>    
+    <script src="dist/js/tablaGeneral.js"></script>
+    <script src="dist/js/reporteActividades.js"></script>
+    <script>
+		$('#iServicio').removeClass('text-primary');
+		$('#menuServicio').addClass('menu-open');
+		$('#navServicio').addClass('active');
+		$('#navCatSerReporteAct').addClass('active');
+       
+	</script>
+</body>
+
+</html>
