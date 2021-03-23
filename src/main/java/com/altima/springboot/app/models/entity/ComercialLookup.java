@@ -1,6 +1,9 @@
 package com.altima.springboot.app.models.entity;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -123,7 +126,11 @@ public class ComercialLookup implements Serializable{
 		this.actualizadoPor = actualizadoPor;
 	}
 
-	public String getFechaCreacion() {
+	public String getFechaCreacion() throws ParseException {
+		    Date date1=new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(fechaCreacion); 
+		    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		    String strDate= formatter.format(date1);  
+		    fechaCreacion=strDate;
 		return fechaCreacion;
 	}
 
@@ -131,7 +138,11 @@ public class ComercialLookup implements Serializable{
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public String getUltimaFechaModificacion() {
+	public String getUltimaFechaModificacion() throws ParseException {
+		 Date date1=new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(ultimaFechaModificacion); 
+		    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		    String strDate= formatter.format(date1);  
+		    ultimaFechaModificacion=strDate;
 		return ultimaFechaModificacion;
 	}
 
