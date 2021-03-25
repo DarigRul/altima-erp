@@ -40,6 +40,7 @@
                                 </div>
                                 <div class="card-body">
                                     <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                    
                                         <thead>
                                             <tr>
                                                 <th>Folio</th>
@@ -53,19 +54,24 @@
                                         </thead>
                                         <tbody>
                                             <tr th:each="proceso:${procesostable}">
-                                                <td th:text="${proceso.idText}"></td>
-                                                <td th:text="${proceso.actualizadoPor}"></td>
-                                                <td th:text="${proceso.ultimaFechaModificacion}"></td>
-                                                <td th:text="${proceso.nombreLookup}"></td>
-                                                <td th:text="${proceso.descripcionLookup}"></td>
+                                                <td th:text="${proceso[1]}"></td>
+                                                <td th:text="${proceso[2]}"></td>
+                                                <td th:text="${proceso[8]} == '' ? ${proceso[6]} : ${proceso[8]}"></td>
+                                                <td th:text="${proceso[3]}"></td>
+                                                <td th:text="${proceso[4]}"></td>
                                                 <td class="tdcenter">
-                                                    <botton class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="top" data-html="true"
-                                                        th:attr="data-content='<strong>Creado por: </strong>'+ ${proceso.creadoPor}  + '<br>'+
-													   '<strong>Fecha de creación: </strong>'+ ${proceso.fechaCreacion}  + '<br>'+
-													   '<strong>Modificado por: </strong>'+ ${proceso.actualizadoPor}  + '<br>'+
-													'<strong>Fecha de modicación: </strong>'+ ${proceso.ultimaFechaModificacion} + '<br>'"><i
-														class="fas fa-info fa-sm"></i> </botton>
-                                                    <button th:onclick="|editar('${proceso.idLookup}')|" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                    <a class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="right" data-html="true"
+                                                        th:attr="data-content='<strong>Creado por: </strong>'+ ${proceso[5]}  + '<br>'+
+													        '<strong>Fecha de creación: </strong>'+ ${proceso[6]}  + '<br>'+
+													        '<strong>Modificado por: </strong>'+ ${proceso[7]}  + '<br>'+
+													        '<strong>Fecha de modicación: </strong>'+ ${proceso[8]} + '<br>'">
+                                                        <i class="fas fa-info fa-sm"></i> 
+                                                    </a>
+                                                    
+                                                    <button th:onclick="|modalusuario('${proceso[0]}')|" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#asignacionUsuario" class="btn btn-secondary text-white btn-circle btn-sm popoverxd"
+                                                        data-container="body" data-placement="top" data-content="Asignaci&oacute;n de usuario"> <i class="fas fa-user"></i>
+                                                    </button>
+                                                    <button th:onclick="|editar('${proceso[0]}')|" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Editar"><i class="fas fa-pen"></i></button>
                                                 </td>
 
                                             </tr>
@@ -82,7 +88,8 @@
         <div th:insert="navegacion-footer"></div>
     </div>
     <div th:replace="navegacion-scripts"></div>    
-    <script src="dist/js/tablaGeneral.js"></script>
+    <script src="/dist/js/tablaGeneral.js"></script>
+    
     <script src="dist/js/reporteActividades.js"></script>
     <script>
 		$('#iServicio').removeClass('text-primary');
@@ -90,6 +97,9 @@
 		$('#navServicio').addClass('active');
 		$('#navCatSerReporteAct').addClass('active');
        
+        $('.popover-dismiss').popover({
+        trigger: 'focus'
+        })
 	</script>
 </body>
 

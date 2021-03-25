@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
        <div class="modal-content modal-rounded-body">
           <div class="modal-header bg-altima modal-rounded-header">
-             <h5 class="modal-title" id="exampleModalLabel">Conversaci&oacute;n de tallas</h5>
+             <h5 class="modal-title" id="exampleModalLabel">Observaiones</h5>
              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
              </button>
@@ -12,10 +12,11 @@
                 <div class="row">
                     <div class="form-group col-md-12">
                         <label for="noPedido">Proceso</label>
-                        <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Seleccione uno..." id="idProceso" name="idProceso" onchange="actualizarDatos(this.value)">
+                        <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Seleccione uno..." id="idProceso" name="idProceso">
 
                             <option th:each="proceso:${procesos}" th:value="${proceso.idLookup}" th:text="${proceso.nombreLookup}"> </option>
                         </select>
+                        <input type="hidden" id="idObservacionProceso" name ="idObservacionProceso">
                     </div>
  
                     <div class="form-group col-md-12">
@@ -30,9 +31,49 @@
             <button data-dismiss="modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
                 class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar
             </button>
-            <button type="button" onclick="guardar()" class="btn btn-sm icon-btn btn-altima text-white float-right"><span
+            <button id="botonGuardar" type="button" onclick="guardar()" class="btn btn-sm icon-btn btn-altima text-white float-right"><span
                       class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
         </div>
        </div>
     </div>
  </div>
+
+ <div class="modal fade" id="asignacionUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content modal-rounded-body">
+			<div class="modal-header modal-rounded-header bg-altima">
+				<h5 class="modal-title" id="exampleModalLongTitle">Asignaci&oacute;n
+					de usuario</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="form-group col-md-12">
+						<input type="hidden" value="" id="idcliente"> 
+                        <label	for="asignacionAgenteSelect">Asignar a</label> 
+                        <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Seleccione uno..." id="idUsuario" name="idUsuario">
+
+                            <option th:each="usuario:${usuarios}" th:value="${usuario[0]}" th:text="${usuario[1]}"> </option>
+                        </select>
+                        <input type="hidden" id="idObservacionProcesoAsignacion" name ="idObservacionProcesoAsignacion">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer modal-rounded-footer">
+				<button type="button" data-dismiss="modal"
+					class="btn  icon-btn btn-danger text-white mr-auto">
+					<span
+						class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar
+				</button>
+				<button id="bton_asignar" type="button" onclick="guardarUsuario()"
+					class="btn icon-btn btn-altima text-white">
+					<span
+						class="btn-glyphicon spancircle fas fa-check img-circle text-altima"></span>Asignar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
