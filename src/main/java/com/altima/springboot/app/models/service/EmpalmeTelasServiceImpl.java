@@ -30,8 +30,7 @@ public class EmpalmeTelasServiceImpl implements IEmpalmeTelasService {
 
 		re = em.createNativeQuery(
 				"SELECT COO_PRENDA.id_coordinado_prenda,PEDIDO.id_text AS id_text_pedido,PEDIDO.fecha_entrega,COO_PRENDA.programa,COOR.numero_coordinado,PRENDA.id_text AS id_text_prenda,LOOK_PRENDA.nombre_lookup AS familia_prenda,(SELECT IF (SUM(bordado.precio_bordado)=0,'A','N/A') FROM alt_comercial_prenda_bordado AS bordado WHERE bordado.id_coordinado_prenda=COO_PRENDA.id_coordinado_prenda) AS bordado,LOOK_RUTA.nombre_lookup AS ruta,(SELECT (SUM(conse.cantidad)+SUM(conse.cantidad_especial)) FROM alt_comercial_concetrado_prenda AS conse WHERE conse.id_coordinado_prenda=COO_PRENDA.id_coordinado_prenda) AS confeccion,TELA.id_text AS id_text_tela,TELA.ancho,LOOK_TELA.nombre_lookup AS familia_composicion,TELA.prueba_encogimiento_largo,TELA.estampado,CASE PEDIDO.estatus_explosion_materia_prima WHEN 0 THEN 'Faltante' WHEN 1 THEN CASE (SELECT estatus FROM alt_amp_tela_faltante WHERE id_tela=TELA.id_tela AND id_pedido=PEDIDO.id_pedido_informacion) WHEN 0 THEN 'Faltante' WHEN 1 THEN 'Faltante' WHEN 2 THEN 'Faltante' WHEN 3 THEN 'Faltante' WHEN 4 THEN 'Completo' ELSE 'Completo' END ELSE '00' END AS estatus,COO_PRENDA.folio FROM alt_comercial_pedido_informacion AS PEDIDO INNER JOIN alt_comercial_coordinado COOR ON PEDIDO.id_pedido_informacion=COOR.id_pedido INNER JOIN alt_comercial_coordinado_prenda COO_PRENDA ON COO_PRENDA.id_coordinado=COOR.id_coordinado INNER JOIN alt_disenio_prenda PRENDA ON PRENDA.id_prenda=COO_PRENDA.id_prenda INNER JOIN alt_disenio_lookup LOOK_PRENDA ON PRENDA.id_familia_prenda=LOOK_PRENDA.id_lookup LEFT JOIN alt_produccion_lookup LOOK_RUTA ON COO_PRENDA.id_ruta=LOOK_RUTA.id_lookup INNER JOIN alt_disenio_tela TELA ON COO_PRENDA.id_tela=TELA.id_tela INNER JOIN alt_disenio_lookup LOOK_TELA ON LOOK_TELA.id_lookup=TELA.id_familia_composicion INNER JOIN alt_view_apartado_telas_reporte reporte ON reporte.id_coordinado_prenda=COO_PRENDA.id_coordinado_prenda WHERE 1=1 AND PEDIDO.estatus=3 AND PEDIDO.id_text=:pedido GROUP BY reporte.id_coordinado_prenda ORDER BY PEDIDO.fecha_entrega,PEDIDO.id_text DESC",
-				ProgramarTelasListDto.class)
-				.setParameter("pedido", pedido).getResultList();
+				ProgramarTelasListDto.class).setParameter("pedido", pedido).getResultList();
 
 		return re;
 	}
@@ -89,11 +88,10 @@ public class EmpalmeTelasServiceImpl implements IEmpalmeTelasService {
 	@Transactional
 	public List<Object[]> listarByProceso(Long idProceso, String programa) {
 		List<Object[]> re = null;
-
 		re = em.createNativeQuery("" + "SELECT explosionP.id_explosion_procesos, \r\n"
 				+ "			 pedInfo.id_text AS pedido, \r\n" + "			 pedInfo.fecha_entrega,\r\n"
 				+ "			 coor.numero_coordinado,\r\n" + "			 disLook.nombre_lookup AS prenda, \r\n"
-				+ "			 prenda.descripcion_prenda, \r\n"
+				+ "			 prenda.id_text as id_text_prenda, \r\n"
 				+ "			 (SELECT IF( SUM( bordado.precio_bordado )= 0, 'A', 'N/A' )\r\n"
 				+ "				FROM alt_comercial_prenda_bordado AS bordado WHERE bordado.id_coordinado_prenda = coorPrenda.id_coordinado_prenda ) as PERSONALIZACION, \r\n"
 				+ "				LOOK_RUTA.nombre_lookup AS RUTA,\r\n"
@@ -130,7 +128,7 @@ public class EmpalmeTelasServiceImpl implements IEmpalmeTelasService {
 				+ "LEFT JOIN alt_produccion_lookup LOOK_RUTA ON coorPrenda.id_ruta = LOOK_RUTA.id_lookup\r\n"
 				+ "INNER JOIN alt_disenio_lookup LOOK_TELA ON LOOK_TELA.id_lookup = tela.id_familia_composicion\r\n"
 				+ "\r\n" + "WHERE explosionP.programa like :programa and explosionP.clave_proceso = " + idProceso
-				+ "\r\n" + "\r\n" + "GROUP BY explosionP.id_explosion_procesos").setParameter("programa", programa)
+				+ "\r\n" + "\r\n" + "GROUP BY explosionP.id_explosion_procesos ORDER BY explosionP.secuencia_proceso,prenda.id_text,tela.id_text").setParameter("programa", programa)
 				.getResultList();
 
 		return re;

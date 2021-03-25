@@ -54,7 +54,7 @@
                                     <h3 class="card-title">Historial de pedidos</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table tablaGeneral table-striped table-bordered">
+                                    <table class="tablaGeneral display compact" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>No. pedido</th>
@@ -71,7 +71,7 @@
                                                 <td>
                                                     <a th:text="${pedidos[1]}"></a>
                                                 </td>
-                                                <td th:text="${pedidos[2]}"></td>
+                                                <td th:text="${#dates.format(pedidos[2], 'dd-MM-yyyy HH:mm')}"></td>
                                                 <td th:text="${pedidos[3]}"></td>
                                                 <td th:text="${pedidos[4]}"></td>
 

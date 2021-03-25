@@ -19,7 +19,7 @@ public class HorasHabliesListDto implements Serializable{
     private float horasHombre;
     private float horasFavor;
     private float horasContra;
-    private float horasProgramadas;
+    private String horasProgramadas;
 
     public String getIdCalendarioFecha() {
         return idCalendarioFecha;
@@ -57,10 +57,10 @@ public class HorasHabliesListDto implements Serializable{
     public void setHorasContra(float horasContra) {
         this.horasContra = horasContra;
     }
-    public float getHorasProgramadas() {
+    public String getHorasProgramadas() {
         return horasProgramadas;
     }
-    public void setHorasProgramadas(float horasProgramadas) {
+    public void setHorasProgramadas(String horasProgramadas) {
         this.horasProgramadas = horasProgramadas;
-    }    
+    }     
 }

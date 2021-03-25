@@ -108,8 +108,8 @@ public class TiempoCorteRestController {
     }
 
     @RequestMapping(value="/listar_fechas_calendario", method=RequestMethod.GET)
-	public List<Object []> calendario (@RequestParam(name = "fecha1") String fecha1,@RequestParam(name = "fecha2") String fecha2){
-		return TiempoService.detallesCalendario(fecha1, fecha2);
+	public List<Object []> calendario (@RequestParam(name = "fecha1") String fecha1,@RequestParam(name = "fecha2") String fecha2,@RequestParam Long idProceso){
+		return TiempoService.detallesCalendario(fecha1, fecha2,idProceso);
     }
 
     @RequestMapping(value="/buscar_fecha_existente_por_folio", method=RequestMethod.GET)
