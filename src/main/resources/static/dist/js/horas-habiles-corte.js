@@ -45,15 +45,13 @@ function buscarFechas() {
                             '<p id="hour_favor-' + data.idCalendarioFecha + '">' + data.horasFavor.toFixed(2) + '</p>',
                             '<p id="hour_adeudo-' + data.idCalendarioFecha + '">' + data.horasContra.toFixed(2) + '</p>',
                             '<p id="hour_habi-' + data.idCalendarioFecha + '">'+ restarHoras(sumarHoras(restarHoras("" + data.horasHombre.toFixed(2) + "", "" + data.horasContra.toFixed(2) + ""),"" +data.horasFavor.toFixed(2)+ ""),"" +horasProgramadas+ "") +'</p>',
-                            '<td>  <button id="editar-' + data.idCalendarioFecha + '" onclick="editar(' + data.idCalendarioProceso + ',' + data.idCalendarioFecha + ')"  class="btn btn-warning btn-circle btn-sm"  data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-pen"></i></button> </td>  '
-
-
+                            '<td>  <button id="editar-' + data.idCalendarioFecha + '" onclick="editar(' + data.idCalendarioProceso + ',' + data.idCalendarioFecha + ',`' + data.fecha +'`)"  class="btn btn-warning btn-circle btn-sm"  data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-pen"></i></button> </td>  '
                         ]).draw(false);
                     }
                     else {
 
                         t.row.add([
-                            '<p>' + data[i][1] + '</p>',
+                            '<p>' + data.fecha + '</p>',
                             '<p id="hour_men-' + data.idCalendarioFecha + '">' + data.horasHombre.toFixed(2) + '</p>',
                             '<p id="hour_favor-' + data.idCalendarioFecha + '">' + data.horasFavor.toFixed(2) + '</p>',
                             '<p id="hour_adeudo-' + data.idCalendarioFecha + '">' + data.horasContra.toFixed(2) + '</p>',
@@ -74,7 +72,8 @@ function buscarFechas() {
     }
 }
 
-function editar(idCalendarioProceso, idCalendarioFecha) {
+function editar(idCalendarioProceso, idCalendarioFecha,fechaRegistro) {
+    $("#fechaRegistro").val(fechaRegistro);
     $('#idCalendarioProceso').val(idCalendarioProceso);
     $('#idCalendarioFecha').val(idCalendarioFecha);
     $('#horasHombre').val('');
@@ -109,6 +108,7 @@ function guardarHoras() {
     //horasHombre
     //horasAdeudo
     //horasObservaciones
+    let fechaRegistro=$("#fechaRegistro").val();
     let idProceso = $("#procesosActivos").val();
     if ($('#horasHombre').val().includes('M') ||
         $('#horasHombre').val().includes('H') ||
@@ -142,12 +142,24 @@ function guardarHoras() {
             },
             success: (data) => {
                 console.log(data)
-
+                let  fechaCalendario=$.ajax({
+                    async:false,
+                    url:'/listar_fechas_calendario',
+                    type:'get',
+                    data:{
+                        'idProceso':idProceso,
+                        'fecha1': fechaRegistro,
+                        'fecha2': fechaRegistro
+                    },
+                    dataType:"JSON"
+                    }).responseJSON;
+                console.log(fechaCalendario);
+                let horasProgramadas=formato(fechaCalendario[0][3])
                 $('#hour_men-' + $('#idCalendarioFecha').val()).text($('#horasHombre').val());
                 $('#hour_adeudo-' + $('#idCalendarioFecha').val()).text($('#horasContra').val());
                 $('#hour_favor-' + $('#idCalendarioFecha').val()).text($('#horasFavor').val());
-                $('#hour_habi-' + $('#idCalendarioFecha').val()).text('0');
-                $(`#editar-${data.idCalendarioFecha}`).attr('onclick', `editar(${data.idCalendarioProceso},${data.idCalendarioFecha})`);
+                $('#hour_habi-' + $('#idCalendarioFecha').val()).text(restarHoras(sumarHoras(restarHoras("" + data.horasHombre.toFixed(2) + "", "" + data.horasContra.toFixed(2) + ""), "" + data.horasFavor.toFixed(2) + ""), "" + horasProgramadas + ""));
+                $(`#editar-${data.idCalendarioFecha}`).attr('onclick', `editar(${data.idCalendarioProceso},${data.idCalendarioFecha},"${fechaRegistro}")`);
                 $('#detallesFecha').modal('toggle');
                 Swal.fire({
                     icon: 'success',
@@ -175,6 +187,7 @@ function editarHoras() {
     let horasFavor = $('#horasFavor').val()
     let comentarios = $('#horasObservaciones').val()
     let idProceso = $("#procesosActivos").val();
+    let fechaRegistro=$("#fechaRegistro").val();
     if ($('#horasHombre').val().includes('M') ||
         $('#horasHombre').val().includes('H') ||
         $('#horasFavor').val().includes('M') ||
@@ -217,10 +230,23 @@ function editarHoras() {
                     timer: 2000
                 }).then(function () {
                     console.log(data)
+                    let  fechaCalendario=$.ajax({
+                        async:false,
+                        url:'/listar_fechas_calendario',
+                        type:'get',
+                        data:{
+                            'idProceso':data.idProceso,
+                            'fecha1': fechaRegistro,
+                            'fecha2': fechaRegistro
+                        },
+                        dataType:"JSON"
+                        }).responseJSON;
+                    console.log(fechaCalendario);
+                    let horasProgramadas=formato(fechaCalendario[0][3])
                     $('#hour_men-' + $('#idCalendarioFecha').val()).text($('#horasHombre').val());
                     $('#hour_adeudo-' + $('#idCalendarioFecha').val()).text($('#horasContra').val());
                     $('#hour_favor-' + $('#idCalendarioFecha').val()).text($('#horasFavor').val());
-                    $('#hour_habi-' + $('#idCalendarioFecha').val()).text('0');
+                    $('#hour_habi-' + $('#idCalendarioFecha').val()).text(restarHoras(sumarHoras(restarHoras("" + data.horasHombre.toFixed(2) + "", "" + data.horasContra.toFixed(2) + ""), "" + data.horasFavor.toFixed(2) + ""), "" + horasProgramadas + ""));
                     $(`#btnEditarHoras`).attr("disabled", false);
                     $('#detallesFecha').modal('hide');
                 })
@@ -417,7 +443,7 @@ function listarTiempoProceso() {
                             '<p id="hour_favor-' + data.idCalendarioFecha + '">' + data.horasFavor.toFixed(2) + '</p>',
                             '<p id="hour_adeudo-' + data.idCalendarioFecha + '">' + data.horasContra.toFixed(2) + '</p>',
                             '<p id="hour_habi-' + data.idCalendarioFecha + '">' + restarHoras(sumarHoras(restarHoras("" + data.horasHombre.toFixed(2) + "", "" + data.horasContra.toFixed(2) + ""), "" + data.horasFavor.toFixed(2) + ""), "" + horasProgramadas + "") + '</p>',
-                            '<td>  <button id="editar-' + data.idCalendarioFecha + '" onclick="editar(' + data.idCalendarioProceso + ',' + data.idCalendarioFecha + ')"  class="btn btn-warning btn-circle btn-sm"  data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-pen"></i></button> </td>  '
+                            '<td>  <button id="editar-' + data.idCalendarioFecha + '" onclick="editar(' + data.idCalendarioProceso + ',' + data.idCalendarioFecha + ',`' + data.fecha +'`)"  class="btn btn-warning btn-circle btn-sm"  data-toggle="modal" data-target="#detalleTelas" ><i class="fas fa-pen"></i></button> </td>  '
 
 
                         ]).draw(false);
@@ -425,7 +451,7 @@ function listarTiempoProceso() {
                     else {
 
                         t.row.add([
-                            '<p>' + data[i][1] + '</p>',
+                            '<p>' + data.fecha + '</p>',
                             '<p id="hour_men-' + data.idCalendarioFecha + '">' + data.horasHombre.toFixed(2) + '</p>',
                             '<p id="hour_favor-' + data.idCalendarioFecha + '">' + data.horasFavor.toFixed(2) + '</p>',
                             '<p id="hour_adeudo-' + data.idCalendarioFecha + '">' + data.horasContra.toFixed(2) + '</p>',
