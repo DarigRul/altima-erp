@@ -54,18 +54,12 @@
                                     <h3 class="card-title">Listado de prendas</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table tablaGeneral table-striped table-bordered" style="width:100%">
+                                    <table class="tablaGeneral display compact" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Modelo</th>
                                                 <th>Descripci&oacute;n</th>
                                                 <th>Tipo</th>
-                                                <th
-                                                    sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION','ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION')">
-                                                    Estatus Producci&oacute;n</th>
-                                                <th
-                                                    sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION','ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION')">
-                                                    Fecha Recepcion</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -78,10 +72,6 @@
                                                 <td th:text="${prenda.descripcionPrenda}"></td>
                                                 <td>
                                                     <p th:text="${prenda.tipoPrenda}"></p>
-                                                </td>
-                                                <td th:text="${prenda.mostrar}==true?'Recibida':'Diseño'"></td>
-                                                <td
-                                                    th:text="${prenda.mostrar}==true?${prenda.fechaRecepcionProduccion}:${prenda.fechaDevolucionProduccion}">
                                                 </td>
                                                 <td class="tdcenter">
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
@@ -132,21 +122,6 @@
                                                         data-content="Costo prenda"
                                                         class="btn btn-altima btn-circle btn-sm popoverxd"><i
                                                             style="margin-left:-3px" class="fas fa-tshirt"></i></a>
-
-                                                    <a th:if="${prenda.mostrar}==false"
-                                                        sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_CONFIRMAR_PRODUCCION')"
-                                                        th:href="@{'/recibir_prenda_produccion/'} + ${prenda.IdPrenda}"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
-                                                        data-content="Aceptar Produccion"
-                                                        class="btn btn-success btn-circle btn-sm popoverxd"><i
-                                                            class="fas fa-clipboard-check"></i></a>
-                                                    <a th:if="${prenda.mostrar}==true"
-                                                        sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION')"
-                                                        th:href="@{'/regresar_prenda_produccion/'} + ${prenda.IdPrenda}"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
-                                                        data-content="Regresar Produccion"
-                                                        class="btn btn-error btn-danger btn-circle btn-sm popoverxd"><i
-                                                            class="fas fa-undo"></i></a>
                                                     <a sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_EDITAR')"
                                                         th:href="@{'/asignar_operaciones_prenda/'} + ${prenda.IdPrenda}"
                                                         data-container="body" data-toggle="popover" data-placement="top"
