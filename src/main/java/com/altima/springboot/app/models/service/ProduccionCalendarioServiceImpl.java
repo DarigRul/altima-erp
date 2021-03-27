@@ -45,7 +45,7 @@ public class ProduccionCalendarioServiceImpl implements IProduccionCalendarioSer
     @Override
     @Transactional
     public List<HorasHabliesListDto> mostrar_calendario(String fechaInicio, String fechaFin,Long idProceso) {
-        List<HorasHabliesListDto> re = em.createNativeQuery("SELECT apc.id_calendario_fecha,apc.fecha,IFNULL((SELECT apcp.horas_hombre FROM alt_produccion_calendario_proceso apcp WHERE apcp.id_calendario_fecha=apc.id_calendario_fecha AND apcp.id_proceso=:idProceso),00.00) AS horas_hombre,IFNULL((SELECT apcp.horas_favor FROM alt_produccion_calendario_proceso apcp WHERE apcp.id_calendario_fecha=apc.id_calendario_fecha AND apcp.id_proceso=:idProceso),00.00) AS horas_favor,IFNULL((SELECT apcp.horas_contra FROM alt_produccion_calendario_proceso apcp WHERE apcp.id_calendario_fecha=apc.id_calendario_fecha AND apcp.id_proceso=:idProceso),00.00) AS horas_contra,IFNULL((SELECT apcp.id_calendario_proceso FROM alt_produccion_calendario_proceso apcp WHERE apcp.id_calendario_fecha=apc.id_calendario_fecha AND apcp.id_proceso=:idProceso),0) AS id_calendario_proceso,IFNULL((SELECT SEC_TO_TIME(((SELECT COALESCE (SUM(exp.tiempo_proceso),0) FROM alt_produccion_explosion_procesos AS exp WHERE exp.fecha_proceso=apc.fecha AND exp.clave_proceso=:idProceso))*60)),'00.00') AS horas_programadas FROM alt_produccion_calendario apc WHERE fecha BETWEEN :fechaInicio AND :fechaFin ORDER BY apc.fecha"
+        List<HorasHabliesListDto> re = em.createNativeQuery("CALL `alt_pr_horas_habiles`(:fechaInicio, :fechaFin,:idProceso);"
         ,HorasHabliesListDto.class).setParameter("idProceso", idProceso).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
         return re;
     }

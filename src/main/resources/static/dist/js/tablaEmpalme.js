@@ -2,7 +2,7 @@ $(document).ready(function() {
     var table = $('.tableEmpalme')
         .DataTable({
             "fixedHeader": true,
-            "ordering": true,
+            "ordering": false,
             "pageLength": 5,
             "scrollX": true,
             "stateSave": true,

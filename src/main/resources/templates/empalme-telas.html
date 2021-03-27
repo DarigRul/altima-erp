@@ -91,13 +91,19 @@
                                             type="button"><span
                                                 class="btn-glyphicon fas fa-plus img-circle text-success"></span>Secuencia
                                         </button>
+                                        <button id="botonCalcularHoras" 
+                                        onclick="calcularHoras()"
+                                        class="btn btn-sm icon-btn btn-info text-white mr-auto"
+                                        type="button"><span
+                                            class="btn-glyphicon fas fa-calculator img-circle text-info"></span>Calcular
+                                    </button>
                                     </h3>
                                 </div>
                                 <div class="card-body" id="contenedor-tableEmpalme">
                                     <table class="tableEmpalme display compact" style="width: 100%;" id="tableEmpalmeId">
                                         <thead>
                                             <tr>
-                                                <th> <input type="checkbox" id="selectAll" onclick="seleccionarTodos()">
+                                                <th> <input type="checkbox" id="testSelect" onclick="seleccionarTodos()" class="">
                                                 </th>
                                                 <th>Secuencia</th>
                                                 <th>Pedido</th>

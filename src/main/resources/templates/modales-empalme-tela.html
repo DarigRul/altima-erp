@@ -72,3 +72,48 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modalCalcularHoras" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content modal-rounded-body">
+      <div class="modal-header bg-altima modal-rounded-header">
+        <h5 class="modal-title">Calcular</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="cortadores">No. de Cortadores</label>
+              <input type="number" class="form-control" id="cortadores" onchange="calcularHorasDia()">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="horasDia">Hrs. a sumar o restar x día</label>
+              <input type="number" class="form-control" id="horasDia" onchange="calcularHorasDia()">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="totalHorasDia">Total de Hrs. x dia</label>
+              <input type="number" class="form-control" id="totalHorasDia" readonly>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="sumHorasProceso">Sumatoria de horas por Proceso</label>
+              <input type="number" class="form-control" id="sumHorasProceso" readonly>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="cargaDias">Calculo de carga en dias</label>
+              <input type="number" class="form-control" id="cargaDias" readonly>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="submitCalcularCarga">Calcular</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+
+      </div>
+    </div>
+  </div>
+</div>

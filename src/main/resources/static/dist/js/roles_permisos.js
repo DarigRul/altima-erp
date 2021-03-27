@@ -45,7 +45,7 @@ function cargarSeccion() {
 			var comercial = [];
 			var logistica = [];
 			var producción = [];
-//			var servicioalcliente = [];
+			var servicioalcliente = [];
 			var usuario = [];
 			var recursoshumanos = [];
 			var requisiciones = [];
@@ -67,9 +67,9 @@ function cargarSeccion() {
 				if (data[i][0]=="Producción"){
 					producción.push(data[i][1]);
 				}
-//				if (data[i][0]=="Servicio al cliente"){
-//					servicioalcliente.push(data[i][1]);
-//				}
+				if (data[i][0]=="Servicio al cliente"){
+					servicioalcliente.push(data[i][1]);
+				}
 				if (data[i][0]=="Usuarios"){
 					usuario.push(data[i][1]);
 				}
@@ -90,7 +90,7 @@ function cargarSeccion() {
 		      Comercial: comercial,
 		      Logística: logistica,
 		      Producción: producción,
-//		      Servicioalcliente: servicioalcliente,
+		      Servicioalcliente: servicioalcliente,
 		      Usuarios: usuario,
 		      Recursoshumanos : recursoshumanos,
 			  Requisiciones : requisiciones,

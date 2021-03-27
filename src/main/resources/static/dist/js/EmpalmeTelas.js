@@ -1,6 +1,7 @@
 
 var idCoorPrenda = [];
 var idExplosionPrenda = [];
+let sumatoriaCarga = 0;
 $('#selectAll').click(function (e) {
 	if ($(this).hasClass('checkedAll')) {
 		$('.messageCheckbox').prop('checked', false);
@@ -279,7 +280,7 @@ function guardarSecuencia() {
 			},
 			complete: function () {
 				idExplosionPrenda = [];
-				$( "#selectAll" ).prop( "checked", false );
+				$("#selectAll").prop("checked", false);
 				$('#nuevaSecuencia').modal('hide');
 				listarPorProceso()
 			},
@@ -356,10 +357,10 @@ function listarPorProceso() {
 				});
 			},
 			success: (data) => {
-				let mensaje=false;
+				let mensaje = false;
+				sumatoriaCarga = 0;
 				for (i in data) {
-					mensaje=true;
-					console.log('nmz')
+					mensaje = true;
 					tableEmpalme.row.add([
 						'<td style="text-align: center; vertical-align: middle;">' +
 						'<input type="checkbox" onchange="seleccionarxUNO(' + data[i][0] + ')" class="messageCheckbox" value="' + data[i][0] + '" id="check-' + data[i][0] + '"  />' +
@@ -385,7 +386,9 @@ function listarPorProceso() {
 						'<button class="btn btn-secondary btn-circle btn-sm" onclick="fecha_proceso(this)" id="' + data[i][0] + '" fecha="' + data[i][16] + '" data-content="Fecha" > <i class="fas fa-calendar-alt"></i> </button>',
 
 					]).draw(true);
+					sumatoriaCarga += data[i][15];
 				}
+				console.log(sumatoriaCarga);
 				if (mensaje) {
 					Swal.fire({
 						position: 'center',
@@ -433,9 +436,11 @@ function seleccionarxUNO(id) {
 	}
 }
 function seleccionarTodos() {
-	if ($('#selectAll').hasClass('checkedAll')) {
+
+	if ($('#testSelect').hasClass('checkedAll')) {
+		console.log("nmz if")
 		$('.messageCheckbox').prop('checked', false);
-		$('#selectAll').removeClass('checkedAll');
+		$('#testSelect').removeClass('checkedAll');
 		$(".messageCheckbox").removeClass('checkedThis');
 		var inputElements = document.getElementsByClassName('messageCheckbox');
 		for (var i = 0; i < inputElements.length; ++i) {
@@ -445,8 +450,9 @@ function seleccionarTodos() {
 			}
 		}
 	} else {
+		console.log("nmz else")
 		$('.messageCheckbox').prop('checked', true);
-		$('#selectAll').addClass('checkedAll');
+		$('#testSelect').addClass('checkedAll');
 		$(".messageCheckbox").addClass('checkedThis');
 		var inputElements = document.getElementsByClassName('messageCheckbox');
 		for (var i = 0; i < inputElements.length; ++i) {
@@ -570,7 +576,7 @@ function sumarDias(fecha, dias) {
 }
 function verCalendario() {
 	//calendarioFechaInicio  calendarioFechaFin
-	let idProceso=$('#procesosActivos').val();
+	let idProceso = $('#procesosActivos').val();
 	var now = new Date();
 	var day = ("0" + now.getDate()).slice(-2);
 	var month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -592,7 +598,7 @@ function verCalendario() {
 		type: "GET",
 		url: "/listar_fechas_calendario",
 		data: {
-			'idProceso':idProceso,
+			'idProceso': idProceso,
 			'fecha1': $("#calendarioFechaInicio").val(),
 			'fecha2': $("#calendarioFechaFin").val()
 		},
@@ -602,9 +608,9 @@ function verCalendario() {
 			for (i in data) {
 				table.row.add([
 					data[i][0],
-					sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""),data[i][4]),
+					sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), data[i][4]),
 					formato("" + data[i][3] + ""),
-					restarHoras(sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""),data[i][4]), formato("" + data[i][3] + ""))
+					restarHoras(sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), data[i][4]), formato("" + data[i][3] + ""))
 				]).node().id = "row";
 				table.draw(false);
 			}
@@ -620,7 +626,7 @@ function verCalendario() {
 }
 
 function buscarfecha() {
-	let idProceso=$('#procesosActivos').val();
+	let idProceso = $('#procesosActivos').val();
 	var table = $('#tablaDetallesCalendario').DataTable();
 	var rows = table
 		.rows()
@@ -630,7 +636,7 @@ function buscarfecha() {
 		type: "GET",
 		url: "/listar_fechas_calendario",
 		data: {
-			'idProceso':idProceso,
+			'idProceso': idProceso,
 			'fecha1': $("#calendarioFechaInicio").val(),
 			'fecha2': $("#calendarioFechaFin").val()
 		},
@@ -641,9 +647,9 @@ function buscarfecha() {
 
 				table.row.add([
 					data[i][0],
-					sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""),data[i][4]),
+					sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), data[i][4]),
 					formato("" + data[i][3] + ""),
-					restarHoras(sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""),data[i][4]), formato("" + data[i][3] + ""))
+					restarHoras(sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), data[i][4]), formato("" + data[i][3] + ""))
 				]).node().id = "row";
 				table.draw(false);
 			}
@@ -692,7 +698,7 @@ function restarHoras(start, end) {
 function sumarHoras(start, end) {
 	let s = start.split('.');
 	let e = end.split('.');
-	let min = (parseInt(s[1]) +parseInt(e[1]));
+	let min = (parseInt(s[1]) + parseInt(e[1]));
 	let hour_carry = 0;
 	if (min < 0) {
 		min -= 60;
@@ -777,4 +783,34 @@ function listarPorPedido() {
 		});
 	}
 
+}
+
+function calcularHoras() {
+	$("#sumHorasProceso").val(sumatoriaCarga);
+	$("#modalCalcularHoras").modal("show");
+}
+
+$("#submitCalcularCarga").click(function (e) {
+	e.preventDefault();
+	let horasDia = $("#horasDia").val();
+	let cortadores = $("#cortadores").val();
+	let sumHorasProceso = $("#sumHorasProceso").val();
+	let totalHorasDia = $("#totalHorasDia").val();
+	if (cortadores.trim() === '' || horasDia.trim() === '' || sumHorasProceso.trim()===''||totalHorasDia.trim()==='') {
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Todos los campos son requeridos!',
+			showConfirmButton: true
+		});
+		return false;
+	}
+	$("#cargaDias").val((sumHorasProceso/totalHorasDia).toFixed(2));
+});
+
+function calcularHorasDia() {
+	let horasDia = $("#horasDia").val();
+	let cortadores = $("#cortadores").val();
+	if (cortadores.trim() === '' || horasDia.trim() === '') return false;
+	$("#totalHorasDia").val((cortadores * 9) + Number(horasDia));
 }
