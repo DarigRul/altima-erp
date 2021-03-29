@@ -85,23 +85,15 @@ public class ConversionTallasRestContoller {
     //marcar_incidencia_by_id
     @RequestMapping(value="/marcar_incidencia_by_id", method=RequestMethod.GET)
     public String marcarDesmarcarIncidencia (@RequestParam(name="id") Long id, @RequestParam(name="accion") String accion ){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Date date = new Date();
-		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-
         if( accion.equals("1") ){
             ServicioClienteConversionTallas edi = serviceConsesion.findOne(id);
             edi.setInsidencia("1");
-            edi.setActualizadoPor(auth.getName());
-                edi.setUltimaFechaModificacion(hourdateFormat.format(date));
             serviceConsesion.save(edi);
             return "marcado";
         }
 		else if(accion.equals("0") ){
             ServicioClienteConversionTallas edi = serviceConsesion.findOne(id);
             edi.setInsidencia("0");
-            edi.setActualizadoPor(auth.getName());
-                edi.setUltimaFechaModificacion(hourdateFormat.format(date));
             serviceConsesion.save(edi);
             return "desmarcado";
         }

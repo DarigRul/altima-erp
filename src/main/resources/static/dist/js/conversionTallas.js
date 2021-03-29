@@ -56,7 +56,7 @@ $("#conversion").change(function(){
         $("#conversion").val("");
         $("#porcentaje").val("")
     }else if ($('#prendas').val()  != ""){
-        $('#porcentaje').val( ($('#prendas').val() / $("#conversion").val()).toFixed(2))
+        $('#porcentaje').val( (( $("#conversion").val() *100) / $('#prendas').val() ).toFixed(2))
     }
 });
 function guardar(){
