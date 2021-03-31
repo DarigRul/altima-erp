@@ -195,11 +195,16 @@ public class CatalogoMaquilaController {
 	@RequestMapping(value = "/verifduplicadomaquila", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean verificaduplicado(String Lookup, String Tipo, @RequestParam(required = false) String atributo,
-			String CodigoPrenda, String ruta) {
+			String CodigoPrenda,String Descripcion) {
 		boolean resp;
-		System.out.println(ruta);
 		try {
-			resp = lookupService.findDuplicateMaquila(Lookup, Tipo);
+			if(Descripcion!=null) {
+				resp= lookupService.findDuplicateMaquila(Lookup, Tipo,Descripcion);
+
+			}else {
+				resp = lookupService.findDuplicateMaquila(Lookup, Tipo);
+
+			}
 		} catch (Exception e) {
 			resp = false;
 		}
@@ -214,7 +219,7 @@ public class CatalogoMaquilaController {
 			String Marcador, String CodigoColor, String Posicion,
 			@RequestParam(required = false) MultipartFile iconocuidado, Long Idcuidado, String Simbolo,
 			String Composicion, String TipoMaterial, String CategoriaMaterial,
-			@RequestParam(required = false) MultipartFile imagen) {
+			@RequestParam(required = false) MultipartFile imagen,String Articulo,String Marca,String Costo) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -285,7 +290,39 @@ public class CatalogoMaquilaController {
 			lookupService.save(material);
 			return "catalogos";
 		}
+		
+		if (Articulo != null) {
+			MaquilaLookup articulo = new MaquilaLookup();
+			MaquilaLookup ultimoid = null;
+			try {
+				ultimoid = lookupService.findLastLookupByType("Herramientas");
 
+			} catch (Exception e) {
+
+				System.out.println(e);
+
+			}
+
+			if (ultimoid == null) {
+				articulo.setIdText("HERRUT" + "0001");
+			} else {
+				System.out.println("Entra");
+				String str = ultimoid.getIdText();
+				String[] part = str.split("(?<=\\D)(?=\\d)");
+				Integer cont = Integer.parseInt(part[1]);
+				articulo.setIdText("HERRUT" + fmt.format("%04d", (cont + 1)));
+			}
+
+			articulo.setNombreLookup(StringUtils.capitalize(Articulo));
+			articulo.setTipoLookup("Herramientas");
+			articulo.setDescripcionLookup(Marca);
+			articulo.setAtributo1(Costo);
+			articulo.setCreadoPor(auth.getName());
+			articulo.setFechaCreacion(dateFormat.format(date));
+			articulo.setEstatus(1);
+			lookupService.save(articulo);
+			return "catalogos";
+		}
 		fmt.close();
 		return "redirect:catalogos";
 
@@ -331,11 +368,12 @@ public class CatalogoMaquilaController {
 			String UnidadMedida, String Material, String Codigo, String CodigoPrenda, String proveedor, String Marcador,
 			String CodigoColor, String Posicion, String Simbolo, String Composicion, String TipoMaterial,
 			String CategoriaMaterial, @RequestParam(required = false) MultipartFile iconocuidado,
-			@RequestParam(required = false) MultipartFile imagen) {
+			@RequestParam(required = false) MultipartFile imagen,String Articulo,String Marca,String Costo) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		MaquilaLookup unidadmedida = null;
 		MaquilaLookup material = null;
+		MaquilaLookup articulo = null;
 
 		if (UnidadMedida != null && idLookup > 0) {
 			unidadmedida = lookupService.findOne(idLookup);
@@ -353,6 +391,16 @@ public class CatalogoMaquilaController {
 			material.setUltimaFechaModificacion(currentDate());
 			material.setActualizadoPor(auth.getName());
 			lookupService.save(material);
+			return "redirect:catalogos";
+		}
+		if (Articulo != null && idLookup > 0) {
+			articulo = lookupService.findOne(idLookup);
+			articulo.setNombreLookup(StringUtils.capitalize(Articulo));
+			articulo.setDescripcionLookup(Marca);
+			articulo.setAtributo1(Costo);
+			articulo.setUltimaFechaModificacion(currentDate());
+			articulo.setActualizadoPor(auth.getName());
+			lookupService.save(articulo);
 			return "redirect:catalogos";
 		}
 

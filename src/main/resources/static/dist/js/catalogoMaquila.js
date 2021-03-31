@@ -9,11 +9,141 @@ $(document).ready(function () {
     listarMAF();
     listarMIN();
     listaroperaciones();
+    listarHerramientas();
     listarMedidas();
     listarMateriales();
-
+    
+    
 
 });
+
+function listarHerramientas() {
+
+    $.ajax({
+        method: "GET",
+        url: "/lista-maquila",
+        data: {
+            "Tipo": "Herramientas"
+        },
+        success: (data) => {
+            $('#quitar88').remove();
+            $('#contenedorTabla88').append("<div class='modal-body' id='quitar88'>" +
+                "<table class='table table-striped table-bordered' id='idtable88' style='width:100%'>" +
+                "<thead>" +
+                "<tr>" +
+                "<th>Clave</th>" +
+                "<th>Articulo</th>" +
+                "<th>Marca</th>" +
+                "<th>Costo</th>" +
+                "<th>Acciones</th>" +
+                "</tr>" +
+                "</thead>" +
+                "</table>" + "</div>");
+            var a;
+            var b = [];
+            if (rolAdmin == 1) {
+                for (i in data) {
+                    var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
+                    a = [
+                        "<tr>" +
+                        "<td>" + data[i].idText + "</td>",
+                        "<td>" + data[i].nombreLookup + "</td>",
+                        "<td>" + data[i].descripcionLookup + "</td>",
+                        "<td>" + data[i].atributo1 + "</td>",
+                        "<td class='text-center'>" +
+                        "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
+                        "<button onclick='editarHerramienta(this);' idlookup='" + data[i].idLookup + "' articulo='" + data[i].nombreLookup + "' marca='" + data[i].descripcionLookup + "'  costo='" + data[i].atributo1 + "' class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button> " +
+                        (data[i].estatus == 1 ? "<button onclick='bajarHerramienta(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                        (data[i].estatus == 0 ? "<button onclick='reactivar(" + data[i].idLookup + ")' class='btn btn-success btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-sort-up'></i></button>" : " ") +
+                        "</td>" +
+
+                        "<tr>"
+                    ];
+                    b.push(a);
+                }
+            } else {
+                for (i in data) {
+                    var creacion = data[i].actualizadoPor == null ? "" : data[i].actualizadoPor;
+                    if (data[i].estatus == 1) {
+                        a = [
+                            "<tr>" +
+                            "<td>" + data[i].idText + "</td>",
+                            "<td>" + data[i].nombreLookup + "</td>",
+                            "<td>" + data[i].descripcionLookup + "</td>",
+                            "<td>" + data[i].atributo1 + "</td>",
+                            "<td class='text-center'>" +
+                            "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>" + data[i].creadoPor + " <br /><strong>Fecha de creación:</strong> " + data[i].fechaCreacion + "<br><strong>Modificado por:</strong>" + creacion + "<br><strong>Fecha de modicación:</strong>" + data[i].ultimaFechaModificacion + "'><i class='fas fa-info'></i></button> " +
+                            (rolEditar == 1 ? "<button onclick='editarHerramienta(this);' idlookup='" + data[i].idLookup + "' nombre='" + data[i].nombreLookup + "' simbolo='" + data[i].descripcionLookup + "' class='btn btn-warning btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>" : " ") +
+                            (rolEliminar == 1 ? "<button onclick='bajarHerramienta(" + data[i].idLookup + ")' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>" : " ") +
+                            "</td>" +
+
+                            "<tr>"
+                        ];
+                        b.push(a);
+                    }
+                }
+            }
+            var tablaHerramientas = $('#idtable88').DataTable({
+                "data": b,
+                "ordering": false,
+                "pageLength": 5,
+                "responsive": true,
+                "stateSave": true,
+                "drawCallback": function() {
+                    $('.popoverxd').popover({
+                        container: 'body',
+                        trigger: 'hover'
+                    });
+                },
+                "columnDefs": [{
+                        "type": "html",
+                        "targets": '_all'
+                    },
+                    {
+                        targets: 3,
+                        className: 'dt-body-center'
+                    }
+                ],
+                "lengthMenu": [
+                    [5, 10, 25, 50, 100],
+                    [5, 10, 25, 50, 100]
+                ],
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                    "buttons": {
+                        "copy": "Copiar",
+                        "colvis": "Visibilidad"
+                    }
+                }
+            });
+            new $.fn.dataTable.FixedHeader(tablaHerramientas);
+        },
+        error: (e) => {
+
+        }
+    })
+}
 
 function listarMedidas() {
 
@@ -312,6 +442,238 @@ function reactivar(idreactivar) {
         } 
     })
 }
+///////////////////////7
+$('#detalleHerramienta').on('shown.bs.modal', function() {
+    $(document).off('focusin.modal');
+});
+function agregarHerramienta() {
+    Swal.fire({
+        title: 'Agregar herramienta y utilería',
+        html: '<div class="row">' +
+            '<div class="form-group col-sm-6">' +
+            '<label for="pedidonom">Articulo</label>' +
+            '<input type="text" class="swal2-input" id="articulo"  >' +
+            '</div>' +
+            '<div class="form-group col-sm-6">' +
+            '<label for="pedidonom">Marca</label>' +
+            '<input type="text" class="swal2-input" id="marca" >' +
+            '</div>' +
+            '<div class="form-group col-sm-6">' +
+            '<label for="pedidonom">Costo</label>' +
+            '<input type="number" min="0" class="swal2-input" id="costo"  >' +
+            '</div>' +
+            '</div>',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Agregar',
+        confirmButtonColor: '#0288d1',
+        preConfirm: (articulo, marca,costo) => {
+            if (document.getElementById("articulo").value.length < 1 || document.getElementById("marca").value.length < 1 || document.getElementById("costo").value<0 ) {
+                Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
+            }
+        }
+    }).then((result) => {
+
+        if (result.value && document.getElementById("articulo").value && document.getElementById("marca").value) {
+            var Articulo = document.getElementById("articulo").value;
+            var Marca = document.getElementById("marca").value;
+            var Costo = document.getElementById("costo").value;
+            // /////////////////
+            $.ajax({
+                type: "GET",
+                url: "/verifduplicadomaquila",
+                data: {
+                    'Lookup': Articulo,
+                    'Tipo': 'Herramientas',
+                      'Descripcion': Marca
+                     
+                }
+
+            }).done(function(data) {
+                if (data == false) {
+                    // //////////////
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/guardarcatalogomaquila",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            'Articulo': Articulo,
+                            'Marca': Marca,
+                            'Costo': Costo
+
+                        }
+
+                    }).done(function(data) {
+                        listarHerramientas();
+                    });
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Insertado correctamente',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
+
+                }
+                else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'registro duplicado no se ha insertado',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
+
+                }
+            });
+           
+        }
+       
+
+    })
+
+}
+
+
+
+function editarHerramienta(e) {
+    var descr = e.getAttribute("descripcion");
+
+
+    Swal.fire({
+        title: 'Editar herramientas y utilería',
+        html: '<div class="row">' +
+            '<div class="form-group col-sm-6">' +
+            '<label for="pedidonom">Articulo</label>' +
+            '<input type="text" value="' + e.getAttribute("articulo") + '"  class="swal2-input" id="nombreart" placeholder="Metro">' +
+            '</div>' +
+            '<div class="form-group col-sm-6">' +
+            '<label for="pedidonom">Marca</label>' +
+            '<input type="text" value="' + e.getAttribute("marca") + '"  class="swal2-input" id="marcaart" placeholder="Metro">' +
+            '</div>' +
+            '<div class="form-group col-sm-6">' +
+            '<label for="pedidonom">Costo</label>' +
+            '<input type="text" value="' + e.getAttribute("costo") + '"  class="swal2-input" id="costoart" placeholder="Metro">' +
+            '</div>' +
+            '<div class="form-group col-sm-12">' +
+
+            '<input type="hidden" value=" ' + e.getAttribute("idlookup") + ' " class="swal2-input" id="idlookup" placeholder="Parisina">' +
+            '</div>' +
+            '</div>',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Actualizar',
+        confirmButtonColor: '#0288d1',
+        preConfirm: (nombreart, marcaart) => {
+            if (document.getElementById("nombreart").value.length < 1 || document.getElementById("marcaart").value.length < 1 ||  document.getElementById("costoart").value.length < 1) {
+             
+            	Swal.showValidationMessage(
+                    `Complete todos los campos`
+                )
+            }
+        }
+    }).then((result) => {
+        if (result.value && document.getElementById("nombreart").value && document.getElementById("idlookup").value && document.getElementById("marcaart").value && document.getElementById("costoart").value) {
+            var Articulo = document.getElementById("nombreart").value;
+
+            var idLookup = document.getElementById("idlookup").value;
+            var Marca = document.getElementById("marcaart").value;
+            var Costo = document.getElementById("costoart").value;
+
+            $.ajax({
+                type: "GET",
+                url: "/verifduplicadomaquila",
+                data: {
+                  
+                    	 'Lookup': Articulo,
+                         'Tipo': 'Herramientas',
+                           'Descripcion': Marca
+                          
+
+                }
+
+            }).done(function(data) {
+                if (data == false) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/editarcatalogomaquila",
+                        data: {
+                            "_csrf": $('#token').val(),
+                            'Articulo': Articulo,
+                            'Marca': Marca,
+                            'Costo': Costo,
+                            'idLookup': idLookup
+                        }
+
+                    }).done(function(data) {
+                        listarHerramientas();
+                    });
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'editado correctamente',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
+                } 
+                else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Registro duplicado no se ha editado',
+                        showConfirmButton: false,
+                        timer: 1250
+                    })
+
+                }
+            });
+
+        } 
+    })
+}
+function bajarHerramienta(idbaja) {
+    var id = idbaja;
+    Swal.fire({
+        title: '¿Deseas dar de baja la medida?',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Dar de baja',
+        confirmButtonColor: '#0288d1',
+    }).then((result) => {
+        if (result.value && id != null) {
+
+
+            $.ajax({
+                type: "POST",
+                url: "/bajacatalogomaquila",
+                data: {
+                    "_csrf": $('#token').val(),
+                    'idcatalogo': id
+
+                }
+
+            }).done(function(data) {
+
+                listarHerramientas();
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Dada de baja correctamente',
+                showConfirmButton: false,
+                timer: 1250
+            })
+        }
+    })
+}
+////////////////////////
 
 $('#detalleMedida').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
@@ -738,6 +1100,7 @@ function bajarMaterial(idbaja) {
         } 
     })
 }
+/////////////////7
 
 function familiaOpereacion(){
     $("#idLookupfamilia").val(null);
