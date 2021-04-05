@@ -32,4 +32,6 @@ public interface IMaquilaLookupService {
 	List<Object []> Operaciones();
 	
 	boolean findDuplicateMaquila(String lookup, String tipo);
+
+	boolean findDuplicateMaquila(String lookup, String tipo, String descripcion);
 }
