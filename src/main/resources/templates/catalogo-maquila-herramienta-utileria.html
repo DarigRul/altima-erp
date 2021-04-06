@@ -1,0 +1,27 @@
+<div class="small-box bg-altima div-rounded">
+
+    <div class="inner">
+        <h3>Herramienta y utiler&iacute;a</h3>
+        <button data-toggle="modal" data-target="#detalleHerramienta" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or ${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_LISTAR'')')}" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+    </div>
+    <div class="icon">
+        <i class="flaticon3-camera-film-strip" style="top: -20px!important;"></i>
+    </div>
+    <a class="small-box-footer div-rounded-footer">
+        <button onclick="agregarHerramienta()" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or ${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_AGREGAR'')')}" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+    </a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="detalleHerramienta" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalHerramientaMobile">
+        <div class="modal-content modal-rounded-body" id="contenedorTabla88">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Herramienta y utiler&iacute;a <button onclick="agregarHerramienta()" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or ${#authorization.expression('hasRole(''ROLE_DISENIO_CATALOGOS_AGREGAR'')')}" class="btn btn-light btn-circle btn-sm popoverxd"
+                        data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus text-altima"></i></button></h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

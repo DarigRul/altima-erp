@@ -265,6 +265,20 @@ public class MaquilaLookupServiceImpl implements IMaquilaLookupService {
 		}
 		 return duplicate;
 	}
+	@Override
+	public boolean findDuplicateMaquila(String Lookup, String Tipo, String Descripcion) {
+		// TODO Auto-generated method stub
+		boolean duplicate;
+		@SuppressWarnings("unchecked")
+		List<MaquilaLookup> result = em.createQuery("from MaquilaLookup where nombreLookup='"+Lookup+"' and tipoLookup='"+Tipo+"' AND descripcionLookup='"+Descripcion+"'").getResultList();
+		if(result.isEmpty()) {
+			duplicate=false;
+		}
+		else {
+			duplicate=true;
+		}
+		 return duplicate;
+	}
 	
 	
     
