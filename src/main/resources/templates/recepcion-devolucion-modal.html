@@ -1,0 +1,84 @@
+<div class="modal fade" id="modalRecepcionDevolucion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 75%;"  role="document">
+       <div class="modal-content modal-rounded-body">
+          <div class="modal-header bg-altima modal-rounded-header">
+             <h5 class="modal-title" id="exampleModalLabel">Conversaci&oacute;n de tallas</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body col-md">
+             <form>
+                 <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="maquilero">Maquilero</label>
+                        <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="maquilero" name="maquilero" title="Seleccione uno.." onchange="listarPedidos(this.value)">
+                            <option th:each="maquilero : ${maquileros}" th:value="${maquilero[0]}" th:text="${maquilero[1]}">
+
+                            </option>
+                        </select>
+                    </div>
+                     <div class="form-group col-md-6">
+                         <label for="noPedido">No. Pedido</label>
+                         <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" id="noPedido" name="noPedido" title="Seleccione uno.." onchange="listarop(this.value)">
+                         </select>
+                     </div>
+ 
+                     <div class="form-group col-md-6">
+                         <label for="op">OP</label>
+                        <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true"  title="Seleccione uno.."  name="op" id="op" onchange="cantidadFaltantes()">
+
+                        </select>
+                     </div>
+ 
+                     <div class="form-group col-md-6">
+                         <label for="cantidad">Cantidad</label>
+                         <input type="number" class="form-control" id="cantidad" name="cantidad">
+                     </div>
+                    
+                    <div class="form-group col-sm-12">
+                        <label for="cantidadPendente">Cant. Pendiente</label>
+                        <div class="input-group mb-6">
+                            <input type="number" class="form-control" id="cantidadPendente" name="cantidadPendente" readonly>
+                            <div class="input-group-append">
+                              <button class="btn btn-sm icon-btn btn-altima text-white float-right" id="boton-add" disabled onclick="agregar()" type="button"><span class="btn-glyphicon fas fa-plus img-circle text-altima"></span>Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                     <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>No.Pedido</th>
+                                <th>OP</th>
+                                <th>Coord.</th>
+                                <th>Prenda</th>
+                                <th>Modelo</th>
+                                <th>Clave tela</th>
+                                <th>Cant. recibida</th>
+                                <th>Cant. Pendiente</th>
+                                <th>Cant. DEV.</th>
+                                <th>Rec. Total</th>
+                                <th>Detalles</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+
+                            
+                        </tbody>
+                    </table>
+                     
+             
+                 </div>
+             </form>
+          </div>
+          <div class="modal-footer modal-rounded-footer">
+             <button data-dismiss="modal" class="btn btn-sm icon-btn btn-danger text-white mr-auto" type="button"><span
+                   class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</button>
+                   <button type="button" onclick="guardar()" class="btn btn-sm icon-btn btn-altima text-white float-right"><span
+                      class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+          </div>
+       </div>
+    </div>
+ </div>
