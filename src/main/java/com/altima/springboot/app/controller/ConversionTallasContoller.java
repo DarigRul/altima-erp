@@ -26,7 +26,7 @@ public class ConversionTallasContoller {
             model.addAttribute("ADMIN", "0");
         }
         model.addAttribute("pedidos", serviceTallas.view());
-        return "consersion-tallas";
+        return "conversion-tallas";
     }
     
 }

@@ -90,8 +90,8 @@ public class ServicioClienteConversionTallasServiceImpl implements IServicioClie
         re = em.createNativeQuery(""+
         "SELECT\r\n" +
             "cliente.nombre,\r\n" +
-            "sum(reporte.numPersonas) as totalPersonas,\r\n" +
-            "SUM(reporte.Cantidad_prendas) totalPrendas,\r\n" +
+            "(SELECT COUNT(*) FROM alt_comercial_cliente_empleado acce WHERE acce.id_pedido_informacion="+id+") as totalPersonas,\r\n" +
+            "( SELECT SUM(accp.cantidad+accp.cantidad_especial) FROM alt_comercial_cliente_empleado acce INNER JOIN alt_comercial_concetrado_prenda accp ON accp.id_empleado=acce.id_empleado WHERE acce.id_pedido_informacion="+id+" ) totalPrendas,\r\n" +
             "reporte.fecha_entrega\r\n" +
         "FROM\r\n" +
             "alt_comercial_pedido_informacion as pedido\r\n" +
