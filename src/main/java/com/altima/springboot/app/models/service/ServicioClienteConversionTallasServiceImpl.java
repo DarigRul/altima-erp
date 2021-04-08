@@ -53,31 +53,30 @@ public class ServicioClienteConversionTallasServiceImpl implements IServicioClie
 	@Transactional
     public List<Object[]> view() {
         List<Object[]> re = null;
-		re = em.createNativeQuery(""+
-            "SELECT\r\n" +
-                "conversion.id_conversion_tallas,\r\n" +
-                "pedido.id_text,\r\n" +
-                "cliente.nombre,\r\n" +
-                "sum( reporte.numPersonas ) AS totalPersonas,\r\n" +
-                "SUM( reporte.Cantidad_prendas ) totalPrendas,\r\n" +
-                "conversion.fecha_recepcion,\r\n" +
-                "conversion.fecha_entrega,\r\n" +
-                "conversion.cantidad_consersion,\r\n" +
-                "conversion.observacion,\r\n" +
-                "if(conversion.insidencia = 0 , 'NO','SI'),\r\n" +
-	            "if(conversion.ultima_fecha_modificacion is null , 'Activa', 'Modificada'),\r\n" +
-                "conversion.creado_por,\r\n" +
-                "conversion.fecha_creacion,\r\n" +
-                "IFNULL(conversion.actualizado_por,''),\r\n" +
-                "IFNULL(conversion.ultima_fecha_modificacion,''),\r\n" +
-                "conversion.porcentaje\r\n" +
-            "FROM\r\n" +
-                "alt_servicio_cliente_conversion_tallas AS conversion\r\n" +
-                "INNER JOIN alt_comercial_pedido_informacion pedido ON pedido.id_pedido_informacion = conversion.id_pedido\r\n" +
-                "INNER JOIN alt_comercial_cliente cliente ON cliente.id_cliente = pedido.id_empresa\r\n" +
-                "INNER JOIN alt_view_apartado_telas_reporte reporte ON reporte.idPedido = pedido.id_pedido_informacion\r\n" +
-            " GROUP BY  pedido.id_text ORDER BY\r\n" +
-                "pedido.id_text DESC").getResultList();
+		re = em.createNativeQuery(            "SELECT\r\n" +
+        "conversion.id_conversion_tallas,\r\n" +
+        "pedido.id_text,\r\n" +
+        "cliente.nombre,\r\n" +
+        "sum( reporte.numPersonas ) AS totalPersonas,\r\n" +
+        "cast(SUM( reporte.Cantidad_prendas )as int) totalPrendas,\r\n" +
+        "DATE_FORMAT(conversion.fecha_recepcion,'%d/%m/%Y'),\r\n" +
+        "DATE_FORMAT(conversion.fecha_entrega,'%d/%m/%Y'),\r\n" +
+        "conversion.cantidad_consersion,\r\n" +
+        "conversion.observacion,\r\n" +
+        "if(conversion.insidencia = 0 , 'NO','SI'),\r\n" +
+        "if(conversion.ultima_fecha_modificacion is null , 'Activa', 'Modificada'),\r\n" +
+        "conversion.creado_por,\r\n" +
+        "DATE_FORMAT(conversion.fecha_creacion,'%d/%m/%Y %H:%i'),\r\n" +
+        "IFNULL(conversion.actualizado_por,''),\r\n" +
+        "IFNULL(DATE_FORMAT(conversion.actualizado_por,'%d/%m/%Y %H:%i'),''),\r\n" +
+        "conversion.porcentaje\r\n" +
+    "FROM\r\n" +
+        "alt_servicio_cliente_conversion_tallas AS conversion\r\n" +
+        "INNER JOIN alt_comercial_pedido_informacion pedido ON pedido.id_pedido_informacion = conversion.id_pedido\r\n" +
+        "INNER JOIN alt_comercial_cliente cliente ON cliente.id_cliente = pedido.id_empresa\r\n" +
+        "INNER JOIN alt_view_apartado_telas_reporte reporte ON reporte.idPedido = pedido.id_pedido_informacion\r\n" +
+    " GROUP BY  pedido.id_text ORDER BY\r\n" +
+        "pedido.id_text DESC").getResultList();
 
 		return re;
     }

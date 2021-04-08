@@ -44,7 +44,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Folio</th>
-                                                <th>Usuario</th>
+                                                <th>Empleado</th>
                                                 <th>Fecha</th>
                                                 <th>Proceso</th>
                                                 <th>Observaci&oacute;n</th>
@@ -69,7 +69,7 @@
                                                     </a>
                                                     
                                                     <button th:onclick="|modalusuario('${proceso[0]}')|" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#asignacionUsuario" class="btn btn-secondary text-white btn-circle btn-sm popoverxd"
-                                                        data-container="body" data-placement="top" data-content="Asignaci&oacute;n de usuario"> <i class="fas fa-user"></i>
+                                                        data-container="body" data-placement="top" data-content="Asignaci&oacute;n de Empleado"> <i class="fas fa-user"></i>
                                                     </button>
                                                     <button th:onclick="|editar('${proceso[0]}')|" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_REPORTEACTIVIDADES_EDITAR'')')})" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Editar"><i class="fas fa-pen"></i></button>
                                                 </td>

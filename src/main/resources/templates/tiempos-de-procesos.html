@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-    <title id="pageTitle">Empalme de telas | Altima</title>
+    <title id="pageTitle">Tiempos Procesos | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
@@ -29,12 +29,11 @@
                                 Tiempo de procesos
                             </h1>
                         </div>
-                        <div th:insert="empalme-telas-folio"></div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item altima">Altima</li>
                                 <li class="breadcrumb-item active">Producci&oacute;n</li>
-                                <li class="breadcrumb-item active">Empalme de telas</li>
+                                <li class="breadcrumb-item active">Tiempo de procesos</li>
                             </ol>
                         </div>
                     </div>
@@ -50,28 +49,35 @@
                             <div class="card">
                                 <div class="card-header bg-altima">
                                     <h3 class="card-title">Tiempos
-                                        <botton onclick="verCalendario()" class="btn btn-sm icon-btn btn-secondary text-white"><span class="btn-glyphicon fas fa-calendar img-circle text-secondary"></span>Fechas</botton>
                                     </h3>
                                 </div>
                                 <div class="card-body" id="contenedor-tableEmpalme">
-                                    <table class="tablaGeneral table-striped table-bordered"
-                                        style="width: 100%;" id="tableEmpalme">
+                                    <table class="tablaGeneral table-striped table-bordered" style="width: 100%;"
+                                        id="tableEmpalme">
                                         <thead>
                                             <tr>
-                                                <th>Sec.</th>
-                                                <th>Modelo</th>
-                                                <th>Prenda</th>
-                                                <th>Estampado</th>
-                                                <th>Confec.</th>
-                                                <th>OP</th>
-                                                <th>Cant. Tallas</th>
-                                                <th>Tiempo (min.)</th>
-                                                <th>Fecha</th>
-                                                <th>Detalles</th>
+                                                <th>Familia Prenda</th>
+                                                <th>Tiempo por talla</th>
+                                                <th>Tendido por prenda</th>
+                                                <th>Tendido cuadros</th>
+                                                <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
+                                            <tr th:each=" tiempo: ${tiempos}">
+                                                <td th:text="${tiempo.familiaPrenda}"></td>
+                                                <td th:id="'tiempoTalla-'+${tiempo.idLookup}" th:text="${tiempo.tiempoTalla}"></td>
+                                                <td th:id="'tiempoPrendaLisa-'+${tiempo.idLookup}" th:text="${tiempo.tiempoPrendaLisa}"></td>
+                                                <td th:id="'tiempoPrendaEstampada-'+${tiempo.idLookup}" th:text="${tiempo.tiempoPrendaEstampada}"></td>
+                                                <td> <button
+                                                        sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_PRODUCCION_TIEMPO_PROCESO_EDITAR')"
+                                                        th:onclick="|modalEditarTiempos(${tiempo.idLookup},${tiempo.idTiempoFamiliaPrenda})|"
+                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-content="Editar Tiempos"
+                                                        class="btn-success btn btn-info btn-circle btn-sm popoverxd"><i
+                                                            class="fas fa-edit"></i></button></td>
+                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -99,9 +105,5 @@
     </script>
 
 </body>
-
-<script  th:inline="javascript">
-    $('#SeleccionPrograma').modal("show");
-</script>
 
 </html>

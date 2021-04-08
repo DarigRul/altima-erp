@@ -32,9 +32,9 @@ public class ServicioClienteObservacionProcesoServiceIml implements IServicioCli
                 "lookup.nombre_lookup,\r\n" +
                 "obser.observacion,\r\n" +
                 "obser.creado_por,\r\n" +
-                "obser.fecha_creacion,\r\n" +
+                "DATE_FORMAT(obser.fecha_creacion,'%d/%m/%Y %H:%i'),\r\n" +
                 "IFNULL( obser.actualizado_por, '' ),\r\n" +
-                "IFNULL( obser.ultima_fecha_modificacion, '' )\r\n" +
+                "IFNULL( DATE_FORMAT(obser.ultima_fecha_modificacion,'%d/%m/%Y %H:%i'), '' )\r\n" +
             "FROM\r\n" +
                 "alt_servicio_cliente_observacion_proceso AS obser\r\n" +
                 "INNER JOIN alt_servicio_cliente_lookup lookup ON lookup.id_lookup = obser.id_proceso\r\n" +
