@@ -1167,6 +1167,18 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_EDITAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_AGREGAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_MARCAR'')')})">
+                            <a th:href="${'/recepcion-devolucion'}" class="nav-link" id="navCatSerRecepcionDevolucion">
+                                <i class="fas fa-sync"></i>
+                                <p>Recepci&oacute;n-Devoluci&oacute;n</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item has-treeview" id="menuRH" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
               (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS'')')})">

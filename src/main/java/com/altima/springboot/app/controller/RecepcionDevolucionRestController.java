@@ -33,8 +33,76 @@ public class RecepcionDevolucionRestController {
 		return devolucionService.op(idPedido, idMaquilero);
 	}
 
+    @RequestMapping(value = "/detalles_recepcion_devolucion", method = RequestMethod.GET)
+	public List<Object[]> detalles(@RequestParam(name = "idMaquilero") Long idMaquilero,@RequestParam(name = "num_movimiento") Long num_movimiento ) {
+		return devolucionService.view(idMaquilero, num_movimiento);
+	}
+
+    @RequestMapping(value = "/detalles_historico_recepcion_devolucion", method = RequestMethod.GET)
+	public List<Object[]> historico(@RequestParam(name = "idMaquilero") Long idMaquilero,@RequestParam(name = "num_movimiento") Long num_movimiento ) {
+		return devolucionService.viewHistorico(idMaquilero, num_movimiento);
+	}
+
+    @RequestMapping(value = "/numero_movimiento_recepcion", method = RequestMethod.GET)
+	public String nmu() {
+		return devolucionService.num_movimiento();
+	}
+
+    //
+    @RequestMapping(value = "/guardar_recibir_by_id", method = RequestMethod.GET)
+	public List<Object[]>  recibir (Long id, String pendiente,String recibido, String cantidad) {
+
+         Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        ServicioClienteRecepcionDevolucion obj = devolucionService.findOne(id);
+        obj.setPendiente(pendiente);
+        obj.setRecibida(recibido);
+        devolucionService.save(obj);
+        ServicioClienteRecepcionDevolucionHistorico his = new ServicioClienteRecepcionDevolucionHistorico ();
+        his.setIdRecepcionDevolucion(id);
+        his.setCantidad(cantidad);
+        his.setMovimiento("Recepción");
+        his.setFecha(hourdateFormat.format(date));
+        devolucionService.savehistorico(his);
+		return devolucionService.view(Long.parseLong(obj.getIdMaquilero()), Long.parseLong(obj.getNumMovimiento()));
+	}
+
+    @RequestMapping(value = "/guardar_devolver_by_id", method = RequestMethod.GET)
+	public List<Object[]>  deolver (Long id, String recibido,String cantidad, String dev) {
+        Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        ServicioClienteRecepcionDevolucion obj = devolucionService.findOne(id);
+        obj.setRecibida(recibido);
+        obj.setDev(dev);
+        devolucionService.save(obj);
+        ServicioClienteRecepcionDevolucionHistorico his = new ServicioClienteRecepcionDevolucionHistorico ();
+        his.setIdRecepcionDevolucion(id);
+        his.setCantidad(cantidad);
+        his.setMovimiento("Devolución");
+        his.setFecha(hourdateFormat.format(date));
+        devolucionService.savehistorico(his);
+		return devolucionService.view(Long.parseLong(obj.getIdMaquilero()), Long.parseLong(obj.getNumMovimiento()));
+	}
+    //
+    @RequestMapping(value = "/guardar_recibir_devolucion_by_id", method = RequestMethod.GET)
+	public List<Object[]>  recibir_devolucion (Long id, String recibido,String cantidad, String dev) {
+        Date date = new Date();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        ServicioClienteRecepcionDevolucion obj = devolucionService.findOne(id);
+        obj.setRecibida(recibido);
+        obj.setDev(dev);
+        devolucionService.save(obj);
+        ServicioClienteRecepcionDevolucionHistorico his = new ServicioClienteRecepcionDevolucionHistorico ();
+        his.setIdRecepcionDevolucion(id);
+        his.setCantidad(cantidad);
+        his.setMovimiento("Recepción de devolución");
+        his.setFecha(hourdateFormat.format(date));
+        devolucionService.savehistorico(his);
+		return devolucionService.view(Long.parseLong(obj.getIdMaquilero()), Long.parseLong(obj.getNumMovimiento()));
+	}
+
     @RequestMapping(value = "/guardar_recepcion_devolucion", method = RequestMethod.GET)
-	public boolean save(String idOp, String idMaquilero, String recibida, String pendiente ) {
+	public List<Object[]> save(String idOp, String idMaquilero, String recibida, String pendiente, String num) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Date date = new Date();
@@ -44,16 +112,18 @@ public class RecepcionDevolucionRestController {
         obj.setIdMaquilero(idMaquilero);
         obj.setIdOp(idOp);
         obj.setRecibida(recibida);
+        obj.setNumMovimiento(num);
+        obj.setPendiente(pendiente);
+        obj.setDev("0");
         devolucionService.save(obj);
-        System.out.println("----->"+obj.getIdRecepcionDevolucion());
         ServicioClienteRecepcionDevolucionHistorico his = new ServicioClienteRecepcionDevolucionHistorico ();
         his.setIdRecepcionDevolucion(obj.getIdRecepcionDevolucion());
-        his.setIdHistorico(obj.getIdRecepcionDevolucion());
+      
         his.setCantidad(recibida);
         his.setMovimiento("Recepción");
         his.setFecha(hourdateFormat.format(date));
         devolucionService.savehistorico(his);
-        return false;
+        return devolucionService.view(Long.parseLong(idMaquilero), Long.parseLong(num));
 	
 	}
 

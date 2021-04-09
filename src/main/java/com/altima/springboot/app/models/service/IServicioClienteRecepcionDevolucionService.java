@@ -15,10 +15,16 @@ public interface IServicioClienteRecepcionDevolucionService {
 
     void save (ServicioClienteRecepcionDevolucion obj );
 
-    ServicioClienteRecepcionDevolucion findOneFechaCoorPrenda(Integer id);
+    ServicioClienteRecepcionDevolucion findOne(Long id);
 
     void savehistorico (ServicioClienteRecepcionDevolucionHistorico obj );
 
     List<Object []> viewPricipal ();
+
+    List<Object []> view (Long idMaquilero, Long num_movimiento);
+
+    List<Object []> viewHistorico (Long idMaquilero, Long num_movimiento);
+
+    String num_movimiento ();
     
 }

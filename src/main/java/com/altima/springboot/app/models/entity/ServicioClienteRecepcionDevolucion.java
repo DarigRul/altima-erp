@@ -40,6 +40,9 @@ public class ServicioClienteRecepcionDevolucion  implements Serializable{
     @Column(name="dev")
 	private String dev;
 
+    @Column(name="num_movimiento")
+	private String numMovimiento;
+
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
@@ -90,6 +93,14 @@ public class ServicioClienteRecepcionDevolucion  implements Serializable{
 
     public void setIdMaquilero(String idMaquilero) {
         this.idMaquilero = idMaquilero;
+    }
+
+    public String getNumMovimiento() {
+        return numMovimiento;
+    }
+
+    public void setNumMovimiento(String numMovimiento) {
+        this.numMovimiento = numMovimiento;
     }
 
     

@@ -52,25 +52,20 @@
 
                                         </thead>
                                         <tbody>
-                                            <tr th:each="v: ${view}">
-                                                <td th:text="${v[1]}"></td>
+                                            <tr th:if="${view !=''}" th:each="v: ${view}">
                                                 <td th:text="${v[2]}"></td>
                                                 <td th:text="${v[3]}"></td>
                                                 <td th:text="${v[4]}"></td>
+                                                <td th:text="${v[5]}"></td>
                                                 <td class="tdcenter">
-                                                    <!--
-                                                    <botton class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="right" data-html="true"
-                                                        th:attr="data-content='<strong>Creado por: </strong>'+ ${pedido[11]}  + '<br>'+
-													   '<strong>Fecha de creación: </strong>'+ ${pedido[12]}  + '<br>'+
-													   '<strong>Modificado por: </strong>'+ ${pedido[13]}  + '<br>'+
-													    '<strong>Fecha de modicación: </strong>'+ ${pedido[14]} + '<br>'+
-                                                        '<strong>Porcentaje: </strong>'+ ${pedido[15]} + '<br>'"><i
-														class="fas fa-info fa-sm"></i> </botton>
+                                                    <botton th:if="${v[0]> 0}" th:onclick="|detalles('${v[0]}','${v[1]}')|" class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="right" data-html="true" data-content="Detalles">
+                                                        <i class="fas fa-info fa-sm"></i> 
+                                                    </botton>
 
-                                                    <button th:onclick="|editar('${pedido[0]}')|" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_EDITAR'')')})" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Editar"><i class="fas fa-pen"></i></button>
-                                                    <button th:if="${pedido[9]  == 'NO'} and (${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_MARCAR'')')}) )" th:onclick="|marcarInsidencia('${pedido[0]}',1)|" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Marca incidencia"><i class="far fa-check-circle"></i></button>
-                                                    <button th:if="${pedido[9]  == 'SI'} and (${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_MARCAR'')')}) )" th:onclick="|marcarInsidencia('${pedido[0]}',0)|" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Desmarcar incidencia"><i class="far fa-check-circle"></i></button>
-                                                    -->
+                                                    <botton th:if="${v[0]> 0}" th:onclick="|historico('${v[0]}','${v[1]}')|" class="btn btn-success btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="right" data-html="true" data-content="Hist&oacute;rico">
+                                                        <i class="far fa-calendar-times"></i>
+                                                    </botton>
+                                                    
                                                 </td>
 
 
@@ -94,7 +89,7 @@
 		$('#iServicio').removeClass('text-primary');
 		$('#menuServicio').addClass('menu-open');
 		$('#navServicio').addClass('active');
-		$('#navCatSerConversion').addClass('active');
+		$('#navCatSerRecepcionDevolucion').addClass('active');
        
 	</script>
    
