@@ -917,15 +917,8 @@
                         </li>
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                             (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TIEMPO_CORTE'')')})">
-                            <a th:href="${'/tiempos-de-corte'}" class="nav-link" id="navProTie">
-                                <i class="nav-icon fas fa-clock"></i>
-                                <p>Tiempos de corte</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                            (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TIEMPO_CORTE'')')})">
                             <a th:href="${'/tiempos-de-procesos'}" class="nav-link" id="navProTieProcesos">
-                                <i class="nav-icon fas fa-clock"></i>
+                                <i class="nav-icon fas fa-stopwatch"></i>
                                 <p>Tiempos de procesos</p>
                             </a>
                         </li>
@@ -934,9 +927,9 @@
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_AGREGAR'')')}) or
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_EDITAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_ELIMINAR'')')})">
-                            <a th:href="${'/asignacion-ruta-programa'}" class="nav-link" id="navProRut">
+                            <a th:href="${'/programar-telas'}" class="nav-link" id="navProRut">
                                 <i class="nav-icon fas fa-route"></i>
-                                <p>Asignaci&oacute;n de ruta</p>
+                                <p>Asignaci&oacute;n</p>
                             </a>
                         </li>
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
@@ -956,43 +949,18 @@
                             </a>
                         </li>
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_ELIMINAR'')')})">
-                            <a th:href="${'/cierre-de-expediente'}" class="nav-link" id="navProduccion1">
-                                <i class="nav-icon fas fa-file-download"></i>
+              (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_LISTAR'')')}) or 
+              (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_IGENERAL'')')}) or
+              (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_COORDINADOS'')')}) or 
+              (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_ELIMINAR'')')}) or
+              (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_RAZONSOCIAL'')')}) or
+              (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_PRECIO'')')}) or
+              (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_EMPLEADOS'')')}) or
+              (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_PRENDA'')')}) or
+              (${#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_TALLAS'')')})">
+                            <a th:href="${'/expediente'}" class="nav-link" id="navExpediente1">
+                                <i class="nav-icon fas fa-list"></i>
                                 <p>Cierre de expediente</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CIERRE_EXPEDIENTE_ELIMINAR'')')})">
-                            <a th:href="${'/ordenes-produccion-pedido'}" class="nav-link" id="navProduccionOrden">
-                                <i class="nav-icon fas fa-file-alt"></i>
-                                <p>&Oacute;rdenes de producci&oacute;n de pedido</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_FECHAS_PEDIDO_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_FECHAS_PEDIDO_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_FECHAS_PEDIDO_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_FECHAS_PEDIDO_ELIMINAR'')')})">
-                            <a th:href="${'/produccion-fechas-pedido'}" class="nav-link" id="navProduccion2">
-                                <i class="nav-icon far fa-calendar-alt"></i>
-                                <p>Fechas de pedido</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_MUESTRA_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_MUESTRA_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_MUESTRA_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_MUESTRA_ELIMINAR'')')})">
-                            <a th:href="${'/muestras'}" class="nav-link" id="navProduccion3">
-                                <i class="nav-icon-custom flaticon-sexy-female-dress-black-shape"></i>
-                                <p>Pedidos de muestra</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -1001,26 +969,7 @@
                                 <p>Telas</p>
                             </a>
                         </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TELAS_FALTANTES_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TELAS_FALTANTES_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TELAS_FALTANTES_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_TELAS_FALTANTES_ELIMINAR'')')})">
-                            <a th:href="${'/'}" class="nav-link" id="navProduccion4">
-                                <i class="nav-icon-custom flaticon-curling-hair-with-tissue-roll"></i>
-                                <p>Telas faltantes</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_VENCER_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_VENCER_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_VENCER_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_VENCER_ELIMINAR'')')})">
-                            <a th:href="${'/'}" class="nav-link" id="navProduccion5">
-                                <i class="nav-icon far fa-clock"></i>
-                                <p>Pedidos a vencer</p>
-                            </a>
-                        </li>
+
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CONTROL_PISO_LISTAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CONTROL_PISO_AGREGAR'')')}) or
@@ -1031,104 +980,15 @@
                                 <p>Control de piso</p>
                             </a>
                         </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_ASIGNACIONES_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_ASIGNACIONES_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_ASIGNACIONES_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_ASIGNACIONES_ELIMINAR'')')})">
-                            <a th:href="${'/'}" class="nav-link" id="navProduccion7">
-                                <i class="nav-icon fas fa-clipboard-check"></i>
-                                <p>Asignaciones</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CARGA_PRODUCCION_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CARGA_PRODUCCION_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CARGA_PRODUCCION_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_CARGA_PRODUCCION_ELIMINAR'')')})">
-                            <a th:href="${'/'}" class="nav-link" id="navProduccion8">
-                                <i class="nav-icon fas fa-calculator"></i>
-                                <p>Carga de producci&oacute;n</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_AVANCES_PRODUCCION_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_AVANCES_PRODUCCION_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_AVANCES_PRODUCCION_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_AVANCES_PRODUCCION_ELIMINAR'')')})">
-                            <a th:href="${'/'}" class="nav-link" id="navProduccion9">
-                                <i class="nav-icon fas fa-forward"></i>
-                                <p>Avances de producci&oacute;n</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_DIA_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_DIA_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_DIA_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_DIA_ELIMINAR'')')})">
-                            <a th:href="${'/'}" class="nav-link" id="navProduccion10">
-                                <i class="nav-icon fas fa-calendar-day"></i>
-                                <p>Producci&oacute;n por d&iacute;a</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_MUESTRAS_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_MUESTRAS_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_MUESTRAS_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRODUCCION_MUESTRAS_ELIMINAR'')')})">
-                            <a th:href="${'/'}" class="nav-link" id="navProduccion10">
-                                <i class="nav-icon flaticon-030-stitching"></i>
-                                <p>Producci&oacute;n de muestras</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RUTAS_PROCESOS_ELIMINAR'')')})">
-                            <a th:href="${'/rutas'}" class="nav-link" id="navProRut">
-                                <i class="nav-icon fas fa-route"></i>
-                                <p>Rutas de procesos</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PRENDAS_FALTANTES_ELIMINAR'')')})">
-                            <a th:href="${'/'}" class="nav-link" id="navProPre">
-                                <i class="nav-icon flaticon-005-dress"></i>
-                                <p>Prendas faltantes</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_PEDIDOS_ENTREGADOS_ELIMINAR'')')})">
-                            <a th:href="${'/'}" class="nav-link" id="navProduccion11">
-                                <i class="nav-icon fas fa-box"></i>
-                                <p>Pedidos entregados</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_IMPRESION_ETIQUETAS_ELIMINAR'')')})">
-                            <a th:href="${'/'}" class="nav-link" id="navProduccion11">
-                                <i class="nav-icon fas fa-ticket-alt"></i>
-                                <p>Impresi&oacute;n de etiquetas</p>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_HOJAS_TONOS_ELIMINAR'')')})">
-                            <a th:href="${'/'}" class="nav-link" id="navProduccion11">
-                                <i class="nav-icon fas fa-tint"></i>
-                                <p>Hojas de tonos</p>
+                        <li class="nav-item"
+                            th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                            (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_LISTAR'')')}) or 
+                            (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_EDITAR'')')}) or
+                            (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_AGREGAR'')')}) or 
+                            (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_MARCAR'')')})">
+                            <a th:href="${'/recepcion-devolucion'}" class="nav-link" id="navCatSerRecepcionDevolucion">
+                                <i class="fas fa-sync"></i>
+                                <p>Recepci&oacute;n-Devoluci&oacute;n</p>
                             </a>
                         </li>
                     </ul>
