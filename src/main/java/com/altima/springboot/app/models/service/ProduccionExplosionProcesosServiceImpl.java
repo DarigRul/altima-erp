@@ -142,11 +142,10 @@ public class ProduccionExplosionProcesosServiceImpl implements IProduccionExplos
 					+ "LEFT JOIN alt_produccion_lookup lookup on lookup.id_lookup=PEP.ubicacion\r\n" + "WHERE\r\n"
 					+ "1 = 1\r\n" + "AND PEP.id_explosion_proceso = " + idExplosionProceso).getResultList();
 
-		} else {
+			return re;
+		}else{
 			return null;
 		}
-		return null;
-
 		// return em.createQuery("FROM ProduccionExplosionPrendas WHERE
 		// idExplosionProceso ="+idExplosionProceso).getResultList();
 	}

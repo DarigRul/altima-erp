@@ -59,10 +59,10 @@
         <!-- /.content-wrapper -->
 
         <div th:insert="navegacion-footer"></div>
-        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolListar" value="1">
-        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolAgregar" value="1">
-        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEditar" value="1" >
-        <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEliminar" value="1" >
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolListar" value="1">
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolAgregar" value="1">
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEditar" value="1" >
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEliminar" value="1" >
     </div>
     <!-- ./wrapper -->
 

@@ -19,7 +19,7 @@ public interface ITiempoCorteService {
 
     String recuperarIdPorFecha (String fecha);
 
-    List<Object []> detallesCalendario (String fecha1, String fecha2);
+    List<Object []> detallesCalendario (String fecha1, String fecha2,Long idProceso);
 
     String buscarFechaPorFolio(String folio);
     

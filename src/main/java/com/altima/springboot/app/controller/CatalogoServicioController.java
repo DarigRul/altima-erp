@@ -64,7 +64,13 @@ public class CatalogoServicioController {
 	}
 
 
-	
+	@RequestMapping(value="/obtener_lookup_by_id", method=RequestMethod.GET)
+	@ResponseBody
+	public ServicioClienteLookup regresarLookup(Long id){
+		return servicioClienteService.findOne(id);
+	}
+
+
 	@PostMapping("/guardar_lookup_servicio_cliente")
 	public String guardacatalogo(Long idLook, String nombre, String tipo , String descripcion, String atributo1, String atributo2,String atributo3, String clave) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

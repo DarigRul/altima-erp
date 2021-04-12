@@ -30,4 +30,6 @@ public interface IServicioClienteLookupService {
 	boolean findOnePrendaArreglo(Long idArreglo, String idPrenda,String idComplejidad);
 	boolean validarNombreArregloEditar(Long idLookup, String nombre);
 
+	//
+	List<ServicioClienteLookup> listaProcesos();
 }
