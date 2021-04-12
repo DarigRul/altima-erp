@@ -91,11 +91,10 @@ public class ServicioClienteConversionTallasServiceImpl implements IServicioClie
             "cliente.nombre,\r\n" +
             "(SELECT COUNT(*) FROM alt_comercial_cliente_empleado acce WHERE acce.id_pedido_informacion="+id+") as totalPersonas,\r\n" +
             "( SELECT SUM(accp.cantidad+accp.cantidad_especial) FROM alt_comercial_cliente_empleado acce INNER JOIN alt_comercial_concetrado_prenda accp ON accp.id_empleado=acce.id_empleado WHERE acce.id_pedido_informacion="+id+" ) totalPrendas,\r\n" +
-            "reporte.fecha_entrega\r\n" +
+            "pedido.fecha_entrega\r\n" +
         "FROM\r\n" +
             "alt_comercial_pedido_informacion as pedido\r\n" +
             "INNER JOIN alt_comercial_cliente cliente on cliente.id_cliente= pedido.id_empresa\r\n" +
-            "INNER JOIN alt_view_apartado_telas_reporte reporte on reporte.idPedido = pedido.id_pedido_informacion\r\n" +
         "WHERE\r\n" +
             "1=1\r\n" +
             "AND pedido.id_pedido_informacion="+id).getResultList();
