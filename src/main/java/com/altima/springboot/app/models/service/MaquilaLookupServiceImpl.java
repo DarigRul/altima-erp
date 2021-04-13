@@ -64,10 +64,10 @@ public class MaquilaLookupServiceImpl implements IMaquilaLookupService {
 	@OrderBy("nombreLookup ASC")
 	public List<MaquilaLookup> findAllLookup(String Tipo) {
 		if (Tipo.equals("Clasificacion")) {
-			return em.createQuery("from MaquilaLookup where tipo_lookup='" + Tipo + "' ORDER BY nombre_lookup ASC").getResultList();
+			return em.createQuery("from MaquilaLookup where tipo_lookup='" + Tipo + "' and descripcionLookup NOT IN('Entrada prestamo','Salida prestamo') ORDER BY nombre_lookup ASC").getResultList();
 		}
 		else {
-			return em.createQuery("from MaquilaLookup where tipo_lookup='" + Tipo + "' ORDER BY nombre_lookup ASC ").getResultList();
+			return em.createQuery("from MaquilaLookup where tipo_lookup='" + Tipo + "' and descripcionLookup NOT IN('Entrada prestamo','Salida prestamo') ORDER BY nombre_lookup ASC ").getResultList();
 		}
 	}
 
