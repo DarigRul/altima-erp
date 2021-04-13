@@ -982,10 +982,9 @@
                         </li>
                         <li class="nav-item"
                             th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                            (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_LISTAR'')')}) or 
-                            (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_EDITAR'')')}) or
-                            (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_AGREGAR'')')}) or 
-                            (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_MARCAR'')')})">
+                            (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RECEPCION_DEVOLUCION_LISTAR'')')}) or 
+                            (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RECEPCION_DEVOLUCION_NUEVO'')')}) or
+                            (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RECEPCION_DEVOLUCION_EDITAR'')')})">
                             <a th:href="${'/recepcion-devolucion'}" class="nav-link" id="navCatSerRecepcionDevolucion">
                                 <i class="fas fa-sync"></i>
                                 <p>Recepci&oacute;n-Devoluci&oacute;n</p>

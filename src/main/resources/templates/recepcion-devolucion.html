@@ -17,7 +17,7 @@
                         <div class="col-sm-6">
                             <h1>
                                 Recepciones-Devoluciones
-                                <button onclick="agregarRecepcion_Devolucion()" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_AGREGAR'')')})" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo</button>
+                                <button onclick="agregarRecepcion_Devolucion()" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RECEPCION_DEVOLUCION_NUEVO'')')}) and 1==1" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo</button>
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -62,7 +62,7 @@
                                                         <i class="fas fa-info fa-sm"></i> 
                                                     </botton>
 
-                                                    <botton th:if="${v[0]> 0}" th:onclick="|historico('${v[0]}','${v[1]}')|" class="btn btn-success btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="right" data-html="true" data-content="Hist&oacute;rico">
+                                                    <botton th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_PRODUCCION_RECEPCION_DEVOLUCION_EDITAR'')')}) and ${v[0]> 0}" th:onclick="|historico('${v[0]}','${v[1]}')|" class="btn btn-success btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="right" data-html="true" data-content="Hist&oacute;rico">
                                                         <i class="far fa-calendar-times"></i>
                                                     </botton>
                                                     
