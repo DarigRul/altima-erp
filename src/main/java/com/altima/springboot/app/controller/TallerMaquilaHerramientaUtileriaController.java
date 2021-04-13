@@ -28,14 +28,7 @@ public class TallerMaquilaHerramientaUtileriaController {
 		return "herramienta-utileria";
 	}
 	
-	@GetMapping("/entradas-salidas-herramientas-utileria")
-	public String EntradasSalidasHerramientaUtileria(Model model) {
-		model.addAttribute("control_pedido", maquilaControlPedidoService.findAllMaquilaControlPedido());
-		model.addAttribute("clientes", maquilaControlPedidoService.findAllCliente());
-		model.addAttribute("prenda_modelo", maquilaControlPedidoService.findAllPrendaModelo());
 	
-		return "entradas-salidas-herramientas-utileria";
-	}
 	
 	
 }
