@@ -50,8 +50,6 @@ public class ProduccionControlAvancesRestController {
 		Date date = new Date();
 		DateFormat hourdateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		
-
-		
 		List<Object[]> listaPrendasExplosionar = explosionService.prendasExplosionarByProceso(idExplosion);
 		ProduccionExplosionProcesos explosion = explosionService.findOne(idExplosion);
 		if(explosion.getEstatus().equals("0") ) {
@@ -60,15 +58,16 @@ public class ProduccionControlAvancesRestController {
 			explosion.setQuienRealizo(auth.getName());
 			explosion.setEstatus("1");
 			explosionService.save(explosion);
-			
 			for (Object[] i : listaPrendasExplosionar) {
-				ProduccionExplosionPrendas explosionPrenda = new ProduccionExplosionPrendas();
-				explosionPrenda.setTalla(i[5].toString());
-				explosionPrenda.setIdExplosionProceso(idExplosion);
-				explosionPrenda.setIdText("");
-				explosionService.saveExplosionPrendas(explosionPrenda);
-				explosionPrenda.setIdText("EXPREN"+(1000000+explosionPrenda.getIdExplosionPrenda()));
-				explosionService.saveExplosionPrendas(explosionPrenda);
+				for(int k=1; k <=Integer.parseInt(i[6].toString()); k++){
+					ProduccionExplosionPrendas explosionPrenda = new ProduccionExplosionPrendas();
+					explosionPrenda.setTalla(i[5].toString());
+					explosionPrenda.setIdExplosionProceso(idExplosion);
+					explosionPrenda.setIdText("");
+					explosionService.saveExplosionPrendas(explosionPrenda);
+					explosionPrenda.setIdText("EXPREN"+(1000000+explosionPrenda.getIdExplosionPrenda()));
+					explosionService.saveExplosionPrendas(explosionPrenda);
+				}
 			}
 		
 			return explosionService.listarPrendasByExplosionProceso(idExplosion,tipo);

@@ -68,7 +68,7 @@ public class ServicioClienteRecepcionDevolucionServiceImpl implements IServicioC
         re = em.createNativeQuery(""+
             "SELECT DISTINCT\r\n" +
                 "explosionProceso.id_explosion_procesos,\r\n" +
-                "COUNT( explosionPrenda.id_explosion_prenda ) AS cantidad\r\n" +
+                "COUNT(DISTINCT explosionPrenda.id_explosion_prenda ) as cantidad\r\n" +
             "FROM\r\n" +
                 "alt_produccion_explosion_procesos AS explosionProceso\r\n" +
                 "INNER JOIN alt_produccion_explosion_prendas explosionPrenda ON explosionPrenda.id_explosion_proceso = explosionProceso.id_explosion_procesos\r\n" +
@@ -84,7 +84,7 @@ public class ServicioClienteRecepcionDevolucionServiceImpl implements IServicioC
                 "SELECT\r\n" +
                     "id_op\r\n" +
                 "FROM\r\n" +
-                "alt_servicio_cliente_recepcion_devolucion )").getResultList();
+                "alt_servicio_cliente_recepcion_devolucion ) GROUP BY explosionProceso.id_explosion_procesos").getResultList();
 		return re;
     }
 
@@ -151,7 +151,7 @@ public class ServicioClienteRecepcionDevolucionServiceImpl implements IServicioC
                     "RD.recibida + IFNULL( RD.pendiente, 0 ) + IFNULL( RD.dev, 0 )) AS total\r\n" +
                 "FROM\r\n" +
                     "alt_servicio_cliente_recepcion_devolucion AS RD\r\n" +
-                    "INNER JOIN alt_produccion_maquilador maquilador ON maquilador.id_maquilador = RD.id_maquilero").getResultList();
+                    "INNER JOIN alt_produccion_maquilador maquilador ON maquilador.id_maquilador = RD.id_maquilero GROUP BY RD.num_movimiento").getResultList();
 		return re;
     }
 
@@ -175,11 +175,11 @@ public class ServicioClienteRecepcionDevolucionServiceImpl implements IServicioC
                 "(RD.recibida + IFNULL( RD.pendiente, 0 ) + IFNULL( RD.dev, 0 ) ) as total\r\n" +
             "FROM\r\n" +
                 "alt_servicio_cliente_recepcion_devolucion AS RD\r\n" +
-                "INNER JOIN alt_produccion_explosion_procesos EP ON RD.id_op = EP.id_explosion_procesos\r\n" +
-                "INNER JOIN alt_comercial_pedido_informacion pedido ON pedido.id_pedido_informacion = EP.id_pedido\r\n" +
-                "INNER JOIN alt_disenio_prenda prenda ON EP.clave_prenda = prenda.id_prenda\r\n" +
-                "INNER JOIN alt_disenio_lookup look ON look.id_lookup = prenda.id_familia_prenda\r\n" +
-                "INNER JOIN alt_view_apartado_telas_reporte reporte ON reporte.id_coordinado_prenda = EP.coordinado\r\n" +
+                "LEFT JOIN alt_produccion_explosion_procesos EP ON RD.id_op = EP.id_explosion_procesos\r\n" +
+                "LEFT JOIN alt_comercial_pedido_informacion pedido ON pedido.id_pedido_informacion = EP.id_pedido\r\n" +
+                "LEFT JOIN alt_disenio_prenda prenda ON EP.clave_prenda = prenda.id_prenda\r\n" +
+                "LEFT JOIN alt_disenio_lookup look ON look.id_lookup = prenda.id_familia_prenda\r\n" +
+                "LEFT JOIN alt_view_apartado_telas_reporte reporte ON reporte.id_coordinado_prenda = EP.coordinado\r\n" +
             "WHERE\r\n" +
                 "1 = 1\r\n" + 
                 "AND RD.id_maquilero = "+idMaquilero+"\r\n" +

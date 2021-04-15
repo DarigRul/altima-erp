@@ -99,7 +99,7 @@ public class ProduccionExplosionProcesosServiceImpl implements IProduccionExplos
 		return em.createNativeQuery("SELECT explosionP.id_explosion_procesos,\r\n"
 				+ "		pedInfo.id_pedido_informacion,\r\n" + "		coorPrenda.id_coordinado_prenda,\r\n"
 				+ "		concenPrenda.id_concentrado_prenda,\r\n" + "		concenTallas.id,\r\n"
-				+ "		CONCAT(prodLookup.nombre_lookup, producLookup.nombre_lookup) AS Talla \r\n" + "		\r\n"
+				+ "		CONCAT(prodLookup.nombre_lookup, producLookup.nombre_lookup) AS Talla, FORMAT((IFNULL(concenPrenda.cantidad,0)  + IFNULL(concenPrenda.cantidad_especial,0)),0) as cantidad\r\n" + "		\r\n"
 				+ "FROM alt_produccion_explosion_procesos AS explosionP \r\n" + "		\r\n"
 				+ "INNER JOIN alt_comercial_pedido_informacion pedInfo ON explosionP.id_pedido = pedInfo.id_pedido_informacion\r\n"
 				+ "INNER JOIN alt_disenio_prenda prenda ON explosionP.clave_prenda = prenda.id_prenda\r\n"

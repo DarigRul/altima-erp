@@ -92,7 +92,6 @@ $( "#cantidad" ).change(function() {
 });
 
 function agregar(){
-
     $.ajax({
         url:'guardar_recepcion_devolucion',
         type:'GET',
@@ -115,6 +114,15 @@ function agregar(){
             });
 		},
         success:function(data){
+            $('#maquilero').prop('disabled', true);
+            $('#maquilero').selectpicker('refresh');
+            $('#noPedido').val(null);
+            $('#noPedido').selectpicker('refresh');
+            $('#op').empty();
+            $('#op').selectpicker('refresh');
+            $('#cantidad').val(null);
+            $('#cantidadPendente').val(null);
+            $("#boton-add").prop('disabled', true);
             llenarTabla(data);
         }
        
@@ -139,7 +147,7 @@ function llenarTabla(data){
             data[i][8],
             data[i][9],
             data[i][10],
-            (data[i][8] >0 ? '<botton onclick="recibir(this);" id="' + data[i][0] + '" pendiente="' + data[i][8] + '" class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Recibir"><i class="fas fa-long-arrow-alt-up"></i></botton>' : "")+
+            (data[i][8] >0 ? '<botton onclick="recibir(this);" id="' + data[i][0] + '" pendiente="' + data[i][8] + '" recibido="' + data[i][7] + '" class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Recibir"><i class="fas fa-long-arrow-alt-up"></i></botton>' : "")+
             (data[i][9] >0 ? '<botton onclick="recibir_devolucion(this);" id="' + data[i][0] + '" canDev="' + data[i][9] + '" canReci="' + data[i][7] + '" class="btn btn-warning text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Recibir devoluciones"> <i class="fas fa-exchange-alt"></i> </botton>' : "")+
             (data[i][7] >0 ? '<botton onclick="devolver(this);" id="' + data[i][0] + '" recibida="' + data[i][7] + '"  canDev="' + data[i][9] + '"  class="btn btn-danger text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Devolver"><i class="fas fa-long-arrow-alt-down"></i></botton>' : "")
             
@@ -205,7 +213,7 @@ function recibir(e){
         html: '<div class="row">' +
             '<div class="form-group col-sm-12">' +
             '<input type="hidden" class="form-control" name="idDevolucion" id="idDevolucion" value="' + e.getAttribute("id") + '" placeholder="0">' +
-            
+            '<input type="hidden" class="form-control" name="recibido" id="recibido" value="' + e.getAttribute("recibido") + '" placeholder="0">' +
             '<input type="hidden" class="form-control" id="pendiente" name="pendiente" value="' + e.getAttribute("pendiente")  + '" >' +
             '<label for="proveedorColor">Recibir</label>' +
             '<input type="number" class="form-control" id="recibir"  name="recibir"  placeholder="0">' +
@@ -226,7 +234,7 @@ function recibir(e){
                     `Complete el campo`
                 )
             }
-            else if (document.getElementById("recibir").value > document.getElementById("pendiente").value || document.getElementById("recibir").value <= 0  ) {
+            else if ( parseInt(document.getElementById("recibir").value) > parseInt(document.getElementById("pendiente").value)|| document.getElementById("recibir").value <= 0  ) {
                 Swal.showValidationMessage(
                     `Cantidad erronea`
                 )
@@ -240,7 +248,7 @@ function recibir(e){
                 data:{
                     'id':$("#idDevolucion").val(),
                     'pendiente': ( parseInt($("#pendiente").val())-parseInt($("#recibir").val())),
-                    'recibido': (parseInt($("#pendiente").val())+parseInt($("#recibir").val())),
+                    'recibido': (parseInt($("#recibido").val())+parseInt($("#recibir").val())),
                     'cantidad': (parseInt($("#recibir").val()))
                 },
                 beforeSend: function () {
@@ -293,7 +301,7 @@ function devolver(e){
                     `Complete el campo`
                 )
             }
-            else if (document.getElementById("devolver").value > document.getElementById("recibida").value || document.getElementById("devolver").value <= 0  ) {
+            else if (parseInt(document.getElementById("devolver").value) >  parseInt (document.getElementById("recibida").value )|| document.getElementById("devolver").value <= 0  ) {
                 Swal.showValidationMessage(
                     `Cantidad erronea`
                 )
@@ -301,6 +309,7 @@ function devolver(e){
         }
     }).then((result) => {
         if (result.value ) {
+            console.log((parseInt($("#recibida").val())-parseInt($("#devolver").val())))
             $.ajax({
                 type:'GET',
                 url:'guardar_devolver_by_id',
@@ -359,7 +368,7 @@ function recibir_devolucion(e){
                     `Complete el campo`
                 )
             }
-            else if (document.getElementById("recibir").value > document.getElementById("canDev").value || document.getElementById("recibir").value <= 0  ) {
+            else if (parseInt(document.getElementById("recibir").value) > parseInt(document.getElementById("canDev").value) || document.getElementById("recibir").value <= 0  ) {
                 Swal.showValidationMessage(
                     `Cantidad erronea`
                 )
