@@ -46,16 +46,16 @@
                             
                             <div class="card">
                                 <div class="card-header bg-altima">
-                                    <h3 class="card-title">Entradas y salidas herramientas y utilería<button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_REQUISICION_MATERIALES_CAMBIAR_FECHA'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-target="#cambiarFechaPromesa"
-                                            data-toggle="modal" class="btn btn-sm icon-btn btn-danger text-white">
-                                            <span class="btn-glyphicon fas fa-calendar img-circle text-danger"></span>
-                                           <!--  Ctrl. Pedidos --></button>&nbsp;
-                                       
-                                    </h3>
+                                    <h3 class="card-title">Entradas y salidas herramientas y utilería
+                                      <button  class="btn btn-success btn-sm btn-circle popoverxd"  data-placement="top"
+                                                        data-content="Ingresar movimiento" data-target="#generarTickets" data-toggle="modal" ><i class="fas fa-store"></i></button>
+                                      <!--  th:if="${control[8]} != ${control[19]}" th:attr="onclick=|listar(${control[0]},${control[17]})|" --> 
+<!--                                        th:id="'generarTickets'+${control[0]}"
+ -->                                    </h3>
                                 </div>
                                 <div th:insert="control-pedidos-modal"></div>
                                 <div class="card-body">
-                                    <div th:insert="generar-tickets-modal"></div>
+                                    <div th:insert="entradas-salidas-herramientas-modal"></div>
                                      <div th:insert="avances-tickets-modal"></div>
                                       <div th:insert="avances-tickets-modal-bultos"></div>
                                     <div class="form-group">
@@ -68,21 +68,21 @@
                                                 <th >Fecha</th>
                                                 <th >Movimiento</th>
                                                 <th >Concepto</th>
-                                                <th >Acciones</th>
+                                               <!--  <th >Acciones</th> -->
                                                
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="control : ${control_pedido}" >
-                                                <td th:text="${control[1]}">1</td>
-                                                <td th:text="${control[2]}">Altima</td>
-                                                <td th:text="${control[3]}">1</td>
-                                                <td th:text="${control[4]}">1</td>
+                                            <tr th:each="entrada_salida : ${entradasalida}" >
+                                                <td th:text="${entrada_salida[8]}">1</td>
+                                                <td th:text="${entrada_salida[9]}">Altima</td>
+                                                <td th:text="${entrada_salida[3]}">1</td>
+                                                <td th:text="${entrada_salida[2]}">1</td>
                                                 
                          
-                                                <td>
+                                               <!--  <td th:text="${entrada_salida[4]}"> -->
                                                     
-                                                    <button  th:if="${control[8]} != ${control[19]}" th:attr="onclick=|listar(${control[0]},${control[17]})|"  class="btn btn-primary btn-sm btn-circle popoverxd"  data-placement="top"
+                                                   <!--  <button  th:if="${control[8]} != ${control[19]}" th:attr="onclick=|listar(${control[0]},${control[17]})|"  class="btn btn-primary btn-sm btn-circle popoverxd"  data-placement="top"
                                                         data-content="Generar tickets" data-target="#generarTickets" data-toggle="modal" th:id="'generarTickets'+${control[0]}"><i class="fas fa-store"></i></button>
                                                   <div  th:if="${control[8]} == ${control[19]}">
  <button  disabled th:attr="onclick=|listar(${control[0]},${control[17]})|"  class="btn btn-primary btn-sm btn-circle popoverxd"  data-placement="top"
@@ -92,7 +92,7 @@
                                                      <button th:attr="onclick=|listar2(${control[0]},${control[17]})|"   class="btn btn-primary btn-sm btn-circle popoverxd"  data-placement="top"
                                                         data-content="Avance" data-target="#avancestickets" data-toggle="modal" th:id="'generarTickets'+${control[0]}"><i class="fa fa-angle-double-right"></i></button>
                                                     
-                                                    </div>  
+                                                    </div>   -->
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -112,8 +112,8 @@
     </div>
     <div th:replace="navegacion-scripts"></div>
     <script src="/dist/js/tablaGeneral.js"></script>
-     <script src="/dist/js/control-pedidos.js"></script>
-          <script src="/dist/js/avance-tickets.js"></script>
+     <script src="/dist/js/entradas-salidas-herramientas.js"></script>
+         
      
    <script th:if="${icon != null}" th:inline="javascript">
 		Swal.fire({
