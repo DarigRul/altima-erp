@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	var tablaMovimientos;
 	$('#generarTickets').on('hidden.bs.modal', function () {
 		 location.reload();
 		 
@@ -18,6 +19,7 @@ console.log(data);
                 var len = data.length;
 
                 $("#concepto").empty();
+                $("#concepto").append("<option >Seleccione un concepto</option>");
                 for( var i = 0; i<len; i++){
                     var id = data[i]['idLookup'];
                     var name = data[i]['nombreLookup'];
@@ -41,7 +43,7 @@ console.log(data);
 
                 $("#articulo").empty();
                 for( var i = 0; i<len; i++){
-                    var id = data[i]['idLookup'];
+                    var id = data[i]['idLookup']+'|'+data[i]['descripcionLookup']+'|'+data[i]['nombreLookup'];
                     var name = data[i]['nombreLookup'];
                     
                     $("#articulo").append("<option value='"+id+"'>"+name+"</option>");
@@ -68,13 +70,10 @@ function listar(){
 	
 	
 	
-	$.ajax({
-		method: "GET",
-		url: "/entradas-salidas-herramientas-utileria-tabla",
-		data: {
-			
-		},
-		success: (data2) => {
+	
+		
+		
+		
 			$(quitar).remove();
 			$(contenedor).append("<div class='modal-body' id='quitar2'>" +
 				"<table class='table table-striped table-bordered' id='idtable2' style='width:100%'>" +
@@ -93,24 +92,9 @@ function listar(){
 			
 			
 			
-			for (i in data2) {
-
-				a = [
-					"<tr>" +
-					"<td>" + data2[i][6] + "</td>",
-					"<td>" + data2[i][1] + "</td>",
-					"<td>" + data2[i][10] + "</td>",
-					"<td style='text-align: center'>" +
-					"<button onclick=eliminarembultado('" + data2[i][4] + "') class='btn btn-danger' type='button'>Eliminar</button>" +
-					"</td>" +
-
-					"<tr>"
-				];
-				b.push(a);
-			}
 
 			var tablaes = "#idtable2";
-			var tablaColores = $(tablaes).DataTable({
+			tablaMovimientos = $(tablaes).DataTable({
 				"data": b,
 				"ordering": false,
 				"pageLength": 5,
@@ -154,17 +138,69 @@ function listar(){
 					}
 				}
 			});
-			new $.fn.dataTable.FixedHeader(tablaColores);
-		},
+			new $.fn.dataTable.FixedHeader(tablaMovimientos);
+		
 		error: (e) => {
 
 		}
-	})
+	
 }
 
-
+var Lista=[]; 
+var contador=0;
 $( "#Guardar" ).click(function() {
-	if($('#movimiento').val()==null || $('#concepto').val()=="0" || $('#cantidad').val()==null || $('#cantidad').val()<0 || $('#articulo').val()==null  ){
+	if($('#movimiento').val()==null || $('#concepto').val()=="0" || isNaN($('#concepto').val()) || $('#cantidad').val()==null || $('#cantidad').val()<0 || $('#articulo').val()==null  ){
+		Swal.fire({
+			  icon: 'error',
+			  title: 'Ingrese todos los campos',
+			  text: 'Los campos no pueden estar vacios o la cantidad no puede ser menor a 0'
+			})	;
+	
+	}
+	else{
+		 $('#movimiento').prop('disabled', 'disabled');
+		 $('#concepto').prop('disabled', 'disabled');
+		contador++;
+		console.log(document.getElementById("movimiento").value);
+		console.log($('#movimiento').val());
+		console.log($('#concepto').val());
+		var articulo=$('#articulo').val();
+		console.log(articulo);
+		var articulonombre=articulo.split('|')[2];
+		var articuloid=articulo.split('|')[0];
+		var articulomarca=articulo.split('|')[1];
+		
+		var movimiento={
+				"movimiento": $('#movimiento').val() ,
+				"concepto": $('#concepto').val(),
+				"cantidad": $('#cantidad').val(),
+				"articulonombre": articulonombre,
+				"articulomarca": articulomarca,
+				"articuloid": articuloid,
+				"observacion": $('#exampleFormControlTextarea1').val(),
+				"contador": contador
+				
+		};
+		Lista.push(movimiento);
+		console.log(Lista);
+		tablaMovimientos.clear().draw();
+
+		for ( var i in Lista) {
+
+
+
+			tablaMovimientos.row.add( [
+				Lista[i].cantidad,
+				Lista[i].articulonombre,
+				Lista[i].articulomarca,
+			'<button type="button" onclick="eliminar('+Lista[i].contador+');" class="btn btn-danger"     data-placement="top" data-content="eliminar">Eliminar</button>',
+				] ).draw( false );
+
+
+		}
+	}
+	
+	/*if($('#movimiento').val()==null || $('#concepto').val()=="0" || $('#cantidad').val()==null || $('#cantidad').val()<0 || $('#articulo').val()==null  ){
 		Swal.fire({
 			  icon: 'error',
 			  title: 'Ingrese todos los campos',
@@ -203,13 +239,34 @@ $( "#Guardar" ).click(function() {
 				listar();
 
 		}});
-	//listar(document.getElementById("idcontrol").value);
-	 // alert( "Handler for .click() called." );
-	}
+	
+	}*/
+	
 	
 	});
 
+function eliminar(e){
+	console.log(e);
+	Lista = Lista.filter(function( obj ) {
+	    return obj.contador !== e;
+	});
+	
+	tablaMovimientos.clear().draw();
 
+	for ( var i in Lista) {
+
+
+
+		tablaMovimientos.row.add( [
+			Lista[i].cantidad,
+			Lista[i].articulonombre,
+			Lista[i].articulomarca,
+		'<button type="button" onclick="eliminar('+Lista[i].contador+');" class="btn btn-danger"     data-placement="top" data-content="eliminar">Eliminar</button>',
+			] ).draw( false );
+
+
+	}
+}
 
 $( "#enviarOrden" ).click(function() {
 	
@@ -284,28 +341,5 @@ $( "#enviarOrden" ).click(function() {
 
 });
 
-function imprimirtickets(control,prenda){
-	 window.open("/maquilacontrolpedidostickets/"+control+"/"+prenda+"/?format=pdf");
-	
-	
-}
-
-function eliminarembultado(id){
-	
-	$.ajax({
-		method: "DELETE",
-		url: "/eliminar-entrada-salida",
-		data: {
-			"_csrf": $(
-			'#token')
-		.val(),
-			"id": id
-		
-		},
-		success: (data) => { 
-			listar();
 
 
-		}});
-	
-}
