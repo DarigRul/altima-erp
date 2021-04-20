@@ -25,9 +25,9 @@ public class ProduccionControlAvancesRestController {
 	IProduccionExplosionProcesosService explosionService;
 
 	@RequestMapping(value="/listarExplosion", method = RequestMethod.GET)
-	public List<ProduccionExplosionProcesos> listarExplosion (@RequestParam(name="idProceso")Long idProceso){
+	public List<ProduccionExplosionProcesos> listarExplosion (@RequestParam(name="idProceso")Long idProceso,@RequestParam(name="programa")String programa){
 		
-		return explosionService.listExplosionByProceso(idProceso);
+		return explosionService.listExplosionByProceso(idProceso,programa);
 	}
 
 	@RequestMapping(value="/listar_select_realizo", method = RequestMethod.GET)

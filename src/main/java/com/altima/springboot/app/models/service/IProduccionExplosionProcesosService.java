@@ -18,7 +18,7 @@ public interface IProduccionExplosionProcesosService {
 
 	List<ProduccionExplosionProcesos> findProgramas();
 
-	List<ProduccionExplosionProcesos> listExplosionByProceso(Long id);
+	List<ProduccionExplosionProcesos> listExplosionByProceso(Long id,String programa);
 
 	
 	//Métodos para el modal de explosion de prendas en la pantalla de control de avances

@@ -85,9 +85,9 @@ public class ProduccionExplosionProcesosServiceImpl implements IProduccionExplos
 
 	@Transactional
 	@Override
-	public List<ProduccionExplosionProcesos> listExplosionByProceso(Long idProceso) {
+	public List<ProduccionExplosionProcesos> listExplosionByProceso(Long idProceso,String programa) {
 
-		return em.createNativeQuery("call alt_pr_listar_explosiones_por_proceso(" + idProceso + ")").getResultList();
+		return em.createNativeQuery("call alt_pr_listar_explosiones_por_proceso(" + idProceso + ",'"+programa+"')").getResultList();
 	}
 
 	// Métodos para el modal de explosion de prendas en la pantalla de control de

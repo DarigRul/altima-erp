@@ -13,14 +13,34 @@
         <div class="content-wrapper">
             <section class="content-header">
                 <div class="container-fluid">
-                <div th:insert="modales-control-avances"></div>
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
+                    <div th:insert="modales-control-avances"></div>
+                    <div class="row">
+                        <div class="col-sm-3">
                             <h1>
                                 Control de avances
                             </h1>
                         </div>
-                        <div class="col-sm-6">
+
+                        <div class="form-group col-md-2">
+                            <label for="procesosActivos">Procesos</label>
+                            <select class="form-control selectpicker" data-live-search="true" title="Seleccione un proceso..." id="procesosActivos">
+                                <option th:each="proceso:${listProcesos}" th:text="${proceso[1]}" th:value="${proceso[0]}" th:descripcion="${proceso[2]}" th:proceso="${proceso[3]}" >
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="programa">Clave semana</label>
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" id="programa">
+                                <div class="input-group-append" style="margin-left:10px;display:block;">
+                                    <button class="btn btn-sm icon-btn btn-altima text-white float-right"
+                                        onclick="listarExplosionPorProceso()"><span
+                                            class="btn-glyphicon fas fa-save img-circle text-altima"></span>Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item altima">Altima</li>
                                 <li class="breadcrumb-item active">Producci&oacute;n</li>
@@ -38,7 +58,8 @@
                                     <h3 class="card-title">Listado</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table tablaGeneralScroll table-striped table-bordered" style="width: 100%;" id="tablaExplosionesPorProceso">
+                                    <table class="table tablaGeneralScroll table-striped table-bordered"
+                                        style="width: 100%;" id="tablaExplosionesPorProceso">
                                         <thead>
                                             <tr>
                                                 <th>Folio</th>
@@ -52,7 +73,7 @@
                                                 <th>Fecha inicio</th>
                                                 <th>Fecha fin</th>
                                                 <th>Estatus de proceso</th>
-                                                <th>Programa</th>
+                                                <th>Clave semana</th>
                                                 <th>Fecha entrega</th>
                                                 <th>Tiempo de corte (min.)</th>
                                                 <th>Estatus</th>
@@ -60,7 +81,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                           
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -73,7 +94,7 @@
         <div th:insert="navegacion-footer"></div>
     </div>
     <div th:replace="navegacion-scripts"></div>
-        
+
     <script th:src="@{/dist/js/tablaGeneralScroll.js}"></script>
     <script th:src="@{/dist/js/tablaControlAvancesPrendasExplosionadas.js}"></script>
     <script th:src="@{/dist/js/ControlAvances.js}"></script>
