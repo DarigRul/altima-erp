@@ -24,19 +24,41 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div th:insert="modales-empalme-tela"></div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <h1>
                                 Cálculo de carga de producción
                             </h1>
                         </div>
-                        <div th:insert="empalme-telas-folio"></div>
-                        <div class="col-sm-6">
+                        <div class="form-group col-md-2">
+                            <label for="procesosActivos">Procesos</label>
+                            <select class="form-control selectpicker" data-live-search="true" id="procesosActivos">
+                                <option value="">Seleccione un proceso...</option>
+                                <option th:each="proceso:${listProcesos}" th:text="${proceso[1]}"
+                                    th:value="${proceso[0]}" th:descripcion="${proceso[2]}" th:proceso="${proceso[3]}"
+                                    th:tipo="${proceso[4]}">
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="programa">Programa</label>
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" id="programa">
+                                <div class="input-group-append" style="margin-left:10px;display:block;">
+                                    <button class="btn btn-sm icon-btn btn-altima text-white float-right"
+                                        onclick="listarPorProceso()"><span
+                                            class="btn-glyphicon fas fa-save img-circle text-altima"></span>Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item altima">Altima</li>
                                 <li class="breadcrumb-item active">Producci&oacute;n</li>
                                 <li class="breadcrumb-item active">Empalme de telas</li>
                             </ol>
                         </div>
+                        <div th:insert="empalme-telas-folio"></div>
                     </div>
                 </div>
                 <!-- /.container-fluid -->
@@ -63,51 +85,42 @@
                                                 class="btn-glyphicon fas fa-calendar img-circle text-secondary"></span>Fechas
                                         </botton>
 
-                                        <button th:if="${load}=='empalme'" id="botton_secuencia" hidden
-                                            sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_FOLIO','ROLE_ADMINISTRADOR')"
+                                        <button id="botton_secuencia" 
                                             onclick="nuevaSecuencia()"
                                             class="btn btn-sm icon-btn btn-success text-white mr-auto"
                                             type="button"><span
                                                 class="btn-glyphicon fas fa-plus img-circle text-success"></span>Secuencia
                                         </button>
-                                        <button th:if="${load}=='programar'"
-                                            sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_RUTA','ROLE_ADMINISTRADOR')"
-                                            onclick="nuevaRuta()"
-                                            class="btn btn-sm icon-btn btn-danger text-white mr-auto"
-                                            type="button"><span
-                                                class="btn-glyphicon fas fa-plus img-circle text-danger"></span>Ruta
-                                        </button>
-                                        <button th:if="${load}=='programar'"
-                                            sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_PROGRAMA','ROLE_ADMINISTRADOR')"
-                                            onclick="nuevoPrograma()"
-                                            class="btn btn-sm icon-btn btn-secondary text-white mr-auto"
-                                            type="button"><span
-                                                class="btn-glyphicon fas fa-plus img-circle text-secondary"></span>Programa
-                                        </button>
-
+                                        <button id="botonCalcularHoras" 
+                                        onclick="calcularHoras()"
+                                        class="btn btn-sm icon-btn btn-info text-white mr-auto"
+                                        type="button"><span
+                                            class="btn-glyphicon fas fa-calculator img-circle text-info"></span>Calcular
+                                    </button>
                                     </h3>
                                 </div>
                                 <div class="card-body" id="contenedor-tableEmpalme">
-                                    <table class="tablaGeneral row-border" style="width: 100%;" id="tableEmpalmes">
+                                    <table class="tableEmpalme display compact" style="width: 100%;" id="tableEmpalmeId">
                                         <thead>
                                             <tr>
-                                                <th> <input type="checkbox" id="selectAll" onclick="seleccionarTodos()">
+                                                <th> <input type="checkbox" id="testSelect" onclick="seleccionarTodos()" class="">
                                                 </th>
+                                                <th>Secuencia</th>
                                                 <th>Pedido</th>
-                                                <th>Fecha de entrega</th>
+                                                <th>Fecha_entrega</th>
                                                 <th>Coord.</th>
                                                 <th>Prenda</th>
                                                 <th>Modelo</th>
                                                 <th>Personalización</th>
-                                                <th>Ruta</th>
-                                                <th>Confecci&oacute;n</th>
+                                                <th>Cantidad</th>
                                                 <th>Clave tela</th>
                                                 <th>Ancho</th>
                                                 <th>Composici&oacute;n</th>
                                                 <th>Encog./Estir.</th>
                                                 <th>Estampado</th>
-                                                <th>Estatus tela pral.</th>
-                                                <th>Secuencia</th>
+                                                <th>Estatus_tela</th>
+                                                <th>Tiempo</th>
+                                                <th>Fecha programada</th>
                                                 <th>Detalles</th>
                                             </tr>
                                         </thead>
@@ -139,11 +152,5 @@
     </script>
 
 </body>
-
-<script th:if="${load == 'empalme'}" th:inline="javascript">
-    //var tablaPrincipal = $('#tablaPrincipal').DataTable();
-    //tablaPrincipal.rows().remove().draw();
-    $('#SeleccionPrograma').modal("show");
-</script>
 
 </html>

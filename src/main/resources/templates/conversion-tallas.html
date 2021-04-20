@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Conversi&oacute;n de tallas | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <div class="wrapper">
+        <div th:insert="navegacion-nav"></div>
+        <div th:insert="navegacion-logout"></div>
+        <div th:insert="navegacion-aside"></div>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Conversi&oacute;n de tallas
+                                <button onclick="agregarConversion()" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_AGREGAR'')')})" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo</button>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Servicio al cliente</li>
+                                <li class="breadcrumb-item active">Conversi&oacute;n de tallas</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>No.Pedido</th>
+                                                <th>Cliente</th>
+                                                <th>Total de personas</th>
+                                                <th>Total prendas</th>
+                                                <th>Fecha Recepción</th>
+                                                <th>Fecha Entrega</th>
+                                                <th>Cantidad Conversiones</th>
+                                                <th>Observaciones</th>
+                                                <th>Incidencias Rev.</th>
+                                                <th>Estatus</th>
+                                                <th>Acciones</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="pedido: ${pedidos}">
+                                                <td th:text="${pedido[1]}"></td>
+                                                <td th:text="${pedido[2]}"></td>
+                                                <td th:text="${pedido[3]}"></td>
+                                                <td th:text="${pedido[4]}"></td>
+                                                <td th:text="${pedido[5]}"></td>
+                                                <td th:text="${pedido[6]}"></td>
+                                                <td th:text="${pedido[7]}"></td>
+                                                <td th:text="${pedido[8]}"></td>
+                                                <td th:text="${pedido[9]}"></td>
+                                                <td th:text="${pedido[10]}"></td>
+                                                <td class="tdcenter">
+                                                    <botton class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="right" data-html="true"
+                                                        th:attr="data-content='<strong>Creado por: </strong>'+ ${pedido[11]}  + '<br>'+
+													   '<strong>Fecha de creación: </strong>'+ ${pedido[12]}  + '<br>'+
+													   '<strong>Modificado por: </strong>'+ ${pedido[13]}  + '<br>'+
+													    '<strong>Fecha de modicación: </strong>'+ ${pedido[14]} + '<br>'+
+                                                        '<strong>Porcentaje: </strong>'+ ${pedido[15]} + '<br>'"><i
+														class="fas fa-info fa-sm"></i> </botton>
+
+                                                    <button th:onclick="|editar('${pedido[0]}')|" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_EDITAR'')')})" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                    <button th:if="${pedido[9]  == 'NO'} and (${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_MARCAR'')')}) )" th:onclick="|marcarInsidencia('${pedido[0]}',1)|" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Marca incidencia"><i class="far fa-check-circle"></i></button>
+                                                    <button th:if="${pedido[9]  == 'SI'} and (${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_MARCAR'')')}) )" th:onclick="|marcarInsidencia('${pedido[0]}',0)|" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Desmarcar incidencia"><i class="far fa-check-circle"></i></button>
+                                                </td>
+
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div th:insert="conversion-tallas-modal"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneral.js"></script>
+    <script src="dist/js/conversionTallas.js"></script>
+    <script>
+		$('#iServicio').removeClass('text-primary');
+		$('#menuServicio').addClass('menu-open');
+		$('#navServicio').addClass('active');
+		$('#navCatSerConversion').addClass('active');
+       
+	</script>
+   
+</body>
+
+</html>

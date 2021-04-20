@@ -774,6 +774,18 @@
                                 <p>Asignaci&oacute;n de tickets</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a th:href="${'/herramienta-utileria'}" class="nav-link" id="navMaquilaHerramientasUtileria">
+                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <p>Inv. Herramientas y utiler&iacute;a</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="${'/entradas-salidas-herramientas-utileria'}" class="nav-link" id="navMaquilaEntradasSalidasHerramientasUtileria">
+                                <i class="nav-icon fas fa-clipboard-list"></i>
+                                <p>Entradas y salidas herremientas y utiler&iacute;a</p>
+                            </a>
+                        </li>
                     </ul>
 
                 </li>
@@ -1122,7 +1134,10 @@
                     </ul>
                 </li>
                 <li class="nav-item has-treeview" id="menuServicio" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-              (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE'')')})">
+                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_REPORTEACTIVIDADES_LISTAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_ELIMINAR'')')})">
                     <a class="nav-link" id="navServicio">
                         <i class="nav-icon far fa-comment-dots text-altima" id="iServicio"></i>
                         <p>
@@ -1131,13 +1146,48 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_AGREGAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_EDITAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_PRODUCCION_SERVICIO_CLIENTE_ELIMINAR'')')})">
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_EDITAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_AGREGAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_ELIMINAR'')')})">
                             <a th:href="${'/catalogos-servicio'}" class="nav-link" id="navCatSer">
                                 <i class="nav-icon fas fa-book-open"></i>
                                 <p>Cat&aacute;logos</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_REPORTEACTIVIDADES_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_REPORTEACTIVIDADES_EDITAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_REPORTEACTIVIDADES_AGREGAR'')')})">
+                            <a th:href="${'/reporte-actividades'}" class="nav-link" id="navCatSerReporteAct">
+                                <i class="fas fa-sticky-note"></i>
+                                <p>Reporte de actividades</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_EDITAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_AGREGAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_MARCAR'')')})">
+                            <a th:href="${'/conversion-tallas'}" class="nav-link" id="navCatSerConversion">
+                                <i class="fas fa-exchange-alt"></i>
+                                <p>Conversi&oacute;n de tallas</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_EDITAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_AGREGAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_MARCAR'')')})">
+                            <a th:href="${'/recepcion-devolucion'}" class="nav-link" id="navCatSerRecepcionDevolucion">
+                                <i class="fas fa-sync"></i>
+                                <p>Recepci&oacute;n-Devoluci&oacute;n</p>
                             </a>
                         </li>
                     </ul>

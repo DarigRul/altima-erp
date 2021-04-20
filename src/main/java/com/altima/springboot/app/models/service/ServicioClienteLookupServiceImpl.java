@@ -202,4 +202,13 @@ public class ServicioClienteLookupServiceImpl implements IServicioClienteLookupS
         }
     }
 
+	@Override
+	@Transactional
+	@SuppressWarnings("unchecked")
+	public List<ServicioClienteLookup> listaProcesos() {
+		return em.createQuery("from ServicioClienteLookup where estatus=1 and tipoLookup='Proceso' and actualizadoPor is not null").getResultList();
+	}
+
+
+	
 }

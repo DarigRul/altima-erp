@@ -5,7 +5,7 @@
 	</div>
 	<div class="icon"> <i class="ion ion-ios-pricetags-outline"></i> </div>
 	<a class="small-box-footer">
-		<button onclick="addActividadSolicitud()" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+		<button onclick="addActividadSolicitud()" th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
 	</a>
 </div>
 <!-- Modal Marcas Tabla -->
@@ -13,7 +13,7 @@
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
 		<div class="modal-content" id="contenedorTabla">
 			<div class="modal-header bg-success">
-				<h5 class="modal-title" id="exampleModalLongTitle">Listado de actividades <button onclick="addActividadSolicitud()" class="btn btn-light btn-circle btn-sm text-success popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+				<h5 class="modal-title" id="exampleModalLongTitle">Listado de actividades <button onclick="addActividadSolicitud()" th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-light btn-circle btn-sm text-success popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
                 </h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
 			</div>

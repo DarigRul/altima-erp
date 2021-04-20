@@ -7,6 +7,8 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.MaquilaLookup;
 import com.altima.springboot.app.repository.MaquilaLookupRepository;
 
@@ -249,6 +251,35 @@ public class MaquilaLookupServiceImpl implements IMaquilaLookupService {
 
 	}
 	
-
+	@Override
+	@Transactional
+	public boolean findDuplicateMaquila(String Lookup,String Tipo){
+		boolean duplicate;
+		@SuppressWarnings("unchecked")
+		List<MaquilaLookup> result = em.createQuery("from MaquilaLookup where nombreLookup='"+Lookup+"' and tipoLookup='"+Tipo+"'").getResultList();
+		if(result.isEmpty()) {
+			duplicate=false;
+		}
+		else {
+			duplicate=true;
+		}
+		 return duplicate;
+	}
+	@Override
+	public boolean findDuplicateMaquila(String Lookup, String Tipo, String Descripcion) {
+		// TODO Auto-generated method stub
+		boolean duplicate;
+		@SuppressWarnings("unchecked")
+		List<MaquilaLookup> result = em.createQuery("from MaquilaLookup where nombreLookup='"+Lookup+"' and tipoLookup='"+Tipo+"' AND descripcionLookup='"+Descripcion+"'").getResultList();
+		if(result.isEmpty()) {
+			duplicate=false;
+		}
+		else {
+			duplicate=true;
+		}
+		 return duplicate;
+	}
+	
+	
     
 }

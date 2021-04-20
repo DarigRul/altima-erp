@@ -15,7 +15,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
         <div class="modal-content modal-rounded-body" id="contenedorTabla">
             <div class="modal-header bg-primary modal-rounded-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Listado de arreglos <button onclick="addArreglo()" class="btn btn-light btn-circle btn-sm text-primary popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                <h5 class="modal-title" id="exampleModalLongTitle">Listado de arreglos <button onclick="addArreglo()" th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-light btn-circle btn-sm text-primary popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

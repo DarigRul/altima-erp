@@ -59,7 +59,7 @@ public class CatalogosAMPRestController {
 		return  resp;
 	}
 	
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR"})
+	@Secured({"ROLE_ADMINISTRADOR", "ROLE_COMERCIAL_AMP_CATALOGOS_LISTAR","ROLE_DISENIO_CATALOGOS_AGREGAR"})
 	@RequestMapping(value = "/listar-amp", method = RequestMethod.GET)
 	@ResponseBody
 	public List<AmpLookup> listarlookup(String Tipo) {

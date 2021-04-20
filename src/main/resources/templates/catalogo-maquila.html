@@ -45,9 +45,15 @@
                         <div th:insert="catalogo-maquila-operaciones-maquila" class="col-lg-4 col-4"></div>
                         <div th:insert="catalogo-maquila-componentes" class="col-lg-4 col-4"></div>
                         <div th:insert="catalogo-maquila-color" class="col-lg-6 col-6"></div>
-                        <!-- <div th:insert="catalogo-maquila-mov-fijo" class="col-lg-6 col-6"></div> -->
+                        <div th:insert="catalogo-maquila-mov-fijo" class="col-lg-6 col-6"></div>
                         <div th:insert="catalogo-maquila-mov-insumo" class="col-lg-6 col-6"></div>
-
+						 <!-- MAEDIDAS -->
+                        <div th:insert="catalogo-maquila-medida" class="col-lg-6 col-6" ></div>
+                        <!-- TIPO MATERIAL -->
+                        <div th:insert="catalogo-maquila-material" class="col-lg-6 col-6" ></div>
+                        <!-- HERRAMIENTA UTILERIA -->
+                        <div th:insert="catalogo-maquila-herramienta-utileria" class="col-lg-6 col-6" ></div>
+                       
 
                         <!-- Content Wrapper. Contains page content -->
                         <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
@@ -60,7 +66,7 @@
         </div>
         <!-- /.content-wrapper -->
         <div th:insert="navegacion-footer"></div>
-        
+        <input type="hidden" id="rolAdmin" th:value="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')}? 1:0">
         <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolListar" value="1">
         <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolAgregar" value="1">
         <input th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MAQUILA_CATALOGOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEditar" value="1" >

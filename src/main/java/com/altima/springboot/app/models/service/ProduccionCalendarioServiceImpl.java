@@ -45,7 +45,7 @@ public class ProduccionCalendarioServiceImpl implements IProduccionCalendarioSer
     @Override
     @Transactional
     public List<HorasHabliesListDto> mostrar_calendario(String fechaInicio, String fechaFin,Long idProceso) {
-        List<HorasHabliesListDto> re = em.createNativeQuery("SELECT apc.id_calendario_fecha,apc.fecha,IFNULL(apcp.horas_hombre,00.00) AS horas_hombre,IFNULL(apcp.horas_favor,00.00) AS horas_favor,IFNULL(apcp.horas_contra,00.00) AS horas_contra,0.00 as horas_programadas FROM alt_produccion_calendario apc LEFT JOIN alt_produccion_calendario_proceso apcp ON apcp.id_calendario_fecha=apc.id_calendario_fecha WHERE (apcp.id_proceso=:idProceso OR apcp.id_proceso IS NULL) AND fecha BETWEEN :fechaInicio AND :fechaFin"
+        List<HorasHabliesListDto> re = em.createNativeQuery("CALL `alt_pr_horas_habiles`(:fechaInicio, :fechaFin,:idProceso);"
         ,HorasHabliesListDto.class).setParameter("idProceso", idProceso).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
         return re;
     }

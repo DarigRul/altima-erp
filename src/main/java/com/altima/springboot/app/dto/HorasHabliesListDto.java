@@ -12,15 +12,14 @@ public class HorasHabliesListDto implements Serializable{
      *
      */
     private static final long serialVersionUID = 1L;
-
-
+    private String idCalendarioProceso;
     @Id
     private String idCalendarioFecha;
     private String fecha;
     private float horasHombre;
     private float horasFavor;
     private float horasContra;
-    private float horasProgramadas;
+    private String horasProgramadas;
 
     public String getIdCalendarioFecha() {
         return idCalendarioFecha;
@@ -34,11 +33,11 @@ public class HorasHabliesListDto implements Serializable{
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
-    public float getHorasProgramadas() {
-        return horasProgramadas;
+    public String getIdCalendarioProceso() {
+        return idCalendarioProceso;
     }
-    public void setHorasProgramadas(float horasProgramadas) {
-        this.horasProgramadas = horasProgramadas;
+    public void setIdCalendarioProceso(String idCalendarioProceso) {
+        this.idCalendarioProceso = idCalendarioProceso;
     }
     public float getHorasHombre() {
         return horasHombre;
@@ -57,7 +56,11 @@ public class HorasHabliesListDto implements Serializable{
     }
     public void setHorasContra(float horasContra) {
         this.horasContra = horasContra;
-    } 
-
-    
+    }
+    public String getHorasProgramadas() {
+        return horasProgramadas;
+    }
+    public void setHorasProgramadas(String horasProgramadas) {
+        this.horasProgramadas = horasProgramadas;
+    }     
 }

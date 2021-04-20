@@ -62,16 +62,16 @@
                                             <tr th:each="notificacion, inotificacion : ${notificaciones}">
                                                 <td th:text="${notificacion[1]}" />
                                                 <td th:text="${notificacion[2]}" />
-                                                <td th:text="${notificacion[3]}" />
+                                                <td th:text="${#dates.format(notificacion[3], 'dd-MM-yyyy HH:mm')}" />
                                                 <td th:text="${notificacion[4]}" />
                                                 <td th:text="${notificacion[5]}" />
                                                 <td th:if="${notificacion[7] == 0}" class="text-center">
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_NOTIFICACION_DETALLE'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="|notificacionesdisenio(${notificacion[0]})|" th:href="@{'/notificaciones/solicitud-gerencial/' + ${notificacion[6]}}"
-                                                        class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-envelope-square"></i></a>
+                                                        class="btn btn-danger btn-circle btn-sm popoverxd" ><i class="fas fa-envelope-square"></i></a>
                                                 </td>
                                                 <td th:if="${notificacion[7] == 1}" class="text-center">
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_NOTIFICACION_DETALLE'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/notificaciones/solicitud-gerencial/' + ${notificacion[6]}}" class="btn btn-success btn-circle btn-sm popoverxd"
-                                                        data-container="body" data-placement="top" data-content="Ver detalles"><i class="fas fa-envelope-open-text"></i></a>
+                                                        ><i class="fas fa-envelope-open-text"></i></a>
                                                 </td>
                                             </tr>
                                         </tbody>

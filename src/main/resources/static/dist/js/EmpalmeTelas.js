@@ -1,6 +1,7 @@
 
 var idCoorPrenda = [];
 var idExplosionPrenda = [];
+let sumatoriaCarga = 0;
 $('#selectAll').click(function (e) {
 	if ($(this).hasClass('checkedAll')) {
 		$('.messageCheckbox').prop('checked', false);
@@ -278,9 +279,10 @@ function guardarSecuencia() {
 			success: function (data) {
 			},
 			complete: function () {
-				var url = "/empalme-telas";
-				$(location).attr('href', url);
-
+				idExplosionPrenda = [];
+				$("#selectAll").prop("checked", false);
+				$('#nuevaSecuencia').modal('hide');
+				listarPorProceso()
 			},
 		})
 	}
@@ -320,30 +322,14 @@ function detalles(id) {
 
 }
 
-
-
-function columnasTablaEmpalme(tipo) {
-
-	if (tipo == 'Agrupado') {
-		$('#botton_secuencia').removeAttr('hidden');
-
-
-	} else {
-		
-
-	}
-
-}
-
 function listarPorProceso() {
-
-	columnasTablaEmpalme($("#procesosActivos option:selected").attr("tipo"));
-
-	var tablaPrincipal = $('#tableEmpalmes').DataTable();
-	let programa=$("#programa").val();
-	let procesosActivos=$("#procesosActivos").val();
-
-	if (programa.trim()==="" || procesosActivos.trim()=="") {
+	let tableEmpalme = $('#tableEmpalmeId').DataTable();
+	let programa = $("#programa").val();
+	let procesosActivos = $("#procesosActivos").val();
+	tableEmpalme
+		.clear()
+		.draw();
+	if (programa.trim() === "" || procesosActivos.trim() == "") {
 		Swal.fire({
 			position: 'center',
 			icon: 'error',
@@ -356,8 +342,8 @@ function listarPorProceso() {
 			url: "/empalme_telas_by_proceso",
 			data: {
 				'idProceso': procesosActivos,
-				'programa':programa
-	
+				'programa': programa
+
 			},
 			beforeSend: function () {
 				Swal.fire({
@@ -371,77 +357,71 @@ function listarPorProceso() {
 				});
 			},
 			success: (data) => {
-				if ($("#procesosActivos option:selected").attr("tipo") == 'Agrupado') {
-					for (i in data) {
-						tablaPrincipal.row.add([
-							'<td style="text-align: center; vertical-align: middle;">' +
-							'<input type="checkbox" onchange="seleccionarxUNO(' + data[i][0] + ')" class="messageCheckbox" value="' + data[i][0] + '" id="check-' + data[i][0] + '"  />' +
-							'</td>',
-							data[i][1],
-							data[i][2],
-							data[i][3],
-							data[i][4],
-							data[i][5],
-							data[i][6],
-							data[i][7],
-							data[i][8],
-							data[i][9],
-							data[i][10],
-							data[i][11],
-							data[i][12],
-							data[i][13],
-							data[i][14],
-							(data[i][17] == null ? '' : data[i][17]),
-							'<button class="btn btn-info btn-circle btn-sm" onclick="detalles(' + data[i][18] + ')" data-toggle="modal" data-target="#detalleTelas"><i class="fas fa-info"></i></button>',
-	
-						]).draw(true);
-					}
+				let mensaje = false;
+				sumatoriaCarga = 0;
+				for (i in data) {
+					mensaje = true;
+					tableEmpalme.row.add([
+						'<td style="text-align: center; vertical-align: middle;">' +
+						'<input type="checkbox" onchange="seleccionarxUNO(' + data[i][0] + ')" class="messageCheckbox" value="' + data[i][0] + '" id="check-' + data[i][0] + '"  />' +
+						'</td>',
+						(data[i][17] == null ? '' : data[i][17]),
+						data[i][1],
+						data[i][2],
+						data[i][3],
+						data[i][4],
+						data[i][5],
+						data[i][6],
+						data[i][8],
+						data[i][9],
+						data[i][10],
+						data[i][11],
+						data[i][12],
+						data[i][13],
+						data[i][14],
+						'<p id="tiempoProcesoP' + data[i][0] + '"> ' + (data[i][15] == null ? '' : data[i][15]) + ' </p>',// tiempo
+						'<p id="fechaProcesoP' + data[i][0] + '"> ' + (data[i][16] == null ? '' : data[i][16]) + ' </p>',//fecha
+						// '<button class="btn btn-info btn-circle btn-sm" onclick="detalles(' + data[i][18] + ')" data-toggle="modal" data-target="#detalleTelas"><i class="fas fa-info"></i></button>' +
+						'<button class="btn btn-primary btn-circle btn-sm" onclick="tiempo_proceso(this)" id="' + data[i][0] + '" tiempo="' + data[i][15] + '" data-content="Tiempo" > <i class="fas fa-clock"></i> </button>' +
+						'<button class="btn btn-secondary btn-circle btn-sm" onclick="fecha_proceso(this)" id="' + data[i][0] + '" fecha="' + data[i][16] + '" data-content="Fecha" > <i class="fas fa-calendar-alt"></i> </button>',
+
+					]).draw(true);
+					sumatoriaCarga += data[i][15];
 				}
-				else {
-					for (i in data) {
-						tablaPrincipal.row.add([
-							data[i][1],
-							data[i][2],
-							data[i][3],
-							data[i][4],
-							data[i][5],
-							data[i][6],
-							data[i][7],
-							data[i][8],
-							data[i][9],
-							data[i][10],
-							data[i][11],
-							data[i][12],
-							data[i][13],
-							data[i][14],
-							'<p id="tiempoProcesoP' + data[i][0] + '"> ' + (data[i][15] == null ? '' : data[i][15]) + ' </p>',// tiempo
-							'<p id="fechaProcesoP' + data[i][0] + '"> ' + (data[i][16] == null ? '' : data[i][16]) + ' </p>',//fecha
-							'<button class="btn btn-info btn-circle btn-sm" onclick="detalles(' + data[i][18] + ')" data-content="Detalles"><i class="fas fa-info"></i></button>' +
-							'<button class="btn btn-secondary btn-circle btn-sm" onclick="tiempo_proceso(this)" id="' + data[i][0] + '" tiempo="' + data[i][15] + '" data-content="Tiempo" > <i class="fas fa-clock"></i> </button>' +
-							'<button class="btn btn-light btn-circle btn-sm" onclick="fecha_proceso(this)" id="' + data[i][0] + '" fecha="' + data[i][16] + '" data-content="Fecha" > <i class="fas fa-calendar-alt"></i> </button>',
-	
-						]).draw(true);
-					}
+				console.log(sumatoriaCarga);
+				if (mensaje) {
+					Swal.fire({
+						position: 'center',
+						icon: 'success',
+						title: '¡Listo!',
+						showConfirmButton: false,
+						timer: 1000,
+						onClose: () => {
+							$('#SeleccionPrograma').modal("hide");
+						}
+					})
+				} else {
+					Swal.fire({
+						position: 'center',
+						icon: 'warning',
+						title: '¡No existen registros!',
+						showConfirmButton: false,
+						timer: 1300,
+						onClose: () => {
+							$('#SeleccionPrograma').modal("hide");
+						}
+					})
 				}
-	
-				Swal.fire({
-					position: 'center',
-					icon: 'success',
-					title: '¡Listo!',
-					showConfirmButton: false,
-					timer: 500,
-					onClose: () => {
-						$('#SeleccionPrograma').modal("hide");
-					}
-				})
+
+
 			},
 			error: (data) => {
-	
+
 			}
 		});
 	}
 
-	
+
 
 }
 
@@ -456,9 +436,11 @@ function seleccionarxUNO(id) {
 	}
 }
 function seleccionarTodos() {
-	if ($('#selectAll').hasClass('checkedAll')) {
+
+	if ($('#testSelect').hasClass('checkedAll')) {
+		console.log("nmz if")
 		$('.messageCheckbox').prop('checked', false);
-		$('#selectAll').removeClass('checkedAll');
+		$('#testSelect').removeClass('checkedAll');
 		$(".messageCheckbox").removeClass('checkedThis');
 		var inputElements = document.getElementsByClassName('messageCheckbox');
 		for (var i = 0; i < inputElements.length; ++i) {
@@ -468,8 +450,9 @@ function seleccionarTodos() {
 			}
 		}
 	} else {
+		console.log("nmz else")
 		$('.messageCheckbox').prop('checked', true);
-		$('#selectAll').addClass('checkedAll');
+		$('#testSelect').addClass('checkedAll');
 		$(".messageCheckbox").addClass('checkedThis');
 		var inputElements = document.getElementsByClassName('messageCheckbox');
 		for (var i = 0; i < inputElements.length; ++i) {
@@ -593,6 +576,7 @@ function sumarDias(fecha, dias) {
 }
 function verCalendario() {
 	//calendarioFechaInicio  calendarioFechaFin
+	let idProceso = $('#procesosActivos').val();
 	var now = new Date();
 	var day = ("0" + now.getDate()).slice(-2);
 	var month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -614,6 +598,7 @@ function verCalendario() {
 		type: "GET",
 		url: "/listar_fechas_calendario",
 		data: {
+			'idProceso': idProceso,
 			'fecha1': $("#calendarioFechaInicio").val(),
 			'fecha2': $("#calendarioFechaFin").val()
 		},
@@ -621,14 +606,11 @@ function verCalendario() {
 		success: function (data) {
 
 			for (i in data) {
-
-
-
 				table.row.add([
 					data[i][0],
-					restarHoras("" + data[i][1] + "", "" + data[i][2] + ""),
+					sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), data[i][4]),
 					formato("" + data[i][3] + ""),
-					restarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), formato("" + data[i][3] + ""))
+					restarHoras(sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), data[i][4]), formato("" + data[i][3] + ""))
 				]).node().id = "row";
 				table.draw(false);
 			}
@@ -644,6 +626,7 @@ function verCalendario() {
 }
 
 function buscarfecha() {
+	let idProceso = $('#procesosActivos').val();
 	var table = $('#tablaDetallesCalendario').DataTable();
 	var rows = table
 		.rows()
@@ -653,6 +636,7 @@ function buscarfecha() {
 		type: "GET",
 		url: "/listar_fechas_calendario",
 		data: {
+			'idProceso': idProceso,
 			'fecha1': $("#calendarioFechaInicio").val(),
 			'fecha2': $("#calendarioFechaFin").val()
 		},
@@ -663,9 +647,9 @@ function buscarfecha() {
 
 				table.row.add([
 					data[i][0],
-					restarHoras("" + data[i][1] + "", "" + data[i][2] + ""),
+					sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), data[i][4]),
 					formato("" + data[i][3] + ""),
-					restarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), formato("" + data[i][3] + ""))
+					restarHoras(sumarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), data[i][4]), formato("" + data[i][3] + ""))
 				]).node().id = "row";
 				table.draw(false);
 			}
@@ -711,11 +695,39 @@ function restarHoras(start, end) {
 	return diff
 
 }
+function sumarHoras(start, end) {
+	let s = start.split('.');
+	let e = end.split('.');
+	let min = (parseInt(s[1]) + parseInt(e[1]));
+	let hour_carry = 0;
+	if (min < 0) {
+		min -= 60;
+		hour_carry += 1;
+	}
+	let hour = parseInt(s[0]) + parseInt(e[0]) + hour_carry;
+	console.log(hour)
+	if (hour < 10 && hour > 0) {
+		hour = '0' + hour;
+
+	} else if (hour < 0 && hour > -10) {
+		hour = hour * -1;
+		hour = '-0' + hour;
+	}
+	else if (hour == 0) {
+		hour = '0' + hour;
+	}
+	if (min < 10) {
+		min = '0' + min;
+	}
+	diff = hour + "." + min;
+	return diff
+
+}
 
 function listarPorPedido() {
 	let table = $('#tablaProgramarTelas').DataTable();
-	let pedido=$("#pedido").val();
-	if (pedido.trim()==="") {
+	let pedido = $("#pedido").val();
+	if (pedido.trim() === "") {
 		Swal.fire({
 			position: 'center',
 			icon: 'error',
@@ -739,7 +751,7 @@ function listarPorPedido() {
 			},
 			success: (data) => {
 
-				data.map(orden=>{
+				data.map(orden => {
 					table.row.add([
 						`<input type="checkbox" class="messageCheckbox"
 						value="${orden.idCoordinadoPrenda}" />`,
@@ -766,9 +778,39 @@ function listarPorPedido() {
 				})
 			},
 			error: (data) => {
-	
+
 			}
 		});
 	}
 
+}
+
+function calcularHoras() {
+	$("#sumHorasProceso").val(sumatoriaCarga);
+	$("#modalCalcularHoras").modal("show");
+}
+
+$("#submitCalcularCarga").click(function (e) {
+	e.preventDefault();
+	let horasDia = $("#horasDia").val();
+	let cortadores = $("#cortadores").val();
+	let sumHorasProceso = $("#sumHorasProceso").val();
+	let totalHorasDia = $("#totalHorasDia").val();
+	if (cortadores.trim() === '' || horasDia.trim() === '' || sumHorasProceso.trim()===''||totalHorasDia.trim()==='') {
+		Swal.fire({
+			position: 'center',
+			icon: 'error',
+			title: 'Todos los campos son requeridos!',
+			showConfirmButton: true
+		});
+		return false;
+	}
+	$("#cargaDias").val((sumHorasProceso/totalHorasDia).toFixed(2));
+});
+
+function calcularHorasDia() {
+	let horasDia = $("#horasDia").val();
+	let cortadores = $("#cortadores").val();
+	if (cortadores.trim() === '' || horasDia.trim() === '') return false;
+	$("#totalHorasDia").val((cortadores * 9) + Number(horasDia));
 }
