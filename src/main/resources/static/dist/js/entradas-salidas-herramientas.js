@@ -149,7 +149,9 @@ function listar(){
 var Lista=[]; 
 var contador=0;
 $( "#Guardar" ).click(function() {
-	if($('#movimiento').val()==null || $('#concepto').val()=="0" || isNaN($('#concepto').val()) || $('#cantidad').val()==null || $('#cantidad').val()<0 || $('#articulo').val()==null  ){
+console.log($('#cantidad').val());
+	if($('#movimiento').val()==null || $('#concepto').val()=="0" || isNaN($('#concepto').val()) || $('#cantidad').val()==null || !($('#cantidad').val()) || $('#cantidad').val()<0 || $('#articulo').val()==null  ){
+	
 		Swal.fire({
 			  icon: 'error',
 			  title: 'Ingrese todos los campos',
@@ -269,19 +271,18 @@ function eliminar(e){
 }
 
 $( "#enviarOrden" ).click(function() {
-	
-	
-	if($("#restante").val()!=0 || !$("#restante").val() || $("#restante").val()<0 || $("#restante").val()>0  ){
-		
-	    Swal.fire('Faltan bultos por registrar no se pueden generar los tickets', '', 'error');
+	if(Lista === undefined || Lista.length == 0){
+		console.log(Lista.length);
+
+	    Swal.fire('Ingrese al menos un movimiento', '', 'info');
 
 		
-		
 	}else{
+	
 		
 		Swal.fire({
-			  title: '¿Desea generar los tickets?',
-			  text: 'Una vez generados no podrá modificarlos y estarán disponibles para su impresión',
+			  title: '¿Desea ingresar los movimientos?',
+			  text: 'Una vez ingresados no podra modificarlos',
 
 			  showCancelButton: true,
 			  confirmButtonColor: '#3085d6',
@@ -293,7 +294,7 @@ $( "#enviarOrden" ).click(function() {
 			  if (result.value) {
 				  Swal.fire({
 		                title: 'Por favor espere..!',
-		                text: 'Los tickets se estan generando..',
+		                text: 'Los datos se estan guardando..',
 		                allowOutsideClick: false,
 		                allowEscapeKey: false,
 		                allowEnterKey: false,
@@ -301,24 +302,38 @@ $( "#enviarOrden" ).click(function() {
 		                    Swal.showLoading()
 		                }
 		            })
-			    var control=document.getElementById("idcontrol").value;
-				var prenda=document.getElementById("idprenda").value;
+			   // var control=document.getElementById("idcontrol").value;
+				//var prenda=document.getElementById("idprenda").value;
+				//////////////////777
+				/* $.ajax({
+	                  type: "POST",
+	                  url: "/guardar-habilitacion",
+	                  headers: {
+	                      'X-CSRF-Token': $('#token').val(),
+	                 }
+	                	  ,   data:{Lista: JSON.stringify(Lista)} //stringify is important
+
+	              }).done(function(data) {
+	            	  
+	            	  
+	            	  })*/
+				/////////////77
+				
 				$.ajax({
 					method: "POST",
-					url: "/guardar-tickets-asignacion",
+					url: "/guardar-inventario-herramientas-entradas-salidas",
+					 headers: {
+	                      'X-CSRF-Token': $('#token').val(),
+	                 },
 					data: {
-						"_csrf": $(
-						'#token')
-					.val(),
-						"idcontrol": control,
-					    "idprenda":prenda
+						Lista: JSON.stringify(Lista)
 					},
 					success: (data3) => { 
 						if(data3==true){
-						    Swal.fire('¡Tickets generados correctamente!', '', 'success')
+						    Swal.fire('¡Datos guardados correctamente!', '', 'success')
 						    $('#generarTickets').modal('hide');
 						    location.reload();
-							 window.open("/maquilacontrolpedidostickets/"+control+"/"+prenda+"/?format=pdf");
+							// window.open("/maquilacontrolpedidostickets/"+control+"/"+prenda+"/?format=pdf");
 
 							
 						}else{
@@ -329,16 +344,16 @@ $( "#enviarOrden" ).click(function() {
 
 					}});
 			  } else {
-			    Swal.fire('Puede generar los tickets en otro momento', '', 'info');
+			    Swal.fire('Aun no se ha guardado ningun movimiento cancele la operacion o cierre el modal para hacer un nuevo movimiento', '', 'info');
 			  }
 			})
 		
-	}
+	
 	
 	
 	 
 	
-
+	}
 });
 
 
