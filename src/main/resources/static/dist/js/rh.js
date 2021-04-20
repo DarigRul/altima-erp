@@ -467,7 +467,7 @@ function agregarDepartamento(idArea) {
             '</div>' +
             '</div>' +
             '<label for="areadep">&Aacute;rea</label>' +
-            '<select class="swal2-input form-control selectpicker" title="Seleccione uno..."  id="listarAreasCatalogos">' +
+            '<select class="form-control selectpicker" title="Seleccione uno..."  id="listarAreasCatalogos">' +
             '</select>' +
             '<input type="hidden" id="idDepartamento" value="">' +
             '</div>',
@@ -553,6 +553,7 @@ function agregarDepartamento(idArea) {
             })
         }
     })
+    
 }
 
 //Habilitar input que se muestra deshabilitado
@@ -598,7 +599,7 @@ function listarDepartamentos() {
             if (rolAdmin == 1) {
                 for (i in data) {
                     tableRHDepartamento.row.add([
-                        data[i][5],
+                        data[i][0],
                         data[i][1],
                         data[i][3],
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
@@ -610,7 +611,7 @@ function listarDepartamentos() {
             } else
                 for (i in data) {
                     tableRHDepartamento.row.add([
-                        data[i][5],
+                        data[i][0],
                         data[i][1],
                         data[i][3],
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +

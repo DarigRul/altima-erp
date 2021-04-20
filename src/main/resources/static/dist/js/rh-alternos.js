@@ -145,12 +145,12 @@ function mostrarAreas() {
         success: (data) => {
             console.log(data);
             for (var key in data) {
-                $('#listarAreas').append('<option value="' + data[key]["idLookup"] + '">' + data[key]["nombreLookup"] + '</option>')
+                $('#listarAreasCatalogos').append('<option value="' + data[key]["idLookup"] + '">' + data[key]["nombreLookup"] + '</option>')
             }
            // if (idArea != null) {
            //    $('#listarAreas option[value="' + idArea + '"]').attr("selected", true);
            // }
-            $('#listarAreas').selectpicker('refresh');
+            $('#listarAreasCatalogos').selectpicker('refresh');
             
             
         },
