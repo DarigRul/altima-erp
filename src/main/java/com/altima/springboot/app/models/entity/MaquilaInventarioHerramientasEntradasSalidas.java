@@ -37,6 +37,9 @@ private static final long serialVersionUID = 1L;
 	
 	@Column(name="fecha")
 	private String fecha;
+	
+	@Column(name="observaciones")
+	private String observacion;
 
 	public Long getIdInventarioHerramienta() {
 		return idInventarioHerramienta;
@@ -88,6 +91,14 @@ private static final long serialVersionUID = 1L;
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
 	}
 	
 	
