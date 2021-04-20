@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Incidencias | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <div class="wrapper">
+        <div th:insert="navegacion-nav"></div>
+        <div th:insert="navegacion-logout"></div>
+        <div th:insert="navegacion-aside"></div>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Incidencias
+                                <button onclick="nuevo()" th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo</button>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Incidencias</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneralScroll table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Maquilero</th>
+                                                <th>Fecha</th>
+                                                <th>Pedido</th>
+                                                <th>OP</th>
+                                                <th>Coord.</th>
+                                                <th>Prenda</th>
+                                                <th>Modelo</th>
+                                                <th>Cve. Tela</th>
+                                                <th>Cantidad</th>
+                                                <th>Descuento</th>
+                                                <th>Monto</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="v: ${view}">
+                                                
+                                                <td th:text="${v[1]}">Folio</td>
+                                                <td th:text="${v[2]}">Maquilero</td>
+                                                <td th:text="${v[3]}">Fecha</td>
+                                                <td th:text="${v[4]}">Pedido</td>
+                                                <td th:text="${v[5]}">OP</td>
+                                                <td th:text="${v[6]}">Coord.</td>
+                                                <td th:text="${v[7]}">Prenda</td>
+                                                <td th:text="${v[8]}">Modelo</td>
+                                                <td th:text="${v[9]}">Cve. Tela</td>
+                                                <td th:text="${v[10]}">Cantidad</td>
+                                                <td th:text="${v[11]}">Descuento</td>
+                                                <td th:text="${v[12]}">Monto</td>
+                                                
+                                                <td>
+                                                    <a  class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="left" data-html="true"
+                                                        th:attr="data-content='<strong>Creado por: </strong>'+ ${v[13]}  + '<br>'"><i
+														class="fas fa-info fa-sm"></i> </a>
+
+                                                    <a th:if="${v[14] == 1}" th:onclick="|aceptar('${v[0]}')|" class="btn btn-success btn-circle btn-sm popoverxd text-white" data-container="body" data-toggle="popover"
+                                                    data-placement="top" data-content="Aceptar">
+                                                        <i class="fas fa-check"></i> </a>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div th:insert="incidencia-produccion-modal"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneralScroll.js"></script>
+    <script src="dist/js/incidencia-produccion.js"></script>
+    <script src="/dist/js/bootstrap-select.min.js"></script>
+</body>
+
+</html>
