@@ -84,6 +84,7 @@ public class MaquilaInventarioHerramientasEntradasSalidasController {
 					String contador = object2.get("contador").toString();
 					String movimiento = object2.get("movimiento").toString();
 					String observacion = object2.get("observacion").toString();
+					String folio=object2.get("folio").toString();
 					MaquilaInventarioHerramientasEntradasSalidas mihes = new MaquilaInventarioHerramientasEntradasSalidas();
 					DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					Date date = new Date();
@@ -91,11 +92,9 @@ public class MaquilaInventarioHerramientasEntradasSalidasController {
 					mihes.setIdMovimiento(Long.parseLong(concepto));
 					mihes.setIdHerramienta(Long.parseLong(articuloid));
 					mihes.setCantidad(Integer.parseInt(cantidad));
+					mihes.setFolio("MOV00"+folio);
 					maquilaInventarioHerramientaEntradasSalidasService.save(mihes);
-					mihes.setFolio("MOV00"+mihes.getIdInventarioHerramienta());
-					maquilaInventarioHerramientaEntradasSalidasService.save(mihes);
-					mihes.setFolio("MOV00"+(mihes.getIdHerramienta()-1));
-					maquilaInventarioHerramientaEntradasSalidasService.save(mihes);
+					
 
 					
 			

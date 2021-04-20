@@ -145,7 +145,7 @@ function listar(){
 		}
 	
 }
-
+const folio=Math.floor(Math.random() * 10000);
 var Lista=[]; 
 var contador=0;
 $( "#Guardar" ).click(function() {
@@ -180,7 +180,8 @@ console.log($('#cantidad').val());
 				"articulomarca": articulomarca,
 				"articuloid": articuloid,
 				"observacion": $('#exampleFormControlTextarea1').val(),
-				"contador": contador
+				"contador": contador,
+				"folio": folio
 				
 		};
 		Lista.push(movimiento);
