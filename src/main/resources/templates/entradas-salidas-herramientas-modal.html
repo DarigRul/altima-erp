@@ -20,7 +20,7 @@
     <div class="form-group col-md-6">
       <label for="inputPassword4">Concepto</label>
       <select class="form-control" id="concepto">
- 
+ <option>Seleccione un concepto</option>
  
 </select>
     </div>
@@ -45,6 +45,16 @@
      <input type="hidden" th:name="${_csrf.parameterName}" id="token" th:value="${_csrf.token}" />
     
   </div>
+ 
+   <div class="form-row">
+    <div class="form-group col-md-12">
+      <label for="inputEmail4">Observaciones</label>
+     <!--  <input type="text"  class="form-control" id="observaciones" name="observaciones"/> -->
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+    </div>
+   
+  </div>
+  
   <div class="form-row">
    <div class="form-group col-md-4">
    <button class="btn icon-btn btn-altima text-white" type="button" id="Guardar"><span
@@ -60,7 +70,7 @@
                     <button class="btn icon-btn btn-danger text-white mr-auto" type="button"  data-dismiss="modal" id="cerrarModalOrden"><span
                             class="btn-glyphicon fas fa-times fa-lg img-circle text-danger"></span>Cancelar</button>
                     <button class="btn icon-btn btn-altima text-white" type="button" data-dismiss="modal" id="enviarOrden0"><span
-                            class="btn-glyphicon fas fa-check img-circle text-altima"></span>Aceptar</button>
+                            class="btn-glyphicon fas fa-check img-circle text-altima"></span>Guardar</button>
                 </div>
             </form>
         </div>
