@@ -9,6 +9,8 @@ import com.altima.springboot.app.models.entity.ProduccionExplosionProcesos;
 public interface IProduccionExplosionProcesosService {
 
 	void save (ProduccionExplosionProcesos produccionExplosionProcesos);
+
+	List<ProduccionExplosionProcesos> saveSecuencia (String[] ids, String secuencia);
 	
 	ProduccionExplosionProcesos findOne (Long id);
 

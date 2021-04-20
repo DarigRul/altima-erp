@@ -40,6 +40,7 @@ function datosPedidos (id){
             'id':id
         },
         success: function(data){
+
             $('#cliente').val(data[0][0]);
             $('#personas').val(data[0][1]);
             $('#prendas').val(data[0][2]);
@@ -51,14 +52,14 @@ function datosPedidos (id){
         }
     })
 }
-$("#conversion").change(function(){
+function conversionFn(){
     if ($("#conversion").val() <=0){
         $("#conversion").val("");
         $("#porcentaje").val("")
     }else if ($('#prendas').val()  != ""){
         $('#porcentaje').val( (( $("#conversion").val() *100) / $('#prendas').val() ).toFixed(2))
     }
-});
+};
 function guardar(){
 
     if ($("#fRecepcion").val() == "" || $("#fEntrega").val() =="" ||

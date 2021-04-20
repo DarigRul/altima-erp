@@ -2,6 +2,7 @@ package com.altima.springboot.app.controller;
 
 import com.altima.springboot.app.models.entity.Usuario;
 import com.altima.springboot.app.models.service.IEmpalmeTelasService;
+import com.altima.springboot.app.models.service.IProduccionTiempoFamiliaPrendaService;
 import com.altima.springboot.app.models.service.ITiempoCorteService;
 import com.altima.springboot.app.models.service.IUsuarioService;
 
@@ -20,22 +21,15 @@ public class TiempoProcesoController {
     @Autowired
     private IEmpalmeTelasService EmpalmeService;
 
-    @Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_TIEMPO_CORTE"})
+	@Autowired
+    private IProduccionTiempoFamiliaPrendaService produccionTiempoFamiliaPrendaService;
+
+    @Secured({"ROLE_ADMINISTRADOR","ROLE_PRODUCCION_TIEMPO_PROCESO_LISTAR"})
     @GetMapping("/tiempos-de-procesos")
 	public String tiemposProcesos(Model model) {
 
-        /* Obtener todos los datos del usuario logeado */
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Usuario user = usuarioService.FindAllUserAttributes(auth.getName(), auth.getAuthorities());
-		Long iduser = user.getIdUsuario();
-		String role = "[ROLE_ADMINISTRADOR]";
-		if (auth.getAuthorities().toString().equals(role)) {
-			model.addAttribute("listProcesos", EmpalmeService.listarProcesosDisponiblesAdmin());
-		} else {
-			
-			model.addAttribute("listProcesos", EmpalmeService.listarProcesosDisponiblesUser(iduser));
+		model.addAttribute("tiempos", produccionTiempoFamiliaPrendaService.findTiempoFamiliaPrenda());
 
-		}
         return "tiempos-de-procesos";
 	}
     

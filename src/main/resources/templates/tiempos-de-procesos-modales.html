@@ -2,35 +2,99 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-rounded-body">
       <div class="modal-header bg-altima modal-rounded-header">
-        <h5 class="modal-title">Asignar tiempo</h5>
+        <h5 class="modal-title">Asignar tiempos</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <form action="">
-          <div class="form-group">
-            <label for="tiempoTalla">Tiempo por talla(minutos)</label>
-            <input type="number" class="form-control" id="tiempoTalla" placeholder="20" min="1" pattern="^[0-9]+">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="tiempoTalla">Tiempo por talla(minutos)</label>
+              <input type="number" class="form-control" id="tiempoTalla" placeholder="20" min="1" pattern="^[0-9]+">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="tiempoPrendaLisa">Tendido liso(minutos)</label>
+              <input type="number" class="form-control" id="tiempoPrendaLisa" placeholder="20" min="1"
+                pattern="^[0-9]+">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="tiempoPrendaEstampada">Tendido cuadros(minutos)</label>
+              <input type="number" class="form-control" id="tiempoPrendaCuadros" placeholder="20" min="1"
+                pattern="^[0-9]+">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="tiempoPrendaLisa">Tendido fantasia(minutos)</label>
+              <input type="number" class="form-control" id="tiempoPrendaFantasia" placeholder="20" min="1"
+                pattern="^[0-9]+">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="tiempoPrendaEstampada">Tendido rayas verticales(minutos)</label>
+              <input type="number" class="form-control" id="tiempoPrendaRayasVerticales" placeholder="20" min="1"
+                pattern="^[0-9]+">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="tiempoPrendaEstampada">Tendido rayas horizontales(minutos)</label>
+              <input type="number" class="form-control" id="tiempoPrendaRayasHorizontales" placeholder="20" min="1"
+                pattern="^[0-9]+">
+            </div>
+            <div class="form-group col-md-12">
+              <label for="tiempoRefilado">Tiempo refilado</label>
+              <input type="number" class="form-control" id="tiempoRefilado" placeholder="20" min="1" pattern="^[0-9]+">
+            </div>
+            <input type="hidden" id="idTiempoFamiliaPrenda">
+            <input type="hidden" id="idLookup">
           </div>
-          <div class="form-group">
-            <label for="tiempoPrendaLisa">Tiempo por prenda(minutos)</label>
-            <input type="number" class="form-control" id="tiempoPrendaLisa" placeholder="20" min="1" pattern="^[0-9]+">
-          </div>
-          <div class="form-group">
-            <label for="tiempoPrendaEstampada">Tiempo por prenda cuadros(minutos)</label>
-            <input type="number" class="form-control" id="tiempoPrendaEstampada" placeholder="20" min="1"
-              pattern="^[0-9]+">
-          </div>
-          <input type="hidden" id="idTiempoFamiliaPrenda">
-          <input type="hidden" id="idLookup">
         </form>
       </div>
       <div class="modal-footer">
         <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="button"><span
             class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-        <button id="btnGuardarTiempos" class="btn icon-btn btn-altima text-white" onclick="guardarTiempos()" type="submit"><span
-            class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+        <button id="btnGuardarTiempos" class="btn icon-btn btn-altima text-white" onclick="guardarTiempos()"
+          type="submit"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalPrendasLargoTalle" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content modal-rounded-body">
+      <div class="modal-header bg-altima modal-rounded-header">
+        <h5 class="modal-title">Asignar tiempos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+            <div class="form-group">
+              <label for="tiempoTalla">Familia Prenda</label>
+              <select class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" name="familiaPrenda" id="familiaPrenda">
+                <option>Seleccione uno...</option>
+                <option th:each=" tiempo: ${tiempos}" th:text="${tiempo.familiaPrenda}" th:data-name="${tiempo.familiaPrenda}" th:value="${tiempo.idLookup}"></option>
+              </select>
+            </div>
+        </form>
+
+        <table class="tablaGeneral" id="tablaPrendaCondicion" style="width:100%">
+          <thead>
+            <tr>
+              <th>Familia Prenda</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <a data-dismiss="modal" class="btn icon-btn btn-danger text-white mr-auto" type="button"><span
+            class="btn-glyphicon fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
+        <button id="btnGuardarTiempos" class="btn icon-btn btn-altima text-white" onclick="guardarPrendas()"
+          type="submit"><span class="btn-glyphicon fas fa-save img-circle text-altima"></span>Guardar</button>
       </div>
     </div>
   </div>

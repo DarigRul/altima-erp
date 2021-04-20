@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="navegacion-head :: header">
-    <title id="pageTitle">Programar Telas | Altima</title>
+    <title id="pageTitle">Asignación Telas | Altima</title>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
@@ -23,17 +23,28 @@
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
-                        <div class="col-sm-6">
+                        <div class="col-sm-5">
                             <h1>
-                                Programar Telas
+                                Asignación de ruta y clave semana 
                             </h1>
                         </div>
                         <div th:insert="empalme-telas-folio"></div>
-                        <div class="col-sm-6">
+                        <div class="form-group col-md-4">
+                            <div class="input-group mb-3">
+                                <label for="">Pedido</label>
+                                <input type="text" class="form-control" id="pedido">
+                                </select>
+                                <div class="input-group-append" style="margin-left:10px;display:block;">
+                                    <button class="btn btn-sm icon-btn btn-altima text-white float-right" onclick="listarPorPedido()"><span
+                                        class="btn-glyphicon fas fa-save img-circle text-altima"></span>Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item altima">Altima</li>
                                 <li class="breadcrumb-item active">Producci&oacute;n</li>
-                                <li class="breadcrumb-item active">Empalme de telas</li>
+                                <li class="breadcrumb-item active">Asignación</li>
                             </ol>
                         </div>
                     </div>
@@ -63,7 +74,7 @@
                                             type="button"><span
                                                 class="btn-glyphicon fas fa-plus img-circle text-secondary"></span>Programa
                                         </button>
-                                        <button th:if="${load}=='programar'" disabled
+                                        <button th:if="${load}=='programar'" 
                                             sec:authorize="hasAnyRole('ROLE_PRODUCCION_EMPALME_TELAS_AÑADIR_RUTA','ROLE_ADMINISTRADOR')"
                                             onclick="nuevaRuta()"
                                             class="btn btn-sm icon-btn btn-danger text-white mr-auto"
@@ -87,7 +98,7 @@
                                                 <th>Modelo</th>
                                                 <th th:if="${load}=='programar'">Personalizaci&oacute;n</th>
                                                 <th th:if="${load}=='programar'">Ruta</th>
-                                                <th th:if="${load}=='programar'">Programa</th>
+                                                <th th:if="${load}=='programar'">Clave semana</th>
 
 
                                             </tr>
@@ -111,11 +122,6 @@
     <div th:replace="navegacion-scripts"></div>
     <script src="dist/js/tablaGeneral.js"></script>
     <script src="dist/js/EmpalmeTelas.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#modalPedido").modal("show");
-        });
-    </script>
     <script>
         $('#iProduccion').removeClass('text-altima');
         $('#menuProduccion').addClass('menu-open');

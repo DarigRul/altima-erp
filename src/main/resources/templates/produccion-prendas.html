@@ -85,50 +85,50 @@
                                                 <td class="tdcenter">
                                                     <a th:href="@{'/view-prenda/' + ${prenda.idPrenda}}"
                                                         class="btn btn-info btn-circle btn-sm popoverxd"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-container="body" data-toggle="popover" 
                                                         data-content="Ver detalles"><i class="fas fa-info"></i></a>
                                                     <button th:if="${prenda.mostrar!=true}"
                                                         sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION')"
                                                         th:attr="onclick=|recibirProduccion('${prenda.idPrenda}','${prenda.mostrar}','${prenda.idRuta}')|"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-container="body" data-toggle="popover" 
                                                         data-content="Recibir prenda"
                                                         class="btn-success btn btn-error btn-circle btn-sm popoverxd"><i
                                                             class="fas fa-check"></i></button>
                                                     <button th:if="${prenda.mostrar==true}"
                                                         sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_DISENIO_PRENDAS_REGRESAR_PRODUCCION')"
                                                         th:attr="onclick=|recibirProduccion('${prenda.idPrenda}','${prenda.mostrar}')|"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-container="body" data-toggle="popover" 
                                                         data-content="Regresar prenda"
                                                         class=" btn-danger btn btn-error btn-circle btn-sm popoverxd"><i
                                                             class="fas fa-undo"></i></button>
                                                     <button data-toggle="modal" data-target="#modalRutas"
                                                         th:attr="onclick=|listRutas('${prenda.idPrenda}','${prenda.idRuta}')|"
-                                                        data-placement="top" data-content="Asignar ruta"
+                                                         data-content="Asignar ruta"
                                                         class="btn btn-error btn-info btn-circle btn-sm popoverxd"><i
                                                             class="fas fa-route"></i></button>
                                                     <button data-toggle="modal" data-target="#modalPrendaHistorico"
                                                         th:attr="onclick=|listHistorico('${prenda.idPrenda}')|"
-                                                        data-placement="top" data-content="Historico"
+                                                         data-content="Historico"
                                                         class="btn btn-secondary btn-circle btn-sm popoverxd"><i
                                                             class="fas fa-history"></i></button>
                                                     <button th:attr="onclick=|revisarPrenda('${prenda.idPrenda}')|"
                                                         class="btn btn-dark btn-circle btn-sm popoverxd"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-container="body" data-toggle="popover" 
                                                         data-content="Revisar prenda"><i
                                                             class="fas fa-clipboard-check"></i></button>
                                                     <button data-toggle="modal" data-target="#modalMiniTrazo"
                                                         th:attr="onclick=|miniTrazo('${prenda.idPrenda}')|"
-                                                        data-placement="top" data-content="Mini Trazo"
+                                                         data-content="Mini Trazo"
                                                         class="btn btn-warning btn-circle btn-sm popoverxd"><i
                                                             class="fas fa-tshirt"></i></button>
                                                     <button data-toggle="modal" data-target="#modalDrop"
                                                         th:attr="onclick=|drop('${prenda.rutaDrop}')|"
-                                                        data-placement="top" data-content="Drop"
+                                                         data-content="Drop"
                                                         class="btn btn-light btn-circle btn-sm popoverxd"><i
                                                             class="fas fa-ruler"></i></button>
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_PRENDAS_CONSUMO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
                                                         th:href="@{'/consumo-talla-prenda/'} + ${prenda.IdPrenda}"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-container="body" data-toggle="popover" 
                                                         data-content="Consumo por prenda"
                                                         class="btn btn-altima btn-circle btn-sm popoverxd"><i
                                                             style="margin-left:-3px" class="fas fa-chart-line"></i></a>

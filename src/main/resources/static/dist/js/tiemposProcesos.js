@@ -1,470 +1,269 @@
-function listarPorProceso() {
-    var tablaPrincipal = $('#tableEmpalme').DataTable();
-    var rows = tablaPrincipal
-        .rows()
-        .remove()
-        .draw();
+function modalEditarTiempos(idLookup, idTiempoFamiliaPrenda) {
+    let { tiempoPrendaLisa, tiempoPrendaCuadros, tiempoPrendaFantasia, tiempoPrendaRayasVerticales, tiempoPrendaRayasHorizontales, tiempoTalla, tiempoRefilado } = getFields(idLookup);
+    $('#tiempoPrendaLisa').val(tiempoPrendaLisa);
+    $('#tiempoPrendaCuadros').val(tiempoPrendaCuadros);
+    $('#tiempoPrendaFantasia').val(tiempoPrendaFantasia);
+    $('#tiempoPrendaRayasVerticales').val(tiempoPrendaRayasVerticales);
+    $('#tiempoPrendaRayasHorizontales').val(tiempoPrendaRayasHorizontales);
+    $('#tiempoRefilado').val(tiempoRefilado);
+    $('#tiempoTalla').val(tiempoTalla);
+    $('#idTiempoFamiliaPrenda').val(idTiempoFamiliaPrenda);
+    $('#idLookup').val(idLookup);
+    $("#modalTiempoProceso").modal("show");
+}
 
-    let programa = $("#programa").val();
-    let procesosActivos = $("#procesosActivos").val();
-
-    if (programa.trim() === "" || procesosActivos.trim() == "") {
+function guardarTiempos() {
+    $("#btnGuardarTiempos").attr("disabled", true);
+    let idLookup = $('#idLookup').val();
+    let { tiempoPrendaLisa, tiempoPrendaCuadros, tiempoPrendaFantasia, tiempoPrendaRayasVerticales, tiempoPrendaRayasHorizontales, tiempoTalla, tiempoRefilado } = getValues();
+    let idTiempoFamiliaPrenda = $('#idTiempoFamiliaPrenda').val();
+    if (tiempoTalla.trim() === '' ||
+        tiempoPrendaCuadros.trim() === '' ||
+        tiempoPrendaLisa.trim() === '' ||
+        tiempoPrendaFantasia.trim() === '' ||
+        tiempoPrendaRayasVerticales.trim() === '' ||
+        tiempoPrendaRayasHorizontales.trim() === '' ||
+        tiempoRefilado.trim() === ''
+    ) {
         Swal.fire({
-            position: 'center',
             icon: 'error',
-            title: 'Todos los campos son requeridos!',
-            showConfirmButton: true
-        });
-    } else {
+            title: 'Error',
+            text: 'Todos los campos deben de estar llenos!',
+        })
+        return false;
+    }
+    let tiempos = {
+        idFamiliaPrenda: idLookup,
+        idTiempoFamiliaPrenda: idTiempoFamiliaPrenda,
+        tiempoPrendaCuadros: tiempoPrendaCuadros,
+        tiempoPrendaFantasia: tiempoPrendaFantasia,
+        tiempoPrendaRayasVerticales: tiempoPrendaRayasVerticales,
+        tiempoPrendaRayasHorizontales: tiempoPrendaRayasHorizontales,
+        tiempoPrendaLisa: tiempoPrendaLisa,
+        tiempoTalla: tiempoTalla,
+        tiempoRefilado: tiempoRefilado,
+    }
+    if (idTiempoFamiliaPrenda.trim() === '') {
         $.ajax({
-            method: "GET",
-            url: "/listar_tiempo_proceso_secuencial",
-            data: {
-                'idProceso': procesosActivos,
-                'programa':programa
-            },
-            beforeSend: function () {
+            type: "POST",
+            url: `/api/tiempoFamiliaPrenda/?_csrf=${$("[name='_csrf']").val()}`,
+            data:
+                JSON.stringify(tiempos)
+            ,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
                 Swal.fire({
-                    title: 'Cargando ',
-                    html: 'Por favor espere',// add html attribute if you want or remove
-                    allowOutsideClick: false,
-                    timerProgressBar: true,
-                    onBeforeOpen: () => {
-                        Swal.showLoading()
-                    },
-                });
-            },
-            success: (data) => {
-                for (i in data) {
-                    tablaPrincipal.row.add([
-                        data[i][0],
-                        data[i][1],
-                        data[i][2],
-                        data[i][3],
-                        data[i][4],
-                        data[i][5],
-                        data[i][6],
-                        '<p id="tiempoSecuencia' + data[i][0] + '"> ' + (data[i][7] == null ? '' : data[i][7]) + ' </p>',
-                        '<p id="fechaSecuencia' + data[i][0] + '"> ' + (data[i][8] == null ? '' : data[i][8]) + ' </p>',
-                        `<button class="btn btn-primary btn-circle btn-sm" onclick="tiempoGeneral('${data[i][10]}')"><i class="fas fa-stopwatch"></i></button>` +
-                        '<button onclick="verDetalles(this)" secuencia="' + data[i][0] + '" idProceso="' + $("#procesosActivos").val() + '"   class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>' +
-                        (data[i][9] == data[i][7] ? '<button onclick="calendarizar(this)" secuencia="' + data[i][0] + '" fecha="' + data[i][8] + '"  idProceso="' + $("#procesosActivos").val() + '" class="btn bg-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Caledarizar"><i class="fas fa-calendar-day"></i></button>' : '')
-                    ]).draw(true);
-                }
-
-
-                Swal.fire({
-                    position: 'center',
                     icon: 'success',
-                    title: '¡Listo!',
+                    title: 'Los tiempos se editaron correctamente',
                     showConfirmButton: false,
-                    timer: 500,
-                    onClose: () => {
-                        $('#SeleccionPrograma').modal("hide");
-                    }
+                    timer: 2000
+                }).then(function () {
+                    updateTable(data);
+                    $("#btnGuardarTiempos").attr("disabled", false);
+                    $("#modalTiempoProceso").modal("hide");
+
                 })
             },
-            error: (data) => {
-
+            error: function (response) {
+                $("#btnGuardarTiempos").attr("disabled", false);
             }
         });
     }
-
-}
-var secuenciaGlobal;
-function verDetalles(e) {
-    var secuencia = e.getAttribute("secuencia");
-    var idProceso = e.getAttribute("idProceso");
-    var table = $('#tablaDetalles').DataTable();
-    secuenciaGlobal = e.getAttribute("secuencia");
-    var rows = table
-        .rows()
-        .remove()
-        .draw();
-    $.ajax({
-        type: "GET",
-        url: "/listar_detalles_tiempo_proceso_secuencial",
-        data: {
-            'idProceso': idProceso,
-            'secuencia': secuencia
-        },
-        beforeSend: function () {
-            Swal.fire({
-                title: 'Buscando ',
-                html: 'Por favor espere',// add html attribute if you want or remove
-                allowOutsideClick: false,
-                timerProgressBar: true,
-                onBeforeOpen: () => {
-                    Swal.showLoading()
-                },
-            });
-        },
-        success: function (data) {
-
-            for (i in data) {
-                var tiempo = data[i][6];
-                if (tiempo == null) {
-                    tiempo = "";
-                }
-                table.row.add([
-                    data[i][1],
-                    data[i][2],
-                    data[i][3],
-                    data[i][4],
-                    data[i][5],
-                    "<p id='tiempoP" + data[i][0] + "' class='text-center'>" + tiempo + "</p>",
-
-                    "<td class='text-center'>" +
-                    '<button  onclick=addTiempo(this) id=' + data[i][0] + ' tiempo=' + data[i][6] + ' class="btn btn-altima btn-sm btn-circle popoverxd" data-placement="top" data-content="Asignaci&oacute;n de tiempo"><i class="fas fa-clock"></i></button>' +
-                    "</td>"
-
-
-
-                ]).node().id = "row";
-                table.draw(false);
-            }
-
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: '¡Listo!',
-                showConfirmButton: false,
-                timer: 500,
-                onClose: () => {
-                    $('#tiempoDetalle').modal('show');
-                }
-            })
-
-
-            //console.log(data)
-        }
-    })
-}
-function addTiempo(e) {
-
-    var id = e.getAttribute("id");
-    var tiempo = e.getAttribute("tiempo");
-
-    $("#tiempoMinutos").val($('#tiempoP' + id).text());
-    $("#idExplosiconProcesos").val(id);
-
-    $('#asignacionTiempo').modal('show');
-
-
-
-}
-function guardarTiempo() {
-
-    if ($("#tiempoMinutos").val() == null || $("#tiempoMinutos").val() <= 0 || $("#tiempoMinutos").val() == "") {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error!',
-            text: 'Complete el formulario.'
-        })
-
-
-
-    } else {
-        $.ajax({
-            type: "GET",
-            url: "/add_tiempo_explosion_secuencial",
-            data: {
-                'id': $("#idExplosiconProcesos").val(),
-                'tiempo': $("#tiempoMinutos").val()
-            },
-
-            success: function (data) {
-                if (data == true) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Guardado!',
-                        text: 'Se ha guardado el registro.'
-                    })
-
-                    $('#tiempoP' + $("#idExplosiconProcesos").val()).text($("#tiempoMinutos").val());
-                    $("#asignacionTiempo .close").click()
-
-                }
-                //console.log(data)
-            }
-        })
-
-    }
-
-}
-$('#tiempoDetalle').on('hidden.bs.modal', function () {
-    listarPorProceso();
-});
-
-function calendarizar(e) {
-    $('#idFecha').val(e.getAttribute("fecha"));
-    $('#secuenciaFecha').val(e.getAttribute("secuencia"));
-    $('#idPRocesoFecha').val(e.getAttribute("idProceso"));
-    secuenciaGlobal = e.getAttribute("secuencia");
-    $('#calendarizar').modal('show');
-
-}
-function guardarCalendarioFolio() {
-    console.log($('#idFecha').val())
-
-    if ($('#secuenciaFecha').val() == null || $('#idFecha').val() == "" || $('#idFecha').val() == null) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error!',
-            text: 'Complete el formulario.'
-        })
-
-    } else {
-
-        $.ajax({
-            type: "GET",
-            url: "/guardar_fecha_por_secuencia",
-            data: { 'secuencia': $('#secuenciaFecha').val(), 'fecha': $('#idFecha').val(), 'idProceso': $('#idPRocesoFecha').val() },
-            success: function (data) {
-                $('#calendarizar').modal('toggle');
-
-                if (data == true) {
-                    console.log($('#idFecha').val());
-                    $("#fechaSecuencia" + secuenciaGlobal).text($('#idFecha').val());
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Guardado!',
-                        text: 'Se ha guardado el registro.'
-                    })
-
-                }
-
-
-            }
-        })
-
-
-    }
-}
-$("#idFecha").change(function () {
-
-    //validar_fecha_produccion_calendario
-    $.ajax({
-        type: "GET",
-        url: "/validar_fecha_produccion_calendario_proceso",
-        data: { 'secuencia': $('#secuenciaFecha').val(), 'fecha': $('#idFecha').val(), 'idProceso': $('#idPRocesoFecha').val() },
-        beforeSend: function () {
-            Swal.fire({
-                title: 'Verificando fecha.',
-                html: '¡Por favor espere!',// add html attribute if you want or remove
-                allowOutsideClick: false,
-                timerProgressBar: true,
-                onBeforeOpen: () => {
-                    Swal.showLoading()
-                },
-            });
-        },
-        success: function (data) {
-
-            if (data == 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Esta fecha no cuenta con calendarización!'
-                })
-                $('#idFecha').val(null);
-            }
-            else if (data == 1) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'La secuencia supera el tiempo de la fecha.',
-                    text: '¿Le gustaria continuar?',
-                    showCancelButton: true,
-                    confirmButtonText: 'Continuar',
-                    cancelButtonText: 'Cancelar',
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-
-
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        console.log("aaaaaaaaa")
-                        $('#idFecha').val(null);
-                    }
-                })
-
-            }
-            else if (data == 2) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Fecha valida'
-                })
-            }
-        }
-    })
-
-});
-function verCalendario() {
-    //calendarioFechaInicio  calendarioFechaFin
-    var now = new Date();
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-    var today = now.getFullYear() + "-" + (month) + "-" + (day);
-    $("#calendarioFechaInicio").val(today);
-
-    now = sumarDias(now, +7);
-    day = ("0" + now.getDate()).slice(-2);
-    month = ("0" + (now.getMonth() + 1)).slice(-2);
-    var today2 = now.getFullYear() + "-" + (month) + "-" + (day);
-    $("#calendarioFechaFin").val(today2);
-
-    var table = $('#tablaDetallesCalendario').DataTable();
-    var rows = table
-        .rows()
-        .remove()
-        .draw();
-    $.ajax({
-        type: "GET",
-        url: "/listar_fechas_calendario",
-        data: {
-            'fecha1': $("#calendarioFechaInicio").val(),
-            'fecha2': $("#calendarioFechaFin").val()
-        },
-
-        success: function (data) {
-
-            for (i in data) {
-
-
-
-                table.row.add([
-                    data[i][0],
-                    restarHoras("" + data[i][1] + "", "" + data[i][2] + ""),
-                    formato("" + data[i][3] + ""),
-                    restarHoras(restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), formato("" + data[i][3] + ""))
-                ]).node().id = "row";
-                table.draw(false);
-            }
-            console.log(data)
-        }
-    })
-
-
-
-
-    $('#verCalendarioModal').modal('show'); // abrir
-
-}
-function sumarDias(fecha, dias) {
-    fecha.setDate(fecha.getDate() + dias);
-    return fecha;
-}
-function restarHoras(start, end) {
-    s = start.split('.');
-    e = end.split('.');
-    min = s[1] - e[1];
-    hour_carry = 0;
-    if (min < 0) {
-        min += 60;
-        hour_carry += 1;
-    }
-    hour = s[0] - e[0] - hour_carry;
-
-    if (hour < 10 && hour > 0) {
-        hour = '0' + hour;
-
-    } else if (hour < 0 && hour > -10) {
-        hour = hour * -1;
-        hour = '-0' + hour;
-    }
-    else if (hour == 0) {
-        hour = '0' + hour;
-    }
-    if (min < 10) {
-        min = '0' + min;
-    }
-    diff = hour + "." + min;
-
-    return diff
-
-}
-function formato(hora) {
-    hora = hora.replace(/[:]/gi, '.');
-
-    var s = hora.split('.');
-    hora = s[0] + "." + s[1];
-    return hora;
-}
-function buscarfecha() {
-    var table = $('#tablaDetallesCalendario').DataTable();
-    var rows = table
-        .rows()
-        .remove()
-        .draw();
-    $.ajax({
-        type: "GET",
-        url: "/listar_fechas_calendario",
-        data: {
-            'fecha1': $("#calendarioFechaInicio").val(),
-            'fecha2': $("#calendarioFechaFin").val()
-        },
-
-        success: function (data) {
-
-            for (i in data) {
-
-                table.row.add([
-                    data[i][0],
-                    restarHoras("" + data[i][1] + "", "" + data[i][2] + ""),
-                    formato("" + data[i][3] + ""),
-                    (restarHoras("" + data[i][1] + "", "" + data[i][2] + ""), formato("" + data[i][3] + ""))
-                ]).node().id = "row";
-                table.draw(false);
-            }
-            console.log(data)
-        }
-    })
-
-}
-
-function tiempoGeneral(idExplosionProcesos) {
-    $("#modalTiempoGeneral").modal("show");
-    $("#idExplosionProcesos").val(idExplosionProcesos);
-}
-
-function guardarTiempoGeneral() {
-
-    let idExplosionProcesos = $('#idExplosionProcesos').val()
-    let tiempoGeneral = $('#tiempoGeneral').val()
-
-    if (idExplosionProcesos == null || idExplosionProcesos == '' || tiempoGeneral.trim() == "" || tiempoGeneral == null) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error!',
-            text: 'Complete el formulario.'
-        })
-
-    } else {
-
+    else {
         $.ajax({
             type: "PUT",
-            url: `/tiempos-de-procesos/postFechaGeneral/${idExplosionProcesos}`,
-            data: {
-                '_csrf': $('[name="_csrf"]').val(),
-                'tiempoGeneral': tiempoGeneral
-            },
+            url: `/api/tiempoFamiliaPrenda/${idTiempoFamiliaPrenda}?_csrf=${$("[name='_csrf']").val()}`,
+            data:
+                JSON.stringify(tiempos)
+            ,
+            dataType: 'json',
+            contentType: 'application/json',
             success: function (data) {
-                $('#modalTiempoGeneral').modal('hide');
                 Swal.fire({
                     icon: 'success',
-                    title: 'Guardado!',
-                    text: 'Se ha guardado el registro.'
+                    title: 'Los tiempos se editaron correctamente',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(function () {
+                    updateTable(data);
+                    $("#btnGuardarTiempos").attr("disabled", false);
+                    $("#modalTiempoProceso").modal("hide");
+
                 })
-
-
-
+            },
+            error: function (response) {
+                $("#btnGuardarTiempos").attr("disabled", false);
             }
-        })
-
-
+        });
     }
+}
+
+function getFields(idLookup) {
+    let fields = {
+        tiempoTalla: $(`#tiempoTalla-${idLookup}`).text(),
+        tiempoPrendaLisa: $(`#tiempoPrendaLisa-${idLookup}`).text(),
+        tiempoPrendaCuadros: $(`#tiempoPrendaCuadros-${idLookup}`).text(),
+        tiempoPrendaFantasia: $(`#tiempoPrendaFantasia-${idLookup}`).text(),
+        tiempoPrendaRayasVerticales: $(`#tiempoPrendaRayasVerticales-${idLookup}`).text(),
+        tiempoPrendaRayasHorizontales: $(`#tiempoPrendaRayasHorizontales-${idLookup}`).text(),
+        tiempoRefilado: $(`#tiempoRefilado-${idLookup}`).text(),
+    }
+    return fields;
+}
+function getValues() {
+    let values = {
+        tiempoTalla: $(`#tiempoTalla`).val(),
+        tiempoPrendaLisa: $(`#tiempoPrendaLisa`).val(),
+        tiempoPrendaCuadros: $(`#tiempoPrendaCuadros`).val(),
+        tiempoPrendaFantasia: $(`#tiempoPrendaFantasia`).val(),
+        tiempoPrendaRayasVerticales: $(`#tiempoPrendaRayasVerticales`).val(),
+        tiempoPrendaRayasHorizontales: $(`#tiempoPrendaRayasHorizontales`).val(),
+        tiempoRefilado: $(`#tiempoRefilado`).val(),
+    }
+    return values;
+}
+function updateTable(data) {
+    $(`#tiempoPrendaLisa-${data.idFamiliaPrenda}`).text(data.tiempoPrendaLisa)
+    $(`#tiempoPrendaCuadros-${data.idFamiliaPrenda}`).text(data.tiempoPrendaCuadros)
+    $(`#tiempoPrendaFantasia-${data.idFamiliaPrenda}`).text(data.tiempoPrendaFantasia)
+    $(`#tiempoPrendaRayasVerticales-${data.idFamiliaPrenda}`).text(data.tiempoPrendaRayasVerticales)
+    $(`#tiempoPrendaRayasHorizontales-${data.idFamiliaPrenda}`).text(data.tiempoPrendaRayasHorizontales)
+    $(`#tiempoTalla-${data.idFamiliaPrenda}`).text(data.tiempoTalla)
+    $(`#tiempoRefilado-${data.idFamiliaPrenda}`).text(data.tiempoRefilado)
+}
+
+function modalPrendasLargoTalle() {
+    $("#modalPrendasLargoTalle").modal("show");
+    let tablaPrendaCondicion = $("#tablaPrendaCondicion").DataTable();
+    tablaPrendaCondicion
+        .clear()
+        .draw();
+    $.ajax({
+        type: "GET",
+        url: "/api/prendasTiemposCondicion/",
+        success: function (data) {
+            data.map(prenda => {
+                tablaPrendaCondicion.row.add([
+                    prenda.familiaPrenda,
+                    `<button onClick="eliminarPrendaCondicion(${prenda.idFamiliaPrenda})" class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-content="Declinar" data-original-title="" title=""><i class="fas fa-times"></i></button>`
+                ]).draw(false)
+            })
+        }
+    });
+}
+
+function eliminarPrendaCondicion(id) {
+    Swal.fire({
+        title: '¿Deseas eliminar la Familia Prenda?',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#dc3545',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Confirmar',
+        confirmButtonColor: '#0288d1',
+    }).then((result) => {
+        if (result.value && id != null) {
+            $.ajax({
+                type: "DELETE",
+                url: `/api/prendasTiemposCondicion/${id}`,
+                data: {
+                    '_csrf': $("[name='_csrf']").val(),
+                },
+                success: function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'La familia prenda se elimino correctamente',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                    let tablaPrendaCondicion = $("#tablaPrendaCondicion").DataTable();
+                    tablaPrendaCondicion
+                        .clear()
+                        .draw();
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/prendasTiemposCondicion/",
+                        success: function (data) {
+                            data.map(prenda => {
+                                tablaPrendaCondicion.row.add([
+                                    prenda.familiaPrenda,
+                                    `<button onClick="eliminarPrendaCondicion(${prenda.idFamiliaPrenda})" class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-content="Declinar" data-original-title="" title=""><i class="fas fa-times"></i></button>`
+                                ]).draw(false)
+                            })
+                        }
+                    });
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error en el servidor',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+            });
+        }
+    })
+}
+
+function guardarPrendas() {
+    let idFamiliaPrenda = $('#familiaPrenda').val();
+    let familiaPrenda = $('#familiaPrenda').find("option:selected").text();
+    let data = {
+        idFamiliaPrenda: idFamiliaPrenda,
+        familiaPrenda: familiaPrenda
+    }
+    if (idFamiliaPrenda === undefined || familiaPrenda.trim() === undefined) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Todos los campos son obligatorios',
+            showConfirmButton: false,
+            timer: 2000
+        })
+    }
+    else {
+        $.ajax({
+            type: "POST",
+            url: `/api/prendasTiemposCondicion/?_csrf=${$("[name='_csrf']").val()}`,
+            data:
+                JSON.stringify(data)
+            ,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (response) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Registro duplicado',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            },
+            error: function (data) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'La familia de prenda se agrego correctamente',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                let tablaPrendaCondicion = $("#tablaPrendaCondicion").DataTable();
+                tablaPrendaCondicion
+                    .clear()
+                    .draw();
+                $.ajax({
+                    type: "GET",
+                    url: "/api/prendasTiemposCondicion/",
+                    success: function (data) {
+                        data.map(prenda => {
+                            tablaPrendaCondicion.row.add([
+                                prenda.familiaPrenda,
+                                `<button onClick="eliminarPrendaCondicion(${prenda.idFamiliaPrenda})" class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-content="Declinar" data-original-title="" title=""><i class="fas fa-times"></i></button>`
+                            ]).draw(false)
+                        })
+                    }
+                });
+            },
+        });
+    }
+
 }

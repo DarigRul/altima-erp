@@ -28,19 +28,17 @@ $('#selectAll').click(function (e) {
 	}
 	//console.log(idCoorPrenda);
 });
-$(".messageCheckbox").change(function (e) {
-	e.preventDefault();
-	if ($(this).hasClass('checkedThis')) {
-		$(this).removeClass('checkedThis');
-		var removeIndex = idCoorPrenda.indexOf(+$(this).val())
+function seleccionarxUNO1(id) {
+	console.log("aver")
+	if ($('#check-' + id).hasClass('checkedThis')) {
+		$('#check-' + id).removeClass('checkedThis');
+		var removeIndex = idCoorPrenda.indexOf(+$('#check-' + id).val())
 		idCoorPrenda.splice(removeIndex, 1);
 	} else {
-		$(this).addClass('checkedThis');
-		idCoorPrenda.push(+$(this).val());
+		$('#check-' + id).addClass('checkedThis');
+		idCoorPrenda.push(+$('#check-' + id).val());
 	}
-	//console.log(+$(this).val());
-	//console.log(idCoorPrenda);
-});
+}
 
 function nuevoFolio() {
 	if ($.isEmptyObject(idCoorPrenda)) {
@@ -138,8 +136,7 @@ function guardarRuta() {
 			success: function (data) {
 			},
 			complete: function () {
-				var url = "/programar-telas";
-				$(location).attr('href', url);
+				listarPorPedido()
 
 			},
 		})
@@ -229,10 +226,10 @@ function guardarPrograma() {
 			},
 
 			success: function (data) {
+				
 			},
 			complete: function () {
-				var url = "/programar-telas";
-				$(location).attr('href', url);
+				listarPorPedido();
 
 			},
 		})
@@ -251,7 +248,6 @@ function guardarSecuencia() {
 		});
 	}
 	else {
-
 		$.ajax({
 			type: "POST",
 			url: "/guardar_empalme_by_proceso",
@@ -426,6 +422,7 @@ function listarPorProceso() {
 }
 
 function seleccionarxUNO(id) {
+	console.log("aver")
 	if ($('#check-' + id).hasClass('checkedThis')) {
 		$('#check-' + id).removeClass('checkedThis');
 		var removeIndex = idExplosionPrenda.indexOf(+$('#check-' + id).val())
@@ -726,6 +723,9 @@ function sumarHoras(start, end) {
 
 function listarPorPedido() {
 	let table = $('#tablaProgramarTelas').DataTable();
+	table
+    .clear()
+    .draw();
 	let pedido = $("#pedido").val();
 	if (pedido.trim() === "") {
 		Swal.fire({
@@ -753,8 +753,7 @@ function listarPorPedido() {
 
 				data.map(orden => {
 					table.row.add([
-						`<input type="checkbox" class="messageCheckbox"
-						value="${orden.idCoordinadoPrenda}" />`,
+						`<input type="checkbox" onchange="seleccionarxUNO1(${orden.idCoordinadoPrenda})" class="messageCheckbox" value="${orden.idCoordinadoPrenda}" id="check-${orden.idCoordinadoPrenda}"  />`,
 						orden.idTextPedido,
 						orden.fechaEntrega,
 						orden.numeroCoordinado,

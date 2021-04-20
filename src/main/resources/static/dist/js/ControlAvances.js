@@ -198,8 +198,7 @@ function explosionarPrendas(idExplosion){
     		         });
     			},
     			success: (data) => {
-    				
-    				
+    				console.log(data)
     				for (i in data){
     					tablaPrendasExplosionadas.row.add([
 							'<input type="checkbox" onchange="seleccionarxUNO('+data[i][0]+')" class="messageCheckbox" value="'+data[i][0]+'" id="check-'+data[i][0]+'" >',
@@ -225,7 +224,7 @@ function explosionarPrendas(idExplosion){
     				})
     			},
     			error: (data) => {
-    				
+    				console.log("nmz")
     			}
     		});
     		
@@ -265,6 +264,7 @@ function abrirTablaExplosionPrendas(idExplosion, estatus){
 	         });
 		},
 		success: (data) => {
+			console.log(data);
 			for (i in data){
 				tablaPrendasExplosionadas.row.add([
 					'<input type="checkbox" onchange="seleccionarxUNO('+data[i][0]+')" class="messageCheckbox" value="'+data[i][0]+'" id="check-'+data[i][0]+'" >',
@@ -291,7 +291,7 @@ function abrirTablaExplosionPrendas(idExplosion, estatus){
 			})
 		},
 		error: (data) => {
-			
+			console.log("nmz");
 		}
 	});
 }

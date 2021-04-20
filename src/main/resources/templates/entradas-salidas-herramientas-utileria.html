@@ -75,7 +75,7 @@
                                         <tbody>
                                             <tr th:each="entrada_salida : ${entradasalida}" >
                                                 <td th:text="${entrada_salida[8]}">1</td>
-                                                <td th:text="${entrada_salida[9]}">Altima</td>
+                                                <td th:text="${#dates.format(entrada_salida[9], 'dd-MM-yyyy HH:mm')}">Altima</td>
                                                 <td th:text="${entrada_salida[3]}">1</td>
                                                 <td th:text="${entrada_salida[2]}">1</td>
                                                 

@@ -48,7 +48,12 @@
                             <!-- Default box -->
                             <div class="card">
                                 <div class="card-header bg-altima">
-                                    <h3 class="card-title">Tiempos
+                                    <h3 class="card-title">Tiempos <button id="botonCalcularHoras"
+                                            onclick="modalPrendasLargoTalle()"
+                                            class="btn btn-sm icon-btn btn-info text-white mr-auto" type="button"><span
+                                                class="btn-glyphicon fas fa-calculator img-circle text-info"></span>Prendas
+                                            largo talle
+                                        </button>
                                     </h3>
                                 </div>
                                 <div class="card-body" id="contenedor-tableEmpalme">
@@ -58,17 +63,32 @@
                                             <tr>
                                                 <th>Familia Prenda</th>
                                                 <th>Tiempo por talla</th>
-                                                <th>Tendido por prenda</th>
+                                                <th>Tendido liso</th>
                                                 <th>Tendido cuadros</th>
+                                                <th>Tendido fantasia</th>
+                                                <th>Tendido rayas verticales</th>
+                                                <th>Tendido rayas horizontales</th>
+                                                <th>Tiempo refilado</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr th:each=" tiempo: ${tiempos}">
                                                 <td th:text="${tiempo.familiaPrenda}"></td>
-                                                <td th:id="'tiempoTalla-'+${tiempo.idLookup}" th:text="${tiempo.tiempoTalla}"></td>
-                                                <td th:id="'tiempoPrendaLisa-'+${tiempo.idLookup}" th:text="${tiempo.tiempoPrendaLisa}"></td>
-                                                <td th:id="'tiempoPrendaEstampada-'+${tiempo.idLookup}" th:text="${tiempo.tiempoPrendaEstampada}"></td>
+                                                <td th:id="'tiempoTalla-'+${tiempo.idLookup}"
+                                                    th:text="${tiempo.tiempoTalla}"></td>
+                                                <td th:id="'tiempoPrendaLisa-'+${tiempo.idLookup}"
+                                                    th:text="${tiempo.tiempoPrendaLisa}"></td>
+                                                <td th:id="'tiempoPrendaCuadros-'+${tiempo.idLookup}"
+                                                    th:text="${tiempo.tiempoPrendaCuadros}"></td>
+                                                <td th:id="'tiempoPrendaFantasia-'+${tiempo.idLookup}"
+                                                    th:text="${tiempo.tiempoPrendaFantasia}"></td>
+                                                <td th:id="'tiempoPrendaRayasVerticales-'+${tiempo.idLookup}"
+                                                    th:text="${tiempo.tiempoPrendaRayasVerticales}"></td>
+                                                <td th:id="'tiempoPrendaRayasHorizontales-'+${tiempo.idLookup}"
+                                                    th:text="${tiempo.tiempoPrendaRayasHorizontales}"></td>
+                                                <td th:id="'tiempoRefilado-'+${tiempo.idLookup}"
+                                                    th:text="${tiempo.tiempoRefilado}"></td>
                                                 <td> <button
                                                         sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_PRODUCCION_TIEMPO_PROCESO_EDITAR')"
                                                         th:onclick="|modalEditarTiempos(${tiempo.idLookup},${tiempo.idTiempoFamiliaPrenda})|"

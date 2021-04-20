@@ -48,7 +48,7 @@
                                     <h3 class="card-title">Historial de pedidoss</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table tablaGeneral table-striped table-bordered">
+                                    <table class="display compact tablaGeneral" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Folio</th>
@@ -71,25 +71,25 @@
                                                     <div class="btn-group" role="group" aria-label="Basic example">
                                                         <a th:href="@{/informacion-general/expediente/}+ ${pedidos[0]}"
                                                             class="btn btn-info popoverxd" data-container="body"
-                                                            data-placement="top"
+                                                            data-placement="buttom"
                                                             data-content="Informaci&oacute;n general"><i
                                                                 class="fas fa-file-alt"></i></a> <a
                                                             th:href="@{/coordinados/expediente/}+${pedidos[0]}"
                                                             class="btn btn-primary popoverxd text-white"
-                                                            data-container="body" data-placement="top"
+                                                            data-container="body" 
                                                             data-content="Coordinados"><i
                                                                 class="fas fa-question"></i></a>
                                                         <!-- <a th:href="@{/detalle-de-precios/expediente/}+${pedidos[0]}"
                                                             class="btn btn-success popoverxd" data-container="body"
-                                                            data-placement="top" data-content="Detalle de precios"><i
+                                                             data-content="Detalle de precios"><i
                                                                 class="fas fa-file-invoice-dollar"></i></a> -->
                                                         <a th:href="@{'/agregar-empleado-empresa/expediente/'+${pedidos[0]}+'/'+${pedidos[4]}}"
                                                             class="btn btn-danger popoverxd" data-container="body"
-                                                            data-placement="top" data-content="Empleados"><i
+                                                             data-content="Empleados"><i
                                                                 class="fas fa-user"></i></a>
                                                         <a th:href="@{/concentrado-de-prendas/expediente/} + ${pedidos[0]}"
                                                             class="btn btn-success popoverxd" data-container="body"
-                                                            data-placement="top"
+                                                            
                                                             data-content="Concentrado de prendas"><i
                                                                 class="fas fa-tshirt fa-sm"
                                                                 style="margin-left: -2px"></i></a>
@@ -99,14 +99,14 @@
                                                         <a th:if="${pedidos[10] == null}"
                                                             th:href="@{/concentrado-de-tallas/expediente/}+${pedidos[0]}+'/'+0"
                                                             class="btn btn-warning popoverxd" data-container="body"
-                                                            data-placement="top"
+                                                            
                                                             data-content="Concentrado por tallas"><i
                                                                 class="fas fa-ruler-combined"></i></a>
 
                                                         <a th:if="${pedidos[10] != null}"
                                                             th:href="@{/concentrado-de-tallas/}+${pedidos[0]}+'/'+${pedidos[10]}"
                                                             class="btn btn-warning popoverxd" data-container="body"
-                                                            data-placement="top"
+                                                            
                                                             data-content="Concentrado por tallas"><i
                                                                 class="fas fa-ruler-combined"></i></a>
 
@@ -114,7 +114,7 @@
 
                                                         <!-- <a th:href="@{/totales-por-razon-social/}+${pedidos[0]}"
                                                             class="btn btn-danger popoverxd" data-container="body"
-                                                            data-placement="top"
+                                                            
                                                             data-content="Totales por raz&oacute;n social"><i
                                                                 class="fas fa-user"></i></a> -->
 
@@ -122,18 +122,18 @@
                                                         <a th:onclick="|cerrar('${pedidos[0]}')|"
                                                             th:if="${pedidos[7]==2}"
                                                             class="btn btn-danger text-white popoverxd"
-                                                            data-container="body" data-placement="top"
+                                                            data-container="body" 
                                                             data-content="Cerrar expediente"><i
                                                                 class="fas fa-file-download"></i></a>
                                                         <a th:onclick="|abrir('${pedidos[0]}')|"
                                                             th:if="${pedidos[7]==3}"
                                                             class="btn btn-success text-white popoverxd"
-                                                            data-container="body" data-placement="top"
+                                                            data-container="body" 
                                                             data-content="Abrir expediente"><i
                                                                 class="fas fa-file-download"></i></a>
                                                         <button th:onclick="|historico('${pedidos[0]}')|"
                                                             class="btn btn-secondary text-white popoverxd"
-                                                            data-container="body" data-placement="top"
+                                                            data-container="body" 
                                                             data-content="Historico"><i
                                                                 class="fas fa-history"></i></button>
 
@@ -142,28 +142,28 @@
 
 
                                                     <!-- <div class="btn-group" role="group">
-                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" href="#" class="btn btn-altima popoverxd" data-container="body" data-placement="top"
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" href="#" class="btn btn-altima popoverxd" data-container="body" 
                                                             data-content="Ver m&aacute;s detalles" style="pointer-events: none; display: inline-block;"><i class="fas fa-info"></i></a>
                                                         <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_IGENERAL'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-informacion-general/'+${pedidos[0]} (format=pdf)}"
-                                                            class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Informaci&oacute;n general"><i class="fas fa-file-alt"></i></a>
+                                                            class="btn btn-altima popoverxd" data-container="body"  data-content="Informaci&oacute;n general"><i class="fas fa-file-alt"></i></a>
                                                         <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_COORDINADOS'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-coordinados/'+${pedidos[0]} (format=pdf)}"
-                                                            class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Coordinados"><i class="fas fa-question"></i></a>
+                                                            class="btn btn-altima popoverxd" data-container="body"  data-content="Coordinados"><i class="fas fa-question"></i></a>
                                                         <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_PRECIO'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-detalle-precios/'+${pedidos[0]} (format=pdf)}" class="btn btn-altima popoverxd"
-                                                            data-container="body" data-placement="top" data-content="Detalle de precios"><i class="fas fa-file-invoice-dollar"></i></a>
+                                                            data-container="body"  data-content="Detalle de precios"><i class="fas fa-file-invoice-dollar"></i></a>
                                                         <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_EMPLEADOS'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-empleados/'+${pedidos[0]} +'/'+${pedidos[4]} (format=pdf)}"
-                                                            class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Empleados"><i class="fas fa-user"></i></a>
+                                                            class="btn btn-altima popoverxd" data-container="body"  data-content="Empleados"><i class="fas fa-user"></i></a>
                                                         <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_PRENDA'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:attr="onclick=|ElegirConcentradoPrendas('${pedidos[0]}')|" class="btn btn-altima popoverxd"
-                                                            data-container="body" data-placement="top" data-content="Concentrado de prendas"><i class="fas fa-tshirt fa-sm" style="margin-left:-2px"></i></a>
+                                                            data-container="body"  data-content="Concentrado de prendas"><i class="fas fa-tshirt fa-sm" style="margin-left:-2px"></i></a>
                                                         <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_TALLAS'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-concentrado-por-tallas/'+${pedidos[0]} (format=pdf)}"
-                                                            class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Concentrado por tallas"><i class="fas fa-ruler-combined"></i></a>
-                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_TALLAS'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Toma de tallas"
+                                                            class="btn btn-altima popoverxd" data-container="body"  data-content="Concentrado por tallas"><i class="fas fa-ruler-combined"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_TALLAS'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-altima popoverxd" data-container="body"  data-content="Toma de tallas"
                                                             style="pointer-events: none; display: inline-block;"><i class="fas fa-ruler-combined"></i></a>
                                                         <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_RAZONSOCIAL'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/expediente-imprimir-totales-por-razon-social/'+${pedidos[0]} (format=pdf)}"
-                                                            class="btn btn-altima popoverxd" data-container="body" data-placement="top" data-content="Totales por raz&oacute;n social"><i class="fas fa-user"></i></a>
-                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-altima text-white popoverxd" data-container="body" data-placement="top"
+                                                            class="btn btn-altima popoverxd" data-container="body"  data-content="Totales por raz&oacute;n social"><i class="fas fa-user"></i></a>
+                                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-altima text-white popoverxd" data-container="body" 
                                                             data-content="Reabrir expediente" style="pointer-events: none; display: inline-block;"><i class="fas fa-file-upload"></i></a>
                                                         <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_EXPEDIENTE_LISTADOPEDIDOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{'/patch-expediente/'+${pedidos[0]} }" class="btn btn-altima text-white popoverxd"
-                                                            data-container="body" data-placement="top" data-content="Cerrar expediente"><i class="fas fa-file-download"></i></a>
+                                                            data-container="body"  data-content="Cerrar expediente"><i class="fas fa-file-download"></i></a>
                                                     </div> -->
                                                 </td>
                                             </tr>

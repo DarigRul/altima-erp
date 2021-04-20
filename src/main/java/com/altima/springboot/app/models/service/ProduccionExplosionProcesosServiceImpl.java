@@ -1,6 +1,9 @@
 package com.altima.springboot.app.models.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.EntityManager;
 
@@ -8,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.altima.springboot.app.dto.TiempoCantidadProcesoDto;
 import com.altima.springboot.app.models.entity.ProduccionConsumoReal;
 import com.altima.springboot.app.models.entity.ProduccionExplosionPrendas;
 import com.altima.springboot.app.models.entity.ProduccionExplosionProcesos;
+import com.altima.springboot.app.repository.DisenioPrendaRepository;
 import com.altima.springboot.app.repository.ProduccionConsumoRealRepository;
 import com.altima.springboot.app.repository.ProduccionExplosionPrendasRepository;
 import com.altima.springboot.app.repository.ProduccionExplosionProcesosRepository;
+import com.altima.springboot.app.repository.ProduccionTiempoFamiliaPrendaRepository;
 
 @Service
 @SuppressWarnings("unchecked")
@@ -27,6 +33,12 @@ public class ProduccionExplosionProcesosServiceImpl implements IProduccionExplos
 
 	@Autowired
 	private ProduccionConsumoRealRepository repositoryConsumo;
+
+	@Autowired
+	private DisenioPrendaRepository repositoryPrenda;
+
+	@Autowired
+	private ProduccionTiempoFamiliaPrendaRepository repositoryTiempoFamiliaPrenda;
 
 	@Autowired
 	private EntityManager em;
@@ -284,6 +296,70 @@ public class ProduccionExplosionProcesosServiceImpl implements IProduccionExplos
 				"AND prendas.realizo is  null AND prendas.id_explosion_proceso="+id).getSingleResult().toString();
 
 		return re;
+	}
+
+	@Override
+	@Transactional
+	public List<ProduccionExplosionProcesos> saveSecuencia(String[] ids, String secuencia) {
+		List<ProduccionExplosionProcesos> explosiones = new ArrayList<ProduccionExplosionProcesos>();
+		List<String> idsCoordinadoPrenda = new ArrayList<String>();
+		Arrays.stream(ids).forEach(id -> {
+			Boolean ultimoRegistro = id == ids[ids.length - 1];
+			Long idL = Long.parseLong(id);
+			ProduccionExplosionProcesos findExplosion = findOne(idL);
+			findExplosion.setIdExplosionProcesos(idL);
+			findExplosion.setSecuenciaProceso(secuencia);
+			idsCoordinadoPrenda.add(findExplosion.getIdCoordinado().toString());
+			if (ultimoRegistro) {
+				Boolean genero = repositoryPrenda.findGeneroByIdPrenda(findExplosion.getClavePrenda()).equals("Dama");
+				Boolean prendaCondicion=repositoryTiempoFamiliaPrenda.findPrendaCondicion(findExplosion.getClavePrenda())==1;
+				if (genero && prendaCondicion){
+					TiempoCantidadProcesoDto tiempoCantidad = repositoryTiempoFamiliaPrenda
+							.findTiempoCantidadFamiliaPrenda(idsCoordinadoPrenda);
+					Integer minutos = operacionTiempoAgrupado(tiempoCantidad);
+					System.out.println("Agrupados:"+formatearMinutosAHoraMinuto(minutos));
+					findExplosion.setTiempoProceso(formatearMinutosAHoraMinuto(minutos));
+				} else {
+					TiempoCantidadProcesoDto tiempoCantidad = repositoryTiempoFamiliaPrenda
+							.findTiempoCantidadFamiliaPrenda(idsCoordinadoPrenda);
+					Integer minutos = operacionTiempo(tiempoCantidad);
+					System.out.println(formatearMinutosAHoraMinuto(minutos));
+					findExplosion.setTiempoProceso(formatearMinutosAHoraMinuto(minutos));
+				}
+				explosiones.add(findExplosion);
+				repository.save(findExplosion);
+			}
+		});
+		return explosiones;
+	}
+
+	private String formatearMinutosAHoraMinuto(int minutos) {
+		String formato = "%02d.%02d";
+		long horasReales = TimeUnit.MINUTES.toHours(minutos);
+		long minutosReales = TimeUnit.MINUTES.toMinutes(minutos)
+				- TimeUnit.HOURS.toMinutes(TimeUnit.MINUTES.toHours(minutos));
+		return String.format(formato, horasReales, minutosReales);
+	}
+
+	private Integer operacionTiempo(TiempoCantidadProcesoDto tiempoCantidad) {
+		Integer resultado = Integer.valueOf((tiempoCantidad.getCantidadTallas() * tiempoCantidad.getTiempoTalla())
+				+ (tiempoCantidad.getCantidadLiso() * tiempoCantidad.getTiempoPrendaLisa())
+				+ (tiempoCantidad.getCantidadCuadros() * tiempoCantidad.getTiempoPrendaCuadros())
+				+ (tiempoCantidad.getCantidadFantasia() * tiempoCantidad.getTiempoPrendaFantasia())
+				+ (tiempoCantidad.getCantidadRayasHorizontales() * tiempoCantidad.getTiempoPrendaRayasHorizontales())
+				+ (tiempoCantidad.getCantidadRayasVerticales() * tiempoCantidad.getTiempoPrendaRayasVerticales()));
+		return resultado;
+	}
+
+	private Integer operacionTiempoAgrupado(TiempoCantidadProcesoDto tiempoCantidad) {
+		Integer resultado = Integer.valueOf((tiempoCantidad.getCantidadTallasAgrupadas() * tiempoCantidad.getTiempoTalla())
+				+ (tiempoCantidad.getCantidadLiso() * tiempoCantidad.getTiempoPrendaLisa())
+				+ (tiempoCantidad.getCantidadCuadros() * tiempoCantidad.getTiempoPrendaCuadros())
+				+ (tiempoCantidad.getCantidadFantasia() * tiempoCantidad.getTiempoPrendaFantasia())
+				+ (tiempoCantidad.getCantidadRayasHorizontales() * tiempoCantidad.getTiempoPrendaRayasHorizontales())
+				+ (tiempoCantidad.getCantidadRayasVerticales() * tiempoCantidad.getTiempoPrendaRayasVerticales())
+				+ (tiempoCantidad.getTiempoRefilado()));
+		return resultado;
 	}
 	
 }

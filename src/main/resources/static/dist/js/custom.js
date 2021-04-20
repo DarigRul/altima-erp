@@ -1,15 +1,12 @@
 //Popover
-$(function () {
-  $(".popoverxd").popover({
-    container: "body",
-    trigger: "hover",
-  });
-});
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip();
-});
+
 //Bootstrap-select
 $(document).ready(function () {
+
+  $('.popoverxd').popover({
+    trigger:'hover'
+  })
+
   $(".selectpicker").selectpicker({
     style: "border border-bootstrap",
   });

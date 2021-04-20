@@ -2,6 +2,7 @@ package com.altima.springboot.app.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +16,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.altima.springboot.app.dto.ProgramarTelasListDto;
@@ -103,14 +107,19 @@ public class EmpalmeTelasRestController {
 	}
 
 	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_PRODUCCION_EMPALME_TELAS" })
-	@RequestMapping(value = "/guardar_empalme_by_proceso", method = RequestMethod.POST)
-	public boolean save(@RequestParam(name = "ids") String[] ids, String secuencia) {
-		for (int i = 0; i < ids.length; i++) {
-			ProduccionExplosionProcesos obj = explosionService.findOne(Long.parseLong(ids[i]));
-			obj.setSecuenciaProceso(secuencia);
-			explosionService.save(obj);
+	@PostMapping("/guardar_empalme_by_proceso")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> postEmpalme(@RequestParam(name = "ids") String[] ids, String secuencia) {
+		List<ProduccionExplosionProcesos> explosiones= new ArrayList<ProduccionExplosionProcesos>();
+		Map<String, Object> response = new HashMap<>();
+		try {
+			explosiones=explosionService.saveSecuencia(ids,secuencia);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al insertar en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return true;
+		return new ResponseEntity<List<ProduccionExplosionProcesos>>(explosiones, HttpStatus.CREATED);
 	}
 
 	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_PRODUCCION_EMPALME_TELAS" })
