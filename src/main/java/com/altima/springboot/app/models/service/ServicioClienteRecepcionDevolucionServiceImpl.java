@@ -80,11 +80,8 @@ public class ServicioClienteRecepcionDevolucionServiceImpl implements IServicioC
                 "AND look.descripcion_lookup = 'Externo'\r\n" +
                 "AND explosionPrenda.realizo = "+idMaquilero+"\r\n" +
                 "AND pedido.id_pedido_informacion = "+idPedido+"\r\n" +
-                "AND explosionProceso.id_explosion_procesos NOT IN (\r\n" +
-                "SELECT\r\n" +
-                    "id_op\r\n" +
-                "FROM\r\n" +
-                "alt_servicio_cliente_recepcion_devolucion ) GROUP BY explosionProceso.id_explosion_procesos").getResultList();
+                "AND explosionProceso.id_explosion_procesos NOT IN ( SELECT RD.id_op FROM alt_servicio_cliente_recepcion_devolucion AS RD WHERE RD.id_maquilero = "+idMaquilero+" AND RD.id_op = explosionProceso.id_explosion_procesos ) \r\n" +
+                "GROUP BY explosionProceso.id_explosion_procesos").getResultList();
 		return re;
     }
 
