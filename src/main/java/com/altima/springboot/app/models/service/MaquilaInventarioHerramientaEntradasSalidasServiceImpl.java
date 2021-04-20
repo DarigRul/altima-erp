@@ -35,7 +35,7 @@ public class MaquilaInventarioHerramientaEntradasSalidasServiceImpl implements I
 				+ "INNER JOIN alt_maquila_inventario_herramienta_entradas_salidas amihes\r\n"
 				+ "on amihes.id_movimiento=aml2.id_lookup\r\n"
 				+ "and amihes.id_herramienta=aml.id_lookup\r\n"
-				+ "where amihes.id_movimiento not in(1,2)").getResultList();
+				+ "where amihes.id_movimiento not in(1,2) GROUP BY amihes.folio").getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
