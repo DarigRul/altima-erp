@@ -467,7 +467,7 @@ function agregarDepartamento(idArea) {
             '</div>' +
             '</div>' +
             '<label for="areadep">&Aacute;rea</label>' +
-            '<select class="swal2-input form-control selectpicker" title="Seleccione uno..."  id="listarAreasCatalogos">' +
+            '<select class="swal2-input" title="Seleccione uno..."  id="listarAreasCatalogos">' +
             '</select>' +
             '<input type="hidden" id="idDepartamento" value="">' +
             '</div>',
