@@ -17,7 +17,7 @@
                         <div class="col-sm-6">
                             <h1>
                                 Incidencias
-                                <button onclick="nuevo()" th:if="${(#authorization.expression('hasRole(''ROLE_DISENIO_MATERIALES_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo</button>
+                                <button onclick="nuevo()" th:if="${(#authorization.expression('hasRole(''ROLE_PRODUCCION_INCIDENCIA_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-sm icon-btn btn-altima text-white"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo</button>
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -74,10 +74,10 @@
                                                 
                                                 <td>
                                                     <a  class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="left" data-html="true"
-                                                        th:attr="data-content='<strong>Creado por: </strong>'+ ${v[13]}  + '<br>'"><i
+                                                        th:attr="data-content='<strong>Creado por: </strong>'+ ${v[13]}  + '<br>'+'<strong>Aceptado por: </strong>'+ ${v[15]}  + '<br>'"><i
 														class="fas fa-info fa-sm"></i> </a>
 
-                                                    <a th:if="${v[14] == 1}" th:onclick="|aceptar('${v[0]}')|" class="btn btn-success btn-circle btn-sm popoverxd text-white" data-container="body" data-toggle="popover"
+                                                    <a th:if=" ${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_PRODUCCION_INCIDENCIA_ACEPTAR'')')}) and ${v[14] == 1}" th:onclick="|aceptar('${v[0]}')|" class="btn btn-success btn-circle btn-sm popoverxd text-white" data-container="body" data-toggle="popover"
                                                     data-placement="top" data-content="Aceptar">
                                                         <i class="fas fa-check"></i> </a>
                                                 </td>
@@ -99,6 +99,14 @@
     <script src="dist/js/tablaGeneralScroll.js"></script>
     <script src="dist/js/incidencia-produccion.js"></script>
     <script src="/dist/js/bootstrap-select.min.js"></script>
+    <script>
+        $('#iProduccion').removeClass('text-primary');
+        $('#menuProduccion').addClass('menu-open');
+        $('#navProduccion').addClass('menu-open');
+        $('#navProduccionIncidencia').addClass('active');
+       
+    </script>
 </body>
+
 
 </html>

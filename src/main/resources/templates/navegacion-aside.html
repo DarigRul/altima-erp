@@ -990,6 +990,16 @@
                                 <p>Recepci&oacute;n-Devoluci&oacute;n</p>
                             </a>
                         </li>
+                        <li class="nav-item"
+                            th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                            (${#authorization.expression('hasRole(''ROLE_PRODUCCION_INCIDENCIA_LISTAR'')')}) or 
+                            (${#authorization.expression('hasRole(''ROLE_PRODUCCION_INCIDENCIA_AGREGAR'')')}) or
+                            (${#authorization.expression('hasRole(''ROLE_PRODUCCION_INCIDENCIA_ACEPTAR'')')})">
+                            <a th:href="${'/incidencia-produccion'}" class="nav-link" id="navProduccionIncidencia">
+                                <i class="far fa-newspaper"></i>
+                                <p>Incidencias</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview" id="menuServicio" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 

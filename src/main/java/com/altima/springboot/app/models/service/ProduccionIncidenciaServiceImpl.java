@@ -109,7 +109,7 @@ public class ProduccionIncidenciaServiceImpl implements IProduccionIncidenciaSer
                     "tela.id_tela,\r\n" +
                     "inci.cantidad,\r\n" +
                     "if(inci.descuento=1, 'Si','No'),\r\n" +
-                    "inci.cantidad_descuento ,inci.creado_por, inci.estatus\r\n" +
+                    "inci.cantidad_descuento ,inci.creado_por, inci.estatus, ifnull(inci.actualizado_por,'')\r\n" +
                 "FROM\r\n" +
                     "alt_produccion_incidencia inci\r\n" +
                     "INNER JOIN alt_produccion_maquilador maquilador on maquilador.id_maquilador = inci.id_maquilero\r\n" +
