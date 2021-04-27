@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Prestamos herramientas y utilería | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Prestamos herramientas y utilería
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Taller de maquila</li>
+                                <li class="breadcrumb-item active">Prestamos herramientas y utilería</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Default box -->
+                                                    <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
+                            
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Prestamos herramientas y utilería
+                                      <button  class="btn btn-success btn-sm btn-circle popoverxd"  data-placement="top"
+                                                        data-content="Ingresar movimiento" data-target="#generarTickets" data-toggle="modal" ><i class="fas fa-store"></i></button>
+                                      <!--  th:if="${control[8]} != ${control[19]}" th:attr="onclick=|listar(${control[0]},${control[17]})|" --> 
+<!--                                        th:id="'generarTickets'+${control[0]}"
+ -->                                    </h3>
+                                </div>
+                                <div th:insert="control-pedidos-modal"></div>
+                                <div class="card-body">
+                                    <div th:insert="prestamos-herramientas-utileria-modal"></div>
+                                     <div th:insert="avances-tickets-modal"></div>
+                                      <div th:insert="avances-tickets-modal-bultos"></div>
+                                    <div class="form-group">
+
+                                    </div>
+                                    <table class="table tablaGeneral table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th >Fecha prestamo</th>
+                                                <th >Operario</th>
+                                                <th >Estatus general</th>
+                                                <th >Fecha devolución</th>
+                                                <th >Acciones</th>
+                                               <!--  <th >Acciones</th> -->
+                                               
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="prestamo : ${prestamos1}" >
+                                                <td th:text="${prestamo[3]}">1</td>
+                                                <td th:text="${#dates.format(prestamo[4], 'dd-MM-yyyy HH:mm')}"></td>
+                                                <td th:text="${prestamo[6]}">1</td>                                               
+                                                <td th:text="${prestamo[3]}">1</td>
+                                                <td th:text="${prestamo[1]}">1</td>
+                                                <td th:text="${prestamo[1]}">1</td>
+                                               
+                                           <!--      <td th:text="${#dates.format(prestamo[4], 'dd-MM-yyyy HH:mm')}">Altima</td> -->
+                                               
+                                                
+                         
+                                               <!--  <td th:text="${entrada_salida[4]}"> -->
+                                                    
+                                                   <!--  <button  th:if="${control[8]} != ${control[19]}" th:attr="onclick=|listar(${control[0]},${control[17]})|"  class="btn btn-primary btn-sm btn-circle popoverxd"  data-placement="top"
+                                                        data-content="Generar tickets" data-target="#generarTickets" data-toggle="modal" th:id="'generarTickets'+${control[0]}"><i class="fas fa-store"></i></button>
+                                                  <div  th:if="${control[8]} == ${control[19]}">
+ <button  disabled th:attr="onclick=|listar(${control[0]},${control[17]})|"  class="btn btn-primary btn-sm btn-circle popoverxd"  data-placement="top"
+                                                        data-content="Generar tickets" data-target="#generarTickets" data-toggle="modal" th:id="'generarTickets'+${control[0]}"><i class="fas fa-store"></i></button>
+                                                    <button   th:attr="onclick=|imprimirtickets(${control[0]},${control[17]})|"  class="btn btn-primary btn-sm btn-circle popoverxd"  data-placement="top"
+                                                        data-content="Imprimir tickets"  data-toggle="modal" th:id="'generarTickets'+${control[0]}"><i class="fas fa-print"></i></button>
+                                                     <button th:attr="onclick=|listar2(${control[0]},${control[17]})|"   class="btn btn-primary btn-sm btn-circle popoverxd"  data-placement="top"
+                                                        data-content="Avance" data-target="#avancestickets" data-toggle="modal" th:id="'generarTickets'+${control[0]}"><i class="fa fa-angle-double-right"></i></button>
+                                                    
+                                                    </div>   -->
+                                                <!--  </td>--->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaGeneral.js"></script>
+     <script src="/dist/js/prestamos-herramientas-utileria.js"></script>
+         
+     
+   <script th:if="${icon != null}" th:inline="javascript">
+		Swal.fire({
+	    	  position: 'center',
+	          icon: /*[[${icon}]]*/,
+	          title: /*[[${title}]]*/,
+	          showConfirmButton: false,
+	          timer: 2500
+	    });
+	</script>
+    <script>
+    $('#iMaquila').removeClass('text-altima');
+	$('#navMaquila').addClass('active-altima');
+	$('#menuMaquila').addClass('menu-open');
+	$('#navMaquilaPrestamosHerramientasUtileria').addClass('active');
+    </script>
+
+</body>
+
+</html>
