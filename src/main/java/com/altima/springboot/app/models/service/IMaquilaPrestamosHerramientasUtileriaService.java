@@ -11,4 +11,7 @@ public interface IMaquilaPrestamosHerramientasUtileriaService {
 
 	List<Object[]> ListarPrestamosHerramientas();
 
+
+	List<Object[]> ListarDevolucionesHerramientas(String folio);
+
 }

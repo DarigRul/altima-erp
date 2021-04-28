@@ -38,6 +38,14 @@ public class MaquilaPrestamosHerramientasUtileriaController {
 		return "prestamos-herramientas-utileria";
 	}
 	
+	@GetMapping("/listar-devoluciones-herramientas")
+	@ResponseBody
+	public List<Object[]>ListarDevolucionesHerramientas(String folio){
+	return	maquilaPrestamosHerramientasUtileriaService.ListarDevolucionesHerramientas(folio);
+		
+		
+	}
+	
 	@GetMapping("listar-operarios-prestamos")
 	@ResponseBody
 	public  List<HrEmpleado> ListarOperariosPrestamos(){

@@ -43,4 +43,17 @@ public class MaquilaPrestamosHerramientasUtileriaServiceImpl implements IMaquila
 		
 		
 	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	@Override
+	public List<Object[]> ListarDevolucionesHerramientas(String folio) {
+		// TODO Auto-generated method stub
+		return em.createNativeQuery("SELECT amphu.*,CONCAT(ahe.nombre_persona,' ',ahe.apellido_paterno,' ',ahe.apellido_materno),aml.nombre_lookup,aml.descripcion_lookup,aml.atributo_1 FROM `alt_maquila_prestamos_herramientas_utileria` amphu INNER JOIN\r\n"
+				+ "alt_hr_empleado ahe\r\n"
+				+ "inner join alt_maquila_lookup aml\r\n"
+				+ "where amphu.id_operario=ahe.id_empleado\r\n"
+				+ "and amphu.id_herramienta=aml.id_lookup\r\n"
+				+ "and amphu.folio=\""+folio+"\"").getResultList();
+	}
 }
