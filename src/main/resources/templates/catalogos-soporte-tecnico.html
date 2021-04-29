@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+	<title id="pageTitle">Cat&aacute;logos | Altima</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        <div th:insert="navegacion-nav"></div>
+        <!-- /.navbar -->
+        <!-- Modal -->
+        <div th:insert="navegacion-logout"></div>
+        <!-- Main Sidebar Container -->
+        <div th:insert="navegacion-aside"></div>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Cat&aacute;logos</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item">Servicio T&eacute;cnico</li>
+                                <li class="breadcrumb-item active">Cat&aacute;logos</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Small boxes (Stat box) -->
+                    <div class="row">
+                        <div th:insert="catalogos-soporte-tecnico-equipos" class="col-lg-4 col-6"></div> 
+                        <div th:insert="catalogos-soporte-tecnico-categoria" class="col-lg-4 col-6"></div> 
+                      	<input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- Main row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <div th:insert="navegacion-footer"></div>
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolListar" value="1">
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolAgregar" value="1">
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEditar" value="1" >
+        <input th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" type="hidden" id="rolEliminar" value="1" >
+    </div>
+    <!-- ./wrapper -->
+
+    <div th:replace="navegacion-scripts"></div>
+    <script src="/dist/js/tablaCatalogosServicio.js"></script>
+    <script src="/dist/js/catalogos-soporte-tecnico-equipo.js"></script>
+    <script src="/dist/js/catalogos-soporte-tecnico-categoria.js"></script>
+    
+   	<script>
+        var rolAdmin = $('#rolAdmin').val();
+        var rolListar = $('#rolListar').val();
+        var rolAgregar = $('#rolAgregar').val();
+        var rolEditar = $('#rolEditar').val();
+        var rolEliminar = $('#rolEliminar').val();
+        var rolMapeo = $('#rolMapeo').val();
+	</script>
+</body>
+
+</html>

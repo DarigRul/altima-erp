@@ -1055,6 +1055,32 @@
                         </li>
                     </ul>
                 </li>
+                
+                <li class="nav-item has-treeview" id="menuServicio" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_REPORTEACTIVIDADES_LISTAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_ELIMINAR'')')})">
+                    <a class="nav-link" id="navServicio">
+                        <i class="nav-icon fas fa-desktop text-altima" id="iServicio"></i>
+                        <p>
+                            Soporte Técnico<i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_EDITAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_AGREGAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_ELIMINAR'')')})">
+                            <a th:href="${'/catalogos-servicio-tecnico'}" class="nav-link" id="navCatSer">
+                                <i class="nav-icon fas fa-book-open"></i>
+                                <p>Cat&aacute;logos</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                
                 <li class="nav-item has-treeview" id="menuRH" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
               (${#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS'')')})">
                     <a class="nav-link" id="navRH">

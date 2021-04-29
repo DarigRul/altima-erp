@@ -1,0 +1,81 @@
+<div class="small-box bg-danger">
+	<div class="inner">
+		<h3>Equipos</h3>
+		<button data-toggle="modal" data-target="#detalleEquipos" class="btn btn-link text-white" style="padding-left: 1px;"><i class="fas fa-info-circle"></i> Detalle</button>
+	</div>
+	<div class="icon"> <i class="ion ion-ios-pricetags-outline"></i> </div>
+	<a class="small-box-footer">
+		<button onclick="addEquipos()" th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIO_TECNICO_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-link text-white">Agregar <i class="fas fa-plus-circle"></i></button>
+	</a>
+</div>
+<!-- Modal Marcas Tabla -->
+<div class="modal fade" id="detalleEquipos" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" id="modalMarcasMobile">
+		<div class="modal-content" id="contenedorTabla">
+			<div class="modal-header bg-danger">
+				<h5 class="modal-title" id="exampleModalLongTitle">Listado de equipos <button onclick="addEquipos()" th:if="${(#authorization.expression('hasRole(''ROLE_SERVICIO_TECNICO_CATALOGOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-light btn-circle btn-sm text-danger popoverxd" data-container="body" data-toggle="popover" data-placement="right" data-content="Agregar"><i class="fas fa-plus fa-sm"></i></button>
+                </h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+			</div>
+			<div class="modal-body">
+				<table class="table tablaServicio table-striped table-bordered" id="tablaDetalleEquipo" style="width:100%">
+					<thead>
+						<tr>
+							<th>Folio</th>
+							<th>Tipo de equipo</th>
+							<th>Com&uacute;n</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal agregar -->
+<div class="modal fade" id="modalAgregarEquipos" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 40%;" role="document"
+        id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title" id="tituloEquipo">Nuevo activo fijo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="formTallas" id="formTallas" class="row" autocomplete="off">
+					<div class="form-group col-sm-6">
+						<label for="tipoEquipo">Tipo de Equipo</label>
+						<input type="text" class="form-control" id="tipoEquipo" name="tipoEquipo" placeholder="Equipo">
+						<input type="hidden"  id="idLookupEquipo" name="idLookupEquipo">
+					</div>
+
+                    <div class="form-group col-sm-6">
+						<label for="comunEquipo">Com&uacute;n</label>
+						<select  id="comunEquipo" name="comunEquipo" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                            <option value="si">Si</option>
+                            <option value="no">No</option>
+					 	</select>
+					</div>
+
+                    <div class="form-group col-sm-12" role="alert" style="display: none" id="alertEquipo">
+                        <h6 class="alert-heading center"><i class="fas fa-exclamation" style="color:brown"></i> Complete todos los campos</h5>
+                    </div>
+
+
+                    <div class="form-group center">
+                        <button onclick="guardarEquipo()" type="button" class="btn btn-primary btn-lg">Agregar</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-secondary btn-lg">Cancelar</button>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
