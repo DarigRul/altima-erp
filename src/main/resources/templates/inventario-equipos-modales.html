@@ -1,0 +1,235 @@
+<!-- Modal agregar -->
+<div class="modal fade" id="modalAgregar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 50%;" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="tituloMovIns">Equipos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+    
+                <form class="row" >
+                    <input type="hidden"  id="idInventario">
+
+                    <div class="form-group col-sm-12">
+                        <label for="tipo">Tipo de equipo</label> 
+                        <select  name="tipo" id="tipo" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+                            
+                            <option th:each="tipo: ${tipos_equipos}" th:value="${tipo.idLookup}" th:text="${tipo.nombreLookup}"></option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group col-sm-12">
+                        <label>Datos de compra</label> 
+                    </div>
+                    
+
+                    <div class="form-group col-sm-6">
+                        <label for="proveedor">Proveedor</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="proveedor" name="proveedor" placeholder="Proveedor">
+                        
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="fecha">Fecha</label> 
+                        <input type="date"  class="form-control" maxlength="45"  id="fecha" name="fecha" placeholder="Proveedor">
+                        
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label>Caracteristicas t&eacute;cnicas</label> 
+                    </div>
+                    
+                    <div class="form-group col-sm-6">
+                        <label for="marca">Marca</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="marca" name="marca" placeholder="Nombre">
+                        
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="modelo">Modelo</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="modelo" name="modelo" placeholder="Nombre">
+                        
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="serie">No. Serie</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="serie" name="serie" placeholder="Nombre">
+                        
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="procesador">Procesador</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="procesador" name="procesador" placeholder="Nombre">
+                        
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="ram">Memoria RAM</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="ram" name="ram" placeholder="Nombre">
+                        
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="disco">Disco duro</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="disco" name="disco" placeholder="Nombre">
+                        
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="pantalla">Pantalla</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="pantalla" name="pantalla" placeholder="Nombre">
+                        
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="ns_pantalla">N/S Pantalla</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="ns_pantalla" name="ns_pantalla" placeholder="Nombre">
+                        
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="ip">Direcci&oacute;n IP</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="ip" name="ip" placeholder="ip">
+                        
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="asignado">Asignado a </label> 
+                        <select  name="asignado" id="asignado" class="form-control selectpicker" data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+
+                            <option th:each="empleado: ${empleados}" th:if ="${empleado.estatus == '1'}"  th:value="${empleado.idEmpleado}" th:text="${empleado.nombrePersona}+' '+${empleado.apellidoPaterno} "></option>
+                            
+                        </select>
+
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label for="observaciones">Obserbaciones </label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="observaciones" name="observaciones" placeholder="ip">
+
+                    </div>
+
+                    <div class="form-group center">
+                        <button onclick="guardar()" type="button" class="btn btn-primary btn-lg">Agregar</button>
+                        <button type="button"  data-dismiss="modal" class="btn btn-secondary btn-lg">Cancelar</button>
+                        
+                    </div>
+    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal mantenimiento -->
+<div class="modal fade" id="modalMantenimiento" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 50%;" role="document" id="modalMarcasMobile">
+        <div class="modal-content" id="contenedorTabla">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="tituloMovIns">Equipos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+    
+                <form class="row" >
+
+                    <div class="form-group col-sm-6">
+                        <label>F.Compra Equipo</label> 
+                        <input type="text"  class="form-control" readonly   id="id1" >
+                        
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Tipo</label> 
+                        <input type="text"  class="form-control" readonly   id="id2" >
+                    
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Marca</label> 
+                        <input type="text"  class="form-control" readonly   id="id3" >
+                        
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Modelo</label> 
+                        <input type="text"  class="form-control" readonly   id="id4" >
+                        
+                    </div>  
+                    <div class="form-group col-sm-12">
+                        <label>Serie</label> 
+                        <input type="text"  class="form-control" readonly   id="id5" >
+                        
+                    </div>   
+
+                    <div class="form-group col-sm-6">
+                        <label for="fechaMantenimiento">Fecha</label> 
+                        <input type="date"  class="form-control" maxlength="45"  id="fechaMantenimiento" name="fechaMantenimiento" placeholder="Proveedor">
+                        
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="tipoMantenimiento">Tipo</label> 
+                        <select  name="tipoMantenimiento" id="tipoMantenimiento" class="form-control selectpicker" onchange="validarTipo(this.value)"  data-live-search="true" data-live-search-normalize="true" title="Selecciona uno...">
+
+                            <option value="Remplazo de Pieza">Remplazo de Pieza</option>
+                            <option value="Reparación de Pieza">Reparación de Pieza</option>
+                            <option value="Formateo">Formateo</option>    
+                            
+                        </select>
+                        
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label for="motivoMantenimiento">Motivo</label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="motivoMantenimiento" name="motivoMantenimiento" placeholder="Motivo">
+
+                        
+                    </div>
+
+                        <div class="form-group col-sm-6" id="idv1" >
+                            <label for="fechaCompra">Fecha Compra</label> 
+                            <input type="date"  class="form-control"  id="fechaCompra" name="fechaCompra" placeholder="Nombre">
+                            
+                        </div>
+
+                        <div class="form-group col-sm-6" id="idv2">
+                            <label for="pro">Proveedor</label> 
+                            <input type="text"  class="form-control"    id="pro" >
+                            
+                        </div>
+
+                        <div class="form-group col-sm-6" id="idv3">
+                            <label for="N/S">N/S</label> 
+                            <input type="text"  class="form-control"    id="N/S" >
+                            
+                        </div>
+
+                        <div class="form-group col-sm-6" id="idv4">
+                            <label for="des">Descripcion</label> 
+                            <input type="text"  class="form-control"    id="des" >
+                            
+                        </div>
+
+                    
+                   
+                   <div class="form-group col-sm-12">
+                        <label for="fechaProxMantenimiento">Proxima fecha</label> 
+                        <input type="date"  class="form-control" maxlength="45"  id="fechaProxMantenimiento" name="fechaProxMantenimiento" placeholder="Proveedor">
+                    
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label for="Actividad">Actividad </label> 
+                        <input type="text"  class="form-control" maxlength="45"  id="Actividad" name="Actividad" placeholder="Actividad">
+
+                    </div>
+
+                    <div class="form-group center">
+                        <button onclick="guardarMan()" type="button" class="btn btn-primary btn-lg">Agregar</button>
+                        <button type="button"  data-dismiss="modal" class="btn btn-secondary btn-lg">Cancelar</button>
+                        
+                    </div>
+    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

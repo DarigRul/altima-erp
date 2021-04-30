@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Inv. Equipos | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <div class="wrapper">
+        <div th:insert="navegacion-nav"></div>
+        <div th:insert="navegacion-logout"></div>
+        <div th:insert="navegacion-aside"></div>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>
+                                Inv. Equipos
+                                <button onclick="nuevo()" class="btn btn-sm icon-btn btn-altima text-white"><span
+									class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo
+									</button>
+                            </h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Soporte T&eacute;cnico</li>
+                                <li class="breadcrumb-item active">Inv. Equipos</li>
+                                
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneralScroll table-striped table-bordered" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Tipo</th>
+                                                <th>Proveedor</th>
+                                                <th>F. Compra</th>
+                                                <th>Marca</th>
+                                                <th>Modelo</th>
+                                                <th>No. Serie</th>
+                                                <th>Procesador</th>
+                                                <th>Disco Duro</th>
+                                                <th>Pantalla</th>
+                                                <th>No. Serie Pantalla</th>
+                                                <th>Direcci&oacute;n</th>
+                                                <th>&Uacute;ltimo Mant.</th>
+                                                <th>Prox. Mant.</th>
+                                                <th>Empleado</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="v : ${vista}">
+
+                                                <td th:text="${v[0]}"></td>
+                                                <td th:text="${v[1]}"></td>
+                                                <td th:text="${v[2]}"></td>
+                                                <td th:text="${v[3]}"></td>
+                                                <td th:text="${v[4]}"></td>
+                                                <td th:text="${v[5]}"></td>
+                                                <td th:text="${v[6]}"></td>
+                                                <td th:text="${v[7]}"></td>
+                                                <td th:text="${v[8]}"></td>
+                                                <td th:text="${v[9]}"></td>
+                                                <td th:text="${v[10]}"></td>
+                                                <td th:text="${v[11]}"></td>
+                                                <td th:text="${v[12]}"></td>
+                                                <td th:text="${v[13]}"></td>
+                                                <td>
+                                                    <button sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')" class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="left" data-html="true"
+                                                        th:attr="data-content='<strong>Creado por: </strong>'+ ${v[15]}  + '<br>'+
+													   '<strong>Fecha de creación: </strong>'+ ${v[16]}  + '<br>'+
+													   '<strong>Modificado por: </strong>'+ ${v[17]}  + '<br>'+
+																		  	 '<strong>Fecha de modicación: </strong>'+ ${v[18]} + '<br>'"><i
+														class="fas fa-info fa-sm"></i> </button>
+                                                    <button th:onclick="|editar('${v[19]}')|"class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="left" data-content="Editar"><i class="fas fa-pen"></i></button>
+
+                                                    <button th:if="${v[14]  == '1'}" th:onclick="|baja('${v[19]}')|" class="btn btn-danger btn-circle btn-sm btn-delete popoverxd" data-container="body" data-toggle="popover"
+                                                        data-placement="top" data-content="Dar de baja"> <i class="fas fa-caret-down"></i>
+                                                    </button>
+                                                    <button th:if="${v[14]   == '0'}" th:onclick="|alta('${v[19]}')|" class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover"
+                                                        data-placement="top" data-content="Dar de alta"> <i class="fas fa-sort-up"></i>
+                                                    </button>
+                                                    <button  onclick="mantenimiento(this)" th:id="${v[19]}" th:tipo='${v[0]}' class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover"
+                                                        data-placement="top" data-content="Mantenimiento"> <i class="fas fa-tools"></i>
+                                                    </button>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf" id="token"  th:value="${_csrf.token}"/>
+                <div th:insert="inventario-equipos-modales"></div>
+            </section>
+        </div>
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneralScroll.js"></script>
+    <script src="dist/js/inventario-equipos.js"></script>
+</body>
+
+</html>
