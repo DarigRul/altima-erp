@@ -39,12 +39,53 @@ public class SoporteTecnicoInventarioServiceImpl implements ISoporteTecnicoInven
 	@Transactional
     public List<Object[]> view() {
         List <Object []> re = null;
-        re = em.createNativeQuery("SELECT "+
-        "look.nombre_lookup,inventario.provedor,inventario.fecha,inventario.marca,inventario.modelo,inventario.serie ,inventario.procesador ,inventario.disco_duro,inventario.pantalla,inventario.ns_pantalla,inventario.direccion_ip,'fechaaaa' as fecha33,'fecheeeee' as fecha3333,empleado.nombre_persona,inventario.estatus,inventario.creado_por,inventario.fecha_creacion,inventario.actualizado_por,inventario.ultima_fecha_modificacion ,inventario.id_inventario_equipo "+
-        "FROM "+
-        "alt_soporte_tecnico_inventario as inventario "+
-        "INNER JOIN alt_soporte_tecnico_lookup look on look.id_lookup = inventario.tipo "+
-        "INNER JOIN alt_hr_empleado empleado on empleado.id_empleado = inventario.asignado_a").getResultList();
+        re = em.createNativeQuery(""
+        		+ "SELECT\r\n" + 
+        		"	look.nombre_lookup,\r\n" + 
+        		"	inventario.provedor,\r\n" + 
+        		"	inventario.fecha,\r\n" + 
+        		"	inventario.marca,\r\n" + 
+        		"	inventario.modelo,\r\n" + 
+        		"	inventario.serie,\r\n" + 
+        		"	inventario.procesador,\r\n" + 
+        		"	inventario.disco_duro,\r\n" + 
+        		"	inventario.pantalla,\r\n" + 
+        		"	inventario.ns_pantalla,\r\n" + 
+        		"	inventario.direccion_ip,\r\n" + 
+        		"	(\r\n" + 
+        		"	SELECT\r\n" + 
+        		"		IFNULL( m.fecha, 'Sin fecha' ) \r\n" + 
+        		"	FROM\r\n" + 
+        		"		alt_soporte_tecnico_equipo_mantenimiento AS m \r\n" + 
+        		"	WHERE\r\n" + 
+        		"		m.id_equipo = inventario.id_inventario_equipo \r\n" + 
+        		"	ORDER BY\r\n" + 
+        		"		m.id_mantenimiento ASC \r\n" + 
+        		"		LIMIT 1 \r\n" + 
+        		"	),\r\n" + 
+        		"	(\r\n" + 
+        		"	SELECT\r\n" + 
+        		"		IFNULL( m.fecha_proxima, 'Sin fecha' ) \r\n" + 
+        		"	FROM\r\n" + 
+        		"		alt_soporte_tecnico_equipo_mantenimiento AS m \r\n" + 
+        		"	WHERE\r\n" + 
+        		"		m.id_equipo = inventario.id_inventario_equipo \r\n" + 
+        		"	ORDER BY\r\n" + 
+        		"		m.id_mantenimiento ASC \r\n" + 
+        		"		LIMIT 1 \r\n" + 
+        		"	),\r\n" + 
+        		"	empleado.nombre_persona,\r\n" + 
+        		"	inventario.estatus,\r\n" + 
+        		"	inventario.creado_por,\r\n" + 
+        		"	inventario.fecha_creacion,\r\n" + 
+        		"	inventario.actualizado_por,\r\n" + 
+        		"	inventario.ultima_fecha_modificacion,\r\n" + 
+        		"	inventario.id_inventario_equipo \r\n" + 
+        		"FROM\r\n" + 
+        		"	alt_soporte_tecnico_inventario AS inventario\r\n" + 
+        		"	INNER JOIN alt_soporte_tecnico_lookup look ON look.id_lookup = inventario.tipo\r\n" + 
+        		"	INNER JOIN alt_hr_empleado empleado ON empleado.id_empleado = inventario.asignado_a\r\n" + 
+        		"	ORDER BY inventario.id_inventario_equipo desc").getResultList();
         return re;
     }
 
