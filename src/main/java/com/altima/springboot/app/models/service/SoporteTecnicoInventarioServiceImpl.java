@@ -78,8 +78,8 @@ public class SoporteTecnicoInventarioServiceImpl implements ISoporteTecnicoInven
         		"	inventario.estatus,\r\n" + 
         		"	inventario.creado_por,\r\n" + 
         		"	inventario.fecha_creacion,\r\n" + 
-        		"	inventario.actualizado_por,\r\n" + 
-        		"	inventario.ultima_fecha_modificacion,\r\n" + 
+        		"	ifnull(inventario.actualizado_por,''),\r\n" + 
+        		"	ifnull(inventario.ultima_fecha_modificacion,''),\r\n" + 
         		"	inventario.id_inventario_equipo \r\n" + 
         		"FROM\r\n" + 
         		"	alt_soporte_tecnico_inventario AS inventario\r\n" + 

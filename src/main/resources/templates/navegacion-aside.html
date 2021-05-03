@@ -1057,10 +1057,15 @@
                 </li>
                 
                 <li class="nav-item has-treeview" id="menuServicio" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_REPORTEACTIVIDADES_LISTAR'')')}) or
-                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CONVERSIONTALLAS_LISTAR'')')}) or 
-                    (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_ELIMINAR'')')})">
+                    (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_CATALOGOS_AGREGAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_CATALOGOS_EDITAR'')')}) or
+                    (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_CATALOGOS_ELIMINAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_CATALOGOS_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_INVENTARIO_AGREGAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_INVENTARIO_EDITAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_INVENTARIO_LISTAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_INVENTARIO_ELIMINAR'')')}) or 
+                    (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_INVENTARIO_MANTENIMIENTO'')')})">
                     <a class="nav-link" id="navServicio">
                         <i class="nav-icon fas fa-desktop text-altima" id="iServicio"></i>
                         <p>
@@ -1069,10 +1074,10 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_LISTAR'')')}) or 
-                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_EDITAR'')')}) or
-                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_AGREGAR'')')}) or 
-                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_ELIMINAR'')')})">
+                        (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_CATALOGOS_AGREGAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_CATALOGOS_EDITAR'')')}) or
+                        (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_CATALOGOS_ELIMINAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_CATALOGOS_LISTAR'')')})">
                             <a th:href="${'/catalogos-servicio-tecnico'}" class="nav-link" id="navCatSer">
                                 <i class="nav-icon fas fa-book-open"></i>
                                 <p>Cat&aacute;logos</p>
@@ -1081,11 +1086,12 @@
                     </ul>
 
                     <ul class="nav nav-treeview">
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
-                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_LISTAR'')')}) or 
-                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_EDITAR'')')}) or
-                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_AGREGAR'')')}) or 
-                        (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_CATALOGOS_ELIMINAR'')')})">
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or
+                        (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_INVENTARIO_AGREGAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_INVENTARIO_EDITAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_INVENTARIO_LISTAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_INVENTARIO_ELIMINAR'')')}) or 
+                        (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_INVENTARIO_MANTENIMIENTO'')')})">
                             <a th:href="${'/inventario-equipos'}" class="nav-link" id="navCatSer">
                                 <i class="fas fa-server"></i>
                                 <p>Inv. Equipos</p>

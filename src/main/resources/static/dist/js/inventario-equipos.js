@@ -60,8 +60,9 @@ function guardar(){
                     Swal.fire({
                         icon: 'success',
                         title: 'Guardado!',
-                        text: 'Complete el formulario.'
+                        text: 'Guardado correctamente.'
                     })
+                    location.reload();
                 }
             }
             
@@ -119,7 +120,7 @@ function alta(id){
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: '¡Guardado!',
+                        title: '¡Dado de alta correctamente!',
                         showConfirmButton: true
                     })
                     location.reload ();
@@ -154,7 +155,7 @@ function baja(id) {
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: '¡Guardado!',
+                        title: '¡Dado de baja correctamente!',
                         showConfirmButton: true
                     })
                     location.reload ();
@@ -224,12 +225,12 @@ function validarTipo(value){
     }
 }
 function guardarMan(){ 
-    var valid;
+    var valid = true;
     if ($('#tipoMantenimiento').val() == 'Remplazo de Pieza'){
         if ( $("#fechaCompra").val() =="" ||
             $("#pro").val() =="" ||
-            $("#ns_pantalla").val() =="" ||
-            $("#des").val() ==""){
+            $("#ns_pantallaMante").val() =="" ||
+            $("#des").val() == ""){
             valid= false;
 
         }
@@ -244,7 +245,8 @@ function guardarMan(){
     else{
         valid=true;
     }
-    if ( $('#fechaMantenimiento').val() ==""  || $('#motivoMantenimiento').val() =="" | $('#fechaProxMantenimiento').val() =="" || valid == false){
+    console.log(valid);
+    if ( $('#fechaMantenimiento').val() == ""  || $('#motivoMantenimiento').val() =="" | $('#fechaProxMantenimiento').val() =="" || valid != true){
 
         Swal.fire({
             icon: 'error',
@@ -263,7 +265,7 @@ function guardarMan(){
                 'motivo': $('#motivoMantenimiento').val(),
                 'fechaCompra':$("#fechaCompra").val(),
                 'proveedor':$("#pro").val(),
-                'NS':$("#ns_pantalla").val(),
+                'NS':$("#ns_pantallaMante").val(),
                 'descripcion':$("#des").val(),
                 'fechaProxima':$('#fechaProxMantenimiento').val(),
 
@@ -278,7 +280,7 @@ function guardarMan(){
                         Swal.fire({
                             icon: 'success',
                             title: 'Guardado!',
-                            text: 'Complete el formulario.'
+                            text: '¡Guardado correctamente!.'
                         })
             }
 
