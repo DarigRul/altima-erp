@@ -58,51 +58,15 @@
                     <h3 class="card-title">Lista de empleados</h3>
                   </div>
                   <div class="card-body">
-                    <table class="table table-bordered tablaConcentradoTallas">
+                    <table class="table table-bordered" id="tablaConcentradoTallas" style="width:100%">
                       <thead>
                         <tr>
-                          <th>Tallas</th>
-                        </tr>
-                        <tr>
-                          <th th:each="head, headit: ${head}" th:text="${head}">Empleado</th>
-                          <th>Especificaciones</th>
+                          <th id="thFamP">Empleado</th>
                           <th th:if="${expediente==null}">Acciones</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr
-                          th:each="prendastallas, prendastallasiterator: ${prendastallas}">
-                          <td
-                            th:each="prendastallas2, prendastallasiterator2: ${prendastallas}"
-                          th:text="${prendastallas2}?: 'Sin especificar'"></td>
-                          <!--  -->
-                          <td class="text-center">
-                            <button
-                              th:empleado="${empleados10[prendastallasiterator.index]}"
-                              th:onclick="|listarPrendas(['${idpedido}',this.getAttribute('empleado'),'${idspf}'])|"
-                              data-toggle="modal"
-                              th:attr="data-target='#modalConcentradoPrendasInfo'+${empleados10[prendastallasiterator.index]}"
-                              class="btn btn-info btn-circle btn-sm popoverxd"
-                              data-container="body" data-placement="top"
-                              data-content="Ver especificaciones">
-                            <i class="fas fa-info"></i>
-                            </button>
-                            <div th:insert="modal-concentrado-de-tallas-info"></div>
-                          </td>
-                            
-                            <td class="text-center" th:if="${expediente==null}">
-                          <a                           
-                           th:empleado="${empleados10[prendastallasiterator.index]}"
-                              th:onclick="|redirect(['${idpedido}',this.getAttribute('empleado'),'${idspf}'])|"
-                            ><button 
-                            class="btn btn-warning btn-circle btn-sm popoverxd"
-                            data-container="body" data-placement="top"
-                            data-content="Editar">
-                            <i class="fas fa-pen"></i>
-                            </button></a>
-                          </td>
-                          <!--  -->
-                        </tr>
+
                       </tbody>
                     </table>
                   </div>
@@ -120,7 +84,7 @@
     </div>
     <!-- ./wrapper -->
     <div th:replace="navegacion-scripts"></div>
-    <script src="../../dist/js/tablaConcentradoTallas.js"></script>
+    <script src="/dist/js/concentradoTallas.js"></script>
     <script>
       $('#iComercial').removeClass('text-primary');
       $('#menuComercial').addClass('menu-open');

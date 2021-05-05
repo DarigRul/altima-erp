@@ -373,7 +373,7 @@ public class ProduccionDetalleServiceImpl implements IProduccionDetalleService {
 
 		List<Object[]> re = em.createNativeQuery("Select  tela.id_tela, CONCAT(tela.id_text,' ', tela.nombre_tela) \r\n"
 				+ "				from alt_disenio_tela as tela ,alt_disenio_tela_prenda as tela_prenda\r\n"
-				+ "				WHERE 1=1 \r\n" + "				\r\n" + "				and tela.estatus_tela=1\r\n"
+				+ "				WHERE 1=1 \r\n" + "\r\n" 
 				+ "				and tela.id_tela = tela_prenda.id_tela \r\n"
 				+ "				and tela_prenda.id_prenda=" + id).getResultList();
 		return re;

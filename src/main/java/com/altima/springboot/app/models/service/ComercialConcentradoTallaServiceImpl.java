@@ -2,15 +2,21 @@ package com.altima.springboot.app.models.service;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.altima.springboot.app.dto.TallasPivoteDto;
 import com.altima.springboot.app.models.entity.ComercialConcentradoTalla;
 import com.altima.springboot.app.repository.ConcentradoTallaRepository;
 
@@ -58,7 +64,15 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 	@Override
 	@Transactional
 	public void save(ComercialConcentradoTalla comercialconcentradotalla) {
-		// TODO Auto-generated method stub
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (comercialconcentradotalla.getId()==null) {
+            comercialconcentradotalla.setCreadoPor(auth.getName());
+            comercialconcentradotalla.setActualizadoPor(auth.getName());
+        }
+        else{
+            comercialconcentradotalla.setUltimaFechaModificacion(null);
+            comercialconcentradotalla.setActualizadoPor(auth.getName());
+        }
 		repository.save(comercialconcentradotalla);
 
 	}
@@ -75,7 +89,7 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 	public BigInteger findByEmployeeClothesAndOrder(Long id_empleado_pedido, Long id_prenda_cliente, Long id_pedido) {
 		return (BigInteger) em.createNativeQuery(
 				"select count(*) from alt_comercial_concentrado_tallas where id_empleado_pedido=" + id_empleado_pedido
-						+ " and id_prenda_cliente=" + id_prenda_cliente + " and id_pedido=" + id_pedido + " ")
+						+ " and  =" + id_prenda_cliente + " and id_pedido=" + id_pedido + " ")
 				.getSingleResult();
 
 	}
@@ -735,6 +749,21 @@ public class ComercialConcentradoTallaServiceImpl implements IComercialConcentra
 						"Select idPedido From ComercialPedidoInformacion where idPedidoInformacion =" + idpedido + "")
 				.getSingleResult();
 
+	}
+
+	@Override
+	@Transactional
+	public List<TallasPivoteDto> findPivoteByidPedido(Long idPedido) {
+		// TODO Auto-generated method stub
+		List<TallasPivoteDto> pivotes=repository.findPivoteByidPedido(idPedido);
+		return pivotes;
+	}
+
+	@Override
+	@Transactional
+	public List<TallasPivoteDto> findPivoteByIdEmpleado(Long idEmpleado) {
+		// TODO Auto-generated method stub
+		return repository.findPivoteByIdEmpleado(idEmpleado);
 	}
 
 }

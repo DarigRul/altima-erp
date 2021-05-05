@@ -15,7 +15,7 @@ function listarExplosionPorProceso() {
 	$.ajax({
 		method: "GET",
 		url: "/listarExplosion",
-		data: { idProceso,programa },
+		data: { idProceso, programa },
 		beforeSend: function () {
 			Swal.fire({
 				title: 'Cargando ',
@@ -41,13 +41,14 @@ function listarExplosionPorProceso() {
 				}
 
 				if (data[i][15] == 1) {
-					explosionPrendas = '<a class="btn btn-primary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Explosionar prendas" onclick="abrirTablaExplosionPrendas(' + data[i][0] + ',\'' + data[i][11] + '\')">' +
-						'<i class="fas fa-certificate"></i> </a>';
+					explosionPrendas = `<a class="btn btn-primary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Captura por prenda" onclick="abrirTablaExplosionPrendas( ${data[i][0]},'${data[i][11]}')">
+						<i class="fas fa-info"></i> </a> <button class="btn btn-primary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Captura por Op" onclick="explosionGeneral(${data[i][0]},'${data[i][11]}')">
+						<i class="fas fa-user-check"></i> </button>`;
 				}
 
 				else {
-					explosionPrendas = '<a class="btn btn-primary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Explosion de prendas" onclick="explosionarPrendas(' + data[i][0] + ')">' +
-						'<i class="fas fa-certificate"></i> </a>';
+					explosionPrendas = `<a class="btn btn-secondary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Explosion de prendas" onclick="explosionarPrendas(${data[i][0]})">
+						<i class="fas fa-certificate"></i> </a>`;
 				}
 
 
@@ -196,7 +197,7 @@ function explosionarPrendas(idExplosion) {
 					});
 				},
 				success: (data) => {
-					console.log(data)
+					listarExplosionPorProceso();
 					for (i in data) {
 						tablaPrendasExplosionadas.row.add([
 							'<input type="checkbox" onchange="seleccionarxUNO(' + data[i][0] + ')" class="messageCheckbox" value="' + data[i][0] + '" id="check-' + data[i][0] + '" >',
@@ -210,23 +211,12 @@ function explosionarPrendas(idExplosion) {
 						]).node().id = "row";
 						table.draw(false);
 					}
-					Swal.fire({
-						position: 'center',
-						icon: 'success',
-						title: '¡Listo!',
-						showConfirmButton: false,
-						timer: 500,
-						onClose: () => {
-							$('#tablaExplosionPrendas').modal("show");
-						}
-					})
+					$('#tablaExplosionPrendas').modal("show");
 				},
 				error: (data) => {
 					console.log("nmz")
 				}
 			});
-
-
 		}
 	})
 }
@@ -412,10 +402,13 @@ function llenarSelectRealizo(id) {
 		data: { 'idProceso': idProcesoGlobal, 'tipoProceso': TipoProcesoGlobal },
 		success: (data) => {
 			$('#selectQuienRealizo').empty();
+			$('#selectQuienRealizoGeneral').empty();
 			$.each(data, function (key, val) {
 				$('#selectQuienRealizo').append('<option value="' + val[0] + '" ubicacion="' + val[2] + '" >' + val[1] + '</option>');
+				$('#selectQuienRealizoGeneral').append('<option value="' + val[0] + '" ubicacion="' + val[2] + '" >' + val[1] + '</option>');
 			})
 			$('#selectQuienRealizo').selectpicker('refresh')
+			$('#selectQuienRealizoGeneral').selectpicker('refresh')
 		},
 		error: (e) => {
 		}, complete: function () {
@@ -568,3 +561,39 @@ $('#modalRealizo').on('hidden.bs.modal', function () {
 
 
 });
+
+function explosionGeneral(idExplosionProceso) {
+	$("#idExplosionProcesoGeneral").val(idExplosionProceso);
+	llenarSelectRealizo(null);
+	$("#modalRealizoGeneral").modal("show");
+}
+
+function guardarRealizoGeneral() {
+	let selectQuienRealizo = $('#selectQuienRealizoGeneral').val()
+	let fechaFinModal = $('#fechaFinModalGeneral').val()
+	let fechaInicioModal = $('#fechaInicioModalGeneral').val()
+	let idExplosionProcesoGeneral = $('#idExplosionProcesoGeneral').val()
+	$.ajax({
+		type: "PUT",
+		url: "/putRealizoExplosion",
+		data: {
+			'realizo': selectQuienRealizo,
+			'fechaFinModal': fechaFinModal,
+			'fechaInicioModal': fechaInicioModal,
+			'idExplosionProceso': idExplosionProcesoGeneral,
+			'_csrf': $('[name="_csrf"]').val()
+		},
+		success: function (data) {
+			$('#modalRealizoGeneral').modal("hide");
+			Swal.fire({
+				position: 'center',
+				icon: 'success',
+				title: 'Agregado correctamente',
+				allowOutsideClick: false,
+				timerProgressBar: true,
+				timer: 3000,
+			});
+
+		}
+	});
+}

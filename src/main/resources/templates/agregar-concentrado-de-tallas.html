@@ -1,226 +1,168 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head th:include="navegacion-head :: header">
-    <title id="pageTitle">Carga de pedidos | Altima</title>
-  </head>
-  <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-    <!-- Site wrapper -->
-    <div class="wrapper">
-      <!-- Navbar -->
-      <div th:insert="navegacion-nav"></div>
-      <!-- /.navbar -->
-      <!-- Modal -->
-      <div th:insert="navegacion-logout"></div>
-      <!-- Main Sidebar Container -->
-      <div th:insert="navegacion-aside"></div>
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <div class="container-fluid">
-            <div class="row mb-2">
-              <div class="col-sm-6">
-                <h1>
-                  Concentrado de tallas 
-                  <a th:if="${idspf == null}" th:href="@{/concentrado-de-tallas/}+${idpedido}+'/'+0"><button
-                    data-toggle="popover"
-                    class="btn btn-danger btn-circle btn-sm popoverxd"
-                    data-container="body" data-placement="right"
-                    data-content="Regresar">
-                  <i class="fas fa-arrow-left"></i>
+
+<head th:include="navegacion-head :: header">
+  <title id="pageTitle">Carga de pedidos | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+  <!-- Site wrapper -->
+  <div class="wrapper">
+    <!-- Navbar -->
+    <div th:insert="navegacion-nav"></div>
+    <!-- /.navbar -->
+    <!-- Modal -->
+    <div th:insert="navegacion-logout"></div>
+    <!-- Main Sidebar Container -->
+    <div th:insert="navegacion-aside"></div>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>
+                Concentrado de tallas
+                <a th:if="${idspf == null}" th:href="@{/concentrado-de-tallas/}+${idpedido}+'/'+0"><button
+                    data-toggle="popover" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
+                    data-placement="right" data-content="Regresar">
+                    <i class="fas fa-arrow-left"></i>
                   </button></a>
-                  
-                  <a th:if="${idspf != null}" th:href="@{/concentrado-de-tallas/}+${idpedido}+'/'+${idspf}"><button
-                    data-toggle="popover"
-                    class="btn btn-danger btn-circle btn-sm popoverxd"
-                    data-container="body" data-placement="right"
-                    data-content="Regresar">
-                  <i class="fas fa-arrow-left"></i>
+
+                <a th:if="${idspf != null}" th:href="@{/concentrado-de-tallas/}+${idpedido}+'/'+${idspf}"><button
+                    data-toggle="popover" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
+                    data-placement="right" data-content="Regresar">
+                    <i class="fas fa-arrow-left"></i>
                   </button></a>
-                 
-                </h1>
-              </div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a th:href="@{'/'}">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Agentes de Venta</li>
-                  <li class="breadcrumb-item active">Carga de Pedidos</li>
-                </ol>
-              </div>
+
+              </h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a th:href="@{'/'}">Dashboard</a></li>
+                <li class="breadcrumb-item active">Agentes de Venta</li>
+                <li class="breadcrumb-item active">Carga de Pedidos</li>
+              </ol>
             </div>
           </div>
-          <!-- /.container-fluid -->
-        </section>
-        <!-- Main content -->
-        <section class="content">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-12">
-                <!-- Default box -->
-                <div class="card">
-                  <div class="card-header bg-altima">
-                    <h3 class="card-title">Lista de empleados</h3>
-                  </div>
-                  
-                  <div class="card-body">
-                    <div class="row">
-                      <!-- <form class="row"  method="post"> -->
-                      <input type="hidden" th:id="empleado2" th:value="${idempleado}">
-                      <input type="hidden" name="_csrf" id="token"
-                        th:value="${_csrf.token}" /> <input type="hidden"
-                        id="idcliente" th:value="${idcliente}" /> <input
-                        type="hidden" id="idpedido" th:value="${idpedido}" />
-                        <input
-                        type="hidden" id="idspf" th:value="${idspf}" />
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <!-- Default box -->
+              <div class="card">
+                <div class="card-header bg-altima">
+                  <h3 class="card-title">Lista de empleados</h3>
+                </div>
+
+                <div class="card-body">
+                  <form>
+                    <input type="hidden" th:id="empleado2" th:value="${idempleado}">
+                    <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" /> <input type="hidden"
+                      id="idcliente" th:value="${idcliente}" /> <input type="hidden" id="idpedido"
+                      th:value="${idpedido}" />
+                    <input type="hidden" id="idspf" th:value="${idspf}" />
+                    <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label for="cargaEmpresa">Empleado</label> 
-                        <select required onchange="muestraPrendas()"
-                          class="form-control selectpicker" data-live-search="true"
-                          title="Selecciona uno..." name="cargaTipopedido"
-                          id="empleado">
-                          <option th:each="empleados : ${empleados}"
-                            th:value="${empleados.idEmpleado}"
+                        <label for="cargaEmpresa">Empleado</label>
+                        <select required class="form-control selectpicker" data-live-search="true"
+                          title="Selecciona uno..." name="cargaTipopedido" id="empleado">
+                          <option th:each="empleados : ${empleados}" th:value="${empleados.idEmpleado}"
                             th:text="${empleados.nombre_empleado}" />
                         </select>
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="cargaEmpresa">Prenda</label> 
-                        <select required  title="Selecciona uno..."
-                          class="form-control selectpicker" data-live-search="true"
-                           name="cargaTipopedido" id="prenda">
-                          <option th:each="prendas : ${prendas}"
-                            th:value="${prendas[0]}+'!'+${prendas[5]}" 
-                            th:text="${prendas[1]}"
-                             />
+                        <label for="cargaEmpresa">Prenda</label>
+                        <select required title="Selecciona uno..." class="form-control selectpicker"
+                          data-live-search="true" name="cargaTipopedido" id="prenda">
+                          <option th:each="prenda : ${prendas}" th:value="${prenda.idLookup}"
+                            th:text="${prenda.nombreLookup}"></option>
                         </select>
                       </div>
-                       <div class="form-group col-md-3">
-                        <label for="cargaEmpresa">Genero</label> 
-                        <select required
-                          class="form-control selectpicker" data-live-search="true"
-                          title="Selecciona uno..." name="cargaTipopedido" id="genero">
-                          <option th:each="genero : ${genero}"
-                            th:value="${genero.IdLookup}"
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-3">
+                        <label for="cargaEmpresa">Genero</label>
+                        <select required class="form-control selectpicker" data-live-search="true"
+                          title="Selecciona uno..." name="cargaTipopedido" id="genero"
+                          onchange="listarTallas(this.value)">
+                          <option th:each="genero : ${genero}" th:value="${genero.IdLookup}"
                             th:text="${genero.nombreLookup}" th:selected="false" />
                         </select>
                       </div>
                       <div class="form-group col-md-3">
-                        <label for="cargaEmpresa">Talla</label> 
-                        <select required
-                          class="form-control selectpicker" data-live-search="true"
+                        <label for="cargaEmpresa">Talla</label>
+                        <select required class="form-control selectpicker" data-live-search="true"
                           title="Selecciona uno..." name="cargaTipopedido" id="talla">
-                         
+
                         </select>
                       </div>
                       <div class="form-group col-md-3">
-                        <label for="cargaEmpresa">Largo</label> 
-                        <select required
-                          class="form-control selectpicker" data-live-search="true"
+                        <label for="cargaEmpresa">Largo</label>
+                        <select required class="form-control selectpicker" data-live-search="true"
                           title="Selecciona uno..." name="cargaTipopedido" id="largo">
-                          <option th:each="largo : ${largo}"
-                            th:value="${largo.IdLookup}"
+                          <option th:each="largo : ${largo}" th:value="${largo.IdLookup}"
                             th:text="${largo.nombreLookup}" th:selected="false" />
                         </select>
                       </div>
-                      <div class="form-grouo col-md-3">
-                     
-<input type="checkbox" class="form-check-input" id="myCheck" >
-                     <label  for="myCheck">
-    Talla especial
-  </label>
+                      <div class="col-auto my-1 mt-4 ml-5">
+                        <div class="custom-control custom-checkbox mr-sm-2">
+                          <input type="checkbox" class="custom-control-input" id="checkTallaEspecial">
+                          <label class="custom-control-label" for="checkTallaEspecial">Talla especial</label>
+                        </div>
                       </div>
-                      <div class="form-group col-md-12">
-                      	<a onclick="GuardarPrendaTalla()" class="btn icon-btn btn-altima float-right text-white mr-auto" type="submit"><span class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar prenda</a>
-                      </div>
-                      <div class="form-group col-md-12" id="contenedor2"></div>
-                      <div class="form-group col-sm-12" id="botoneliminar"></div>
-                      <div class="form-group col-md-12 text-center" id="botonnuevo">
-                        <!--  	<button id="agregar2" onclick="Savenew()" tabindex="-1" class="btn btn-primary">Agregar nueva prenda</button>-->
-                      </div>
-                      <div class="form-group col-sm-12">
-                          <a th:if="${idspf == null}" th:href="@{/concentrado-de-tallas/}+${idpedido}+'/'+0" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-                                              <a th:unless="${idspf == null}" th:href="@{/concentrado-de-tallas/}+${idpedido}+'/'+${idspf}" class="btn icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-arrow-left img-circle text-danger"></span>Cancelar</a>
-                    
-                     </div>
                     </div>
-                    <div th:insert="modal-especificaciones-tallas"></div>
-                    <div th:insert="modal-editar-tallas"></div>
-                  </div>
-               
-                  <!-- /.card-body -->
+                    <div class="form-group mb-5">
+                      <button onclick="guardarTallaPrenda()" class="btn icon-btn btn-altima float-right text-white mr-auto" id="btnGuardar"
+                        type="submit"><span
+                          class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Agregar prenda</button>
+                    </div>
+                    <input type="hidden" id="idPedido">
+                  </form>
+                  <table class="table tablaGeneral" id="tablaTallas" style="width: 100%;">
+                    <thead>
+                      <tr>
+                        <th>Familia Prenda</th>
+                        <th>Talla</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                  </table>
+                  <div th:insert="modal-especificaciones-tallas"></div>
+                  <div th:insert="modal-editar-tallas"></div>
                 </div>
-                <!-- /.card -->
+
+                <!-- /.card-body -->
               </div>
+              <!-- /.card -->
             </div>
           </div>
-        </section>
-        <!-- /.content -->
-      </div>
-      <!-- /.content-wrapper -->
-      <div th:insert="navegacion-footer"></div>
+        </div>
+      </section>
+      <!-- /.content -->
     </div>
-    <!-- ./wrapper -->
-    <div th:replace="navegacion-scripts"></div>
-    <script src="../../dist/js/tablaConcentradoTallasAgregar.js"></script>
-    <script src="../../dist/js/sweetalert.js"></script>
-    <script>
-      $('#iComercial').removeClass('text-altima');
-      $('#menuComercial').addClass('menu-open');
-      $('#navComercial').addClass('active-altima');
-      $('#menuVenta').addClass('menu-open');
-      $('#navVenta').addClass('active');
-      $('#navVenta4').addClass('active');
-    </script>
-    <script>
-    $( "#genero" ).change(function() {
-    	 var prenda2=prenda.options[prenda.selectedIndex].text;
-    	 console.log(prenda2);
-    	console.log( $("#genero").val());
-    	var selectobjectemp;
-		selectobjectemp = document.getElementById("empleado");
-		selectobjectemp.disabled = true;
-		$('#empleado').selectpicker('refresh');
-		var selectobjectprend;
-		selectobjectprend = document.getElementById("prenda");
-		console.log(selectobjectprend);
-		selectobjectprend.disabled = true;
-		$('#prenda').selectpicker('refresh');
-		var selectobjectgenero;
-		selectobjectgenero = document.getElementById("genero");
-		console.log(selectobjectgenero);
-		selectobjectgenero.disabled = true;
-		$('#genero').selectpicker('refresh');
-		///////////////////////////////777
-		$.ajax({
-        type: "GET",
-        url: "/obtener-posicion-prenda",
-        data:{ "Prenda": prenda2},
-        success: (data) => {
-        	var posicion=data;
-        	console.log(posicion);
-        	$.ajax({
-                type: "GET",
-                url: "/obtener-tallas",
-                data:{ "Posicion": posicion,
-                	"Genero": $("#genero").val()},
-                success: (data) => {
-                	console.log(data);
-                	var select = document.getElementById("talla");
-                	for(index in data) {
-                	    select.options[select.options.length] = new Option(data[index].nombreLookup, data[index].idLookup);
-                	}
-                	$('.selectpicker').selectpicker('refresh');
-                }
-        	});//////////////quitar; sino funciona
-        }
-	});
-		
-    	
-    	////////////////poner los 2 ajax get
-    	////despues bloquear genero y al botonazo desbloquear prenda
-    	});
-    </script>
-   
-    
-  </body>
+    <!-- /.content-wrapper -->
+    <div th:insert="navegacion-footer"></div>
+  </div>
+  <!-- ./wrapper -->
+  <div th:replace="navegacion-scripts"></div>
+  <script src="/dist/js/sweetalert.js"></script>
+  <script src="/dist/js/tablaGeneral.js"></script>
+  <script th:if="${pantalla=='editar'}" src="/dist/js/editarConcentradoTallas.js"></script>
+  <script th:if="${pantalla=='agregar'}" src="/dist/js/agregarConcentradoTallas.js"></script>
+  <script>
+    $('#iComercial').removeClass('text-altima');
+    $('#menuComercial').addClass('menu-open');
+    $('#navComercial').addClass('active-altima');
+    $('#menuVenta').addClass('menu-open');
+    $('#navVenta').addClass('active');
+    $('#navVenta4').addClass('active');
+  </script>
+</body>
+
 </html>

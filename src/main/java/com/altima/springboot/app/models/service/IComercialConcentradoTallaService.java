@@ -3,6 +3,7 @@ package com.altima.springboot.app.models.service;
 import java.math.BigInteger;
 import java.util.List;
 
+import com.altima.springboot.app.dto.TallasPivoteDto;
 import com.altima.springboot.app.models.entity.ComercialConcentradoTalla;
 
 public interface IComercialConcentradoTallaService {
@@ -62,4 +63,7 @@ public interface IComercialConcentradoTallaService {
 
 	void updateall(Long idempleado, Long idpedido, Long idprenda);
 
+	List<TallasPivoteDto> findPivoteByidPedido(Long idPedido);
+
+	List<TallasPivoteDto> findPivoteByIdEmpleado(Long idEmpleado);
 }

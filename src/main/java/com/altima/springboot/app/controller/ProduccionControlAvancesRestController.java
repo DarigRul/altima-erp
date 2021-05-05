@@ -3,14 +3,22 @@ package com.altima.springboot.app.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.altima.springboot.app.models.entity.ProduccionConsumoReal;
@@ -143,5 +151,20 @@ public class ProduccionControlAvancesRestController {
 	public String validarNoNulos (@RequestParam(name = "id") Long id){
 		
 		return explosionService.validarNoNulos(id);
+	}
+	@PutMapping("/putRealizoExplosion")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> putRealizoExplosion(@RequestParam Long realizo,@RequestParam Long idExplosionProceso,@RequestParam String fechaInicioModal,@RequestParam String fechaFinModal) {
+		
+		Map<String, Object> response = new HashMap<>();
+		try {
+			explosionService.updateRealizoExplosion(realizo, idExplosionProceso,fechaInicioModal,fechaFinModal);
+			response.put("mensaje", "Registros actualizados correctamente");
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al insertar en la BD");
+			response.put("error", e.getMessage()+": "+e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.CREATED);
 	}
 }

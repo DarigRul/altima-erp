@@ -361,5 +361,12 @@ public class ProduccionExplosionProcesosServiceImpl implements IProduccionExplos
 				+ (tiempoCantidad.getTiempoRefilado()));
 		return resultado;
 	}
+
+	@Transactional
+	@Override
+	public void updateRealizoExplosion(Long realizo, Long idExplosionProceso,String fechaInicioModal,String fechaFinModal) {
+		// TODO Auto-generated method stub
+		repository.updateRealizoExplosion(realizo, idExplosionProceso,fechaInicioModal,fechaFinModal);
+	}
 	
 }

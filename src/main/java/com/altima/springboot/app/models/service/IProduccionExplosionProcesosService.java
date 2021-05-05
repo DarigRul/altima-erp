@@ -46,4 +46,7 @@ public interface IProduccionExplosionProcesosService {
 	List<Object[]> view(Long id);
 
 	String validarNoNulos(Long id);
+
+	void updateRealizoExplosion(Long realizo,Long idExplosionProceso,String fechaInicioModal,String fechaFinModal);
+
 }

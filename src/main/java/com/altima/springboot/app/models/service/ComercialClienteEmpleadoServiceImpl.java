@@ -73,7 +73,7 @@ public class ComercialClienteEmpleadoServiceImpl implements ComercialClienteEmpl
 	@Transactional
 	public List<ComercialClienteEmpleado> findAllEmpleadosEmpresaWithoutSPFAgregar(Long id) {
 
-		return em.createNativeQuery("SELECT acce.* FROM alt_comercial_cliente_empleado acce WHERE acce.id_pedido_informacion=:id AND acce.id_empleado NOT IN (SELECT acct.id_empleado_pedido FROM alt_comercial_concentrado_tallas acct WHERE acct.id_pedido=:id)",ComercialClienteEmpleado.class).setParameter("id", id).getResultList();
+		return em.createNativeQuery("SELECT acce.* FROM alt_comercial_cliente_empleado acce WHERE acce.id_pedido_informacion=:id AND acce.nombre_empleado not like '%SPF%' AND acce.id_empleado NOT IN (SELECT acct.id_empleado_pedido FROM alt_comercial_concentrado_tallas acct WHERE acct.id_pedido=:id)",ComercialClienteEmpleado.class).setParameter("id", id).getResultList();
 	}
 
 	@Override

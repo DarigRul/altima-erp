@@ -1,25 +1,38 @@
 package com.altima.springboot.app.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.altima.springboot.app.dto.ModificacionDto;
+import com.altima.springboot.app.dto.TallasPivoteDto;
 import com.altima.springboot.app.models.entity.AdminConfiguracionPedido;
 import com.altima.springboot.app.models.entity.ComercialConcentradoTalla;
 import com.altima.springboot.app.models.entity.ComercialPedidoInformacion;
+import com.altima.springboot.app.models.entity.ComercialTallaModificacion;
+import com.altima.springboot.app.models.entity.DisenioLookup;
 import com.altima.springboot.app.models.entity.ProduccionLookup;
 import com.altima.springboot.app.models.service.ComercialClienteEmpleadoService;
 import com.altima.springboot.app.models.service.IAdminConfiguracionPedidoService;
 import com.altima.springboot.app.models.service.ICargaPedidoService;
 import com.altima.springboot.app.models.service.IComercialConcentradoTallaService;
+import com.altima.springboot.app.models.service.IComercialTallaModificacionService;
 import com.altima.springboot.app.models.service.IDisenioLookupService;
 import com.altima.springboot.app.models.service.IProduccionLookupService;
 import com.altima.springboot.app.models.service.IServicioClienteLookupService;
@@ -46,84 +59,24 @@ public class ConcentradoTallasRestController {
 	@Autowired
 	IDisenioLookupService DisenioLookupService;
 
+	@Autowired
+	private IComercialTallaModificacionService comercialTallaModificacionService;
+
 	@PostMapping("/guardar-concentrado-tallas")
 	public String guardarcontentradotallas(Model model, String Nombre,
 			@RequestParam(value = "values[]", required = false) String[] values, String Empleado, Integer Largo,
 			String PrendaCliente, Integer Talla, String Pulgadas, Long IdPedido) {
-		String[] prenda = PrendaCliente.split("\\s");
+		System.out.println(values);
 		try {
 			ComercialConcentradoTalla ComercialConcentradoTalla = new ComercialConcentradoTalla();
 			ComercialConcentradoTalla.setIdEmpleadoPedido(Empleado);
 			ComercialConcentradoTalla.setIdLargo(Largo);
-			ComercialConcentradoTalla.setIdPrendaCliente(prenda[0]);
-			ComercialConcentradoTalla.setIdFamiliaPrenda(prenda[1]);
+			ComercialConcentradoTalla.setIdFamiliaPrenda(PrendaCliente);
 			ComercialConcentradoTalla.setIdTalla(Talla);
 			ComercialConcentradoTalla.setIdPedido(IdPedido);
 			ConcentradoTallaService.save(ComercialConcentradoTalla);
 		} catch (Exception e) {
 			System.out.println(e.toString());
-		}
-
-		return "agregar-concentrado-de-tallas";
-	}
-
-	@PostMapping("/guardar-concentrado-tallas1")
-	public String guardarcontentradotallas1(Model model, String Nombre,
-			@RequestParam(value = "values[]", required = false) String[] values, String Empleado, Integer Largo,
-			String PrendaCliente, Integer Talla, String Pulgadas, Long IdPedido) {
-
-		for (String especificacion : values) {
-
-			try {
-				ComercialConcentradoTalla ComercialConcentradoTalla = new ComercialConcentradoTalla();
-
-				ComercialConcentradoTalla.setEspecificacion(especificacion);
-				ComercialConcentradoTalla.setIdEmpleadoPedido(Empleado);
-				ComercialConcentradoTalla.setIdLargo(Largo);
-				ComercialConcentradoTalla.setIdPrendaCliente(PrendaCliente);
-				ComercialConcentradoTalla.setIdTalla(Talla);
-				ComercialConcentradoTalla.setIdPedido(IdPedido);
-				ComercialConcentradoTalla.setPulgadas(Pulgadas);
-				ConcentradoTallaService.save(ComercialConcentradoTalla);
-			} catch (Exception e) {
-				System.out.println(e.toString());
-			}
-
-		}
-
-		return "agregar-concentrado-de-tallas";
-	}
-
-	@PostMapping("/guardar-primer-concentrado-tallas")
-	public String guardarprimercontentradotallas(Model model,
-			@RequestParam(value = "values[]", required = false) String[] values, String Pulgadas, Long Id) {
-
-		if (values.length == 1) {
-			ComercialConcentradoTalla concentradotalla = ConcentradoTallaService.findOne(Id);
-			concentradotalla.setEspecificacion(values[0]);
-			concentradotalla.setPulgadas(Pulgadas);
-			ConcentradoTallaService.save(concentradotalla);
-		} else {
-
-			ComercialConcentradoTalla concentradotalla = ConcentradoTallaService.findOne(Id);
-			concentradotalla.setEspecificacion(values[0]);
-			concentradotalla.setPulgadas(Pulgadas);
-			ConcentradoTallaService.save(concentradotalla);
-
-			for (int i = 1; i < values.length; i++) {
-
-				ComercialConcentradoTalla concentradotalla2 = new ComercialConcentradoTalla();
-				concentradotalla2.setEspecificacion(values[i]);
-				concentradotalla2.setIdEmpleadoPedido(concentradotalla.getIdEmpleadoPedido());
-				concentradotalla2.setIdLargo(concentradotalla.getIdLargo());
-				concentradotalla2.setIdPedido(concentradotalla.getIdPedido());
-				concentradotalla2.setIdTalla(concentradotalla.getIdTalla());
-				concentradotalla2.setIdPrendaCliente(concentradotalla.getIdPrendaCliente());
-				concentradotalla2.setPulgadas(concentradotalla.getPulgadas());
-
-				ConcentradoTallaService.save(concentradotalla2);
-			}
-
 		}
 
 		return "agregar-concentrado-de-tallas";
@@ -166,39 +119,6 @@ public class ConcentradoTallasRestController {
 			response = false;
 		}
 		return response;
-	}
-
-	@DeleteMapping("/eliminar-especificacion")
-	public boolean eliminar(Long ideliminar, Long id_empleado_pedido, Long id_prenda_cliente, Long id_pedido) {
-		boolean response = true;
-
-		if (ConcentradoTallaService.findByEmployeeClothesAndOrder(id_empleado_pedido, id_prenda_cliente, id_pedido)
-				.intValue() > 1) {
-
-			try {
-				ConcentradoTallaService.delete(ideliminar);
-				response = true;
-			} catch (Exception e) {
-				response = false;
-				// System.out.println(e);
-			}
-		} else {
-			try {
-				ComercialConcentradoTalla editt = ConcentradoTallaService.findOne(ideliminar);
-				editt.setEspecificacion(null);
-				editt.setPulgadas(null);
-				ConcentradoTallaService.save(editt);
-				response = true;
-			} catch (Exception e) {
-				// TODO: handle exception
-				return false;
-			}
-
-		}
-
-		System.out.println(response);
-		return response;
-
 	}
 
 	@DeleteMapping("/eliminar-prenda")
@@ -287,18 +207,13 @@ public class ConcentradoTallasRestController {
 	}
 
 	@GetMapping("/prendas-empleado")
-	public List<Object[]> prendasempleado(Long idempleado, Long idpedido) {
+	public List<DisenioLookup> prendasempleado(Long idempleado, Long idpedido) {
 
 		ComercialPedidoInformacion pedido = cargaPedidoService.findOne(idpedido);
 
 		AdminConfiguracionPedido config = configService.findOne(Long.parseLong(pedido.getTipoPedido()));
-		if (config.getTipoPedido() == 1) {
-			return ConcentradoTallaService.findPrendasEmpleado(idempleado, idpedido);
-		} else if (config.getTipoPedido() == 2) {
-			return ConcentradoTallaService.findPrendasEmpleado(idempleado, pedido.getIdPedido());
-		} else {
-			return null;
-		}
+
+		return DisenioLookupService.findByTipoLookup("Familia Prenda");
 	}
 
 	@RequestMapping(value = "/editar", method = RequestMethod.POST)
@@ -332,14 +247,150 @@ public class ConcentradoTallasRestController {
 
 	}
 
-	@GetMapping("/obtener-tallas")
-	public List<ProduccionLookup> ObtenerTallas(String Posicion, String Genero) {
-		return ProduccionLookupService.findAllByType(Posicion, Genero, "Talla");
-	}
-
 	@GetMapping("/obtener-largo-talla")
 	public List<ProduccionLookup> ObtenerLargoTalla() {
 		return ProduccionLookupService.findAllByType("Largo");
 	}
 
+	@GetMapping("api/concentrado-de-tallas/{id}/0")
+	public ResponseEntity<?> getPivoteByIdPedido(@PathVariable(name = "id") Long id) {
+
+		Map<String, Object> response = new HashMap<>();
+		List<TallasPivoteDto> pivote = null;
+		try {
+			pivote = ConcentradoTallaService.findPivoteByidPedido(id);
+			System.out.println(id);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (pivote.size() == 0) {
+			response.put("mensaje", "Los registros con el id " + id + " no existen");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		response.put("tallas", pivote);
+		response.put("idPedido", id);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
+	@GetMapping("api/editar-concentrado-de-tallas/{idPedido}/{idEmpleado}")
+	public ResponseEntity<?> getPivoteByIdEmpleado(@PathVariable(name = "idPedido") Long idPedido,
+			@PathVariable(name = "idEmpleado") Long idEmpleado) {
+
+		Map<String, Object> response = new HashMap<>();
+		List<TallasPivoteDto> pivote = null;
+		try {
+			pivote = ConcentradoTallaService.findPivoteByIdEmpleado(idEmpleado);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (pivote.size() == 0) {
+			response.put("mensaje", "Los registros con el id " + idEmpleado + " no existen");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		response.put("tallas", pivote);
+		response.put("idPedido", idPedido);
+		response.put("idEmpleado", idEmpleado);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
+	@GetMapping("/api/getTallasByGenero")
+	public ResponseEntity<?> getTallasByGenero(@RequestParam Long idGenero) {
+
+		Map<String, Object> response = new HashMap<>();
+		List<ProduccionLookup> tallas = null;
+		try {
+			tallas = ProduccionLookupService.findByGenero(idGenero);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (tallas.size() == 0) {
+			response.put("mensaje", "Los registros con el genero " + idGenero + " no existen");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<ProduccionLookup>>(tallas, HttpStatus.OK);
+	}
+
+	@PostMapping("/api/postTallaPrenda")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> postTallaPrenda(@RequestBody ComercialConcentradoTalla concentradoTalla) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			ConcentradoTallaService.save(concentradoTalla);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al insertar en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<ComercialConcentradoTalla>(concentradoTalla, HttpStatus.CREATED);
+	}
+
+	@PostMapping("/api/postTallaModificacion")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> postTallaModificacion(@RequestBody ComercialTallaModificacion modificacion) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			comercialTallaModificacionService.save(modificacion);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al insertar en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<ComercialTallaModificacion>(modificacion, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/api/getModificacionesByIdConcentradoTalla")
+	public ResponseEntity<?> getModificacionesByIdConcentradoTalla(@RequestParam Long idConcentradoTalla) {
+
+		Map<String, Object> response = new HashMap<>();
+		List<ModificacionDto> modificaciones = null;
+		try {
+			modificaciones = comercialTallaModificacionService
+					.findModificacionesByidConcentradoTalla(idConcentradoTalla);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if (modificaciones.size() == 0) {
+			response.put("mensaje", "Los registros con el id " + idConcentradoTalla + " no existen");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<ModificacionDto>>(modificaciones, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/api/deleteModificacion/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public ResponseEntity<?> deleteModificacion(@PathVariable(name = "id") Long id) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			comercialTallaModificacionService.delete(id);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al eliminar registro en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("mensaje", "El registro con el id " + id + " fue eliminado con exito");
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/api/deletePrendaTalla/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public ResponseEntity<?> deletePrendaTalla(@PathVariable(name = "id") Long id) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			ConcentradoTallaService.delete(id);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al eliminar registro en la BD");
+			response.put("error", e.getMessage() + ": " + e.getMostSpecificCause().getMessage());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("mensaje", "El registro con el id " + id + " fue eliminado con exito");
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
 }
