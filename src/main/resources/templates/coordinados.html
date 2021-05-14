@@ -72,19 +72,19 @@
                                                 <td class="text-center">
                                                     <a th:href="@{/agregar-coordinado/expediente/}+ ${coordinados[0]}"
                                                         class="btn btn-info btn-circle btn-sm popoverxd"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-container="body" data-toggle="popover" 
                                                         data-content="Ver detalles"><i
                                                             class="fas fa-info"></i></a>&nbsp;
                                                     
                                                     <a th:href="@{/agregar-coordinado/}+ ${coordinados[0]}" th:if="${expediente==null}"
                                                         class="expediente btn btn-warning btn-circle btn-sm popoverxd "
-                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-container="body" data-toggle="popover" 
                                                         data-content="Editar"><i class="fas fa-pen"></i></a>
 
 
                                                     <a id="delete" th:href="@{/eliminar-coordinado/}+ ${coordinados[0]}" th:if="${expediente==null}"
                                                         class="expediente btn btn-danger btn-circle btn-sm btn-delete popoverxd"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-container="body" data-toggle="popover" 
                                                         data-content="Eliminar"> <i class="fas fa-caret-down"></i> </a>
                                                    
                                                 </td>

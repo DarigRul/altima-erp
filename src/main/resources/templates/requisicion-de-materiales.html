@@ -111,12 +111,12 @@
                                                 <td th:text="${material.estatusComercial}">Autorizada</td>
                                                 <td>
                                                     <button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_REQUISICION_MATERIALES_ACEPTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:disabled="${material.estatusComercial}!='Pendiente' or ${material.estatus}!='Extemporanea'?true:false"
-                                                        class="btn btn-success btn-sm btn-circle popoverxd" th:attr="onclick=|aceptarComercial('${material.idMaterialFaltante}')|" data-placement="top" data-content="Aceptar" id="aceptarComercial"><i class="fas fa-check"></i></button>
+                                                        class="btn btn-success btn-sm btn-circle popoverxd" th:attr="onclick=|aceptarComercial('${material.idMaterialFaltante}')|"  data-content="Aceptar" id="aceptarComercial"><i class="fas fa-check"></i></button>
                                                     <button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_REQUISICION_MATERIALES_RECHAZAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:disabled="${material.estatusComercial}!='Pendiente' or ${material.estatus}!='Extemporanea'?true:false"
-                                                        class="btn btn-danger btn-sm btn-circle popoverxd" th:attr="onclick=|rechazarComercial('${material.idMaterialFaltante}')|" data-placement="top" data-content="Rechazar"><i
+                                                        class="btn btn-danger btn-sm btn-circle popoverxd" th:attr="onclick=|rechazarComercial('${material.idMaterialFaltante}')|"  data-content="Rechazar"><i
                                                             class="fas fa-times" id="rechazarComercial"></i></button>
 
-                                                    <button th:if="${material.estatus}=='Extemporanea' and ${material.estatusComercial}=='Aceptado'" class="btn btn-primary btn-sm btn-circle popoverxd" th:attr="onclick=|cambiarProveedor('${material.idMaterial}','m','${material.idMaterialFaltante}')|" data-placement="top"
+                                                    <button th:if="${material.estatus}=='Extemporanea' and ${material.estatusComercial}=='Aceptado'" class="btn btn-primary btn-sm btn-circle popoverxd" th:attr="onclick=|cambiarProveedor('${material.idMaterial}','m','${material.idMaterialFaltante}')|" 
                                                         data-content="Cambiar proveedor" data-target="#cambiarProveedor" data-toggle="modal" id="cambiarProveedor"><i class="fas fa-store"></i></button>
 
 

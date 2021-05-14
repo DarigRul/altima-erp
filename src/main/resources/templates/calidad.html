@@ -68,12 +68,12 @@
 
                                                 <td th:text="${calidades[3]}"></td>
                                                 <td class="tdcenter" th:if="${calidades[4]=='Material'}">
-                                                    <a class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="top" data-html="true" th:attr="data-content='<strong>Prueba de Durabilidad: </strong>'+ ${calidades[9]}  + '<br>'+
+                                                    <a class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body"  data-html="true" th:attr="data-content='<strong>Prueba de Durabilidad: </strong>'+ ${calidades[9]}  + '<br>'+
 																		  	 '<strong>Prueba de Resistencia: </strong>'+ ${calidades[10]} + '<br>'"><i class="fas fa-info fa-sm"></i>
 													</a>&nbsp;
                                                 </td>
                                                 <td class="tdcenter" th:if="${calidades[4]=='Tela' || calidades[4]=='Forro'}">
-                                                    <a class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body" data-placement="top" data-html="true" th:attr="data-content=${calidades[4]=='Tela'}? '<strong>Prueba de encogimiento: </strong>'+ ${calidades[9]} + '<br>'+
+                                                    <a class="btn btn-info btn-circle btn-sm popoverxd text-white" data-container="body"  data-html="true" th:attr="data-content=${calidades[4]=='Tela'}? '<strong>Prueba de encogimiento: </strong>'+ ${calidades[9]} + '<br>'+
 																									  '<strong>Prueba de Lavado: </strong>'+ ${calidades[10]} + '<br>'+
 																									  '<strong>Prueba de Costura: </strong>'+ ${calidades[11]} + '<br>'+
 																									  '<strong>Prueba de Contaminaci&oacuten: </strong>'+ ${calidades[12]} + '<br>':
@@ -91,45 +91,45 @@
                                                 <td class="tdcenter">
 
                                                     <a th:if="${calidades[4]=='Tela'} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_DETALLE'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{detalle-calidad/tela/}+${calidades[0]}" class="btn btn-sm icon-btn btn-info text-white popoverxd"
-                                                        data-container="body" data-placement="top" data-content="Descargar archivo">
+                                                        data-container="body"  data-content="Descargar archivo">
                                                         <span class="btn-glyphicon spancircle fas fa-info img-circle text-info" style="height:30px;width:30px;"></span> Detalles
                                                     </a>
                                                     <a th:if="${calidades[4]=='Forro'} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_DETALLE'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{detalle-calidad/forro/}+${calidades[0]}" class="btn btn-sm icon-btn btn-info text-white popoverxd"
-                                                        data-container="body" data-placement="top" data-content="Descargar archivo">
+                                                        data-container="body"  data-content="Descargar archivo">
                                                         <span class="btn-glyphicon spancircle fas fa-info img-circle text-info" style="height:30px;width:30px;"></span> Detalles
                                                     </a>
                                                     <a th:if="${calidades[4]=='Material'} and ${calidades[6]!='sin archivo'} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_DETALLE'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/uploads/calidadarchivos/}+${calidades[6]}"
-                                                        class="btn btn-sm icon-btn btn-info text-white popoverxd" download data-container="body" data-placement="top" data-content="Descargar archivo">
+                                                        class="btn btn-sm icon-btn btn-info text-white popoverxd" download data-container="body"  data-content="Descargar archivo">
                                                         <span class="btn-glyphicon spancircle fas fa-info img-circle text-info" style="height:30px;width:30px;"></span> Detalles
                                                     </a>
                                                     <a th:if="${calidades[4]=='Material'} and ${calidades[6]=='sin archivo'} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_DETALLE'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-sm icon-btn btn-danger text-white popoverxd"
-                                                        data-container="body" data-placement="top" data-content="Ingrese un archivo mediante el botón editar para poder descargarlo">
+                                                        data-container="body"  data-content="Ingrese un archivo mediante el botón editar para poder descargarlo">
                                                         <span class="btn-glyphicon spancircle fas fa-exclamation-triangle img-circle text-danger" style="width:30px;"></span> Sin archivo</a>
 
                                                 </td>
                                                 <td class="tdcenter">
                                                     <!--Editar-->
                                                     <a class="btn btn-warning btn-circle btn-sm popoverxd" onclick="cargando()" th:href="@{/calidad-nueva-prueba/tela/}+${calidades[0]}" th:if="${calidades[8] <= 1} and ${calidades[4]=='Tela' && (#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_REGISTRAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
-                                                        data-container="body" data-placement="top" th:attr="data-content=${calidades[8]==null}?'Agregar prueba':'Editar'">
+                                                        data-container="body"  th:attr="data-content=${calidades[8]==null}?'Agregar prueba':'Editar'">
                                                         <i class="fas fa-pen"></i>
                                                     </a>
                                                     <a class="btn btn-warning btn-circle btn-sm popoverxd" onclick="cargando()" th:href="@{/calidad-nueva-prueba/forro/}+${calidades[0]}" th:if="${calidades[8] <= 1} and ${calidades[4]=='Forro' && (#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_REGISTRAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
-                                                        data-container="body" data-placement="top" th:attr="data-content=${calidades[8]==null}?'Agregar prueba':'Editar'">
+                                                        data-container="body"  th:attr="data-content=${calidades[8]==null}?'Agregar prueba':'Editar'">
                                                         <i class="fas fa-pen"></i>
                                                     </a>
                                                     <a class="btn btn-warning btn-circle btn-sm popoverxd" onclick="cargando()" th:href="@{/calidad-nueva-prueba-otro/}+${calidades[0]}" th:if="${calidades[8] <= 1} and ${calidades[4]=='Material' && (#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_REGISTRAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
-                                                        data-container="body" data-placement="top" th:attr="data-content=${calidades[8]==null}?'Agregar prueba':'Editar'">
+                                                        data-container="body"  th:attr="data-content=${calidades[8]==null}?'Agregar prueba':'Editar'">
                                                         <i class="fas fa-pen"></i>
                                                     </a>
 
                                                     <a th:if="${calidades[8] == 1} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_APROBAR_RECHAZAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="'aceptarCalidad('+${calidades[5]}+')'" class="btn btn-success text-white btn-circle btn-sm popoverxd"
-                                                        data-container="body" data-placement="top" data-content="Aprobar"><i class="fas fa-check"></i></a>
+                                                        data-container="body"  data-content="Aprobar"><i class="fas fa-check"></i></a>
 
                                                     <a th:if="${calidades[8] == 1} and ${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_APROBAR_RECHAZAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="'rechazarCalidad('+${calidades[5]}+')'" class="btn btn-danger text-white btn-circle btn-sm popoverxd"
-                                                        data-container="body" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></a>
+                                                        data-container="body"  data-content="Rechazar"><i class="fas fa-times"></i></a>
 
                                                     <button th:if="${calidades[8]==3} and (${(#authorization.expression('hasRole(''ROLE_DISENIO_CALIDAD_REGISTRAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))})" type="button" class="btn btn-altima text-white btn-circle btn-sm popoverxd"
-                                                        data-toggle="modal" th:attr="data-target='#exampleModalCenter'+${calidad.index}" data-placement="top" data-content="Archivo de consentimiento">
+                                                        data-toggle="modal" th:attr="data-target='#exampleModalCenter'+${calidad.index}"  data-content="Archivo de consentimiento">
   														<i class="fas fa-file-signature"></i>
 													</button>
                                                     <form th:action="@{/calidad-consentimiento}" method="post" enctype="multipart/form-data">

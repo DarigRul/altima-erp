@@ -124,7 +124,7 @@ function tablamulti(materialp,surtirtotalp,disponiblep,apartadop,faltanteporsurt
 				arrayReg.filter(x => x.articulo === materialp)[i].almacen,
 				arrayReg.filter(x => x.articulo === materialp)[i].existencianoimportante,
 				arrayReg.filter(x => x.articulo === materialp)[i].apartado,
-				'<button id="modalTomar" onclick="posicion('+arrayReg.filter(x => x.articulo === materialp)[i].posicion+');inputapartados('+separateddata2+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
+				'<button id="modalTomar" onclick="posicion('+arrayReg.filter(x => x.articulo === materialp)[i].posicion+');inputapartados('+separateddata2+');" class="btn btn-altima btn-sm btn-circle popoverxd"      data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
 				] ).draw( false );
 
 
@@ -180,7 +180,7 @@ function tablamulti(materialp,surtirtotalp,disponiblep,apartadop,faltanteporsurt
 					'<td>' + 
 
 					
-					'<button id="modalTomar" onclick="posicion('+i+');inputapartados('+separateddata+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>'+
+					'<button id="modalTomar" onclick="posicion('+i+');inputapartados('+separateddata+');" class="btn btn-altima btn-sm btn-circle popoverxd"      data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>'+
 
 					'</td>',
 
@@ -423,11 +423,11 @@ function inputapartados(
 					arrayReg.filter(x => x.articulo === articuloarr)[i].almacen,
 					arrayReg.filter(x => x.articulo === articuloarr)[i].existencianoimportante,
 					arrayReg.filter(x => x.articulo === articuloarr)[i].apartado,
-					'<button id="modalTomar" onclick="posicion('+arrayReg.filter(x => x.articulo === articuloarr)[i].posicion+');inputapartados('+separateddata3+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
+					'<button id="modalTomar" onclick="posicion('+arrayReg.filter(x => x.articulo === articuloarr)[i].posicion+');inputapartados('+separateddata3+');" class="btn btn-altima btn-sm btn-circle popoverxd"      data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
 
 /*hacer variables globales surtir3,arrayReg,contador1,apartados,disponible3,separateddata3
 */
-//'<button id="modalTomar" onclick="contador('+i+','+(surtir3-arrayReg[contador1[0]].apartados)+','+(disponible3-arrayReg[contador1[0]].apartados)+');inputapartados('+separateddata3+');" class="btn btn-altima btn-sm btn-circle popoverxd"     data-placement="top" data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
+//'<button id="modalTomar" onclick="contador('+i+','+(surtir3-arrayReg[contador1[0]].apartados)+','+(disponible3-arrayReg[contador1[0]].apartados)+');inputapartados('+separateddata3+');" class="btn btn-altima btn-sm btn-circle popoverxd"      data-content="Tomar"><i class="fas fa-hand-pointer"></i></button>',
 
 
 					] ).draw( false );

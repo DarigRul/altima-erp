@@ -67,6 +67,7 @@ public class InventarioEquiposController {
             obj.setCreadoPor(auth.getName());
             obj.setFechaCreacion(dateFormat.format(date));
             obj.setEstatus("1");
+            obj.setObservaciones(observaciones);
             inventarioService.save(obj);
             return true;
         }else{
@@ -85,6 +86,7 @@ public class InventarioEquiposController {
             obj2.setNsPantalla(nsPantalla);
             obj2.setDireccion_ip(direccionIp);
             obj2.setAsignadoA(asignadoA);
+            obj2.setObservaciones(observaciones);
             obj2.setActualizadoPor(auth.getName());
             obj2.setUltimaFechaModificacion(dateFormat.format(date));
             inventarioService.save(obj2);
@@ -112,7 +114,7 @@ public class InventarioEquiposController {
         return true;
     }
 
-    @RequestMapping(value = "/guardar_mantenimieto", method = RequestMethod.GET)
+    @RequestMapping(value = "/guardar_mantenimieto", method = RequestMethod.POST)
     @ResponseBody
     public boolean buscar (String idEquipo,String fecha,
     String tipo, String motivo, String fechaCompra, String proveedor, String NS , 

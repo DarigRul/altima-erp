@@ -33,7 +33,7 @@ function listarExplosionPorProceso() {
 			for (i in data) {
 
 				if (data[i][11] != 2 && data[i][15] == 1) {
-					finalizarProceso = '<a class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Finalizar proceso" onclick="finalizarProceso(' + data[i][0] + ')">' +
+					finalizarProceso = '<a class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Finalizar proceso" onclick="finalizarProceso(' + data[i][0] + ')">' +
 						'<i class="fas fa-thumbs-up"></i></a>';
 				}
 				else {
@@ -41,13 +41,13 @@ function listarExplosionPorProceso() {
 				}
 
 				if (data[i][15] == 1) {
-					explosionPrendas = `<a class="btn btn-primary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Captura por prenda" onclick="abrirTablaExplosionPrendas( ${data[i][0]},'${data[i][11]}')">
-						<i class="fas fa-info"></i> </a> <button class="btn btn-primary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Captura por Op" onclick="explosionGeneral(${data[i][0]},'${data[i][11]}')">
+					explosionPrendas = `<a class="btn btn-primary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover"  data-content="Captura por prenda" onclick="abrirTablaExplosionPrendas( ${data[i][0]},'${data[i][11]}')">
+						<i class="fas fa-info"></i> </a> <button class="btn btn-primary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover"  data-content="Captura por Op" onclick="explosionGeneral(${data[i][0]},'${data[i][11]}')">
 						<i class="fas fa-user-check"></i> </button>`;
 				}
 
 				else {
-					explosionPrendas = `<a class="btn btn-secondary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Explosion de prendas" onclick="explosionarPrendas(${data[i][0]})">
+					explosionPrendas = `<a class="btn btn-secondary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover"  data-content="Explosion de prendas" onclick="explosionarPrendas(${data[i][0]})">
 						<i class="fas fa-certificate"></i> </a>`;
 				}
 
@@ -70,7 +70,7 @@ function listarExplosionPorProceso() {
 					(data[i][15] == 1) ? "Explosionado" : "Pendiente",//estatus del registro en general (0 pendiente, 1 explosionado)
 					explosionPrendas +
 
-					($("#procesosActivos option:selected").attr("proceso") == 'Trazo' ? '<a class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Consumo real" onclick="consumoReal(' + data[i][0] + ',\'' + data[i][11] + '\')">' + '<i class="fas fa-exclamation"></i> </a>' : ' ') +
+					($("#procesosActivos option:selected").attr("proceso") == 'Trazo' ? '<a class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover"  data-content="Consumo real" onclick="consumoReal(' + data[i][0] + ',\'' + data[i][11] + '\')">' + '<i class="fas fa-exclamation"></i> </a>' : ' ') +
 
 					finalizarProceso,
 				]).draw(true);
@@ -207,7 +207,7 @@ function explosionarPrendas(idExplosion) {
 							(data[i][4] == null) ? "Sin registro" : data[i][4],
 							(data[i][5] == null) ? "Sin registro" : data[i][5],
 							(data[i][6] == null) ? "Sin registro" : data[i][6],
-							'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarExplosionPrenda(this)" id ="' + data[i][0] + '"  realizo="' + data[i][7] + '" fi="' + data[i][4] + '" ff="' + data[i][5] + '" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>'
+							'<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarExplosionPrenda(this)" id ="' + data[i][0] + '"  realizo="' + data[i][7] + '" fi="' + data[i][4] + '" ff="' + data[i][5] + '" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>'
 						]).node().id = "row";
 						table.draw(false);
 					}
@@ -264,7 +264,7 @@ function abrirTablaExplosionPrendas(idExplosion, estatus) {
 					(data[i][4] == null) ? "Sin registro" : data[i][4],
 					(data[i][5] == null) ? "Sin registro" : data[i][5],
 					(data[i][6] == null) ? "Sin registro" : data[i][6],
-					(estatus != 2 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarExplosionPrenda(this)" id ="' + data[i][0] + '"  realizo="' + data[i][7] + '" fi="' + data[i][4] + '" ff="' + data[i][5] + '" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : 'Proceso finalizado')
+					(estatus != 2 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarExplosionPrenda(this)" id ="' + data[i][0] + '"  realizo="' + data[i][7] + '" fi="' + data[i][4] + '" ff="' + data[i][5] + '" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' : 'Proceso finalizado')
 
 				]).node().id = "row";
 				table.draw(false);
@@ -320,7 +320,7 @@ function consumoReal(idExplosion, estatus) {
 					data[i][2],
 					data[i][3],
 					'<p id="consumoRealP' + data[i][0] + '"> ' + data[i][4] + '  </p>',
-					(estatus != 2 ? '<button onclick="editarConsumoReal(this)" id="' + data[i][0] + '" consumo="' + data[i][4] + '" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar consumo" onclick="editarConsumoReal()"><i class="fas fa-pen"></i></button>' : 'Proceso finalizado')
+					(estatus != 2 ? '<button onclick="editarConsumoReal(this)" id="' + data[i][0] + '" consumo="' + data[i][4] + '" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar consumo" onclick="editarConsumoReal()"><i class="fas fa-pen"></i></button>' : 'Proceso finalizado')
 
 				]).node().id = "row";
 				tablaConsumoReal.draw(false);

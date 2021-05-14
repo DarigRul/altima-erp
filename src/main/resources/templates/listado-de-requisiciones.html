@@ -90,7 +90,7 @@
                                                 <!-- <td ></td>
                                                 <td ></td> -->
                                                 <td> <button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_LISTADO_REQUISICIONES_CAMBIAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-primary btn-sm btn-circle popoverxd"
-                                                        th:attr="onclick=|cambiarProveedor('${material.idMaterial}','${material.tipo}','${material.idRequisicionAlmacenMaterial}')|" data-placement="top" data-content="Cambiar proveedor" data-target="#cambiarProveedor"
+                                                        th:attr="onclick=|cambiarProveedor('${material.idMaterial}','${material.tipo}','${material.idRequisicionAlmacenMaterial}')|"  data-content="Cambiar proveedor" data-target="#cambiarProveedor"
                                                         data-toggle="modal" id="cambiarProveedor"><i class="fas fa-store"></i></button></td>
                                             </tr>
                                         </tbody>

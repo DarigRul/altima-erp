@@ -1,0 +1,132 @@
+<div class="modal fade" id="modalAgregarTicket" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title">Ticket</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="categoria">Categoria</label>
+                        <select class="form-control" id="categoria" v-model.trim="ticket.categoria">
+                            <option value="">Seleccione uno...</option>
+                            <option th:each="categoria: ${categorias}" th:text="${categoria.nombreLookup}" th:value="${categoria.idLookup}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="titulo">Título</label>
+                        <input type="text" class="form-control" id="titulo" v-model.trim="ticket.titulo">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            <label for="archivoTicket">Archivo</label>
+                            <input type="file" class="form-control-file" name="archivoTicket" id="archivoTicket"
+                                placeholder="Subir Archivo" aria-describedby="fileHelpId" v-on:change="onFileChange">
+                            <small id="fileHelpId" class="form-text text-muted">Suba un archivo que muestre el
+                                error</small>
+                        </div>
+                        <div class="form-group col-sm-6 mt-4">
+                            <button type="button" class="btn btn-primary" v-on:click="limpiarFile">Limpiar</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comentarios">Comentarios</label>
+                        <textarea class="form-control" name="comentarios" id="comentarios" rows="4" v-model.trim="ticket.comentarios"></textarea>
+                    </div>
+                </div>
+                <div v-if="!info" class="modal-footer modal-rounded-footer">
+                    <button type="submit" class="btn btn-primary" id="submitTicket" :disabled='isSubmitTicketDisabled' v-on:click.prevent="guardarTicket" v-if="submitTicket">Guardar</button>
+                    <button type="submit" class="btn btn-primary" id="submitTicket" :disabled='isSubmitTicketDisabled' v-on:click.prevent="editarTicket" v-else>Editar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalSeguimiento" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content modal-rounded-body">
+            <div class="modal-header bg-altima modal-rounded-header">
+                <h5 class="modal-title">Seguimiento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-4">
+                    <div class="col-sm-3">
+                        <div>
+                            <strong>No. Ticket:</strong>
+                        </div>
+                        <div>
+                            <strong>Fecha solicitud:</strong>
+                        </div>
+                        <div>
+                            <strong>Solicita:</strong>
+                        </div>
+                        <div>
+                            <strong>Area:</strong>
+                        </div>
+                        <div>
+                            <strong>Categoria:</strong>
+                        </div>
+                        <div>
+                            <strong>Titulo</strong>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-9">
+                        <div>{{ticketDetalle.idText}}</div>
+                        <div>{{ticketDetalle.fechaCreacion}}</div>
+                        <div>{{ticketDetalle.empleado}}</div>
+                        <div>{{ticketDetalle.area}}</div>
+                        <div>{{ticketDetalle.categoria}}</div>
+                        <div>{{ticketDetalle.titulo}}</div>
+                    </div>
+                </div>
+                <form class="row mb-4">
+                    <div class="form-group col-sm-4">
+                        <label for="estatusTicketAvance">Estatus</label>
+                        <select class="form-control" name="estatusTicket" id="estatusTicket" v-model.trim="seguimiento.estatus">
+                            <option>Seleccione una opcion...</option>
+                            <option value="Revisado">Revisado</option>
+                            <option value="Cerrado">Cerrado</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-7">
+                        <label for="comentarioTikcetAvance">Comentario</label>
+                        <textarea class="form-control" name="comentarioTikcet" id="comentarioTikcet" v-model.trim="seguimiento.comentario"
+                            rows="1"></textarea>
+                    </div>
+                    <button class="btn btn-primary btn-circle btn-sm popoverxd mt-sm-4" data-container="body"
+                        data-toggle="popover" data-content="Agregar" v-on:click.prevent="guardarSeguimiento"><i class="fas fa-plus"></i></button>
+                </form>
+                <table class="compact" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Comentarios</th>
+                            <th>Atendió</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="seguimiento in seguimientoTicket">
+                            <td>{{seguimiento.fechaCreacion}}</td>
+                            <td>{{seguimiento.estado}}</td>
+                            <td>{{seguimiento.comentario}}</td>
+                            <td>{{seguimiento.empleado}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer modal-rounded-footer">
+                <button type="submit" class="btn btn-danger" id="" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

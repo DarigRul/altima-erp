@@ -26,7 +26,7 @@
                             <h1>
                                 Hist&oacute;rico De Muestras
 
-                                <a th:if="${(#authorization.expression('hasRole(''ROLE_MUESTRARIO_HISTORICO_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="expirados()" data-toggle="modal" data-target="#nuevoSeguimiento" data-placement="top"
+                                <a th:if="${(#authorization.expression('hasRole(''ROLE_MUESTRARIO_HISTORICO_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="expirados()" data-toggle="modal" data-target="#nuevoSeguimiento" 
                                     data-content="Nuevo seguimiento" class="btn btn-sm icon-btn btn-danger text-white mr-auto"><span class="btn-glyphicon spancircle fas fa-exclamation-circle img-circle text-danger"></span>Movimientos expirados</a>
 
 

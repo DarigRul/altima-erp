@@ -74,7 +74,7 @@
                                                 <td th:text="${movimiento[1]}"></td>
                                                 <td th:text="${movimiento[3]==null || movimiento[4]==null}?${movimiento[2]}:${movimiento[2]}+' '+${movimiento[3]}+' '+${movimiento[4]}"></td>
                                                 <td>
-                                                    <a class="popoverxd" data-container="body" data-placement="top" data-html="true" th:text="${movimiento[6]==null || movimiento[7]==null}?${movimiento[5]}:${movimiento[5]}+' '+${movimiento[6]}+' '+${movimiento[7]}" th:attr="data-content='<strong>Encargado de recoger: </strong>'+${movimiento[12]}"></a>
+                                                    <a class="popoverxd" data-container="body"  data-html="true" th:text="${movimiento[6]==null || movimiento[7]==null}?${movimiento[5]}:${movimiento[5]}+' '+${movimiento[6]}+' '+${movimiento[7]}" th:attr="data-content='<strong>Encargado de recoger: </strong>'+${movimiento[12]}"></a>
                                                 </td>
                                                 <td th:text="${movimiento[8]==null}?'':${movimiento[8]}"></td>
                                                 <td th:text="${movimiento[9]==null}?'':${movimiento[9]}"></td>
@@ -85,7 +85,7 @@
                                                         class="btn btn-info btn-circle btn-sm text-white" th:onclick="'detalleMuestras('+${movimiento[0]}+',1,2)'"><i class="fas fa-info"></i></button>
                                                     <button data-target="#infoTraspaso" th:if="${movimiento[10]=='Rack de prendas' || movimiento[10]=='Rack de prendas registrado' || movimiento[10]=='Solicitud cancelada'}" class="btn btn-info btn-circle btn-sm text-white" th:onclick="'detalleMuestras('+${movimiento[0]}+',2)'"><i class="fas fa-info"></i></button>
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_MOVIMIENTOS_CANCELAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {movimiento[10]=='Pendiente de recoger'})}" th:onclick="'cancelarSolicitud('+${movimiento[0]}+',1)'"
-                                                        class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body" data-placement="top" data-content="Cancelar"><i class="fas fa-times"></i></a>
+                                                        class="btn btn-danger btn-circle btn-sm text-white popoverxd" data-container="body"  data-content="Cancelar"><i class="fas fa-times"></i></a>
                                                 </td>
                                             </tr>
                                         </tbody>

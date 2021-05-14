@@ -82,22 +82,22 @@
                                                 <td class="text-center">
 
 
-                                                    <button th:if="${mt[7] == '1'}" th:onclick="'detalles('+ ${mt[3]}+');'" data-toggle="modal" data-target="#modalTotalPrendas" type="button" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-html="true"><i class="fas fa-tshirt" style="margin-left:-2px"></i></button>
-                                                    <button th:if="${mt[7] == '2'}" th:onclick="'detallesColeccion('+ ${mt[3]}+');'" data-toggle="modal" data-target="#modalTotalPrendas" type="button" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-html="true"><i class="fas fa-tshirt" style="margin-left:-2px"></i></button>
+                                                    <button th:if="${mt[7] == '1'}" th:onclick="'detalles('+ ${mt[3]}+');'" data-toggle="modal" data-target="#modalTotalPrendas" type="button" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body"  data-html="true"><i class="fas fa-tshirt" style="margin-left:-2px"></i></button>
+                                                    <button th:if="${mt[7] == '2'}" th:onclick="'detallesColeccion('+ ${mt[3]}+');'" data-toggle="modal" data-target="#modalTotalPrendas" type="button" class="btn btn-primary btn-circle btn-sm popoverxd" data-container="body"  data-html="true"><i class="fas fa-tshirt" style="margin-left:-2px"></i></button>
 
 
 
 
                                                     <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
 
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {mt[7] == '1' and mt[8] == 0 })}" th:href="@{/solicitud-gerencial-muestras/}+${mt[3]}"><button type="button" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button></a>
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {mt[7] == '2' and mt[8] == 0 })}" th:href="@{/solicitud-muestras-coleccion/}+${mt[3]}"><button type="button" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {mt[7] == '1' and mt[8] == 0 })}" th:href="@{/solicitud-gerencial-muestras/}+${mt[3]}"><button type="button" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body"  data-content="Editar"><i class="fas fa-pen"></i></button></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {mt[7] == '2' and mt[8] == 0 })}" th:href="@{/solicitud-muestras-coleccion/}+${mt[3]}"><button type="button" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body"  data-content="Editar"><i class="fas fa-pen"></i></button></a>
 
 
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_EIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {mt[8] == 0})}" class="btn-aceptar" th:href="@{/solicitud-muestras-aceptar/}+${mt[3]}"><button type="button" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Aceptar"><i class="fas fa-check "></i></button></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_EIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {mt[8] == 0})}" class="btn-aceptar" th:href="@{/solicitud-muestras-aceptar/}+${mt[3]}"><button type="button" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body"  data-content="Aceptar"><i class="fas fa-check "></i></button></a>
 
 
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_EIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {mt[8] == 0})}" class="btn-rechazar" th:href="@{/solicitud-muestras-rechazar/}+${mt[3]}"><button type="button" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-placement="top" data-content="Rechazar"><i class="fas fa-times"></i></button></a>
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_SOLICITUDMUESTRAS_EIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {mt[8] == 0})}" class="btn-rechazar" th:href="@{/solicitud-muestras-rechazar/}+${mt[3]}"><button type="button" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"  data-content="Rechazar"><i class="fas fa-times"></i></button></a>
                                                 </td>
                                             </tr>
                                         </tbody>

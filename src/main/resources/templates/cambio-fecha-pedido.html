@@ -82,21 +82,21 @@
                                                         th:@click="|getSolicitud('${solicitud.idSolicitudCambioFecha}','${solicitud.idText}','${solicitud.cliente}')|"
                                                         data-toggle="modal" data-target="#cambioFecha"
                                                         class="btn btn-warning btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Cambiar fecha"><i
+                                                         data-content="Cambiar fecha"><i
                                                             class="fas fa-calendar"></i></button>
                                                     <button
                                                         sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_ACEPTAR','ROLE_ADMINISTRADOR')"
                                                         th:disabled="${solicitud.estatus}=='En espera'?false:true"
                                                         th:@click="|rechazarSolicitud('${solicitud.idSolicitudCambioFecha}')|"
                                                         class="btn btn-danger btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Rechazar"><i
+                                                         data-content="Rechazar"><i
                                                             class="fas fa-times"></i></button>
                                                     <button
                                                         sec:authorize="hasAnyRole('ROLE_COMERCIAL_SOLICITUD_CAMBIO_FECHA_RECHAZAR','ROLE_ADMINISTRADOR')"
                                                         th:disabled="${solicitud.estatus}=='En espera'?false:true"
                                                         th:@click="|aceptarSolicitud('${solicitud.idSolicitudCambioFecha}')|"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Aceptar"><i
+                                                         data-content="Aceptar"><i
                                                             class="fas fa-check"></i></button>
                                                 </td>
                                             </tr>

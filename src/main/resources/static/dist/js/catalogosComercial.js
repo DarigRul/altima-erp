@@ -549,10 +549,10 @@ function listarModelos() {
                             data[i].nombreLookup,
                             data[i].atributo1,
                             data[i].atributo2,
-                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                            '<button onclick="editarModelo(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                            (data[i].estatus == 1 ? '<button onclick="bajarModelo(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                            (data[i].estatus == 0 ? '<button onclick="altaModelo(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                            '<button onclick="editarModelo(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                            (data[i].estatus == 1 ? '<button onclick="bajarModelo(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                            (data[i].estatus == 0 ? '<button onclick="altaModelo(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                         ]
                     ).draw();
                 }
@@ -564,10 +564,10 @@ function listarModelos() {
                             data[i].nombreLookup,
                             data[i].atributo1,
                             data[i].atributo2,
-                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                            (rolEditar == 1 ? '<button onclick="editarModelo(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : '') +
-                            (data[i].estatus == 1 && rolEliminar == 1 ? '<button onclick="bajarModelo(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                            (data[i].estatus == 0 && rolEliminar == 1 ? '<button onclick="altaModelo(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                            (rolEditar == 1 ? '<button onclick="editarModelo(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' : '') +
+                            (data[i].estatus == 1 && rolEliminar == 1 ? '<button onclick="bajarModelo(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                            (data[i].estatus == 0 && rolEliminar == 1 ? '<button onclick="altaModelo(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                         ]
                     ).draw();
                 }
@@ -636,10 +636,10 @@ function agregarModelo() {
                                         data[i].nombreLookup,
                                         data[i].atributo1,
                                         data[i].atributo2,
-                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                                        '<button onclick="editarModelo(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                                        (data[i].estatus == 1 ? '<button onclick="bajarModelo(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                                        (data[i].estatus == 0 ? '<button onclick="altaModelo(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                        '<button onclick="editarModelo(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                        (data[i].estatus == 1 ? '<button onclick="bajarModelo(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                                        (data[i].estatus == 0 ? '<button onclick="altaModelo(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                                     ]
                                 ).draw();
                             }
@@ -740,10 +740,10 @@ function editarModelo(idLookup) {
                                                     data[i].nombreLookup,
                                                     data[i].atributo1,
                                                     data[i].atributo2,
-                                                    '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                                                    '<button onclick="editarModelo(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                                                    (data[i].estatus == 1 ? '<button onclick="bajarModelo(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                                                    (data[i].estatus == 0 ? '<button onclick="altaModelo(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                                                    '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                                    '<button onclick="editarModelo(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                                    (data[i].estatus == 1 ? '<button onclick="bajarModelo(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                                                    (data[i].estatus == 0 ? '<button onclick="altaModelo(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                                                 ]
                                             ).draw();
                                         }
@@ -887,10 +887,10 @@ function listarPrecios() {
                             data[i].idText,
                             data[i].nombreLookup,
                             data[i].atributo1,
-                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> '+ data[i].fechaCreacion +'<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong> '+ data[i].ultimaFechaModificacion +'"><i class="fas fa-info"></i></button>' +
-                            '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                            (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                            (data[i].estatus == 0 ? '<button onclick="altaPrecio(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> '+ data[i].fechaCreacion +'<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong> '+ data[i].ultimaFechaModificacion +'"><i class="fas fa-info"></i></button>' +
+                            '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                            (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                            (data[i].estatus == 0 ? '<button onclick="altaPrecio(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                         ]
                     ).draw();
                 }
@@ -901,10 +901,10 @@ function listarPrecios() {
                             data[i].idText,
                             data[i].nombreLookup,
                             data[i].atributo1,
-                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> '+ data[i].fechaCreacion +'<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong> '+ data[i].ultimaFechaModificacion +'"><i class="fas fa-info"></i></button>' +
-                            (rolEditar == 1 ? '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : '') +
-                            (data[i].estatus == 1 && rolEliminar == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                            (data[i].estatus == 0 && rolEliminar == 1 ? '<button onclick="altaPrecio(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> '+ data[i].fechaCreacion +'<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong> '+ data[i].ultimaFechaModificacion +'"><i class="fas fa-info"></i></button>' +
+                            (rolEditar == 1 ? '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' : '') +
+                            (data[i].estatus == 1 && rolEliminar == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                            (data[i].estatus == 0 && rolEliminar == 1 ? '<button onclick="altaPrecio(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                         ]
                     ).draw();
                 }
@@ -965,10 +965,10 @@ function agregarPrecio() {
                                         data[i].idText,
                                         data[i].nombreLookup,
                                         data[i].atributo1,
-                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                                        '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                                        (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                                        (data[i].estatus == 0 ? '<button onclick="altaPrecio(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                        '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                        (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                                        (data[i].estatus == 0 ? '<button onclick="altaPrecio(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                                     ]
                                 ).draw();
                             }
@@ -1059,10 +1059,10 @@ function editarPrecio(idLookup) {
                                                     data[i].idText,
                                                     data[i].nombreLookup,
                                                     data[i].atributo1,
-                                                    '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                                                    '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                                                    (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                                                    (data[i].estatus == 0 ? '<button onclick="altaPrecio(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                                                    '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                                    '<button onclick="editarPrecio(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                                    (data[i].estatus == 1 ? '<button onclick="bajarPrecio(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                                                    (data[i].estatus == 0 ? '<button onclick="altaPrecio(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                                                 ]
                                             ).draw();
                                         }
@@ -1200,10 +1200,10 @@ function listarIvas() {
                         [
                             data[i].idText,
                             data[i].atributo1,
-                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                            '<button onclick="editarIVA(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                            (data[i].estatus == 1 ? '<button onclick="bajarIVA(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                            (data[i].estatus == 0 ? '<button onclick="altaIVA(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                            '<button onclick="editarIVA(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                            (data[i].estatus == 1 ? '<button onclick="bajarIVA(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                            (data[i].estatus == 0 ? '<button onclick="altaIVA(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                         ]
                     ).draw();
                 }
@@ -1213,10 +1213,10 @@ function listarIvas() {
                         [
                             data[i].idText,
                             data[i].atributo1,
-                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                            (rolEditar == 1 ? '<button onclick="editarIVA(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : '') +
-                            (data[i].estatus == 1 && rolEliminar == 1 ? '<button onclick="bajarIVA(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                            (data[i].estatus == 0 && rolEliminar == 1 ? '<button onclick="altaIVA(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                            (rolEditar == 1 ? '<button onclick="editarIVA(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' : '') +
+                            (data[i].estatus == 1 && rolEliminar == 1 ? '<button onclick="bajarIVA(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                            (data[i].estatus == 0 && rolEliminar == 1 ? '<button onclick="altaIVA(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                         ]
                     ).draw();
                 }
@@ -1271,10 +1271,10 @@ function agregarIVA() {
                                     [
                                         data[i].idText,
                                         data[i].atributo1,
-                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                                        '<button onclick="editarIVA(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                                        (data[i].estatus == 1 ? '<button onclick="bajarIVA(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                                        (data[i].estatus == 0 ? '<button onclick="altaIVA(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                        '<button onclick="editarIVA(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                        (data[i].estatus == 1 ? '<button onclick="bajarIVA(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                                        (data[i].estatus == 0 ? '<button onclick="altaIVA(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                                     ]
                                 ).draw();
                             }
@@ -1359,10 +1359,10 @@ function editarIVA(idLookup) {
                                                 [
                                                     data[i].idText,
                                                     data[i].atributo1,
-                                                    '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                                                    '<button onclick="editarIVA(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                                                    (data[i].estatus == 1 ? '<button onclick="bajarIVA(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
-                                                    (data[i].estatus == 0 ? '<button onclick="altaIVA(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
+                                                    '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                                    '<button onclick="editarIVA(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                                    (data[i].estatus == 1 ? '<button onclick="bajarIVA(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : '') +
+                                                    (data[i].estatus == 0 ? '<button onclick="altaIVA(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : '')
                                                 ]
                                             ).draw();
                                         }
@@ -1510,10 +1510,10 @@ function listarTickets() {
                             data[i].nombreLookup,
                             (data[i].atributo1 == 1 ? "Si" : "No"),
                             (data[i].atributo2 == 1 ? "Si" : "No"),
-                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                            '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                            (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
-                            (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                            '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                            (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+                            (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
                         ]
                     ).draw();
                 }
@@ -1525,10 +1525,10 @@ function listarTickets() {
                             data[i].nombreLookup,
                             (data[i].atributo1 == 1 ? "Si" : "No"),
                             (data[i].atributo2 == 1 ? "Si" : "No"),
-                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                            (rolEditar == 1 ? '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : ' ') +
-                            (data[i].estatus == 1 && rolEliminar == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
-                            (data[i].estatus == 0 && rolEliminar == 1 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                            (rolEditar == 1 ? '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' : ' ') +
+                            (data[i].estatus == 1 && rolEliminar == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+                            (data[i].estatus == 0 && rolEliminar == 1 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
                         ]
                     ).draw();
                 }
@@ -1610,10 +1610,10 @@ function agregarTicket() {
                                             data[i].nombreLookup,
                                             (data[i].atributo1 == 1 ? "Si" : "No"),
                                             (data[i].atributo2 == 1 ? "Si" : "No"),
-                                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                                            '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                                            (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
-                                            (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+                                            '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                            '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                            (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+                                            (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
                                         ]
                                     ).draw();
                                 }
@@ -1727,10 +1727,10 @@ function editarTicket(idLookup) {
                                                     data[i].nombreLookup,
                                                     (data[i].atributo1 == 1 ? "Si" : "No"),
                                                     (data[i].atributo2 == 1 ? "Si" : "No"),
-                                                    '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                                                    '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                                                    (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
-                                                    (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+                                                    '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                                    '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                                    (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+                                                    (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
                                                 ]
                                             ).draw();
                                         }
@@ -1819,10 +1819,10 @@ function bajarTicket(idLookup) {
                                         data[i].nombreLookup,
                                         (data[i].atributo1 == 1 ? "Si" : "No"),
                                         (data[i].atributo2 == 1 ? "Si" : "No"),
-                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                                        '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                                        (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
-                                        (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                        '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                        (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+                                        (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
                                     ]
                                 ).draw();
                             }
@@ -1898,10 +1898,10 @@ function altaTicket(idLookup) {
                                         data[i].nombreLookup,
                                         (data[i].atributo1 == 1 ? "Si" : "No"),
                                         (data[i].atributo2 == 1 ? "Si" : "No"),
-                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
-                                        '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' +
-                                        (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
-                                        (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
+                                        '<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>ADMIN <br /><strong>Fecha de creación:</strong> 2020-05-12 00:00:00<br><strong>Modificado por:</strong>ADMIN<br><strong>Fecha de modicación:</strong>2020-05-22 16:41:42"><i class="fas fa-info"></i></button>' +
+                                        '<button onclick="editarTicket(' + data[i].idLookup + ')" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' +
+                                        (data[i].estatus == 1 ? '<button onclick="bajarTicket(' + data[i].idLookup + ')" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : ' ') +
+                                        (data[i].estatus == 0 ? '<button onclick="altaTicket(' + data[i].idLookup + ')" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Dar de alta"><i class="fas fa-caret-up"></i></button>' : ' ')
                                     ]
                                 ).draw();
                             }

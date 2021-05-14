@@ -760,34 +760,37 @@
                                 <p>Inventario activo fijo</p>
                             </a>
                         </li>
-                        
-                         <li class="nav-item">
+
+                        <li class="nav-item">
                             <a th:href="${'/control-pedidos'}" class="nav-link" id="navMaquilaControlPedidos">
                                 <i class="nav-icon fas fa-clipboard-list"></i>
                                 <p>Control de pedidos</p>
                             </a>
                         </li>
-                        
-                         <li class="nav-item">
+
+                        <li class="nav-item">
                             <a th:href="${'/asignacion-tickets'}" class="nav-link" id="navMaquilaAsignacionTickets">
                                 <i class="nav-icon fas fa-clipboard-list"></i>
                                 <p>Asignaci&oacute;n de tickets</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="${'/herramienta-utileria'}" class="nav-link" id="navMaquilaHerramientasUtileria">
+                            <a th:href="${'/herramienta-utileria'}" class="nav-link"
+                                id="navMaquilaHerramientasUtileria">
                                 <i class="nav-icon fas fa-clipboard-list"></i>
                                 <p>Inv. Herramientas y utiler&iacute;a</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="${'/entradas-salidas-herramientas-utileria'}" class="nav-link" id="navMaquilaEntradasSalidasHerramientasUtileria">
+                            <a th:href="${'/entradas-salidas-herramientas-utileria'}" class="nav-link"
+                                id="navMaquilaEntradasSalidasHerramientasUtileria">
                                 <i class="nav-icon fas fa-clipboard-list"></i>
                                 <p>Entradas y salidas herremientas y utiler&iacute;a</p>
                             </a>
                         </li>
-                         <li class="nav-item">
-                            <a th:href="${'/prestamos-herramientas-utileria'}" class="nav-link" id="navMaquilaPrestamosHerramientasUtileria">
+                        <li class="nav-item">
+                            <a th:href="${'/prestamos-herramientas-utileria'}" class="nav-link"
+                                id="navMaquilaPrestamosHerramientasUtileria">
                                 <i class="nav-icon fas fa-clipboard-list"></i>
                                 <p>Prestamos herremientas y utiler&iacute;a</p>
                             </a>
@@ -996,8 +999,7 @@
                                 <p>Recepci&oacute;n-Devoluci&oacute;n</p>
                             </a>
                         </li>
-                        <li class="nav-item"
-                            th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                             (${#authorization.expression('hasRole(''ROLE_PRODUCCION_INCIDENCIA_LISTAR'')')}) or 
                             (${#authorization.expression('hasRole(''ROLE_PRODUCCION_INCIDENCIA_AGREGAR'')')}) or
                             (${#authorization.expression('hasRole(''ROLE_PRODUCCION_INCIDENCIA_ACEPTAR'')')})">
@@ -1032,7 +1034,8 @@
                         </li>
                     </ul>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
+                        <li class="nav-item"
+                            th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                         (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_REPORTEACTIVIDADES_LISTAR'')')}) or 
                         (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_REPORTEACTIVIDADES_EDITAR'')')}) or
                         (${#authorization.expression('hasRole(''ROLE_SERVICIOCLIENTE_REPORTEACTIVIDADES_AGREGAR'')')})">
@@ -1055,7 +1058,7 @@
                         </li>
                     </ul>
                 </li>
-                
+
                 <li class="nav-item has-treeview" id="menuServicio" th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
                     (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_CATALOGOS_AGREGAR'')')}) or 
                     (${#authorization.expression('hasRole(''ROLE_SOPORTE_TECNICO_CATALOGOS_EDITAR'')')}) or
@@ -1095,6 +1098,14 @@
                             <a th:href="${'/inventario-equipos'}" class="nav-link" id="navCatSer">
                                 <i class="fas fa-server"></i>
                                 <p>Inv. Equipos</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a th:href="${'/soporte-tecnico-ticket'}" class="nav-link" id="navCatSer">
+                                <i class="fas fa-ticket-alt"></i>
+                                <p>Tickets</p>
                             </a>
                         </li>
                     </ul>

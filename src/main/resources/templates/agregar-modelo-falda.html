@@ -168,13 +168,13 @@
                                              th:onclick="'detalles(' + ${listCoorPrenda[0] } + ');'"
                                              class="btn btn-info text-white btn-circle btn-sm popoverxd"
                                              data-container="body" data-toggle="popover"
-                                             data-placement="top" data-content="Ver detalles">
+                                              data-content="Ver detalles">
                                              <i class="fas fa-info"></i>
                                              </a> &nbsp; <a th:if="${listCoorPrenda[4]  == '1'}"
                                                 th:href="@{/delete-falda-spf/}+ ${listCoorPrenda[0]} +'/'+${idSPF} "
                                                 class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
                                                 data-container="body" data-toggle="popover"
-                                                data-placement="top" data-content="Eliminar">
+                                                 data-content="Eliminar">
                                              <i class="fas fa-times"></i>
                                              </a>
                                           </td>

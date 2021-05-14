@@ -30,7 +30,7 @@ public class CatalogoSoporteTecnicoContoller {
     }
     
     
-	@RequestMapping(value = "/verificar_duplicado_soporte_tecnico", method = RequestMethod.POST)
+	@RequestMapping(value = "/verificar_duplicado_soporte_tecnico", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean verificaduplicado(String Lookup, String Tipo,String descripcion,String atributo1, String atributo2, String atributo3 ) {
 		return soporteService.findDuplicate(Lookup, Tipo,  descripcion, atributo1,  atributo2,  atributo3 );

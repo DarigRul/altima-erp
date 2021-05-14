@@ -31,7 +31,7 @@ function verDetalles(e){
                     "<p id='tiempoP"+data[i][0]+"' class='text-center'>" + tiempo+ "</p>",
                     
                     "<td class='text-center'>" +
-                    '<button data-toggle="modal" data-target="#asignacionTiempo" onclick=addTiempo(this) id='+data[i][0]+' tiempo='+data[i][6]+' class="btn btn-altima btn-sm btn-circle popoverxd" data-placement="top" data-content="Asignaci&oacute;n de tiempo"><i class="fas fa-clock"></i></button>'+
+                    '<button data-toggle="modal" data-target="#asignacionTiempo" onclick=addTiempo(this) id='+data[i][0]+' tiempo='+data[i][6]+' class="btn btn-altima btn-sm btn-circle popoverxd"  data-content="Asignaci&oacute;n de tiempo"><i class="fas fa-clock"></i></button>'+
 		  			"</td>"
                     
         			

@@ -93,10 +93,10 @@
                                                 <td class="tdcenter">
                                                     <input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
                                                     <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:attr="onclick=|bajaInventario('${mt[0]}')|" class="btn btn-danger btn-circle btn-sm text-white popoverxd"
-                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-                                                    <!-- <a onclick="activaInventario()" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></a> -->
+                                                        data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
+                                                    <!-- <a onclick="activaInventario()" class="btn btn-success btn-circle btn-sm text-white popoverxd" data-container="body" data-toggle="popover"  data-content="Reactivar"><i class="fas fa-caret-up"></i></a> -->
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_MUESTRARIO_INVENTARIO_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:attr="onclick=|lol('${mt[0]}','${mt[9]}','${mt[11]}')|" class="btn btn-warning btn-circle btn-sm popoverxd"
-                                                        data-container="body" data-toggle="modal" data-target="#editarImagenMuestra" data-placement="top" data-content="Editar imagen"><i class="fas fa-pen"></i></a>
+                                                        data-container="body" data-toggle="modal" data-target="#editarImagenMuestra"  data-content="Editar imagen"><i class="fas fa-pen"></i></a>
                                                 </td>
                                             </tr>
 

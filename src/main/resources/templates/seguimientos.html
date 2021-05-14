@@ -66,13 +66,13 @@
                                                 <td th:text="${clientes[2]}"></td>
                                                 <td class="text-center">
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_VER'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:onclick="'mostrarListaSeguimiento('+${clientes[0]}+')'" class="btn btn-info btn-circle btn-sm popoverxd text-white"
-                                                        data-container="body" data-placement="top" data-content="Ver seguimiento"><i
+                                                        data-container="body"  data-content="Ver seguimiento"><i
 														class="fas fa-info"></i></a>
                                                     <div th:insert="modal-seguimiento"></div>
                                                 </td>
                                                 <td class="tdcenter">
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_LLAMADAS '')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" data-toggle="modal" th:attr="data-target='#llamadasAgente'+${cliente.index}" class="btn btn-success btn-circle btn-sm popoverxd text-white"
-                                                        data-container="body" data-placement="top" data-content="Listado de llamadas"><i
+                                                        data-container="body"  data-content="Listado de llamadas"><i
 														class="fas fa-phone"></i></a>
                                                     <div th:insert="modal-llamadas"></div>
                                                 </td>

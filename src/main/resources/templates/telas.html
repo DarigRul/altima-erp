@@ -77,17 +77,17 @@
                                                 </td>
                                                 <td class="tdcenter">
                                                     <a class="btn btn-info btn-circle btn-sm text-white popoverxd"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-container="body" data-toggle="popover" 
                                                         data-content="Ver detalles"><i
                                                             class="fas fa-info"></i></a>&nbsp;
                                                     <a class="btn btn-warning btn-circle btn-sm popoverxd"
                                                         th:onclick="'EditarEncogimiento('+${tela.idTela}+')'"
-                                                        data-container="body" data-toggle="popover" data-placement="top"
+                                                        data-container="body" data-toggle="popover" 
                                                         data-content="Editar % encogimiento"><i
                                                             class="fas fa-pen"></i></a>
                                                     <a data-toggle="modal" data-target="#modalDocumento"
                                                         th:attr="onclick=|documento('${tela.idTela}')|"
-                                                        data-placement="top" data-content="Documento"
+                                                         data-content="Documento"
                                                         class="btn btn-secondary text-white btn-circle btn-sm popoverxd"><i
                                                             class="far fa-file-pdf"></i></a>
                                                     <!-- <input type=file

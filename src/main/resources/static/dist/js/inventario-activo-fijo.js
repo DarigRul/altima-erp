@@ -160,7 +160,7 @@ function listarComponentesbyid(id){
                         v[3],
                 		
                 		
-    					'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="eliminarComponentes('+v[0]+')"   tipo="este catalago" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>'
+    					'<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="eliminarComponentes('+v[0]+')"   tipo="este catalago" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>'
             
                		 ]).node().id ="row";
             	

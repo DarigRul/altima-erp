@@ -69,11 +69,11 @@
                                                 <td th:text="${pedido[9]}">16/10/2020</td>
                                                 <td class="tdcenter">
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_REPORTE'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {pedido[11]!=null})}" class="btn btn-info btn-circle btn-sm text-white popoverxd"
-                                                        th:onclick="'detalleReporte('+${pedido[0]}+')'" data-container="body" data-toggle="popover" data-placement="top" data-content="Reporte espec&iacute;fico"><i class="fas fa-info"></i></a>&nbsp;
+                                                        th:onclick="'detalleReporte('+${pedido[0]}+')'" data-container="body" data-toggle="popover"  data-content="Reporte espec&iacute;fico"><i class="fas fa-info"></i></a>&nbsp;
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_REPORTEGENERAL'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {pedido[11]!=null})}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'detalleReporteGeneral('+${pedido[0]}+')'"
-                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Reporte General"><i class="fas fa-pen"></i></a>
+                                                        data-container="body" data-toggle="popover"  data-content="Reporte General"><i class="fas fa-pen"></i></a>
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_APARTADO_TELAS_CONFIRMAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {pedido[11]==null})}" class="btn btn-warning btn-circle btn-sm popoverxd" th:onclick="'editarApartadoTelas('+${pedido[0]}+')'"
-                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Confirmaci&oacute;n de recibido"><i class="fas fa-pen"></i></a>
+                                                        data-container="body" data-toggle="popover"  data-content="Confirmaci&oacute;n de recibido"><i class="fas fa-pen"></i></a>
                                                 </td>
                                             </tr>
                                         </tbody>

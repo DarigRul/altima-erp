@@ -68,9 +68,9 @@
                                         <td th:text="${view[5]}"></td>
                                         <td th:text="${view[6]}"></td>
                                         <td class="text-center">
-                                                    <button class="btn btn-danger btn-circle btn-sm popoverxd" th:onclick="|baja('${view[0]}')|"	 data-container="body" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
-                                                    <button class="btn btn-warning btn-circle btn-sm popoverxd" th:id="${view[0]}" th:idProveedor="${view[1]}" th:ClaveInt="${view[2]}" th:Precio="${view[5]}" th:dias="${view[6]}"  onclick="editar(this);"  data-target="#agregarProveedor" data-toggle="modal" data-container="body" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
-                                                    <button class="btn btn-success btn-circle btn-sm popoverxd" th:id="${view[0]}" onclick="precios(this);"  data-target="#historicoPrecios" data-toggle="modal" data-container="body" data-placement="top" data-content="Ver hist&oacute;rico de precios"><i class="fas fa-dollar-sign"></i></button>
+                                                    <button class="btn btn-danger btn-circle btn-sm popoverxd" th:onclick="|baja('${view[0]}')|"	 data-container="body"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>
+                                                    <button class="btn btn-warning btn-circle btn-sm popoverxd" th:id="${view[0]}" th:idProveedor="${view[1]}" th:ClaveInt="${view[2]}" th:Precio="${view[5]}" th:dias="${view[6]}"  onclick="editar(this);"  data-target="#agregarProveedor" data-toggle="modal" data-container="body"  data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                    <button class="btn btn-success btn-circle btn-sm popoverxd" th:id="${view[0]}" onclick="precios(this);"  data-target="#historicoPrecios" data-toggle="modal" data-container="body"  data-content="Ver hist&oacute;rico de precios"><i class="fas fa-dollar-sign"></i></button>
                                                 </td>
                                         </tr>
                                             

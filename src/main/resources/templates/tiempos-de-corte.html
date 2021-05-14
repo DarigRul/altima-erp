@@ -81,9 +81,9 @@
                                                 <td th:unless="${v[7] == null}" th:text="${v[7]}" ></td>
 												<td class="text-center">
 													
-                                                    <button   sec:authorize="hasAnyRole('ROLE_PRODUCCION_TIEMPO_CORTE_AÑADIR_TIEMPO','ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#tiempoDetalle"  th:onclick="|verDetalles(this)|" th:folio="${v[0]}"  class="btn btn-info btn-sm btn-circle popoverxd" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></button>
+                                                    <button   sec:authorize="hasAnyRole('ROLE_PRODUCCION_TIEMPO_CORTE_AÑADIR_TIEMPO','ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#tiempoDetalle"  th:onclick="|verDetalles(this)|" th:folio="${v[0]}"  class="btn btn-info btn-sm btn-circle popoverxd"  data-content="Detalles"><i class="fas fa-info"></i></button>
                                                     
-                                                    <button  th:if="${v[7] == v[8]}"  sec:authorize="hasAnyRole('ROLE_PRODUCCION_TIEMPO_CORTE_AÑADIR_TIEMPO','ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#calendarizar"  th:onclick="|calendarizar(this)|" th:folio="${v[0]}"  class="btn bg-success btn-sm btn-circle popoverxd" data-placement="top" data-content="Caledarizar"><i class="fas fa-calendar-day"></i></button>
+                                                    <button  th:if="${v[7] == v[8]}"  sec:authorize="hasAnyRole('ROLE_PRODUCCION_TIEMPO_CORTE_AÑADIR_TIEMPO','ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#calendarizar"  th:onclick="|calendarizar(this)|" th:folio="${v[0]}"  class="btn bg-success btn-sm btn-circle popoverxd"  data-content="Caledarizar"><i class="fas fa-calendar-day"></i></button>
 												</td>
                                             </tr>
                                         </tbody>

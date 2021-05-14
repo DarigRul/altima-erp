@@ -43,7 +43,7 @@ public class SoporteTecnicoInventarioServiceImpl implements ISoporteTecnicoInven
         		+ "SELECT\r\n" + 
         		"	look.nombre_lookup,\r\n" + 
         		"	inventario.provedor,\r\n" + 
-        		"	inventario.fecha,\r\n" + 
+        		"	DATE_FORMAT(inventario.fecha, '%d/%m/%Y' ),\r\n" + 
         		"	inventario.marca,\r\n" + 
         		"	inventario.modelo,\r\n" + 
         		"	inventario.serie,\r\n" + 
@@ -52,7 +52,7 @@ public class SoporteTecnicoInventarioServiceImpl implements ISoporteTecnicoInven
         		"	inventario.pantalla,\r\n" + 
         		"	inventario.ns_pantalla,\r\n" + 
         		"	inventario.direccion_ip,\r\n" + 
-        		"	(\r\n" + 
+        		"	DATE_FORMAT((\r\n" + 
         		"	SELECT\r\n" + 
         		"		IFNULL( m.fecha, 'Sin fecha' ) \r\n" + 
         		"	FROM\r\n" + 
@@ -62,8 +62,8 @@ public class SoporteTecnicoInventarioServiceImpl implements ISoporteTecnicoInven
         		"	ORDER BY\r\n" + 
         		"		m.id_mantenimiento ASC \r\n" + 
         		"		LIMIT 1 \r\n" + 
-        		"	),\r\n" + 
-        		"	(\r\n" + 
+        		"	), '%d/%m/%Y'),\r\n" + 
+        		"	DATE_FORMAT((\r\n" + 
         		"	SELECT\r\n" + 
         		"		IFNULL( m.fecha_proxima, 'Sin fecha' ) \r\n" + 
         		"	FROM\r\n" + 
@@ -73,7 +73,7 @@ public class SoporteTecnicoInventarioServiceImpl implements ISoporteTecnicoInven
         		"	ORDER BY\r\n" + 
         		"		m.id_mantenimiento ASC \r\n" + 
         		"		LIMIT 1 \r\n" + 
-        		"	),\r\n" + 
+        		"	), '%d/%m/%Y' ),\r\n" + 
         		"	empleado.nombre_persona,\r\n" + 
         		"	inventario.estatus,\r\n" + 
         		"	inventario.creado_por,\r\n" + 

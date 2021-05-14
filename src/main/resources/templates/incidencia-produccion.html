@@ -78,7 +78,7 @@
 														class="fas fa-info fa-sm"></i> </a>
 
                                                     <a th:if=" ${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or (${#authorization.expression('hasRole(''ROLE_PRODUCCION_INCIDENCIA_ACEPTAR'')')}) and ${v[14] == 1}" th:onclick="|aceptar('${v[0]}')|" class="btn btn-success btn-circle btn-sm popoverxd text-white" data-container="body" data-toggle="popover"
-                                                    data-placement="top" data-content="Aceptar">
+                                                     data-content="Aceptar">
                                                         <i class="fas fa-check"></i> </a>
                                                 </td>
 

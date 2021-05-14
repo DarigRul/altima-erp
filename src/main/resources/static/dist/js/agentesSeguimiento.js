@@ -66,7 +66,7 @@ function mostrarListaSeguimiento(idCliente){
 					(data[i][5]==null?"":data[i][5]),
 					'<button th:if="${(#authorization.expression("hasRole(""ROLE_COMERCIAL_AGENTES_SEGUIMIENTOS_EDITAR"")") or #authorization.expression("hasRole(""ROLE_ADMINISTRADOR"")"))}"' + 
 					' class="btn btn-warning btn-circle btn-sm popoverxd" id="buttonObs"'+
-                    ' data-container="body" data-placement="top" data-content="Actualizar observaci&oacute;n"><i class="fas fa-pen"></i></button>'
+                    ' data-container="body"  data-content="Actualizar observaci&oacute;n"><i class="fas fa-pen"></i></button>'
 				]).node().id ="row"+data[i][0];
 				tabla.draw( false );
 			}

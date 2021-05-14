@@ -47,7 +47,7 @@ function getExistenciaByAlmacen(idTela) {
                             data[3],
                             `<p id="traspaso-${data[6]}-${idTela}">${apartadoByAlmacen}</p>`,
                             `<button id="modalTomar" class="btn btn-info btn-sm btn-circle popoverxd"
-                            onclick='getExistenciaRolloByAlmacen(${data[6]},${idTela})' data-placement="top" data-content="Detalle"><i
+                            onclick='getExistenciaRolloByAlmacen(${data[6]},${idTela})'  data-content="Detalle"><i
                                 class="fas fa-info"></i></button>`
                         ]
                     ).draw();

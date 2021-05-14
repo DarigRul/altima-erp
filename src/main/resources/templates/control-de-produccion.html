@@ -77,20 +77,20 @@
 
                                                 <td th:if="${pedidos[3] == 'Foráneo'	}" class="tdcenter"><a th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
 													${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_LISTAR'')')}" data-target="#detalles-proceso" th:onclick="'listarTerminadosF('+${pedidos[0]}+')'" class="btn btn-info text-white btn-circle btn-sm popoverxd" data-container="body"
-                                                        data-toggle="modal" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></a></td>
+                                                        data-toggle="modal"  data-content="Detalles"><i class="fas fa-info"></i></a></td>
 
 
                                                 <td th:if="${pedidos[3] == 'Pedido Gerencial'	}" class="tdcenter"><a th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
 													${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_LISTAR'')')}" data-target="#detalles-proceso" th:onclick="'listarTrazos('+${pedidos[0]}+')'" class="btn btn-info text-white btn-circle btn-sm popoverxd" data-container="body"
-                                                        data-toggle="modal" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></a></td>
+                                                        data-toggle="modal"  data-content="Detalles"><i class="fas fa-info"></i></a></td>
 
 
                                                 <td th:if="${pedidos[3] == 'Pedido Coleccion'	}" class="tdcenter"><a th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
 													${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_LISTAR'')')}" data-target="#detalles-proceso" th:onclick="'listarTrazos('+${pedidos[0]}+')'" class="btn btn-info btn-circle btn-sm text-white popoverxd" data-container="body"
-                                                        data-toggle="modal" data-placement="top" data-content="Detalles"><i class="fas fa-info"></i></a>
+                                                        data-toggle="modal"  data-content="Detalles"><i class="fas fa-info"></i></a>
                                                     <a th:if="${#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')')} or 
 														${#authorization.expression('hasRole(''ROLE_DISENIO_PRODUCCION_MUESTRAS_EDITAR'')')}" th:href="${'editar-pedido-coleccion/'}+${pedidos[0]}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"
-                                                        data-placement="top" data-content="Completar Pedido"><i class="fas fa-pen"></i></a></td>
+                                                         data-content="Completar Pedido"><i class="fas fa-pen"></i></a></td>
 
 
 

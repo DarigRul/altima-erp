@@ -67,9 +67,9 @@
                                                 <td th:text="${orden.nombreProveedor}"></td>
                                                 <td th:text="${orden.estatus}"></td>
                                                 <td class="text-center">
-                                                    <!-- <a class="btn btn-warning btn-circle btn-sm popoverxd" data-placement="top" data-content="Imprimir" th:href="@{/orden-de-compra/}+${orden.idOrdenCompras}"><i class="fas fa-pen"></i></a> -->
+                                                    <!-- <a class="btn btn-warning btn-circle btn-sm popoverxd"  data-content="Imprimir" th:href="@{/orden-de-compra/}+${orden.idOrdenCompras}"><i class="fas fa-pen"></i></a> -->
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_ORDEN_COMPRA_IMPRIMIR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/orden-compra-reporte/}+${orden.idOrdenCompras}+@{?format=pdf}" class="btn btn-danger btn-circle btn-sm popoverxd"
-                                                        data-placement="top" data-content="Imprimir" target="_blank"><i class="fas fa-download" ></i></a>
+                                                         data-content="Imprimir" target="_blank"><i class="fas fa-download" ></i></a>
                                                 </td>
                                             </tr>
                                         </tbody>

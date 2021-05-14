@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var table = $('.tablaGeneralScroll')
         .DataTable({
+            "fixedHeader": false,
             "ordering": false,
             "pageLength": 5,
             "scrollX": true,
@@ -8,12 +9,12 @@ $(document).ready(function() {
             "drawCallback": function() {
                 $('.popoverxd').popover({
                     container: 'body',
-                    trigger: 'hover'
+                    trigger: 'hover',
                 });
             },
             "columnDefs": [{
                 "type": "html",
-                "targets": '_all'
+                "targets": '_all',
             }],
             "lengthMenu": [
                 [5, 10, 25, 50, 100],
@@ -44,9 +45,12 @@ $(document).ready(function() {
                 },
                 "buttons": {
                     "copy": "Copiar",
-                    "colvis": "Visibilidad"
+                    "colvis": "Visibilidad",
+                    "print": "Imprimir",
                 }
-            }
-        });
+            },
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#DataTables_Table_0_wrapper ');
+
 
 });

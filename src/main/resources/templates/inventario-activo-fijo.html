@@ -91,14 +91,14 @@
                                                 
                                                 <td class="tdcenter">
                                                     <!-- <button th:onclick="|componentes('${view[0]}')|" sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR')" data-toggle="modal" data-target="#asignacionAgente" class="btn btn-secondary text-white btn-circle btn-sm popoverxd"
-                                                        data-container="body" data-placement="top" data-content="Componentes"> <i class="fas fa-tools"></i>
+                                                        data-container="body"  data-content="Componentes"> <i class="fas fa-tools"></i>
                                                     </button> -->
-                                                    <button th:onclick="|editar('${view[0]}')|" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>
+                                                    <button th:onclick="|editar('${view[0]}')|" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>
                                                     <button th:if="${view[10]  == 'Activo'}" th:onclick="|estatus('${view[0]}',0)|" class="btn btn-danger btn-circle btn-sm btn-delete popoverxd" data-container="body" data-toggle="popover"
-                                                        data-placement="top" data-content="Dar de baja"> <i class="fas fa-caret-down"></i>
+                                                         data-content="Dar de baja"> <i class="fas fa-caret-down"></i>
                                                     </button>
                                                     <button th:if="${view[10]  == 'Inactivo'}" th:onclick="|estatus('${view[0]}',1)|" class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover"
-                                                        data-placement="top" data-content="Dar de alta"> <i class="fas fa-sort-up"></i>
+                                                         data-content="Dar de alta"> <i class="fas fa-sort-up"></i>
                                                     </button>
                                                 </td>
                                             </tr>

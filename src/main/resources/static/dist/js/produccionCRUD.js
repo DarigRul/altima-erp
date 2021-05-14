@@ -459,10 +459,10 @@ function listarProceso() {
 						v.nombreLookup,
 						v.atributo1,
 						v.descripcionLookup,
-						(rolEditar == 1 ? '<button class="btn btn-secondary btn-circle btn-sm popoverxd" onclick="permisosProcesos(' + v.idLookup + ')" data-container="body" data-toggle="popover" data-placement="top" data-content="Permiso"> <i class="fas fa-user-plus"></i> </button>' : ""),
-						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>' + v.creadoPor + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v.fechaCreacion + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
-						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="' + v.idLookup + '" atributo1 ="' + v.atributo1 + '"  nombre="' + v.nombreLookup + '" descripcion="' + v.descripcionLookup + '" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : "") +
-						(rolEliminar == 1 ? '<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteProceso(' + v.idLookup + ')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : "")
+						(rolEditar == 1 ? '<button class="btn btn-secondary btn-circle btn-sm popoverxd" onclick="permisosProcesos(' + v.idLookup + ')" data-container="body" data-toggle="popover"  data-content="Permiso"> <i class="fas fa-user-plus"></i> </button>' : ""),
+						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>' + v.creadoPor + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v.fechaCreacion + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
+						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="' + v.idLookup + '" atributo1 ="' + v.atributo1 + '"  nombre="' + v.nombreLookup + '" descripcion="' + v.descripcionLookup + '" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' : "") +
+						(rolEliminar == 1 ? '<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteProceso(' + v.idLookup + ')" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : "")
 
 					]).node().id = "row";
 				} else {
@@ -471,10 +471,10 @@ function listarProceso() {
 						v.nombreLookup,
 						v.atributo1,
 						v.descripcionLookup,
-						(rolEditar == 1 ? '<button class="btn btn-secondary btn-circle btn-sm popoverxd" onclick="permisosProcesos(' + v.idLookup + ')" data-container="body" data-toggle="popover" data-placement="top" data-content="Permiso"> <i class="fas fa-user-plus"></i> </button>' : ""),
-						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>' + v.creadoPor + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v.fechaCreacion + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
-						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="' + v.idLookup + '" atributo1 ="' + v.atributo1 + '"  nombre="' + v.nombreLookup + '" descripcion="' + v.descripcionLookup + '" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : "") +
-						(rolEliminar == 1 ? '<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveProceso(' + v.idLookup + ')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>' : "")
+						(rolEditar == 1 ? '<button class="btn btn-secondary btn-circle btn-sm popoverxd" onclick="permisosProcesos(' + v.idLookup + ')" data-container="body" data-toggle="popover"  data-content="Permiso"> <i class="fas fa-user-plus"></i> </button>' : ""),
+						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>' + v.creadoPor + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v.fechaCreacion + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
+						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="' + v.idLookup + '" atributo1 ="' + v.atributo1 + '"  nombre="' + v.nombreLookup + '" descripcion="' + v.descripcionLookup + '" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' : "") +
+						(rolEliminar == 1 ? '<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveProceso(' + v.idLookup + ')" data-container="body" data-toggle="popover"  data-content="Reactivar"><i class="fas fa-caret-up"></i></button>' : "")
 
 					]).node().id = "row";
 				}
@@ -802,11 +802,11 @@ function listarRuta() {
 						v.idText,
 						v.nombreLookup,
 						'<td class="text-center">' +
-						'<button onclick="verProcesosRuta(' + v.idLookup + ')" class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>' +
+						'<button onclick="verProcesosRuta(' + v.idLookup + ')" class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos"  data-content="Ver procesos"><i class="fas fa-cog"></i></button>' +
 						'</td>',
-						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>' + v.creadoPor + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v.fechaCreacion + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
-						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarRuta(this)" idLookup ="' + v.idLookup + '"  nombre="' + v.nombreLookup + '" descripcion="' + v.descripcionLookup + '" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : " ") +
-						(rolEliminar == 1 ? '<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteRuta(' + v.idLookup + ')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : " ")
+						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>' + v.creadoPor + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v.fechaCreacion + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
+						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarRuta(this)" idLookup ="' + v.idLookup + '"  nombre="' + v.nombreLookup + '" descripcion="' + v.descripcionLookup + '" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' : " ") +
+						(rolEliminar == 1 ? '<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteRuta(' + v.idLookup + ')" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : " ")
 
 					]).node().id = "row";
 				} else {
@@ -814,12 +814,12 @@ function listarRuta() {
 						v.idText,
 						v.nombreLookup,
 						'<td class="text-center">' +
-						'<button onclick="verProcesosRuta(' + v.idLookup + ')" class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos" data-placement="top" data-content="Ver procesos"><i class="fas fa-cog"></i></button>' +
+						'<button onclick="verProcesosRuta(' + v.idLookup + ')" class="btn btn-primary btn-circle btn-sm popoverxd" id="modalDetalles" data-container="body" data-toggle="modal" data-target="#infoProcesos"  data-content="Ver procesos"><i class="fas fa-cog"></i></button>' +
 						'</td>',
 
-						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>' + v.creadoPor + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v.fechaCreacion + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
-						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarRuta(this)" idLookup ="' + v.idLookup + '"  nombre="' + v.nombreLookup + '" descripcion="' + v.descripcionLookup + '" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : " ") +
-						(rolEliminar == 1 ? '<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveRuta(' + v.idLookup + ')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>' : " ")
+						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>' + v.creadoPor + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v.fechaCreacion + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
+						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarRuta(this)" idLookup ="' + v.idLookup + '"  nombre="' + v.nombreLookup + '" descripcion="' + v.descripcionLookup + '" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' : " ") +
+						(rolEliminar == 1 ? '<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveRuta(' + v.idLookup + ')" data-container="body" data-toggle="popover"  data-content="Reactivar"><i class="fas fa-caret-up"></i></button>' : " ")
 
 					]).node().id = "row";
 				}
@@ -1483,18 +1483,18 @@ function listarUbicaciones() {
 					tabla.row.add([
 						v[1],
 						v[2],
-						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>' + v[5] + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v[6] + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
-						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarUbicacion(this)" idLookup ="' + v[0] + '"  nombre="' + v[2] + '" empleado="' + v[9] + '" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : "") +
-						(rolEliminar == 1 ? '<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteUbicacion(' + v[0] + ')" data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : "")
+						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>' + v[5] + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v[6] + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
+						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editarUbicacion(this)" idLookup ="' + v[0] + '"  nombre="' + v[2] + '" empleado="' + v[9] + '" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' : "") +
+						(rolEliminar == 1 ? '<button class="btn btn-danger btn-circle btn-sm popoverxd" onclick="deleteUbicacion(' + v[0] + ')" data-container="body" data-toggle="popover"  data-content="Dar de baja"><i class="fas fa-caret-down"></i></button>' : "")
 
 					]).node().id = "row";
 				} else {
 					tabla.row.add([
 						v[1],
 						v[2],
-						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>' + v[5] + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v[6] + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
-						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="' + v[1] + '"  nombre="' + v[1] + '" descripcion="' + v[1] + '" data-container="body" data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></button>' : "") +
-						(rolEliminar == 1 ? '<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveUbicacion(' + v[0] + ')" data-container="body" data-toggle="popover" data-placement="top" data-content="Reactivar"><i class="fas fa-caret-up"></i></button>' : "")
+						'<button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>' + v[5] + ' <br /><strong>Fecha de creaci&oacute;n: </strong> ' + v[6] + ' <br><strong>Modificado por: </strong>' + actualizo + '<br><strong>Fecha de modicaci&oacute;n: </strong>' + fecha + '"><i class="fas fa-info"></i></button>' +
+						(rolEditar == 1 ? '<button class="btn btn-warning btn-circle btn-sm popoverxd" onclick="editProceso(this)" idLookup ="' + v[1] + '"  nombre="' + v[1] + '" descripcion="' + v[1] + '" data-container="body" data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></button>' : "") +
+						(rolEliminar == 1 ? '<button class="btn btn-success btn-circle btn-sm popoverxd" onclick="reactiveUbicacion(' + v[0] + ')" data-container="body" data-toggle="popover"  data-content="Reactivar"><i class="fas fa-caret-up"></i></button>' : "")
 
 					]).node().id = "row";
 				}

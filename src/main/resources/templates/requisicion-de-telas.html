@@ -99,9 +99,9 @@
                                                 <td th:text="${tela.estatusComercial}">Autorizada</td>
                                                 <td>
                                                     <button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_REQUISICION_TELAS_ACEPTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:disabled="${tela.estatusComercial}!='Pendiente' or ${tela.estatusCompra}!='Extemporanea'?true:false"
-                                                        class="btn btn-success btn-sm btn-circle popoverxd" th:attr="onclick=|aceptarComercial('${tela.idTelaFaltante}')|" data-placement="top" data-content="Aceptar" id="aceptarComercial"><i class="fas fa-check"></i></button>
+                                                        class="btn btn-success btn-sm btn-circle popoverxd" th:attr="onclick=|aceptarComercial('${tela.idTelaFaltante}')|"  data-content="Aceptar" id="aceptarComercial"><i class="fas fa-check"></i></button>
                                                     <button th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_REQUISICION_TELAS_RECHAZAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:disabled="${tela.estatusComercial}!='Pendiente' or ${tela.estatusCompra}!='Extemporanea'?true:false"
-                                                        class="btn btn-danger btn-sm btn-circle popoverxd" th:attr="onclick=|rechazarComercial('${tela.idTelaFaltante}')|" data-placement="top" data-content="Rechazar"><i
+                                                        class="btn btn-danger btn-sm btn-circle popoverxd" th:attr="onclick=|rechazarComercial('${tela.idTelaFaltante}')|"  data-content="Rechazar"><i
                                                             class="fas fa-times" id="rechazarComercial"></i></button>
                                                 </td>
                                             </tr>

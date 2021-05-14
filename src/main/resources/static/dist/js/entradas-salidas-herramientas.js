@@ -196,7 +196,7 @@ console.log($('#cantidad').val());
 				Lista[i].cantidad,
 				Lista[i].articulonombre,
 				Lista[i].articulomarca,
-			'<button type="button" onclick="eliminar('+Lista[i].contador+');" class="btn btn-danger"     data-placement="top" data-content="eliminar">Eliminar</button>',
+			'<button type="button" onclick="eliminar('+Lista[i].contador+');" class="btn btn-danger"      data-content="eliminar">Eliminar</button>',
 				] ).draw( false );
 
 
@@ -264,7 +264,7 @@ function eliminar(e){
 			Lista[i].cantidad,
 			Lista[i].articulonombre,
 			Lista[i].articulomarca,
-		'<button type="button" onclick="eliminar('+Lista[i].contador+');" class="btn btn-danger"     data-placement="top" data-content="eliminar">Eliminar</button>',
+		'<button type="button" onclick="eliminar('+Lista[i].contador+');" class="btn btn-danger"      data-content="eliminar">Eliminar</button>',
 			] ).draw( false );
 
 

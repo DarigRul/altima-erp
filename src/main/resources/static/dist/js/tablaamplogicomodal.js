@@ -138,7 +138,7 @@ function tablamulti(articulo,tipo, nombre , global){
 					"<td>" + data[i][3] + "</td>",
 					"<td>" +
 					"<button onclick='EliminarMultialmacen(" + data[i][0] + " , " + data[i][3] + " )' class='btn btn-danger btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-content='Eliminar'><i class='fas fa-minus-circle'></i></button>"   +
-					'<button class="btn btn-altima btn-circle btn-sm popoverxd ubicacionButton" data-container="body" data-placement="top" data-content="Ver ubicaci&oacute;n de almac&eacute;n"><i class="fas fa-map-marker-alt"></i></button>'+
+					'<button class="btn btn-altima btn-circle btn-sm popoverxd ubicacionButton" data-container="body"  data-content="Ver ubicaci&oacute;n de almac&eacute;n"><i class="fas fa-map-marker-alt"></i></button>'+
 					"</td>" +
 					"<tr>"
 					];

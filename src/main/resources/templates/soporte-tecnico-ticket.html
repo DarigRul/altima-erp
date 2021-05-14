@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="navegacion-head :: header">
+    <title id="pageTitle">Soporte Técnico Tickets | Altima</title>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+    <div class="wrapper" id="app">
+        <div th:insert="navegacion-nav"></div>
+        <div th:insert="navegacion-logout"></div>
+        <div th:insert="navegacion-aside"></div>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Tickets&nbsp;<button class="btn btn-sm icon-btn btn-altima text-white"
+                                    v-on:click="modalAgregarTicket" type="button"><span
+                                        class="btn-glyphicon spancircle fas fa-plus img-circle text-altima"></span>Nuevo
+                                    ticket</button></h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item altima">Altima</li>
+                                <li class="breadcrumb-item active">Soporte técnico</li>
+                                <li class="breadcrumb-item active">Tickets</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-altima">
+                                    <h3 class="card-title">Listado Tickets</h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table tablaGeneral compact" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Folio</th>
+                                                <th>Usuario</th>
+                                                <th>Area</th>
+                                                <th>Prioridad</th>
+                                                <th>Categoría</th>
+                                                <th>Fecha</th>
+                                                <th>Título</th>
+                                                <th>Estado</th>
+                                                <th>Calificación</th>
+                                                <th>Archivo</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="ticket:${tickets}">
+                                                <td th:text="${ticket.idText}">NJI23E8IO23</td>
+                                                <td th:text="${ticket.empleado}">Jose Manuel Blanco</td>
+                                                <td th:text="${ticket.area}">Todas</td>
+                                                <td th:text="${ticket.prioridad}">En espera</td>
+                                                <td th:text="${ticket.categoria}">Ninguno</td>
+                                                <td th:text="${ticket.fechaCreacion}">2</td>
+                                                <td th:text="${ticket.titulo}">NJI23E8IO23</td>
+                                                <td th:text="${ticket.estado}">Jose Manuel Blanco</td>
+                                                <td>
+                                                    <star-rating
+                                                        th:@rating-selected="|putCalificacion('${ticket.idTicket}')|"
+                                                        @current-rating="setRating" th::rating="${ticket.calificacion}"
+                                                        :star-size="25" :show-rating="false">
+                                                    </star-rating>
+                                                </td>
+                                                <td th:text="${ticket.nombreArchivo}">En espera</td>
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <button class="btn btn-info popoverxd" data-container="body"
+                                                            th:v-on:click="|infoTicketModal('${ticket.idTicket}')|"
+                                                            data-content="Informaci&oacute;n general"><i
+                                                                class="fas fa-info"></i></button>
+                                                        <button class="btn btn-warning popoverxd" data-container="body"
+                                                            th:disabled="${ticket.estado=='Cerrado'?true:false}"
+                                                            data-content="Editar"
+                                                            th:v-on:click="|editarTicketModal('${ticket.idTicket}')|"><i
+                                                                class="fas fa-pen"></i></button>
+                                                        <button class="btn btn-danger popoverxd" data-container="body"
+                                                            th:disabled="${ticket.estado=='Cerrado'?true:false}"
+                                                            data-content="Establecer prioridad"
+                                                            th:v-on:click="|cambiarPrioridad('${ticket.idTicket}')|"><i
+                                                                class="fas fa-layer-group"></i></button>
+                                                        <button class="btn btn-success popoverxd"
+                                                            th:v-on:click="|modalSeguimiento('${ticket.idTicket}')|"
+                                                            data-container="body" data-content="Seguimiento"><i
+                                                                class="fas fa-clipboard-check"></i></button>
+                                                        <a class="btn btn-secondary popoverxd" data-container="body"
+                                                            target="_blank" data-content="Descargar archivo"
+                                                            th:href="'https://res.cloudinary.com/dti-consultores/image/upload/v1620847068/soporteTecnico/'+${ticket.nombreArchivo}"><i
+                                                                class="fas fa-download"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div th:insert="modal-soporte-tecnico-ticket"></div>
+        <div th:insert="navegacion-footer"></div>
+    </div>
+    <div th:replace="navegacion-scripts"></div>
+    <script src="dist/js/tablaGeneral.js"></script>
+    <script src="/plugins/vue/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue-star-rating/dist/VueStarRating.umd.min.js"></script>`
+    <script src="dist/js/soporteTecnicoTicket.js"></script>
+</body>
+
+</html>

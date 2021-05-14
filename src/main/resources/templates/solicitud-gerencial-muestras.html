@@ -197,13 +197,13 @@
 		                                               
 		                                                
 		                                                <td class="tdcenter" >
-                                                	<a th:onclick="'detalles('+ ${mt[6]}   +');'" class="btn btn-info text-white btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Ver detalles"><i class="fas fa-info"></i></a>&nbsp;
+                                                	<a th:onclick="'detalles('+ ${mt[6]}   +');'" class="btn btn-info text-white btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-content="Ver detalles"><i class="fas fa-info"></i></a>&nbsp;
                                                 	
                                                  
                                                           
                                                           
                                                      <a  th:href="@{/eliminar-pedido-interno/}+${mt[8]}+'/'+${objetoDetalle.idPedido}" class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
-                                                         data-container="body" data-toggle="popover" data-placement="top"
+                                                         data-container="body" data-toggle="popover" 
 														  data-content="Eliminar">  <i class="fas fa-times"></i> </a>
 														  
                                                 </td>

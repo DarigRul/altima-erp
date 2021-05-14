@@ -74,7 +74,7 @@
                                                  sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_COMPRAS')"
 												 class="btn btn-info btn-circle btn-sm text-white popoverxd"
 												  th:onclick="|detalles('${view[0]}')|"
-												 data-container="body" data-toggle="popover" data-placement="top" 
+												 data-container="body" data-toggle="popover"  
 												 data-content="Detalles"><i class="fas fa-info"></i>
 												 </button>
                                                  <button
@@ -82,7 +82,7 @@
 												 	th:disabled="${view[5]}=='No enviado'?false:true"
 												 	th:onclick="|editar(' ${view[0]} ')|"                       
                                                      class="btn btn-warning btn-sm btn-circle popoverxd" 
-                                                    data-placement="top" data-content="Editar"><i class="fas fa-exchange-alt"></i>
+                                                     data-content="Editar"><i class="fas fa-exchange-alt"></i>
                                                    </button>
                                                    
                                                    <button
@@ -90,7 +90,7 @@
 												 	th:disabled="${view[5]}=='No enviado'?false:true"
 												 	th:onclick="|enviarEstatus('${view[0]}')|"                    
                                                      class="btn btn-altima btn-sm btn-circle popoverxd" 
-                                                    data-placement="top" data-content="Enviar"><i class="fas fa-plane"></i>
+                                                     data-content="Enviar"><i class="fas fa-plane"></i>
                                                    </button>
 												 
                                                  <button
@@ -98,14 +98,14 @@
 												 		th:onclick="|rechazar('${view[0]}')|"
                                                         th:disabled="${view[5]}=='Enviado'?false:true"
                                                         class="btn btn-danger btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Rechazar"><i
+                                                         data-content="Rechazar"><i
                                                             class="fas fa-times"></i></button>
                                                     <button
                                                     sec:authorize="hasAnyRole('ROLE_ADMINISTRADOR','ROLE_REQUISICION_COMPRAS')"
                                                     	th:onclick="|aceptar('${view[0]}')|"
                                                         th:disabled="${view[5]}=='Enviado'?false:true"
                                                         class="btn btn-success btn-sm btn-circle popoverxd"
-                                                        data-placement="top" data-content="Aceptar"><i
+                                                         data-content="Aceptar"><i
                                                             class="fas fa-check"></i></button>
                                                      
                                                 </td>

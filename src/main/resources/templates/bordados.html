@@ -71,12 +71,12 @@
                                                 <td th:text="${mt[4]}==0?'En espera':'Aceptado'"></td>
                                                 <td class="text-center">
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-info text-white btn-circle btn-sm popoverxd" data-toggle="popover" data-content="Ver detalles"
-                                                        data-placement="top"><i class="fas fa-info"></i></a>
+                                                        ><i class="fas fa-info"></i></a>
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/bordados/}+${mt[5]}" class="btn btn-warning btn-circle btn-sm popoverxd"
-                                                        data-toggle="popover" data-content="Editar" data-placement="top"><i class="fas fa-pen"></i></a>
+                                                        data-toggle="popover" data-content="Editar" ><i class="fas fa-pen"></i></a>
 
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AGENTES_PERSONALIZADOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/eliminar_bordado/}+${mt[5]}" class="btn btn-danger btn-circle btn-sm popoverxd"
-                                                        data-toggle="popover" data-content="Eliminar" data-placement="top"><i class="fas fa-times"></i></a>
+                                                        data-toggle="popover" data-content="Eliminar" ><i class="fas fa-times"></i></a>
 
 
                                                 </td>

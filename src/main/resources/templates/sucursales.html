@@ -66,16 +66,16 @@
                                                	<td class="tdcenter">                                        
                                                  	<a th:href="@{/editar-sucursal/}+ ${sucursal.IdClienteSucursal}"class="btn btn-warning btn-circle btn-sm popoverxd" 
                                                          data-container="body" data-toggle="popover"
-                                                          data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
+                                                           data-content="Editar"><i class="fas fa-pen"></i></a>
                                                           
                                                  	
                                                  		
                                                		<a th:if="${sucursal.Sestatus  == '1'}"   th:href="@{/delete-sucursal/}+ ${sucursal.IdClienteSucursal}" class="btn btn-danger btn-circle btn-sm btn-delete popoverxd"
-                                                         data-container="body" data-toggle="popover" data-placement="top"
+                                                         data-container="body" data-toggle="popover" 
                                                           data-content="Dar de baja">  <i class="fas fa-caret-down"></i> </a>
                                                           
                                                     <a th:if="${sucursal.Sestatus == '0'}"   th:href="@{/alta-sucursal/}+ ${sucursal.IdClienteSucursal}"  class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd" 
-                                                         data-container="body" data-toggle="popover" data-placement="top"
+                                                         data-container="body" data-toggle="popover" 
                                                           data-content="Dar de alta"> <i class="fas fa-sort-up"></i> </a>
                                                 </td>
                                             </tr>     

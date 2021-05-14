@@ -70,7 +70,7 @@
                                                 <td th:text="${movimiento.nombreAlmacenLogico}">Apartados</td>
                                                 <td th:text="${movimiento.referencias}">PED0048</td>
                                                 <td class="text-center">
-                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-placement="top"
+                                                    <button th:if="${(#authorization.expression('hasRole(''ROLE_COMERCIAL_AMP_ENTRADASSALIDAS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" 
                                                         data-content="Ver detalles"><i class="fas fa-info"></i></button>
                                                 </td>
                                             </tr>

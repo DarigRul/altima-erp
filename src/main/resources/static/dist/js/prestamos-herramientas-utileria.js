@@ -197,7 +197,7 @@ $( "#Guardar" ).click(function() {
 				Lista[i].articulonombre,
 				Lista[i].articulomarca,
 				Lista[i].articulocosto,
-			'<button type="button" onclick="eliminar('+Lista[i].contador+');" class="btn btn-danger"     data-placement="top" data-content="eliminar">Eliminar</button>',
+			'<button type="button" onclick="eliminar('+Lista[i].contador+');" class="btn btn-danger"      data-content="eliminar">Eliminar</button>',
 				] ).draw( false );
 
 
@@ -266,7 +266,7 @@ function eliminar(e){
 			Lista[i].articulonombre,
 			Lista[i].articulomarca,
 			Lista[i].articulocosto,
-		'<button type="button" onclick="eliminar('+Lista[i].contador+');" class="btn btn-danger"     data-placement="top" data-content="eliminar">Eliminar</button>',
+		'<button type="button" onclick="eliminar('+Lista[i].contador+');" class="btn btn-danger"      data-content="eliminar">Eliminar</button>',
 			] ).draw( false );
 
 

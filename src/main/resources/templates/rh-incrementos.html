@@ -80,12 +80,12 @@
                                  th:if="${mt[12] == 1} and ${(#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
                                  th:onclick="'editarPlazas('+${mt[2]}+')'"
                                  class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body"
-                                 data-toggle="modal" data-target="#agregarIncrementos" data-placement="top"
+                                 data-toggle="modal" data-target="#agregarIncrementos" 
                                  data-content="Editar"><i class="fas fa-pen"></i></button>
                               <!-- MÁS DETALLE -->
                               <a th:href="@{rh-incrementos-detalle/}+${mt[14]}"
                                  class="btn btn-info btn-circle btn-sm popoverxd" data-container="body"
-                                 data-placement="top" data-html="true" th:attr="data-content='<strong>Número de plazas: </strong>'+ ${mt[11]}+'<br>'+
+                                  data-html="true" th:attr="data-content='<strong>Número de plazas: </strong>'+ ${mt[11]}+'<br>'+
 											'<strong>Sueldo: </strong>' + ${mt[7]} +'<br>'+'<strong>Observaciones: </strong>'+ ${mt[10]} +'<br>'"><i
                                     class="fas fa-info"></i></a>
                               <!-- RECHAZAR -->
@@ -93,7 +93,7 @@
                                  th:if="${mt[12] == 1} and ${(#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
                                  th:onclick="'rechazarIncremento('+${mt[2]}+')'"
                                  class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
-                                 data-toggle="popover" data-placement="top" data-content="Rechazar">
+                                 data-toggle="popover"  data-content="Rechazar">
                                  <i class="fas fa-caret-down"></i>
                               </button><input type="hidden" name="_csrf" id="token" th:value="${_csrf.token}" />
                               <!-- APROBAR -->
@@ -101,7 +101,7 @@
                                  th:if="${mt[12] == 1} and ${(#authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
                                  th:onclick="'aceptarIncremento('+${mt[2]}+')'"
                                  class="btn btn-success btn-circle btn-sm popoverxd" data-container="body"
-                                 data-toggle="popover" data-placement="top" data-content="Aprobar">
+                                 data-toggle="popover"  data-content="Aprobar">
                                  <i class="fas fa-sort-up"></i>
                               </button>
                            </td>

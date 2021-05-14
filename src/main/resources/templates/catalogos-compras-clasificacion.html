@@ -36,17 +36,17 @@
                             <td>CLAS0001</td>
                             <td>Materia prima</td>
                             <td class="tdcenter">
-                                <button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-content="<strong>Creado por: </strong>Luis Miguel<br /><strong>Fecha de creación: </strong>30/01/2020<br><strong>Modificado por: </strong>Luisito Rey<br><strong>Fecha de modicación: </strong>01/02/2020"><i class="fas fa-info"></i></button>
+                                <button class="btn btn-info btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover"  data-html="true" data-content="<strong>Creado por: </strong>Luis Miguel<br /><strong>Fecha de creación: </strong>30/01/2020<br><strong>Modificado por: </strong>Luisito Rey<br><strong>Fecha de modicación: </strong>01/02/2020"><i class="fas fa-info"></i></button>
                                 <a th:if="${(#authorization.expression('hasRole(''COMPRAS-CATALOGOS-EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="editarClasificacion()" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body"
-                                    data-toggle="popover" data-placement="top" data-content="Editar"><i class="fas fa-pen"></i></a>
+                                    data-toggle="popover"  data-content="Editar"><i class="fas fa-pen"></i></a>
 
 
                                 <a th:if="${(#authorization.expression('hasRole(''COMPRAS-CATALOGOS-ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="eliminarClasificacion()" class="btn btn-danger text-white btn-circle btn-sm btn-delete popoverxd"
-                                    data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja">
+                                    data-container="body" data-toggle="popover"  data-content="Dar de baja">
                                     <i class="fas fa-caret-down"></i> </a>
 
                                 <a th:if="${(#authorization.expression('hasRole(''COMPRAS-CATALOGOS-ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" onclick="reactivarClasificacion()" class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd"
-                                    data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta">
+                                    data-container="body" data-toggle="popover"  data-content="Dar de alta">
                                     <i class="fas fa-sort-up"></i> </a>
                             </td>
 

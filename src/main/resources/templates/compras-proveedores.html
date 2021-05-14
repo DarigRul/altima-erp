@@ -67,20 +67,20 @@
                                                 <td th:text="${proveedor.tipo}"></td>
                                                 <td th:text="${proveedor.estatus=='1'}?'Activo':'Inactivo'"></td>
                                                 <td class="tdcenter">
-                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_PROVEEDOR_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top"
+                                                    <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_PROVEEDOR_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" 
                                                         data-content="Editar" th:href="@{/editar_datos_generales/}+${proveedor.idProveedor}"><i class="fas fa-pen"></i></a>
 
 
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_PROVEEDOR_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {proveedor.estatus == '1'})}" class="btn btn-danger text-white btn-circle btn-sm btn-delete popoverxd"
-                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de baja" th:onclick="'bajaProveedor('+${proveedor.idProveedor}+')'">
+                                                        data-container="body" data-toggle="popover"  data-content="Dar de baja" th:onclick="'bajaProveedor('+${proveedor.idProveedor}+')'">
                                                         <i class="fas fa-caret-down"></i> </a>
 
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_PROVEEDOR_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {proveedor.estatus == '0'})}" class="btn btn-success text-white btn-circle btn-sm btn-alta popoverxd"
-                                                        data-container="body" data-toggle="popover" data-placement="top" data-content="Dar de alta" th:onclick="'altaProveedor('+${proveedor.idProveedor}+')'">
+                                                        data-container="body" data-toggle="popover"  data-content="Dar de alta" th:onclick="'altaProveedor('+${proveedor.idProveedor}+')'">
                                                         <i class="fas fa-sort-up"></i> </a>
 
                                                     <a th:if="${(#authorization.expression('hasRole(''ROLE_COMPRAS_PROVEEDOR_CONTACTOS'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" class="btn btn-primary text-white btn-circle btn-sm btn-alta popoverxd" data-container="body" data-toggle="popover"
-                                                        data-placement="top" data-content="Contactos" th:onclick="'listaContactosProveedor('+${proveedor.idProveedor}+')'">
+                                                         data-content="Contactos" th:onclick="'listaContactosProveedor('+${proveedor.idProveedor}+')'">
                                                         <i class="fas fa-address-book"></i> </a>
                                                 </td>
 
