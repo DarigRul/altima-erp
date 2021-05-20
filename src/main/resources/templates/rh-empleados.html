@@ -22,10 +22,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Empleados&nbsp;<a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/rh-agregar-empleados}"><button
-                              class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body"
-                              data-toggle="popover" data-placement="right" data-content="Agregar"><i
-                                 class="fas fa-plus"></i></button></a></h1>
+                            <h1>Empleados&nbsp;<a
+                                    th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_AGREGAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                    th:href="@{/rh-agregar-empleados}"><button
+                                        class="btn btn-altima btn-circle btn-sm popoverxd" data-container="body"
+                                        data-toggle="popover" data-placement="right" data-content="Agregar"><i
+                                            class="fas fa-plus"></i></button></a></h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -48,7 +50,7 @@
                         <table class="table table-striped table-bordered" style="width: 100%;" id="tablaEmpleados">
                             <thead>
                                 <tr>
-                                    <th>No. Empleados</th>
+                                    <th>No. Empleado</th>
                                     <th>Nombre completo</th>
                                     <th>Empresa</th>
                                     <th>Área</th>
@@ -68,27 +70,39 @@
                                     <td class="text-center">
 
                                         <!-- MÁS DETALLE -->
-                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/rh-agregar-empleados}" class="btn btn-info btn-circle btn-sm popoverxd" data-container="body"
-                                            data-toggle="popover" data-placement="left" data-content="M&aacute;s detalles">
+                                        <button
+                                            th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_LISTAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                            class="btn btn-info btn-circle btn-sm popoverxd" data-container="body"
+                                            th:onclick="'detalleEmpleado(' + ${empleado[6]} + ');'"
+                                            data-toggle="popover" data-placement="left"
+                                            data-content="M&aacute;s detalles">
                                             <i class="fas fa-info"></i>
-                                        </a>
+                                        </button>
 
                                         <!-- EDITAR -->
-                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}" th:href="@{/rh-editar-empleado/}+${empleado[6]}" class="btn btn-warning btn-circle btn-sm popoverxd"
-                                            data-container="body" data-toggle="popover" data-placement="left" data-content="Editar">
+                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_EDITAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')'))}"
+                                            th:href="@{/rh-editar-empleado/}+${empleado[6]}"
+                                            class="btn btn-warning btn-circle btn-sm popoverxd" data-container="body"
+                                            data-toggle="popover" data-placement="left" data-content="Editar">
                                             <i class="fas fa-pen"></i>
                                         </a>
 
                                         <!-- RECHAZAR -->
-                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {empleado[7]==true})}" class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
-                                            th:href="@{/rh-empleado/baja/}+${empleado[6]}" data-toggle="popover" data-placement="left" data-content="Rechazar">
+                                        <button
+                                            th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {empleado[7]==true})}"
+                                            class="btn btn-danger btn-circle btn-sm popoverxd" data-container="body"
+                                            th:onclick="'movimientoEmpleado(0,' + ${empleado[6]} + ');'"
+                                            data-toggle="popover" data-placement="left" data-content="Baja">
                                             <i class="fas fa-caret-down"></i>
-                                        </a>
+                                        </button>
                                         <!-- APROBAR -->
-                                        <a th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {empleado[7]==false})}" class="btn btn-success btn-circle btn-sm popoverxd" data-container="body"
-                                            th:href="@{/rh-empleado/alta/}+${empleado[6]}" data-toggle="popover" data-placement="left" data-content="Aprobar">
+                                        <button
+                                            th:if="${(#authorization.expression('hasRole(''ROLE_RECURSOSHUMANOS_EMPLEADOS_ELIMINAR'')') or #authorization.expression('hasRole(''ROLE_ADMINISTRADOR'')') and {empleado[7]==false})}"
+                                            class="btn btn-success btn-circle btn-sm popoverxd" data-container="body"
+                                            th:onclick="'movimientoEmpleado(1,' + ${empleado[6]} + ');'"
+                                            data-toggle="popover" data-placement="left" data-content="Alta">
                                             <i class="fas fa-sort-up"></i>
-                                        </a>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -96,11 +110,62 @@
                         </table>
                     </div>
                 </div>
-
             </section>
         </div>
-        <!-- /.content -->
+        <!-- /.Modal -->
+        <div class="modal fade" id="modalBajaEmpleado" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" id="modalCuidadoMobile">
+                <div class="modal-content" id="contenedorTabla3">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Baja Empleado
+                        </h5>
 
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="fechaBaja">Fecha de baja</label>
+                                <input type="date" class="form-control" name="fechaBaja" id="fechaBaja"
+                                    aria-describedby="helpId" placeholder="12/12/12/">
+                            </div>
+                            <div class="form-group">
+                                <label for="motivo">Motivo</label>
+                                <textarea class="form-control" name="motivo" id="motivo" rows="4"></textarea>
+                            </div>
+                            <input type="hidden" id="idEmpleado">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="bajaEmpleado()">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalDetalleEmpleado" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" id="modalCuidadoMobile">
+                <div class="modal-content" id="contenedorTabla3">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Baja Empleado
+                        </h5>
+
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="fechaBaja">Fecha de baja</label>
+                                <input disabled type="date" class="form-control" name="fechaBajaDetalle" id="fechaBajaDetalle"
+                                    aria-describedby="helpId" placeholder="12/12/12/">
+                            </div>
+                            <div class="form-group">
+                                <label for="motivo">Motivo</label>
+                                <textarea disabled class="form-control" name="motivoDetalle" id="motivoDetalle" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!-- footer -->
         <div th:insert="navegacion-footer"></div>
     </div>
@@ -116,7 +181,87 @@
         $('#navRH').addClass('active-altima');
         $('#navRH2').addClass('active');
     </script>
-
+    <script>
+        function movimientoEmpleado(tipo, idEmpleado) {
+            //tipo : 1=alta; 0=baja 
+            if (tipo === 1) {
+                Swal.fire({
+                    title: '¿Deseas dar de Alta al Empleado?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.value) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Dado de alta correctamente',
+                            showConfirmButton: false,
+                            timer: 2500
+                        })
+                        window.location.replace(`/rh-empleado/alta/${idEmpleado}`);
+                    }
+                });
+            }
+            else {
+                $("#idEmpleado").val(idEmpleado);
+                $("#modalBajaEmpleado").modal("show");
+            }
+        }
+        async function bajaEmpleado() {
+            let fechaBaja = $("#fechaBaja").val();
+            let motivo = $("#motivo").val();
+            let idEmpleado = $("#idEmpleado").val();
+            if (fechaBaja.trim() === '' ||
+                motivo.trim() === '' ||
+                idEmpleado.trim() === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Todos los campos son requeridos!'
+                })
+                return false;
+            }
+            try {
+                await $.ajax({
+                    url: `/bajaEmpleado/${idEmpleado}`,
+                    type: 'PUT',
+                    data: {
+                        motivoBaja: motivo,
+                        fechaBaja: fechaBaja,
+                        _csrf: $("[name='_csrf']").val()
+                    }
+                });
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'El empleado se dio de baja correctamente!',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+                location.reload();
+            } catch (error) {
+                alert(error);
+            }
+        }
+        async function detalleEmpleado(idEmpleado) {
+            try {
+                let empleado = await $.ajax({
+                    url: `/getEmpleadoById/${idEmpleado}`,
+                    type: 'GET'
+                });
+                console.log(empleado)
+                $("#motivoDetalle").val(empleado.motivoBaja);
+                $("#fechaBajaDetalle").val(empleado.fechaBaja);
+                $("#modalDetalleEmpleado").modal("show");
+            } catch (error) {
+                alert(error);
+            }
+        }
+    </script>
 </body>
 
 </html>

@@ -61,14 +61,14 @@ public class EmpleadoController {
 				.body(recurso);
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_LISTAR"})
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_LISTAR" })
 	@GetMapping("rh-empleados")
 	public String rhempleados(Model model) {
 		model.addAttribute("empleados", empleadoService.findEmpleadoPersona());
 		return "rh-empleados";
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_AGREGAR"})
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_AGREGAR" })
 	@GetMapping("rh-agregar-empleados")
 	public String agregarEmpleados(Model model) {
 		HrEmpleado empleado = new HrEmpleado();
@@ -98,16 +98,13 @@ public class EmpleadoController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		empleado.setIdText("");
 		empleado.setCreadoPor(auth.getName());
 		empleado.setEstatus("1");
-		empleadoService.save(empleado);
-		empleado.setIdText("EMP" + (1000 + empleado.getIdEmpleado()));
 		empleadoService.save(empleado);
 		return ("redirect:/rh-empleados");
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_EDITAR"})
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_EDITAR" })
 	@GetMapping("rh-editar-empleado/{id}")
 	public String rhEditarEmpleados(Model model, @PathVariable(value = "id") Long id) {
 		HrEmpleado empleado = empleadoService.findOne(id);
@@ -125,18 +122,13 @@ public class EmpleadoController {
 		return "rh-agregar-empleados";
 	}
 
-	@Secured({"ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_ELIMINAR"})
-	@GetMapping("rh-empleado/{accion}/{id}")
-	public String rhEditarEmpleados(Model model, @PathVariable(value = "id") Long id,
-			@PathVariable(value = "accion") String accion) {
+	@Secured({ "ROLE_ADMINISTRADOR", "ROLE_RECURSOSHUMANOS_EMPLEADOS_ELIMINAR" })
+	@GetMapping("rh-empleado/alta/{id}")
+	public String rhAltaEmpleados(Model model, @PathVariable(value = "id") Long id) {
 		HrEmpleado empleado = empleadoService.findOne(id);
-		if (accion.equals("alta")) {
-			empleado.setEstatus("1");
-		} else if (accion.equals("baja")) {
-			empleado.setEstatus("0");
-		} else {
-			return "redirect:/rh-empleados";
-		}
+		empleado.setMotivoBaja(null);
+		empleado.setFechaBaja(null);
+		empleado.setEstatus("1");
 		empleadoService.save(empleado);
 		return "redirect:/rh-empleados";
 	}

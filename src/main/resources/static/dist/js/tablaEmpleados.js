@@ -17,8 +17,8 @@ $(document).ready(function () {
         .DataTable({
             "ordering": false,
             "scrollX": true,
+            "stateSave": true,
             "orderCellsTop": true,
-            "fixedHeader": true,
             "pageLength": 5,
             "responsive": true,
             "drawCallback": function () {
@@ -60,8 +60,4 @@ $(document).ready(function () {
                 }
             }
         });
-    new $.fn.dataTable.FixedHeader(table);
-
-    new $.fn.dataTable.FixedColumns(table);
-
 });

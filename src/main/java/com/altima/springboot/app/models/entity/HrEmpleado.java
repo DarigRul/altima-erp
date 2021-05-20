@@ -86,6 +86,12 @@ public class HrEmpleado implements Serializable {
 
 	@Column(name="permiso")
 	private boolean permiso;
+
+	@Column(name="fecha_baja")
+	private String fechaBaja;
+
+	@Column(name="motivo_baja")
+	private String motivoBaja;
 	
 	public String getCategoria() {
 		return categoria;
@@ -258,6 +264,22 @@ public class HrEmpleado implements Serializable {
 
 	public void setPermiso(boolean permiso) {
 		this.permiso = permiso;
+	}
+
+	public String getFechaBaja() {
+		return fechaBaja;
+	}
+
+	public void setFechaBaja(String fechaBaja) {
+		this.fechaBaja = fechaBaja;
+	}
+
+	public String getMotivoBaja() {
+		return motivoBaja;
+	}
+
+	public void setMotivoBaja(String motivoBaja) {
+		this.motivoBaja = motivoBaja;
 	}
 
 
