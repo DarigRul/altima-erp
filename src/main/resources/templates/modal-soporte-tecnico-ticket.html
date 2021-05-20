@@ -92,7 +92,7 @@
                     <div class="form-group col-sm-4">
                         <label for="estatusTicketAvance">Estatus</label>
                         <select class="form-control" name="estatusTicket" id="estatusTicket" v-model.trim="seguimiento.estatus">
-                            <option>Seleccione una opcion...</option>
+                            <option value="" default>Seleccione uno...</option>
                             <option value="Revisado">Revisado</option>
                             <option value="Cerrado">Cerrado</option>
                         </select>
@@ -119,7 +119,7 @@
                             <td>{{seguimiento.fechaCreacion}}</td>
                             <td>{{seguimiento.estado}}</td>
                             <td>{{seguimiento.comentario}}</td>
-                            <td>{{seguimiento.empleado}}</td>
+                            <td>{{seguimiento.empleado==null?'Admin':seguimiento.empleado}}</td>
                         </tr>
                     </tbody>
                 </table>

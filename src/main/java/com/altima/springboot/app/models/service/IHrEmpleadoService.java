@@ -33,4 +33,5 @@ public interface IHrEmpleadoService {
 
 	public List<AgenteVentasListDTO> findAllAgenteVentas();
 
+	List<HrEmpleado> findEmpleadosSelect();
 }

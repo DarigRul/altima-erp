@@ -133,41 +133,7 @@ $('#empleadosAlternos').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
-//funci&oacute;n para mostrar &aacute;reas en departamentos
-function mostrarAreas() {
-    $.ajax({
-        method: "GET",
-        url: "/rh-listarAreas",
-        data: {
-            "_csrf": $('#token').val(),
-            "tipo": "Area"
-        },
-        success: (data) => {
-            console.log(data);
-            for (var key in data) {
-                $('#listarAreasCatalogos').append('<option value="' + data[key]["idLookup"] + '">' + data[key]["nombreLookup"] + '</option>')
-            }
-           // if (idArea != null) {
-           //    $('#listarAreas option[value="' + idArea + '"]').attr("selected", true);
-           // }
-            $('#listarAreasCatalogos').selectpicker('refresh');
-            
-            
-        },
-        error: (e) => {
-            location.reload();
-        }
-        
-        
-       	//var area=$('#listarAreas').val()
-       //	console.log("valor del area"+ area)
-       	
 
-    });
-    
-    
-
-}
 
 
 

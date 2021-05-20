@@ -144,4 +144,10 @@ public class HrEmpleadoServiceImpl implements IHrEmpleadoService {
 		// TODO Auto-generated method stub
 		return em.createNativeQuery("SELECT ahe.id_empleado as id_agente_ventas,CONCAT(ahe.nombre_persona,' ',ahe.apellido_paterno,' ',ahe.apellido_materno) as nombre_agente_ventas FROM alt_comercial_agentes_venta acav INNER JOIN alt_hr_empleado ahe ON ahe.id_empleado=acav.id_empleado WHERE ahe.estatus=1 AND acav.estatus=1",AgenteVentasListDTO.class).getResultList();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<HrEmpleado> findEmpleadosSelect() {
+		return em.createQuery("SELECT idEmpleado,CONCAT(nombrePersona,' ',apellidoPaterno,' ',apellidoPaterno) as nombrePersona FROM HrEmpleado WHERE estatus=1").getResultList();
+	}
 }

@@ -55,11 +55,13 @@ public class HrLookupServiceImpl implements IHrLookupService {
 		return repository.findBytipoLookup(tipo);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public boolean findDuplicate(String LookupEmpresa) {
 		boolean duplicate;
-		@SuppressWarnings("unchecked")
+		System.out.println("SELECT	* FROM	alt_hr_lookup e WHERE	e.nombre_lookup = '"
+		+ LookupEmpresa + "'	AND e.tipo_lookup = 'Empresa'");
 		List<HrLookup> result = em.createNativeQuery("SELECT	* FROM	alt_hr_lookup e WHERE	e.nombre_lookup = '"
 				+ LookupEmpresa + "'	AND e.tipo_lookup = 'Empresa'").getResultList();
 		if (result.isEmpty()) {

@@ -31,7 +31,7 @@ function agregarEmpresa() {
                 data: {
                     "nombreEmpresa": nombreEmpresa,
                 }
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -43,16 +43,12 @@ function agregarEmpresa() {
                         },
                         success: (data) => {
                             if (data == 1) {
-                                $('#close').click();
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',
                                     title: 'Empresa editada correctamente',
                                     showConfirmButton: false,
                                     timer: 2300,
-                                    onClose: () => {
-                                        $('#btnEmpresaDetalle').click();
-                                    }
                                 })
                                 $('#idLookup').val("");
                             } else if (data == 2) {
@@ -62,9 +58,6 @@ function agregarEmpresa() {
                                     title: 'Empresa agregada correctamente',
                                     showConfirmButton: false,
                                     timer: 2300,
-                                    onClose: () => {
-                                        $('#btnEmpresaDetalle').click();
-                                    }
                                 })
                             } else {
                                 Swal.fire({
@@ -73,10 +66,9 @@ function agregarEmpresa() {
                                     text: '&iexcl;Intente de nuevo!'
                                 })
                             }
+                            listarEmpresa();
                         }
-                    }).done(function(data) {
-                        listarEmpresa();
-                    });
+                    })
                 } else {
                     Swal.fire({
                         position: 'center',
@@ -92,7 +84,7 @@ function agregarEmpresa() {
 }
 
 //Habilitar input que se muestra deshabilitado
-$('#empresaRH').on('shown.bs.modal', function() {
+$('#empresaRH').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
@@ -107,7 +99,7 @@ function listarEmpresa() {
             "tipo": "Empresa"
         },
         success: (data) => {
-            tableRHEmpresa.rows().remove().draw();
+            tableRHEmpresa.rows().remove();
             if (rolAdmin == 1) {
                 for (i in data) {
                     tableRHEmpresa.row.add([
@@ -155,15 +147,17 @@ function darBajaEmpresa(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => {
+                    listarEmpresa();
+                },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Proceso eliminado correctamente',
+                title: 'Dado de baja correctamente',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -189,15 +183,17 @@ function darAltaEmpresa(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => {
+                    listarEmpresa()
+                },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Proceso eliminado correctamente',
+                title: 'Dado de baja correctamente',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -260,7 +256,7 @@ function agregarArea() {
                     "nombreArea": nombreArea,
                     "idLookup": idLookup
                 }
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -273,16 +269,12 @@ function agregarArea() {
                         success: (data) => {
                             console.log(data);
                             if (data == 1) {
-                                $('#closeAreas').click();
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',
                                     title: '&Aacute;rea editada correctamente',
                                     showConfirmButton: false,
                                     timer: 2300,
-                                    onClose: () => {
-                                        $('#btnAreaDetalle').click();
-                                    }
                                 })
                                 $('#idLookup').val("");
                             } else if (data == 2) {
@@ -292,9 +284,6 @@ function agregarArea() {
                                     title: '&Aacute;rea agregada correctamente',
                                     showConfirmButton: false,
                                     timer: 2300,
-                                    onClose: () => {
-                                        $('#btnAreaDetalle').click();
-                                    }
                                 })
                             } else {
                                 Swal.fire({
@@ -303,10 +292,9 @@ function agregarArea() {
                                     text: '&iexcl;Intente de nuevo!'
                                 })
                             }
+                            listarAreas();
                         }
-                    }).done(function(data) {
-                        listarAreas();
-                    });
+                    })
                 } else {
                     Swal.fire({
                         position: 'center',
@@ -322,7 +310,7 @@ function agregarArea() {
 }
 
 //Habilitar input que se muestra deshabilitado
-$('#areaRH').on('shown.bs.modal', function() {
+$('#areaRH').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
@@ -385,18 +373,21 @@ function darBajaArea(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Dado de baja correctamente',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                    listarAreas();
+                },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Proceso eliminado correctamente',
-                showConfirmButton: false,
-                timer: 2500
-            })
+
         }
     });
 }
@@ -419,25 +410,28 @@ function darAltaArea(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Dado de baja correctamente',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                    listarAreas();
+                },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Proceso eliminado correctamente',
-                showConfirmButton: false,
-                timer: 2500
-            })
+
         }
     });
 }
 
 //Funcion de editar Area
 function editarArea(idLookup) {
-    agregarArea();
+
     $.ajax({
         method: "GET",
         url: "/editarArea",
@@ -453,10 +447,12 @@ function editarArea(idLookup) {
             alert("Error en el servidor");
         }
     });
+    agregarArea();
 }
 
 //Funci&oacute;n para agregar departamento
 function agregarDepartamento(idArea) {
+    console.log(idArea)
     mostrarAreas(idArea);
     Swal.fire({
         title: 'Nuevo departamento',
@@ -467,14 +463,13 @@ function agregarDepartamento(idArea) {
             '</div>' +
             '</div>' +
             '<label for="areadep">&Aacute;rea</label>' +
-            '<select class="swal2-input" title="Seleccione uno..."  id="listarAreasCatalogos">' +
-            '</select>' +
+            '<select class="form-control selectpicker" title="Seleccione uno..." id="listarAreasCatalogos" data-live-search="true"></select>' +
             '<input type="hidden" id="idDepartamento" value="">' +
             '</div>',
         showCancelButton: true,
         cancelButtonColor: '#6C757D',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Actualizar',
+        confirmButtonText: 'Guardar',
         confirmButtonColor: '#28a745',
         preConfirm: () => {
             if (document.getElementById("departamento").value.length < 1 || document.getElementById("listarAreasCatalogos").value.length < 1) {
@@ -495,7 +490,7 @@ function agregarDepartamento(idArea) {
                     "nombreDepartamento": nombreDepartamento,
                     "nomArea": nomArea
                 }
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -509,16 +504,13 @@ function agregarDepartamento(idArea) {
                         success: (data) => {
                             console.log(data);
                             if (data == 1) {
-                                $('#closeDep').click();
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',
                                     title: 'Departamento editado correctamente',
                                     showConfirmButton: false,
                                     timer: 2300,
-                                    onClose: () => {
-                                        $('#btnDepartamentoDetalle').click();
-                                    }
+
                                 })
                                 $('#idDepartamento').val("");
                             } else if (data == 2) {
@@ -528,24 +520,23 @@ function agregarDepartamento(idArea) {
                                     title: 'Departamento     agregado correctamente',
                                     showConfirmButton: false,
                                     timer: 2300,
-                                    onClose: () => {
-                                        $('#btnDepartamentoDetalle').click();
-                                    }
+
                                 })
                             } else {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Error',
-                                    text: '&iexcl;Intente de nuevo!'
+                                    text: 'Registro duplicado!'
                                 })
                             }
+                            listarDepartamentos()
                         },
-                        error: function(data) {
+                        error: function (data) {
                             Swal.close();
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: '&iexcl;Registro duplicado!',
+                                text: 'Registro duplicado!',
                             })
                         }
                     });
@@ -553,16 +544,17 @@ function agregarDepartamento(idArea) {
             })
         }
     })
-    
+
 }
 
 //Habilitar input que se muestra deshabilitado
-$('#departamentosRH').on('shown.bs.modal', function() {
+$('#departamentosRH').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
 //funci&oacute;n para mostrar &aacute;reas en departamentos
 function mostrarAreas(idArea) {
+    console.log("que pepe")
     $.ajax({
         method: "GET",
         url: "/rh-listarAreas",
@@ -571,13 +563,11 @@ function mostrarAreas(idArea) {
             "tipo": "Area"
         },
         success: (data) => {
-            console.log(data);
+            console.log(idArea + "nmz");
             for (var key in data) {
                 $('#listarAreasCatalogos').append('<option value="' + data[key]["idLookup"] + '">' + data[key]["nombreLookup"] + '</option>')
             }
-            if (idArea != null) {
-                $('#listarAreasCatalogos option[value="' + idArea + '"]').attr("selected", true);
-            }
+            $('#listarAreasCatalogos').selectpicker('val', idArea);
             $('#listarAreasCatalogos').selectpicker('refresh');
         },
         error: (e) => {
@@ -599,25 +589,29 @@ function listarDepartamentos() {
             if (rolAdmin == 1) {
                 for (i in data) {
                     tableRHDepartamento.row.add([
-                        data[i][0],
+                        data[i][5],
                         data[i][1],
                         data[i][3],
+                        data[i][7],
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
                         "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarDepartamento(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
                         (data[i][4] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick=darBajaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
-                        (data[i][4] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                        (data[i][4] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>&nbsp;" : " ") +
+                        `<button class="btn btn-secondary btn-circle btn-sm popoverxd" onclick="asignarCoordinador(${data[i][0]},${data[i][6]})" data-container="body" data-toggle="popover" data-placement="top" data-content="Asignar Coordinador"><i class="fas fa-user-cog"></i></button>`
                     ]).draw(false);
                 }
             } else
                 for (i in data) {
                     tableRHDepartamento.row.add([
-                        data[i][0],
+                        data[i][5],
                         data[i][1],
                         data[i][3],
+                        data[i][7],
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
                         (rolEditar == 1 ? "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarDepartamento(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" : " ") +
                         (data[i][4] == 1 && rolEliminar == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' onclick=darBajaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
-                        (data[i][4] == 0 && rolEliminar == 1 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                        (data[i][4] == 0 && rolEliminar == 1 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' onclick=darAltaDepartamento(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ") +
+                        `<button class="btn btn-secondary btn-circle btn-sm popoverxd" onclick="asignarCoordinador(${data[i][0]},${data[i][6]})" data-container="body" data-toggle="popover" data-placement="top" data-content="Asignar Coordinador"><i class="fas fa-user-cog"></i></button>`
                     ]).draw(false);
                 }
         },
@@ -630,7 +624,7 @@ function listarDepartamentos() {
 //Funcion para dar de baja
 function darBajaDepartamento(idLookup) {
     Swal.fire({
-        title: '¿Deseas eliminar el proceso?',
+        title: '¿Deseas dar de baja el departamento?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -645,15 +639,17 @@ function darBajaDepartamento(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => {
+                    listarDepartamentos();
+                },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Proceso eliminado correctamente',
+                title: 'Dado de baja correctamente',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -664,7 +660,7 @@ function darBajaDepartamento(idLookup) {
 //Funcion para dar de alta
 function darAltaDepartamento(idLookup) {
     Swal.fire({
-        title: '¿Deseas eliminar el proceso?',
+        title: '¿Deseas dar de alta el departamento?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -679,15 +675,17 @@ function darAltaDepartamento(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => {
+                    listarDepartamentos();
+                },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Proceso eliminado correctamente',
+                title: 'Dado de baja correctamente',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -705,6 +703,7 @@ function editarDepartamento(idLookup) {
             idLookup: idLookup
         },
         success: (data) => {
+            console.log(data)
             agregarDepartamento(data[2]);
             $('#departamento').val(data[1]);
             $('#idDepartamento').val(data[0]);
@@ -715,141 +714,165 @@ function editarDepartamento(idLookup) {
     });
 }
 
+async function asignarCoordinador(id, coordinador) {
+    $("#modalAsignarCoordinador").modal("show");
+    $("#idDepartamento").val(id);
+    try {
+        let result = await $.ajax({
+            url: "/getEmpleadosSelect",
+            type: 'GET',
+        });
+        console.log(result)
+        result.map(empleado => {
+            $('#coordinador').append(`<option value="${empleado[0]}">${empleado[1]}</option>`)
+        })
+        $('#coordinador').selectpicker('val', coordinador);
+        $('#coordinador').selectpicker('refresh');
+    } catch (error) {
+        alert(error);
+    }
+}
+async function guardarCoordinador() {
+    let idDepartamento = $("#idDepartamento").val();
+    let coordinador = $("#coordinador").val();
+    if (idDepartamento.trim() === '' ||
+        coordinador.trim() === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Todos los campos son requeridos!'
+        })
+        return false
+    }
+    try {
+        await $.ajax({
+            url: `/putEmpleadosSelect/${idDepartamento}`,
+            type: 'PUT',
+            data: {
+                coordinador: coordinador,
+                _csrf: $("[name='_csrf']").val()
+            }
+        });
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'El coordinador se guardo correctamente!',
+            showConfirmButton: false,
+            timer: 2500
+        })
+        listarDepartamentos();
+    } catch (error) {
+        alert(error);
+    }
+    console.log({ idDepartamento, coordinador })
+}
+
 //Funci&oacute;n para agregar puestos
 function agregarPuesto(idDepartamento) {
     mostrarDepartamentos(idDepartamento);
     Swal.fire({
         title: 'Agregar Puesto',
-        html: '<div class="row">' +
-            '<div class="form-group col-md-12">' +
+        html: '<form method="POST" enctype="multipart/form-data" id="fileUploadForm" class="row">' +
+            '<div class="form-group col-md-6">' +
             '<label for="puesto">Nombre Puesto</label>' +
-            '<input type="text" class="swal2-input" id="puesto" placeholder="Coordinador">' +
+            '<input type="text" class="form-control" id="nombrePuesto" name="nombrePuesto" placeholder="Coordinador">' +
             '</div>' +
-            '<div class="form-group col-md-12">' +
+            '<div class="form-group col-md-6">' +
             '<label for="exampleFormControlSelect1">Departamento</label>' +
-            '<select class="form-control" id="seleccionarDepa">' +
+            '<select class="form-control" id="departamento" name="departamento">' +
             '</select>' +
             '</div>' +
             '<div class="form-group col-md-6">' +
-            '<label for="horarioExtra">Genera tiempo extra</label>' +
-            '<input type="checkbox" class="swal2-input" value="false" name="hExtra" id="horarioExtra" onclick="$(this).val(this.checked ? true : false)">' +
-            '</div>' +
-            '<div class="form-group col-md-6">' +
             '<label for="puesto">Plaza</label>' +
-            '<input type="text" class="swal2-input" id="plaza" placeholder="Coordinador">' +
+            '<input type="number" class="form-control" id="nomPlazas" name="nomPlazas" placeholder="Coordinador">' +
             '</div>' +
             '<div class="form-group col-md-6">' +
             '<label for="puesto">Sueldo</label>' +
-            '<input type="text" class="swal2-input" id="sueldo" placeholder="Coordinador">' +
+            '<input type="number" step="any" class="form-control" id="sueldos" name="sueldos" placeholder="100">' +
             '</div>' +
             '<div class="form-group col-md-6">' +
             '<label for="puesto">Perfil</label>' +
-            '<input type="checkbox" class="swal2-input" value="false" name="perfil" id="perfil" onclick="$(this).val(this.checked ? true : false)">' +
+            '<input type="file" class="form-control" value="false" name="perfiles" id="perfiles">' +
             '</div>' +
-            '<input type="hidden" id="idPuesto" value="">' +
-            '</div>',
+            '<div class="form-group col-md-6">' +
+            '<label for="horarioExtra">Genera tiempo extra</label>' +
+            '<input type="checkbox" class="form-control" value="false" name="checkbox" id="checkbox" onclick="$(this).val(this.checked ? true : false)">' +
+            '</div>' +
+            '<input type="hidden" id="idPuesto" name="idPuesto" value="">' +
+            '</form>',
         showCancelButton: true,
         cancelButtonColor: '#6C757D',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Actualizar',
+        confirmButtonText: 'Guardar',
         confirmButtonColor: '#28a745',
         preConfirm: (color) => {
-            if (document.getElementById("puesto").value.length < 1 || document.getElementById("seleccionarDepa").value.length < 1 ||
-                document.getElementById("horarioExtra").value.length < 1 || document.getElementById("plaza").value.length < 1 ||
-                document.getElementById("sueldo").value.length < 1 || document.getElementById("perfil").value.length < 1) {
+            if (document.getElementById("nombrePuesto").value.length < 1 || document.getElementById("departamento").value.length < 1 ||
+                document.getElementById("checkbox").value.length < 1 || document.getElementById("nomPlazas").value.length < 1 ||
+                document.getElementById("sueldos").value.length < 1 || document.getElementById("perfiles").value.length < 1) {
                 Swal.showValidationMessage(
                     `Complete todos los campos`
                 )
             }
         }
     }).then((result) => {
-        if (result.value && document.getElementById("puesto").value) {
-            var nombrePuesto = document.getElementById("puesto").value;
-            var nomPlazas = document.getElementById("plaza").value;
-            var sueldos = document.getElementById("sueldo").value;
-            var perfiles = document.getElementById("perfil").value;
-            var departamento = document.getElementById("seleccionarDepa").value;
-            var checkbox = document.getElementById("horarioExtra").value;
-            var idPuesto = document.getElementById("idPuesto").value
+        if (result.value) {
+            var form = $('#fileUploadForm')[0];
+            var formdata = new FormData(form);
+            formdata.append("_csrf",$('#token').val())
             $.ajax({
-                type: "GET",
-                url: "/duplicadoPuesto",
-                data: {
-                    "nombrePuesto": nombrePuesto,
-                    "nomPlazas": nomPlazas,
-                    "sueldos": sueldos,
-                    "perfiles": perfiles,
-                    "departamento": departamento,
-                    "checkbox": checkbox,
-                    "idPuesto": idPuesto
-                }
-            }).done(function(data) {
-                if (data == false) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/postPuesto",
-                        data: {
-                            "_csrf": $('#token').val(),
-                            "nombrePuesto": nombrePuesto,
-                            "nomPlazas": nomPlazas,
-                            "sueldos": sueldos,
-                            "perfiles": perfiles,
-                            "departamento": departamento,
-                            "checkbox": checkbox,
-                            "idPuesto": idPuesto
-                        },
-                        success: (data) => {
-                            if (data == 1) {
-                                $('#closePuestos').click();
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: 'Puesto editado correctamente',
-                                    showConfirmButton: false,
-                                    timer: 2300,
-                                    onClose: () => {
-                                        $('#btnPuestosDetalle').click();
-                                    }
-                                })
-                                $('#idPuesto').val("");
-                            } else if (data = 2) {
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: 'Puesto agregado correctamente',
-                                    showConfirmButton: false,
-                                    timer: 2300,
-                                    onClose: () => {
-                                        $('#btnPuestosDetalle').click();
-                                    }
-                                })
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error',
-                                    text: '&iexcl;Intente de nuevo!'
-                                })
+                type: "POST",
+                enctype: 'multipart/form-data',
+                url: "/postPuesto",
+                data: formdata,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: (data) => {
+                    console.log(data)
+                    if (data === 1) {
+                        $('#closePuestos').click();
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Puesto editado correctamente',
+                            showConfirmButton: false,
+                            timer: 2300,
+                            onClose: () => {
+                                $('#btnPuestosDetalle').click();
                             }
-                        }
-                    }).done(function(data) {
-                        ListarPuestos();
-                    });
-                } else {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: 'registro duplicado no se ha insertado',
-                        showConfirmButton: false,
-                        timer: 1250
-                    })
+                        })
+                        $('#idPuesto').val("");
+                    } else if (data === 2) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Puesto agregado correctamente',
+                            showConfirmButton: false,
+                            timer: 2300,
+                            onClose: () => {
+                                $('#btnPuestosDetalle').click();
+                            }
+                        })
+                    } else if(data===3) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Registro Duplicado!'
+                        })
+                    }
                 }
+            }).done(function (data) {
+                ListarPuestos();
             });
+
+
         }
     })
 }
 
 //Habilitar input que se muestra deshabilitado
-$('#puestoRH').on('shown.bs.modal', function() {
+$('#puestoRH').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
@@ -864,10 +887,10 @@ function mostrarDepartamentos(idDepartamento) {
         success: (data) => {
             console.log(data);
             for (var key in data) {
-                $('#seleccionarDepa').append('<option value="' + data[key]["idDepartamento"] + '">' + data[key]["nombreDepartamento"] + '</option>')
+                $('#departamento').append('<option value="' + data[key]["idDepartamento"] + '">' + data[key]["nombreDepartamento"] + '</option>')
             }
             if (idDepartamento != null) {
-                $('#seleccionarDepa option[value="' + idDepartamento + '"]').attr("selected", true);
+                $('#departamento option[value="' + idDepartamento + '"]').attr("selected", true);
             }
         },
         error: (e) => {
@@ -888,6 +911,7 @@ function ListarPuestos() {
             tableRHPuestos.rows().remove().draw();
             if (rolAdmin == 1) {
                 for (i in data) {
+                    console.log(data[i])
                     tableRHPuestos.row.add([
                         data[i][9],
                         data[i][1],
@@ -895,11 +919,12 @@ function ListarPuestos() {
                         data[i][4] == 1 ? "Aceptado" : "Rechazado",
                         data[i][5],
                         data[i][6],
-                        data[i][7] == true ? "Aceptado" : "Rechazado",
+                        data[i][7],
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
                         "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarPuesto(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" +
                         (data[i][8] == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaPuesto onclick=darBajaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
-                        (data[i][8] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaPuesto onclick=darAltaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                        (data[i][8] == 0 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaPuesto onclick=darAltaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")+
+                        `<a class="btn btn-secondary btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Descargar archivo" href="https://res.cloudinary.com/dti-consultores/image/upload/v1621531227/rh/${data[i][10]}" target="_blank"><i class="fas fa-file-download"></i></a>`
                     ]).draw(false);
                 }
             } else
@@ -911,11 +936,12 @@ function ListarPuestos() {
                         data[i][4] == 1 ? "Aceptado" : "Rechazado",
                         data[i][5],
                         data[i][6],
-                        data[i][7] == true ? "Aceptado" : "Rechazado",
+                        data[i][7],
                         "<button class='btn btn-info btn-circle btn-sm popoverxd' data-container='body' data-toggle='popover' data-placement='top' data-html='true' data-content='<strong>Creado por: </strong>Manuel Perez <br /><strong>Fecha de creaci&oacute;n: </strong>20/12/2019<br><strong>Modificado por: </strong>Jose luis<br><strong>Fecha de modicaci&oacute;n: </strong>21/02/2020'><i class='fas fa-info'></i></button>&nbsp;" +
                         (rolEditar == 1 ? "<button class='btn btn-warning btn-circle btn-sm popoverxd' onclick='editarPuesto(" + data[i][0] + ")' data-container='body' data-toggle='popover' data-placement='top' data-content='Editar'><i class='fas fa-pen'></i></button>&nbsp;" : " ") +
                         (data[i][8] == 1 && rolEliminar == 1 ? "<button class='btn btn-danger btn_remove btn-circle btn-sm popoverxd' id=darBajaPuesto onclick=darBajaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Dar de baja'><i class='fas fa-caret-down'></i></button>&nbsp;" : " ") +
-                        (data[i][8] == 0 && rolEliminar == 1 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaPuesto onclick=darAltaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")
+                        (data[i][8] == 0 && rolEliminar == 1 ? "<button class='btn btn-success btn-circle btn-sm popoverxd' id=darAltaPuesto onclick=darAltaPuesto(" + data[i][0] + ") data-container='body' data-toggle='popover' data-placement='top' data-content='Reactivar'><i class='fas fa-caret-up'></i></button>" : " ")+
+                        `<a class="btn btn-secondary btn-circle btn-sm popoverxd" data-container="body" data-toggle="popover" data-placement="top" data-content="Descargar archivo" href="https://res.cloudinary.com/dti-consultores/image/upload/v1621531227/rh/${data[i][10]}" target="_blank"><i class="fas fa-file-download"></i></a>`
                     ]).draw(false);
                 }
         },
@@ -943,15 +969,15 @@ function darBajaPuesto(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => { },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Proceso eliminado correctamente',
+                title: 'Dado de baja correctamente',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -977,15 +1003,15 @@ function darAltaPuesto(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => { },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Proceso eliminado correctamente',
+                title: 'Dado de baja correctamente',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -1003,6 +1029,7 @@ function editarPuesto(idLookup) {
             idLookup: idLookup
         },
         success: (data) => {
+            console.log(data)
             agregarPuesto(data[2], data[4]);
             $('#puesto').val(data[1]);
             $('#idPuesto').val(data[0]);
@@ -1011,6 +1038,7 @@ function editarPuesto(idLookup) {
             $('#plaza').val(data[5]);
             $('#sueldo').val(data[6]);
             $('#perfil').val(data[7]);
+            $("#perfil[value='true']").attr("checked", "checked")
         },
         error: (e) => {
             alert("Error en el servidor");
@@ -1039,7 +1067,7 @@ function agregarHorario() {
         showCancelButton: true,
         cancelButtonColor: '#6C757D',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Actualizar',
+        confirmButtonText: 'Guardar',
         confirmButtonColor: '#28a745',
         preConfirm: () => {
             if (document.getElementById("horarioinicio").value.length < 1 ||
@@ -1067,7 +1095,7 @@ function agregarHorario() {
                     "horaComida": horaComida,
                     "horaRegresoComida": horaRegresoComida
                 }
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -1113,7 +1141,7 @@ function agregarHorario() {
                                 })
                             }
                         }
-                    }).done(function(data) {
+                    }).done(function (data) {
                         ListarHorarios();
                     });
                 } else {
@@ -1193,15 +1221,15 @@ function darBajaHorario(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => { },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Proceso eliminado correctamente',
+                title: 'Dado de baja correctamente',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -1227,15 +1255,15 @@ function darAltaHorario(idLookup) {
                     "_csrf": $('#token').val(),
                     "idLookup": idLookup
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => { },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Proceso eliminado correctamente',
+                title: 'Dado de baja correctamente',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -1293,7 +1321,7 @@ function agregarCalendario() {
         showCancelButton: true,
         cancelButtonColor: '#6C757D',
         cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Actualizar',
+        confirmButtonText: 'Guardar',
         confirmButtonColor: '#28a745',
         preConfirm: (color) => {
             if (document.getElementById("diafestivo").value.length < 1 || document.getElementById("nombrefecha").value.length < 1 || document.getElementById("checkbox").value.length < 1) {
@@ -1316,7 +1344,7 @@ function agregarCalendario() {
                     "festividad": festividad,
                     "estatusFestivo": estatusFestivo
                 }
-            }).done(function(data) {
+            }).done(function (data) {
                 if (data == false) {
                     $.ajax({
                         type: "POST",
@@ -1361,7 +1389,7 @@ function agregarCalendario() {
                                 })
                             }
                         }
-                    }).done(function(data) {
+                    }).done(function (data) {
                         ListarCalendarios();
                     });
                 } else {
@@ -1379,7 +1407,7 @@ function agregarCalendario() {
 }
 
 //Habilitar input que se muestra deshabilitado
-$('#detalleCuidado').on('shown.bs.modal', function() {
+$('#detalleCuidado').on('shown.bs.modal', function () {
     $(document).off('focusin.modal');
 });
 
@@ -1444,15 +1472,15 @@ function darBajaCalendario(idCalendario) {
                     "_csrf": $('#token').val(),
                     "idCalendario": idCalendario
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => { },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Proceso eliminado correctamente',
+                title: 'Dado de baja correctamente',
                 showConfirmButton: false,
                 timer: 2500
             })
@@ -1478,15 +1506,15 @@ function darAltaCalendario(idCalendario) {
                     "_csrf": $('#token').val(),
                     "idCalendario": idCalendario
                 },
-                success: (data) => {},
-                error: function(data) {
+                success: (data) => { },
+                error: function (data) {
                     alert("Error en el servidor");
                 }
             });
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Proceso eliminado correctamente',
+                title: 'Dado de baja correctamente',
                 showConfirmButton: false,
                 timer: 2500
             })

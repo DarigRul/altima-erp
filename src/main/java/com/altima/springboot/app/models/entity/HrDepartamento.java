@@ -19,41 +19,39 @@ public class HrDepartamento implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="id_departamento")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
+	@Column(name = "id_departamento")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
 	private Long idDepartamento;
-	
-	@Column(name="id_area")
+
+	@Column(name = "id_area")
 	private Long idArea;
-	
-	@Column(name="id_text")
+
+	@Column(name = "id_text")
 	private String idText;
-	
-	@Column(name="nombre_departamento")
+
+	@Column(name = "nombre_departamento")
 	private String nombreDepartamento;
-	
-	@Column(name="creado_por")
+
+	@Column(name = "creado_por")
 	private String creado_por;
-	
-	@Column(name="actualizado_por")
+
+	@Column(name = "actualizado_por")
 	private String actualizadoPor;
-	
-	@Column(name="fecha_creacion")
+
+	@Column(name = "fecha_creacion")
 	private String fechaCreacion;
-	
-	@Column(name="ultima_fecha_modificacion")
+
+	@Column(name = "ultima_fecha_modificacion")
 	private String ultimaFechaModificacion;
-	 
-	@Column(name="estatus")
+
+	@Column(name = "estatus")
 	private String estatus;
-	
-	
-	
-	
-	
+
+	@Column(name = "id_empleado")
+	private Long idEmpleado;
 
 	public String getIdText() {
 		return idText;
@@ -130,6 +128,14 @@ public class HrDepartamento implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
+	public Long getIdEmpleado() {
+		return idEmpleado;
+	}
+
+	public void setIdEmpleado(Long idEmpleado) {
+		this.idEmpleado = idEmpleado;
+	}
+
 
 }
