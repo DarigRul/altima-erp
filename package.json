@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "start": "node index.js" // o el archivo principal de tu app
+  }
+}
